@@ -29,6 +29,7 @@ type SetorPerms = {
   canViewLinks:       boolean;
   canViewCofre:       boolean;
   canViewEmail:       boolean;
+  canViewFinanceiro:  boolean;
 };
 
 function mergeSetorPermissions(setores: any[]): SetorPerms | null {
@@ -53,6 +54,7 @@ function mergeSetorPermissions(setores: any[]): SetorPerms | null {
     canViewLinks:       false,
     canViewCofre:       false,
     canViewEmail:       false,
+    canViewFinanceiro:  false,
   };
   for (const s of setores) {
     merged.canManageUsers     ||= !!s.canManageUsers;
@@ -77,6 +79,9 @@ function mergeSetorPermissions(setores: any[]): SetorPerms | null {
     merged.canViewLinks       ||= !!(s.canViewLinks ?? true);
     merged.canViewCofre       ||= !!(s.canViewCofre ?? true);
     merged.canViewEmail       ||= !!(s.canViewEmail ?? true);
+    // Sem `?? true`: setor antigo (anterior ao campo) NÃO herda acesso ao
+    // Financeiro — ausência aqui significa "nunca foi liberado", não "compat".
+    merged.canViewFinanceiro  ||= !!s.canViewFinanceiro;
   }
   return merged;
 }

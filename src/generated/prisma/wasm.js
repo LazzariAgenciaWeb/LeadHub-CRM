@@ -609,7 +609,8 @@ exports.Prisma.SetorScalarFieldEnum = {
   canViewRanking: 'canViewRanking',
   canViewLinks: 'canViewLinks',
   canViewCofre: 'canViewCofre',
-  canViewEmail: 'canViewEmail'
+  canViewEmail: 'canViewEmail',
+  canViewFinanceiro: 'canViewFinanceiro'
 };
 
 exports.Prisma.SetorEmailAccountScalarFieldEnum = {

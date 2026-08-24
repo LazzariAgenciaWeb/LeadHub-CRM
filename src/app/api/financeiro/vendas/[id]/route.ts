@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { findOrCreateClientCompany } from "@/lib/client-company";
+import { can } from "@/lib/permissions";
 
 const CONTRACT = ["PENDENTE", "ENVIADO", "ASSINADO", "DISPENSADO"];
 const BILLING = ["PENDENTE", "FATURADO", "DISPENSADO"];
@@ -24,8 +25,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
+  // Atendente de um setor com Financeiro liberado também opera aqui — é quem
+  // dá baixa em cobrança e marca a esteira no dia a dia.
   const role = (session.user as any)?.role as string;
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+  const isAdmin = role === "SUPER_ADMIN" || role === "ADMIN";
+  if (!isAdmin && !can(session, "canViewFinanceiro")) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
   const agencyId = (session.user as any)?.companyId as string | undefined;

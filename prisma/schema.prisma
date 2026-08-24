@@ -1355,6 +1355,11 @@ model Setor {
   canViewLinks       Boolean @default(true) // ver Links de rastreamento
   canViewCofre       Boolean @default(true) // ver Cofre (2FA continua valendo por credencial)
   canViewEmail       Boolean @default(true) // ver Caixa de E-mail (Atender → E-mail)
+  // Financeiro nasce FECHADO, ao contrário dos vizinhos acima. Aqueles usam
+  // default true por compatibilidade (já existiam liberados pra todo mundo);
+  // este é novo e mostra faturamento, inadimplência e valor de contrato — dado
+  // que ninguém deve ganhar por descuido. O admin libera setor a setor.
+  canViewFinanceiro  Boolean @default(false) // ver Financeiro (Gestão → Financeiro)
 
   users           SetorUser[]
   instances       SetorInstance[]

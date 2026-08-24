@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { can } from "@/lib/permissions";
 
 // PUT /api/financeiro/meta
 // Body: { month: "YYYY-MM", revenueTargetCents, newSalesTargetCents }
@@ -12,8 +13,11 @@ export async function PUT(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
+  // Atendente de um setor com Financeiro liberado também opera aqui — é quem
+  // dá baixa em cobrança e marca a esteira no dia a dia.
   const role = (session.user as any)?.role as string;
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+  const isAdmin = role === "SUPER_ADMIN" || role === "ADMIN";
+  if (!isAdmin && !can(session, "canViewFinanceiro")) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 

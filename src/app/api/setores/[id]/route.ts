@@ -67,6 +67,7 @@ export async function PATCH(
     canViewLinks,
     canViewCofre,
     canViewEmail,
+    canViewFinanceiro,
     userIds,     // string[] | undefined — substitui lista completa se fornecido
     instanceIds, // string[] | undefined — substitui lista completa se fornecido
     emailAccountIds, // string[] | undefined — idem, caixas de email do setor
@@ -96,6 +97,7 @@ export async function PATCH(
       ...(canViewLinks !== undefined       && { canViewLinks }),
       ...(canViewCofre !== undefined       && { canViewCofre }),
       ...(canViewEmail !== undefined       && { canViewEmail }),
+      ...(canViewFinanceiro !== undefined  && { canViewFinanceiro }),
     },
   });
 

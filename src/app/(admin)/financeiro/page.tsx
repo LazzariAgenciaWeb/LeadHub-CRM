@@ -17,7 +17,8 @@ export default async function FinanceiroPage({
 
   const role = (session.user as any)?.role as string;
   const isAdmin = role === "SUPER_ADMIN" || role === "ADMIN";
-  if (!isAdmin && !can(session, "canViewCompanies")) redirect("/dashboard");
+  // Defesa em profundidade: esconder no menu não basta, a rota é adivinhável.
+  if (!isAdmin && !can(session, "canViewFinanceiro")) redirect("/dashboard");
 
   const agencyId = (session.user as any)?.companyId as string | undefined;
   const isGlobal = role === "SUPER_ADMIN" && !agencyId;

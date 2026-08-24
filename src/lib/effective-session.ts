@@ -118,6 +118,7 @@ export async function getEffectiveSession() {
         canViewRanking:     true,
         canViewLinks:       true,
         canViewCofre:       true,
+        canViewFinanceiro:  true,
       },
     },
     _impersonating: { companyId, companyName: company.name },

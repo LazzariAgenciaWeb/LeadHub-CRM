@@ -30,6 +30,8 @@ export interface UserPermissions {
   canViewCofre: boolean;
   // Caixa de E-mail (Atender → E-mail)
   canViewEmail: boolean;
+  // Financeiro (Gestão → Financeiro): previsão, cobrança e esteira pós-venda.
+  canViewFinanceiro: boolean;
 }
 
 export interface UserModules {
@@ -81,6 +83,7 @@ const ALL_PERMISSIONS: UserPermissions = {
   canViewLinks: true,
   canViewCofre: true,
   canViewEmail: true,
+  canViewFinanceiro: true,
 };
 
 // Deny-by-default: CLIENT sem setor não enxerga nada até receber atribuição
@@ -106,6 +109,7 @@ const DEFAULT_CLIENT_PERMISSIONS: UserPermissions = {
   canViewLinks: false,
   canViewCofre: false,
   canViewEmail: false,
+  canViewFinanceiro: false,
 };
 
 const ALL_MODULES: UserModules = {

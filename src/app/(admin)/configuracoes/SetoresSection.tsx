@@ -32,6 +32,7 @@ interface Setor {
   canViewLinks: boolean;
   canViewCofre: boolean;
   canViewEmail: boolean;
+  canViewFinanceiro: boolean;
   users: SetorUser[];
   instances: SetorInstance[];
   emailAccounts?: { accountId: string }[];
@@ -49,7 +50,7 @@ type PermKey =
   | "canViewCompanies" | "canCreateCompanies"
   | "canViewCalendario" | "canViewMarketing" | "canViewCampanhas"
   | "canViewProjetos" | "canViewRanking" | "canViewLinks" | "canViewCofre"
-  | "canViewEmail";
+  | "canViewEmail" | "canViewFinanceiro";
 
 interface PermGroup {
   label: string;
@@ -102,6 +103,7 @@ const PERM_GROUPS: PermGroup[] = [
       { key: "canViewRanking",    label: "Ranking",            desc: "Gamificação e ranking" },
       { key: "canViewLinks",      label: "Links",              desc: "Links de rastreamento" },
       { key: "canViewCofre",      label: "Cofre",              desc: "Cofre de credenciais (2FA por senha continua)" },
+      { key: "canViewFinanceiro", label: "Financeiro",         desc: "Previsão, cobranças, metas e esteira pós-venda" },
     ],
   },
   {
@@ -154,6 +156,9 @@ const EMPTY_FORM = {
   canViewRanking:    true,
   canViewLinks:      true,
   canViewCofre:      true,
+  // Financeiro fora do "tudo ligado" do setor novo: expõe faturamento e
+  // inadimplência, então entra por escolha explícita, não por default.
+  canViewFinanceiro: false,
   canViewEmail:      true,
   userIds:           [] as string[],
   instanceIds:       [] as string[],
@@ -210,6 +215,7 @@ export default function SetoresSection({
       canViewLinks:       s.canViewLinks,
       canViewCofre:       s.canViewCofre,
       canViewEmail:       (s as any).canViewEmail ?? true,
+      canViewFinanceiro:  s.canViewFinanceiro ?? false,
       userIds:            s.users.map((u) => u.userId),
       instanceIds:        s.instances.map((i) => i.instanceId),
       emailAccountIds:    s.emailAccounts?.map((e) => e.accountId) ?? [],
