@@ -64,21 +64,31 @@ function dropdown(t: CuTask, name: string): string | undefined {
   return (f.type_config?.options ?? []).find((o) => o.orderindex === idx)?.name;
 }
 
+/** Teto de páginas. 100 tasks por página — 30 páginas cobrem 3000 contratos. */
+const MAX_PAGINAS = 30;
+
 export async function fetchContratos(token: string, listId: string): Promise<CuTask[]> {
   const out: CuTask[] = [];
-  for (let page = 0; page < 50; page++) {
+  const t0 = Date.now();
+  for (let page = 0; page < MAX_PAGINAS; page++) {
     const res = await fetch(
       `https://api.clickup.com/api/v2/list/${listId}/task?page=${page}&include_closed=true&subtasks=false`,
-      { headers: { Authorization: token } }
+      // Sem timeout, uma página lenta trava a requisição inteira até o proxy
+      // derrubar a conexão — e aí o erro chega como "conexão caiu", que não
+      // diz nada sobre a causa.
+      { headers: { Authorization: token }, signal: AbortSignal.timeout(30_000) }
     );
     if (!res.ok) {
-      throw new Error(`ClickUp respondeu ${res.status}: ${(await res.text()).slice(0, 200)}`);
+      throw new Error(`ClickUp respondeu ${res.status} na página ${page}: ${(await res.text()).slice(0, 200)}`);
     }
     const body = (await res.json()) as { tasks?: CuTask[]; last_page?: boolean };
     const tasks = body.tasks ?? [];
     out.push(...tasks);
+    // Log de progresso: quando a leitura demora, é isto que mostra ONDE parou.
+    console.log(`[Contratos ClickUp] página ${page}: ${tasks.length} task(s), ${out.length} no total`);
     if (body.last_page || tasks.length === 0) break;
   }
+  console.log(`[Contratos ClickUp] ${out.length} task(s) em ${Date.now() - t0}ms`);
   return out;
 }
 

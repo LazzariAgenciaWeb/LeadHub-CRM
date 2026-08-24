@@ -43,20 +43,35 @@ export default function ImportarClickup({
     setCarregando(apply ? "aplicar" : "previa");
     setErro("");
     if (!apply) setResultado(null);
-    const res = await fetch("/api/financeiro/importar-clickup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ listId, incluirEncerrados, apply }),
-    });
-    setCarregando(null);
-    if (!res.ok) {
-      const e = await res.json().catch(() => ({}));
-      setErro(e.error ?? "Falha ao falar com o ClickUp.");
-      return;
+    try {
+      // A leitura do ClickUp é paginada e demora; sem teto o navegador fica
+      // preso num spinner eterno quando algo no caminho derruba a conexão.
+      const res = await fetch("/api/financeiro/importar-clickup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ listId, incluirEncerrados, apply }),
+        signal: AbortSignal.timeout(180_000),
+      });
+      if (!res.ok) {
+        const e = await res.json().catch(() => ({}));
+        setErro(e.error ?? `O servidor respondeu ${res.status}.`);
+        return;
+      }
+      const data = await res.json();
+      setRel(data.relatorio);
+      if (data.aplicado) { setResultado(data.resultado); router.refresh(); }
+    } catch (e) {
+      // Sem este catch a promessa rejeitava sem ninguém ouvir: o botão ficava
+      // girando pra sempre e parecia que a página tinha morrido.
+      const abortada = e instanceof DOMException && e.name === "TimeoutError";
+      setErro(
+        abortada
+          ? "A leitura do ClickUp passou de 3 minutos e foi interrompida. A lista pode estar grande demais para uma tacada só — tente de novo, ou use o script no servidor."
+          : `A conexão caiu durante a leitura (${(e as Error).message}). Nada foi gravado; pode tentar de novo.`
+      );
+    } finally {
+      setCarregando(null);
     }
-    const data = await res.json();
-    setRel(data.relatorio);
-    if (data.aplicado) { setResultado(data.resultado); router.refresh(); }
   }
 
   const bloqueado = !temEmpresa || !temToken;

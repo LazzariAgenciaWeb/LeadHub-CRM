@@ -60,8 +60,29 @@ export async function POST(req: NextRequest) {
 
   const relatorio = await analisarImportacao(agencyId, tasks, incluirEncerrados);
 
-  if (!apply) return NextResponse.json({ aplicado: false, relatorio });
+  /**
+   * `notes` carrega o descritivo, as anotações E o texto inteiro da task do
+   * ClickUp. Multiplicado por centenas de contratos vira uma resposta de
+   * megabytes que a tela nem usa — ela mostra cliente, valor, dia e ciclo.
+   * O dado completo continua sendo gravado; só não trafega.
+   */
+  const paraTela = {
+    ...relatorio,
+    itens: relatorio.itens.map((i) => ({
+      taskId: i.taskId,
+      codigo: i.codigo,
+      taskUrl: i.taskUrl,
+      cliente: i.cliente,
+      label: i.label,
+      amountCents: i.amountCents,
+      billingCycle: i.billingCycle,
+      billingDay: i.billingDay,
+      categoria: i.categoria,
+    })),
+  };
+
+  if (!apply) return NextResponse.json({ aplicado: false, relatorio: paraTela });
 
   const resultado = await aplicarImportacao(agencyId, relatorio.itens);
-  return NextResponse.json({ aplicado: true, resultado, relatorio });
+  return NextResponse.json({ aplicado: true, resultado, relatorio: paraTela });
 }
