@@ -36,14 +36,36 @@ interface CuField {
   type_config?: { options?: { name: string; orderindex: number }[] };
 }
 
+/**
+ * `status` chega em DUAS formas. A API REST v2 devolve um objeto
+ * (`{status: "hospedagem", color, type, orderindex}`); as ferramentas MCP do
+ * ClickUp já entregam achatado como string. Aceitar as duas evita que a origem
+ * do dado mude o comportamento — foi exatamente essa diferença que passou
+ * batida: montei o teste com o payload do MCP e o servidor recebia o da REST,
+ * onde `t.status` virava "[object Object]" e o filtro de encerrados nunca
+ * pegava ninguém.
+ */
+type CuStatus = string | { status?: string; type?: string };
+
 export interface CuTask {
   id: string;
   custom_id?: string;
   name: string;
-  status: string;
+  status: CuStatus;
   url: string;
   text_content?: string;
   custom_fields: CuField[];
+}
+
+/** Nome do status, seja qual for a forma em que ele veio. */
+export function statusNome(t: CuTask): string {
+  const s = t.status;
+  return (typeof s === "string" ? s : s?.status ?? "").trim();
+}
+
+/** Tipo do status no ClickUp ("closed", "done", "custom"…), quando disponível. */
+function statusTipo(t: CuTask): string {
+  return typeof t.status === "string" ? "" : (t.status?.type ?? "");
 }
 
 function field(t: CuTask, name: string): CuField | undefined {
@@ -201,18 +223,19 @@ export function mapearContrato(t: CuTask): ContratoMapeado {
   const diaRaw = text(t, "DIA VENCIMENTO");
   const dia = diaRaw ? parseInt(diaRaw.replace(/\D/g, ""), 10) : NaN;
   const situacao = dropdown(t, "Status");
+  const nomeStatus = statusNome(t);
 
   return {
     taskId: t.id,
     taskUrl: t.url,
     codigo: t.custom_id ?? t.id,
     cliente: nomeCliente(t.name),
-    label: [servico ?? t.status, detalhe].filter(Boolean).join(" — ") || "Contrato mensal",
+    label: [servico ?? nomeStatus, detalhe].filter(Boolean).join(" — ") || "Contrato mensal",
     amountCents: Number.isFinite(valor) && valor > 0 ? Math.round(valor * 100) : null,
     billingCycle: CICLO[dropdown(t, "Periodicidade") ?? "Mensal"] ?? "MENSAL",
     billingDay: Number.isFinite(dia) && dia >= 1 && dia <= 31 ? dia : null,
     status: situacao === "Aguardando" ? "EM_IMPLANTACAO" : "ATIVO",
-    categoria: t.status,
+    categoria: nomeStatus || "sem status",
     url: text(t, "Url"),
     notes: [
       text(t, "Descritivo") && `Descritivo: ${text(t, "Descritivo")}`,
@@ -227,7 +250,13 @@ export function mapearContrato(t: CuTask): ContratoMapeado {
 }
 
 export function filtrarVivos(tasks: CuTask[], incluirEncerrados: boolean) {
-  return incluirEncerrados ? tasks : tasks.filter((t) => !STATUS_MORTOS.has(t.status));
+  if (incluirEncerrados) return tasks;
+  return tasks.filter((t) => {
+    // O tipo do ClickUp é a fonte mais confiável; o nome cobre "encerrados",
+    // que é status personalizado do tipo "done" nesta lista.
+    if (statusTipo(t) === "closed") return false;
+    return !STATUS_MORTOS.has(statusNome(t).toLowerCase());
+  });
 }
 
 // ─── Relatório ──────────────────────────────────────────────────────────────

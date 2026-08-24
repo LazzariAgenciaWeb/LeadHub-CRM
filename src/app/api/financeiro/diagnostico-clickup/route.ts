@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/permissions";
-import { LISTA_CONTRATOS_PADRAO, fetchContratos } from "@/lib/clickup-contratos";
+import { LISTA_CONTRATOS_PADRAO, fetchContratos, statusNome } from "@/lib/clickup-contratos";
 
 /**
  * Sonda de leitura do ClickUp — abre no navegador e devolve JSON pequeno.
@@ -40,7 +40,10 @@ export async function GET(req: NextRequest) {
   try {
     const tasks = await fetchContratos(token, listId, fechadas);
     const porStatus: Record<string, number> = {};
-    for (const t of tasks) porStatus[t.status] = (porStatus[t.status] ?? 0) + 1;
+    for (const t of tasks) {
+      const nome = statusNome(t) || "(sem status)";
+      porStatus[nome] = (porStatus[nome] ?? 0) + 1;
+    }
     return NextResponse.json({
       ok: true,
       lista: listId,
