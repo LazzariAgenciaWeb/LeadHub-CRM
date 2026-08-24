@@ -7,7 +7,7 @@ import { Download, AlertTriangle, Check, Loader2, ArrowLeft, Users, Repeat } fro
 import FinanceiroTabs from "../FinanceiroTabs";
 import { brlFromCents } from "../lib";
 
-interface Relatorio {
+export interface RelatorioTela {
   totalTasks: number;
   encerradas: number;
   contratos: number;
@@ -19,37 +19,47 @@ interface Relatorio {
   clientesNovos: string[];
   nomesParecidos: [string, string][];
   itens: {
-    taskId: string; codigo: string; taskUrl: string; cliente: string; label: string;
-    amountCents: number | null; billingCycle: string; billingDay: number | null; categoria: string;
+    taskId: string; cliente: string; label: string;
+    amountCents: number | null; billingCycle: string; billingDay: number | null;
   }[];
 }
 
 const card = "bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5";
 
 export default function ImportarClickup({
-  listaPadrao, temEmpresa, temToken,
+  listaPadrao, incluirEncerrados: encerradosIniciais, temEmpresa, temToken, relatorio, erroServidor,
 }: {
-  listaPadrao: string; temEmpresa: boolean; temToken: boolean;
+  listaPadrao: string;
+  incluirEncerrados: boolean;
+  temEmpresa: boolean;
+  temToken: boolean;
+  relatorio: RelatorioTela | null;
+  erroServidor: string | null;
 }) {
   const router = useRouter();
   const [listId, setListId] = useState(listaPadrao);
-  const [incluirEncerrados, setIncluirEncerrados] = useState(false);
-  const [carregando, setCarregando] = useState<"previa" | "aplicar" | null>(null);
+  const [incluirEncerrados, setIncluirEncerrados] = useState(encerradosIniciais);
+  const [importando, setImportando] = useState(false);
   const [erro, setErro] = useState("");
-  const [rel, setRel] = useState<Relatorio | null>(null);
   const [resultado, setResultado] = useState<{ criados: number; atualizados: number; clientesNovos: number } | null>(null);
 
-  async function chamar(apply: boolean) {
-    setCarregando(apply ? "aplicar" : "previa");
+  const rel = relatorio;
+  const bloqueado = !temEmpresa || !temToken;
+  const semCnpj = rel ? rel.clientesExistentes.filter((c) => !c.temCnpj).length + rel.clientesNovos.length : 0;
+  const urlPrevia = `/financeiro/importar?previa=1&lista=${encodeURIComponent(listId)}${incluirEncerrados ? "&encerrados=1" : ""}`;
+
+  /**
+   * Só a gravação continua sendo requisição. A resposta é minúscula (três
+   * contadores), diferente da prévia, que agora vem pronta do servidor.
+   */
+  async function importar() {
+    setImportando(true);
     setErro("");
-    if (!apply) setResultado(null);
     try {
-      // A leitura do ClickUp é paginada e demora; sem teto o navegador fica
-      // preso num spinner eterno quando algo no caminho derruba a conexão.
       const res = await fetch("/api/financeiro/importar-clickup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ listId, incluirEncerrados, apply }),
+        body: JSON.stringify({ listId, incluirEncerrados, apply: true }),
         signal: AbortSignal.timeout(180_000),
       });
       if (!res.ok) {
@@ -58,24 +68,19 @@ export default function ImportarClickup({
         return;
       }
       const data = await res.json();
-      setRel(data.relatorio);
-      if (data.aplicado) { setResultado(data.resultado); router.refresh(); }
+      setResultado(data.resultado);
+      router.refresh();
     } catch (e) {
-      // Sem este catch a promessa rejeitava sem ninguém ouvir: o botão ficava
-      // girando pra sempre e parecia que a página tinha morrido.
-      const abortada = e instanceof DOMException && e.name === "TimeoutError";
+      const tempo = e instanceof DOMException && e.name === "TimeoutError";
       setErro(
-        abortada
-          ? "A leitura do ClickUp passou de 3 minutos e foi interrompida. A lista pode estar grande demais para uma tacada só — tente de novo, ou use o script no servidor."
-          : `A conexão caiu durante a leitura (${(e as Error).message}). Nada foi gravado; pode tentar de novo.`
+        tempo
+          ? "A importação passou de 3 minutos e foi interrompida."
+          : `A conexão caiu durante a importação (${(e as Error).message}).`
       );
     } finally {
-      setCarregando(null);
+      setImportando(false);
     }
   }
-
-  const bloqueado = !temEmpresa || !temToken;
-  const semCnpj = rel ? rel.clientesExistentes.filter((c) => !c.temCnpj).length + rel.clientesNovos.length : 0;
 
   return (
     <div className="p-6 space-y-5 overflow-y-auto">
@@ -117,27 +122,26 @@ export default function ImportarClickup({
               />
               Incluir encerrados
             </label>
-            <button
-              onClick={() => chamar(false)}
-              disabled={carregando !== null}
-              className="px-4 py-2 rounded-lg border border-[#1e2d45] text-slate-200 hover:border-indigo-500 disabled:opacity-50 text-sm flex items-center gap-1.5"
+            {/* Link, não botão: a prévia é uma navegação normal e o relatório
+                vem montado do servidor. Sem fetch, sem JSON grande no browser. */}
+            <Link
+              href={urlPrevia}
+              prefetch={false}
+              className="px-4 py-2 rounded-lg border border-[#1e2d45] text-slate-200 hover:border-indigo-500 text-sm flex items-center gap-1.5"
             >
-              {carregando === "previa" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              <Download className="w-4 h-4" />
               Ver prévia
-            </button>
+            </Link>
           </div>
-
-          {/* A prévia não grava nada. Existe porque casar cliente por nome erra,
-              e errar aqui cria empresa duplicada — chato de desfazer depois. */}
           <p className="text-xs text-slate-600 -mt-2">
             A prévia só lê o ClickUp. Nada é gravado até você confirmar.
           </p>
         </>
       )}
 
-      {erro && (
+      {(erro || erroServidor) && (
         <div className="bg-red-500/10 border border-red-500/25 rounded-lg px-4 py-3 text-sm text-red-300">
-          {erro}
+          {erro || `Não foi possível ler o ClickUp: ${erroServidor}`}
         </div>
       )}
 
@@ -294,11 +298,12 @@ export default function ImportarClickup({
 
           <div className="flex items-center gap-3 pb-4">
             <button
-              onClick={() => chamar(true)}
-              disabled={carregando !== null}
+              type="button"
+              onClick={importar}
+              disabled={importando}
               className="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium flex items-center gap-2"
             >
-              {carregando === "aplicar" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+              {importando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
               Importar {rel.contratos} contrato(s)
             </button>
             <span className="text-xs text-slate-600">
