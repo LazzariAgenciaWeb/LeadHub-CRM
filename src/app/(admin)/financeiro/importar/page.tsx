@@ -83,6 +83,9 @@ function paraTela(r: RelatorioImportacao): RelatorioTela {
     clientesExistentes: r.clientesExistentes,
     clientesNovos: r.clientesNovos,
     nomesParecidos: r.nomesParecidos,
+    // `url` é o site do cliente. Vai pra tela porque é o que identifica de qual
+    // domínio é aquela hospedagem — sem ele a linha "hospedagem R$ 65" não diz
+    // de quem é.
     itens: r.itens.map((i) => ({
       taskId: i.taskId,
       cliente: i.cliente,
@@ -90,6 +93,7 @@ function paraTela(r: RelatorioImportacao): RelatorioTela {
       amountCents: i.amountCents,
       billingCycle: i.billingCycle,
       billingDay: i.billingDay,
+      url: i.url ?? null,
     })),
   };
 }

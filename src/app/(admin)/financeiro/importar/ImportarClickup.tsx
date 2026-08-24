@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Download, AlertTriangle, Check, Loader2, ArrowLeft, Users, Repeat } from "lucide-react";
+import { Download, AlertTriangle, Check, Loader2, ArrowLeft, Users, Repeat, ExternalLink } from "lucide-react";
 import FinanceiroTabs from "../FinanceiroTabs";
 import { brlFromCents } from "../lib";
 
@@ -15,12 +15,13 @@ export interface RelatorioTela {
   semValor: number;
   semDia: number;
   porCategoria: { categoria: string; n: number; cents: number }[];
-  clientesExistentes: { nome: string; temCnpj: boolean }[];
-  clientesNovos: string[];
+  clientesExistentes: { clickup: string; empresaId: string; empresaNome: string; temCnpj: boolean }[];
+  clientesNovos: { nome: string; parecidos: { id: string; nome: string }[] }[];
   nomesParecidos: [string, string][];
   itens: {
     taskId: string; cliente: string; label: string;
     amountCents: number | null; billingCycle: string; billingDay: number | null;
+    url: string | null;
   }[];
 }
 
@@ -50,6 +51,7 @@ export default function ImportarClickup({
   const rel = relatorio;
   const bloqueado = !temEmpresa || !temToken;
   const semCnpj = rel ? rel.clientesExistentes.filter((c) => !c.temCnpj).length + rel.clientesNovos.length : 0;
+  const comSugestao = rel ? rel.clientesNovos.filter((c) => c.parecidos.length > 0).length : 0;
   const urlPrevia = `/financeiro/importar?previa=1&lista=${encodeURIComponent(listId)}${incluirEncerrados ? "&encerrados=1" : ""}`;
 
   /**
@@ -221,6 +223,15 @@ export default function ImportarClickup({
             <div className={card}>
               <h2 className="text-white font-semibold text-sm mb-3">O que precisa de atenção</h2>
               <ul className="space-y-2 text-sm">
+                {comSugestao > 0 && (
+                  <li className="flex gap-2 text-amber-300">
+                    <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                    <span>
+                      <b>{comSugestao}</b> cliente(s) novo(s) parecem com empresa que já existe na sua
+                      carteira. Veja em &ldquo;Serão criados&rdquo; — importar assim cria cadastro duplicado.
+                    </span>
+                  </li>
+                )}
                 {semCnpj > 0 && (
                   <li className="flex gap-2 text-amber-300">
                     <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
@@ -249,28 +260,81 @@ export default function ImportarClickup({
                     </div>
                   </li>
                 )}
-                {semCnpj === 0 && rel.semValor === 0 && rel.nomesParecidos.length === 0 && (
+                {semCnpj === 0 && rel.semValor === 0 && rel.nomesParecidos.length === 0 && comSugestao === 0 && (
                   <li className="text-slate-500">Nada pendente. Pode importar.</li>
                 )}
               </ul>
             </div>
           </div>
 
-          {rel.clientesNovos.length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {/* Já cadastrados: dá pra abrir cada um e conferir antes de gravar. */}
             <div className={card}>
               <h2 className="text-white font-semibold text-sm mb-1">
-                Clientes que serão criados ({rel.clientesNovos.length})
+                Já cadastrados no sistema ({rel.clientesExistentes.length})
               </h2>
               <p className="text-xs text-slate-600 mb-3">
-                Se algum destes já existe com outro nome, ajuste no ClickUp antes de importar — depois vira empresa duplicada.
+                Casaram pelo nome. Os contratos entram no cadastro que já existe — nada é duplicado.
               </p>
-              <div className="flex flex-wrap gap-1.5 max-h-[200px] overflow-y-auto">
-                {rel.clientesNovos.map((n) => (
-                  <span key={n} className="text-xs px-2 py-1 rounded bg-white/5 text-slate-300">{n}</span>
-                ))}
-              </div>
+              {rel.clientesExistentes.length === 0 ? (
+                <p className="text-slate-600 text-sm py-4">Nenhum casou pelo nome exato.</p>
+              ) : (
+                <div className="space-y-1 max-h-[260px] overflow-y-auto">
+                  {rel.clientesExistentes.map((c) => (
+                    <Link
+                      key={c.empresaId}
+                      href={`/empresas/${c.empresaId}`}
+                      target="_blank"
+                      className="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg hover:bg-white/[0.03] group"
+                    >
+                      <span className="text-sm text-slate-300 truncate">{c.clickup}</span>
+                      <span className="flex items-center gap-2 flex-shrink-0">
+                        {!c.temCnpj && <span className="text-[10px] text-amber-500/80">sem CNPJ</span>}
+                        <ExternalLink className="w-3 h-3 text-slate-700 group-hover:text-indigo-400" />
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
+
+            {/* Novos: com os candidatos parecidos que já existem na carteira. */}
+            <div className={card}>
+              <h2 className="text-white font-semibold text-sm mb-1">
+                Serão criados ({rel.clientesNovos.length})
+              </h2>
+              <p className="text-xs text-slate-600 mb-3">
+                Onde aparecer <span className="text-amber-400">parece com</span>, confira: se for a mesma
+                empresa, renomeie no ClickUp para bater com o cadastro e rode a prévia de novo.
+              </p>
+              {rel.clientesNovos.length === 0 ? (
+                <p className="text-slate-600 text-sm py-4">Nenhum cliente novo — todos já existem.</p>
+              ) : (
+                <div className="space-y-1.5 max-h-[260px] overflow-y-auto">
+                  {rel.clientesNovos.map((c) => (
+                    <div key={c.nome} className="px-2.5 py-1.5 rounded-lg bg-white/[0.02]">
+                      <div className="text-sm text-slate-300">{c.nome}</div>
+                      {c.parecidos.length > 0 && (
+                        <div className="mt-0.5 text-xs text-amber-400/90 flex flex-wrap items-center gap-1">
+                          parece com
+                          {c.parecidos.map((p) => (
+                            <Link
+                              key={p.id}
+                              href={`/empresas/${p.id}`}
+                              target="_blank"
+                              className="underline decoration-dotted hover:text-amber-300"
+                            >
+                              {p.nome}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
 
           <div className={card}>
             <h2 className="text-white font-semibold text-sm mb-3">Contratos ({rel.itens.length})</h2>
@@ -280,6 +344,7 @@ export default function ImportarClickup({
                   <tr>
                     <th className="text-left font-medium py-1.5">Cliente</th>
                     <th className="text-left font-medium">Contrato</th>
+                    <th className="text-left font-medium pr-3">Site</th>
                     <th className="text-right font-medium">Valor</th>
                     <th className="text-center font-medium">Dia</th>
                     <th className="text-left font-medium pl-3">Ciclo</th>
@@ -290,6 +355,15 @@ export default function ImportarClickup({
                     <tr key={i.taskId} className="border-t border-[#1e2d45]/60">
                       <td className="py-1.5 text-slate-200 pr-3">{i.cliente}</td>
                       <td className="text-slate-500 pr-3">{i.label}</td>
+                      <td className="pr-3 max-w-[220px] truncate">
+                        {i.url ? (
+                          <a href={i.url} target="_blank" rel="noreferrer" className="text-indigo-400 hover:text-indigo-300">
+                            {i.url.replace(/^https?:\/\//, "")}
+                          </a>
+                        ) : (
+                          <span className="text-slate-700">—</span>
+                        )}
+                      </td>
                       <td className={`text-right ${i.amountCents ? "text-emerald-400" : "text-amber-500"}`}>
                         {i.amountCents ? brlFromCents(i.amountCents) : "sem valor"}
                       </td>

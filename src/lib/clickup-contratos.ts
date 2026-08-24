@@ -269,10 +269,65 @@ export interface RelatorioImportacao {
   semValor: number;
   semDia: number;
   porCategoria: { categoria: string; n: number; cents: number }[];
-  clientesExistentes: { nome: string; temCnpj: boolean }[];
-  clientesNovos: string[];
+  /** Nome do ClickUp que casou com empresa já cadastrada. */
+  clientesExistentes: { clickup: string; empresaId: string; empresaNome: string; temCnpj: boolean }[];
+  /**
+   * Nome que hoje viraria empresa nova — com os candidatos parecidos que já
+   * existem na carteira. É a lista pra conferir ANTES de gravar: casar por nome
+   * exato erra, e o erro vira empresa duplicada.
+   */
+  clientesNovos: { nome: string; parecidos: { id: string; nome: string }[] }[];
   nomesParecidos: [string, string][];
   itens: ContratoMapeado[];
+}
+
+/**
+ * Normaliza razão social pra comparação: sem acento, sem pontuação e sem os
+ * sufixos jurídicos que só existem no cadastro formal ("TECNURBE ... LTDA." e
+ * "Tecnurbe" são a mesma empresa pro olho humano, e precisam ser pro código).
+ */
+const SUFIXOS = /\b(LTDA|ME|EPP|EIRELI|S\/?A|SA|MEI|CIA|COMERCIO|COM|IND|INDUSTRIA)\b/g;
+
+export function normalizarNome(nome: string): string {
+  return nome
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Z0-9\s]/g, " ")
+    .replace(SUFIXOS, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * Dois nomes provavelmente são a mesma empresa? Deliberadamente conservador:
+ * sugere, nunca casa sozinho. Um falso positivo automático juntaria clientes
+ * diferentes na mesma carteira, o que é pior que um cadastro duplicado.
+ */
+/** Primeiras palavras que descrevem o RAMO, não a empresa. */
+const GENERICAS = new Set([
+  "CLINICA", "INSTITUTO", "ESCOLA", "COLEGIO", "CENTRO", "ACADEMIA", "OTICA",
+  "PETSHOP", "IMOBILIARIA", "CONSTRUTORA", "TRANSPORTADORA", "MERCADO",
+  "PADARIA", "FARMACIA", "HOTEL", "POUSADA", "RESTAURANTE", "CHURRASCARIA",
+  "HAMBURGUERIA", "CONSULTORIA", "ADVOCACIA", "AGENCIA", "ASSOCIACAO",
+  "FUNDACAO", "CONSORCIO", "MUNICIPIO", "CAMARA", "PROGRAMA", "GRUPO",
+  "EMPRESA", "CASA", "LOJA", "SALAO", "ESTUDIO", "STUDIO", "ESPACO",
+  "SISTEMA", "SERVICOS", "SOLUCOES", "DISTRIBUIDORA",
+]);
+
+export function pareceMesmaEmpresa(a: string, b: string): boolean {
+  const x = normalizarNome(a);
+  const y = normalizarNome(b);
+  if (!x || !y) return false;
+  if (x === y) return true;
+  // Um é começo do outro, respeitando limite de palavra ("CEFERP" ⊂ "CEFERP CENTRO").
+  if (x.startsWith(y + " ") || y.startsWith(x + " ")) return true;
+  // Primeira palavra igual só vale se ela for distintiva. "CLINICA VIDA PLENA"
+  // e "CLINICA INFANTIL" são clientes diferentes; o que as une é o ramo, não a
+  // identidade.
+  const pa = x.split(" ")[0];
+  const pb = y.split(" ")[0];
+  return pa.length >= 5 && pa === pb && !GENERICAS.has(pa);
 }
 
 /**
@@ -308,16 +363,30 @@ export async function analisarImportacao(
   const nomes = [...new Set(itens.map((i) => i.cliente))].sort();
   const existentes = await prisma.company.findMany({
     where: { parentCompanyId: agencyId },
-    select: { name: true, document: true },
+    select: { id: true, name: true, document: true },
   });
   const porNome = new Map(existentes.map((c) => [c.name.toUpperCase(), c] as const));
 
-  const clientesExistentes: { nome: string; temCnpj: boolean }[] = [];
-  const clientesNovos: string[] = [];
+  const clientesExistentes: RelatorioImportacao["clientesExistentes"] = [];
+  const clientesNovos: RelatorioImportacao["clientesNovos"] = [];
   for (const n of nomes) {
-    const achado = porNome.get(n.toUpperCase());
-    if (achado) clientesExistentes.push({ nome: n, temCnpj: !!achado.document });
-    else clientesNovos.push(n);
+    const exato = porNome.get(n.toUpperCase());
+    if (exato) {
+      clientesExistentes.push({
+        clickup: n,
+        empresaId: exato.id,
+        empresaNome: exato.name,
+        temCnpj: !!exato.document,
+      });
+      continue;
+    }
+    // Sem casamento exato, procura semelhantes na carteira. Só sugere — o
+    // vínculo continua sendo decisão humana, porque juntar clientes diferentes
+    // por engano é pior que criar um cadastro duplicado.
+    const parecidos = existentes
+      .filter((c) => pareceMesmaEmpresa(n, c.name))
+      .map((c) => ({ id: c.id, nome: c.name }));
+    clientesNovos.push({ nome: n, parecidos });
   }
 
   // Prefixo comum = provável mesma empresa cadastrada duas vezes.
