@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { cleanCobranca } from "@/lib/client-service-billing";
+import { cleanVigencia } from "@/lib/client-service-vigencia";
 
 const STATUSES = ["ATIVO", "EM_IMPLANTACAO", "PAUSADO", "ENCERRADO"];
 
@@ -74,6 +75,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       notes:  body?.notes ? String(body.notes) : null,
       details: cleanDetails(body?.details) ?? undefined,
       ...cleanCobranca(body),
+      ...cleanVigencia(body, status, "", null),
       provider: "manual",
     },
     include: { service: { select: { id: true, name: true } } },

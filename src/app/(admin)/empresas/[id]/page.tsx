@@ -120,6 +120,7 @@ export default async function EmpresaDetailPage({
     url: c.url, notes: c.notes, details: (c.details as any) ?? null,
     amountCents: c.amountCents, isRecurring: c.isRecurring,
     billingCycle: c.billingCycle, billingDay: c.billingDay,
+    startedAt: c.startedAt?.toISOString() ?? null, endedAt: c.endedAt?.toISOString() ?? null,
   }));
   const invoices = invoicesRaw.map((v) => ({
     id: v.id, clientServiceId: v.clientServiceId, serviceLabel: v.clientService?.label ?? null,

@@ -77,7 +77,7 @@ export async function PATCH(
 
   const body = await request.json();
   const {
-    name, segment, phone, email, website, logoUrl, status, triggerOnly,
+    name, tradeName, document, segment, phone, email, website, logoUrl, status, triggerOnly,
     // SUPER_ADMIN only
     hasSystemAccess, fullSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup,
     moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, moduleEmailInbox, moduleInstagram, moduleEspacoCliente, moduleVideos, moduleBling, moduleRelatorioMarketing, serpapiKey,
@@ -130,6 +130,12 @@ export async function PATCH(
     where: { id },
     data: {
       ...(name !== undefined && { name }),
+      ...(tradeName !== undefined && { tradeName: tradeName?.trim() || null }),
+      // CNPJ/CPF só com dígitos: é a chave de casamento com o Bling, e máscara
+      // gravada faz o mesmo documento não casar consigo mesmo.
+      ...(document !== undefined && {
+        document: document ? String(document).replace(/\D/g, "").slice(0, 14) || null : null,
+      }),
       ...(segment !== undefined && { segment }),
       ...(phone !== undefined && { phone }),
       ...(email !== undefined && { email }),

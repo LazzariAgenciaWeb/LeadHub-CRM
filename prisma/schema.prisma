@@ -185,6 +185,11 @@ enum RankingCategory {
 model Company {
   id        String        @id @default(cuid())
   name      String
+  // Nome fantasia. `name` costuma guardar a razão social (é o que vem da lista
+  // do ClickUp e do Bling); o fantasia é como o cliente é chamado no dia a dia.
+  // Telas de trabalho mostram o fantasia quando existe, e o `name` continua
+  // sendo o que casa com documento fiscal.
+  tradeName String?
   slug      String        @unique
   segment   String?
   phone     String?
@@ -3753,7 +3758,16 @@ model ClientService {
 
   label    String // apelido desta instância (ex.: "Hospedagem site principal")
   status   String    @default("ATIVO") // ATIVO | EM_IMPLANTACAO | PAUSADO | ENCERRADO
-  renewsAt DateTime? // renovação/vencimento
+  // ATENÇÃO: `renewsAt` NÃO é a data de fim do contrato. É a âncora do ciclo —
+  // o que diz em quais meses um contrato trimestral ou anual cai (ver
+  // dueInMonth). Usar como encerramento quebraria a previsão. Fim de contrato
+  // é `endedAt`, abaixo.
+  renewsAt DateTime? // renovação / próximo ciclo
+
+  // Vigência. Sem elas, encerrar um contrato só mudava o status e o histórico
+  // ficava sem responder "o que esse cliente tinha e até quando".
+  startedAt DateTime?
+  endedAt   DateTime?
   url      String? // link/acesso
   notes    String?   @db.Text
   details  Json? // campos extras flexíveis: [{ "label": string, "value": string }]
@@ -3792,6 +3806,7 @@ model ClientService {
   @@index([clientCompanyId])
   @@index([serviceId])
   @@index([isRecurring, status])
+  @@index([clientCompanyId, endedAt])
   @@index([provider, externalId])
   @@index([provider, externalClientName])
 }

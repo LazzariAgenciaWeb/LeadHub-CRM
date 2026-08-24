@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma";
 import { cleanCobranca } from "@/lib/client-service-billing";
+import { cleanVigencia } from "@/lib/client-service-vigencia";
 
 const STATUSES = ["ATIVO", "EM_IMPLANTACAO", "PAUSADO", "ENCERRADO"];
 
@@ -62,6 +63,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       data.serviceId = svc?.id ?? null;
     } else data.serviceId = null;
   }
+
+  // Encerrar carimba a data sozinho; reabrir limpa. Ver client-service-vigencia.
+  Object.assign(data, cleanVigencia(body, body.status, res.cs.status, res.cs.endedAt));
 
   const updated = await prisma.clientService.update({
     where: { id: csId },

@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 interface Company {
   id: string;
   name: string;
+  tradeName: string | null;
+  document: string | null;
   slug: string;
   segment: string | null;
   phone: string | null;
@@ -50,6 +52,8 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
     name: company.name,
+    tradeName: company.tradeName ?? "",
+    document: company.document ?? "",
     segment: company.segment ?? "",
     phone: company.phone ?? "",
     email: company.email ?? "",
@@ -90,6 +94,8 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
     try {
       const payload: any = {
         name: form.name.trim(),
+        tradeName: form.tradeName.trim() || null,
+        document: form.document.trim() || null,
         segment: form.segment.trim() || null,
         phone: form.phone.trim() || null,
         email: form.email.trim() || null,
@@ -155,6 +161,23 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
               </div>
 
               {/* Segmento */}
+              <div>
+                <label className="block text-xs text-slate-400 font-medium mb-1">Nome fantasia</label>
+                <input type="text" value={form.tradeName} onChange={(e) => set("tradeName", e.target.value)}
+                  placeholder="Como o cliente é chamado no dia a dia"
+                  className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500" />
+              </div>
+
+              <div>
+                <label className="block text-xs text-slate-400 font-medium mb-1">
+                  CNPJ / CPF
+                  <span className="text-slate-600 font-normal"> — chave de ligação com o Bling</span>
+                </label>
+                <input type="text" value={form.document} onChange={(e) => set("document", e.target.value)}
+                  placeholder="Só números"
+                  className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500" />
+              </div>
+
               <div>
                 <label className="block text-xs text-slate-400 font-medium mb-1">Segmento</label>
                 <input type="text" value={form.segment} onChange={(e) => set("segment", e.target.value)}

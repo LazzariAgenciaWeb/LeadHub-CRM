@@ -20208,6 +20208,7 @@ export namespace Prisma {
   export type CompanyMinAggregateOutputType = {
     id: string | null
     name: string | null
+    tradeName: string | null
     slug: string | null
     segment: string | null
     phone: string | null
@@ -20253,6 +20254,7 @@ export namespace Prisma {
   export type CompanyMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    tradeName: string | null
     slug: string | null
     segment: string | null
     phone: string | null
@@ -20298,6 +20300,7 @@ export namespace Prisma {
   export type CompanyCountAggregateOutputType = {
     id: number
     name: number
+    tradeName: number
     slug: number
     segment: number
     phone: number
@@ -20355,6 +20358,7 @@ export namespace Prisma {
   export type CompanyMinAggregateInputType = {
     id?: true
     name?: true
+    tradeName?: true
     slug?: true
     segment?: true
     phone?: true
@@ -20400,6 +20404,7 @@ export namespace Prisma {
   export type CompanyMaxAggregateInputType = {
     id?: true
     name?: true
+    tradeName?: true
     slug?: true
     segment?: true
     phone?: true
@@ -20445,6 +20450,7 @@ export namespace Prisma {
   export type CompanyCountAggregateInputType = {
     id?: true
     name?: true
+    tradeName?: true
     slug?: true
     segment?: true
     phone?: true
@@ -20577,6 +20583,7 @@ export namespace Prisma {
   export type CompanyGroupByOutputType = {
     id: string
     name: string
+    tradeName: string | null
     slug: string
     segment: string | null
     phone: string | null
@@ -20641,6 +20648,7 @@ export namespace Prisma {
   export type CompanySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    tradeName?: boolean
     slug?: boolean
     segment?: boolean
     phone?: boolean
@@ -20775,6 +20783,7 @@ export namespace Prisma {
   export type CompanySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    tradeName?: boolean
     slug?: boolean
     segment?: boolean
     phone?: boolean
@@ -20821,6 +20830,7 @@ export namespace Prisma {
   export type CompanySelectScalar = {
     id?: boolean
     name?: boolean
+    tradeName?: boolean
     slug?: boolean
     segment?: boolean
     phone?: boolean
@@ -21053,6 +21063,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      tradeName: string | null
       slug: string
       segment: string | null
       phone: string | null
@@ -21576,6 +21587,7 @@ export namespace Prisma {
   interface CompanyFieldRefs {
     readonly id: FieldRef<"Company", 'String'>
     readonly name: FieldRef<"Company", 'String'>
+    readonly tradeName: FieldRef<"Company", 'String'>
     readonly slug: FieldRef<"Company", 'String'>
     readonly segment: FieldRef<"Company", 'String'>
     readonly phone: FieldRef<"Company", 'String'>
@@ -129721,6 +129733,8 @@ export namespace Prisma {
     label: string | null
     status: string | null
     renewsAt: Date | null
+    startedAt: Date | null
+    endedAt: Date | null
     url: string | null
     notes: string | null
     order: number | null
@@ -129742,6 +129756,8 @@ export namespace Prisma {
     label: string | null
     status: string | null
     renewsAt: Date | null
+    startedAt: Date | null
+    endedAt: Date | null
     url: string | null
     notes: string | null
     order: number | null
@@ -129763,6 +129779,8 @@ export namespace Prisma {
     label: number
     status: number
     renewsAt: number
+    startedAt: number
+    endedAt: number
     url: number
     notes: number
     details: number
@@ -129799,6 +129817,8 @@ export namespace Prisma {
     label?: true
     status?: true
     renewsAt?: true
+    startedAt?: true
+    endedAt?: true
     url?: true
     notes?: true
     order?: true
@@ -129820,6 +129840,8 @@ export namespace Prisma {
     label?: true
     status?: true
     renewsAt?: true
+    startedAt?: true
+    endedAt?: true
     url?: true
     notes?: true
     order?: true
@@ -129841,6 +129863,8 @@ export namespace Prisma {
     label?: true
     status?: true
     renewsAt?: true
+    startedAt?: true
+    endedAt?: true
     url?: true
     notes?: true
     details?: true
@@ -129950,6 +129974,8 @@ export namespace Prisma {
     label: string
     status: string
     renewsAt: Date | null
+    startedAt: Date | null
+    endedAt: Date | null
     url: string | null
     notes: string | null
     details: JsonValue | null
@@ -129991,6 +130017,8 @@ export namespace Prisma {
     label?: boolean
     status?: boolean
     renewsAt?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
     url?: boolean
     notes?: boolean
     details?: boolean
@@ -130018,6 +130046,8 @@ export namespace Prisma {
     label?: boolean
     status?: boolean
     renewsAt?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
     url?: boolean
     notes?: boolean
     details?: boolean
@@ -130042,6 +130072,8 @@ export namespace Prisma {
     label?: boolean
     status?: boolean
     renewsAt?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
     url?: boolean
     notes?: boolean
     details?: boolean
@@ -130084,6 +130116,8 @@ export namespace Prisma {
       label: string
       status: string
       renewsAt: Date | null
+      startedAt: Date | null
+      endedAt: Date | null
       url: string | null
       notes: string | null
       details: Prisma.JsonValue | null
@@ -130500,6 +130534,8 @@ export namespace Prisma {
     readonly label: FieldRef<"ClientService", 'String'>
     readonly status: FieldRef<"ClientService", 'String'>
     readonly renewsAt: FieldRef<"ClientService", 'DateTime'>
+    readonly startedAt: FieldRef<"ClientService", 'DateTime'>
+    readonly endedAt: FieldRef<"ClientService", 'DateTime'>
     readonly url: FieldRef<"ClientService", 'String'>
     readonly notes: FieldRef<"ClientService", 'String'>
     readonly details: FieldRef<"ClientService", 'Json'>
@@ -143622,6 +143658,7 @@ export namespace Prisma {
   export const CompanyScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    tradeName: 'tradeName',
     slug: 'slug',
     segment: 'segment',
     phone: 'phone',
@@ -145444,6 +145481,8 @@ export namespace Prisma {
     label: 'label',
     status: 'status',
     renewsAt: 'renewsAt',
+    startedAt: 'startedAt',
+    endedAt: 'endedAt',
     url: 'url',
     notes: 'notes',
     details: 'details',
@@ -147060,6 +147099,7 @@ export namespace Prisma {
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     id?: StringFilter<"Company"> | string
     name?: StringFilter<"Company"> | string
+    tradeName?: StringNullableFilter<"Company"> | string | null
     slug?: StringFilter<"Company"> | string
     segment?: StringNullableFilter<"Company"> | string | null
     phone?: StringNullableFilter<"Company"> | string | null
@@ -147193,6 +147233,7 @@ export namespace Prisma {
   export type CompanyOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    tradeName?: SortOrderInput | SortOrder
     slug?: SortOrder
     segment?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
@@ -147332,6 +147373,7 @@ export namespace Prisma {
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     name?: StringFilter<"Company"> | string
+    tradeName?: StringNullableFilter<"Company"> | string | null
     segment?: StringNullableFilter<"Company"> | string | null
     phone?: StringNullableFilter<"Company"> | string | null
     email?: StringNullableFilter<"Company"> | string | null
@@ -147462,6 +147504,7 @@ export namespace Prisma {
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    tradeName?: SortOrderInput | SortOrder
     slug?: SortOrder
     segment?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
@@ -147515,6 +147558,7 @@ export namespace Prisma {
     NOT?: CompanyScalarWhereWithAggregatesInput | CompanyScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Company"> | string
     name?: StringWithAggregatesFilter<"Company"> | string
+    tradeName?: StringNullableWithAggregatesFilter<"Company"> | string | null
     slug?: StringWithAggregatesFilter<"Company"> | string
     segment?: StringNullableWithAggregatesFilter<"Company"> | string | null
     phone?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -156975,6 +157019,8 @@ export namespace Prisma {
     label?: StringFilter<"ClientService"> | string
     status?: StringFilter<"ClientService"> | string
     renewsAt?: DateTimeNullableFilter<"ClientService"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"ClientService"> | Date | string | null
+    endedAt?: DateTimeNullableFilter<"ClientService"> | Date | string | null
     url?: StringNullableFilter<"ClientService"> | string | null
     notes?: StringNullableFilter<"ClientService"> | string | null
     details?: JsonNullableFilter<"ClientService">
@@ -157001,6 +157047,8 @@ export namespace Prisma {
     label?: SortOrder
     status?: SortOrder
     renewsAt?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    endedAt?: SortOrderInput | SortOrder
     url?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     details?: SortOrderInput | SortOrder
@@ -157030,6 +157078,8 @@ export namespace Prisma {
     label?: StringFilter<"ClientService"> | string
     status?: StringFilter<"ClientService"> | string
     renewsAt?: DateTimeNullableFilter<"ClientService"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"ClientService"> | Date | string | null
+    endedAt?: DateTimeNullableFilter<"ClientService"> | Date | string | null
     url?: StringNullableFilter<"ClientService"> | string | null
     notes?: StringNullableFilter<"ClientService"> | string | null
     details?: JsonNullableFilter<"ClientService">
@@ -157056,6 +157106,8 @@ export namespace Prisma {
     label?: SortOrder
     status?: SortOrder
     renewsAt?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    endedAt?: SortOrderInput | SortOrder
     url?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     details?: SortOrderInput | SortOrder
@@ -157086,6 +157138,8 @@ export namespace Prisma {
     label?: StringWithAggregatesFilter<"ClientService"> | string
     status?: StringWithAggregatesFilter<"ClientService"> | string
     renewsAt?: DateTimeNullableWithAggregatesFilter<"ClientService"> | Date | string | null
+    startedAt?: DateTimeNullableWithAggregatesFilter<"ClientService"> | Date | string | null
+    endedAt?: DateTimeNullableWithAggregatesFilter<"ClientService"> | Date | string | null
     url?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     notes?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     details?: JsonNullableWithAggregatesFilter<"ClientService">
@@ -158767,6 +158821,7 @@ export namespace Prisma {
   export type CompanyCreateInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -158899,6 +158954,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -159031,6 +159087,7 @@ export namespace Prisma {
   export type CompanyUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159163,6 +159220,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159295,6 +159353,7 @@ export namespace Prisma {
   export type CompanyCreateManyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -159340,6 +159399,7 @@ export namespace Prisma {
   export type CompanyUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159384,6 +159444,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169854,6 +169915,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -169880,6 +169943,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -169902,6 +169967,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -169928,6 +169995,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -169952,6 +170021,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -169972,6 +170043,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -169994,6 +170067,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -172538,6 +172613,7 @@ export namespace Prisma {
   export type CompanyCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    tradeName?: SortOrder
     slug?: SortOrder
     segment?: SortOrder
     phone?: SortOrder
@@ -172588,6 +172664,7 @@ export namespace Prisma {
   export type CompanyMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    tradeName?: SortOrder
     slug?: SortOrder
     segment?: SortOrder
     phone?: SortOrder
@@ -172633,6 +172710,7 @@ export namespace Prisma {
   export type CompanyMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    tradeName?: SortOrder
     slug?: SortOrder
     segment?: SortOrder
     phone?: SortOrder
@@ -179297,6 +179375,8 @@ export namespace Prisma {
     label?: SortOrder
     status?: SortOrder
     renewsAt?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrder
     url?: SortOrder
     notes?: SortOrder
     details?: SortOrder
@@ -179325,6 +179405,8 @@ export namespace Prisma {
     label?: SortOrder
     status?: SortOrder
     renewsAt?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrder
     url?: SortOrder
     notes?: SortOrder
     order?: SortOrder
@@ -179346,6 +179428,8 @@ export namespace Prisma {
     label?: SortOrder
     status?: SortOrder
     renewsAt?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrder
     url?: SortOrder
     notes?: SortOrder
     order?: SortOrder
@@ -192937,6 +193021,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -193068,6 +193153,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutUsersInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -194595,6 +194681,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194726,6 +194813,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -195920,6 +196008,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutQuickRepliesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -196051,6 +196140,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutQuickRepliesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -196305,6 +196395,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutQuickRepliesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196436,6 +196527,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutQuickRepliesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197340,6 +197432,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutSubCompaniesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -197471,6 +197564,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -197607,6 +197701,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutParentCompanyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -197738,6 +197833,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -199252,6 +199348,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -199276,6 +199374,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -201572,6 +201672,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutSubCompaniesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201703,6 +201804,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201853,6 +201955,7 @@ export namespace Prisma {
     NOT?: CompanyScalarWhereInput | CompanyScalarWhereInput[]
     id?: StringFilter<"Company"> | string
     name?: StringFilter<"Company"> | string
+    tradeName?: StringNullableFilter<"Company"> | string | null
     slug?: StringFilter<"Company"> | string
     segment?: StringNullableFilter<"Company"> | string | null
     phone?: StringNullableFilter<"Company"> | string | null
@@ -202758,6 +202861,8 @@ export namespace Prisma {
     label?: StringFilter<"ClientService"> | string
     status?: StringFilter<"ClientService"> | string
     renewsAt?: DateTimeNullableFilter<"ClientService"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"ClientService"> | Date | string | null
+    endedAt?: DateTimeNullableFilter<"ClientService"> | Date | string | null
     url?: StringNullableFilter<"ClientService"> | string | null
     notes?: StringNullableFilter<"ClientService"> | string | null
     details?: JsonNullableFilter<"ClientService">
@@ -204551,6 +204656,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -204682,6 +204788,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -205087,6 +205194,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutCampaignsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205218,6 +205326,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205454,6 +205563,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutTrackingLinksInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -205585,6 +205695,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -205925,6 +206036,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutTrackingLinksInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206056,6 +206168,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206315,6 +206428,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutLeadsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -206446,6 +206560,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutLeadsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -207178,6 +207293,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutLeadsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207309,6 +207425,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207908,6 +208025,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutTagsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -208039,6 +208157,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutTagsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -208206,6 +208325,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -208337,6 +208457,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -208776,6 +208897,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutCustomFieldDefsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -208907,6 +209029,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutCustomFieldDefsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -209080,6 +209203,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutCustomFieldDefsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -209211,6 +209335,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutCustomFieldDefsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -209662,6 +209787,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutCompanyFieldDefsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -209793,6 +209919,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutCompanyFieldDefsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -209966,6 +210093,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutCompanyFieldDefsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -210097,6 +210225,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutCompanyFieldDefsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -210244,6 +210373,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutCompanyCustomValuesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -210375,6 +210505,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutCompanyCustomValuesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -210551,6 +210682,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutCompanyCustomValuesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -210682,6 +210814,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutCompanyCustomValuesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -210963,6 +211096,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutTasksInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -211094,6 +211228,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutTasksInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -211576,6 +211711,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -211707,6 +211843,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -212300,6 +212437,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutPipelineStagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -212431,6 +212569,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -212578,6 +212717,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutPipelineStagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -212709,6 +212849,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -212840,6 +212981,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutContactsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -212971,6 +213113,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutContactsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -213225,6 +213368,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutContactsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -213356,6 +213500,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutContactsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -213707,6 +213852,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutWhatsappInstancesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -213838,6 +213984,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -214354,6 +214501,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutWhatsappInstancesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -214485,6 +214633,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -214704,6 +214853,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutMessagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -214835,6 +214985,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutMessagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -215355,6 +215506,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -215486,6 +215638,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -216020,6 +216173,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutKeywordRulesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -216151,6 +216305,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -216339,6 +216494,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutKeywordRulesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -216470,6 +216626,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -216873,6 +217030,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutConversationsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -217004,6 +217162,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutConversationsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -217642,6 +217801,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutConversationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217773,6 +217933,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutConversationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218356,6 +218517,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutActivitiesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -218487,6 +218649,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutActivitiesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -218891,6 +219054,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutActivitiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219022,6 +219186,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutActivitiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219153,6 +219318,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutTicketsAsClientInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -219284,6 +219450,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutTicketsAsClientInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -219527,6 +219694,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutTicketsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -219658,6 +219826,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutTicketsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -220218,6 +220387,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutTicketsAsClientInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -220349,6 +220519,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutTicketsAsClientInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -220604,6 +220775,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -220735,6 +220907,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -221342,6 +221515,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutSetoresInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -221473,6 +221647,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutSetoresInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -221922,6 +222097,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutSetoresInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -222053,6 +222229,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -222690,6 +222867,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutSetorClickupListsAsClientInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -222821,6 +222999,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -223394,6 +223573,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutSetorClickupListsAsClientInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -223525,6 +223705,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -227193,6 +227374,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAssetsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -227324,6 +227506,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAssetsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -227521,6 +227704,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -227652,6 +227836,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228005,6 +228190,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutCredentialAccessLogsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -228136,6 +228322,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutCredentialAccessLogsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -228334,6 +228521,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutCredentialAccessLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228465,6 +228653,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutCredentialAccessLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228596,6 +228785,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutSecureNotesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -228727,6 +228917,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutSecureNotesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -228908,6 +229099,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutSecureNotesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -229039,6 +229231,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutSecureNotesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -229217,6 +229410,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutSecureNoteAccessLogsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -229348,6 +229542,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -229532,6 +229727,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutSecureNoteAccessLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -229663,6 +229859,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -229794,6 +229991,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutMarketingIntegrationsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -229925,6 +230123,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutMarketingIntegrationsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -230072,6 +230271,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutMarketingIntegrationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -230203,6 +230403,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutMarketingIntegrationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -230334,6 +230535,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutBlingIntegrationInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -230465,6 +230667,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutBlingIntegrationInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -230612,6 +230815,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutBlingIntegrationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -230743,6 +230947,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutBlingIntegrationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -230874,6 +231079,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutMetaConversionConfigInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -231005,6 +231211,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutMetaConversionConfigInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -231152,6 +231359,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutMetaConversionConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -231283,6 +231491,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutMetaConversionConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -231414,6 +231623,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutMetaConversionLogsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -231545,6 +231755,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutMetaConversionLogsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -231692,6 +231903,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutMetaConversionLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -231823,6 +232035,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutMetaConversionLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -231954,6 +232167,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutInstagramAccountsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -232085,6 +232299,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutInstagramAccountsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -232376,6 +232591,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutInstagramAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -232507,6 +232723,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutInstagramAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -232686,6 +232903,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutIgAutomationsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -232817,6 +233035,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutIgAutomationsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -233053,6 +233272,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutIgAutomationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -233184,6 +233404,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutIgAutomationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -233382,6 +233603,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutIgAutomationRunsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -233513,6 +233735,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutIgAutomationRunsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -233756,6 +233979,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutIgAutomationRunsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -233887,6 +234111,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutIgAutomationRunsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -234126,6 +234351,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutIgConversationsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -234257,6 +234483,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutIgConversationsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -234479,6 +234706,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutIgConversationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -234610,6 +234838,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutIgConversationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -234906,6 +235135,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutFacebookPagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -235037,6 +235267,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutFacebookPagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -235184,6 +235415,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutFacebookPagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235315,6 +235547,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutFacebookPagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235446,6 +235679,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -235577,6 +235811,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -235724,6 +235959,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAnalyticsSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235855,6 +236091,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235986,6 +236223,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAnalyticsTopPagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -236117,6 +236355,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAnalyticsTopPagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -236264,6 +236503,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAnalyticsTopPagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -236395,6 +236635,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -236526,6 +236767,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAnalyticsTrafficSourcesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -236657,6 +236899,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -236804,6 +237047,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAnalyticsTrafficSourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -236935,6 +237179,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -237066,6 +237311,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAnalyticsGeoDataInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -237197,6 +237443,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAnalyticsGeoDataInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -237344,6 +237591,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAnalyticsGeoDataInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -237475,6 +237723,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -237606,6 +237855,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAnalyticsEventDailyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -237737,6 +237987,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAnalyticsEventDailyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -237884,6 +238135,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAnalyticsEventDailyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -238015,6 +238267,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAnalyticsEventDailyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -238146,6 +238399,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAnalyticsEventParamDailyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -238277,6 +238531,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAnalyticsEventParamDailyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -238424,6 +238679,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAnalyticsEventParamDailyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -238555,6 +238811,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAnalyticsEventParamDailyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -238686,6 +238943,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutMarketingEventConfigInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -238817,6 +239075,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutMarketingEventConfigInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -238964,6 +239223,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutMarketingEventConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239095,6 +239355,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutMarketingEventConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239226,6 +239487,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutSearchConsoleQueriesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -239357,6 +239619,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutSearchConsoleQueriesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -239504,6 +239767,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutSearchConsoleQueriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239635,6 +239899,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239766,6 +240031,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutGbpInsightsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -239897,6 +240163,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutGbpInsightsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -240044,6 +240311,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutGbpInsightsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240175,6 +240443,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutGbpInsightsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240306,6 +240575,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutGbpReviewsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -240437,6 +240707,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutGbpReviewsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -240584,6 +240855,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutGbpReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240715,6 +240987,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutGbpReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240846,6 +241119,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutGbpSearchKeywordsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -240977,6 +241251,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutGbpSearchKeywordsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -241124,6 +241399,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutGbpSearchKeywordsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -241255,6 +241531,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -241386,6 +241663,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutGbpProfileSnapshotsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -241517,6 +241795,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -241664,6 +241943,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutGbpProfileSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -241795,6 +242075,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -241926,6 +242207,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAdCampaignDailiesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -242057,6 +242339,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAdCampaignDailiesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -242204,6 +242487,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAdCampaignDailiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -242335,6 +242619,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAdCampaignDailiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -242466,6 +242751,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAdSearchTermDailiesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -242597,6 +242883,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAdSearchTermDailiesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -242744,6 +243031,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAdSearchTermDailiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -242875,6 +243163,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAdSearchTermDailiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -243006,6 +243295,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAdCreativesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -243137,6 +243427,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAdCreativesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -243284,6 +243575,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAdCreativesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -243415,6 +243707,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAdCreativesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -243546,6 +243839,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAdCreativeDailiesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -243677,6 +243971,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAdCreativeDailiesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -243824,6 +244119,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAdCreativeDailiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -243955,6 +244251,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAdCreativeDailiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244086,6 +244383,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutSubscriptionInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -244217,6 +244515,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutSubscriptionInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -244364,6 +244663,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutSubscriptionInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244495,6 +244795,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutSubscriptionInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244626,6 +244927,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutBusinessHoursInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -244757,6 +245059,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutBusinessHoursInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -244928,6 +245231,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutBusinessHoursInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -245059,6 +245363,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutBusinessHoursInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -245277,6 +245582,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutRewardsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -245408,6 +245714,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutRewardsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -245591,6 +245898,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutRewardsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -245722,6 +246030,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutRewardsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -245976,6 +246285,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutRewardRedemptionsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -246107,6 +246417,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutRewardRedemptionsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -246398,6 +246709,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutRewardRedemptionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -246529,6 +246841,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutRewardRedemptionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -246804,6 +247117,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutUserScoresInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -246935,6 +247249,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutUserScoresInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -247195,6 +247510,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutUserScoresInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -247326,6 +247642,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutUserScoresInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -247564,6 +247881,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutUserBadgesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -247695,6 +248013,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutUserBadgesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -247955,6 +248274,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutUserBadgesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248086,6 +248406,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutUserBadgesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248324,6 +248645,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutScoreEventsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -248455,6 +248777,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutScoreEventsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -248715,6 +249038,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutScoreEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248846,6 +249170,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutScoreEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248977,6 +249302,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutScoreRuleConfigsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -249108,6 +249434,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutScoreRuleConfigsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -249255,6 +249582,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutScoreRuleConfigsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -249386,6 +249714,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutScoreRuleConfigsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -249957,6 +250286,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutEmailConfigInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -250088,6 +250418,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutEmailConfigInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -250235,6 +250566,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutEmailConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -250366,6 +250698,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutEmailConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -250497,6 +250830,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutEmailTemplatesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -250628,6 +250962,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutEmailTemplatesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -250837,6 +251172,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutEmailTemplatesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -250968,6 +251304,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -251142,6 +251479,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutEmailCampaignsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -251273,6 +251611,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutEmailCampaignsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -251726,6 +252065,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutEmailCampaignsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -251857,6 +252197,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutEmailCampaignsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -252634,6 +252975,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutEmailUnsubscribesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -252765,6 +253107,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutEmailUnsubscribesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -252912,6 +253255,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutEmailUnsubscribesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -253043,6 +253387,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutEmailUnsubscribesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -253174,6 +253519,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutEmailAccountsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -253305,6 +253651,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutEmailAccountsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -253544,6 +253891,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutEmailAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -253675,6 +254023,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutEmailAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -253838,6 +254187,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutInboxEmailsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -253969,6 +254319,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutInboxEmailsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -254408,6 +254759,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutInboxEmailsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -254539,6 +254891,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutInboxEmailsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -254976,6 +255329,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutInboxSenderRulesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -255107,6 +255461,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutInboxSenderRulesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -255254,6 +255609,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutInboxSenderRulesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -255385,6 +255741,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutInboxSenderRulesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -255652,6 +256009,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutInboxEmailTagsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -255783,6 +256141,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutInboxEmailTagsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -255995,6 +256354,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutInboxEmailTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -256126,6 +256486,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutInboxEmailTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -256273,6 +256634,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutBillingEventsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -256404,6 +256766,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutBillingEventsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -256551,6 +256914,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutBillingEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -256682,6 +257046,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutBillingEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -256813,6 +257178,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAddonsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -256944,6 +257310,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAddonsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -257091,6 +257458,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAddonsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -257222,6 +257590,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAddonsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -257436,6 +257805,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutCouponRedemptionsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -257567,6 +257937,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutCouponRedemptionsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -257761,6 +258132,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutCouponRedemptionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -257892,6 +258264,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutCouponRedemptionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -258023,6 +258396,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAssistantsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -258154,6 +258528,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAssistantsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -258626,6 +259001,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAssistantsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -258757,6 +259133,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAssistantsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259197,6 +259574,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutScheduledMessagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -259328,6 +259706,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutScheduledMessagesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -259520,6 +259899,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutScheduledMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259651,6 +260031,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutScheduledMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260113,6 +260494,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutAiUsageLogsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -260244,6 +260626,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutAiUsageLogsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -260452,6 +260835,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutAiUsageLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260583,6 +260967,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutAiUsageLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260781,6 +261166,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutServicesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -260912,6 +261298,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutServicesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -261050,6 +261437,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -261074,6 +261463,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -261223,6 +261614,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutServicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -261354,6 +261746,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutServicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -261533,6 +261926,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutClientServicesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -261664,6 +262058,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutClientServicesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -261938,6 +262333,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutClientServicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -262069,6 +262465,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutClientServicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -262279,6 +262676,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutClientInvoicesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -262410,6 +262808,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutClientInvoicesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -262548,6 +262947,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -262573,6 +262974,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -262608,6 +263011,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutClientInvoicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -262739,6 +263143,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutClientInvoicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -262883,6 +263288,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -262908,6 +263315,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -262927,6 +263336,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutSalesAsAgencyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -263058,6 +263468,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutSalesAsAgencyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -263309,6 +263720,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutSalesAsClientInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -263440,6 +263852,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutSalesAsClientInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -263627,6 +264040,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutSalesAsAgencyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -263758,6 +264172,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutSalesAsAgencyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264021,6 +264436,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutSalesAsClientInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264152,6 +264568,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutSalesAsClientInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264299,6 +264716,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutBonusesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -264430,6 +264848,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutBonusesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -264621,6 +265040,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -264646,6 +265067,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -264788,6 +265211,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutBonusesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264919,6 +265343,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutBonusesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265122,6 +265547,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -265147,6 +265574,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -265279,6 +265708,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutMonthlyTargetsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -265410,6 +265840,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutMonthlyTargetsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -265557,6 +265988,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutMonthlyTargetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265688,6 +266120,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutMonthlyTargetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265819,6 +266252,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutVideoCategoriesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -265950,6 +266384,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutVideoCategoriesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -266155,6 +266590,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutVideoCategoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266286,6 +266722,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutVideoCategoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266503,6 +266940,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutVideoReleasesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -266634,6 +267072,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutVideoReleasesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -266824,6 +267263,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutVideoReleasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266955,6 +267395,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutVideoReleasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -267166,6 +267607,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutTimePunchesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -267297,6 +267739,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutTimePunchesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -267551,6 +267994,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutTimePunchesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -267682,6 +268126,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutTimePunchesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -267926,6 +268371,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutWorkScheduleDaysInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -268057,6 +268503,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutWorkScheduleDaysInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -268311,6 +268758,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutWorkScheduleDaysInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268442,6 +268890,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutWorkScheduleDaysInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268686,6 +269135,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutTimeOffEntriesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -268817,6 +269267,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutTimeOffEntriesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -269178,6 +269629,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutTimeOffEntriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -269309,6 +269761,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutTimeOffEntriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -269666,6 +270119,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutPunchAdjustRequestsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -269797,6 +270251,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutPunchAdjustRequestsInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -270158,6 +270613,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutPunchAdjustRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -270289,6 +270745,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutPunchAdjustRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -270646,6 +271103,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutTimesheetSignaturesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -270777,6 +271235,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutTimesheetSignaturesInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -271031,6 +271490,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutTimesheetSignaturesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -271162,6 +271622,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutTimesheetSignaturesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273356,6 +273817,7 @@ export namespace Prisma {
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
+    tradeName?: string | null
     slug: string
     segment?: string | null
     phone?: string | null
@@ -273847,6 +274309,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -274639,6 +275103,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -274770,6 +275235,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -274901,6 +275367,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -276443,6 +276910,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -276467,6 +276936,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -276490,6 +276961,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -283592,6 +284065,8 @@ export namespace Prisma {
     label: string
     status?: string
     renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
     url?: string | null
     notes?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -283647,6 +284122,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -283671,6 +284148,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
@@ -283694,6 +284173,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue

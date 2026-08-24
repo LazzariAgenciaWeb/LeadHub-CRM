@@ -10,6 +10,7 @@ type Item = {
   label: string; status: string; renewsAt: string | null;
   url: string | null; notes: string | null; details: Detail[] | null;
   amountCents: number | null; isRecurring: boolean;
+  startedAt: string | null; endedAt: string | null;
   billingCycle: string | null; billingDay: number | null;
 };
 type Catalog = { id: string; name: string };
@@ -50,11 +51,13 @@ export default function CompanyContractedServices({
   const [fValor, setFValor] = useState("");
   const [fCiclo, setFCiclo] = useState("MENSAL");
   const [fDia, setFDia] = useState("");
+  const [fInicio, setFInicio] = useState("");
+  const [fFim, setFFim] = useState("");
 
   function openNew() {
     setEditing("new"); setErr("");
     setFServiceId(""); setFLabel(""); setFStatus("ATIVO"); setFRenews(""); setFUrl(""); setFNotes(""); setFDetails([]);
-    setFRecorrente(false); setFValor(""); setFCiclo("MENSAL"); setFDia("");
+    setFRecorrente(false); setFValor(""); setFCiclo("MENSAL"); setFDia(""); setFInicio(""); setFFim("");
   }
   function openEdit(it: Item) {
     setEditing(it); setErr("");
@@ -65,6 +68,8 @@ export default function CompanyContractedServices({
     setFValor(it.amountCents != null ? (it.amountCents / 100).toFixed(2).replace(".", ",") : "");
     setFCiclo(it.billingCycle ?? "MENSAL");
     setFDia(it.billingDay != null ? String(it.billingDay) : "");
+    setFInicio(it.startedAt ? it.startedAt.slice(0, 10) : "");
+    setFFim(it.endedAt ? it.endedAt.slice(0, 10) : "");
   }
   function close() { setEditing(null); setErr(""); }
 
@@ -92,6 +97,10 @@ export default function CompanyContractedServices({
       isRecurring: fRecorrente,
       billingCycle: fCiclo,
       billingDay: fDia ? parseInt(fDia, 10) : null,
+      startedAt: fInicio ? new Date(fInicio + "T12:00:00").toISOString() : null,
+      // Só manda `endedAt` quando preenchido: vazio deixa a API carimbar
+      // sozinha ao mudar pra Encerrado, em vez de gravar nulo por cima.
+      ...(fFim ? { endedAt: new Date(fFim + "T12:00:00").toISOString() } : {}),
     };
     const isNew = editing === "new";
     const url = isNew
@@ -107,6 +116,7 @@ export default function CompanyContractedServices({
       url: data.url ?? null, notes: data.notes ?? null, details: (data.details as Detail[]) ?? null,
       amountCents: data.amountCents ?? null, isRecurring: data.isRecurring ?? false,
       billingCycle: data.billingCycle ?? null, billingDay: data.billingDay ?? null,
+      startedAt: data.startedAt ?? null, endedAt: data.endedAt ?? null,
     };
     setItems((prev) => isNew ? [norm, ...prev] : prev.map((x) => x.id === norm.id ? norm : x));
     close();
@@ -213,8 +223,22 @@ export default function CompanyContractedServices({
               </select>
             </div>
             <div>
-              <label className="text-slate-400 text-xs">Renovação / vencimento</label>
+              <label className="text-slate-400 text-xs">Início do contrato</label>
+              <input type="date" value={fInicio} onChange={(e) => setFInicio(e.target.value)} className={input + " mt-1"} />
+            </div>
+            <div>
+              <label className="text-slate-400 text-xs">
+                Encerrado em
+                {fStatus !== "ENCERRADO" && <span className="text-slate-600"> (ao marcar Encerrado)</span>}
+              </label>
+              <input type="date" value={fFim} onChange={(e) => setFFim(e.target.value)} className={input + " mt-1"} />
+            </div>
+            <div>
+              <label className="text-slate-400 text-xs">Renovação / próximo ciclo</label>
               <input type="date" value={fRenews} onChange={(e) => setFRenews(e.target.value)} className={input + " mt-1"} />
+              {fRecorrente && fCiclo !== "MENSAL" && (
+                <p className="text-[10px] text-slate-600 mt-1">Define em quais meses a cobrança cai.</p>
+              )}
             </div>
             <div>
               <label className="text-slate-400 text-xs">Link / acesso</label>
@@ -286,7 +310,10 @@ export default function CompanyContractedServices({
                     )}
                   </div>
                   <div className="text-slate-500 text-[11px] mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
-                    {it.renewsAt && <span>🔁 renova {new Date(it.renewsAt).toLocaleDateString("pt-BR")}</span>}
+                    {it.endedAt
+                      ? <span className="text-slate-500">⛔ encerrado em {new Date(it.endedAt).toLocaleDateString("pt-BR")}</span>
+                      : it.renewsAt && <span>🔁 renova {new Date(it.renewsAt).toLocaleDateString("pt-BR")}</span>}
+                    {it.startedAt && <span>▶️ desde {new Date(it.startedAt).toLocaleDateString("pt-BR")}</span>}
                     {it.url && <a href={it.url} target="_blank" rel="noreferrer" className="text-indigo-400 hover:underline truncate max-w-[220px]">{it.url}</a>}
                     {it.details?.map((d, i) => <span key={i}>{d.label}: <span className="text-slate-400">{d.value}</span></span>)}
                   </div>

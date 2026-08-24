@@ -189,6 +189,7 @@ exports.Prisma.UserGoogleConnectionScalarFieldEnum = {
 exports.Prisma.CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  tradeName: 'tradeName',
   slug: 'slug',
   segment: 'segment',
   phone: 'phone',
@@ -1708,6 +1709,8 @@ exports.Prisma.ClientServiceScalarFieldEnum = {
   label: 'label',
   status: 'status',
   renewsAt: 'renewsAt',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
   url: 'url',
   notes: 'notes',
   details: 'details',
