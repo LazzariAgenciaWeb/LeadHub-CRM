@@ -313,6 +313,9 @@ model Company {
   ticketsAsClient         Ticket[]                 @relation("TicketClientCompany")
   clientServices          ClientService[]          @relation("ClientServiceClient")
   clientInvoices          ClientInvoice[]          @relation("ClientInvoiceClient")
+  monthlyTargets          MonthlyTarget[]
+  salesAsAgency           Sale[]                   @relation("SaleAgency")
+  salesAsClient           Sale[]                   @relation("SaleClient")
   trackingLinks           TrackingLink[]
   pipelineStages          PipelineStageConfig[]
   contacts                CompanyContact[]
@@ -501,6 +504,16 @@ model Lead {
   pipelineStage String? // nome da etapa configurável
   externalId    String? // ID externo (ex: id do Supabase BDR para evitar duplicatas)
 
+  // ─── Desfecho comercial (datas congeladas) ────────────────────────────────
+  // Carimbadas quando o lead entra numa etapa GANHO/PERDIDO
+  // (PipelineStageConfig.outcome). Sem elas não dá pra responder "quanto
+  // ganhamos em agosto": `value` é editável a qualquer momento e `updatedAt`
+  // muda a cada toque no lead. Reentrar numa etapa do MESMO desfecho não
+  // reescreve a data (mantém o fechamento original); trocar de desfecho
+  // (ganho → perdido ou vice-versa) limpa a data do desfecho anterior.
+  wonAt  DateTime?
+  lostAt DateTime?
+
   // Dados de prospect (preenchidos pela busca SerpAPI + scraper inline em /crm/prospeccao)
   website            String?
   instagram          String?
@@ -564,6 +577,7 @@ model Lead {
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   conversationId String?
 
+  sale            Sale?
   messages        Message[]
   comments        LeadComment[]
   activities      Activity[]
@@ -577,6 +591,8 @@ model Lead {
   @@index([campaignId])
   @@index([phone, companyId])
   @@index([pipeline, companyId])
+  @@index([companyId, wonAt])
+  @@index([companyId, lostAt])
   @@index([externalId])
   @@index([conversationId])
 }
@@ -3736,6 +3752,18 @@ model ClientService {
   details  Json? // campos extras flexíveis: [{ "label": string, "value": string }]
   order    Int       @default(0)
 
+  // ─── Valor e recorrência do contrato ─────────────────────────────────────
+  // Até aqui o contrato não tinha preço: dava pra saber QUE o cliente tem
+  // hospedagem, não POR QUANTO. Sem isso não existe previsão de faturamento
+  // nem "falta faturar" — só a fatura já lançada, que é o passado.
+  // `amountCents` é o valor de UM ciclo no recorrente e o valor total no
+  // pontual. `billingDay` é o dia do vencimento (1–31; meses curtos caem no
+  // último dia, tratado na geração da cobrança).
+  amountCents  Int?
+  isRecurring  Boolean @default(false)
+  billingCycle String? // "MENSAL" | "TRIMESTRAL" | "ANUAL" (só quando isRecurring)
+  billingDay   Int?
+
   invoices ClientInvoice[] // cobranças ligadas a este serviço
 
   createdAt DateTime @default(now())
@@ -3743,6 +3771,7 @@ model ClientService {
 
   @@index([clientCompanyId])
   @@index([serviceId])
+  @@index([isRecurring, status])
 }
 
 // Cobrança (fatura/boleto/NF) que a agência EMITE para um cliente. Alimentada
@@ -3777,6 +3806,99 @@ model ClientInvoice {
   // Um índice UNIQUE parcial (só provider='bling') é criado na migration SQL —
   // não dá pra expressar índice parcial no schema Prisma.
   @@index([provider, externalId])
+}
+
+// Venda fechada — a ponte que faltava entre o CRM e o Financeiro.
+//
+// Antes disto o lead ganho morria no Kanban: nada ligava "fechei a Odonto
+// Sorriso por R$ 3.900" ao cadastro do cliente, ao contrato ou à cobrança.
+// A esteira só existia como tarefa no ClickUp, fora do sistema.
+//
+// Criada automaticamente quando o lead entra numa etapa GANHO (ver o PATCH em
+// src/app/api/leads/[id]/route.ts). `leadId` é único: um lead ganho gera UMA
+// venda, e reabrir/fechar de novo atualiza a mesma linha em vez de duplicar.
+//
+// Os três checkpoints são INDEPENDENTES de propósito. Na prática contrato,
+// faturamento e liberação de produção andam em paralelo — modelar como fila
+// linear obrigaria a mentir sobre a ordem ("faturei antes do contrato voltar
+// assinado" é rotina, não exceção).
+model Sale {
+  id String @id @default(cuid())
+
+  // Agência dona da venda (mesma empresa do lead).
+  company   Company @relation("SaleAgency", fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  // Origem no CRM. SetNull: apagar o lead não apaga o histórico da venda.
+  lead   Lead?   @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  leadId String? @unique
+
+  // Cliente que a venda virou. Nulo enquanto ninguém vinculou — é justamente
+  // esse nulo que alimenta a fila "vendas sem cliente" na esteira.
+  clientCompany   Company? @relation("SaleClient", fields: [clientCompanyId], references: [id], onDelete: SetNull)
+  clientCompanyId String?
+
+  title      String
+  valueCents Int      @default(0)
+  kind       String   @default("PONTUAL") // PONTUAL | RECORRENTE
+  closedAt   DateTime
+
+  // Quem fechou (congelado — usuário pode sair da empresa depois).
+  sellerId   String?
+  sellerName String?
+
+  clickupTaskId String? // task correspondente, quando o sync do ClickUp criou uma
+
+  // ─── Esteira pós-venda ────────────────────────────────────────────────────
+  contractStatus   String    @default("PENDENTE") // PENDENTE | ENVIADO | ASSINADO | DISPENSADO
+  contractAt       DateTime?
+  billingStatus    String    @default("PENDENTE") // PENDENTE | FATURADO | DISPENSADO
+  billedAt         DateTime?
+  productionStatus String    @default("PENDENTE") // PENDENTE | LIBERADO | DISPENSADO
+  releasedAt       DateTime?
+
+  notes String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, closedAt])
+  @@index([companyId, clientCompanyId])
+}
+
+// Meta mensal da agência: quanto se pretende faturar e quanto se pretende
+// VENDER (contratos novos) no mês. Uma linha por (empresa, competência) — meta
+// muda de mês pra mês e o histórico importa pra comparar.
+//
+// Mora fora de `gamification.ts` de propósito: lá o contrato entre regras e UI
+// é protegido por teste (`npm run test:gamification`) e trata de PONTUAÇÃO.
+// Meta de faturamento é número de negócio, não regra de pontuação — misturar
+// as duas coisas obrigaria a mexer no arquivo testado a cada ajuste de meta.
+// O Ranking pode ler isto à vontade; o inverso não acontece.
+model MonthlyTarget {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  month String // competência "YYYY-MM"
+
+  // Meta de faturamento: o que se espera EMITIR/RECEBER na competência.
+  revenueTargetCents Int @default(0)
+  // Meta comercial: valor de contratos novos ganhos no mês (alimentada por Lead.wonAt).
+  newSalesTargetCents Int @default(0)
+
+  notes String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, month])
+  @@index([companyId])
+  // Meta POR VENDEDOR (no radar, ainda não construída): não basta acrescentar
+  // `userId String?` aqui — em Postgres NULLs são distintos num índice único,
+  // então a linha da empresa deixaria de ser única e daria pra criar duas.
+  // O caminho é uma tabela irmã `UserMonthlyTarget(userId, month)`, com esta
+  // continuando a valer como meta agregada da agência.
 }
 
 // ─── Vídeos (módulo moduleVideos) ────────────────────────────────────────────

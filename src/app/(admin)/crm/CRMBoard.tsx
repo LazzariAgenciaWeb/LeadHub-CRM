@@ -24,6 +24,9 @@ export interface PipelineStage {
   order: number;
   isFinal: boolean;
   pipeline: string;
+  // Desfecho comercial da etapa (Configurações → Pipeline). Opcional porque
+  // etapas antigas nunca foram classificadas — ver stageOutcome().
+  outcome?: "NEUTRO" | "GANHO" | "PERDIDO";
 }
 
 export interface CRMLead {
@@ -38,6 +41,9 @@ export interface CRMLead {
   value: number | null;
   createdAt: string;
   updatedAt: string;
+  // Datas congeladas do desfecho — base do recorte "ganho no mês".
+  wonAt?: string | null;
+  lostAt?: string | null;
   expectedReturnAt: string | null;
   attendanceStatus: string | null;
   campaign: { id: string; name: string } | null;
@@ -285,6 +291,63 @@ const OTHER_PIPELINES: Record<string, { label: string; key: string }[]> = {
   OPORTUNIDADES: [{ label: "Prospecção", key: "PROSPECCAO" }, { label: "Leads", key: "LEADS" }],
 };
 
+// ─── Recorte de período das colunas de desfecho ──────────────────────────────
+// As colunas GANHO/PERDIDO acumulam desde sempre — sem recorte, "Fechado" mostra
+// três anos de venda e a soma nunca responde "quanto fizemos no mês". As colunas
+// abertas NÃO são recortadas: pipeline em andamento não tem data de corte.
+
+type PeriodKey = "mes" | "mesPassado" | "90d" | "tudo";
+
+const PERIODS: { key: PeriodKey; label: string }[] = [
+  { key: "mes", label: "Este mês" },
+  { key: "mesPassado", label: "Mês passado" },
+  { key: "90d", label: "Últimos 90 dias" },
+  { key: "tudo", label: "Tudo" },
+];
+
+/** Intervalo [from, to) do período. `null` = sem recorte. */
+function periodRange(key: PeriodKey): { from: Date; to: Date } | null {
+  if (key === "tudo") return null;
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  if (key === "mes") return { from: startOfMonth, to: startOfNextMonth };
+  if (key === "mesPassado") {
+    return { from: new Date(now.getFullYear(), now.getMonth() - 1, 1), to: startOfMonth };
+  }
+  const from = new Date(now);
+  from.setDate(from.getDate() - 90);
+  return { from, to: startOfNextMonth };
+}
+
+/**
+ * Desfecho da etapa. `outcome` é a fonte da verdade (Configurações → Pipeline),
+ * mas base antiga tem etapa final sem classificar — aí cai no match por nome,
+ * a MESMA heurística do backend em src/app/api/leads/[id]/route.ts, pra UI e
+ * servidor não divergirem sobre o que conta como venda.
+ */
+function stageOutcome(stage: PipelineStage | undefined): "NEUTRO" | "GANHO" | "PERDIDO" {
+  if (!stage) return "NEUTRO";
+  if (stage.outcome && stage.outcome !== "NEUTRO") return stage.outcome;
+  const n = stage.name.toLowerCase();
+  if (/perdi|descart|recus|n[aã]o\s*fech|perda/.test(n)) return "PERDIDO";
+  if (/fechad|ganho|vendid|vendi/.test(n)) return "GANHO";
+  return "NEUTRO";
+}
+
+/**
+ * Data em que o lead teve o desfecho. Cai em `updatedAt` quando o carimbo não
+ * existe — mesmo fallback do backfill (migration 20260824_lead_outcome_dates),
+ * pra base pré-carimbo não sumir do board.
+ */
+function outcomeDate(lead: CRMLead, outcome: "GANHO" | "PERDIDO"): Date {
+  const raw = (outcome === "GANHO" ? lead.wonAt : lead.lostAt) ?? lead.updatedAt;
+  return new Date(raw);
+}
+
+const brl = (v: number) => v.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+
 export default function CRMBoard({
   pipeline,
   initialLeads,
@@ -314,6 +377,12 @@ export default function CRMBoard({
   const [movingId, setMovingId] = useState<string | null>(null);
   const [dragOverStage, setDragOverStage] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  // Recorte das colunas de desfecho. "Este mês" por padrão: o board é
+  // ferramenta de acompanhamento do mês corrente, não arquivo histórico.
+  const [period, setPeriod] = useState<PeriodKey>("mes");
+  // SUPER_ADMIN carrega leads de TODAS as empresas (ver oportunidades/page.tsx).
+  // Sem este filtro os totais somam empresas diferentes no mesmo número.
+  const [companyFilterId, setCompanyFilterId] = useState<string | null>(null);
   const [selected, setSelected] = useState<CRMLead | null>(null);
 
   // Auto-abrir lead quando vindo do WhatsApp via ?lead=ID
@@ -454,8 +523,7 @@ export default function CRMBoard({
   function isLostStage(stage: PipelineStage | undefined): boolean {
     if (!stage) return false;
     if (!stage.isFinal) return false;
-    const n = stage.name.toLowerCase();
-    return /perdi|descart|recus|n[aã]o\s*fech/.test(n);
+    return stageOutcome(stage) === "PERDIDO";
   }
 
   async function confirmLostReason() {
@@ -488,8 +556,16 @@ export default function CRMBoard({
     return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
   })();
 
-  // Filtro de busca + tag
+  // Empresas presentes nos leads carregados (SUPER_ADMIN vê várias misturadas).
+  const companiesInUse = (() => {
+    const map = new Map<string, { id: string; name: string }>();
+    for (const l of leads) if (l.company && !map.has(l.company.id)) map.set(l.company.id, l.company);
+    return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
+  })();
+
+  // Filtro de busca + tag + empresa
   const filteredLeads = leads.filter((l) => {
+    if (companyFilterId && l.company?.id !== companyFilterId) return false;
     if (tagFilterId && !(l.tags ?? []).some((t) => t.id === tagFilterId)) return false;
     if (filterHasEmail && !l.email) return false;
     if (filterHasWhatsapp && l.hasWhatsapp !== true) return false;
@@ -503,18 +579,40 @@ export default function CRMBoard({
     );
   });
 
-  // Agrupar leads por etapa
+  // Agrupar leads por etapa, aplicando o recorte de período SÓ nas colunas de
+  // desfecho (GANHO/PERDIDO). Coluna aberta continua mostrando tudo — negócio em
+  // andamento não "sai do mês". `hiddenByPeriod` alimenta o aviso no rodapé da
+  // coluna, pra ninguém achar que os cards sumiram.
   const byStage: Record<string, CRMLead[]> = {};
-  for (const s of stages) byStage[s.name] = [];
+  const hiddenByPeriod: Record<string, number> = {};
+  for (const s of stages) { byStage[s.name] = []; hiddenByPeriod[s.name] = 0; }
   // Leads sem etapa vão para a primeira coluna
   const firstStage = stages[0]?.name ?? "__sem_etapa__";
-  const stageNames = new Set(stages.map((s) => s.name));
+  const stageByName = new Map(stages.map((s) => [s.name, s] as const));
+  const range = periodRange(period);
   for (const lead of filteredLeads) {
     const raw = lead.pipelineStage ?? firstStage;
     // Se a etapa não existe mais nas configurações, cai na primeira coluna
-    const stageName = stageNames.has(raw) ? raw : firstStage;
+    const stageName = stageByName.has(raw) ? raw : firstStage;
+    const outcome = stageOutcome(stageByName.get(stageName));
+    if (range && outcome !== "NEUTRO") {
+      const at = outcomeDate(lead, outcome);
+      if (at < range.from || at >= range.to) { hiddenByPeriod[stageName] += 1; continue; }
+    }
     byStage[stageName].push(lead);
   }
+
+  // Totais separados por desfecho. Antes existia um número só, que somava as
+  // colunas TODAS — inclusive Perdido — e vendia perda como faturamento.
+  const totals = { aberto: 0, ganho: 0, perdido: 0, abertoQtd: 0, ganhoQtd: 0, perdidoQtd: 0 };
+  for (const stage of stages) {
+    const bucket = stageOutcome(stage) === "GANHO" ? "ganho" : stageOutcome(stage) === "PERDIDO" ? "perdido" : "aberto";
+    for (const l of byStage[stage.name] ?? []) {
+      totals[bucket] += l.value ?? 0;
+      totals[`${bucket}Qtd` as "abertoQtd" | "ganhoQtd" | "perdidoQtd"] += 1;
+    }
+  }
+  const hasOutcomeStages = stages.some((st) => stageOutcome(st) !== "NEUTRO");
 
   async function moveToStage(leadId: string, stageName: string) {
     setMovingId(leadId);
@@ -1316,9 +1414,7 @@ export default function CRMBoard({
     moveToStage(leadId, stageName);
   }
 
-  const totalValue = pipeline === "OPORTUNIDADES"
-    ? filteredLeads.filter((l) => l.value != null).reduce((s, l) => s + (l.value ?? 0), 0)
-    : 0;
+  const visibleCount = totals.abertoQtd + totals.ganhoQtd + totals.perdidoQtd;
 
   return (
     <div className="flex flex-col h-full relative">
@@ -1329,17 +1425,53 @@ export default function CRMBoard({
             <pipelineInfo.Icon className="w-5 h-5" stroke={gradStroke(pipelineInfo.grad)} strokeWidth={2.25} />
             {pipelineInfo.label}
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
-            {leads.length} contato{leads.length !== 1 ? "s" : ""}
-            {pipeline === "OPORTUNIDADES" && totalValue > 0 && (
-              <span className="text-green-400 font-medium ml-2">
-                · R$ {totalValue.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-              </span>
+          <div className="text-slate-500 text-sm mt-0.5 flex items-center flex-wrap gap-x-3 gap-y-0.5">
+            <span>{visibleCount} contato{visibleCount !== 1 ? "s" : ""}</span>
+            {pipeline === "OPORTUNIDADES" && (
+              <>
+                <span className="text-slate-400">
+                  Em aberto <b className="text-white font-semibold">R$ {brl(totals.aberto)}</b>
+                  <span className="text-slate-600"> ({totals.abertoQtd})</span>
+                </span>
+                <span className="text-emerald-400">
+                  Ganho <b className="font-semibold">R$ {brl(totals.ganho)}</b>
+                  <span className="text-emerald-400/60"> ({totals.ganhoQtd})</span>
+                </span>
+                <span className="text-red-400/80">
+                  Perdido <b className="font-semibold">R$ {brl(totals.perdido)}</b>
+                  <span className="text-red-400/50"> ({totals.perdidoQtd})</span>
+                </span>
+              </>
             )}
-          </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
+          {hasOutcomeStages && (
+            <select
+              value={period}
+              onChange={(e) => setPeriod(e.target.value as PeriodKey)}
+              title="Recorte das colunas de ganho e perda. Colunas em aberto mostram tudo."
+              className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
+            >
+              {PERIODS.map((pd) => (
+                <option key={pd.key} value={pd.key}>📅 {pd.label}</option>
+              ))}
+            </select>
+          )}
+          {isSuperAdmin && companiesInUse.length > 1 && (
+            <select
+              value={companyFilterId ?? ""}
+              onChange={(e) => setCompanyFilterId(e.target.value || null)}
+              title="Leads de várias empresas estão carregados juntos — filtre pra somar uma de cada vez."
+              className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 max-w-[180px]"
+            >
+              <option value="">🏢 Todas as empresas</option>
+              {companiesInUse.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          )}
           <input
             type="text"
             value={search}
@@ -1506,9 +1638,12 @@ export default function CRMBoard({
           <div className="flex gap-5 h-full" style={{ minWidth: stages.length * 280 + "px" }}>
             {stages.map((stage) => {
               const stageLeads = byStage[stage.name] ?? [];
-              const stageValue = pipeline === "OPORTUNIDADES"
-                ? stageLeads.filter((l) => l.value != null).reduce((s, l) => s + (l.value ?? 0), 0)
-                : 0;
+              const withValue = pipeline === "OPORTUNIDADES" ? stageLeads.filter((l) => l.value != null) : [];
+              const stageValue = withValue.reduce((s, l) => s + (l.value ?? 0), 0);
+              // Quantos cards NÃO entram na soma. Sem isso, "12 cards · R$ 3.000"
+              // parece conta errada quando na verdade são cards sem valor.
+              const semValor = pipeline === "OPORTUNIDADES" ? stageLeads.length - withValue.length : 0;
+              const omitidos = hiddenByPeriod[stage.name] ?? 0;
 
               return (
                 <div
@@ -1538,11 +1673,25 @@ export default function CRMBoard({
                       </span>
                     </div>
                     {stageValue > 0 && (
-                      <span className="text-[10px] text-green-400 font-medium">
-                        R$ {stageValue.toLocaleString("pt-BR", { minimumFractionDigits: 0 })}
+                      <span className="text-[10px] font-medium text-right leading-tight">
+                        <span className="text-green-400">R$ {brl(stageValue)}</span>
+                        {semValor > 0 && (
+                          <span className="block text-slate-600 font-normal">
+                            {semValor} sem valor
+                          </span>
+                        )}
                       </span>
                     )}
                   </div>
+
+                  {omitidos > 0 && (
+                    <div
+                      className="px-3 py-1.5 text-[10px] text-slate-500 border-b border-[#1e2d45] flex-shrink-0"
+                      title="Fora do período selecionado no topo. Troque pra “Tudo” pra ver o histórico completo."
+                    >
+                      + {omitidos} fora do período
+                    </div>
+                  )}
 
                   {/* Cards */}
                   <div className="flex-1 overflow-y-auto p-2 space-y-2">

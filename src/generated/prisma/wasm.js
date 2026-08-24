@@ -285,6 +285,8 @@ exports.Prisma.LeadScalarFieldEnum = {
   pipeline: 'pipeline',
   pipelineStage: 'pipelineStage',
   externalId: 'externalId',
+  wonAt: 'wonAt',
+  lostAt: 'lostAt',
   website: 'website',
   instagram: 'instagram',
   facebook: 'facebook',
@@ -1709,6 +1711,10 @@ exports.Prisma.ClientServiceScalarFieldEnum = {
   notes: 'notes',
   details: 'details',
   order: 'order',
+  amountCents: 'amountCents',
+  isRecurring: 'isRecurring',
+  billingCycle: 'billingCycle',
+  billingDay: 'billingDay',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1728,6 +1734,40 @@ exports.Prisma.ClientInvoiceScalarFieldEnum = {
   notes: 'notes',
   externalId: 'externalId',
   provider: 'provider',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SaleScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  leadId: 'leadId',
+  clientCompanyId: 'clientCompanyId',
+  title: 'title',
+  valueCents: 'valueCents',
+  kind: 'kind',
+  closedAt: 'closedAt',
+  sellerId: 'sellerId',
+  sellerName: 'sellerName',
+  clickupTaskId: 'clickupTaskId',
+  contractStatus: 'contractStatus',
+  contractAt: 'contractAt',
+  billingStatus: 'billingStatus',
+  billedAt: 'billedAt',
+  productionStatus: 'productionStatus',
+  releasedAt: 'releasedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MonthlyTargetScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  month: 'month',
+  revenueTargetCents: 'revenueTargetCents',
+  newSalesTargetCents: 'newSalesTargetCents',
+  notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -2398,6 +2438,8 @@ exports.Prisma.ModelName = {
   Service: 'Service',
   ClientService: 'ClientService',
   ClientInvoice: 'ClientInvoice',
+  Sale: 'Sale',
+  MonthlyTarget: 'MonthlyTarget',
   VideoCategory: 'VideoCategory',
   VideoCategoryRelease: 'VideoCategoryRelease',
   Video: 'Video',

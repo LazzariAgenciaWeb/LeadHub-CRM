@@ -8,6 +8,7 @@ import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { createConversationEvent } from "@/lib/conversation-events";
 import { sendLeadWonConversion, sendLeadPromotedConversion } from "@/lib/meta-capi";
+import { upsertSaleFromWonLead, removeSaleIfUntouched } from "@/lib/sales";
 
 // GET /api/leads/[id]
 export async function GET(
@@ -123,6 +124,29 @@ export async function PATCH(
   }
   const effectiveStatus = status ?? derivedStatus;
 
+  // Carimbo das datas de desfecho (wonAt/lostAt). Só muda quando o lead
+  // TRANSICIONA pro desfecho — mover entre duas etapas GANHO mantém
+  // status=CLOSED e preserva a data do fechamento original. Virar de ganho
+  // pra perdido (ou o contrário) limpa a data do desfecho anterior, senão o
+  // lead apareceria nos dois relatórios do mês.
+  const outcomeDates: { wonAt?: Date | null; lostAt?: Date | null } = {};
+  if (effectiveStatus === "CLOSED" && existing.status !== "CLOSED") {
+    outcomeDates.wonAt = new Date();
+    outcomeDates.lostAt = null;
+  } else if (effectiveStatus === "LOST" && existing.status !== "LOST") {
+    outcomeDates.lostAt = new Date();
+    outcomeDates.wonAt = null;
+  } else if (
+    effectiveStatus !== undefined &&
+    effectiveStatus !== "CLOSED" &&
+    effectiveStatus !== "LOST" &&
+    (existing.status === "CLOSED" || existing.status === "LOST")
+  ) {
+    // Reabertura: volta pro pipeline aberto, some dos números de ganho/perda.
+    outcomeDates.wonAt = null;
+    outcomeDates.lostAt = null;
+  }
+
   // Quando o lead sai do pipeline (volta pra caixa de entrada) ou é
   // fechado/perdido, o follow-up agendado perde sentido. Limpa
   // expectedReturnAt pra ele sumir do "Follow-ups de Leads" no Meu Dia.
@@ -141,6 +165,7 @@ export async function PATCH(
     data: {
       name, phone, email, source,
       ...(effectiveStatus !== undefined && { status: effectiveStatus }),
+      ...outcomeDates,
       notes, value,
       campaignId: campaignId ?? undefined,
       ...(pipeline !== undefined && { pipeline }),
@@ -349,11 +374,12 @@ export async function PATCH(
     }
   }
 
+  const authorName = (session?.user as any)?.name ?? null;
+
   // ── Activity (timeline + relatórios de conversão) ─────────────────────
   // Registra mudanças de pipeline e stage como eventos no Activity table.
   // O relatório de funil (em /relatorios?secao=funil) usa esses registros
   // pra calcular conversão entre pipelines (ex: leads → oportunidades).
-  const authorName = (session?.user as any)?.name ?? null;
   if (pipeline !== undefined && pipeline !== existing.pipeline) {
     void prisma.activity.create({
       data: {
@@ -442,6 +468,38 @@ export async function PATCH(
         }).catch(() => { /* não crítico */ });
       }
     }
+  }
+
+  // ── Esteira pós-venda ─────────────────────────────────────────────────
+  // Ganhou → nasce a Sale, que o Financeiro consome pra saber o que falta
+  // virar contrato, fatura e liberação de produção. Ligada ao carimbo wonAt
+  // (não ao pipeline), pra funcionar também em cliente que só tem LEADS.
+  //
+  // POSIÇÃO IMPORTA: fica DEPOIS do sync do ClickUp de propósito. O disparo
+  // LeadHub → ClickUp no ganho é o que aciona o processo interno do time
+  // (faturar, contrato, produção) e não pode ser bloqueado por nada novo.
+  // Aqui embaixo, uma falha ao gravar a venda não impede aquele disparo.
+  //
+  // Awaited (e não fire-and-forget) porque venda que some da esteira em
+  // silêncio é pior que PATCH com erro: o erro faz o usuário tentar de novo.
+  // Seguro fazer: as funções do ClickUp acima logam e retornam null em vez de
+  // lançar, então elas nunca impedem a venda de ser criada.
+  if (outcomeDates.wonAt) {
+    await upsertSaleFromWonLead(
+      {
+        id: lead.id,
+        companyId: lead.companyId,
+        name: lead.name,
+        phone: lead.phone,
+        value: lead.value,
+        clickupTaskId: lead.clickupTaskId,
+        wonAt: outcomeDates.wonAt,
+      },
+      { id: userId, name: authorName },
+    );
+  } else if (outcomeDates.wonAt === null && existing.status === "CLOSED") {
+    // Reabertura: limpa a venda só se ninguém tiver encostado nela.
+    await removeSaleIfUntouched(lead.id);
   }
 
   // ── Bolhas de evento na timeline da conversa ────────────────────────────

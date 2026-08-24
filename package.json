@@ -12,6 +12,8 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "setup": "npm run db:push && npm run db:seed",
+    "db:backfill-outcome-dates": "tsx scripts/backfill-lead-outcome-dates.ts",
+    "db:backfill-sales": "tsx scripts/backfill-sales.ts",
     "test:gamification": "tsx scripts/test-gamification.ts",
     "test:business-hours": "tsx scripts/test-business-hours.ts",
     "test:messaging": "tsx scripts/test-messaging-flow.ts",
