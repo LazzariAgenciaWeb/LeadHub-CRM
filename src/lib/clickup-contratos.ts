@@ -67,8 +67,12 @@ function dropdown(t: CuTask, name: string): string | undefined {
 /** Teto de páginas. 100 tasks por página — 20 páginas cobrem 2000 contratos. */
 const MAX_PAGINAS = 20;
 
-/** Páginas buscadas ao mesmo tempo. */
-const LOTE = 5;
+/**
+ * Páginas buscadas ao mesmo tempo. Baixo de propósito: o ClickUp limita
+ * requisições por minuto e uma rajada leva 429 — que era rejeição rápida,
+ * justamente o que derrubava tudo em ~1s.
+ */
+const LOTE = 3;
 
 /**
  * Orçamento total da leitura. Existe pra SEMPRE responder antes do proxy
@@ -125,12 +129,35 @@ export async function fetchContratos(
     }
 
     const paginas = Array.from({ length: LOTE }, (_, k) => inicio + k).filter((n) => n < MAX_PAGINAS);
-    const lote = await Promise.all(paginas.map((n) => buscarPagina(token, listId, n, incluirFechadas)));
 
-    let acabou = false;
-    for (const { tasks, ultima } of lote) {
-      out.push(...tasks);
-      if (ultima) acabou = true;
+    // allSettled, NUNCA all: com `Promise.all`, a primeira rejeição escapa e as
+    // irmãs seguem voando sem ninguém escutando. Quando uma delas falha depois,
+    // vira unhandled rejection — e no Node isso derruba o processo. A conexão
+    // morria inteira e o navegador só dizia "This page couldn't load".
+    const lote = await Promise.allSettled(
+      paginas.map((n) => buscarPagina(token, listId, n, incluirFechadas))
+    );
+
+    const falhas = lote.filter((r) => r.status === "rejected") as PromiseRejectedResult[];
+    if (falhas.length === lote.length) {
+      const motivo = falhas[0].reason;
+      const msg = motivo instanceof Error ? motivo.message : String(motivo);
+      throw new Error(
+        msg.includes("429")
+          ? `O ClickUp recusou por excesso de requisições (429). Tente de novo em um minuto. Detalhe: ${msg}`
+          : msg
+      );
+    }
+    // Falha parcial não invalida o lote — registra e segue com o que veio.
+    for (const f of falhas) {
+      console.warn(`[Contratos ClickUp] página falhou e foi ignorada: ${(f.reason as Error)?.message ?? f.reason}`);
+    }
+
+    let acabou = falhas.length > 0; // não dá pra confiar na sequência após um buraco
+    for (const r of lote) {
+      if (r.status !== "fulfilled") continue;
+      out.push(...r.value.tasks);
+      if (r.value.ultima) acabou = true;
     }
     console.log(
       `[Contratos ClickUp] lote ${inicio}-${inicio + LOTE - 1}: ${out.length} task(s) acumulada(s), ${Date.now() - t0}ms`
