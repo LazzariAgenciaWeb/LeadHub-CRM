@@ -129524,6 +129524,8 @@ export namespace Prisma {
     isRecurring: boolean | null
     billingCycle: string | null
     billingDay: number | null
+    externalId: string | null
+    provider: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -129542,6 +129544,8 @@ export namespace Prisma {
     isRecurring: boolean | null
     billingCycle: string | null
     billingDay: number | null
+    externalId: string | null
+    provider: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -129561,6 +129565,8 @@ export namespace Prisma {
     isRecurring: number
     billingCycle: number
     billingDay: number
+    externalId: number
+    provider: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -129593,6 +129599,8 @@ export namespace Prisma {
     isRecurring?: true
     billingCycle?: true
     billingDay?: true
+    externalId?: true
+    provider?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -129611,6 +129619,8 @@ export namespace Prisma {
     isRecurring?: true
     billingCycle?: true
     billingDay?: true
+    externalId?: true
+    provider?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -129630,6 +129640,8 @@ export namespace Prisma {
     isRecurring?: true
     billingCycle?: true
     billingDay?: true
+    externalId?: true
+    provider?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -129736,6 +129748,8 @@ export namespace Prisma {
     isRecurring: boolean
     billingCycle: string | null
     billingDay: number | null
+    externalId: string | null
+    provider: string | null
     createdAt: Date
     updatedAt: Date
     _count: ClientServiceCountAggregateOutputType | null
@@ -129774,6 +129788,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: boolean
     billingDay?: boolean
+    externalId?: boolean
+    provider?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -129797,6 +129813,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: boolean
     billingDay?: boolean
+    externalId?: boolean
+    provider?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -129818,6 +129836,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: boolean
     billingDay?: boolean
+    externalId?: boolean
+    provider?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -129855,6 +129875,8 @@ export namespace Prisma {
       isRecurring: boolean
       billingCycle: string | null
       billingDay: number | null
+      externalId: string | null
+      provider: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["clientService"]>
@@ -130267,6 +130289,8 @@ export namespace Prisma {
     readonly isRecurring: FieldRef<"ClientService", 'Boolean'>
     readonly billingCycle: FieldRef<"ClientService", 'String'>
     readonly billingDay: FieldRef<"ClientService", 'Int'>
+    readonly externalId: FieldRef<"ClientService", 'String'>
+    readonly provider: FieldRef<"ClientService", 'String'>
     readonly createdAt: FieldRef<"ClientService", 'DateTime'>
     readonly updatedAt: FieldRef<"ClientService", 'DateTime'>
   }
@@ -144019,6 +144043,8 @@ export namespace Prisma {
     isRecurring: 'isRecurring',
     billingCycle: 'billingCycle',
     billingDay: 'billingDay',
+    externalId: 'externalId',
+    provider: 'provider',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -155516,6 +155542,8 @@ export namespace Prisma {
     isRecurring?: BoolFilter<"ClientService"> | boolean
     billingCycle?: StringNullableFilter<"ClientService"> | string | null
     billingDay?: IntNullableFilter<"ClientService"> | number | null
+    externalId?: StringNullableFilter<"ClientService"> | string | null
+    provider?: StringNullableFilter<"ClientService"> | string | null
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -155538,6 +155566,8 @@ export namespace Prisma {
     isRecurring?: SortOrder
     billingCycle?: SortOrderInput | SortOrder
     billingDay?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     clientCompany?: CompanyOrderByWithRelationInput
@@ -155563,6 +155593,8 @@ export namespace Prisma {
     isRecurring?: BoolFilter<"ClientService"> | boolean
     billingCycle?: StringNullableFilter<"ClientService"> | string | null
     billingDay?: IntNullableFilter<"ClientService"> | number | null
+    externalId?: StringNullableFilter<"ClientService"> | string | null
+    provider?: StringNullableFilter<"ClientService"> | string | null
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -155585,6 +155617,8 @@ export namespace Prisma {
     isRecurring?: SortOrder
     billingCycle?: SortOrderInput | SortOrder
     billingDay?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClientServiceCountOrderByAggregateInput
@@ -155612,6 +155646,8 @@ export namespace Prisma {
     isRecurring?: BoolWithAggregatesFilter<"ClientService"> | boolean
     billingCycle?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     billingDay?: IntNullableWithAggregatesFilter<"ClientService"> | number | null
+    externalId?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
+    provider?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
   }
@@ -168248,6 +168284,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
@@ -168270,6 +168308,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -168288,6 +168328,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
@@ -168310,6 +168352,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -168330,6 +168374,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -168347,6 +168393,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -168366,6 +168414,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -177534,6 +177584,8 @@ export namespace Prisma {
     isRecurring?: SortOrder
     billingCycle?: SortOrder
     billingDay?: SortOrder
+    externalId?: SortOrder
+    provider?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -177558,6 +177610,8 @@ export namespace Prisma {
     isRecurring?: SortOrder
     billingCycle?: SortOrder
     billingDay?: SortOrder
+    externalId?: SortOrder
+    provider?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -177576,6 +177630,8 @@ export namespace Prisma {
     isRecurring?: SortOrder
     billingCycle?: SortOrder
     billingDay?: SortOrder
+    externalId?: SortOrder
+    provider?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -197084,6 +197140,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
@@ -197104,6 +197162,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -200530,6 +200590,8 @@ export namespace Prisma {
     isRecurring?: BoolFilter<"ClientService"> | boolean
     billingCycle?: StringNullableFilter<"ClientService"> | string | null
     billingDay?: IntNullableFilter<"ClientService"> | number | null
+    externalId?: StringNullableFilter<"ClientService"> | string | null
+    provider?: StringNullableFilter<"ClientService"> | string | null
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
   }
@@ -258391,6 +258453,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
@@ -258411,6 +258475,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -259817,6 +259883,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
@@ -259838,6 +259906,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -260142,6 +260212,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
@@ -260163,6 +260235,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -269934,6 +270008,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -272505,6 +272581,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
@@ -272525,6 +272603,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -272544,6 +272624,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -279585,6 +279667,8 @@ export namespace Prisma {
     isRecurring?: boolean
     billingCycle?: string | null
     billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -279637,6 +279721,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
@@ -279657,6 +279743,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -279676,6 +279764,8 @@ export namespace Prisma {
     isRecurring?: BoolFieldUpdateOperationsInput | boolean
     billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

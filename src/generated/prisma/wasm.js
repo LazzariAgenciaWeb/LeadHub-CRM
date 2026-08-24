@@ -1715,6 +1715,8 @@ exports.Prisma.ClientServiceScalarFieldEnum = {
   isRecurring: 'isRecurring',
   billingCycle: 'billingCycle',
   billingDay: 'billingDay',
+  externalId: 'externalId',
+  provider: 'provider',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

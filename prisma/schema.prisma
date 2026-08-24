@@ -3764,6 +3764,12 @@ model ClientService {
   billingCycle String? // "MENSAL" | "TRIMESTRAL" | "ANUAL" (só quando isRecurring)
   billingDay   Int?
 
+  // Origem do cadastro, mesmo padrão da ClientInvoice. Serve pra idempotência
+  // da importação: reimportar a lista do ClickUp atualiza o contrato existente
+  // em vez de duplicar. `externalId` = id da task de origem.
+  externalId String?
+  provider   String? // "manual" | "clickup" | "bling"
+
   invoices ClientInvoice[] // cobranças ligadas a este serviço
 
   createdAt DateTime @default(now())
@@ -3772,6 +3778,7 @@ model ClientService {
   @@index([clientCompanyId])
   @@index([serviceId])
   @@index([isRecurring, status])
+  @@index([provider, externalId])
 }
 
 // Cobrança (fatura/boleto/NF) que a agência EMITE para um cliente. Alimentada
