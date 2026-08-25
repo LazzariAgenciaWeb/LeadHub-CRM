@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v15-assessor-pessoal";
+export const AUTO_AGENT_REV = "v16-variacoes-nome";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -72,6 +72,53 @@ function normalizeWord(s: string): string {
 // 0 = desligada). Cooldown é fixo.
 const COURTESY_COOLDOWN_MS = 60 * 60_000; // máx 1 aviso por conversa por hora
 const COURTESY_DEFAULT_TEXT = "Recebemos sua mensagem! 😊 Já já alguém do nosso time te responde por aqui.";
+
+/**
+ * Texto configurável pode trazer VARIAÇÕES (uma por linha) — sorteia uma pra
+ * não repetir sempre a mesma frase (importante no assessor pessoal, que soa
+ * robótico se repete verbatim). Texto de linha única funciona igual a antes.
+ */
+function pickVariation(text: string): string {
+  const options = text.split("\n").map((l) => l.trim()).filter(Boolean);
+  if (options.length <= 1) return text.trim();
+  return options[Math.floor(Math.random() * options.length)];
+}
+
+/** Substitui {palavra}, {link} e {nome} nos textos configuráveis. */
+function resolvePlaceholders(
+  text: string,
+  vars: { word: string; waLink: string | null; nome: string | null }
+): string {
+  return text
+    .replace(/\{palavra\}/gi, vars.word)
+    .replace(/\{link\}/gi, vars.waLink ?? `*${vars.word}*`)
+    // Sem nome conhecido o placeholder some limpo (com a vírgula que o
+    // acompanha), sem deixar a chave crua nem grudar as palavras.
+    .replace(/\s*\{nome\}\s*,\s*/gi, vars.nome ? ` ${vars.nome}, ` : " ")
+    .replace(/\s*\{nome\}/gi, vars.nome ? ` ${vars.nome}` : "")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.!?])/g, "$1")
+    .trim();
+}
+
+/** Primeiro nome do contato (Lead ou CompanyContact), se houver. */
+async function getContactFirstName(companyId: string, phone: string): Promise<string | null> {
+  const [lead, contact] = await Promise.all([
+    prisma.lead.findFirst({
+      where: { phone, companyId },
+      orderBy: { createdAt: "desc" },
+      select: { name: true },
+    }),
+    prisma.companyContact.findFirst({
+      where: { phone, isGroup: false, OR: [{ companyId }, { company: { parentCompanyId: companyId } }] },
+      select: { name: true },
+    }),
+  ]);
+  const full = (lead?.name ?? contact?.name ?? "").trim();
+  if (!full) return null;
+  const first = full.split(/\s+/)[0];
+  return first.length >= 2 ? first : null;
+}
 
 // Debounce por conversa. Vive em globalThis pra sobreviver ao HMR do dev.
 // Servidor único (standalone) — suficiente pra Fase 1; se um dia houver
@@ -191,12 +238,13 @@ async function runCourtesyCheck(conversationId: string, text: string = COURTESY_
   });
   if (!instance) return;
 
-  // Placeholders {palavra}/{link} também valem no texto da sentinela.
+  // Variação sorteada + placeholders {palavra}/{link}/{nome}.
   const word = ((assistant as any).reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
   const waLink = (instance as any).phone
     ? `https://wa.me/${(instance as any).phone}?text=${encodeURIComponent(word)}`
     : null;
-  const finalText = text.replace(/\{palavra\}/gi, word).replace(/\{link\}/gi, waLink ?? `*${word}*`);
+  const nome = await getContactFirstName(conv.companyId, conv.phone).catch(() => null);
+  const finalText = resolvePlaceholders(pickVariation(text), { word, waLink, nome });
 
   try {
     const res = await evolutionSendText(instance.instanceName, conv.phone, finalText, instance.instanceToken ?? null);
@@ -774,8 +822,9 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
         ? `https://wa.me/${(instance as any).phone}?text=${encodeURIComponent(word)}`
         : null;
       const custom = ((assistant as any).pauseNoticeText as string | null)?.trim();
+      const nome = await getContactFirstName(conv.companyId, conv.phone).catch(() => null);
       const notice = custom
-        ? custom.replace(/\{palavra\}/gi, word).replace(/\{link\}/gi, waLink ?? `*${word}*`)
+        ? resolvePlaceholders(pickVariation(custom), { word, waLink, nome })
         : `Agradecemos o contato! 🙏 Se precisar do atendimento automático de novo, é só digitar *${word}*${waLink ? ` — ou toque aqui que já vai pronto: ${waLink}` : ""}.`;
       await new Promise((r) => setTimeout(r, 1500));
       await sendBotText(botSender, notice);

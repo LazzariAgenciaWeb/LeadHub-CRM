@@ -571,14 +571,16 @@ export default function AssistantsSettings({
                         min sem resposta <span className="text-slate-600">(0 = desligada)</span>
                       </label>
                     </div>
-                    <input
+                    <textarea
                       value={fCourtesyText}
                       onChange={(e) => setFCourtesyText(e.target.value)}
-                      placeholder="Recebemos sua mensagem! 😊 Já já alguém do nosso time te responde por aqui."
-                      className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+                      rows={3}
+                      placeholder={"Recebemos sua mensagem! 😊 Já já alguém do nosso time te responde por aqui.\n(uma variação por linha — o sistema sorteia uma a cada envio)"}
+                      className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
                     />
                     <p className="text-slate-600 text-[11px] mt-1.5">
                       Máximo 1 aviso por conversa por hora; a conversa continua pendente pro time.
+                      Escreva <strong className="text-slate-400">uma variação por linha</strong> — o sistema sorteia uma a cada envio (não repete sempre a mesma frase).
                     </p>
                   </div>
 
@@ -608,16 +610,17 @@ export default function AssistantsSettings({
                       </label>
                     </div>
                     {fSendPauseNotice && (
-                      <input
+                      <textarea
                         value={fPauseNoticeText}
                         onChange={(e) => setFPauseNoticeText(e.target.value)}
-                        placeholder={`Agradecemos o contato! 🙏 Se precisar do atendimento automático de novo, é só digitar *${fReactivationWord.trim() || "atendimento"}*.`}
-                        className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+                        rows={3}
+                        placeholder={`Agradecemos o contato! 🙏 Se precisar do atendimento automático de novo, é só digitar *${fReactivationWord.trim() || "atendimento"}*.\n(uma variação por linha — o sistema sorteia uma)`}
+                        className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
                       />
                     )}
                     <p className="text-slate-600 text-[11px] mt-1.5">
                       O contato manda uma mensagem SÓ com a palavra-gatilho numa conversa pausada e o robô volta a atender (não vale quando foi desligado manualmente na Inbox).
-                      Nos textos da despedida e da sentinela você pode usar <code className="text-emerald-400">{"{palavra}"}</code> (vira a palavra-gatilho) e <code className="text-emerald-400">{"{link}"}</code> (vira um link wa.me que abre o WhatsApp com a palavra já digitada — o contato só toca e envia). O texto padrão já inclui o link.
+                      Nos textos da despedida e da sentinela você pode usar <code className="text-emerald-400">{"{palavra}"}</code> (a palavra-gatilho), <code className="text-emerald-400">{"{link}"}</code> (link wa.me que abre o WhatsApp com a palavra já digitada) e <code className="text-emerald-400">{"{nome}"}</code> (primeiro nome do contato, se cadastrado — some sozinho quando não tem).
                     </p>
                   </div>
 
