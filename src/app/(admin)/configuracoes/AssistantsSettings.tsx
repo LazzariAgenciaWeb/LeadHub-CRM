@@ -61,6 +61,7 @@ interface Assistant {
   calendarUserId: string | null;
   meetingDurationMin: number;
   courtesyDelayMin: number;
+  groupFirstAidDelayMin: number;
   courtesyText: string | null;
   reactivationWord: string | null;
   sendPauseNotice: boolean;
@@ -128,6 +129,7 @@ export default function AssistantsSettings({
   const [fCalendarUser, setFCalendarUser] = useState<string>("");
   const [fDuration, setFDuration] = useState(30);
   const [fCourtesyDelay, setFCourtesyDelay] = useState(5);
+  const [fGroupDelay, setFGroupDelay] = useState(0);
   const [fCourtesyText, setFCourtesyText] = useState("");
   const [fReactivationWord, setFReactivationWord] = useState("");
   const [fSendPauseNotice, setFSendPauseNotice] = useState(true);
@@ -154,7 +156,7 @@ export default function AssistantsSettings({
     setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFSchedulingLink(""); setFActive(true); setErr(null);
     setFAutoRespond(false); setFDiscloseAi(false); setFChecklist(""); setFLearnings("");
     setFCalendarUser(""); setFDuration(30);
-    setFCourtesyDelay(5); setFCourtesyText("");
+    setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
     setFRoutes([
@@ -174,6 +176,7 @@ export default function AssistantsSettings({
     setFCalendarUser(a.calendarUserId ?? "");
     setFDuration(a.meetingDurationMin ?? 30);
     setFCourtesyDelay(a.courtesyDelayMin ?? 5);
+    setFGroupDelay(a.groupFirstAidDelayMin ?? 0);
     setFCourtesyText(a.courtesyText ?? "");
     setFReactivationWord(a.reactivationWord ?? "");
     setFSendPauseNotice(a.sendPauseNotice !== false);
@@ -226,6 +229,7 @@ export default function AssistantsSettings({
       calendarUserId: fCalendarUser || null,
       meetingDurationMin: fDuration,
       courtesyDelayMin: fCourtesyDelay,
+      groupFirstAidDelayMin: fGroupDelay,
       courtesyText: fCourtesyText,
       reactivationWord: fReactivationWord,
       sendPauseNotice: fSendPauseNotice,
@@ -581,6 +585,27 @@ export default function AssistantsSettings({
                     <p className="text-slate-600 text-[11px] mt-1.5">
                       Máximo 1 aviso por conversa por hora; a conversa continua pendente pro time.
                       Escreva <strong className="text-slate-400">uma variação por linha</strong> — o sistema sorteia uma a cada envio (não repete sempre a mesma frase).
+                    </p>
+                  </div>
+
+                  {/* Sentinela de GRUPO — primeiro socorro */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      👥 Sentinela de grupo <span className="text-slate-600 normal-case">— primeiro socorro nos grupos de clientes</span>
+                    </label>
+                    <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap">
+                      Entrar no grupo após
+                      <input
+                        type="number" min={0} max={240} step={5}
+                        value={fGroupDelay}
+                        onChange={(e) => setFGroupDelay(parseInt(e.target.value || "0", 10))}
+                        className="w-16 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                      />
+                      min sem ninguém do time responder <span className="text-slate-600">(0 = desligada)</span>
+                    </label>
+                    <p className="text-slate-600 text-[11px] mt-1.5">
+                      Só vale em grupos <strong className="text-slate-400">vinculados a uma empresa-cliente</strong> (Contatos → grupo → empresa). Grupos internos e sem vínculo ficam sempre de fora.
+                      O agente acolhe, coleta o básico e abre chamado pela rota; se alguém do time responder, ele se cala na hora e volta a vigiar depois.
                     </p>
                   </div>
 

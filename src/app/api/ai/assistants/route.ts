@@ -102,6 +102,7 @@ export async function POST(req: NextRequest) {
       calendarUserId,
       meetingDurationMin,
       courtesyDelayMin,
+      groupFirstAidDelayMin: Math.min(240, Math.max(0, parseInt(body.groupFirstAidDelayMin, 10) || 0)),
       courtesyText: (body.courtesyText ?? "").trim() || null,
       reactivationWord: (body.reactivationWord ?? "").trim() || null,
       sendPauseNotice: body.sendPauseNotice !== false,

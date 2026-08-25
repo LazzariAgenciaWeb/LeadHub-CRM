@@ -1635,6 +1635,7 @@ exports.Prisma.AssistantScalarFieldEnum = {
   meetingDurationMin: 'meetingDurationMin',
   courtesyDelayMin: 'courtesyDelayMin',
   courtesyText: 'courtesyText',
+  groupFirstAidDelayMin: 'groupFirstAidDelayMin',
   reactivationWord: 'reactivationWord',
   sendPauseNotice: 'sendPauseNotice',
   pauseNoticeText: 'pauseNoticeText',

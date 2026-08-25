@@ -124187,12 +124187,14 @@ export namespace Prisma {
   export type AssistantAvgAggregateOutputType = {
     meetingDurationMin: number | null
     courtesyDelayMin: number | null
+    groupFirstAidDelayMin: number | null
     temperature: number | null
   }
 
   export type AssistantSumAggregateOutputType = {
     meetingDurationMin: number | null
     courtesyDelayMin: number | null
+    groupFirstAidDelayMin: number | null
     temperature: number | null
   }
 
@@ -124212,6 +124214,7 @@ export namespace Prisma {
     meetingDurationMin: number | null
     courtesyDelayMin: number | null
     courtesyText: string | null
+    groupFirstAidDelayMin: number | null
     reactivationWord: string | null
     sendPauseNotice: boolean | null
     pauseNoticeText: string | null
@@ -124239,6 +124242,7 @@ export namespace Prisma {
     meetingDurationMin: number | null
     courtesyDelayMin: number | null
     courtesyText: string | null
+    groupFirstAidDelayMin: number | null
     reactivationWord: string | null
     sendPauseNotice: boolean | null
     pauseNoticeText: string | null
@@ -124266,6 +124270,7 @@ export namespace Prisma {
     meetingDurationMin: number
     courtesyDelayMin: number
     courtesyText: number
+    groupFirstAidDelayMin: number
     reactivationWord: number
     sendPauseNotice: number
     pauseNoticeText: number
@@ -124282,12 +124287,14 @@ export namespace Prisma {
   export type AssistantAvgAggregateInputType = {
     meetingDurationMin?: true
     courtesyDelayMin?: true
+    groupFirstAidDelayMin?: true
     temperature?: true
   }
 
   export type AssistantSumAggregateInputType = {
     meetingDurationMin?: true
     courtesyDelayMin?: true
+    groupFirstAidDelayMin?: true
     temperature?: true
   }
 
@@ -124307,6 +124314,7 @@ export namespace Prisma {
     meetingDurationMin?: true
     courtesyDelayMin?: true
     courtesyText?: true
+    groupFirstAidDelayMin?: true
     reactivationWord?: true
     sendPauseNotice?: true
     pauseNoticeText?: true
@@ -124334,6 +124342,7 @@ export namespace Prisma {
     meetingDurationMin?: true
     courtesyDelayMin?: true
     courtesyText?: true
+    groupFirstAidDelayMin?: true
     reactivationWord?: true
     sendPauseNotice?: true
     pauseNoticeText?: true
@@ -124361,6 +124370,7 @@ export namespace Prisma {
     meetingDurationMin?: true
     courtesyDelayMin?: true
     courtesyText?: true
+    groupFirstAidDelayMin?: true
     reactivationWord?: true
     sendPauseNotice?: true
     pauseNoticeText?: true
@@ -124475,6 +124485,7 @@ export namespace Prisma {
     meetingDurationMin: number
     courtesyDelayMin: number
     courtesyText: string | null
+    groupFirstAidDelayMin: number
     reactivationWord: string | null
     sendPauseNotice: boolean
     pauseNoticeText: string | null
@@ -124521,6 +124532,7 @@ export namespace Prisma {
     meetingDurationMin?: boolean
     courtesyDelayMin?: boolean
     courtesyText?: boolean
+    groupFirstAidDelayMin?: boolean
     reactivationWord?: boolean
     sendPauseNotice?: boolean
     pauseNoticeText?: boolean
@@ -124555,6 +124567,7 @@ export namespace Prisma {
     meetingDurationMin?: boolean
     courtesyDelayMin?: boolean
     courtesyText?: boolean
+    groupFirstAidDelayMin?: boolean
     reactivationWord?: boolean
     sendPauseNotice?: boolean
     pauseNoticeText?: boolean
@@ -124586,6 +124599,7 @@ export namespace Prisma {
     meetingDurationMin?: boolean
     courtesyDelayMin?: boolean
     courtesyText?: boolean
+    groupFirstAidDelayMin?: boolean
     reactivationWord?: boolean
     sendPauseNotice?: boolean
     pauseNoticeText?: boolean
@@ -124639,6 +124653,7 @@ export namespace Prisma {
       meetingDurationMin: number
       courtesyDelayMin: number
       courtesyText: string | null
+      groupFirstAidDelayMin: number
       reactivationWord: string | null
       sendPauseNotice: boolean
       pauseNoticeText: string | null
@@ -125062,6 +125077,7 @@ export namespace Prisma {
     readonly meetingDurationMin: FieldRef<"Assistant", 'Int'>
     readonly courtesyDelayMin: FieldRef<"Assistant", 'Int'>
     readonly courtesyText: FieldRef<"Assistant", 'String'>
+    readonly groupFirstAidDelayMin: FieldRef<"Assistant", 'Int'>
     readonly reactivationWord: FieldRef<"Assistant", 'String'>
     readonly sendPauseNotice: FieldRef<"Assistant", 'Boolean'>
     readonly pauseNoticeText: FieldRef<"Assistant", 'String'>
@@ -145392,6 +145408,7 @@ export namespace Prisma {
     meetingDurationMin: 'meetingDurationMin',
     courtesyDelayMin: 'courtesyDelayMin',
     courtesyText: 'courtesyText',
+    groupFirstAidDelayMin: 'groupFirstAidDelayMin',
     reactivationWord: 'reactivationWord',
     sendPauseNotice: 'sendPauseNotice',
     pauseNoticeText: 'pauseNoticeText',
@@ -156498,6 +156515,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFilter<"Assistant"> | number
     courtesyDelayMin?: IntFilter<"Assistant"> | number
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
+    groupFirstAidDelayMin?: IntFilter<"Assistant"> | number
     reactivationWord?: StringNullableFilter<"Assistant"> | string | null
     sendPauseNotice?: BoolFilter<"Assistant"> | boolean
     pauseNoticeText?: StringNullableFilter<"Assistant"> | string | null
@@ -156531,6 +156549,7 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrderInput | SortOrder
+    groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrderInput | SortOrder
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrderInput | SortOrder
@@ -156567,6 +156586,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFilter<"Assistant"> | number
     courtesyDelayMin?: IntFilter<"Assistant"> | number
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
+    groupFirstAidDelayMin?: IntFilter<"Assistant"> | number
     reactivationWord?: StringNullableFilter<"Assistant"> | string | null
     sendPauseNotice?: BoolFilter<"Assistant"> | boolean
     pauseNoticeText?: StringNullableFilter<"Assistant"> | string | null
@@ -156600,6 +156620,7 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrderInput | SortOrder
+    groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrderInput | SortOrder
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrderInput | SortOrder
@@ -156635,6 +156656,7 @@ export namespace Prisma {
     meetingDurationMin?: IntWithAggregatesFilter<"Assistant"> | number
     courtesyDelayMin?: IntWithAggregatesFilter<"Assistant"> | number
     courtesyText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    groupFirstAidDelayMin?: IntWithAggregatesFilter<"Assistant"> | number
     reactivationWord?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     sendPauseNotice?: BoolWithAggregatesFilter<"Assistant"> | boolean
     pauseNoticeText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
@@ -169334,6 +169356,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -169365,6 +169388,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -169392,6 +169416,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169423,6 +169448,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169452,6 +169478,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -169477,6 +169504,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169502,6 +169530,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179080,6 +179109,7 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrder
+    groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrder
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrder
@@ -179094,6 +179124,7 @@ export namespace Prisma {
   export type AssistantAvgOrderByAggregateInput = {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
+    groupFirstAidDelayMin?: SortOrder
     temperature?: SortOrder
   }
 
@@ -179113,6 +179144,7 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrder
+    groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrder
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrder
@@ -179140,6 +179172,7 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrder
+    groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrder
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrder
@@ -179154,6 +179187,7 @@ export namespace Prisma {
   export type AssistantSumOrderByAggregateInput = {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
+    groupFirstAidDelayMin?: SortOrder
     temperature?: SortOrder
   }
 
@@ -194239,6 +194273,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -194269,6 +194304,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -194305,6 +194341,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -194334,6 +194371,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -195725,6 +195763,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFilter<"Assistant"> | number
     courtesyDelayMin?: IntFilter<"Assistant"> | number
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
+    groupFirstAidDelayMin?: IntFilter<"Assistant"> | number
     reactivationWord?: StringNullableFilter<"Assistant"> | string | null
     sendPauseNotice?: BoolFilter<"Assistant"> | boolean
     pauseNoticeText?: StringNullableFilter<"Assistant"> | string | null
@@ -201195,6 +201234,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -201224,6 +201264,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -214284,6 +214325,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -214314,6 +214356,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -260225,6 +260268,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -260255,6 +260299,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -260370,6 +260415,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260400,6 +260446,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260774,6 +260821,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -260804,6 +260852,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -261121,6 +261170,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -261151,6 +261201,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -272198,6 +272249,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -272223,6 +272275,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -273339,6 +273392,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273369,6 +273423,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273397,6 +273452,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273421,6 +273477,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273450,6 +273507,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273478,6 +273536,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -274962,6 +275021,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -278899,6 +278959,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278928,6 +278989,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278956,6 +279018,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -280657,6 +280720,7 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    groupFirstAidDelayMin?: number
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
@@ -280874,6 +280938,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -280904,6 +280969,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -280932,6 +280998,7 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null

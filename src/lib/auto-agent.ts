@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v16-variacoes-nome";
+export const AUTO_AGENT_REV = "v17-sentinela-grupo";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -173,6 +173,93 @@ export function scheduleAutoAgent(conversationId: string): void {
   })();
 }
 
+// ── Sentinela de GRUPO (primeiro-socorro) ────────────────────────────────────
+// Em grupo o time é quem atende. O agente só entra quando o cliente falou e
+// NINGUÉM da empresa respondeu em N minutos (config do agente). Depois que ele
+// entra, a conversa fica "quente" por um tempo: as respostas do cliente ao
+// próprio agente são atendidas rápido (debounce normal), sem esperar de novo.
+const GROUP_SESSION_MS = 30 * 60_000; // janela em que o agente segue na conversa
+const GROUP_MAX_BOT_MSGS_PER_HOUR = 6; // trava anti-runaway por grupo
+
+/**
+ * Agenda o primeiro-socorro do grupo. O delay é o configurado no agente —
+ * ou o debounce curto quando o agente já está no meio de um atendimento ali.
+ */
+export function scheduleGroupFirstAid(conversationId: string): void {
+  const prev = courtesyTimers.get(conversationId);
+  if (prev) clearTimeout(prev);
+  void (async () => {
+    try {
+      const plan = await getGroupFirstAidPlan(conversationId);
+      if (!plan) return;
+      const older = courtesyTimers.get(conversationId);
+      if (older) clearTimeout(older);
+      courtesyTimers.set(
+        conversationId,
+        setTimeout(() => {
+          courtesyTimers.delete(conversationId);
+          runAutoAgentNow(conversationId).catch((err) =>
+            console.error(`[AutoAgent] erro grupo conv=${conversationId}:`, err)
+          );
+        }, plan.delayMs)
+      );
+    } catch { /* sentinela é acessório — nunca propaga */ }
+  })();
+}
+
+/** Decide se (e em quanto tempo) o agente deve entrar num grupo. */
+async function getGroupFirstAidPlan(conversationId: string): Promise<{ delayMs: number } | null> {
+  const conv = await prisma.conversation.findUnique({
+    where: { id: conversationId },
+    select: { id: true, isGroup: true, status: true, aiMode: true, companyId: true },
+  });
+  if (!conv?.isGroup || conv.status === "CLOSED" || conv.aiMode === "OFF") return null;
+
+  const last = await prisma.message.findFirst({
+    where: { conversationId },
+    orderBy: { receivedAt: "desc" },
+    select: { instanceId: true },
+  });
+  if (!last?.instanceId) return null;
+
+  const assistant = await getAssistantForInstance(conv.companyId, last.instanceId);
+  if (!assistant || !assistant.isActive || !(assistant as any).autoRespond) return null;
+  const delayMin = ((assistant as any).groupFirstAidDelayMin as number) ?? 0;
+  if (delayMin <= 0) return null; // sentinela de grupo desligada
+
+  // Trava anti-runaway: no máximo N mensagens do agente por hora no grupo.
+  const botMsgsLastHour = await prisma.message.count({
+    where: {
+      conversationId,
+      direction: "OUTBOUND",
+      receivedAt: { gte: new Date(Date.now() - 60 * 60_000) },
+      rawPayload: { path: ["autoAgent"], equals: true },
+    },
+  });
+  if (botMsgsLastHour >= GROUP_MAX_BOT_MSGS_PER_HOUR) return null;
+
+  // Se a última fala NOSSA no grupo foi do próprio agente e é recente, ele já
+  // está conduzindo: responde rápido. Se foi de alguém do time (ou faz tempo),
+  // espera o prazo cheio — dando a chance do time atender primeiro.
+  const lastOut = await prisma.message.findFirst({
+    where: { conversationId, direction: "OUTBOUND" },
+    orderBy: { receivedAt: "desc" },
+    select: { receivedAt: true, rawPayload: true },
+  });
+  const fromBot = !!(lastOut?.rawPayload as any)?.autoAgent;
+  const recent = !!lastOut && Date.now() - lastOut.receivedAt.getTime() < GROUP_SESSION_MS;
+  return { delayMs: fromBot && recent ? DEBOUNCE_MS : delayMin * 60_000 };
+}
+
+/** É um grupo vinculado a uma empresa-CLIENTE? (só nesses o agente entra) */
+async function getGroupClientCompany(companyId: string, groupJid: string) {
+  const link = await prisma.companyContact.findFirst({
+    where: { phone: groupJid, isGroup: true, company: { parentCompanyId: companyId } },
+    select: { name: true, company: { select: { id: true, name: true } } },
+  });
+  return link?.company ? { id: link.company.id, name: link.company.name, groupName: link.name } : null;
+}
+
 /** Config da sentinela a partir do agente autônomo da instância (null = desligada). */
 async function getCourtesyConfig(conversationId: string): Promise<{ delayMs: number; text: string } | null> {
   const conv = await prisma.conversation.findUnique({
@@ -286,7 +373,11 @@ export async function pauseBot(
   }
   await prisma.conversation
     .updateMany({
-      where: { id: conversationId, aiMode: "ACTIVE" },
+      // Grupos ficam DE FORA do pause automático: lá o agente é sentinela
+      // (só entra quando ninguém responde), então "o time respondeu" já é
+      // tratado pelo próprio guard de última mensagem. Pausar de vez mataria
+      // a sentinela do grupo pra sempre no primeiro atendimento humano.
+      where: { id: conversationId, aiMode: "ACTIVE", isGroup: false },
       data: { aiMode: mode, aiPausedAt: new Date() },
     })
     .catch(() => {/* nunca propaga */});
@@ -411,8 +502,9 @@ function buildSystemPrompt(args: {
   scheduling: SchedulingContext | null;
   knownData: string[];
   discloseAi: boolean;
+  groupCtx: { clientCompanyName: string } | null;
 }): string {
-  const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling, knownData, discloseAi } = args;
+  const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling, knownData, discloseAi, groupCtx } = args;
 
   const routeLines = routes
     .map((r) => `- "${r.intent}" → encaminha pro setor ${r.label ?? r.setorName}${r.createTicket ? " e ABRE UM CHAMADO interno com o pedido (avise o contato que o chamado foi registrado)" : ""}. Use quando o contato foi identificado/qualificado como esse caso.`)
@@ -447,6 +539,24 @@ ${discloseAi
 - Não comece as frases sempre do mesmo jeito ("Assim, ..." / "Perfeito!") — varie a abertura.
 - Agradecimento/encerramento do contato ("obrigado", "ok", "blz", "👍"): responda com NO MÁXIMO 1 bolha curta de cortesia, SEM pergunta nova — e se um atendente humano acabou de se despedir na conversa, NÃO repita a despedida (responda [] = nada).
 - NUNCA duplique o que um atendente humano acabou de dizer nas últimas mensagens — complemente ou fique em silêncio.`);
+
+  if (groupCtx) {
+    // Postura de GRUPO: o time é quem atende ali; o agente é rede de proteção.
+    // Este bloco vem ANTES do manual porque mudanças de postura pesam mais
+    // quando o modelo as lê como enquadramento, não como exceção no fim.
+    parts.push(`# ⚠️ MODO GRUPO — PRIMEIRO SOCORRO (sobrescreve o manual no que conflitar)
+Esta conversa é um GRUPO de WhatsApp com o cliente ${groupCtx.clientCompanyName}. Quem atende esse grupo é a EQUIPE da empresa, não você. Você só está falando agora porque o cliente escreveu e ninguém do time respondeu ainda — sua função é NÃO deixar o cliente sem resposta.
+
+Como se comportar:
+- Cada mensagem do histórico vem com quem falou. As marcadas [NOSSA EQUIPE] são do nosso time — NUNCA repita, contradiga ou comente o que a equipe já disse, e não converse com a equipe: fale com o cliente.
+- Acolha em 1 bolha: confirme que a mensagem foi recebida e que o time vai analisar e retornar. Nada de prometer prazo.
+- SUPORTE simples (site fora do ar, e-mail com problema): pode pedir 1-2 informações rápidas que ajudem o time a resolver — print do erro, qual endereço de e-mail, desde quando acontece. UMA pergunta por vez.
+- Assuntos de gestão de mídias/marketing: apenas acolha e diga que o time retorna. NÃO peça informação nem opine.
+- FINANCEIRO (fatura, boleto, nota): colete o essencial (qual competência/mês) e encaminhe pela rota certa pra abrir o chamado.
+- NUNCA dê solução técnica, prazo, valor, opinião sobre o serviço ou status de trabalho em andamento. Você não sabe — quem sabe é o time.
+- Se as pessoas estiverem apenas conversando entre si, trocando "bom dia", figurinha ou combinando algo entre elas — e não houver um pedido pendente pro nosso time — responda [] (silêncio). Ficar falando à toa no grupo do cliente é pior que não falar.
+- Seja econômico: no grupo você fala pouco. Assim que o pedido estiver claro, encaminhe pela action da rota e pare.`);
+  }
 
   parts.push(`# MANUAL DO AGENTE (siga à risca)\n${manual.trim()}`);
 
@@ -537,8 +647,9 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   });
 
   if (!conv) return { ok: false, skipped: "conv_not_found" };
-  if (conv.isGroup) return { ok: false, skipped: "group" };
   if (conv.status === "CLOSED") return { ok: false, skipped: "closed" };
+  // Grupo NÃO passa pelo fluxo normal — só entra pela sentinela de grupo
+  // (validada mais abaixo, depois de carregar o agente).
 
   // Última mensagem precisa ser INBOUND — se humano (ou o próprio bot) já
   // respondeu depois dela, não há o que fazer.
@@ -563,6 +674,19 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   const assistant = await getAssistantForInstance(conv.companyId, instance.id);
   if (!assistant || !assistant.isActive || !(assistant as any).autoRespond) {
     return { ok: false, skipped: "no_auto_assistant" };
+  }
+
+  // GRUPO: só entra se (a) a sentinela de grupo está ligada no agente e (b) o
+  // grupo está vinculado a uma empresa-CLIENTE. Grupo interno do time, grupo
+  // sem vínculo e agente sem sentinela ficam de fora — sem exceção.
+  let groupCtx: { clientCompanyId: string; clientCompanyName: string } | null = null;
+  if (conv.isGroup) {
+    const delayMin = ((assistant as any).groupFirstAidDelayMin as number) ?? 0;
+    if (delayMin <= 0) return { ok: false, skipped: "grupo_sentinela_off" };
+    const client = await getGroupClientCompany(conv.companyId, conv.phone);
+    if (!client) return { ok: false, skipped: "grupo_sem_empresa_cliente" };
+    groupCtx = { clientCompanyId: client.id, clientCompanyName: client.name };
+    diag.grupo = client.name;
   }
 
   // Estado do bot: OFF manual é sagrado; PAUSED_HUMAN aceita a palavra-gatilho
@@ -594,7 +718,8 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     },
     orderBy: { receivedAt: "desc" },
     take: HISTORY_LIMIT,
-    select: { body: true, direction: true, receivedAt: true },
+    // participantName só existe em grupo — identifica QUEM falou lá dentro.
+    select: { body: true, direction: true, receivedAt: true, participantName: true },
   });
   history.reverse();
 
@@ -689,14 +814,28 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     scheduling,
     knownData,
     discloseAi: !!(assistant as any).discloseAi,
+    groupCtx: groupCtx ? { clientCompanyName: groupCtx.clientCompanyName } : null,
   });
 
   const messages: ChatMessage[] = [
     { role: "system", content: system },
-    ...history.map((m): ChatMessage => ({
-      role: m.direction === "INBOUND" ? "user" : "assistant",
-      content: m.body,
-    })),
+    // Em GRUPO tudo entra como "user" com etiqueta de quem falou — senão o
+    // modelo achata várias pessoas numa só e acha que já disse o que na
+    // verdade foi o time (ou o cliente) que disse.
+    ...history.map((m): ChatMessage =>
+      conv.isGroup
+        ? {
+            role: "user",
+            content:
+              m.direction === "INBOUND"
+                ? `${m.participantName?.trim() || "Cliente"}: ${m.body}`
+                : `[NOSSA EQUIPE]: ${m.body}`,
+          }
+        : {
+            role: m.direction === "INBOUND" ? "user" : "assistant",
+            content: m.body,
+          }
+    ),
     // Lembrete FINAL depois do histórico — modelos seguem melhor a última
     // instrução, e o histórico com mensagens longas antigas puxa o estilo
     // de volta pro textão se não reforçar aqui.
@@ -757,6 +896,8 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     companyId: conv.companyId,
     phone: conv.phone,
     assistantId: assistant.id,
+    isGroup: conv.isGroup,
+    conversationId: conv.id,
   };
 
   // 1) Enviar a(s) resposta(s) ao contato — em sequência, com pausa curta
@@ -816,7 +957,9 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     // toca e envia). Enviado ANTES de rotear: o roteamento seta a conversa
     // como OPEN pro time, e um envio depois viraria WAITING_CUSTOMER (sumiria
     // da fila de pendentes).
-    if ((assistant as any).sendPauseNotice !== false) {
+    // Em grupo não faz sentido a despedida com palavra-gatilho (a conversa
+    // segue viva com o time) — só no 1:1.
+    if (!conv.isGroup && (assistant as any).sendPauseNotice !== false) {
       const word = ((assistant as any).reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
       const waLink = (instance as any).phone
         ? `https://wa.me/${(instance as any).phone}?text=${encodeURIComponent(word)}`
@@ -839,9 +982,11 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
         phone: conv.phone,
         setorId: route.setorId,
         setorName: route.setor.name,
-        createLead: route.createLead,
+        createLead: conv.isGroup ? false : route.createLead,
         createTicket: route.createTicket,
         resumo: decision.resumo,
+        groupMode: conv.isGroup,
+        clientCompanyId: groupCtx?.clientCompanyId ?? null,
       });
     } else if (action === "HANDOFF") {
       await handoffConversation({
@@ -875,6 +1020,9 @@ interface BotSender {
   companyId: string;
   phone: string;
   assistantId: string;
+  // Grupo preserva status/não-lidas da conversa (ver sendBotText).
+  isGroup?: boolean;
+  conversationId?: string;
 }
 
 /**
@@ -888,13 +1036,26 @@ async function sendBotText(s: BotSender, text: string): Promise<boolean> {
     // esse padrão e ATUALIZA o registro em vez de duplicar/pausar o bot.
     const externalId: string = sendResult?.key?.id ?? sendResult?.id ?? `out-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
 
-    const updatedConv = await upsertConversation({
-      companyId: s.companyId,
-      phone: s.phone,
-      direction: "OUTBOUND",
-      body: text,
-      instanceId: s.instanceId,
-    });
+    // Em GRUPO o bot é só a rede de proteção — o time AINDA precisa atender.
+    // Por isso atualiza só a prévia/ordenação da lista e preserva status e
+    // não-lidas: se marcasse como respondida, o grupo sumia da fila e o
+    // atendimento humano se perdia (era o efeito colateral a evitar).
+    let convId = s.conversationId;
+    if (s.isGroup && convId) {
+      await prisma.conversation.update({
+        where: { id: convId },
+        data: { lastMessageAt: new Date(), lastMessageBody: text.slice(0, 200), lastMessageDirection: "OUTBOUND" },
+      }).catch(() => {/* prévia é acessório */});
+    } else {
+      const updatedConv = await upsertConversation({
+        companyId: s.companyId,
+        phone: s.phone,
+        direction: "OUTBOUND",
+        body: text,
+        instanceId: s.instanceId,
+      });
+      convId = updatedConv.id;
+    }
 
     await prisma.message.create({
       data: {
@@ -904,7 +1065,7 @@ async function sendBotText(s: BotSender, text: string): Promise<boolean> {
         phone: s.phone,
         instanceId: s.instanceId,
         companyId: s.companyId,
-        conversationId: updatedConv.id,
+        conversationId: convId,
         ack: 1,
         sentByAI: true,
         // Marca de origem: mensagem gerada pelo agente autônomo.
@@ -1145,28 +1306,38 @@ async function routeConversation(args: {
   createLead: boolean;
   createTicket?: boolean;
   resumo: string | null;
+  /** Grupo: não mexe no setor da conversa nem pausa o bot (ele é sentinela lá). */
+  groupMode?: boolean;
+  /** Empresa-cliente dona do grupo — vincula o chamado a ela. */
+  clientCompanyId?: string | null;
 }): Promise<void> {
-  const { conversationId, companyId, phone, setorId, setorName, createLead, createTicket, resumo } = args;
+  const { conversationId, companyId, phone, setorId, setorName, createLead, createTicket, resumo, groupMode, clientCompanyId } = args;
 
-  // Move pro setor, volta pra OPEN (aparece como "nova" pro time que assumiu)
-  // e silencia o bot.
-  await prisma.conversation.update({
-    where: { id: conversationId },
-    data: {
-      setorId,
-      status: "OPEN",
-      statusUpdatedAt: new Date(),
-      aiMode: "PAUSED_HUMAN",
-      aiPausedAt: new Date(),
-    },
-  });
+  // 1:1 → move pro setor, volta pra OPEN (aparece como "nova" pro time que
+  // assumiu) e silencia o bot.
+  // GRUPO → não toca em setor/status/aiMode: o grupo continua onde sempre
+  // esteve, visível pro mesmo time, e a sentinela segue armada pra próxima vez.
+  if (!groupMode) {
+    await prisma.conversation.update({
+      where: { id: conversationId },
+      data: {
+        setorId,
+        status: "OPEN",
+        statusUpdatedAt: new Date(),
+        aiMode: "PAUSED_HUMAN",
+        aiPausedAt: new Date(),
+      },
+    });
+  }
 
   await prisma.conversationNote.create({
     data: {
       conversationId,
       authorName: "🤖 Agente IA",
       type: "SYSTEM",
-      body: `Triagem automática → setor ${setorName}.${resumo ? `\nResumo: ${resumo}` : ""}`,
+      body: groupMode
+        ? `Sentinela de grupo: entrei porque ninguém tinha respondido.${resumo ? `\nResumo: ${resumo}` : ""}`
+        : `Triagem automática → setor ${setorName}.${resumo ? `\nResumo: ${resumo}` : ""}`,
     },
   }).catch(() => {/* nota é acessório, nunca bloqueia */});
 
@@ -1237,6 +1408,7 @@ async function routeConversation(args: {
           phone,
           companyId,
           setorId,
+          clientCompanyId: clientCompanyId ?? undefined,
           dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
         },
       });
@@ -1272,8 +1444,11 @@ async function handoffConversation(args: {
 }): Promise<void> {
   const { conversationId, setorId, resumo, phone } = args;
 
-  await prisma.conversation.update({
-    where: { id: conversationId },
+  // Em grupo o bot é sentinela: não pausa nem mexe no status (senão a proteção
+  // morria no primeiro handoff). O guard de "time já respondeu" + o prazo da
+  // sentinela já garantem que ele não atropela ninguém.
+  await prisma.conversation.updateMany({
+    where: { id: conversationId, isGroup: false },
     data: {
       status: "OPEN",
       statusUpdatedAt: new Date(),

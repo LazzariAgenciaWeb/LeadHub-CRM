@@ -3592,6 +3592,11 @@ model Assistant {
   courtesyDelayMin Int     @default(5)
   courtesyText     String? @db.Text // null = texto padrão do sistema
 
+  // SENTINELA DE GRUPO (primeiro-socorro): em grupos de clientes, se o cliente
+  // falou e ninguém do time respondeu em N minutos, o agente entra, acolhe,
+  // coleta o básico e abre chamado. 0 = desligada (default — grupos ficam fora).
+  groupFirstAidDelayMin Int @default(0)
+
   // Palavra-gatilho que o CONTATO digita (mensagem só com ela) pra reativar
   // o bot numa conversa pausada por humano. null = "atendimento".
   reactivationWord String?

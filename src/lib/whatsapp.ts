@@ -763,6 +763,16 @@ export async function processInboundMessage(payload: {
       ...(mediaBase64 ? { mediaBase64 } : {}),
     });
 
+    // Sentinela de grupo (primeiro-socorro): só quando quem falou foi o
+    // CLIENTE — mensagem nossa no grupo vira OUTBOUND e não agenda nada.
+    // Todos os guards (grupo de cliente? agente com sentinela ligada? time já
+    // respondeu?) rodam no motor, na hora de disparar.
+    if (groupDirection === "INBOUND") {
+      void import("./auto-agent")
+        .then(({ scheduleGroupFirstAid }) => scheduleGroupFirstAid(conv.id))
+        .catch(() => {});
+    }
+
     // Upsert do CompanyContact com nome do grupo (busca na Evolution se ainda não tem nome)
     const existing = await prisma.companyContact.findFirst({
       where: { phone, companyId: instance.companyId },
