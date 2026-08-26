@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/effective-session";
+import { isClientPortalUser } from "@/lib/client-portal";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/permissions";
 import {
@@ -28,6 +29,10 @@ export default async function ImportarPage({
 }) {
   const session = await getEffectiveSession();
   if (!session) redirect("/login");
+
+  // Gestão interna da agência: empresa-cliente que entra no sistema não abre
+  // esta área — esconder no menu não basta, a rota é adivinhável.
+  if (await isClientPortalUser(session)) redirect("/meu-espaco");
 
   const role = (session.user as any)?.role as string;
   const isAdmin = role === "SUPER_ADMIN" || role === "ADMIN";

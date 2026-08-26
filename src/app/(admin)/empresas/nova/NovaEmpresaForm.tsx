@@ -23,9 +23,10 @@ export default function NovaEmpresaForm({ isSuperAdmin }: Props) {
     phone: "",
     email: "",
     website: "",
-    // SUPER_ADMIN only
-    hasSystemAccess: false,
-    fullSystemAccess: false,
+    // SUPER_ADMIN only. Ligados por padrão: acesso ao sistema deixou de ser um
+    // toggle a lembrar — quem limita o que o cliente vê é o plano.
+    hasSystemAccess: true,
+    fullSystemAccess: true,
     moduleWhatsapp: false,
     moduleCrm: true,
     moduleTickets: false,

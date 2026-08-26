@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { MODULE_GROUPS, type ModuleGroup } from "@/lib/modules";
 
 interface Company {
   id: string;
@@ -44,9 +45,18 @@ interface Props {
   // Agência do usuário logado tem o módulo Espaço do Cliente? Habilita o self-serve
   // (ADMIN libera o painel de uma sub-empresa sem depender do super-admin).
   canOfferPanel?: boolean;
+  /** Módulos do catálogo com o estado efetivo (plano + exceções), do servidor. */
+  modules?: { id: string; label: string; group: ModuleGroup; enabled: boolean }[];
 }
 
-export default function EditCompanyButton({ company, isSuperAdmin = false, canOfferPanel = false }: Props) {
+export default function EditCompanyButton({ company, isSuperAdmin = false, canOfferPanel = false, modules = [] }: Props) {
+  // Lista "Módulos ativos" (somente leitura): vem do catálogo real — plano +
+  // exceções, calculado no servidor. Antes era um array escrito à mão sobre os
+  // campos `Company.module*`, que deixava de fora justamente o que o Free já
+  // entrega (Dashboard de Marketing, Cofre) e mostrava flag em vez de acesso.
+  const moduleGroups = MODULE_GROUPS
+    .map((title) => ({ title, items: modules.filter((m) => m.group === title) }))
+    .filter((g) => g.items.length > 0);
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -310,48 +320,19 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
                             Atender → Vender → Analisar → Gestão → Integrações.
                             Mantém 1 vocabulário só entre menu, toggles e plano. */}
                         <div className="flex flex-col gap-3">
-                          {[
-                            { title: "Atrair", items: [
-                              { key: "moduleEmailMarketing", label: "E-mail Marketing" },
-                              { key: "moduleEmailInbox", label: "Caixa de E-mail" },
-                              { key: "moduleInstagram", label: "Instagram (automação estilo ManyChat)" },
-                              { key: "moduleVideos", label: "Vídeos (material de apoio)" },
-                            ] },
-                            { title: "Atender", items: [
-                              { key: "moduleWhatsapp", label: "WhatsApp" },
-                              { key: "moduleTickets", label: "Chamados" },
-                              { key: "moduleAI", label: "Assistente IA" },
-                            ] },
-                            { title: "Vender", items: [
-                              { key: "moduleCrm", label: "CRM" },
-                              { key: "moduleProspeccao", label: "Prospecção via SerpAPI" },
-                            ] },
-                            { title: "Analisar", items: [
-                              { key: "moduleGamificacao", label: "Gamificação (ranking + badges + cron)" },
-                            ] },
-                            { title: "Gestão", items: [
-                              { key: "moduleProjetos", label: "Projetos" },
-                              { key: "moduleCalendario", label: "Calendário" },
-                              { key: "moduleEspacoCliente", label: "Espaço do Cliente (oferecer painel aos clientes)" },
-                            ] },
-                            { title: "Integrações", items: [
-                              { key: "moduleClickup", label: "ClickUp" },
-                              { key: "moduleBling", label: "Bling · ERP (clientes + financeiro)" },
-                              { key: "moduleRelatorioMarketing", label: "Relatório de Marketing no portal do cliente (sem custos)" },
-                            ] },
-                          ].map((group) => (
+                          {moduleGroups.map((group) => (
                             <div key={group.title}>
                               <p className="text-[10px] text-slate-600 font-semibold uppercase tracking-wide mb-1">{group.title}</p>
                               <div className="flex flex-col gap-0.5">
-                                {group.items.map(({ key, label }) => (
-                                  <div key={key} className="flex items-center gap-3 py-1 px-2 rounded-lg">
+                                {group.items.map((m) => (
+                                  <div key={m.id} className="flex items-center gap-3 py-1 px-2 rounded-lg">
                                     <span
                                       className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                                        (form as any)[key] ? "bg-emerald-400" : "bg-slate-700"
+                                        m.enabled ? "bg-emerald-400" : "bg-slate-700"
                                       }`}
                                     />
-                                    <span className={`text-sm ${(form as any)[key] ? "text-white" : "text-slate-600"}`}>
-                                      {label}
+                                    <span className={`text-sm ${m.enabled ? "text-white" : "text-slate-600"}`}>
+                                      {m.label}
                                     </span>
                                   </div>
                                 ))}

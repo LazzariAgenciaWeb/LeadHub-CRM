@@ -15,6 +15,7 @@ import CompanyContractedServices from "./CompanyContractedServices";
 import CompanyFinanceiro from "./CompanyFinanceiro";
 import { getCompanyPlan } from "@/lib/limits";
 import { PLANS, ADDONS, formatPriceBRL } from "@/lib/plans";
+import { MODULES } from "@/lib/modules";
 
 export default async function EmpresaDetailPage({
   params,
@@ -135,6 +136,19 @@ export default async function EmpresaDetailPage({
     try { planCtx = await getCompanyPlan(id); } catch { planCtx = null; }
   }
   const planDef = planCtx ? PLANS[planCtx.tier] : null;
+  // Resumo pro editor da empresa: o catálogo inteiro com o estado efetivo, pra
+  // a aba "Módulos ativos" refletir o que o plano entrega (inclusive Marketing
+  // e Cofre, que não têm campo `Company.module*` e por isso sumiam da lista).
+  const moduleSummary = planCtx
+    ? MODULES.map((m) => ({
+        id: m.id,
+        label: m.label,
+        group: m.group,
+        enabled: [m.primary, ...(m.alsoEnabledBy ?? [])].some(
+          (k) => (planCtx!.effectiveFeatures as any)[k],
+        ),
+      }))
+    : [];
   const planAddonCount = planCtx && planDef
     ? Object.values(ADDONS).filter((a) => (planCtx!.effectiveFeatures as any)[a.feature] && !(planDef.features as any)[a.feature]).length
     : 0;
@@ -246,7 +260,7 @@ export default async function EmpresaDetailPage({
               eligibleTargets={eligibleTargets}
             />
           )}
-          <EditCompanyButton company={company as any} isSuperAdmin={isSuperAdmin} canOfferPanel={canOfferPanel} />
+          <EditCompanyButton company={company as any} isSuperAdmin={isSuperAdmin} canOfferPanel={canOfferPanel} modules={moduleSummary} />
           {isSuperAdmin && (
             <>
               <Link

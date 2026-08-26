@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/effective-session";
+import { isClientPortalUser } from "@/lib/client-portal";
 import { prisma } from "@/lib/prisma";
 import { dayKeyInTZ, parseYm } from "@/lib/ponto";
 import { loadEspelho } from "@/lib/ponto-data";
@@ -12,6 +13,10 @@ export const revalidate = 0;
 export default async function PontoPage(props: { searchParams: Promise<{ ym?: string }> }) {
   const session = await getEffectiveSession();
   if (!session) redirect("/login");
+
+  // Gestão interna da agência: empresa-cliente que entra no sistema não abre
+  // esta área — esconder no menu não basta, a rota é adivinhável.
+  if (await isClientPortalUser(session)) redirect("/meu-espaco");
 
   const userId = (session.user as any).id as string;
   const companyId = (session.user as any).companyId as string | undefined;

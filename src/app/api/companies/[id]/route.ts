@@ -114,7 +114,8 @@ export async function PATCH(
     : {};
 
   // Self-serve da agência: ADMIN com o módulo "Espaço do Cliente" pode liberar o
-  // acesso ao painel (Meu Espaço) de uma sub-empresa sua — NUNCA o sistema completo.
+  // acesso de uma sub-empresa sua. Desde 2026-08-26 isso inclui o sistema
+  // completo — o que o cliente enxerga lá dentro é o plano dele que decide.
   let selfServeData: any = {};
   if (!isSuperAdmin && userRole === "ADMIN" && hasSystemAccess !== undefined && userCompanyId && id !== userCompanyId) {
     const [sub, agency] = await Promise.all([
@@ -122,7 +123,7 @@ export async function PATCH(
       prisma.company.findUnique({ where: { id: userCompanyId }, select: { moduleEspacoCliente: true } }),
     ]);
     if (sub && agency?.moduleEspacoCliente) {
-      selfServeData = { hasSystemAccess: !!hasSystemAccess, fullSystemAccess: false };
+      selfServeData = { hasSystemAccess: !!hasSystemAccess, fullSystemAccess: !!hasSystemAccess };
     }
   }
 

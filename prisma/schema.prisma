@@ -210,8 +210,11 @@ model Company {
   blingContactId String?
 
   // Acesso ao sistema e módulos habilitados
-  hasSystemAccess      Boolean @default(false) // pode fazer login? (vê o "Meu Espaço" — painel do cliente)
-  fullSystemAccess     Boolean @default(false) // além do Meu Espaço, acessa o LeadHub completo (módulos/menus). Se false = só o painel.
+  // Padrão ligado desde 2026-08-26: todo cliente entra e enxerga o sistema com
+  // os módulos do plano dele. Quem restringe é o plano, não estes campos — que
+  // ficaram só como exceção manual pra travar UM cliente no Meu Espaço.
+  hasSystemAccess      Boolean @default(true) // pode fazer login? (vê o "Meu Espaço" — painel do cliente)
+  fullSystemAccess     Boolean @default(true) // além do Meu Espaço, acessa o LeadHub completo (módulos/menus). Se false = só o painel.
   moduleWhatsapp       Boolean @default(false)
   moduleCrm            Boolean @default(true)
   moduleTickets        Boolean @default(false)

@@ -164,7 +164,10 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
   //  - `lockModule`: módulo do PLANO (hasModule). Se a empresa não contratou,
   //    o item aparece BLOQUEADO (esmaecido + cadeado) em vez de sumir.
   //  - `perm`: permissão de PAPEL/SETOR (independe de plano). Sem ela, some.
-  type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; lockModule?: Parameters<typeof hasModule>[1]; perm: boolean; badgeKey?: "whatsappUnread" };
+  // `agencyOnly`: área de gestão interna da agência (não é módulo contratável,
+  // então não tem `lockModule`). Empresa-cliente que entra no sistema não vê —
+  // Financeiro mostraria a carteira dela (vazia) e Ponto o espelho de jornada.
+  type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; lockModule?: Parameters<typeof hasModule>[1]; perm: boolean; badgeKey?: "whatsappUnread"; agencyOnly?: boolean };
   type NavGroupDef = { key: string; title: string; Icon: LucideIcon; grad: GradientKey; items: SidebarLink[] };
   type NavItem = SidebarLink & { locked: boolean };
   type NavGroup = { key: string; title: string; Icon: LucideIcon; grad: GradientKey; items: NavItem[] };
@@ -221,10 +224,10 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
       key: "gestao", title: "Gestão", Icon: FolderKanban, grad: "pipeline",
       items: [
         { href: "/empresas",   Icon: Building2,    label: _isSuperAdmin ? "Empresas" : "Clientes", grad: "empresas", perm: _isAdmin || can(session, "canViewCompanies") },
-        { href: "/financeiro", Icon: Wallet,       label: "Financeiro", grad: "empresas",   perm: _isAdmin || can(session, "canViewFinanceiro") },
+        { href: "/financeiro", Icon: Wallet,       label: "Financeiro", grad: "empresas",   perm: _isAdmin || can(session, "canViewFinanceiro"), agencyOnly: true },
         { href: "/projetos",   Icon: FolderKanban, label: "Projetos",   grad: "pipeline",   lockModule: "projetos",   perm: _isAdmin || can(session, "canViewProjetos") },
         { href: "/calendario", Icon: CalendarDays, label: "Calendário", grad: "calendario", lockModule: "calendario", perm: _isAdmin || can(session, "canViewCalendario") },
-        { href: "/ponto",      Icon: Clock,        label: "Ponto",      grad: "calendario", perm: true },
+        { href: "/ponto",      Icon: Clock,        label: "Ponto",      grad: "calendario", perm: true, agencyOnly: true },
         { href: "/videos",     Icon: MonitorPlay,  label: "Vídeos",     grad: "marketing",  lockModule: "videos",     perm: _isAdmin },
         { href: "/cofre",      Icon: Shield,       label: "Cofre",      grad: "cofre",      lockModule: "cofre",      perm: _isAdmin || can(session, "canViewCofre") },
       ],
@@ -240,6 +243,9 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     .map((g) => {
       const items: NavItem[] = [];
       for (const i of g.items) {
+        // Área interna da agência: some pra empresa-cliente, com ou sem
+        // permissão. Não vira cadeado porque não há o que contratar.
+        if (i.agencyOnly && isClient) continue;
         // Liberado se: super admin, sem gate de módulo, ou módulo contratado.
         const unlocked = _isSuperAdmin || !i.lockModule || hasModule(session, i.lockModule);
         // Aparece se: super admin; se liberado e tem a permissão; ou se bloqueado

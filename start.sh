@@ -24,6 +24,21 @@ node /app/node_modules/prisma/build/index.js db push --skip-generate --accept-da
   echo "[Backfill módulos] $RES"
 ) &
 
+# Backfill de acesso ao sistema (2026-08-26): `hasSystemAccess`/`fullSystemAccess`
+# viraram default true, mas `db push` não mexe em linha existente — sem isto o
+# cliente cadastrado antes continuaria preso ao Meu Espaço. Idempotente.
+(
+  sleep 18
+  echo "[Backfill acesso] iniciando..."
+  if [ -n "$CRON_SECRET" ]; then
+    RES=$(curl -s -X POST "http://localhost:3000/api/admin/backfill-acesso-cliente" \
+      -H "Authorization: Bearer ${CRON_SECRET}" --max-time 120 2>&1)
+  else
+    RES=$(curl -s -X POST "http://localhost:3000/api/admin/backfill-acesso-cliente" --max-time 120 2>&1)
+  fi
+  echo "[Backfill acesso] $RES"
+) &
+
 # Helper de curl que adiciona Authorization SE CRON_SECRET estiver definido.
 # Antes mandávamos -H "" quando o secret estava vazio — curl quebra silenciosamente
 # com header vazio, fazendo as cron pararem sem aviso.

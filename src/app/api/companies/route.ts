@@ -128,8 +128,8 @@ export async function POST(request: NextRequest) {
     if (moduleTickets !== undefined) data.moduleTickets = moduleTickets;
     if (parentCompanyId) data.parentCompanyId = parentCompanyId;
   } else {
-    // ADMIN e CLIENT: sub-empresa vinculada à sua empresa
-    data.hasSystemAccess = false;
+    // ADMIN e CLIENT: sub-empresa vinculada à sua empresa. `hasSystemAccess`
+    // não é mais forçado a false — herda o default (ligado) do schema.
     data.parentCompanyId = userCompanyId;
   }
 
