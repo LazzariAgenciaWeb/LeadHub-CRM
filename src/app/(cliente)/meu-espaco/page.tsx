@@ -56,17 +56,23 @@ export default async function MeuEspacoPage() {
   const hasIntroVideo = showVideos
     ? !!(await prisma.setting.findUnique({ where: { key: "onboarding_video_url" } }))?.value?.trim()
     : false;
-  // Relatórios de Marketing: o destino é o relatório DENTRO do portal
-  // (/meu-espaco/marketing), com o mesmo gate do menu do ClientShell —
-  // `Company.moduleRelatorioMarketing`. Apontar pro /relatorios da agência
-  // devolvia o cliente pro /meu-espaco: aquela rota vive no grupo (admin), que
-  // expulsa cliente sem `fullSystemAccess`. Não aparecia impersonando porque o
-  // guard do (admin) abre exceção pro super admin — daí "só quebra pro cliente".
-  // Cliente com acesso completo ao sistema continua indo pro /relatorios.
+  // Relatórios de Marketing. Duas coisas separadas aqui:
+  //
+  // DESTINO — cliente sem `fullSystemAccess` não entra em rota do grupo
+  // (admin): o layout de lá o devolve pro /meu-espaco. Por isso o /relatorios
+  // só vale pra quem tem o sistema completo; os demais vão pro relatório do
+  // próprio portal. Impersonando abria porque aquele guard abre exceção pro
+  // super admin — daí o bug só aparecer pro cliente real.
+  //
+  // GATE — é o mesmo `assertModule("marketing")` que a API do relatório exige
+  // (`/api/companies/[id]/marketing`), pra o card nunca levar a uma tela que
+  // não carrega. `moduleRelatorioMarketing` entra só como exceção ON: é cache
+  // derivado e nenhuma tela o liga hoje (a lista de módulos do editor de
+  // empresa é somente leitura), então exigir esse flag escondia o card de todo
+  // mundo.
   const marketingHref = company.fullSystemAccess ? "/relatorios?secao=marketing" : "/meu-espaco/marketing";
-  const showMarketing = company.fullSystemAccess
-    ? (await assertModule(session, "marketing")).ok
-    : company.moduleRelatorioMarketing;
+  const showMarketing =
+    company.moduleRelatorioMarketing || (await assertModule(session, "marketing")).ok;
 
   const projects = await prisma.setorClickupList.findMany({
     where:   { clientCompanyId: companyId, status: { not: "CANCELADO" } },
@@ -245,15 +251,19 @@ export default async function MeuEspacoPage() {
       <section className="row">
         <div className="rowhead"><h2>Seus produtos contratados</h2><span className="sub">o que é seu e está ativo com a gente</span></div>
         <div className="rail">
-          <Link href="/dashboard" className="prod">
-            <span className="pic" style={{ background: "linear-gradient(135deg,#6E86FF,#9B7BFF)" }}>⚡</span>
-            <div className="pb">
-              <b>LeadHub</b>
-              <span className="psb">seu sistema de gestão</span>
-              <span className="st ok">Ativo</span>
-              <span className="pr">Acessar o sistema →</span>
-            </div>
-          </Link>
+          {/* Só quem tem o sistema completo: sem `fullSystemAccess` o /dashboard
+              devolve o cliente pro /meu-espaco, e o card parecia "não abrir". */}
+          {company.fullSystemAccess && (
+            <Link href="/dashboard" className="prod">
+              <span className="pic" style={{ background: "linear-gradient(135deg,#6E86FF,#9B7BFF)" }}>⚡</span>
+              <div className="pb">
+                <b>LeadHub</b>
+                <span className="psb">seu sistema de gestão</span>
+                <span className="st ok">Ativo</span>
+                <span className="pr">Acessar o sistema →</span>
+              </div>
+            </Link>
+          )}
           {showMarketing && (
             <Link href={marketingHref} className="prod">
               <span className="pic" style={{ background: "linear-gradient(135deg,#38BDF8,#6366F1)" }}>📊</span>

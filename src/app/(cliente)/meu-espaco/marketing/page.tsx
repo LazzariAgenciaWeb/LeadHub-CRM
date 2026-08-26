@@ -28,15 +28,21 @@ export default async function ClienteMarketingPage() {
     where: { id: companyId },
     select: { parentCompanyId: true, moduleRelatorioMarketing: true },
   });
-  // Só sub-empresa entra no portal…
+  // Só sub-empresa entra no portal.
   if (!company?.parentCompanyId) redirect("/dashboard");
-  // …e só quando a agência liberou o relatório pra ela.
-  if (!company.moduleRelatorioMarketing) redirect("/meu-espaco");
+  // Antes havia aqui um `redirect("/meu-espaco")` quando
+  // `moduleRelatorioMarketing` era false. Esse flag é cache derivado e nenhuma
+  // tela o liga (a lista de módulos do editor de empresa é somente leitura),
+  // então na prática a página se auto-expulsava — e o cliente via um "voltou
+  // pro Meu Espaço" sem explicação. Quem decide agora é o gate de plano abaixo,
+  // que explica o motivo em vez de redirecionar em silêncio.
 
   // O plano da empresa pode não incluir o módulo marketing — nesse caso as APIs
   // do dashboard respondem 403 e a tela mostraria erro cru. Checamos antes e
   // explicamos, em vez de deixar o cliente achar que quebrou.
-  const gate = await assertModule(session, "marketing");
+  const gate = company.moduleRelatorioMarketing
+    ? ({ ok: true } as const)
+    : await assertModule(session, "marketing");
 
   return (
     <div className="mkwrap">
