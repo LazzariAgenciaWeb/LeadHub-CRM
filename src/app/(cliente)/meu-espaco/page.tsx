@@ -39,7 +39,7 @@ export default async function MeuEspacoPage() {
   if (!companyId || role === "SUPER_ADMIN") redirect("/dashboard");
   const company = await prisma.company.findUnique({
     where: { id: companyId },
-    select: { name: true, parentCompanyId: true },
+    select: { name: true, parentCompanyId: true, moduleRelatorioMarketing: true, fullSystemAccess: true },
   });
   if (!company?.parentCompanyId) redirect("/dashboard");
 
@@ -56,9 +56,17 @@ export default async function MeuEspacoPage() {
   const hasIntroVideo = showVideos
     ? !!(await prisma.setting.findUnique({ where: { key: "onboarding_video_url" } }))?.value?.trim()
     : false;
-  // Relatórios de Marketing: link direto quando o cliente tem a Dashboard de
-  // Marketing liberada (feature do plano — mesmo gate do /relatorios).
-  const showMarketing = (await assertModule(session, "marketing")).ok;
+  // Relatórios de Marketing: o destino é o relatório DENTRO do portal
+  // (/meu-espaco/marketing), com o mesmo gate do menu do ClientShell —
+  // `Company.moduleRelatorioMarketing`. Apontar pro /relatorios da agência
+  // devolvia o cliente pro /meu-espaco: aquela rota vive no grupo (admin), que
+  // expulsa cliente sem `fullSystemAccess`. Não aparecia impersonando porque o
+  // guard do (admin) abre exceção pro super admin — daí "só quebra pro cliente".
+  // Cliente com acesso completo ao sistema continua indo pro /relatorios.
+  const marketingHref = company.fullSystemAccess ? "/relatorios?secao=marketing" : "/meu-espaco/marketing";
+  const showMarketing = company.fullSystemAccess
+    ? (await assertModule(session, "marketing")).ok
+    : company.moduleRelatorioMarketing;
 
   const projects = await prisma.setorClickupList.findMany({
     where:   { clientCompanyId: companyId, status: { not: "CANCELADO" } },
@@ -247,7 +255,7 @@ export default async function MeuEspacoPage() {
             </div>
           </Link>
           {showMarketing && (
-            <Link href="/relatorios?secao=marketing" className="prod">
+            <Link href={marketingHref} className="prod">
               <span className="pic" style={{ background: "linear-gradient(135deg,#38BDF8,#6366F1)" }}>📊</span>
               <div className="pb">
                 <b>Relatórios de Marketing</b>
