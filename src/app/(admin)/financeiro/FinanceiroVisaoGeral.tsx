@@ -110,6 +110,33 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
     .filter((s) => s.faturado)
     .reduce((n, s) => n + s.amountCents, 0);
 
+  // Lançamento das cobranças recorrentes da competência. Antes só dava pra
+  // criar uma a uma abrindo cada empresa — inviável com dezenas de contratos,
+  // e sem isso não havia como fechar o mês e conferir o que faltou.
+  const [faturando, setFaturando] = useState(false);
+  const [dueDay, setDueDay] = useState("10");
+  const [faturarErr, setFaturarErr] = useState("");
+
+  async function faturar(serviceIds?: string[]) {
+    setFaturando(true);
+    setFaturarErr("");
+    try {
+      const res = await fetch("/api/financeiro/faturar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ month: data.month, dueDay: Number(dueDay) || 10, serviceIds }),
+      });
+      if (!res.ok) {
+        const e = await res.json().catch(() => ({}));
+        setFaturarErr(e.error ?? "Não foi possível lançar as cobranças.");
+        return;
+      }
+      router.refresh();
+    } finally {
+      setFaturando(false);
+    }
+  }
+
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [fRevenue, setFRevenue] = useState((meta.revenueTargetCents / 100).toFixed(2).replace(".", ","));
@@ -383,10 +410,45 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
               {carteira.contratosAtivos} contrato(s) ativo(s)
             </span>
           </div>
-          <p className="text-xs text-slate-600 mb-4">
+          <p className="text-xs text-slate-600 mb-3">
             Contratos recorrentes sem cobrança lançada na competência. Lista derivada —
             some sozinha quando a cobrança é criada.
           </p>
+
+          {/* Fechamento do mês: lança tudo de uma vez e depois confere o que
+              sobrou na própria lista. Idempotente — repetir não duplica. */}
+          {data.pendentes.length > 0 && (
+            <div className="mb-3 flex flex-wrap items-end gap-2 pb-3 border-b border-[#1e2d45]">
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-slate-500">Vencimento (dia)</span>
+                <input
+                  type="number"
+                  min={1}
+                  max={31}
+                  value={dueDay}
+                  onChange={(e) => setDueDay(e.target.value)}
+                  className={`${input} w-20`}
+                />
+              </label>
+              <button
+                onClick={() => faturar()}
+                disabled={faturando}
+                className="px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 disabled:opacity-40 text-white text-sm font-medium flex items-center gap-1.5"
+              >
+                <Check className="w-3.5 h-3.5" />
+                {faturando
+                  ? "Lançando…"
+                  : `Faturar todos (${data.pendentes.length})`}
+              </button>
+              <span className="text-[11px] text-slate-600 basis-full">
+                Cria as cobranças de {monthLabel(data.month)} com vencimento no dia {dueDay || "10"}.
+                Contrato que já tem cobrança na competência é ignorado.
+              </span>
+              {faturarErr && (
+                <span className="text-[11px] text-red-400 basis-full">{faturarErr}</span>
+              )}
+            </div>
+          )}
 
           {data.pendentes.length === 0 ? (
             <div className="py-8 text-center text-slate-600 text-sm">
@@ -397,23 +459,34 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
           ) : (
             <div className="space-y-1.5 max-h-[320px] overflow-y-auto">
               {data.pendentes.map((p) => (
-                <Link
+                <div
                   key={p.id}
-                  href={`/empresas/${p.clienteId}#financeiro`}
                   className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-white/[0.02] border border-transparent hover:border-[#1e2d45] transition-colors group"
                 >
-                  <div className="min-w-0">
+                  <Link href={`/empresas/${p.clienteId}#financeiro`} className="min-w-0 flex-1">
                     <div className="text-sm text-white truncate">{p.cliente}</div>
                     <div className="text-xs text-slate-500 truncate">
                       {p.label}
                       <span className="text-slate-600"> · {CYCLE_LABEL[(p.cycle as Cycle)] ?? p.cycle}</span>
                     </div>
-                  </div>
+                  </Link>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="text-sm text-amber-400 font-medium">{brlFromCents(p.amountCents)}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-700 group-hover:text-indigo-400 transition-colors" />
+                    {/* Lançar só este contrato — quando o mês não fecha em bloco
+                        (cliente que paga em data própria, cobrança combinada à parte). */}
+                    <button
+                      onClick={() => faturar([p.id])}
+                      disabled={faturando}
+                      title="Lançar a cobrança deste contrato"
+                      className="px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 text-slate-400 hover:bg-amber-500/15 hover:text-amber-300 disabled:opacity-40 transition-colors"
+                    >
+                      Faturar
+                    </button>
+                    <Link href={`/empresas/${p.clienteId}#financeiro`} className="text-slate-700 group-hover:text-indigo-400 transition-colors">
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           )}
