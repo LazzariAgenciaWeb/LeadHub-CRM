@@ -51,7 +51,7 @@ export default async function FinanceiroPage({
         where: { clientCompanyId: { in: clientIds }, isRecurring: true },
         select: {
           id: true, label: true, status: true, amountCents: true, billingCycle: true,
-          renewsAt: true, clientCompanyId: true, isRecurring: true,
+          renewsAt: true, clientCompanyId: true, isRecurring: true, billingDay: true,
         },
       }),
       // Faturas da competência (o que já foi lançado pro mês).
@@ -135,12 +135,15 @@ export default async function FinanceiroPage({
 
   // ── Comercial ─────────────────────────────────────────────────────────────
   const abertos = leads.filter((l) => l.status !== "CLOSED" && l.status !== "LOST");
-  // Mesmo fallback do Kanban e do backfill: lead fechado antes do carimbo
-  // existir cai em `updatedAt`. Sem isso o board e esta tela discordariam sobre
-  // o ganho do mês enquanto a base não estiver toda carimbada.
+  // SEM fallback pra `updatedAt`. A migration `20260824_lead_outcome_dates`
+  // carimbou wonAt/lostAt na base inteira, então o fallback deixou de ser rede
+  // de segurança e virou bug: qualquer edição num lead ganho meses atrás
+  // (mudar telefone, anexar nota) reescreve `updatedAt` e ressuscita a venda na
+  // competência corrente. Era isso que inflava o "ganho do mês" muito acima da
+  // soma das vendas listadas. Lead sem carimbo agora simplesmente não conta.
   const inRange = (d: Date | null) => !!d && d >= from && d < to;
-  const ganhos = leads.filter((l) => l.status === "CLOSED" && inRange(l.wonAt ?? l.updatedAt));
-  const perdas = leads.filter((l) => l.status === "LOST" && inRange(l.lostAt ?? l.updatedAt));
+  const ganhos = leads.filter((l) => l.status === "CLOSED" && inRange(l.wonAt));
+  const perdas = leads.filter((l) => l.status === "LOST" && inRange(l.lostAt));
   const sum = (arr: { value: number | null }[]) => Math.round(arr.reduce((s, l) => s + (l.value ?? 0), 0) * 100);
 
   const promovidos = promotions.filter(
@@ -182,6 +185,9 @@ export default async function FinanceiroPage({
         clienteId: c.clientCompanyId,
         amountCents: c.amountCents ?? 0,
         cycle: c.billingCycle ?? "MENSAL",
+        // Dia de vencimento combinado no contrato. Quando existe, a cobrança
+        // deve vencer nele — não no dia único escolhido pro lote.
+        billingDay: c.billingDay ?? null,
       }))
       .sort((a, b) => b.amountCents - a.amountCents),
     comercial: {

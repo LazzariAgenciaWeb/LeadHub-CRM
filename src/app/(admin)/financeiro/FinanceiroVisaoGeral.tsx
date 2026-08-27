@@ -31,6 +31,8 @@ export interface VisaoGeralData {
   pendentes: {
     id: string; label: string; cliente: string; clienteId: string;
     amountCents: number; cycle: string;
+    /** Dia do vencimento combinado no contrato. Null = usa o dia do lote. */
+    billingDay: number | null;
   }[];
   comercial: {
     abertoCents: number; abertoQtd: number;
@@ -116,6 +118,22 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
   const [faturando, setFaturando] = useState(false);
   const [dueDay, setDueDay] = useState("10");
   const [faturarErr, setFaturarErr] = useState("");
+  // Conferência do fechamento: o mês raramente fecha em bloco — cliente que
+  // paga fora do ciclo, contrato em negociação. Marcar e lançar só o que foi
+  // conferido evita o vai-e-vem de faturar um por um.
+  const [selecionados, setSelecionados] = useState<Set<string>>(new Set());
+  const toggle = (id: string) =>
+    setSelecionados((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  // A lista é derivada: contrato faturado some dela. Reconciliar a seleção com
+  // o que ainda existe, senão o contador conta fantasma depois do refresh.
+  const marcados = data.pendentes.filter((p) => selecionados.has(p.id));
+  const totalMarcadoCents = marcados.reduce((n, p) => n + p.amountCents, 0);
+  const todosMarcados = data.pendentes.length > 0 && marcados.length === data.pendentes.length;
 
   async function faturar(serviceIds?: string[]) {
     setFaturando(true);
@@ -131,6 +149,7 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
         setFaturarErr(e.error ?? "Não foi possível lançar as cobranças.");
         return;
       }
+      setSelecionados(new Set());
       router.refresh();
     } finally {
       setFaturando(false);
@@ -431,17 +450,31 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
                 />
               </label>
               <button
-                onClick={() => faturar()}
+                onClick={() => faturar(marcados.length > 0 ? marcados.map((p) => p.id) : undefined)}
                 disabled={faturando}
                 className="px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 disabled:opacity-40 text-white text-sm font-medium flex items-center gap-1.5"
               >
                 <Check className="w-3.5 h-3.5" />
                 {faturando
                   ? "Lançando…"
-                  : `Faturar todos (${data.pendentes.length})`}
+                  : marcados.length > 0
+                    ? `Faturar selecionados (${marcados.length}) · ${brlFromCents(totalMarcadoCents)}`
+                    : `Faturar todos (${data.pendentes.length})`}
               </button>
+              <label className="flex items-center gap-1.5 text-[11px] text-slate-500 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={todosMarcados}
+                  onChange={() =>
+                    setSelecionados(todosMarcados ? new Set() : new Set(data.pendentes.map((p) => p.id)))
+                  }
+                  className="accent-amber-500 w-3.5 h-3.5"
+                />
+                {todosMarcados ? "Limpar seleção" : "Selecionar todos"}
+              </label>
               <span className="text-[11px] text-slate-600 basis-full">
-                Cria as cobranças de {monthLabel(data.month)} com vencimento no dia {dueDay || "10"}.
+                Cria as cobranças de {monthLabel(data.month)}. Contrato com dia de vencimento
+                combinado usa o dia dele; o resto vence no dia {dueDay || "10"}.
                 Contrato que já tem cobrança na competência é ignorado.
               </span>
               {faturarErr && (
@@ -461,13 +494,30 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
               {data.pendentes.map((p) => (
                 <div
                   key={p.id}
-                  className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-white/[0.02] border border-transparent hover:border-[#1e2d45] transition-colors group"
+                  className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg border transition-colors group ${
+                    selecionados.has(p.id)
+                      ? "bg-amber-500/[0.07] border-amber-500/30"
+                      : "bg-white/[0.02] border-transparent hover:border-[#1e2d45]"
+                  }`}
                 >
+                  <input
+                    type="checkbox"
+                    checked={selecionados.has(p.id)}
+                    onChange={() => toggle(p.id)}
+                    className="accent-amber-500 w-3.5 h-3.5 flex-shrink-0"
+                    aria-label={`Selecionar ${p.cliente} — ${p.label}`}
+                  />
                   <Link href={`/empresas/${p.clienteId}#financeiro`} className="min-w-0 flex-1">
                     <div className="text-sm text-white truncate">{p.cliente}</div>
                     <div className="text-xs text-slate-500 truncate">
                       {p.label}
                       <span className="text-slate-600"> · {CYCLE_LABEL[(p.cycle as Cycle)] ?? p.cycle}</span>
+                      {/* Vencimento que a cobrança vai receber — o do contrato
+                          quando existe, senão o dia escolhido pro lote. */}
+                      <span className={p.billingDay ? "text-slate-500" : "text-slate-600"}>
+                        {" · vence dia "}{p.billingDay ?? (dueDay || "10")}
+                        {!p.billingDay && " (padrão)"}
+                      </span>
                     </div>
                   </Link>
                   <div className="flex items-center gap-2 flex-shrink-0">

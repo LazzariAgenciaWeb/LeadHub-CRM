@@ -37,12 +37,16 @@ export async function POST(req: NextRequest) {
     ? body.serviceIds.map(String)
     : null;
 
-  // Vencimento: dia escolhido dentro da competência (default 10). Faturamento
-  // recorrente vence no mês de referência, não "hoje + N".
+  // Vencimento cai DENTRO da competência — cobrança recorrente vence no mês de
+  // referência, não "hoje + N". O dia do corpo é só o padrão de quem não tem
+  // `billingDay` combinado no contrato; mês curto puxa pro último dia.
   const [y, m] = month.split("-").map(Number);
   const lastDay = new Date(Date.UTC(y, m, 0)).getUTCDate();
-  const dueDay = Math.min(Math.max(parseInt(String(body?.dueDay ?? 10), 10) || 10, 1), lastDay);
-  const dueDate = new Date(Date.UTC(y, m - 1, dueDay, 12, 0, 0));
+  const fallbackDay = Math.min(Math.max(parseInt(String(body?.dueDay ?? 10), 10) || 10, 1), lastDay);
+  const dueDateFor = (billingDay: number | null) => {
+    const day = Math.min(Math.max(billingDay ?? fallbackDay, 1), lastDay);
+    return new Date(Date.UTC(y, m - 1, day, 12, 0, 0));
+  };
 
   // Carteira da agência — o mesmo escopo da Visão geral.
   const clients = await prisma.company.findMany({
@@ -65,6 +69,7 @@ export async function POST(req: NextRequest) {
       select: {
         id: true, label: true, amountCents: true, billingCycle: true,
         renewsAt: true, isRecurring: true, clientCompanyId: true, status: true,
+        billingDay: true,
       },
     }),
     prisma.clientInvoice.findMany({
@@ -92,7 +97,7 @@ export async function POST(req: NextRequest) {
       description: c.label,
       referenceMonth: month,
       amountCents: c.amountCents ?? 0,
-      dueDate,
+      dueDate: dueDateFor(c.billingDay),
       status: "ABERTO",
       provider: "manual",
     })),
