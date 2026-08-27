@@ -91,7 +91,7 @@ export async function PATCH(
   // Fonte da verdade: PipelineStageConfig.outcome (configurável por empresa e por
   // pipeline — funciona pra cliente que só tem LEADS). Fallback pro match por nome
   // pra etapas ainda não classificadas (base antiga sem outcome setado).
-  let derivedStatus: "CLOSED" | "LOST" | undefined;
+  let derivedStatus: "CLOSED" | "LOST" | "NEW" | undefined;
   let enteredGanho = false; // entrou numa etapa GANHO agora (gatilho de conversão)
   const stageChanged =
     pipelineStage !== undefined &&
@@ -119,6 +119,15 @@ export async function PATCH(
         if (existing.status !== "CLOSED") derivedStatus = "CLOSED";
       } else if (s.includes("perdido") || s.includes("perdeu") || s.includes("perda")) {
         if (existing.status !== "LOST") derivedStatus = "LOST";
+      } else if (existing.status === "CLOSED" || existing.status === "LOST") {
+        // REABERTURA: card volta de uma etapa final pra uma etapa aberta.
+        // Sem isso o status ficava grudado em CLOSED/LOST para sempre, e o
+        // bloco de outcomeDates abaixo (que exige effectiveStatus definido)
+        // nunca limpava wonAt. Consequência em cascata: a venda não saía da
+        // esteira ao reabrir e, pior, o PRÓXIMO ganho virava no-op —
+        // `existing.status !== "CLOSED"` era falso, wonAt não era recarimbado
+        // e upsertSaleFromWonLead jamais rodava.
+        derivedStatus = "NEW";
       }
     }
   }

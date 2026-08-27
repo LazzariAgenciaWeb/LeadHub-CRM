@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ListChecks, Building2, Plus, X, ExternalLink, Check, Pencil, Unlink } from "lucide-react";
+import { ListChecks, Building2, Plus, X, ExternalLink, Check, Pencil, Unlink, Trash2 } from "lucide-react";
 import FinanceiroTabs from "../FinanceiroTabs";
 import { brlFromCents } from "../lib";
 
@@ -130,6 +130,30 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
     setLinking(null);
     setNewName("");
     setPicked("");
+    router.refresh();
+  }
+
+  /**
+   * Tira a venda da esteira. Não mexe no lead — se ele continuar numa etapa de
+   * ganho, um novo PATCH no CRM recria a venda. Serve pra limpar entrada
+   * indevida (marcado como ganho por engano, teste, duplicata).
+   */
+  async function remove(sale: EsteiraSale) {
+    const ok = window.confirm(
+      `Excluir "${sale.title}" da esteira?\n\nO lead no CRM não é alterado. Se ele continuar numa etapa marcada como Ganho, a venda volta a aparecer no próximo movimento do card.`
+    );
+    if (!ok) return;
+
+    setBusy(sale.id);
+    setErr("");
+    const res = await fetch(`/api/financeiro/vendas/${sale.id}`, { method: "DELETE" });
+    setBusy(null);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      setErr(e.error ?? "Não foi possível excluir.");
+      return;
+    }
+    setSales((prev) => prev.filter((s) => s.id !== sale.id));
     router.refresh();
   }
 
@@ -375,6 +399,18 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                     <option value="RECORRENTE">Recorrente</option>
                   </select>
                 </label>
+
+                {/* Saída manual da esteira: entrada indevida (ganho por engano,
+                    teste, duplicata) precisa de um jeito de sumir — a remoção
+                    automática só age na reabertura e só se ninguém encostou. */}
+                <button
+                  onClick={() => remove(s)}
+                  disabled={busy === s.id}
+                  title="Excluir da esteira"
+                  className="p-1.5 rounded-lg text-slate-600 hover:text-red-400 hover:bg-red-500/10 disabled:opacity-40 transition-colors"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
               </div>
             </div>
           ))}

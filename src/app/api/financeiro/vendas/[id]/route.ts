@@ -116,3 +116,45 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   });
   return NextResponse.json(updated);
 }
+
+// DELETE /api/financeiro/vendas/[id]
+//
+// Remove a venda da esteira. Existe porque a remoção automática
+// (removeSaleIfUntouched) só age na reabertura do lead e só quando ninguém
+// encostou na venda — sem isso, entrada indevida (lead marcado como ganho por
+// engano, teste, duplicata) ficava presa na esteira pra sempre.
+//
+// Não mexe no lead: excluir da esteira é decisão do Financeiro, não do CRM. Se
+// o lead continuar numa etapa de ganho, um novo PATCH nele recria a venda —
+// comportamento desejado, já que o CRM segue sendo a fonte da verdade.
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await getEffectiveSession();
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const role = (session.user as any)?.role as string;
+  const isAdmin = role === "SUPER_ADMIN" || role === "ADMIN";
+  if (!isAdmin && !can(session, "canViewFinanceiro")) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+  const agencyId = (session.user as any)?.companyId as string | undefined;
+
+  const { id } = await params;
+  const sale = await prisma.sale.findUnique({
+    where: { id },
+    select: { id: true, companyId: true },
+  });
+  if (!sale) return NextResponse.json({ error: "Venda não encontrada" }, { status: 404 });
+
+  if (role !== "SUPER_ADMIN" && sale.companyId !== agencyId) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+
+  // Bonus tem FK pra Sale — apaga junto pra não deixar bonificação órfã
+  // apontando pra venda inexistente.
+  await prisma.$transaction([
+    prisma.bonus.deleteMany({ where: { saleId: id } }),
+    prisma.sale.delete({ where: { id } }),
+  ]);
+
+  return NextResponse.json({ ok: true });
+}
