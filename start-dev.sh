@@ -1,4 +1,7 @@
 #!/bin/bash
 export PATH="/usr/local/bin:$PATH"
-cd "/Users/diegolazzari/Library/CloudStorage/GoogleDrive-diego@lazzari.net.br/O meu disco/SaaS/Portal de Clientes/leadhub"
+# Sobe o dev server a partir da pasta do próprio script — antes o caminho era
+# fixo e apontava pro snapshot no Google Drive, então `npm run dev` rodava
+# código velho sem avisar.
+cd "$(dirname "$0")"
 exec npm run dev
