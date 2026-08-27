@@ -655,6 +655,14 @@ export default function CRMBoard({
     });
   }
 
+  /** Rótulo do registro conforme o pipeline do board (espelha o texto do Deletar individual). */
+  function bulkEntityLabel(count: number) {
+    const plural = count !== 1;
+    if (pipeline === "OPORTUNIDADES") return plural ? "oportunidades" : "oportunidade";
+    if (pipeline === "PROSPECCAO")    return plural ? "prospects"     : "prospect";
+    return plural ? "leads" : "lead";
+  }
+
   async function bulkApplyTag(tag: TagInfo) {
     if (bulkSelected.size === 0) return;
     setBulkBusy(true);
@@ -750,6 +758,44 @@ export default function CRMBoard({
         setBulkMsg(`✅ ${data.merged} registro(s) fundido(s) — atualizando...`);
         setBulkSelected(new Set());
         setTimeout(() => window.location.reload(), 700);
+      }
+    } catch (err: any) {
+      setBulkMsg(`⚠️ ${err?.message ?? "Erro"}`);
+    } finally {
+      setBulkBusy(false);
+    }
+  }
+
+  async function bulkDelete() {
+    if (bulkSelected.size === 0) return;
+    const ids = [...bulkSelected];
+    const chosen = leads.filter((l) => ids.includes(l.id));
+    const names = chosen.slice(0, 10).map((l) => l.name ?? l.phone).join(", ");
+    const extra = chosen.length > 10 ? ` e mais ${chosen.length - 10}` : "";
+    if (!window.confirm(
+      `Excluir ${ids.length} ${bulkEntityLabel(ids.length)}?\n\n${names}${extra}\n\n` +
+      `As mensagens do WhatsApp são preservadas (só perdem o vínculo), mas ` +
+      `comentários, tarefas e histórico serão removidos junto. ` +
+      `Esta ação não pode ser desfeita.`
+    )) return;
+
+    setBulkBusy(true);
+    setBulkMsg(null);
+    try {
+      const res = await fetch("/api/leads/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadIds: ids, action: "delete" }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setBulkMsg(`⚠️ ${data?.error ?? "Falha ao excluir"}`);
+      } else {
+        setLeads((prev) => prev.filter((l) => !ids.includes(l.id)));
+        setBulkSelected(new Set());
+        setBulkMsg(`✅ Exclusão concluída — ${data.affected} ${bulkEntityLabel(data.affected)}`);
+        if (selected && ids.includes(selected.id)) setSelected(null);
+        startTransition(() => router.refresh());
       }
     } catch (err: any) {
       setBulkMsg(`⚠️ ${err?.message ?? "Erro"}`);
@@ -1934,6 +1980,16 @@ export default function CRMBoard({
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium transition-colors disabled:opacity-50"
             >
               🔀 Mesclar
+            </button>
+
+            {/* Excluir selecionados */}
+            <button
+              onClick={bulkDelete}
+              disabled={bulkSelected.size === 0 || bulkBusy}
+              title={`Excluir ${bulkEntityLabel(bulkSelected.size)} selecionado(s) — não pode ser desfeito`}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-medium transition-colors disabled:opacity-50"
+            >
+              <Trash2 className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} /> Excluir
             </button>
 
             <button

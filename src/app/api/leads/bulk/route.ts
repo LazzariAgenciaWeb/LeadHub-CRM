@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { getUserPermissions } from "@/lib/user-permissions";
+import { revertScore } from "@/lib/gamification";
 
 // POST /api/leads/bulk
 // Ações em massa sobre uma lista de leads. Body:
@@ -8,6 +10,7 @@ import { prisma } from "@/lib/prisma";
 //   { leadIds: string[], action: "removeTag", tagId }
 //   { leadIds: string[], action: "setStage", pipelineStage }
 //   { leadIds: string[], action: "setPipeline", pipeline, pipelineStage? }
+//   { leadIds: string[], action: "delete" }
 //
 // Todos os leads precisam ser da empresa do usuário (SUPER_ADMIN ignora o gate).
 export async function POST(req: NextRequest) {
@@ -92,6 +95,41 @@ export async function POST(req: NextRequest) {
         where: { id: { in: allowedIds } },
         data: { pipeline, pipelineStage },
       });
+      return NextResponse.json({ ok: true, affected: result.count });
+    }
+
+    case "delete": {
+      // Exclusão é destrutiva: mesmo gate do DELETE individual (fix C2) —
+      // só admin da empresa ou quem tem canManageUsers.
+      const perms = await getUserPermissions(session);
+      if (!perms) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+      if (!perms.isAdmin && !perms.canManageUsers) {
+        return NextResponse.json({ error: "Sem permissão para excluir leads" }, { status: 403 });
+      }
+
+      // Desvincula as mensagens antes de deletar (mesma ordem do delete individual —
+      // mensagem sobrevive ao lead, só perde o vínculo).
+      await prisma.message.updateMany({
+        where: { leadId: { in: allowedIds } },
+        data:  { leadId: null },
+      });
+
+      // Pontuação atrelada aos leads (ScoreEvent.referenceId é string solta,
+      // sem FK — não cascateia no delete). Lê antes e reverte depois, na mesma
+      // ordem do delete individual.
+      const orphanedEvents = await prisma.scoreEvent.findMany({
+        where:    { referenceId: { in: allowedIds } },
+        select:   { userId: true, companyId: true, referenceId: true },
+        distinct: ["userId", "referenceId"],
+      });
+
+      const result = await prisma.lead.deleteMany({ where: { id: { in: allowedIds } } });
+
+      for (const ev of orphanedEvents) {
+        if (!ev.referenceId) continue; // referenceId é nullable no schema
+        await revertScore(ev.userId, ev.companyId, ev.referenceId).catch(() => {});
+      }
+
       return NextResponse.json({ ok: true, affected: result.count });
     }
 
