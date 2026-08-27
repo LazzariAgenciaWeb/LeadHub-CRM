@@ -4792,9 +4792,17 @@ export default function WhatsappManager({
                               </div>
                             )}
 
-                            {/* Imagem inline — thumb leve; clique abre a cheia (?full=1) em nova guia */}
+                            {/* Imagem inline — thumb leve; clique abre a cheia (?full=1) em nova guia.
+                                LEGENDA: quando a imagem veio com comentário junto, o body é a
+                                legenda (não o placeholder "🖼️ Imagem") — mostra abaixo da imagem.
+                                Antes só a imagem renderizava e a legenda ficava engolida. */}
                             {msg.hasMedia && msg.mediaType?.startsWith("image/") ? (
-                              <ChatImage msgId={msg.id} isOut={isOut || isOursInGroup} />
+                              <>
+                                <ChatImage msgId={msg.id} isOut={isOut || isOursInGroup} />
+                                {msg.body && !isMedia && msg.body !== "[imagem]" && (
+                                  <p className="text-sm whitespace-pre-wrap break-words mt-1.5">{msg.body}</p>
+                                )}
+                              </>
                             ) : msg.hasMedia && msg.mediaType?.startsWith("audio/") ? (
                               /* Player de áudio — preload metadata só (não baixa o áudio inteiro até dar play) */
                               <audio controls preload="metadata" className="w-full mt-1" style={{ minWidth: 200, maxWidth: 280 }}>
