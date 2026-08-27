@@ -1742,6 +1742,7 @@ exports.Prisma.ClientInvoiceScalarFieldEnum = {
   notes: 'notes',
   externalId: 'externalId',
   provider: 'provider',
+  saleId: 'saleId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

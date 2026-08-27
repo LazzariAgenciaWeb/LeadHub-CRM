@@ -114,7 +114,69 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data,
     include: { clientCompany: { select: { id: true, name: true } } },
   });
-  return NextResponse.json(updated);
+
+  // ── Faturar gera cobrança de verdade ─────────────────────────────────────
+  // Sem isso, "Faturado" na esteira era só um checkbox: a venda não entrava em
+  // "Já faturado" nem na barra da meta (que somam ClientInvoice), então venda
+  // pontual ficava invisível no financeiro por mais que estivesse faturada.
+  //
+  // Recorrente continua vindo do contrato (clientServiceId) — aqui é só o
+  // avulso da esteira. O vínculo é 1:1 via saleId (unique), então remarcar
+  // "Faturado" não duplica.
+  let invoice = null;
+
+  // Desfazer: marcou faturado por engano e voltou atrás. Remove a cobrança
+  // gerada — mas só se ainda estiver ABERTO. Cobrança já paga permanece:
+  // apagar registro de dinheiro que entrou seria pior que a inconsistência.
+  if (
+    billingStatus !== undefined &&
+    billingStatus !== "FATURADO" &&
+    sale.billingStatus === "FATURADO"
+  ) {
+    await prisma.clientInvoice.deleteMany({ where: { saleId: id, status: "ABERTO" } });
+  }
+
+  if (billingStatus === "FATURADO" && sale.billingStatus !== "FATURADO") {
+    const clientId = (data.clientCompanyId as string | undefined) ?? updated.clientCompanyId;
+    if (!clientId) {
+      // A venda foi marcada como faturada, mas não tem pra quem cobrar. Não
+      // desfazemos o status — o usuário vê o aviso e vincula o cliente.
+      return NextResponse.json({
+        ...updated,
+        warning: "Venda marcada como faturada, mas sem cliente vinculado — a cobrança não foi criada. Vincule um cliente e marque novamente.",
+      });
+    }
+
+    const existing = await prisma.clientInvoice.findUnique({ where: { saleId: id } });
+    if (!existing) {
+      // Vencimento: o que veio no corpo, ou +7 dias como default de trabalho.
+      const due = body?.dueDate ? new Date(String(body.dueDate)) : null;
+      const dueDate = due && !isNaN(due.getTime())
+        ? due
+        : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+      // Competência = mês do fechamento da venda, não o de hoje. Venda de
+      // julho faturada em agosto pertence a julho nos relatórios.
+      const ref = updated.closedAt;
+      const referenceMonth = `${ref.getFullYear()}-${String(ref.getMonth() + 1).padStart(2, "0")}`;
+
+      invoice = await prisma.clientInvoice.create({
+        data: {
+          clientCompanyId: clientId,
+          saleId: id,
+          description: updated.title,
+          amountCents: updated.valueCents,
+          dueDate,
+          referenceMonth,
+          status: "ABERTO",
+          provider: "manual",
+        },
+        select: { id: true, amountCents: true, dueDate: true, status: true },
+      });
+    }
+  }
+
+  return NextResponse.json({ ...updated, invoice });
 }
 
 // DELETE /api/financeiro/vendas/[id]

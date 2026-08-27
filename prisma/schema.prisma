@@ -3842,6 +3842,13 @@ model ClientInvoice {
   externalId String? // nosso número / id do boleto no sistema/banco (id do Bling quando provider="bling")
   provider   String? // origem (ex.: "manual", "bling")
 
+  // Cobrança gerada a partir de uma venda pontual da esteira. Recorrente
+  // continua vindo por clientServiceId — os dois são mutuamente exclusivos na
+  // prática. Unique porque marcar "Faturado" duas vezes não pode duplicar
+  // cobrança; o PATCH da venda checa este vínculo antes de criar.
+  sale   Sale?   @relation(fields: [saleId], references: [id], onDelete: SetNull)
+  saleId String? @unique
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -3909,6 +3916,8 @@ model Sale {
   notes String? @db.Text
 
   bonuses Bonus[]
+  // Cobrança gerada quando a venda é marcada como faturada na esteira.
+  invoice ClientInvoice?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
