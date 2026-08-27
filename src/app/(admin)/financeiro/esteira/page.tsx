@@ -31,6 +31,9 @@ export default async function EsteiraPage() {
       include: {
         clientCompany: { select: { id: true, name: true } },
         lead: { select: { id: true } },
+        // Cobrança gerada ao marcar "Faturado" — a esteira mostra vencimento e
+        // se já foi paga, senão o usuário marca faturado e não vê pra onde foi.
+        invoice: { select: { id: true, dueDate: true, status: true, amountCents: true } },
       },
     }),
     prisma.company.findMany({
@@ -55,6 +58,14 @@ export default async function EsteiraPage() {
       contractStatus: s.contractStatus,
       billingStatus: s.billingStatus,
       productionStatus: s.productionStatus,
+      invoice: s.invoice
+        ? {
+            id: s.invoice.id,
+            dueDate: s.invoice.dueDate.toISOString(),
+            status: s.invoice.status,
+            amountCents: s.invoice.amountCents,
+          }
+        : null,
     })),
   };
 

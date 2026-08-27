@@ -39,6 +39,14 @@ export interface VisaoGeralData {
     leadsNoMes: number; promovidosNoMes: number;
   };
   meta: { revenueTargetCents: number; newSalesTargetCents: number };
+  /** Vendas fechadas na competência — inclui pontual, que não tem contrato. */
+  vendasDoMes: {
+    id: string; title: string; cliente: string | null;
+    amountCents: number; kind: string;
+    faturado: boolean; pago: boolean; marcadoSemCobranca: boolean;
+  }[];
+  /** Soma das vendas do mês que ainda não viraram cobrança. */
+  pontualAFaturarCents: number;
 }
 
 const card = "bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5";
@@ -97,7 +105,10 @@ function Pendencia({ label, n }: { label: string; n: number }) {
 
 export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData }) {
   const router = useRouter();
-  const { competencia: c, comercial: v, carteira, meta } = data;
+  const { competencia: c, comercial: v, carteira, meta, vendasDoMes, pontualAFaturarCents } = data;
+  const vendasFaturadasCents = vendasDoMes
+    .filter((s) => s.faturado)
+    .reduce((n, s) => n + s.amountCents, 0);
 
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -290,6 +301,72 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
                 )}
               </div>
             </div>
+          </div>
+        )}
+      </div>
+
+      {/* Vendas fechadas na competência — responde "o que vendi e o que já
+          virou cobrança". Os cards do topo só olham contrato recorrente, então
+          sem esta lista a venda pontual não aparecia em lugar nenhum. */}
+      <div className={card}>
+        <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
+          <h2 className="text-white font-semibold text-sm flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-emerald-400" />
+            Vendas fechadas no mês
+          </h2>
+          <span className="text-xs text-slate-500">
+            {vendasDoMes.length} venda(s) · {brlFromCents(vendasFaturadasCents)} faturado
+            {pontualAFaturarCents > 0 && (
+              <> · <span className="text-amber-400">{brlFromCents(pontualAFaturarCents)} a faturar</span></>
+            )}
+          </span>
+        </div>
+        <p className="text-xs text-slate-600 mb-4">
+          Fechadas nesta competência. Marcar “Faturado” na esteira gera a cobrança e soma em “Já faturado”.
+        </p>
+
+        {vendasDoMes.length === 0 ? (
+          <p className="text-sm text-slate-600 py-4 text-center">Nenhuma venda fechada neste mês.</p>
+        ) : (
+          <div className="space-y-1 max-h-72 overflow-y-auto">
+            {vendasDoMes.map((s) => (
+              <div
+                key={s.id}
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.02]"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="text-slate-200 text-sm truncate">{s.title}</p>
+                  <p className="text-slate-600 text-[11px] truncate">
+                    {s.cliente ?? <span className="text-amber-500">sem cliente vinculado</span>}
+                    {" · "}
+                    {s.kind === "RECORRENTE" ? "Recorrente" : "Pontual"}
+                  </p>
+                </div>
+                <span className="text-slate-300 text-sm font-medium shrink-0">
+                  {brlFromCents(s.amountCents)}
+                </span>
+                <span className="shrink-0 w-28 text-right">
+                  {s.pago ? (
+                    <span className="text-[11px] text-emerald-400">✓ Pago</span>
+                  ) : s.faturado ? (
+                    <span className="text-[11px] text-sky-400">Faturado</span>
+                  ) : s.marcadoSemCobranca ? (
+                    <span className="text-[11px] text-amber-400" title="Marcado como faturado, mas sem cobrança — falta vincular o cliente">
+                      ⚠ sem cobrança
+                    </span>
+                  ) : (
+                    <span className="text-[11px] text-slate-600">A faturar</span>
+                  )}
+                </span>
+                <Link
+                  href="/financeiro/esteira"
+                  className="shrink-0 text-slate-600 hover:text-indigo-400"
+                  title="Abrir na esteira"
+                >
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            ))}
           </div>
         )}
       </div>

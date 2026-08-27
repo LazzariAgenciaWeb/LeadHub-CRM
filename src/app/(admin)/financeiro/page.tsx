@@ -95,6 +95,22 @@ export default async function FinanceiroPage({
     where: isGlobal ? {} : { companyId: agencyId ?? "__none__" },
     _count: { _all: true },
   });
+
+  // Vendas fechadas na competência — a lista que responde "o que vendi neste
+  // mês e quanto disso já virou cobrança". Os cards do topo só falam de
+  // contrato recorrente, então venda pontual não aparecia em lugar nenhum.
+  const vendasDoMes = await prisma.sale.findMany({
+    where: {
+      ...(isGlobal ? {} : { companyId: agencyId ?? "__none__" }),
+      closedAt: { gte: from, lt: to },
+    },
+    orderBy: { valueCents: "desc" },
+    select: {
+      id: true, title: true, valueCents: true, kind: true, billingStatus: true,
+      clientCompany: { select: { name: true } },
+      invoice: { select: { status: true } },
+    },
+  });
   const somaSe = (pred: (g: (typeof esteira)[number]) => boolean) =>
     esteira.filter(pred).reduce((n, g) => n + g._count._all, 0);
 
@@ -182,6 +198,24 @@ export default async function FinanceiroPage({
       revenueTargetCents: target?.revenueTargetCents ?? 0,
       newSalesTargetCents: target?.newSalesTargetCents ?? 0,
     },
+    vendasDoMes: vendasDoMes.map((s) => ({
+      id: s.id,
+      title: s.title,
+      cliente: s.clientCompany?.name ?? null,
+      amountCents: s.valueCents,
+      kind: s.kind,
+      // "Faturado" de verdade = tem cobrança. O status sozinho pode estar
+      // marcado sem cobrança (venda sem cliente vinculado).
+      faturado: !!s.invoice,
+      pago: s.invoice?.status === "PAGO",
+      // Marcado como faturado na esteira mas sem cobrança gerada — precisa
+      // aparecer como pendência, senão o número do mês fica devendo sem motivo
+      // visível.
+      marcadoSemCobranca: s.billingStatus === "FATURADO" && !s.invoice,
+    })),
+    pontualAFaturarCents: vendasDoMes
+      .filter((s) => !s.invoice)
+      .reduce((n, s) => n + s.valueCents, 0),
   };
 
   return <FinanceiroVisaoGeral data={data} />;

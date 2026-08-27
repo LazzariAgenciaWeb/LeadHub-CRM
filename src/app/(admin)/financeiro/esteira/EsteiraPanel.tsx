@@ -19,6 +19,8 @@ export interface EsteiraSale {
   contractStatus: string;
   billingStatus: string;
   productionStatus: string;
+  /** Cobrança gerada ao faturar. null = ainda não faturada (ou sem cliente). */
+  invoice: { id: string; dueDate: string; status: string; amountCents: number } | null;
 }
 
 export interface EsteiraData {
@@ -89,6 +91,11 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
   const [picked, setPicked] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
   const [err, setErr] = useState("");
+  // Venda aguardando o vencimento antes de virar cobrança. Faturar sem
+  // perguntar a data geraria uma fatura com vencimento chutado, que é o tipo
+  // de dado errado que ninguém volta pra corrigir.
+  const [billingFor, setBillingFor] = useState<string | null>(null);
+  const [dueDate, setDueDate] = useState("");
 
   function openLink(sale: EsteiraSale) {
     const same = linking === sale.id;
@@ -113,6 +120,10 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
       return;
     }
     const updated = await res.json();
+    // A API responde com `warning` quando faturou sem cliente vinculado: o
+    // status muda mas a cobrança não nasce. Sem mostrar isso, o usuário
+    // acharia que faturou e o valor sumiria dos números do mês.
+    if (updated.warning) setErr(updated.warning);
     setSales((prev) =>
       prev.map((s) =>
         s.id === id
@@ -123,6 +134,19 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
               productionStatus: updated.productionStatus,
               kind: updated.kind,
               client: updated.clientCompany ?? null,
+              // invoice vem preenchida quando acabou de ser criada; some quando
+              // o faturamento é desfeito. `undefined` = a request não mexeu nela.
+              invoice:
+                updated.invoice !== undefined && updated.invoice !== null
+                  ? {
+                      id: updated.invoice.id,
+                      dueDate: updated.invoice.dueDate,
+                      status: updated.invoice.status,
+                      amountCents: updated.invoice.amountCents,
+                    }
+                  : updated.billingStatus === "FATURADO"
+                    ? s.invoice
+                    : null,
             }
           : s
       )
@@ -130,7 +154,28 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
     setLinking(null);
     setNewName("");
     setPicked("");
+    setBillingFor(null);
+    setDueDate("");
     router.refresh();
+  }
+
+  /**
+   * Abre o pedido de vencimento antes de faturar. Venda sem cliente não tem
+   * pra quem cobrar — nesse caso manda direto pro vínculo, que é o passo que
+   * realmente falta.
+   */
+  function startBilling(sale: EsteiraSale) {
+    if (!sale.client) {
+      setErr("Vincule um cliente antes de faturar — é pra ele que a cobrança será emitida.");
+      setLinking(sale.id);
+      setNewName(sale.title);
+      return;
+    }
+    setBillingFor(sale.id);
+    // Default de trabalho: 7 dias. Editável antes de confirmar.
+    const d = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    setDueDate(d.toISOString().slice(0, 10));
+    setErr("");
   }
 
   /**
@@ -373,7 +418,16 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                       </span>
                       <select
                         value={value}
-                        onChange={(e) => patch(s.id, { [cp.key]: e.target.value })}
+                        onChange={(e) => {
+                          // Faturar não é só mudar um status: gera cobrança, e
+                          // cobrança precisa de vencimento. Os outros
+                          // checkpoints salvam direto.
+                          if (cp.key === "billingStatus" && e.target.value === "FATURADO" && !s.invoice) {
+                            startBilling(s);
+                            return;
+                          }
+                          patch(s.id, { [cp.key]: e.target.value });
+                        }}
                         className={`${selectCls} ${
                           ok
                             ? "border-emerald-500/30 text-emerald-300"
@@ -412,6 +466,57 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
+
+              {/* Vencimento antes de gerar a cobrança */}
+              {billingFor === s.id && (
+                <div className="mt-3 pt-3 border-t border-[#1e2d45] flex flex-wrap items-end gap-2">
+                  <label className="flex flex-col gap-1">
+                    <span className="text-xs text-slate-500">Vencimento da cobrança</span>
+                    <input
+                      type="date"
+                      value={dueDate}
+                      onChange={(e) => setDueDate(e.target.value)}
+                      className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                    />
+                  </label>
+                  <button
+                    disabled={!dueDate || busy === s.id}
+                    onClick={() => patch(s.id, { billingStatus: "FATURADO", dueDate })}
+                    className="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white text-sm flex items-center gap-1.5"
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    Faturar {brlFromCents(s.valueCents)}
+                  </button>
+                  <button
+                    onClick={() => { setBillingFor(null); setDueDate(""); }}
+                    className="px-2 py-2 text-slate-500 hover:text-white text-sm"
+                  >
+                    Cancelar
+                  </button>
+                  <span className="text-[11px] text-slate-600 basis-full">
+                    Gera a cobrança de {s.client?.name ?? "—"} na competência do fechamento da venda.
+                  </span>
+                </div>
+              )}
+
+              {/* Cobrança já emitida */}
+              {s.invoice && (
+                <div className="mt-2 flex items-center gap-2 text-[11px]">
+                  <span className={
+                    s.invoice.status === "PAGO"
+                      ? "text-emerald-400"
+                      : new Date(s.invoice.dueDate) < new Date()
+                        ? "text-red-400"
+                        : "text-slate-400"
+                  }>
+                    {s.invoice.status === "PAGO" ? "✓ Cobrança paga" : "Cobrança emitida"}
+                    {" · "}
+                    {brlFromCents(s.invoice.amountCents)}
+                    {" · vence "}
+                    {new Date(s.invoice.dueDate).toLocaleDateString("pt-BR")}
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>
