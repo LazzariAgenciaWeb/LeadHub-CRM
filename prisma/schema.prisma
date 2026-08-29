@@ -197,6 +197,10 @@ model Company {
   website   String?
   logoUrl   String?
   status    CompanyStatus @default(ACTIVE)
+  // Cliente entra no fechamento de bonificação? Conta que não bonifica
+  // (permuta, parceria, contrato antigo sem comissão) sai das listas da aba
+  // Bonificação todo mês, em vez de ser ignorada à mão repetidamente.
+  bonusEligible Boolean @default(true)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 

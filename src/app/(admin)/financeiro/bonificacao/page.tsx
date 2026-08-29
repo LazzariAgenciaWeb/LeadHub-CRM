@@ -35,9 +35,14 @@ export default async function BonificacaoPage({
 
   const clients = await prisma.company.findMany({
     where: { parentCompanyId: agencyId },
-    select: { id: true, name: true },
+    select: { id: true, name: true, bonusEligible: true },
   });
-  const clientIds = clients.map((c) => c.id);
+  // Cliente marcado como "não bonifica" no cadastro sai das listas de origem —
+  // é a conta de permuta/parceria que todo mês era ignorada à mão. Lançamento
+  // JÁ FEITO continua aparecendo: desligar a flag não pode sumir com histórico
+  // de pagamento.
+  const bonificaveis = clients.filter((c) => c.bonusEligible);
+  const clientIds = bonificaveis.map((c) => c.id);
   const nomeCliente = new Map(clients.map((c) => [c.id, c.name] as const));
 
   const [contratos, faturas, vendas, bonus, colaboradores] = await Promise.all([
@@ -54,9 +59,15 @@ export default async function BonificacaoPage({
       where: { clientCompanyId: { in: clientIds }, referenceMonth: month, status: { not: "CANCELADO" } },
       select: { clientServiceId: true },
     }),
-    // Pontual: o gatilho é a ENTREGA, não o faturamento.
+    // Pontual: o gatilho é a ENTREGA, não o faturamento. Venda sem cliente
+    // vinculado continua aparecendo — não dá pra saber se bonifica ou não.
     prisma.sale.findMany({
-      where: { companyId: agencyId, productionStatus: "ENTREGUE", deliveredAt: { gte: from, lt: to } },
+      where: {
+        companyId: agencyId,
+        productionStatus: "ENTREGUE",
+        deliveredAt: { gte: from, lt: to },
+        OR: [{ clientCompanyId: null }, { clientCompanyId: { in: clientIds } }],
+      },
       select: {
         id: true, title: true, valueCents: true, deliveredAt: true,
         clientCompany: { select: { name: true } },
@@ -121,7 +132,7 @@ export default async function BonificacaoPage({
               id: b.clientService.id,
               descricao: `${nomeCliente.get(b.clientService.clientCompanyId) ?? "—"} · ${b.clientService.label}`,
             }
-          : { tipo: "avulso" as const, id: "", descricao: "—" },
+          : { tipo: "avulso" as const, id: "", descricao: b.notes ?? "Serviço avulso" },
     })),
   };
 

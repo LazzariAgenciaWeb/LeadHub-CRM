@@ -20216,6 +20216,7 @@ export namespace Prisma {
     website: string | null
     logoUrl: string | null
     status: $Enums.CompanyStatus | null
+    bonusEligible: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     document: string | null
@@ -20262,6 +20263,7 @@ export namespace Prisma {
     website: string | null
     logoUrl: string | null
     status: $Enums.CompanyStatus | null
+    bonusEligible: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     document: string | null
@@ -20308,6 +20310,7 @@ export namespace Prisma {
     website: number
     logoUrl: number
     status: number
+    bonusEligible: number
     createdAt: number
     updatedAt: number
     document: number
@@ -20366,6 +20369,7 @@ export namespace Prisma {
     website?: true
     logoUrl?: true
     status?: true
+    bonusEligible?: true
     createdAt?: true
     updatedAt?: true
     document?: true
@@ -20412,6 +20416,7 @@ export namespace Prisma {
     website?: true
     logoUrl?: true
     status?: true
+    bonusEligible?: true
     createdAt?: true
     updatedAt?: true
     document?: true
@@ -20458,6 +20463,7 @@ export namespace Prisma {
     website?: true
     logoUrl?: true
     status?: true
+    bonusEligible?: true
     createdAt?: true
     updatedAt?: true
     document?: true
@@ -20591,6 +20597,7 @@ export namespace Prisma {
     website: string | null
     logoUrl: string | null
     status: $Enums.CompanyStatus
+    bonusEligible: boolean
     createdAt: Date
     updatedAt: Date
     document: string | null
@@ -20656,6 +20663,7 @@ export namespace Prisma {
     website?: boolean
     logoUrl?: boolean
     status?: boolean
+    bonusEligible?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     document?: boolean
@@ -20791,6 +20799,7 @@ export namespace Prisma {
     website?: boolean
     logoUrl?: boolean
     status?: boolean
+    bonusEligible?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     document?: boolean
@@ -20838,6 +20847,7 @@ export namespace Prisma {
     website?: boolean
     logoUrl?: boolean
     status?: boolean
+    bonusEligible?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     document?: boolean
@@ -21071,6 +21081,7 @@ export namespace Prisma {
       website: string | null
       logoUrl: string | null
       status: $Enums.CompanyStatus
+      bonusEligible: boolean
       createdAt: Date
       updatedAt: Date
       document: string | null
@@ -21595,6 +21606,7 @@ export namespace Prisma {
     readonly website: FieldRef<"Company", 'String'>
     readonly logoUrl: FieldRef<"Company", 'String'>
     readonly status: FieldRef<"Company", 'CompanyStatus'>
+    readonly bonusEligible: FieldRef<"Company", 'Boolean'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
     readonly document: FieldRef<"Company", 'String'>
@@ -143734,6 +143746,7 @@ export namespace Prisma {
     website: 'website',
     logoUrl: 'logoUrl',
     status: 'status',
+    bonusEligible: 'bonusEligible',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     document: 'document',
@@ -147177,6 +147190,7 @@ export namespace Prisma {
     website?: StringNullableFilter<"Company"> | string | null
     logoUrl?: StringNullableFilter<"Company"> | string | null
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
+    bonusEligible?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     document?: StringNullableFilter<"Company"> | string | null
@@ -147311,6 +147325,7 @@ export namespace Prisma {
     website?: SortOrderInput | SortOrder
     logoUrl?: SortOrderInput | SortOrder
     status?: SortOrder
+    bonusEligible?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     document?: SortOrderInput | SortOrder
@@ -147450,6 +147465,7 @@ export namespace Prisma {
     website?: StringNullableFilter<"Company"> | string | null
     logoUrl?: StringNullableFilter<"Company"> | string | null
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
+    bonusEligible?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     document?: StringNullableFilter<"Company"> | string | null
@@ -147582,6 +147598,7 @@ export namespace Prisma {
     website?: SortOrderInput | SortOrder
     logoUrl?: SortOrderInput | SortOrder
     status?: SortOrder
+    bonusEligible?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     document?: SortOrderInput | SortOrder
@@ -147636,6 +147653,7 @@ export namespace Prisma {
     website?: StringNullableWithAggregatesFilter<"Company"> | string | null
     logoUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
     status?: EnumCompanyStatusWithAggregatesFilter<"Company"> | $Enums.CompanyStatus
+    bonusEligible?: BoolWithAggregatesFilter<"Company"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     document?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -158915,6 +158933,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -159048,6 +159067,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -159181,6 +159201,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159314,6 +159335,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159447,6 +159469,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -159493,6 +159516,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159538,6 +159562,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172724,6 +172749,7 @@ export namespace Prisma {
     website?: SortOrder
     logoUrl?: SortOrder
     status?: SortOrder
+    bonusEligible?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     document?: SortOrder
@@ -172775,6 +172801,7 @@ export namespace Prisma {
     website?: SortOrder
     logoUrl?: SortOrder
     status?: SortOrder
+    bonusEligible?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     document?: SortOrder
@@ -172821,6 +172848,7 @@ export namespace Prisma {
     website?: SortOrder
     logoUrl?: SortOrder
     status?: SortOrder
+    bonusEligible?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     document?: SortOrder
@@ -193193,6 +193221,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -193325,6 +193354,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -194857,6 +194887,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194989,6 +195020,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196185,6 +196217,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -196317,6 +196350,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -196572,6 +196606,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196704,6 +196739,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197609,6 +197645,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -197741,6 +197778,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -197878,6 +197916,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -198010,6 +198049,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -201857,6 +201897,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201989,6 +202030,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -202140,6 +202182,7 @@ export namespace Prisma {
     website?: StringNullableFilter<"Company"> | string | null
     logoUrl?: StringNullableFilter<"Company"> | string | null
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
+    bonusEligible?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     document?: StringNullableFilter<"Company"> | string | null
@@ -204842,6 +204885,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -204974,6 +205018,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -205380,6 +205425,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205512,6 +205558,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205749,6 +205796,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -205881,6 +205929,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -206222,6 +206271,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206354,6 +206404,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206614,6 +206665,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -206746,6 +206798,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -207481,6 +207534,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207613,6 +207667,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -208215,6 +208270,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -208347,6 +208403,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -208515,6 +208572,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -208647,6 +208705,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -209087,6 +209146,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -209219,6 +209279,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -209393,6 +209454,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -209525,6 +209587,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -209977,6 +210040,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -210109,6 +210173,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -210283,6 +210348,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -210415,6 +210481,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -210563,6 +210630,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -210695,6 +210763,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -210872,6 +210941,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -211004,6 +211074,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -211286,6 +211357,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -211418,6 +211490,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -211901,6 +211974,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -212033,6 +212107,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -212627,6 +212702,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -212759,6 +212835,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -212907,6 +212984,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -213039,6 +213117,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -213171,6 +213250,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -213303,6 +213383,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -213558,6 +213639,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -213690,6 +213772,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -214042,6 +214125,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -214174,6 +214258,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -214693,6 +214778,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -214825,6 +214911,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -215045,6 +215132,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -215177,6 +215265,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -215698,6 +215787,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -215830,6 +215920,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -216365,6 +216456,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -216497,6 +216589,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -216686,6 +216779,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -216818,6 +216912,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217222,6 +217317,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -217354,6 +217450,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -217993,6 +218090,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218125,6 +218223,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218709,6 +218808,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -218841,6 +218941,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -219246,6 +219347,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219378,6 +219480,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219510,6 +219613,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -219642,6 +219746,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -219886,6 +219991,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -220018,6 +220124,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -220579,6 +220686,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -220711,6 +220819,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -220967,6 +221076,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -221099,6 +221209,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -221707,6 +221818,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -221839,6 +221951,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -222289,6 +222402,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -222421,6 +222535,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -223059,6 +223174,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -223191,6 +223307,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -223765,6 +223882,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -223897,6 +224015,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -227566,6 +227685,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -227698,6 +227818,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -227896,6 +228017,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228028,6 +228150,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228382,6 +228505,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -228514,6 +228638,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -228713,6 +228838,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228845,6 +228971,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228977,6 +229104,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -229109,6 +229237,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -229291,6 +229420,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -229423,6 +229553,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -229602,6 +229733,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -229734,6 +229866,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -229919,6 +230052,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -230051,6 +230185,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -230183,6 +230318,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -230315,6 +230451,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -230463,6 +230600,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -230595,6 +230733,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -230727,6 +230866,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -230859,6 +230999,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -231007,6 +231148,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -231139,6 +231281,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -231271,6 +231414,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -231403,6 +231547,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -231551,6 +231696,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -231683,6 +231829,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -231815,6 +231962,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -231947,6 +232095,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -232095,6 +232244,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -232227,6 +232377,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -232359,6 +232510,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -232491,6 +232643,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -232783,6 +232936,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -232915,6 +233069,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -233095,6 +233250,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -233227,6 +233383,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -233464,6 +233621,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -233596,6 +233754,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -233795,6 +233954,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -233927,6 +234087,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -234171,6 +234332,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -234303,6 +234465,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -234543,6 +234706,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -234675,6 +234839,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -234898,6 +235063,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235030,6 +235196,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235327,6 +235494,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -235459,6 +235627,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -235607,6 +235776,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235739,6 +235909,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235871,6 +236042,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -236003,6 +236175,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -236151,6 +236324,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -236283,6 +236457,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -236415,6 +236590,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -236547,6 +236723,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -236695,6 +236872,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -236827,6 +237005,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -236959,6 +237138,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -237091,6 +237271,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -237239,6 +237420,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -237371,6 +237553,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -237503,6 +237686,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -237635,6 +237819,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -237783,6 +237968,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -237915,6 +238101,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -238047,6 +238234,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -238179,6 +238367,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -238327,6 +238516,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -238459,6 +238649,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -238591,6 +238782,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -238723,6 +238915,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -238871,6 +239064,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239003,6 +239197,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239135,6 +239330,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -239267,6 +239463,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -239415,6 +239612,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239547,6 +239745,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239679,6 +239878,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -239811,6 +240011,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -239959,6 +240160,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240091,6 +240293,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240223,6 +240426,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -240355,6 +240559,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -240503,6 +240708,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240635,6 +240841,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240767,6 +240974,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -240899,6 +241107,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -241047,6 +241256,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -241179,6 +241389,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -241311,6 +241522,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -241443,6 +241655,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -241591,6 +241804,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -241723,6 +241937,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -241855,6 +242070,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -241987,6 +242203,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -242135,6 +242352,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -242267,6 +242485,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -242399,6 +242618,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -242531,6 +242751,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -242679,6 +242900,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -242811,6 +243033,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -242943,6 +243166,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -243075,6 +243299,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -243223,6 +243448,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -243355,6 +243581,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -243487,6 +243714,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -243619,6 +243847,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -243767,6 +243996,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -243899,6 +244129,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244031,6 +244262,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -244163,6 +244395,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -244311,6 +244544,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244443,6 +244677,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244575,6 +244810,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -244707,6 +244943,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -244855,6 +245092,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244987,6 +245225,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -245119,6 +245358,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -245251,6 +245491,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -245423,6 +245664,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -245555,6 +245797,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -245774,6 +246017,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -245906,6 +246150,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -246090,6 +246335,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -246222,6 +246468,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -246477,6 +246724,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -246609,6 +246857,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -246901,6 +247150,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -247033,6 +247283,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -247309,6 +247560,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -247441,6 +247693,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -247702,6 +247955,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -247834,6 +248088,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248073,6 +248328,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -248205,6 +248461,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -248466,6 +248723,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248598,6 +248856,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248837,6 +249096,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -248969,6 +249229,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -249230,6 +249491,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -249362,6 +249624,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -249494,6 +249757,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -249626,6 +249890,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -249774,6 +250039,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -249906,6 +250172,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -250478,6 +250745,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -250610,6 +250878,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -250758,6 +251027,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -250890,6 +251160,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -251022,6 +251293,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -251154,6 +251426,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -251364,6 +251637,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -251496,6 +251770,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -251671,6 +251946,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -251803,6 +252079,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -252257,6 +252534,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -252389,6 +252667,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -253167,6 +253446,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -253299,6 +253579,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -253447,6 +253728,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -253579,6 +253861,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -253711,6 +253994,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -253843,6 +254127,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -254083,6 +254368,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -254215,6 +254501,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -254379,6 +254666,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -254511,6 +254799,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -254951,6 +255240,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -255083,6 +255373,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -255521,6 +255812,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -255653,6 +255945,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -255801,6 +256094,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -255933,6 +256227,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -256201,6 +256496,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -256333,6 +256629,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -256546,6 +256843,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -256678,6 +256976,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -256826,6 +257125,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -256958,6 +257258,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -257106,6 +257407,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -257238,6 +257540,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -257370,6 +257673,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -257502,6 +257806,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -257650,6 +257955,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -257782,6 +258088,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -257997,6 +258304,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -258129,6 +258437,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -258324,6 +258633,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -258456,6 +258766,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -258588,6 +258899,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -258720,6 +259032,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -259193,6 +259506,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259325,6 +259639,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259766,6 +260081,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -259898,6 +260214,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -260091,6 +260408,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260223,6 +260541,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260690,6 +261009,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -260822,6 +261142,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -261033,6 +261354,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -261165,6 +261487,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -261366,6 +261689,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -261498,6 +261822,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -261814,6 +262139,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -261946,6 +262272,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -262126,6 +262453,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -262258,6 +262586,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -262535,6 +262864,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -262667,6 +262997,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -262878,6 +263209,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -263010,6 +263342,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -263268,6 +263601,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -263400,6 +263734,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -263654,6 +263989,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -263786,6 +264122,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -264038,6 +264375,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -264170,6 +264508,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -264401,6 +264740,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264533,6 +264873,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264797,6 +265138,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264929,6 +265271,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265126,6 +265469,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -265258,6 +265602,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -265623,6 +265968,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265755,6 +266101,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266122,6 +266469,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -266254,6 +266602,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -266402,6 +266751,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266534,6 +266884,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266666,6 +267017,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -266798,6 +267150,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -267004,6 +267357,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -267136,6 +267490,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -267354,6 +267709,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -267486,6 +267842,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -267677,6 +268034,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -267809,6 +268167,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268021,6 +268380,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -268153,6 +268513,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -268408,6 +268769,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268540,6 +268902,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268785,6 +269148,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -268917,6 +269281,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -269172,6 +269537,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -269304,6 +269670,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -269549,6 +269916,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -269681,6 +270049,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -270043,6 +270412,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -270175,6 +270545,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -270533,6 +270904,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -270665,6 +271037,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -271027,6 +271400,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -271159,6 +271533,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -271517,6 +271892,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -271649,6 +272025,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -271904,6 +272281,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -272036,6 +272414,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -274239,6 +274618,7 @@ export namespace Prisma {
     website?: string | null
     logoUrl?: string | null
     status?: $Enums.CompanyStatus
+    bonusEligible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     document?: string | null
@@ -275527,6 +275907,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -275659,6 +276040,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
@@ -275791,6 +276173,7 @@ export namespace Prisma {
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null

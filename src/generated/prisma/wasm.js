@@ -197,6 +197,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   website: 'website',
   logoUrl: 'logoUrl',
   status: 'status',
+  bonusEligible: 'bonusEligible',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   document: 'document',

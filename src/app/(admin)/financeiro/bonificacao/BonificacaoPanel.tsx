@@ -44,6 +44,11 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   const [abrindo, setAbrindo] = useState<string | null>(null);
   const [quem, setQuem] = useState("");
   const [filtroTipo, setFiltroTipo] = useState<string | null>(null);
+  // Serviço avulso: bonificação sem venda nem contrato de origem (um extra
+  // combinado por fora). Descrição identifica; valor do serviço é manual.
+  const [avulsoAberto, setAvulsoAberto] = useState(false);
+  const [avulsoDesc, setAvulsoDesc] = useState("");
+  const [avulsoValor, setAvulsoValor] = useState("");
 
   if (!data) {
     return (
@@ -83,6 +88,32 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
       return;
     }
     setAbrindo(null); setQuem("");
+    router.refresh();
+  }
+
+  async function lancarAvulso() {
+    if (!quem) { setErro("Escolha o colaborador."); return; }
+    if (!avulsoDesc.trim()) { setErro("Descreva o serviço avulso."); return; }
+    setOcupado("avulso");
+    setErro("");
+    const colab = data!.colaboradores.find((c) => c.id === quem);
+    const res = await fetch("/api/financeiro/bonificacao", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        month: data!.month,
+        notes: avulsoDesc.trim(),
+        serviceValueCents: toCents(avulsoValor),
+        ...(colab ? { userId: colab.id } : { name: quem }),
+      }),
+    });
+    setOcupado(null);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      setErro(e.error ?? "Não foi possível lançar.");
+      return;
+    }
+    setAvulsoAberto(false); setAvulsoDesc(""); setAvulsoValor(""); setQuem("");
     router.refresh();
   }
 
@@ -131,12 +162,10 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   // Lançamentos por origem, mostrados na própria linha pra você ver quem já
   // recebeu sem descer até a lista.
   //
-  // As duas origens têm regras DIFERENTES de propósito:
-  //   contrato mensal → um colaborador por cliente. Depois de lançado o botão
-  //                     some, que é a trava contra pagar duas vezes. Pra
-  //                     trocar, apague o lançamento e refaça.
-  //   serviço pontual → aceita vários, com valores diferentes: mais de uma
-  //                     pessoa pode ter trabalhado no mesmo serviço.
+  // Qualquer origem aceita VÁRIOS colaboradores — o valor do serviço pode ser
+  // dividido entre quem trabalhou nele. A trava contra pagar duas vezes é por
+  // (origem, colaborador, mês), no servidor: a mesma pessoa não entra duas
+  // vezes na mesma origem.
   const lancadosPorOrigem = new Map<string, { nome: string; amountCents: number; pago: boolean; pagoEm: string | null }[]>();
   for (const b of data.lancados) {
     const chave = `${b.origem.tipo}:${b.origem.id}`;
@@ -258,9 +287,64 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
       </div>
 
       {/* Lançamentos */}
-      {data.lancados.length > 0 && (
-        <div className={card}>
-          <h2 className="text-white font-semibold text-sm mb-3">Lançamentos ({data.lancados.length})</h2>
+      <div className={card}>
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <h2 className="text-white font-semibold text-sm">Lançamentos ({data.lancados.length})</h2>
+          {!avulsoAberto && (
+            <button
+              onClick={() => { setAvulsoAberto(true); setQuem(""); setErro(""); }}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 text-xs hover:bg-indigo-500/20"
+            >
+              <Plus className="w-3 h-3" /> Lançar avulso
+            </button>
+          )}
+        </div>
+
+        {/* Serviço que não está na esteira nem nos contratos — lançado à mão. */}
+        {avulsoAberto && (
+          <div className="mb-3 pb-3 border-b border-[#1e2d45] flex items-end gap-2 flex-wrap">
+            <label className="flex flex-col gap-1">
+              <span className="text-[11px] text-slate-500">Colaborador</span>
+              <select value={quem} onChange={(e) => setQuem(e.target.value)} className={input}>
+                <option value="">Escolha…</option>
+                {data.colaboradores.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
+              </select>
+            </label>
+            <label className="flex flex-col gap-1 flex-1 min-w-[180px]">
+              <span className="text-[11px] text-slate-500">Descrição do serviço</span>
+              <input
+                value={avulsoDesc}
+                onChange={(e) => setAvulsoDesc(e.target.value)}
+                placeholder="Ex: ajuste no site fora do contrato"
+                className={input}
+              />
+            </label>
+            <label className="flex flex-col gap-1">
+              <span className="text-[11px] text-slate-500">Valor do serviço</span>
+              <input
+                value={avulsoValor}
+                onChange={(e) => setAvulsoValor(e.target.value)}
+                placeholder="0,00"
+                className={input + " w-28 text-right"}
+              />
+            </label>
+            <button
+              onClick={lancarAvulso}
+              disabled={ocupado === "avulso"}
+              className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-xs flex items-center gap-1"
+            >
+              {ocupado === "avulso" ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />} Lançar
+            </button>
+            <button onClick={() => setAvulsoAberto(false)} className="text-slate-500 hover:text-white text-xs pb-1.5">Cancelar</button>
+          </div>
+        )}
+
+        {data.lancados.length === 0 ? (
+          <p className="text-slate-600 text-sm py-2">
+            Nada lançado nesta competência. Use &ldquo;Bonificar&rdquo; nas listas abaixo, ou
+            &ldquo;Lançar avulso&rdquo; pra um serviço fora delas.
+          </p>
+        ) : (
           <div className="space-y-1.5">
             {data.lancados.map((b) => (
               <div key={b.id} className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-white/[0.02] ${ocupado === b.id ? "opacity-50" : ""}`}>
@@ -268,7 +352,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                   <div className="text-sm text-white">
                     {b.nome}
                     <span className="text-slate-600 text-xs ml-2">
-                      {b.origem.tipo === "contrato" ? "contrato" : "venda"} · {b.origem.descricao}
+                      {b.origem.tipo === "contrato" ? "contrato" : b.origem.tipo === "venda" ? "venda" : "avulso"} · {b.origem.descricao}
                     </span>
                   </div>
                 </div>
@@ -309,8 +393,8 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
               </div>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Contratos mensais faturados */}
       <div className={card}>
@@ -357,11 +441,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                 </div>
                 <JaLancados chave={`contrato:${r.id}`} />
               </div>
-              {lancadosPorOrigem.has(`contrato:${r.id}`) ? (
-                <span className="text-[11px] text-slate-600 flex-shrink-0">lançado</span>
-              ) : (
-                <FormLancar origem={{ clientServiceId: r.id }} chave={`c-${r.id}`} />
-              )}
+              <FormLancar origem={{ clientServiceId: r.id }} chave={`c-${r.id}`} />
             </div>
           ))}
         </div>

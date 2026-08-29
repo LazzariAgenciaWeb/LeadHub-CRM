@@ -37,6 +37,7 @@ interface Company {
   moduleRelatorioMarketing: boolean;
   parentCompanyId?: string | null;
   modoAtendimento: "VISAO" | "ATENDE";
+  bonusEligible?: boolean;
 }
 
 interface Props {
@@ -90,7 +91,12 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
     moduleBling: (company as any).moduleBling ?? false,
     moduleRelatorioMarketing: (company as any).moduleRelatorioMarketing ?? false,
     modoAtendimento: company.modoAtendimento,
+    bonusEligible: company.bonusEligible ?? true,
   });
+
+  // Só faz sentido pra empresa-CLIENTE (a bonificação é fechamento da agência
+  // sobre a carteira). Editando a própria agência o toggle não aparece.
+  const isClienteDaCarteira = !!company.parentCompanyId;
 
   // Sub-empresa (cliente da agência) + agência tem o módulo → mostra o self-serve.
   const canSelfServePanel = !isSuperAdmin && canOfferPanel && !!company.parentCompanyId;
@@ -124,6 +130,10 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
       // Self-serve: agência com o módulo libera o painel (Meu Espaço) da sub-empresa.
       if (canSelfServePanel) {
         payload.hasSystemAccess = form.hasSystemAccess;
+      }
+
+      if (isClienteDaCarteira) {
+        payload.bonusEligible = form.bonusEligible;
       }
 
       const res = await fetch(`/api/companies/${company.id}`, {
@@ -233,6 +243,28 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
                   />
                 )}
               </div>
+
+              {/* Fechamento de bonificação: cliente que não bonifica (permuta,
+                  parceria) sai das listas da aba Bonificação todo mês. */}
+              {isClienteDaCarteira && (
+                <div className="border border-amber-500/25 rounded-xl p-4 bg-amber-500/5 flex flex-col gap-2">
+                  <p className="text-[11px] text-amber-300 font-semibold uppercase tracking-wide">Bonificação</p>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <div className="relative mt-0.5 shrink-0">
+                      <input type="checkbox" checked={form.bonusEligible} onChange={(e) => set("bonusEligible", e.target.checked)} className="sr-only peer" />
+                      <div className="w-9 h-5 bg-[#1e2d45] rounded-full peer-checked:bg-amber-600 transition-colors" />
+                      <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-white font-medium">Gera bonificação</p>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Desligado, os contratos e serviços deste cliente <b className="text-slate-400">não aparecem</b> na
+                        aba Bonificação do Financeiro. Use pra permuta, parceria ou conta que não comissiona.
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              )}
 
               {/* AGÊNCIA (self-serve): libera o Espaço do Cliente da sub-empresa */}
               {canSelfServePanel && (

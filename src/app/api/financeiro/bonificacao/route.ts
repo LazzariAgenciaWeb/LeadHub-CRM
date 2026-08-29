@@ -48,14 +48,22 @@ export async function POST(req: NextRequest) {
 
   const saleId = body?.saleId ? String(body.saleId) : null;
   const clientServiceId = body?.clientServiceId ? String(body.clientServiceId) : null;
-  if (!saleId && !clientServiceId) {
-    return NextResponse.json({ error: "Informe a venda ou o contrato de origem" }, { status: 400 });
+  // Sem origem = lançamento AVULSO: serviço que não está nem na esteira nem
+  // nos contratos (um extra combinado por fora). Exige descrição — é a única
+  // coisa que identifica o lançamento depois — e aí o valor do serviço vem do
+  // corpo mesmo, porque não existe cadastro de onde ler.
+  const avulso = !saleId && !clientServiceId;
+  if (avulso && !String(body?.notes ?? "").trim()) {
+    return NextResponse.json(
+      { error: "Informe a venda, o contrato — ou a descrição do serviço avulso" },
+      { status: 400 }
+    );
   }
 
   // Origem tem de ser da carteira de quem está logado. Já aproveita e captura o
   // valor do serviço — congelado aqui, pra mudança de preço no contrato não
   // reescrever o histórico do que já foi bonificado.
-  let serviceValueCents = 0;
+  let serviceValueCents = avulso ? centavos(body?.serviceValueCents) : 0;
   if (saleId) {
     const s = await prisma.sale.findFirst({
       where: { id: saleId, companyId: auth.agencyId },
@@ -86,10 +94,14 @@ export async function POST(req: NextRequest) {
   }
   if (!name) return NextResponse.json({ error: "Informe o colaborador" }, { status: 400 });
 
-  const duplicado = await prisma.bonus.findFirst({
-    where: { month, saleId, clientServiceId, ...(userId ? { userId } : { name }) },
-    select: { id: true, amountCents: true, paidAt: true },
-  });
+  // Avulso não passa pela trava de duplicidade: a mesma pessoa pode ter vários
+  // serviços avulsos no mês — o que os distingue é a descrição, não a origem.
+  const duplicado = avulso
+    ? null
+    : await prisma.bonus.findFirst({
+        where: { month, saleId, clientServiceId, ...(userId ? { userId } : { name }) },
+        select: { id: true, amountCents: true, paidAt: true },
+      });
   if (duplicado) {
     return NextResponse.json(
       {
