@@ -52,7 +52,7 @@ export default async function FinanceiroPage({
         select: {
           id: true, label: true, status: true, amountCents: true, billingCycle: true,
           renewsAt: true, clientCompanyId: true, isRecurring: true, billingDay: true,
-          startedAt: true,
+          startedAt: true, endedAt: true,
         },
       }),
       // Faturas da competência (o que já foi lançado pro mês).

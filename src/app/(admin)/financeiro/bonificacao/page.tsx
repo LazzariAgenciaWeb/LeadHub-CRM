@@ -46,7 +46,7 @@ export default async function BonificacaoPage({
       select: {
         id: true, label: true, amountCents: true, billingCycle: true,
         renewsAt: true, isRecurring: true, status: true, clientCompanyId: true,
-        bonusEligible: true, startedAt: true,
+        bonusEligible: true, startedAt: true, endedAt: true,
       },
     }),
     // Faturas da competência: é o gatilho do recorrente — faturou e o cliente

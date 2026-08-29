@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       select: {
         id: true, label: true, amountCents: true, billingCycle: true,
         renewsAt: true, isRecurring: true, clientCompanyId: true, status: true,
-        billingDay: true, startedAt: true,
+        billingDay: true, startedAt: true, endedAt: true,
       },
     }),
     prisma.clientInvoice.findMany({

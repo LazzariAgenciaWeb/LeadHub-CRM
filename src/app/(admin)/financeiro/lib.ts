@@ -61,6 +61,8 @@ export interface RecurringLike {
   renewsAt: Date | null;
   /** Início da vigência — contrato não é devido antes dele. */
   startedAt?: Date | null;
+  /** Fim da vigência — contrato não é devido depois do mês em que encerrou. */
+  endedAt?: Date | null;
 }
 
 /**
@@ -80,6 +82,10 @@ export function dueInMonth(svc: RecurringLike, month: string): boolean {
   // caía na fila de agosto porque a regra do mensal era "todo mês", sem olhar
   // a vigência. Comparação por competência (YYYY-MM ordena lexicograficamente).
   if (svc.startedAt && monthKey(svc.startedAt) > month) return false;
+  // A data de encerramento vale por si — mesmo que o status ainda não tenha
+  // sido trocado pra Encerrado. Contrato que acabou 30/07 não é devido em
+  // agosto; no PRÓPRIO mês do encerramento ainda é (prestou serviço nele).
+  if (svc.endedAt && monthKey(svc.endedAt) < month) return false;
 
   const cycle = (svc.billingCycle as Cycle | null) ?? "MENSAL";
   const step = CYCLE_MONTHS[cycle] ?? 1;
