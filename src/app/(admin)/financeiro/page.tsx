@@ -53,6 +53,7 @@ export default async function FinanceiroPage({
           id: true, label: true, status: true, amountCents: true, billingCycle: true,
           renewsAt: true, clientCompanyId: true, isRecurring: true, billingDay: true,
           startedAt: true, endedAt: true,
+          service: { select: { name: true } },
         },
       }),
       // Faturas da competência (o que já foi lançado pro mês).
@@ -180,9 +181,13 @@ export default async function FinanceiroPage({
       .map((c) => ({
         id: c.id,
         label: c.label,
+        // Tipo pro agrupamento: o serviço do catálogo quando está vinculado;
+        // senão, o que vem antes do travessão no rótulo (padrão da importação).
+        tipo: c.service?.name ?? c.label.split(" — ")[0].trim(),
         cliente: clientName.get(c.clientCompanyId) ?? "—",
         clienteId: c.clientCompanyId,
         amountCents: c.amountCents ?? 0,
+        mensalCents: monthlyEquivalentCents(c),
         cycle: c.billingCycle ?? "MENSAL",
         billingDay: c.billingDay ?? null,
       }))

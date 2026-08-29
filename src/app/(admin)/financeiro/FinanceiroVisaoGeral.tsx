@@ -41,8 +41,8 @@ export interface VisaoGeralData {
   /** TODOS os contratos recorrentes ativos da carteira — o retrato completo,
    * independente da competência. */
   ativos: {
-    id: string; label: string; cliente: string; clienteId: string;
-    amountCents: number; cycle: string; billingDay: number | null;
+    id: string; label: string; tipo: string; cliente: string; clienteId: string;
+    amountCents: number; mensalCents: number; cycle: string; billingDay: number | null;
   }[];
 }
 
@@ -109,6 +109,7 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
   const [fRevenue, setFRevenue] = useState((meta.revenueTargetCents / 100).toFixed(2).replace(".", ","));
   const [fSales, setFSales] = useState((meta.newSalesTargetCents / 100).toFixed(2).replace(".", ","));
   const [buscaAtivos, setBuscaAtivos] = useState("");
+  const [tipoAtivos, setTipoAtivos] = useState<string | null>(null);
 
   function toCents(s: string) {
     const n = parseFloat(s.replace(/\./g, "").replace(",", "."));
@@ -141,10 +142,26 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
   const decididos = v.ganhoQtd + v.perdaQtd;
   const winRate = decididos > 0 ? Math.round((v.ganhoQtd / decididos) * 100) : null;
 
+  // Resumo por serviço: quantos contratos e quanto rende por mês cada um —
+  // é a resposta rápida de "o que eu tenho de cada serviço na carteira".
+  const porServico = (() => {
+    const m = new Map<string, { n: number; mensalCents: number }>();
+    for (const a of data.ativos) {
+      const cur = m.get(a.tipo) ?? { n: 0, mensalCents: 0 };
+      cur.n += 1;
+      cur.mensalCents += a.mensalCents;
+      m.set(a.tipo, cur);
+    }
+    return [...m]
+      .map(([tipo, v]) => ({ tipo, ...v }))
+      .sort((a, b) => b.mensalCents - a.mensalCents);
+  })();
+
   const ativosVisiveis = data.ativos.filter(
     (a) =>
-      !buscaAtivos.trim() ||
-      `${a.cliente} ${a.label}`.toLowerCase().includes(buscaAtivos.trim().toLowerCase()),
+      (!tipoAtivos || a.tipo === tipoAtivos) &&
+      (!buscaAtivos.trim() ||
+        `${a.cliente} ${a.label}`.toLowerCase().includes(buscaAtivos.trim().toLowerCase())),
   );
 
   return (
@@ -338,6 +355,30 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
           <p className="text-xs text-slate-600 mb-3">
             Toda a carteira recorrente — anual e trimestral entram rateados na base mensal.
           </p>
+
+          {/* O que a carteira tem de cada serviço — os chips também filtram. */}
+          {porServico.length > 1 && (
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              {porServico.map((s) => (
+                <button
+                  key={s.tipo}
+                  onClick={() => setTipoAtivos(tipoAtivos === s.tipo ? null : s.tipo)}
+                  className={`px-2 py-1 rounded-lg text-[11px] border transition-colors ${
+                    tipoAtivos === s.tipo
+                      ? "border-indigo-500/50 bg-indigo-500/15 text-white"
+                      : "border-[#1e2d45] text-slate-400 hover:text-slate-200 hover:border-[#2a3d56]"
+                  }`}
+                  title={`${s.n} contrato(s) · ${brlFromCents(s.mensalCents)}/mês`}
+                >
+                  {s.tipo} <span className="text-slate-600">({s.n})</span>{" "}
+                  <span className={tipoAtivos === s.tipo ? "text-indigo-300" : "text-slate-500"}>
+                    {brlFromCents(s.mensalCents)}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+
           {data.ativos.length > 0 && (
             <input
               value={buscaAtivos}
