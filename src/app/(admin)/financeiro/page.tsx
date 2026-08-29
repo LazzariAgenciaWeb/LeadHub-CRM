@@ -102,8 +102,16 @@ export default async function FinanceiroPage({
     esteira.filter(pred).reduce((n, g) => n + g._count._all, 0);
 
   // ── Recorrência ───────────────────────────────────────────────────────────
-  const mrrCents = contracts.reduce((s, c) => s + monthlyEquivalentCents(c), 0);
-  const ativos = contracts.filter((c) => c.status === "ATIVO" && c.amountCents);
+  // "Ativo" de verdade = status ATIVO E sem encerramento no passado. A data
+  // vale por si: contrato encerrado dia 30/07 com status esquecido em Ativo
+  // não pode seguir na carteira nem inflando o MRR de agosto em diante.
+  const ativos = contracts.filter(
+    (c) =>
+      c.status === "ATIVO" &&
+      c.amountCents &&
+      (!c.endedAt || monthKey(c.endedAt) >= month),
+  );
+  const mrrCents = ativos.reduce((s, c) => s + monthlyEquivalentCents(c), 0);
 
   const faturadoPorContrato = new Set(
     invoicesOfMonth.map((i) => i.clientServiceId).filter(Boolean) as string[]

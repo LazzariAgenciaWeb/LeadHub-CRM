@@ -78,7 +78,11 @@ export default async function LancamentosPage({
     invoicesOfMonth.map((i) => i.clientServiceId).filter(Boolean) as string[]
   );
   const ignoradosIds = new Set(skips.map((s) => s.clientService.id));
-  const ativos = contracts.filter((c) => !!c.amountCents);
+  // Encerramento no passado tira da carteira mesmo com status esquecido em
+  // Ativo — a data vale por si (mesma regra da Visão geral e da dueInMonth).
+  const ativos = contracts.filter(
+    (c) => !!c.amountCents && (!c.endedAt || monthKey(c.endedAt) >= month),
+  );
   const devidos = ativos.filter((c) => dueInMonth(c, month) && !ignoradosIds.has(c.id));
   const pendentes = devidos.filter((c) => !faturadoPorContrato.has(c.id));
 

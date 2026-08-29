@@ -91,7 +91,8 @@ export default async function BonificacaoPage({
     // senão "marquei sem querer" não tem caminho de volta fora do cadastro.
     naoBonificam: [
       ...contratos
-        .filter((c) => !c.bonusEligible)
+        // Encerrado não polui a lista de revertíveis — já saiu da carteira.
+        .filter((c) => !c.bonusEligible && (!c.endedAt || monthKey(c.endedAt) >= month))
         .map((c) => ({
           id: c.id,
           tipo: "contrato" as const,
