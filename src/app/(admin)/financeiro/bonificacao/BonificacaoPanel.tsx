@@ -238,7 +238,10 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
     );
   }
 
-  function FormLancar({ origem, chave, valorPadraoCents }: { origem: { saleId?: string; clientServiceId?: string }; chave: string; valorPadraoCents: number }) {
+  // Função que devolve JSX, NÃO um componente aninhado: componente definido
+  // dentro do render é um tipo novo a cada tecla digitada — o React remontava
+  // o input e o foco sumia no meio da digitação do valor.
+  function formLancar(origem: { saleId?: string; clientServiceId?: string }, chave: string, valorPadraoCents: number) {
     if (abrindo !== chave) {
       return (
         <button
@@ -535,7 +538,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                     {ocupado === `svc-${r.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "não bonifica"}
                   </button>
                 )}
-                <FormLancar origem={{ clientServiceId: r.id }} chave={`c-${r.id}`} valorPadraoCents={r.amountCents} />
+                {formLancar({ clientServiceId: r.id }, `c-${r.id}`, r.amountCents)}
               </div>
             </div>
           ))}
@@ -612,7 +615,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                       {ocupado === `svc-${v.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "não bonifica"}
                     </button>
                   )}
-                  <FormLancar origem={{ saleId: v.id }} chave={`v-${v.id}`} valorPadraoCents={v.valorCents} />
+                  {formLancar({ saleId: v.id }, `v-${v.id}`, v.valorCents)}
                 </div>
               </div>
             ))}
