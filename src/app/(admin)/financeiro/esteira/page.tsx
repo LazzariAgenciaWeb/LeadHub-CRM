@@ -23,7 +23,7 @@ export default async function EsteiraPage() {
   const agencyId = (session.user as any)?.companyId as string | undefined;
   const isGlobal = role === "SUPER_ADMIN" && !agencyId;
 
-  const [sales, clients] = await Promise.all([
+  const [sales, clients, colaboradores] = await Promise.all([
     prisma.sale.findMany({
       where: isGlobal ? {} : { companyId: agencyId ?? "__none__" },
       orderBy: { closedAt: "desc" },
@@ -41,11 +41,21 @@ export default async function EsteiraPage() {
       select: { id: true, name: true },
       orderBy: { name: "asc" },
     }),
+    // Responsáveis possíveis — mesma lista da Bonificação. SUPER_ADMIN é dono
+    // da plataforma, não executa serviço de cliente.
+    agencyId
+      ? prisma.user.findMany({
+          where: { companyId: agencyId, role: { not: "SUPER_ADMIN" } },
+          select: { id: true, name: true, email: true },
+          orderBy: { name: "asc" },
+        })
+      : Promise.resolve([]),
   ]);
 
   const data: EsteiraData = {
     isGlobal,
     clients,
+    colaboradores: colaboradores.map((u) => ({ id: u.id, nome: u.name ?? u.email })),
     sales: sales.map((s) => ({
       id: s.id,
       title: s.title,
@@ -53,6 +63,8 @@ export default async function EsteiraPage() {
       kind: s.kind,
       closedAt: s.closedAt.toISOString(),
       sellerName: s.sellerName,
+      responsibleId: s.responsibleId,
+      responsibleName: s.responsibleName,
       leadId: s.lead?.id ?? null,
       client: s.clientCompany,
       contractStatus: s.contractStatus,

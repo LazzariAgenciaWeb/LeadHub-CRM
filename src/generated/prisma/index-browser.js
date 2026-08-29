@@ -1781,6 +1781,8 @@ exports.Prisma.SaleScalarFieldEnum = {
   closedAt: 'closedAt',
   sellerId: 'sellerId',
   sellerName: 'sellerName',
+  responsibleId: 'responsibleId',
+  responsibleName: 'responsibleName',
   clickupTaskId: 'clickupTaskId',
   contractStatus: 'contractStatus',
   contractAt: 'contractAt',

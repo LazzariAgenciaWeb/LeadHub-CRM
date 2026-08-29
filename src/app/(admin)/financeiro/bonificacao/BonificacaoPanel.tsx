@@ -17,7 +17,10 @@ export interface BonificacaoData {
   recorrentes: { id: string; clienteId: string; cliente: string; label: string; tipo: string; amountCents: number; faturado: boolean }[];
   /** Serviços/vendas marcados como "não bonifica" — pra reverter sem ir ao cadastro. */
   naoBonificam: { id: string; tipo: "contrato" | "venda"; clienteId: string; nome: string }[];
-  pontuais: { id: string; titulo: string; cliente: string | null; valorCents: number; entregueEm: string }[];
+  pontuais: {
+    id: string; titulo: string; cliente: string | null; valorCents: number; entregueEm: string;
+    responsavelId: string | null; responsavelNome: string | null;
+  }[];
   lancados: {
     id: string; nome: string; amountCents: number; serviceValueCents: number;
     pago: boolean; pagoEm: string | null;
@@ -272,12 +275,14 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   // Função que devolve JSX, NÃO um componente aninhado: componente definido
   // dentro do render é um tipo novo a cada tecla digitada — o React remontava
   // o input e o foco sumia no meio da digitação do valor.
-  function formLancar(origem: { saleId?: string; clientServiceId?: string }, chave: string, valorPadraoCents: number) {
+  function formLancar(origem: { saleId?: string; clientServiceId?: string }, chave: string, valorPadraoCents: number, presetQuem?: string | null) {
     if (abrindo !== chave) {
       return (
         <button
           onClick={() => {
-            setAbrindo(chave); setQuem(""); setErro("");
+            // Responsável definido na esteira já vem selecionado — o
+            // fechamento vira conferência, não investigação.
+            setAbrindo(chave); setQuem(presetQuem ?? ""); setErro("");
             // Pré-preenche com o valor do cadastro; editar = lançar só a parte
             // deste colaborador quando o serviço é dividido.
             setValorServico(valorPadraoCents ? (valorPadraoCents / 100).toFixed(2).replace(".", ",") : "");
@@ -670,6 +675,9 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                   </div>
                   <div className="text-xs text-slate-600">
                     vendido por {brlFromCents(v.valorCents)} · entregue {new Date(v.entregueEm).toLocaleDateString("pt-BR")}
+                    {v.responsavelNome && (
+                      <span className="text-indigo-400/80"> · resp.: {v.responsavelNome}</span>
+                    )}
                   </div>
                   <JaLancados chave={`venda:${v.id}`} />
                 </div>
@@ -685,7 +693,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                       {ocupado === `svc-${v.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "não bonifica"}
                     </button>
                   )}
-                  {formLancar({ saleId: v.id }, `v-${v.id}`, v.valorCents)}
+                  {formLancar({ saleId: v.id }, `v-${v.id}`, v.valorCents, v.responsavelId)}
                 </div>
               </div>
             ))}

@@ -134232,6 +134232,8 @@ export namespace Prisma {
     closedAt: Date | null
     sellerId: string | null
     sellerName: string | null
+    responsibleId: string | null
+    responsibleName: string | null
     clickupTaskId: string | null
     contractStatus: string | null
     contractAt: Date | null
@@ -134257,6 +134259,8 @@ export namespace Prisma {
     closedAt: Date | null
     sellerId: string | null
     sellerName: string | null
+    responsibleId: string | null
+    responsibleName: string | null
     clickupTaskId: string | null
     contractStatus: string | null
     contractAt: Date | null
@@ -134282,6 +134286,8 @@ export namespace Prisma {
     closedAt: number
     sellerId: number
     sellerName: number
+    responsibleId: number
+    responsibleName: number
     clickupTaskId: number
     contractStatus: number
     contractAt: number
@@ -134317,6 +134323,8 @@ export namespace Prisma {
     closedAt?: true
     sellerId?: true
     sellerName?: true
+    responsibleId?: true
+    responsibleName?: true
     clickupTaskId?: true
     contractStatus?: true
     contractAt?: true
@@ -134342,6 +134350,8 @@ export namespace Prisma {
     closedAt?: true
     sellerId?: true
     sellerName?: true
+    responsibleId?: true
+    responsibleName?: true
     clickupTaskId?: true
     contractStatus?: true
     contractAt?: true
@@ -134367,6 +134377,8 @@ export namespace Prisma {
     closedAt?: true
     sellerId?: true
     sellerName?: true
+    responsibleId?: true
+    responsibleName?: true
     clickupTaskId?: true
     contractStatus?: true
     contractAt?: true
@@ -134479,6 +134491,8 @@ export namespace Prisma {
     closedAt: Date
     sellerId: string | null
     sellerName: string | null
+    responsibleId: string | null
+    responsibleName: string | null
     clickupTaskId: string | null
     contractStatus: string
     contractAt: Date | null
@@ -134523,6 +134537,8 @@ export namespace Prisma {
     closedAt?: boolean
     sellerId?: boolean
     sellerName?: boolean
+    responsibleId?: boolean
+    responsibleName?: boolean
     clickupTaskId?: boolean
     contractStatus?: boolean
     contractAt?: boolean
@@ -134554,6 +134570,8 @@ export namespace Prisma {
     closedAt?: boolean
     sellerId?: boolean
     sellerName?: boolean
+    responsibleId?: boolean
+    responsibleName?: boolean
     clickupTaskId?: boolean
     contractStatus?: boolean
     contractAt?: boolean
@@ -134582,6 +134600,8 @@ export namespace Prisma {
     closedAt?: boolean
     sellerId?: boolean
     sellerName?: boolean
+    responsibleId?: boolean
+    responsibleName?: boolean
     clickupTaskId?: boolean
     contractStatus?: boolean
     contractAt?: boolean
@@ -134630,6 +134650,8 @@ export namespace Prisma {
       closedAt: Date
       sellerId: string | null
       sellerName: string | null
+      responsibleId: string | null
+      responsibleName: string | null
       clickupTaskId: string | null
       contractStatus: string
       contractAt: Date | null
@@ -135050,6 +135072,8 @@ export namespace Prisma {
     readonly closedAt: FieldRef<"Sale", 'DateTime'>
     readonly sellerId: FieldRef<"Sale", 'String'>
     readonly sellerName: FieldRef<"Sale", 'String'>
+    readonly responsibleId: FieldRef<"Sale", 'String'>
+    readonly responsibleName: FieldRef<"Sale", 'String'>
     readonly clickupTaskId: FieldRef<"Sale", 'String'>
     readonly contractStatus: FieldRef<"Sale", 'String'>
     readonly contractAt: FieldRef<"Sale", 'DateTime'>
@@ -147741,6 +147765,8 @@ export namespace Prisma {
     closedAt: 'closedAt',
     sellerId: 'sellerId',
     sellerName: 'sellerName',
+    responsibleId: 'responsibleId',
+    responsibleName: 'responsibleName',
     clickupTaskId: 'clickupTaskId',
     contractStatus: 'contractStatus',
     contractAt: 'contractAt',
@@ -159651,6 +159677,8 @@ export namespace Prisma {
     closedAt?: DateTimeFilter<"Sale"> | Date | string
     sellerId?: StringNullableFilter<"Sale"> | string | null
     sellerName?: StringNullableFilter<"Sale"> | string | null
+    responsibleId?: StringNullableFilter<"Sale"> | string | null
+    responsibleName?: StringNullableFilter<"Sale"> | string | null
     clickupTaskId?: StringNullableFilter<"Sale"> | string | null
     contractStatus?: StringFilter<"Sale"> | string
     contractAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
@@ -159681,6 +159709,8 @@ export namespace Prisma {
     closedAt?: SortOrder
     sellerId?: SortOrderInput | SortOrder
     sellerName?: SortOrderInput | SortOrder
+    responsibleId?: SortOrderInput | SortOrder
+    responsibleName?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
     contractStatus?: SortOrder
     contractAt?: SortOrderInput | SortOrder
@@ -159714,6 +159744,8 @@ export namespace Prisma {
     closedAt?: DateTimeFilter<"Sale"> | Date | string
     sellerId?: StringNullableFilter<"Sale"> | string | null
     sellerName?: StringNullableFilter<"Sale"> | string | null
+    responsibleId?: StringNullableFilter<"Sale"> | string | null
+    responsibleName?: StringNullableFilter<"Sale"> | string | null
     clickupTaskId?: StringNullableFilter<"Sale"> | string | null
     contractStatus?: StringFilter<"Sale"> | string
     contractAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
@@ -159744,6 +159776,8 @@ export namespace Prisma {
     closedAt?: SortOrder
     sellerId?: SortOrderInput | SortOrder
     sellerName?: SortOrderInput | SortOrder
+    responsibleId?: SortOrderInput | SortOrder
+    responsibleName?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
     contractStatus?: SortOrder
     contractAt?: SortOrderInput | SortOrder
@@ -159777,6 +159811,8 @@ export namespace Prisma {
     closedAt?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
     sellerId?: StringNullableWithAggregatesFilter<"Sale"> | string | null
     sellerName?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    responsibleId?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    responsibleName?: StringNullableWithAggregatesFilter<"Sale"> | string | null
     clickupTaskId?: StringNullableWithAggregatesFilter<"Sale"> | string | null
     contractStatus?: StringWithAggregatesFilter<"Sale"> | string
     contractAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
@@ -172775,6 +172811,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -172805,6 +172843,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -172829,6 +172869,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -172859,6 +172901,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -172886,6 +172930,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -172908,6 +172954,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -172933,6 +172981,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -182194,6 +182244,8 @@ export namespace Prisma {
     closedAt?: SortOrder
     sellerId?: SortOrder
     sellerName?: SortOrder
+    responsibleId?: SortOrder
+    responsibleName?: SortOrder
     clickupTaskId?: SortOrder
     contractStatus?: SortOrder
     contractAt?: SortOrder
@@ -182223,6 +182275,8 @@ export namespace Prisma {
     closedAt?: SortOrder
     sellerId?: SortOrder
     sellerName?: SortOrder
+    responsibleId?: SortOrder
+    responsibleName?: SortOrder
     clickupTaskId?: SortOrder
     contractStatus?: SortOrder
     contractAt?: SortOrder
@@ -182248,6 +182302,8 @@ export namespace Prisma {
     closedAt?: SortOrder
     sellerId?: SortOrder
     sellerName?: SortOrder
+    responsibleId?: SortOrder
+    responsibleName?: SortOrder
     clickupTaskId?: SortOrder
     contractStatus?: SortOrder
     contractAt?: SortOrder
@@ -202308,6 +202364,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -202336,6 +202394,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -202370,6 +202430,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -202398,6 +202460,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -205785,6 +205849,8 @@ export namespace Prisma {
     closedAt?: DateTimeFilter<"Sale"> | Date | string
     sellerId?: StringNullableFilter<"Sale"> | string | null
     sellerName?: StringNullableFilter<"Sale"> | string | null
+    responsibleId?: StringNullableFilter<"Sale"> | string | null
+    responsibleName?: StringNullableFilter<"Sale"> | string | null
     clickupTaskId?: StringNullableFilter<"Sale"> | string | null
     contractStatus?: StringFilter<"Sale"> | string
     contractAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
@@ -209698,6 +209764,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -209726,6 +209794,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -210597,6 +210667,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -210625,6 +210697,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -266005,6 +266079,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -266034,6 +266110,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -266413,6 +266491,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -266442,6 +266522,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -268206,6 +268288,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -268235,6 +268319,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -268715,6 +268801,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -268744,6 +268832,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -277621,6 +277711,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -277645,6 +277737,8 @@ export namespace Prisma {
     closedAt: Date | string
     sellerId?: string | null
     sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
     clickupTaskId?: string | null
     contractStatus?: string
     contractAt?: Date | string | null
@@ -280368,6 +280462,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -280396,6 +280492,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -280422,6 +280520,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -280444,6 +280544,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -280472,6 +280574,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -280498,6 +280602,8 @@ export namespace Prisma {
     closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     contractStatus?: StringFieldUpdateOperationsInput | string
     contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

@@ -60,6 +60,7 @@ export default async function BonificacaoPage({
       where: { companyId: agencyId, productionStatus: "ENTREGUE", deliveredAt: { gte: from, lt: to } },
       select: {
         id: true, title: true, valueCents: true, deliveredAt: true, bonusEligible: true,
+        responsibleId: true, responsibleName: true,
         clientCompany: { select: { name: true } },
       },
       orderBy: { deliveredAt: "desc" },
@@ -133,6 +134,9 @@ export default async function BonificacaoPage({
         cliente: v.clientCompany?.name ?? null,
         valorCents: v.valueCents,
         entregueEm: v.deliveredAt!.toISOString(),
+        // Responsável definido na esteira — pré-seleciona no lançamento.
+        responsavelId: v.responsibleId,
+        responsavelNome: v.responsibleName,
       })),
     lancados: bonus.map((b) => ({
       id: b.id,

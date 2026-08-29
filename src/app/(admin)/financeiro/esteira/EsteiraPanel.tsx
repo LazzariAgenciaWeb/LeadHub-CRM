@@ -14,6 +14,9 @@ export interface EsteiraSale {
   kind: string;
   closedAt: string;
   sellerName: string | null;
+  /** Responsável pela execução — quem entrega e, portanto, quem bonifica. */
+  responsibleId: string | null;
+  responsibleName: string | null;
   leadId: string | null;
   client: { id: string; name: string } | null;
   contractStatus: string;
@@ -26,6 +29,7 @@ export interface EsteiraSale {
 export interface EsteiraData {
   isGlobal: boolean;
   clients: { id: string; name: string }[];
+  colaboradores: { id: string; nome: string }[];
   sales: EsteiraSale[];
 }
 
@@ -136,6 +140,8 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
         kind: criada.kind,
         closedAt: criada.closedAt,
         sellerName: criada.sellerName ?? null,
+        responsibleId: criada.responsibleId ?? null,
+        responsibleName: criada.responsibleName ?? null,
         leadId: null,
         client: criada.clientCompany ?? null,
         contractStatus: criada.contractStatus,
@@ -186,6 +192,8 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
               billingStatus: updated.billingStatus,
               productionStatus: updated.productionStatus,
               kind: updated.kind,
+              responsibleId: updated.responsibleId ?? null,
+              responsibleName: updated.responsibleName ?? null,
               client: updated.clientCompany ?? null,
               // invoice vem preenchida quando acabou de ser criada; some quando
               // o faturamento é desfeito. `undefined` = a request não mexeu nela.
@@ -576,6 +584,26 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                     </label>
                   );
                 })}
+
+                {/* Quem executa = quem bonifica. Com isso preenchido, o
+                    fechamento da bonificação é só conferir, não investigar. */}
+                <label className="flex items-center gap-1.5">
+                  <span className={`text-[11px] ${s.responsibleId ? "text-slate-400" : "text-slate-500"}`}>
+                    Responsável
+                  </span>
+                  <select
+                    value={s.responsibleId ?? ""}
+                    onChange={(e) => patch(s.id, { responsibleUserId: e.target.value || null })}
+                    className={`${selectCls} ${
+                      s.responsibleId ? "border-[#1e2d45] text-slate-300" : "border-indigo-500/30 text-indigo-300"
+                    }`}
+                  >
+                    <option value="">— definir —</option>
+                    {data.colaboradores.map((c) => (
+                      <option key={c.id} value={c.id}>{c.nome}</option>
+                    ))}
+                  </select>
+                </label>
 
                 <label className="flex items-center gap-1.5 ml-auto">
                   <span className="text-[11px] text-slate-500">Tipo</span>

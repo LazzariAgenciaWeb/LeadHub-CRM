@@ -3941,6 +3941,12 @@ model Sale {
   sellerId   String?
   sellerName String?
 
+  // RESPONSÁVEL pela execução — quem entrega e, portanto, quem bonifica.
+  // Diferente do vendedor: quem vendeu nem sempre é quem faz. Nome congelado
+  // no mesmo padrão do Bonus, pra sobreviver à saída do colaborador.
+  responsibleId   String?
+  responsibleName String?
+
   clickupTaskId String? // task correspondente, quando o sync do ClickUp criou uma
 
   // ─── Esteira pós-venda ────────────────────────────────────────────────────

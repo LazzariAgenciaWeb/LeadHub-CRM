@@ -89,6 +89,23 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   // contratado, marcada direto na lista de pontuais da aba Bonificação.
   if (body?.bonusEligible !== undefined) data.bonusEligible = !!body.bonusEligible;
 
+  // Responsável pela execução — quem entrega e bonifica. Vazio/null limpa.
+  if (body?.responsibleUserId !== undefined) {
+    if (!body.responsibleUserId) {
+      data.responsibleId = null;
+      data.responsibleName = null;
+    } else {
+      const u = await prisma.user.findFirst({
+        // SUPER_ADMIN é dono da plataforma, não executa serviço de cliente.
+        where: { id: String(body.responsibleUserId), companyId: sale.companyId, role: { not: "SUPER_ADMIN" } },
+        select: { id: true, name: true, email: true },
+      });
+      if (!u) return NextResponse.json({ error: "Colaborador não pertence a esta empresa" }, { status: 400 });
+      data.responsibleId = u.id;
+      data.responsibleName = u.name ?? u.email;
+    }
+  }
+
   // ── Vínculo com o cliente ────────────────────────────────────────────────
   // Duas formas: apontar pra um cliente que já existe, ou cadastrar um novo
   // pelo nome. A agência dona é sempre a da venda, nunca a do corpo da request.
