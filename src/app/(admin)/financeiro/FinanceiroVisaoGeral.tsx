@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -123,6 +123,33 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
   // conferido evita o vai-e-vem de faturar um por um.
   const [selecionados, setSelecionados] = useState<Set<string>>(new Set());
   const [busca, setBusca] = useState("");
+
+  // A seleção sobrevive à navegação: a conferência é interrompida toda hora
+  // (abrir a fatura de um cliente, conferir no Bling, voltar) e perder as
+  // marcações no meio obrigava a recomeçar. Guardada por competência no
+  // navegador; some ao faturar ou ao desmarcar tudo.
+  const storageKey = `leadhub:faturar-selecionados:${data.month}`;
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      const ids = raw ? (JSON.parse(raw) as string[]) : [];
+      // Poda o que já saiu da lista (faturado por outro caminho) — senão o
+      // storage acumula id fantasma que nunca some.
+      const validos = new Set(data.pendentes.map((p) => p.id));
+      setSelecionados(new Set(ids.filter((id) => validos.has(id))));
+    } catch {
+      setSelecionados(new Set());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storageKey]);
+  useEffect(() => {
+    try {
+      if (selecionados.size === 0) localStorage.removeItem(storageKey);
+      else localStorage.setItem(storageKey, JSON.stringify([...selecionados]));
+    } catch {
+      // navegador sem storage (aba privada restrita) — segue só em memória
+    }
+  }, [selecionados, storageKey]);
   const toggle = (id: string) =>
     setSelecionados((prev) => {
       const next = new Set(prev);
