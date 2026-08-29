@@ -164,12 +164,15 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
     router.refresh();
   }
 
-  // Totais por colaborador — é o número que vira pagamento no mês seguinte.
+  // Totais por colaborador. `entregue` (soma do VALOR DE SERVIÇO lançado) é o
+  // número da meta — a % sobre o salário sai da faixa em que ele fecha o mês.
+  // `total`/`pago` seguem sendo a bonificação em si.
   const porColaborador = (() => {
-    const m = new Map<string, { total: number; pago: number; pagoEm: string | null }>();
+    const m = new Map<string, { total: number; pago: number; entregue: number; pagoEm: string | null }>();
     for (const b of data.lancados) {
-      const cur = m.get(b.nome) ?? { total: 0, pago: 0, pagoEm: null as string | null };
+      const cur = m.get(b.nome) ?? { total: 0, pago: 0, entregue: 0, pagoEm: null as string | null };
       cur.total += b.amountCents;
+      cur.entregue += b.serviceValueCents;
       if (b.pago) {
         cur.pago += b.amountCents;
         // Guarda o pagamento mais recente: se saiu em parcelas, o que interessa
@@ -178,8 +181,18 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
       }
       m.set(b.nome, cur);
     }
-    return [...m].map(([nome, v]) => ({ nome, ...v })).sort((a, b) => b.total - a.total);
+    return [...m].map(([nome, v]) => ({ nome, ...v })).sort((a, b) => b.entregue - a.entregue);
   })();
+
+  // Faixas da meta de entrega (valor de serviço no mês). A régua visual vai
+  // até 10k — dali pra cima o quadro fica cheio, faixa máxima.
+  const FAIXAS = [
+    { ate: 300_000, rotulo: "até R$ 3 mil", fill: "bg-amber-500/25", borda: "border-amber-500/30", texto: "text-amber-400" },
+    { ate: 700_000, rotulo: "R$ 3–7 mil", fill: "bg-sky-500/25", borda: "border-sky-500/30", texto: "text-sky-400" },
+    { ate: Infinity, rotulo: "R$ 7–10 mil+", fill: "bg-emerald-500/25", borda: "border-emerald-500/30", texto: "text-emerald-400" },
+  ];
+  const faixaDe = (entregueCents: number) =>
+    FAIXAS[entregueCents <= 300_000 ? 0 : entregueCents <= 700_000 ? 1 : 2];
 
   const totalMes = porColaborador.reduce((s, c) => s + c.total, 0);
   const totalPago = porColaborador.reduce((s, c) => s + c.pago, 0);
@@ -318,31 +331,58 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
         </div>
       )}
 
-      {/* Fechamento do mês */}
+      {/* Fechamento do mês — meta de ENTREGA por colaborador. O fundo do
+          quadro enche com o valor de serviço lançado e muda de cor ao cruzar
+          a faixa (0–3k âmbar, 3–7k azul, 7–10k+ verde); a % sobre o salário
+          sai da faixa em que a pessoa fecha o mês. */}
       <div className={card}>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-white font-semibold text-sm">A pagar em {monthLabel(data.month)}</h2>
+        <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
+          <h2 className="text-white font-semibold text-sm">Meta de entrega — {monthLabel(data.month)}</h2>
           <span className="text-sm">
             <b className="text-amber-400">{brlFromCents(totalMes - totalPago)}</b>
-            <span className="text-slate-600"> em aberto · {brlFromCents(totalPago)} pago</span>
+            <span className="text-slate-600"> de bonificação em aberto · {brlFromCents(totalPago)} pago</span>
           </span>
         </div>
+        <p className="text-xs text-slate-600 mb-4">
+          Soma do <b className="text-slate-500">valor de serviço</b> lançado pra cada colaborador.
+          Faixas: até R$ 3 mil · R$ 3–7 mil · R$ 7–10 mil ou mais.
+        </p>
         {porColaborador.length === 0 ? (
           <p className="text-slate-600 text-sm py-3">Nada lançado nesta competência ainda.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {porColaborador.map((c) => (
-              <div key={c.nome} className="px-3 py-2 rounded-lg bg-white/[0.02]">
-                <div className="text-sm text-white">{c.nome}</div>
-                <div className="text-lg font-bold text-amber-400">{brlFromCents(c.total)}</div>
-                {c.pago > 0 && (
-                  <div className="text-[11px] text-emerald-400/80">
-                    {brlFromCents(c.pago)} já pago
-                    {c.pagoEm && <span className="text-slate-600"> · {mesCurto(c.pagoEm)}</span>}
+            {porColaborador.map((c) => {
+              const fx = faixaDe(c.entregue);
+              // Régua visual até 10k; dali pra cima o quadro está cheio.
+              const pctMeta = Math.min(100, Math.round((c.entregue / 1_000_000) * 100));
+              return (
+                <div key={c.nome} className={`relative overflow-hidden rounded-lg border ${fx.borda} bg-white/[0.02]`}>
+                  {/* O preenchimento é o gráfico: sobe com a entrega do mês. */}
+                  <div
+                    className={`absolute inset-y-0 left-0 ${fx.fill} transition-all duration-500`}
+                    style={{ width: `${pctMeta}%` }}
+                  />
+                  {/* Marcas das viradas de faixa (3k e 7k na régua de 10k). */}
+                  <div className="absolute inset-y-0 w-px bg-white/10" style={{ left: "30%" }} />
+                  <div className="absolute inset-y-0 w-px bg-white/10" style={{ left: "70%" }} />
+                  <div className="relative px-3 py-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm text-white">{c.nome}</span>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded bg-black/30 ${fx.texto}`}>{fx.rotulo}</span>
+                    </div>
+                    <div className={`text-lg font-bold ${fx.texto}`}>{brlFromCents(c.entregue)}</div>
+                    <div className="text-[11px] text-slate-400">
+                      entregue na meta · bonif. {brlFromCents(c.total)}
+                      {c.pago > 0 && (
+                        <span className="text-emerald-400/80">
+                          {" · "}{brlFromCents(c.pago)} pago{c.pagoEm && ` (${mesCurto(c.pagoEm)})`}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                )}
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
