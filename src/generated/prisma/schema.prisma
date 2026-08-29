@@ -183,26 +183,22 @@ enum RankingCategory {
 // ─── Empresas ─────────────────────────────────────────────────────────────────
 
 model Company {
-  id            String        @id @default(cuid())
-  name          String
+  id        String        @id @default(cuid())
+  name      String
   // Nome fantasia. `name` costuma guardar a razão social (é o que vem da lista
   // do ClickUp e do Bling); o fantasia é como o cliente é chamado no dia a dia.
   // Telas de trabalho mostram o fantasia quando existe, e o `name` continua
   // sendo o que casa com documento fiscal.
-  tradeName     String?
-  slug          String        @unique
-  segment       String?
-  phone         String?
-  email         String?
-  website       String?
-  logoUrl       String?
-  status        CompanyStatus @default(ACTIVE)
-  // Cliente entra no fechamento de bonificação? Conta que não bonifica
-  // (permuta, parceria, contrato antigo sem comissão) sai das listas da aba
-  // Bonificação todo mês, em vez de ser ignorada à mão repetidamente.
-  bonusEligible Boolean       @default(true)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  tradeName String?
+  slug      String        @unique
+  segment   String?
+  phone     String?
+  email     String?
+  website   String?
+  logoUrl   String?
+  status    CompanyStatus @default(ACTIVE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
   // CNPJ/CPF (só dígitos, sem máscara) — chave de casamento com o cadastro do
   // Bling. É por essa string que o sync Bling↔LeadHub decide se um contato do
@@ -3792,10 +3788,14 @@ model ClientService {
   // `amountCents` é o valor de UM ciclo no recorrente e o valor total no
   // pontual. `billingDay` é o dia do vencimento (1–31; meses curtos caem no
   // último dia, tratado na geração da cobrança).
-  amountCents  Int?
-  isRecurring  Boolean @default(false)
-  billingCycle String? // "MENSAL" | "TRIMESTRAL" | "ANUAL" (só quando isRecurring)
-  billingDay   Int?
+  amountCents   Int?
+  isRecurring   Boolean @default(false)
+  billingCycle  String? // "MENSAL" | "TRIMESTRAL" | "ANUAL" (só quando isRecurring)
+  billingDay    Int?
+  // Este contrato entra no fechamento de bonificação? A decisão é POR SERVIÇO,
+  // não por cliente: o mesmo cliente tem hospedagem (não bonifica) e gestão de
+  // mídias (bonifica). Desligado, sai das listas da aba Bonificação todo mês.
+  bonusEligible Boolean @default(true)
 
   // Origem do cadastro, mesmo padrão da ClientInvoice. Serve pra idempotência
   // da importação: reimportar a lista do ClickUp atualiza o contrato existente

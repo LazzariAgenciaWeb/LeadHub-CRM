@@ -74,6 +74,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       url:    body?.url ? String(body.url).trim() : null,
       notes:  body?.notes ? String(body.notes) : null,
       details: cleanDetails(body?.details) ?? undefined,
+      // Default = bonifica, o caso comum. Na criação a flag pode vir de quem
+      // criou; a edição posterior (PATCH) é que restringe à agência.
+      bonusEligible: body?.bonusEligible === undefined ? true : !!body.bonusEligible,
       ...cleanCobranca(body),
       ...cleanVigencia(body, status, "", null),
       provider: "manual",

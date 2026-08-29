@@ -197,10 +197,6 @@ model Company {
   website   String?
   logoUrl   String?
   status    CompanyStatus @default(ACTIVE)
-  // Cliente entra no fechamento de bonificação? Conta que não bonifica
-  // (permuta, parceria, contrato antigo sem comissão) sai das listas da aba
-  // Bonificação todo mês, em vez de ser ignorada à mão repetidamente.
-  bonusEligible Boolean @default(true)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 
@@ -3796,6 +3792,10 @@ model ClientService {
   isRecurring  Boolean @default(false)
   billingCycle String? // "MENSAL" | "TRIMESTRAL" | "ANUAL" (só quando isRecurring)
   billingDay   Int?
+  // Este contrato entra no fechamento de bonificação? A decisão é POR SERVIÇO,
+  // não por cliente: o mesmo cliente tem hospedagem (não bonifica) e gestão de
+  // mídias (bonifica). Desligado, sai das listas da aba Bonificação todo mês.
+  bonusEligible Boolean @default(true)
 
   // Origem do cadastro, mesmo padrão da ClientInvoice. Serve pra idempotência
   // da importação: reimportar a lista do ClickUp atualiza o contrato existente

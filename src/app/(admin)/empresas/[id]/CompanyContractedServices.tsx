@@ -9,7 +9,7 @@ type Item = {
   id: string; serviceId: string | null; serviceName: string | null;
   label: string; status: string; renewsAt: string | null;
   url: string | null; notes: string | null; details: Detail[] | null;
-  amountCents: number | null; isRecurring: boolean;
+  amountCents: number | null; isRecurring: boolean; bonusEligible?: boolean;
   startedAt: string | null; endedAt: string | null;
   billingCycle: string | null; billingDay: number | null;
 };
@@ -48,6 +48,7 @@ export default function CompanyContractedServices({
   // Cobrança: é isto que faz o contrato existir pro Financeiro. Sem valor e
   // sem recorrência ele não entra na previsão do mês nem na fila "a faturar".
   const [fRecorrente, setFRecorrente] = useState(false);
+  const [fBonifica, setFBonifica] = useState(true);
   const [fValor, setFValor] = useState("");
   const [fCiclo, setFCiclo] = useState("MENSAL");
   const [fDia, setFDia] = useState("");
@@ -57,7 +58,7 @@ export default function CompanyContractedServices({
   function openNew() {
     setEditing("new"); setErr("");
     setFServiceId(""); setFLabel(""); setFStatus("ATIVO"); setFRenews(""); setFUrl(""); setFNotes(""); setFDetails([]);
-    setFRecorrente(false); setFValor(""); setFCiclo("MENSAL"); setFDia(""); setFInicio(""); setFFim("");
+    setFRecorrente(false); setFBonifica(true); setFValor(""); setFCiclo("MENSAL"); setFDia(""); setFInicio(""); setFFim("");
   }
   function openEdit(it: Item) {
     setEditing(it); setErr("");
@@ -65,6 +66,7 @@ export default function CompanyContractedServices({
     setFRenews(it.renewsAt ? it.renewsAt.slice(0, 10) : ""); setFUrl(it.url ?? ""); setFNotes(it.notes ?? "");
     setFDetails(it.details ?? []);
     setFRecorrente(it.isRecurring);
+    setFBonifica(it.bonusEligible ?? true);
     setFValor(it.amountCents != null ? (it.amountCents / 100).toFixed(2).replace(".", ",") : "");
     setFCiclo(it.billingCycle ?? "MENSAL");
     setFDia(it.billingDay != null ? String(it.billingDay) : "");
@@ -95,6 +97,7 @@ export default function CompanyContractedServices({
         return Number.isFinite(n) ? Math.round(n * 100) : null;
       })(),
       isRecurring: fRecorrente,
+      bonusEligible: fBonifica,
       billingCycle: fCiclo,
       billingDay: fDia ? parseInt(fDia, 10) : null,
       startedAt: fInicio ? new Date(fInicio + "T12:00:00").toISOString() : null,
@@ -115,6 +118,7 @@ export default function CompanyContractedServices({
       label: data.label, status: data.status, renewsAt: data.renewsAt ?? null,
       url: data.url ?? null, notes: data.notes ?? null, details: (data.details as Detail[]) ?? null,
       amountCents: data.amountCents ?? null, isRecurring: data.isRecurring ?? false,
+      bonusEligible: data.bonusEligible ?? true,
       billingCycle: data.billingCycle ?? null, billingDay: data.billingDay ?? null,
       startedAt: data.startedAt ?? null, endedAt: data.endedAt ?? null,
     };
@@ -170,6 +174,18 @@ export default function CompanyContractedServices({
               />
               Cobrança recorrente
               <span className="text-xs text-slate-600">— entra na previsão do mês e na fila &ldquo;a faturar&rdquo;</span>
+            </label>
+            {/* Por serviço, não por cliente: o mesmo cliente tem hospedagem que
+                não bonifica e gestão que bonifica. */}
+            <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={fBonifica}
+                onChange={(e) => setFBonifica(e.target.checked)}
+                className="accent-amber-500"
+              />
+              Gera bonificação
+              <span className="text-xs text-slate-600">— desligado, sai das listas da aba Bonificação (ex.: hospedagem)</span>
             </label>
             <div className="grid sm:grid-cols-3 gap-3">
               <div>

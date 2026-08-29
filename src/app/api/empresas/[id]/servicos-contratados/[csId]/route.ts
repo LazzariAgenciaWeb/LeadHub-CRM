@@ -57,6 +57,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (body.isRecurring !== undefined || body.amountCents !== undefined) {
     Object.assign(data, cleanCobranca(body));
   }
+  // Bonificação é fechamento interno da AGÊNCIA — cliente logado na própria
+  // empresa não decide se o serviço dele comissiona alguém.
+  if (body.bonusEligible !== undefined) {
+    const role = (session.user as any)?.role as string;
+    const userCompanyId = (session.user as any)?.companyId as string | undefined;
+    if (role === "SUPER_ADMIN" || res.cs.clientCompany.parentCompanyId === userCompanyId) {
+      data.bonusEligible = !!body.bonusEligible;
+    }
+  }
   if (body.serviceId !== undefined) {
     if (body.serviceId) {
       const svc = await prisma.service.findFirst({ where: { id: String(body.serviceId), companyId: res.catalogOwnerId }, select: { id: true } });

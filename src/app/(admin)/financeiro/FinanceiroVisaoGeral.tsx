@@ -122,6 +122,7 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
   // paga fora do ciclo, contrato em negociação. Marcar e lançar só o que foi
   // conferido evita o vai-e-vem de faturar um por um.
   const [selecionados, setSelecionados] = useState<Set<string>>(new Set());
+  const [busca, setBusca] = useState("");
   const toggle = (id: string) =>
     setSelecionados((prev) => {
       const next = new Set(prev);
@@ -133,7 +134,16 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
   // o que ainda existe, senão o contador conta fantasma depois do refresh.
   const marcados = data.pendentes.filter((p) => selecionados.has(p.id));
   const totalMarcadoCents = marcados.reduce((n, p) => n + p.amountCents, 0);
-  const todosMarcados = data.pendentes.length > 0 && marcados.length === data.pendentes.length;
+  // Busca por cliente/serviço. O "selecionar todos" opera sobre o VISÍVEL —
+  // buscar "clínica" e selecionar todos marca só as clínicas, que é a intenção.
+  // Seleção já feita sobrevive à mudança de busca (o Set guarda ids, não linhas).
+  const pendentesVisiveis = data.pendentes.filter(
+    (p) =>
+      !busca.trim() ||
+      `${p.cliente} ${p.label}`.toLowerCase().includes(busca.trim().toLowerCase()),
+  );
+  const todosMarcados =
+    pendentesVisiveis.length > 0 && pendentesVisiveis.every((p) => selecionados.has(p.id));
 
   async function faturar(serviceIds?: string[]) {
     setFaturando(true);
@@ -466,11 +476,16 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
                   type="checkbox"
                   checked={todosMarcados}
                   onChange={() =>
-                    setSelecionados(todosMarcados ? new Set() : new Set(data.pendentes.map((p) => p.id)))
+                    setSelecionados((prev) => {
+                      const next = new Set(prev);
+                      if (todosMarcados) pendentesVisiveis.forEach((p) => next.delete(p.id));
+                      else pendentesVisiveis.forEach((p) => next.add(p.id));
+                      return next;
+                    })
                   }
                   className="accent-amber-500 w-3.5 h-3.5"
                 />
-                {todosMarcados ? "Limpar seleção" : "Selecionar todos"}
+                {todosMarcados ? "Limpar seleção" : busca.trim() ? "Selecionar visíveis" : "Selecionar todos"}
               </label>
               <span className="text-[11px] text-slate-600 basis-full">
                 Cria as cobranças de {monthLabel(data.month)}. Contrato com dia de vencimento
@@ -483,15 +498,28 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
             </div>
           )}
 
+          {data.pendentes.length > 0 && (
+            <input
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              placeholder="Buscar cliente ou serviço…"
+              className={`${input} w-full mb-2`}
+            />
+          )}
+
           {data.pendentes.length === 0 ? (
             <div className="py-8 text-center text-slate-600 text-sm">
               {carteira.contratosAtivos === 0
                 ? "Nenhum contrato recorrente cadastrado ainda."
                 : "Tudo faturado nesta competência."}
             </div>
+          ) : pendentesVisiveis.length === 0 ? (
+            <div className="py-8 text-center text-slate-600 text-sm">
+              Nenhum contrato bate com a busca.
+            </div>
           ) : (
             <div className="space-y-1.5 max-h-[320px] overflow-y-auto">
-              {data.pendentes.map((p) => (
+              {pendentesVisiveis.map((p) => (
                 <div
                   key={p.id}
                   className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg border transition-colors group ${

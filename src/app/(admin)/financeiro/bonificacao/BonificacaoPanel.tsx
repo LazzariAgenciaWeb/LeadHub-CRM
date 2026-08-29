@@ -14,7 +14,9 @@ export interface BonificacaoData {
   prevMonth: string;
   nextMonth: string;
   colaboradores: { id: string; nome: string }[];
-  recorrentes: { id: string; cliente: string; label: string; tipo: string; amountCents: number; faturado: boolean }[];
+  recorrentes: { id: string; clienteId: string; cliente: string; label: string; tipo: string; amountCents: number; faturado: boolean }[];
+  /** Serviços marcados como "não bonifica" — pra reverter sem ir ao cadastro. */
+  naoBonificam: { id: string; clienteId: string; nome: string }[];
   pontuais: { id: string; titulo: string; cliente: string | null; valorCents: number; entregueEm: string }[];
   lancados: {
     id: string; nome: string; amountCents: number; serviceValueCents: number;
@@ -49,6 +51,8 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   const [avulsoAberto, setAvulsoAberto] = useState(false);
   const [avulsoDesc, setAvulsoDesc] = useState("");
   const [avulsoValor, setAvulsoValor] = useState("");
+  const [busca, setBusca] = useState("");
+  const [mostrarNaoBonificam, setMostrarNaoBonificam] = useState(false);
 
   if (!data) {
     return (
@@ -117,6 +121,23 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
     router.refresh();
   }
 
+  // Liga/desliga a flag no CADASTRO do serviço contratado, sem sair da
+  // conferência. Por serviço de propósito: o mesmo cliente tem hospedagem que
+  // não bonifica e gestão que bonifica. Desligar tira ESTE contrato da lista
+  // em todos os meses.
+  async function setBonifica(clienteId: string, serviceId: string, flag: boolean) {
+    setOcupado(`svc-${serviceId}`);
+    setErro("");
+    const res = await fetch(`/api/empresas/${clienteId}/servicos-contratados/${serviceId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ bonusEligible: flag }),
+    });
+    setOcupado(null);
+    if (!res.ok) { setErro("Não foi possível alterar a bonificação do serviço."); return; }
+    router.refresh();
+  }
+
   async function alterar(id: string, body: Record<string, unknown>) {
     setOcupado(id); setErro("");
     const res = await fetch("/api/financeiro/bonificacao", {
@@ -157,7 +178,11 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   const totalPago = porColaborador.reduce((s, c) => s + c.pago, 0);
 
   const tipos = [...new Set(data.recorrentes.map((r) => r.tipo))].sort();
-  const recorrentesVisiveis = data.recorrentes.filter((r) => !filtroTipo || r.tipo === filtroTipo);
+  const casaBusca = (texto: string) =>
+    !busca.trim() || texto.toLowerCase().includes(busca.trim().toLowerCase());
+  const recorrentesVisiveis = data.recorrentes.filter(
+    (r) => (!filtroTipo || r.tipo === filtroTipo) && casaBusca(`${r.cliente} ${r.label}`),
+  );
 
   // Lançamentos por origem, mostrados na própria linha pra você ver quem já
   // recebeu sem descer até a lista.
@@ -422,9 +447,21 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
           </div>
         </div>
         <p className="text-xs text-slate-600 mb-3">
-          Bonifica quando está faturado e o cliente ativo — entregue ou não. Hospedagem normalmente
-          não bonifica; use os filtros pra separar.
+          Bonifica quando está faturado e o cliente ativo — entregue ou não. Serviço que não
+          bonifica (ex.: hospedagem): use o &ldquo;não bonifica&rdquo; na linha e ele sai da lista
+          em todos os meses.
         </p>
+        <input
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          placeholder="Buscar cliente ou serviço…"
+          className={input + " w-full mb-3"}
+        />
+        {recorrentesVisiveis.length === 0 && (
+          <p className="text-slate-600 text-sm py-3">
+            {busca.trim() ? "Nenhum contrato bate com a busca." : "Nenhum contrato bonificável neste mês."}
+          </p>
+        )}
         <div className="space-y-1 max-h-[400px] overflow-y-auto">
           {recorrentesVisiveis.map((r) => (
             <div
@@ -441,10 +478,55 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                 </div>
                 <JaLancados chave={`contrato:${r.id}`} />
               </div>
-              <FormLancar origem={{ clientServiceId: r.id }} chave={`c-${r.id}`} />
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {/* Tira ESTE serviço do fechamento em todos os meses — a
+                    hospedagem que era ignorada à mão repetidamente. */}
+                {abrindo !== `c-${r.id}` && (
+                  <button
+                    onClick={() => setBonifica(r.clienteId, r.id, false)}
+                    disabled={ocupado === `svc-${r.id}`}
+                    title="Este serviço não gera bonificação — remover da lista em todos os meses"
+                    className="px-2 py-1 rounded-md text-[11px] text-slate-600 hover:text-red-300 hover:bg-red-500/10 disabled:opacity-40 transition-colors"
+                  >
+                    {ocupado === `svc-${r.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "não bonifica"}
+                  </button>
+                )}
+                <FormLancar origem={{ clientServiceId: r.id }} chave={`c-${r.id}`} />
+              </div>
             </div>
           ))}
         </div>
+
+        {/* Caminho de volta: sem isto, "marquei sem querer" só se resolvia no
+            cadastro do serviço dentro da empresa. */}
+        {data.naoBonificam.length > 0 && (
+          <div className="mt-3 pt-3 border-t border-[#1e2d45]">
+            <button
+              onClick={() => setMostrarNaoBonificam((v) => !v)}
+              className="text-[11px] text-slate-500 hover:text-slate-300"
+            >
+              {mostrarNaoBonificam ? "▾" : "▸"} {data.naoBonificam.length} serviço(s) marcado(s) como &ldquo;não bonifica&rdquo;
+            </button>
+            {mostrarNaoBonificam && (
+              <div className="mt-2 space-y-1">
+                {data.naoBonificam
+                  .filter((s) => casaBusca(s.nome))
+                  .map((s) => (
+                    <div key={s.id} className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-white/[0.02]">
+                      <span className="text-xs text-slate-500 truncate">{s.nome}</span>
+                      <button
+                        onClick={() => setBonifica(s.clienteId, s.id, true)}
+                        disabled={ocupado === `svc-${s.id}`}
+                        className="px-2 py-1 rounded-md text-[11px] text-emerald-400/80 hover:bg-emerald-500/10 disabled:opacity-40 flex-shrink-0"
+                      >
+                        {ocupado === `svc-${s.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "voltar a bonificar"}
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Vendas pontuais entregues */}

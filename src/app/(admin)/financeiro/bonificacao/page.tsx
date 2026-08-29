@@ -35,14 +35,9 @@ export default async function BonificacaoPage({
 
   const clients = await prisma.company.findMany({
     where: { parentCompanyId: agencyId },
-    select: { id: true, name: true, bonusEligible: true },
+    select: { id: true, name: true },
   });
-  // Cliente marcado como "não bonifica" no cadastro sai das listas de origem —
-  // é a conta de permuta/parceria que todo mês era ignorada à mão. Lançamento
-  // JÁ FEITO continua aparecendo: desligar a flag não pode sumir com histórico
-  // de pagamento.
-  const bonificaveis = clients.filter((c) => c.bonusEligible);
-  const clientIds = bonificaveis.map((c) => c.id);
+  const clientIds = clients.map((c) => c.id);
   const nomeCliente = new Map(clients.map((c) => [c.id, c.name] as const));
 
   const [contratos, faturas, vendas, bonus, colaboradores] = await Promise.all([
@@ -51,6 +46,7 @@ export default async function BonificacaoPage({
       select: {
         id: true, label: true, amountCents: true, billingCycle: true,
         renewsAt: true, isRecurring: true, status: true, clientCompanyId: true,
+        bonusEligible: true,
       },
     }),
     // Faturas da competência: é o gatilho do recorrente — faturou e o cliente
@@ -59,15 +55,9 @@ export default async function BonificacaoPage({
       where: { clientCompanyId: { in: clientIds }, referenceMonth: month, status: { not: "CANCELADO" } },
       select: { clientServiceId: true },
     }),
-    // Pontual: o gatilho é a ENTREGA, não o faturamento. Venda sem cliente
-    // vinculado continua aparecendo — não dá pra saber se bonifica ou não.
+    // Pontual: o gatilho é a ENTREGA, não o faturamento.
     prisma.sale.findMany({
-      where: {
-        companyId: agencyId,
-        productionStatus: "ENTREGUE",
-        deliveredAt: { gte: from, lt: to },
-        OR: [{ clientCompanyId: null }, { clientCompanyId: { in: clientIds } }],
-      },
+      where: { companyId: agencyId, productionStatus: "ENTREGUE", deliveredAt: { gte: from, lt: to } },
       select: {
         id: true, title: true, valueCents: true, deliveredAt: true,
         clientCompany: { select: { name: true } },
@@ -97,10 +87,24 @@ export default async function BonificacaoPage({
     prevMonth: shiftMonth(month, -1),
     nextMonth: shiftMonth(month, 1),
     colaboradores: colaboradores.map((u) => ({ id: u.id, nome: u.name ?? u.email })),
-    recorrentes: contratos
-      .filter((c) => dueInMonth(c, month))
+    // Serviços tirados do fechamento — visíveis dobrados no fim da lista,
+    // senão "marquei sem querer" não tem caminho de volta fora do cadastro.
+    naoBonificam: contratos
+      .filter((c) => !c.bonusEligible)
       .map((c) => ({
         id: c.id,
+        clienteId: c.clientCompanyId,
+        nome: `${nomeCliente.get(c.clientCompanyId) ?? "—"} · ${c.label}`,
+      }))
+      .sort((a, b) => a.nome.localeCompare(b.nome)),
+    recorrentes: contratos
+      // Serviço marcado como "não bonifica" sai da lista — é a hospedagem que
+      // todo mês era ignorada à mão. Lançamento JÁ FEITO continua na lista de
+      // lançados: desligar a flag não pode sumir com histórico de pagamento.
+      .filter((c) => c.bonusEligible && dueInMonth(c, month))
+      .map((c) => ({
+        id: c.id,
+        clienteId: c.clientCompanyId,
         cliente: nomeCliente.get(c.clientCompanyId) ?? "—",
         label: c.label,
         // Tipo = o que vem antes do travessão no rótulo, que é o SERVICO da

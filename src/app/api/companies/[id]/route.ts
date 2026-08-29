@@ -83,13 +83,7 @@ export async function PATCH(
     moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, moduleEmailInbox, moduleInstagram, moduleEspacoCliente, moduleVideos, moduleBling, moduleRelatorioMarketing, serpapiKey,
     modoAtendimento,
     parentCompanyId,
-    bonusEligible,
   } = body;
-
-  // Se o cliente entra no fechamento de bonificação é decisão da AGÊNCIA, não
-  // do cliente sobre si mesmo — CLIENT logado na própria empresa não mexe.
-  const podeBonus =
-    bonusEligible !== undefined && (isSuperAdmin || (userRole === "ADMIN" && id !== userCompanyId));
 
   // Campos que apenas SUPER_ADMIN pode alterar
   const adminOnlyData = isSuperAdmin
@@ -150,7 +144,6 @@ export async function PATCH(
       ...(logoUrl !== undefined && { logoUrl }),
       ...adminOnlyData,
       ...selfServeData,
-      ...(podeBonus && { bonusEligible: !!bonusEligible }),
     },
   });
 
