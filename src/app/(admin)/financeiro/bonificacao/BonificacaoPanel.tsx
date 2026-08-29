@@ -145,6 +145,24 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
     router.refresh();
   }
 
+  // Lote sobre o que está VISÍVEL (filtro de tipo + busca): "hospedagem não
+  // bonifica" são dezenas de contratos — um clique em vez de um por um.
+  async function naoBonificaVisiveis() {
+    const n = recorrentesVisiveis.length;
+    if (n === 0) return;
+    if (!confirm(`Marcar ${n} serviço(s) visível(is) como "não bonifica"?\nEles saem da lista em todos os meses (dá pra reverter na seção do rodapé).`)) return;
+    setOcupado("lote");
+    setErro("");
+    const res = await fetch("/api/financeiro/bonificacao/lote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ serviceIds: recorrentesVisiveis.map((r) => r.id), bonusEligible: false }),
+    });
+    setOcupado(null);
+    if (!res.ok) { setErro("Não foi possível atualizar em lote."); return; }
+    router.refresh();
+  }
+
   async function alterar(id: string, body: Record<string, unknown>) {
     setOcupado(id); setErro("");
     const res = await fetch("/api/financeiro/bonificacao", {
@@ -544,6 +562,18 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
           placeholder="Buscar cliente ou serviço…"
           className={input + " w-full mb-3"}
         />
+        {/* Só com filtro/busca ativos — em lote sobre a lista inteira seria
+            fácil demais de disparar sem querer. */}
+        {(filtroTipo || busca.trim()) && recorrentesVisiveis.length > 0 && (
+          <button
+            onClick={naoBonificaVisiveis}
+            disabled={ocupado === "lote"}
+            className="mb-3 px-2.5 py-1.5 rounded-lg text-[11px] border border-red-500/25 text-red-300/90 hover:bg-red-500/10 disabled:opacity-40 flex items-center gap-1.5"
+          >
+            {ocupado === "lote" && <Loader2 className="w-3 h-3 animate-spin" />}
+            Marcar os {recorrentesVisiveis.length} visíveis como &ldquo;não bonifica&rdquo;
+          </button>
+        )}
         {recorrentesVisiveis.length === 0 && (
           <p className="text-slate-600 text-sm py-3">
             {busca.trim() ? "Nenhum contrato bate com a busca." : "Nenhum contrato bonificável neste mês."}
