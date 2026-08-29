@@ -97,21 +97,6 @@ export default async function FinanceiroPage({
     _count: { _all: true },
   });
 
-  // Vendas fechadas na competência — a lista que responde "o que vendi neste
-  // mês e quanto disso já virou cobrança". Os cards do topo só falam de
-  // contrato recorrente, então venda pontual não aparecia em lugar nenhum.
-  const vendasDoMes = await prisma.sale.findMany({
-    where: {
-      ...(isGlobal ? {} : { companyId: agencyId ?? "__none__" }),
-      closedAt: { gte: from, lt: to },
-    },
-    orderBy: { valueCents: "desc" },
-    select: {
-      id: true, title: true, valueCents: true, kind: true, billingStatus: true,
-      clientCompany: { select: { name: true } },
-      invoice: { select: { status: true } },
-    },
-  });
   const somaSe = (pred: (g: (typeof esteira)[number]) => boolean) =>
     esteira.filter(pred).reduce((n, g) => n + g._count._all, 0);
 
@@ -188,7 +173,10 @@ export default async function FinanceiroPage({
       atrasadoCents,
       atrasadoQtd,
     },
-    pendentes: pendentes
+    pendentesQtd: pendentes.length,
+    // O retrato completo da carteira recorrente — o lançamento por competência
+    // vive na aba "Lançamentos do mês".
+    ativos: ativos
       .map((c) => ({
         id: c.id,
         label: c.label,
@@ -196,11 +184,9 @@ export default async function FinanceiroPage({
         clienteId: c.clientCompanyId,
         amountCents: c.amountCents ?? 0,
         cycle: c.billingCycle ?? "MENSAL",
-        // Dia de vencimento combinado no contrato. Quando existe, a cobrança
-        // deve vencer nele — não no dia único escolhido pro lote.
         billingDay: c.billingDay ?? null,
       }))
-      .sort((a, b) => b.amountCents - a.amountCents),
+      .sort((a, b) => a.cliente.localeCompare(b.cliente)),
     comercial: {
       abertoCents: sum(abertos),
       abertoQtd: abertos.length,
@@ -215,33 +201,6 @@ export default async function FinanceiroPage({
       revenueTargetCents: target?.revenueTargetCents ?? 0,
       newSalesTargetCents: target?.newSalesTargetCents ?? 0,
     },
-    vendasDoMes: vendasDoMes.map((s) => ({
-      id: s.id,
-      title: s.title,
-      cliente: s.clientCompany?.name ?? null,
-      amountCents: s.valueCents,
-      kind: s.kind,
-      // "Faturado" de verdade = tem cobrança. O status sozinho pode estar
-      // marcado sem cobrança (venda sem cliente vinculado).
-      faturado: !!s.invoice,
-      pago: s.invoice?.status === "PAGO",
-      // Marcado como faturado na esteira mas sem cobrança gerada — precisa
-      // aparecer como pendência, senão o número do mês fica devendo sem motivo
-      // visível.
-      marcadoSemCobranca: s.billingStatus === "FATURADO" && !s.invoice,
-    })),
-    ignorados: skips.map((s) => ({
-      skipId: s.id,
-      serviceId: s.clientService.id,
-      label: s.clientService.label,
-      cliente: clientName.get(s.clientService.clientCompanyId) ?? "—",
-      amountCents: s.clientService.amountCents ?? 0,
-      reason: s.reason,
-      por: s.userName,
-    })),
-    pontualAFaturarCents: vendasDoMes
-      .filter((s) => !s.invoice)
-      .reduce((n, s) => n + s.valueCents, 0),
   };
 
   return <FinanceiroVisaoGeral data={data} />;
