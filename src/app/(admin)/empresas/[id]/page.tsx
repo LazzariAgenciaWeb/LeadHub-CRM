@@ -13,6 +13,7 @@ import CompanyDetailTabs from "./CompanyDetailTabs";
 import CompanyCustomFields from "./CompanyCustomFields";
 import CompanyContractedServices from "./CompanyContractedServices";
 import CompanyFinanceiro from "./CompanyFinanceiro";
+import CompanyFinanceHistory from "./CompanyFinanceHistory";
 import { getCompanyPlan } from "@/lib/limits";
 import { PLANS, ADDONS, formatPriceBRL } from "@/lib/plans";
 import { MODULES } from "@/lib/modules";
@@ -98,7 +99,7 @@ export default async function EmpresaDetailPage({
 
   // Serviços contratados + catálogo da agência (seletor) + financeiro do cliente.
   const catalogOwnerId = company.parentCompanyId ?? id;
-  const [contractedRaw, catalogRaw, invoicesRaw] = await Promise.all([
+  const [contractedRaw, catalogRaw, invoicesRaw, financeLogsRaw] = await Promise.all([
     prisma.clientService.findMany({
       where:   { clientCompanyId: id },
       orderBy: [{ order: "asc" }, { createdAt: "desc" }],
@@ -113,6 +114,12 @@ export default async function EmpresaDetailPage({
       where:   { clientCompanyId: id },
       orderBy: [{ status: "asc" }, { dueDate: "desc" }],
       include: { clientService: { select: { id: true, label: true } } },
+    }),
+    // Trilha de auditoria do financeiro deste cliente (quem/quando/por quê).
+    prisma.financeLog.findMany({
+      where: { clientCompanyId: id },
+      orderBy: { createdAt: "desc" },
+      take: 80,
     }),
   ]);
   const contracted = contractedRaw.map((c) => ({
@@ -340,6 +347,19 @@ export default async function EmpresaDetailPage({
       </div>
       <div id="financeiro" className="mb-6">
         <CompanyFinanceiro companyId={id} initial={invoices} services={contracted.map((c) => ({ id: c.id, label: c.label }))} />
+      </div>
+      <div className="mb-6">
+        <CompanyFinanceHistory
+          logs={financeLogsRaw.map((l) => ({
+            id: l.id,
+            entity: l.entity,
+            action: l.action,
+            description: l.description,
+            userName: l.userName,
+            createdAt: l.createdAt.toISOString(),
+            meta: (l.meta as Record<string, unknown> | null) ?? null,
+          }))}
+        />
       </div>
 
       {/* Info + Stats */}

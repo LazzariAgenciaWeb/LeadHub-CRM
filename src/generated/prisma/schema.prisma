@@ -3809,8 +3809,9 @@ model ClientService {
   // duplicata que acabou de ser mesclada.
   externalClientName String?
 
-  invoices ClientInvoice[] // cobranças ligadas a este serviço
-  bonuses  Bonus[] // bonificações geradas por este contrato, por competência
+  invoices     ClientInvoice[] // cobranças ligadas a este serviço
+  bonuses      Bonus[] // bonificações geradas por este contrato, por competência
+  billingSkips BillingSkip[] // competências em que foi ignorado na fila
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -3821,6 +3822,43 @@ model ClientService {
   @@index([clientCompanyId, endedAt])
   @@index([provider, externalId])
   @@index([provider, externalClientName])
+}
+
+// Contrato ignorado na fila "a faturar" de UMA competência, com o porquê.
+// Não é encerramento: mês que vem ele volta. Serve pro combinado pontual
+// ("esse mês não cobra, virou cortesia da renovação") sem sujar o cadastro.
+model BillingSkip {
+  id              String        @id @default(cuid())
+  clientService   ClientService @relation(fields: [clientServiceId], references: [id], onDelete: Cascade)
+  clientServiceId String
+  month           String // competência "YYYY-MM"
+  reason          String?       @db.Text
+  userName        String?
+  createdAt       DateTime      @default(now())
+
+  @@unique([clientServiceId, month])
+  @@index([month])
+}
+
+// Trilha de auditoria do financeiro: quem mexeu em contrato/cobrança, quando
+// e por quê. SEM foreign keys de propósito — apagar a cobrança não pode
+// apagar o registro de que ela existiu (é exatamente o caso que a trilha
+// precisa contar).
+model FinanceLog {
+  id              String   @id @default(cuid())
+  companyId       String // agência dona da carteira
+  clientCompanyId String? // cliente afetado
+  entity          String // "CONTRATO" | "COBRANCA"
+  entityId        String?
+  action          String // CRIADO | ALTERADO | ENCERRADO | REABERTO | FATURADO | PAGO | CANCELADO | EXCLUIDO | IGNORADO | IGNORADO_REVERTIDO
+  description     String?  @db.Text // motivo/descritivo informado por quem fez
+  meta            Json? // antes/depois, valores, competência
+  userName        String?
+  createdAt       DateTime @default(now())
+
+  @@index([companyId, createdAt])
+  @@index([clientCompanyId, createdAt])
+  @@index([entity, entityId])
 }
 
 // Cobrança (fatura/boleto/NF) que a agência EMITE para um cliente. Alimentada

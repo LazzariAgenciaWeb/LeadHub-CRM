@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { logFinance, agencyOf } from "@/lib/finance-log";
 
 // Autoriza: super-admin, ou a agência-mãe do cliente (parentCompanyId), ou a própria empresa.
 async function authorize(session: any, companyId: string) {
@@ -61,6 +62,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       provider:   "manual",
     },
     include: { clientService: { select: { id: true, label: true } } },
+  });
+  await logFinance({
+    companyId: await agencyOf(id),
+    clientCompanyId: id,
+    entity: "COBRANCA",
+    entityId: created.id,
+    action: "CRIADO",
+    meta: { descricao: created.description, competencia: created.referenceMonth, valorCents: created.amountCents },
+    session,
   });
   return NextResponse.json(created, { status: 201 });
 }

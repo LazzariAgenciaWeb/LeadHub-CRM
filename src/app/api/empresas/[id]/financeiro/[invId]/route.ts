@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { logFinance, agencyOf } from "@/lib/finance-log";
 
 const STATUSES = ["ABERTO", "PAGO", "CANCELADO"];
 
@@ -61,6 +62,37 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data,
     include: { clientService: { select: { id: true, label: true } } },
   });
+
+  // Trilha: mudança de status é o que importa na conferência (pagou? cancelou?
+  // reabriu?); o resto vira ALTERADA com os campos tocados.
+  {
+    const antes = res.inv;
+    const action =
+      antes.status !== updated.status
+        ? updated.status === "PAGO"
+          ? "PAGO"
+          : updated.status === "CANCELADO"
+            ? "CANCELADO"
+            : "REABERTO"
+        : "ALTERADO";
+    await logFinance({
+      companyId: await agencyOf(id),
+      clientCompanyId: id,
+      entity: "COBRANCA",
+      entityId: invId,
+      action,
+      description: body?.motivo ? String(body.motivo) : null,
+      meta: {
+        descricao: updated.description,
+        competencia: updated.referenceMonth,
+        valorCents: updated.amountCents,
+        campos: Object.keys(data),
+        ...(antes.status !== updated.status && { statusAntes: antes.status, statusDepois: updated.status }),
+        ...(antes.amountCents !== updated.amountCents && { valorAntes: antes.amountCents }),
+      },
+      session,
+    });
+  }
   return NextResponse.json(updated);
 }
 
@@ -71,5 +103,20 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const res = await loadAndAuth(session, id, invId);
   if ("error" in res) return res.error;
   await prisma.clientInvoice.delete({ where: { id: invId } });
+  // O registro sobrevive à cobrança de propósito — é a prova de que existiu.
+  await logFinance({
+    companyId: await agencyOf(id),
+    clientCompanyId: id,
+    entity: "COBRANCA",
+    entityId: invId,
+    action: "EXCLUIDO",
+    meta: {
+      descricao: res.inv.description,
+      competencia: res.inv.referenceMonth,
+      valorCents: res.inv.amountCents,
+      status: res.inv.status,
+    },
+    session,
+  });
   return NextResponse.json({ ok: true });
 }

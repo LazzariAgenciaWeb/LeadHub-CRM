@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ created: 0, skipped: 0, totalCents: 0 });
   }
 
-  const [contracts, existing] = await Promise.all([
+  const [contracts, existing, skips] = await Promise.all([
     prisma.clientService.findMany({
       where: {
         clientCompanyId: { in: clientIds },
@@ -76,13 +76,21 @@ export async function POST(req: NextRequest) {
       where: { clientCompanyId: { in: clientIds }, referenceMonth: month, status: { not: "CANCELADO" } },
       select: { clientServiceId: true },
     }),
+    // Ignorados desta competência: nem o "Faturar todos" passa por cima —
+    // ignorar com motivo e o lote cobrar mesmo assim seria pior que não ter
+    // o recurso.
+    prisma.billingSkip.findMany({
+      where: { month, clientService: { clientCompanyId: { in: clientIds } } },
+      select: { clientServiceId: true },
+    }),
   ]);
 
   const jaFaturado = new Set(existing.map((i) => i.clientServiceId).filter(Boolean) as string[]);
+  const ignorados = new Set(skips.map((s) => s.clientServiceId));
 
   // Mesmo filtro da tela: só contrato com valor e devido nesta competência.
   const alvo = contracts.filter(
-    (c) => !!c.amountCents && dueInMonth(c, month) && !jaFaturado.has(c.id),
+    (c) => !!c.amountCents && dueInMonth(c, month) && !jaFaturado.has(c.id) && !ignorados.has(c.id),
   );
   const skipped = contracts.length - alvo.length;
 
@@ -102,6 +110,24 @@ export async function POST(req: NextRequest) {
       provider: "manual",
     })),
   });
+
+  // Trilha: uma linha por cobrança lançada, no cliente certo — é o que
+  // responde "quem faturou isso e quando" na conferência.
+  const userName = (session.user as any)?.name ?? (session.user as any)?.email ?? null;
+  await prisma.financeLog
+    .createMany({
+      data: alvo.map((c) => ({
+        companyId: agencyId ?? "GLOBAL",
+        clientCompanyId: c.clientCompanyId,
+        entity: "COBRANCA",
+        entityId: c.id,
+        action: "FATURADO",
+        description: `Lote de ${month}`,
+        meta: { contrato: c.label, competencia: month, valorCents: c.amountCents ?? 0 },
+        userName,
+      })),
+    })
+    .catch((e) => console.error("[finance-log lote]", e));
 
   return NextResponse.json({
     created: result.count,

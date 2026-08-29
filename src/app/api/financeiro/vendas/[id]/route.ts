@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { findOrCreateClientCompany } from "@/lib/client-company";
 import { can } from "@/lib/permissions";
+import { logFinance } from "@/lib/finance-log";
 
 const CONTRACT = ["PENDENTE", "ENVIADO", "ASSINADO", "DISPENSADO"];
 const BILLING = ["PENDENTE", "FATURADO", "DISPENSADO"];
@@ -136,7 +137,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     billingStatus !== "FATURADO" &&
     sale.billingStatus === "FATURADO"
   ) {
-    await prisma.clientInvoice.deleteMany({ where: { saleId: id, status: "ABERTO" } });
+    const undone = await prisma.clientInvoice.deleteMany({ where: { saleId: id, status: "ABERTO" } });
+    if (undone.count > 0) {
+      await logFinance({
+        companyId: sale.companyId,
+        clientCompanyId: sale.clientCompanyId,
+        entity: "COBRANCA",
+        entityId: null,
+        action: "EXCLUIDO",
+        description: "Desfeito o 'Faturado' da venda na esteira",
+        meta: { venda: sale.title, valorCents: sale.valueCents },
+        session,
+      });
+    }
   }
 
   if (billingStatus === "FATURADO" && sale.billingStatus !== "FATURADO") {
@@ -175,6 +188,16 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
           provider: "manual",
         },
         select: { id: true, amountCents: true, dueDate: true, status: true },
+      });
+      await logFinance({
+        companyId: sale.companyId,
+        clientCompanyId: clientId,
+        entity: "COBRANCA",
+        entityId: invoice.id,
+        action: "FATURADO",
+        description: "Venda marcada como Faturado na esteira",
+        meta: { venda: updated.title, competencia: referenceMonth, valorCents: updated.valueCents },
+        session,
       });
     }
   }

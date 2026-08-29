@@ -49,6 +49,11 @@ export interface VisaoGeralData {
   }[];
   /** Soma das vendas do mês que ainda não viraram cobrança. */
   pontualAFaturarCents: number;
+  /** Contratos ignorados NESTA competência, com motivo — decisão de não faturar. */
+  ignorados: {
+    skipId: string; serviceId: string; label: string; cliente: string;
+    amountCents: number; reason: string | null; por: string | null;
+  }[];
 }
 
 const card = "bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5";
@@ -123,6 +128,47 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
   // conferido evita o vai-e-vem de faturar um por um.
   const [selecionados, setSelecionados] = useState<Set<string>>(new Set());
   const [busca, setBusca] = useState("");
+  // Ignorar com motivo: qual linha está com o formulário aberto e o texto.
+  const [ignorando, setIgnorando] = useState<string | null>(null);
+  const [motivoIgnorar, setMotivoIgnorar] = useState("");
+  const [mostrarIgnorados, setMostrarIgnorados] = useState(false);
+
+  async function ignorar(serviceId: string) {
+    setFaturando(true);
+    setFaturarErr("");
+    try {
+      const res = await fetch("/api/financeiro/ignorar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ month: data.month, serviceId, reason: motivoIgnorar }),
+      });
+      if (!res.ok) {
+        const e = await res.json().catch(() => ({}));
+        setFaturarErr(e.error ?? "Não foi possível ignorar.");
+        return;
+      }
+      setIgnorando(null);
+      setMotivoIgnorar("");
+      setSelecionados((prev) => {
+        const next = new Set(prev);
+        next.delete(serviceId);
+        return next;
+      });
+      router.refresh();
+    } finally {
+      setFaturando(false);
+    }
+  }
+
+  async function reverterIgnorado(skipId: string) {
+    setFaturando(true);
+    try {
+      await fetch(`/api/financeiro/ignorar?id=${skipId}`, { method: "DELETE" });
+      router.refresh();
+    } finally {
+      setFaturando(false);
+    }
+  }
 
   // A seleção sobrevive à navegação: a conferência é interrompida toda hora
   // (abrir a fatura de um cliente, conferir no Bling, voltar) e perder as
@@ -575,24 +621,94 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
                       </span>
                     </div>
                   </Link>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className="text-sm text-amber-400 font-medium">{brlFromCents(p.amountCents)}</span>
-                    {/* Lançar só este contrato — quando o mês não fecha em bloco
-                        (cliente que paga em data própria, cobrança combinada à parte). */}
-                    <button
-                      onClick={() => faturar([p.id])}
-                      disabled={faturando}
-                      title="Lançar a cobrança deste contrato"
-                      className="px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 text-slate-400 hover:bg-amber-500/15 hover:text-amber-300 disabled:opacity-40 transition-colors"
-                    >
-                      Faturar
-                    </button>
-                    <Link href={`/empresas/${p.clienteId}#financeiro`} className="text-slate-700 group-hover:text-indigo-400 transition-colors">
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
+                  {ignorando === p.id ? (
+                    /* Ignorar exige dizer POR QUÊ — é a diferença entre "faltou
+                       faturar" e "decidimos não faturar" na conferência. */
+                    <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-end">
+                      <input
+                        value={motivoIgnorar}
+                        onChange={(e) => setMotivoIgnorar(e.target.value)}
+                        placeholder="Motivo (ex.: cortesia da renovação)"
+                        autoFocus
+                        className={`${input} w-56 text-xs`}
+                      />
+                      <button
+                        onClick={() => ignorar(p.id)}
+                        disabled={faturando || !motivoIgnorar.trim()}
+                        className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-600/40 text-slate-200 hover:bg-slate-500/40 disabled:opacity-40"
+                      >
+                        Ignorar no mês
+                      </button>
+                      <button onClick={() => { setIgnorando(null); setMotivoIgnorar(""); }} className="text-slate-500 hover:text-white text-[11px]">
+                        Cancelar
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <span className="text-sm text-amber-400 font-medium">{brlFromCents(p.amountCents)}</span>
+                      {/* Lançar só este contrato — quando o mês não fecha em bloco
+                          (cliente que paga em data própria, cobrança combinada à parte). */}
+                      <button
+                        onClick={() => faturar([p.id])}
+                        disabled={faturando}
+                        title="Lançar a cobrança deste contrato"
+                        className="px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 text-slate-400 hover:bg-amber-500/15 hover:text-amber-300 disabled:opacity-40 transition-colors"
+                      >
+                        Faturar
+                      </button>
+                      <button
+                        onClick={() => { setIgnorando(p.id); setMotivoIgnorar(""); }}
+                        disabled={faturando}
+                        title="Não faturar este contrato nesta competência (com motivo)"
+                        className="px-2 py-1 rounded-md text-[11px] text-slate-600 hover:text-slate-300 hover:bg-white/5 disabled:opacity-40 transition-colors"
+                      >
+                        Ignorar
+                      </button>
+                      <Link href={`/empresas/${p.clienteId}#financeiro`} className="text-slate-700 group-hover:text-indigo-400 transition-colors">
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  )}
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* O que foi decidido NÃO faturar neste mês — visível e com motivo,
+              senão a conferência não distingue esquecimento de decisão. */}
+          {data.ignorados.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-[#1e2d45]">
+              <button
+                onClick={() => setMostrarIgnorados((v) => !v)}
+                className="text-[11px] text-slate-500 hover:text-slate-300"
+              >
+                {`${mostrarIgnorados ? "▾" : "▸"} ${data.ignorados.length} contrato(s) ignorado(s) nesta competência · ${brlFromCents(
+                  data.ignorados.reduce((n, i) => n + i.amountCents, 0),
+                )}`}
+              </button>
+              {mostrarIgnorados && (
+                <div className="mt-2 space-y-1">
+                  {data.ignorados.map((i) => (
+                    <div key={i.skipId} className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-white/[0.02]">
+                      <div className="min-w-0">
+                        <span className="text-xs text-slate-400">{i.cliente}</span>
+                        <span className="text-xs text-slate-600"> · {i.label} · {brlFromCents(i.amountCents)}</span>
+                        <div className="text-[11px] text-slate-500 truncate">
+                          {i.reason ?? "sem motivo"}
+                          {i.por && <span className="text-slate-700"> — {i.por}</span>}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => reverterIgnorado(i.skipId)}
+                        disabled={faturando}
+                        className="px-2 py-1 rounded-md text-[11px] text-emerald-400/80 hover:bg-emerald-500/10 disabled:opacity-40 flex-shrink-0"
+                      >
+                        voltar pra fila
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

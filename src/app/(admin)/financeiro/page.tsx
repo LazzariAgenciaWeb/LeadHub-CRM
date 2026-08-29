@@ -122,7 +122,17 @@ export default async function FinanceiroPage({
   const faturadoPorContrato = new Set(
     invoicesOfMonth.map((i) => i.clientServiceId).filter(Boolean) as string[]
   );
-  const devidos = ativos.filter((c) => dueInMonth(c, month));
+  // Ignorados nesta competência — decisão registrada de NÃO faturar no mês
+  // (cortesia, combinado à parte). Saem da fila e da previsão, com motivo.
+  const skips = await prisma.billingSkip.findMany({
+    where: { month, clientService: { clientCompanyId: { in: clientIds } } },
+    select: {
+      id: true, reason: true, userName: true,
+      clientService: { select: { id: true, label: true, clientCompanyId: true, amountCents: true } },
+    },
+  });
+  const ignoradosIds = new Set(skips.map((s) => s.clientService.id));
+  const devidos = ativos.filter((c) => dueInMonth(c, month) && !ignoradosIds.has(c.id));
   const pendentes = devidos.filter((c) => !faturadoPorContrato.has(c.id));
 
   const previstoCents = devidos.reduce((s, c) => s + (c.amountCents ?? 0), 0);
@@ -219,6 +229,15 @@ export default async function FinanceiroPage({
       // aparecer como pendência, senão o número do mês fica devendo sem motivo
       // visível.
       marcadoSemCobranca: s.billingStatus === "FATURADO" && !s.invoice,
+    })),
+    ignorados: skips.map((s) => ({
+      skipId: s.id,
+      serviceId: s.clientService.id,
+      label: s.clientService.label,
+      cliente: clientName.get(s.clientService.clientCompanyId) ?? "—",
+      amountCents: s.clientService.amountCents ?? 0,
+      reason: s.reason,
+      por: s.userName,
     })),
     pontualAFaturarCents: vendasDoMes
       .filter((s) => !s.invoice)

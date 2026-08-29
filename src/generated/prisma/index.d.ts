@@ -549,6 +549,16 @@ export type Service = $Result.DefaultSelection<Prisma.$ServicePayload>
  */
 export type ClientService = $Result.DefaultSelection<Prisma.$ClientServicePayload>
 /**
+ * Model BillingSkip
+ * 
+ */
+export type BillingSkip = $Result.DefaultSelection<Prisma.$BillingSkipPayload>
+/**
+ * Model FinanceLog
+ * 
+ */
+export type FinanceLog = $Result.DefaultSelection<Prisma.$FinanceLogPayload>
+/**
  * Model ClientInvoice
  * 
  */
@@ -2604,6 +2614,26 @@ export class PrismaClient<
   get clientService(): Prisma.ClientServiceDelegate<ExtArgs>;
 
   /**
+   * `prisma.billingSkip`: Exposes CRUD operations for the **BillingSkip** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BillingSkips
+    * const billingSkips = await prisma.billingSkip.findMany()
+    * ```
+    */
+  get billingSkip(): Prisma.BillingSkipDelegate<ExtArgs>;
+
+  /**
+   * `prisma.financeLog`: Exposes CRUD operations for the **FinanceLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FinanceLogs
+    * const financeLogs = await prisma.financeLog.findMany()
+    * ```
+    */
+  get financeLog(): Prisma.FinanceLogDelegate<ExtArgs>;
+
+  /**
    * `prisma.clientInvoice`: Exposes CRUD operations for the **ClientInvoice** model.
     * Example usage:
     * ```ts
@@ -3270,6 +3300,8 @@ export namespace Prisma {
     AiUsageLog: 'AiUsageLog',
     Service: 'Service',
     ClientService: 'ClientService',
+    BillingSkip: 'BillingSkip',
+    FinanceLog: 'FinanceLog',
     ClientInvoice: 'ClientInvoice',
     Sale: 'Sale',
     Bonus: 'Bonus',
@@ -3297,7 +3329,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature"
+      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -10791,6 +10823,146 @@ export namespace Prisma {
           }
         }
       }
+      BillingSkip: {
+        payload: Prisma.$BillingSkipPayload<ExtArgs>
+        fields: Prisma.BillingSkipFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BillingSkipFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BillingSkipFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload>
+          }
+          findFirst: {
+            args: Prisma.BillingSkipFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BillingSkipFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload>
+          }
+          findMany: {
+            args: Prisma.BillingSkipFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload>[]
+          }
+          create: {
+            args: Prisma.BillingSkipCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload>
+          }
+          createMany: {
+            args: Prisma.BillingSkipCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BillingSkipCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload>[]
+          }
+          delete: {
+            args: Prisma.BillingSkipDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload>
+          }
+          update: {
+            args: Prisma.BillingSkipUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload>
+          }
+          deleteMany: {
+            args: Prisma.BillingSkipDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BillingSkipUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BillingSkipUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingSkipPayload>
+          }
+          aggregate: {
+            args: Prisma.BillingSkipAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBillingSkip>
+          }
+          groupBy: {
+            args: Prisma.BillingSkipGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BillingSkipGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BillingSkipCountArgs<ExtArgs>
+            result: $Utils.Optional<BillingSkipCountAggregateOutputType> | number
+          }
+        }
+      }
+      FinanceLog: {
+        payload: Prisma.$FinanceLogPayload<ExtArgs>
+        fields: Prisma.FinanceLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FinanceLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FinanceLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload>
+          }
+          findFirst: {
+            args: Prisma.FinanceLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FinanceLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload>
+          }
+          findMany: {
+            args: Prisma.FinanceLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload>[]
+          }
+          create: {
+            args: Prisma.FinanceLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload>
+          }
+          createMany: {
+            args: Prisma.FinanceLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FinanceLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload>[]
+          }
+          delete: {
+            args: Prisma.FinanceLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload>
+          }
+          update: {
+            args: Prisma.FinanceLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.FinanceLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FinanceLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FinanceLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinanceLogPayload>
+          }
+          aggregate: {
+            args: Prisma.FinanceLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFinanceLog>
+          }
+          groupBy: {
+            args: Prisma.FinanceLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FinanceLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FinanceLogCountArgs<ExtArgs>
+            result: $Utils.Optional<FinanceLogCountAggregateOutputType> | number
+          }
+        }
+      }
       ClientInvoice: {
         payload: Prisma.$ClientInvoicePayload<ExtArgs>
         fields: Prisma.ClientInvoiceFieldRefs
@@ -14190,11 +14362,13 @@ export namespace Prisma {
   export type ClientServiceCountOutputType = {
     invoices: number
     bonuses: number
+    billingSkips: number
   }
 
   export type ClientServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invoices?: boolean | ClientServiceCountOutputTypeCountInvoicesArgs
     bonuses?: boolean | ClientServiceCountOutputTypeCountBonusesArgs
+    billingSkips?: boolean | ClientServiceCountOutputTypeCountBillingSkipsArgs
   }
 
   // Custom InputTypes
@@ -14220,6 +14394,13 @@ export namespace Prisma {
    */
   export type ClientServiceCountOutputTypeCountBonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BonusWhereInput
+  }
+
+  /**
+   * ClientServiceCountOutputType without action
+   */
+  export type ClientServiceCountOutputTypeCountBillingSkipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BillingSkipWhereInput
   }
 
 
@@ -130060,6 +130241,7 @@ export namespace Prisma {
     service?: boolean | ClientService$serviceArgs<ExtArgs>
     invoices?: boolean | ClientService$invoicesArgs<ExtArgs>
     bonuses?: boolean | ClientService$bonusesArgs<ExtArgs>
+    billingSkips?: boolean | ClientService$billingSkipsArgs<ExtArgs>
     _count?: boolean | ClientServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clientService"]>
 
@@ -130120,6 +130302,7 @@ export namespace Prisma {
     service?: boolean | ClientService$serviceArgs<ExtArgs>
     invoices?: boolean | ClientService$invoicesArgs<ExtArgs>
     bonuses?: boolean | ClientService$bonusesArgs<ExtArgs>
+    billingSkips?: boolean | ClientService$billingSkipsArgs<ExtArgs>
     _count?: boolean | ClientServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClientServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -130134,6 +130317,7 @@ export namespace Prisma {
       service: Prisma.$ServicePayload<ExtArgs> | null
       invoices: Prisma.$ClientInvoicePayload<ExtArgs>[]
       bonuses: Prisma.$BonusPayload<ExtArgs>[]
+      billingSkips: Prisma.$BillingSkipPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -130526,6 +130710,7 @@ export namespace Prisma {
     service<T extends ClientService$serviceArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     invoices<T extends ClientService$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany"> | Null>
     bonuses<T extends ClientService$bonusesArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$bonusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany"> | Null>
+    billingSkips<T extends ClientService$billingSkipsArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$billingSkipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -130950,6 +131135,26 @@ export namespace Prisma {
   }
 
   /**
+   * ClientService.billingSkips
+   */
+  export type ClientService$billingSkipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    where?: BillingSkipWhereInput
+    orderBy?: BillingSkipOrderByWithRelationInput | BillingSkipOrderByWithRelationInput[]
+    cursor?: BillingSkipWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BillingSkipScalarFieldEnum | BillingSkipScalarFieldEnum[]
+  }
+
+  /**
    * ClientService without action
    */
   export type ClientServiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -130961,6 +131166,1885 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ClientServiceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BillingSkip
+   */
+
+  export type AggregateBillingSkip = {
+    _count: BillingSkipCountAggregateOutputType | null
+    _min: BillingSkipMinAggregateOutputType | null
+    _max: BillingSkipMaxAggregateOutputType | null
+  }
+
+  export type BillingSkipMinAggregateOutputType = {
+    id: string | null
+    clientServiceId: string | null
+    month: string | null
+    reason: string | null
+    userName: string | null
+    createdAt: Date | null
+  }
+
+  export type BillingSkipMaxAggregateOutputType = {
+    id: string | null
+    clientServiceId: string | null
+    month: string | null
+    reason: string | null
+    userName: string | null
+    createdAt: Date | null
+  }
+
+  export type BillingSkipCountAggregateOutputType = {
+    id: number
+    clientServiceId: number
+    month: number
+    reason: number
+    userName: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BillingSkipMinAggregateInputType = {
+    id?: true
+    clientServiceId?: true
+    month?: true
+    reason?: true
+    userName?: true
+    createdAt?: true
+  }
+
+  export type BillingSkipMaxAggregateInputType = {
+    id?: true
+    clientServiceId?: true
+    month?: true
+    reason?: true
+    userName?: true
+    createdAt?: true
+  }
+
+  export type BillingSkipCountAggregateInputType = {
+    id?: true
+    clientServiceId?: true
+    month?: true
+    reason?: true
+    userName?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BillingSkipAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BillingSkip to aggregate.
+     */
+    where?: BillingSkipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingSkips to fetch.
+     */
+    orderBy?: BillingSkipOrderByWithRelationInput | BillingSkipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BillingSkipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingSkips from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingSkips.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BillingSkips
+    **/
+    _count?: true | BillingSkipCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BillingSkipMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BillingSkipMaxAggregateInputType
+  }
+
+  export type GetBillingSkipAggregateType<T extends BillingSkipAggregateArgs> = {
+        [P in keyof T & keyof AggregateBillingSkip]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBillingSkip[P]>
+      : GetScalarType<T[P], AggregateBillingSkip[P]>
+  }
+
+
+
+
+  export type BillingSkipGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BillingSkipWhereInput
+    orderBy?: BillingSkipOrderByWithAggregationInput | BillingSkipOrderByWithAggregationInput[]
+    by: BillingSkipScalarFieldEnum[] | BillingSkipScalarFieldEnum
+    having?: BillingSkipScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BillingSkipCountAggregateInputType | true
+    _min?: BillingSkipMinAggregateInputType
+    _max?: BillingSkipMaxAggregateInputType
+  }
+
+  export type BillingSkipGroupByOutputType = {
+    id: string
+    clientServiceId: string
+    month: string
+    reason: string | null
+    userName: string | null
+    createdAt: Date
+    _count: BillingSkipCountAggregateOutputType | null
+    _min: BillingSkipMinAggregateOutputType | null
+    _max: BillingSkipMaxAggregateOutputType | null
+  }
+
+  type GetBillingSkipGroupByPayload<T extends BillingSkipGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BillingSkipGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BillingSkipGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BillingSkipGroupByOutputType[P]>
+            : GetScalarType<T[P], BillingSkipGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BillingSkipSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    clientServiceId?: boolean
+    month?: boolean
+    reason?: boolean
+    userName?: boolean
+    createdAt?: boolean
+    clientService?: boolean | ClientServiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["billingSkip"]>
+
+  export type BillingSkipSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    clientServiceId?: boolean
+    month?: boolean
+    reason?: boolean
+    userName?: boolean
+    createdAt?: boolean
+    clientService?: boolean | ClientServiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["billingSkip"]>
+
+  export type BillingSkipSelectScalar = {
+    id?: boolean
+    clientServiceId?: boolean
+    month?: boolean
+    reason?: boolean
+    userName?: boolean
+    createdAt?: boolean
+  }
+
+  export type BillingSkipInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientService?: boolean | ClientServiceDefaultArgs<ExtArgs>
+  }
+  export type BillingSkipIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientService?: boolean | ClientServiceDefaultArgs<ExtArgs>
+  }
+
+  export type $BillingSkipPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BillingSkip"
+    objects: {
+      clientService: Prisma.$ClientServicePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      clientServiceId: string
+      month: string
+      reason: string | null
+      userName: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["billingSkip"]>
+    composites: {}
+  }
+
+  type BillingSkipGetPayload<S extends boolean | null | undefined | BillingSkipDefaultArgs> = $Result.GetResult<Prisma.$BillingSkipPayload, S>
+
+  type BillingSkipCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BillingSkipFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BillingSkipCountAggregateInputType | true
+    }
+
+  export interface BillingSkipDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BillingSkip'], meta: { name: 'BillingSkip' } }
+    /**
+     * Find zero or one BillingSkip that matches the filter.
+     * @param {BillingSkipFindUniqueArgs} args - Arguments to find a BillingSkip
+     * @example
+     * // Get one BillingSkip
+     * const billingSkip = await prisma.billingSkip.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BillingSkipFindUniqueArgs>(args: SelectSubset<T, BillingSkipFindUniqueArgs<ExtArgs>>): Prisma__BillingSkipClient<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BillingSkip that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BillingSkipFindUniqueOrThrowArgs} args - Arguments to find a BillingSkip
+     * @example
+     * // Get one BillingSkip
+     * const billingSkip = await prisma.billingSkip.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BillingSkipFindUniqueOrThrowArgs>(args: SelectSubset<T, BillingSkipFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BillingSkipClient<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BillingSkip that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingSkipFindFirstArgs} args - Arguments to find a BillingSkip
+     * @example
+     * // Get one BillingSkip
+     * const billingSkip = await prisma.billingSkip.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BillingSkipFindFirstArgs>(args?: SelectSubset<T, BillingSkipFindFirstArgs<ExtArgs>>): Prisma__BillingSkipClient<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BillingSkip that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingSkipFindFirstOrThrowArgs} args - Arguments to find a BillingSkip
+     * @example
+     * // Get one BillingSkip
+     * const billingSkip = await prisma.billingSkip.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BillingSkipFindFirstOrThrowArgs>(args?: SelectSubset<T, BillingSkipFindFirstOrThrowArgs<ExtArgs>>): Prisma__BillingSkipClient<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BillingSkips that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingSkipFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BillingSkips
+     * const billingSkips = await prisma.billingSkip.findMany()
+     * 
+     * // Get first 10 BillingSkips
+     * const billingSkips = await prisma.billingSkip.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const billingSkipWithIdOnly = await prisma.billingSkip.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BillingSkipFindManyArgs>(args?: SelectSubset<T, BillingSkipFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BillingSkip.
+     * @param {BillingSkipCreateArgs} args - Arguments to create a BillingSkip.
+     * @example
+     * // Create one BillingSkip
+     * const BillingSkip = await prisma.billingSkip.create({
+     *   data: {
+     *     // ... data to create a BillingSkip
+     *   }
+     * })
+     * 
+     */
+    create<T extends BillingSkipCreateArgs>(args: SelectSubset<T, BillingSkipCreateArgs<ExtArgs>>): Prisma__BillingSkipClient<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BillingSkips.
+     * @param {BillingSkipCreateManyArgs} args - Arguments to create many BillingSkips.
+     * @example
+     * // Create many BillingSkips
+     * const billingSkip = await prisma.billingSkip.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BillingSkipCreateManyArgs>(args?: SelectSubset<T, BillingSkipCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BillingSkips and returns the data saved in the database.
+     * @param {BillingSkipCreateManyAndReturnArgs} args - Arguments to create many BillingSkips.
+     * @example
+     * // Create many BillingSkips
+     * const billingSkip = await prisma.billingSkip.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BillingSkips and only return the `id`
+     * const billingSkipWithIdOnly = await prisma.billingSkip.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BillingSkipCreateManyAndReturnArgs>(args?: SelectSubset<T, BillingSkipCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BillingSkip.
+     * @param {BillingSkipDeleteArgs} args - Arguments to delete one BillingSkip.
+     * @example
+     * // Delete one BillingSkip
+     * const BillingSkip = await prisma.billingSkip.delete({
+     *   where: {
+     *     // ... filter to delete one BillingSkip
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BillingSkipDeleteArgs>(args: SelectSubset<T, BillingSkipDeleteArgs<ExtArgs>>): Prisma__BillingSkipClient<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BillingSkip.
+     * @param {BillingSkipUpdateArgs} args - Arguments to update one BillingSkip.
+     * @example
+     * // Update one BillingSkip
+     * const billingSkip = await prisma.billingSkip.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BillingSkipUpdateArgs>(args: SelectSubset<T, BillingSkipUpdateArgs<ExtArgs>>): Prisma__BillingSkipClient<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BillingSkips.
+     * @param {BillingSkipDeleteManyArgs} args - Arguments to filter BillingSkips to delete.
+     * @example
+     * // Delete a few BillingSkips
+     * const { count } = await prisma.billingSkip.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BillingSkipDeleteManyArgs>(args?: SelectSubset<T, BillingSkipDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BillingSkips.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingSkipUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BillingSkips
+     * const billingSkip = await prisma.billingSkip.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BillingSkipUpdateManyArgs>(args: SelectSubset<T, BillingSkipUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BillingSkip.
+     * @param {BillingSkipUpsertArgs} args - Arguments to update or create a BillingSkip.
+     * @example
+     * // Update or create a BillingSkip
+     * const billingSkip = await prisma.billingSkip.upsert({
+     *   create: {
+     *     // ... data to create a BillingSkip
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BillingSkip we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BillingSkipUpsertArgs>(args: SelectSubset<T, BillingSkipUpsertArgs<ExtArgs>>): Prisma__BillingSkipClient<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BillingSkips.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingSkipCountArgs} args - Arguments to filter BillingSkips to count.
+     * @example
+     * // Count the number of BillingSkips
+     * const count = await prisma.billingSkip.count({
+     *   where: {
+     *     // ... the filter for the BillingSkips we want to count
+     *   }
+     * })
+    **/
+    count<T extends BillingSkipCountArgs>(
+      args?: Subset<T, BillingSkipCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BillingSkipCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BillingSkip.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingSkipAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BillingSkipAggregateArgs>(args: Subset<T, BillingSkipAggregateArgs>): Prisma.PrismaPromise<GetBillingSkipAggregateType<T>>
+
+    /**
+     * Group by BillingSkip.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingSkipGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BillingSkipGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BillingSkipGroupByArgs['orderBy'] }
+        : { orderBy?: BillingSkipGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BillingSkipGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBillingSkipGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BillingSkip model
+   */
+  readonly fields: BillingSkipFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BillingSkip.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BillingSkipClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    clientService<T extends ClientServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClientServiceDefaultArgs<ExtArgs>>): Prisma__ClientServiceClient<$Result.GetResult<Prisma.$ClientServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BillingSkip model
+   */ 
+  interface BillingSkipFieldRefs {
+    readonly id: FieldRef<"BillingSkip", 'String'>
+    readonly clientServiceId: FieldRef<"BillingSkip", 'String'>
+    readonly month: FieldRef<"BillingSkip", 'String'>
+    readonly reason: FieldRef<"BillingSkip", 'String'>
+    readonly userName: FieldRef<"BillingSkip", 'String'>
+    readonly createdAt: FieldRef<"BillingSkip", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BillingSkip findUnique
+   */
+  export type BillingSkipFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingSkip to fetch.
+     */
+    where: BillingSkipWhereUniqueInput
+  }
+
+  /**
+   * BillingSkip findUniqueOrThrow
+   */
+  export type BillingSkipFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingSkip to fetch.
+     */
+    where: BillingSkipWhereUniqueInput
+  }
+
+  /**
+   * BillingSkip findFirst
+   */
+  export type BillingSkipFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingSkip to fetch.
+     */
+    where?: BillingSkipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingSkips to fetch.
+     */
+    orderBy?: BillingSkipOrderByWithRelationInput | BillingSkipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BillingSkips.
+     */
+    cursor?: BillingSkipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingSkips from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingSkips.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BillingSkips.
+     */
+    distinct?: BillingSkipScalarFieldEnum | BillingSkipScalarFieldEnum[]
+  }
+
+  /**
+   * BillingSkip findFirstOrThrow
+   */
+  export type BillingSkipFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingSkip to fetch.
+     */
+    where?: BillingSkipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingSkips to fetch.
+     */
+    orderBy?: BillingSkipOrderByWithRelationInput | BillingSkipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BillingSkips.
+     */
+    cursor?: BillingSkipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingSkips from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingSkips.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BillingSkips.
+     */
+    distinct?: BillingSkipScalarFieldEnum | BillingSkipScalarFieldEnum[]
+  }
+
+  /**
+   * BillingSkip findMany
+   */
+  export type BillingSkipFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingSkips to fetch.
+     */
+    where?: BillingSkipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingSkips to fetch.
+     */
+    orderBy?: BillingSkipOrderByWithRelationInput | BillingSkipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BillingSkips.
+     */
+    cursor?: BillingSkipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingSkips from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingSkips.
+     */
+    skip?: number
+    distinct?: BillingSkipScalarFieldEnum | BillingSkipScalarFieldEnum[]
+  }
+
+  /**
+   * BillingSkip create
+   */
+  export type BillingSkipCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BillingSkip.
+     */
+    data: XOR<BillingSkipCreateInput, BillingSkipUncheckedCreateInput>
+  }
+
+  /**
+   * BillingSkip createMany
+   */
+  export type BillingSkipCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BillingSkips.
+     */
+    data: BillingSkipCreateManyInput | BillingSkipCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BillingSkip createManyAndReturn
+   */
+  export type BillingSkipCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BillingSkips.
+     */
+    data: BillingSkipCreateManyInput | BillingSkipCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BillingSkip update
+   */
+  export type BillingSkipUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BillingSkip.
+     */
+    data: XOR<BillingSkipUpdateInput, BillingSkipUncheckedUpdateInput>
+    /**
+     * Choose, which BillingSkip to update.
+     */
+    where: BillingSkipWhereUniqueInput
+  }
+
+  /**
+   * BillingSkip updateMany
+   */
+  export type BillingSkipUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BillingSkips.
+     */
+    data: XOR<BillingSkipUpdateManyMutationInput, BillingSkipUncheckedUpdateManyInput>
+    /**
+     * Filter which BillingSkips to update
+     */
+    where?: BillingSkipWhereInput
+  }
+
+  /**
+   * BillingSkip upsert
+   */
+  export type BillingSkipUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BillingSkip to update in case it exists.
+     */
+    where: BillingSkipWhereUniqueInput
+    /**
+     * In case the BillingSkip found by the `where` argument doesn't exist, create a new BillingSkip with this data.
+     */
+    create: XOR<BillingSkipCreateInput, BillingSkipUncheckedCreateInput>
+    /**
+     * In case the BillingSkip was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BillingSkipUpdateInput, BillingSkipUncheckedUpdateInput>
+  }
+
+  /**
+   * BillingSkip delete
+   */
+  export type BillingSkipDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+    /**
+     * Filter which BillingSkip to delete.
+     */
+    where: BillingSkipWhereUniqueInput
+  }
+
+  /**
+   * BillingSkip deleteMany
+   */
+  export type BillingSkipDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BillingSkips to delete
+     */
+    where?: BillingSkipWhereInput
+  }
+
+  /**
+   * BillingSkip without action
+   */
+  export type BillingSkipDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingSkip
+     */
+    select?: BillingSkipSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingSkipInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FinanceLog
+   */
+
+  export type AggregateFinanceLog = {
+    _count: FinanceLogCountAggregateOutputType | null
+    _min: FinanceLogMinAggregateOutputType | null
+    _max: FinanceLogMaxAggregateOutputType | null
+  }
+
+  export type FinanceLogMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    clientCompanyId: string | null
+    entity: string | null
+    entityId: string | null
+    action: string | null
+    description: string | null
+    userName: string | null
+    createdAt: Date | null
+  }
+
+  export type FinanceLogMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    clientCompanyId: string | null
+    entity: string | null
+    entityId: string | null
+    action: string | null
+    description: string | null
+    userName: string | null
+    createdAt: Date | null
+  }
+
+  export type FinanceLogCountAggregateOutputType = {
+    id: number
+    companyId: number
+    clientCompanyId: number
+    entity: number
+    entityId: number
+    action: number
+    description: number
+    meta: number
+    userName: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FinanceLogMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    clientCompanyId?: true
+    entity?: true
+    entityId?: true
+    action?: true
+    description?: true
+    userName?: true
+    createdAt?: true
+  }
+
+  export type FinanceLogMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    clientCompanyId?: true
+    entity?: true
+    entityId?: true
+    action?: true
+    description?: true
+    userName?: true
+    createdAt?: true
+  }
+
+  export type FinanceLogCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    clientCompanyId?: true
+    entity?: true
+    entityId?: true
+    action?: true
+    description?: true
+    meta?: true
+    userName?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FinanceLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FinanceLog to aggregate.
+     */
+    where?: FinanceLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FinanceLogs to fetch.
+     */
+    orderBy?: FinanceLogOrderByWithRelationInput | FinanceLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FinanceLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FinanceLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FinanceLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FinanceLogs
+    **/
+    _count?: true | FinanceLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FinanceLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FinanceLogMaxAggregateInputType
+  }
+
+  export type GetFinanceLogAggregateType<T extends FinanceLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateFinanceLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFinanceLog[P]>
+      : GetScalarType<T[P], AggregateFinanceLog[P]>
+  }
+
+
+
+
+  export type FinanceLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FinanceLogWhereInput
+    orderBy?: FinanceLogOrderByWithAggregationInput | FinanceLogOrderByWithAggregationInput[]
+    by: FinanceLogScalarFieldEnum[] | FinanceLogScalarFieldEnum
+    having?: FinanceLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FinanceLogCountAggregateInputType | true
+    _min?: FinanceLogMinAggregateInputType
+    _max?: FinanceLogMaxAggregateInputType
+  }
+
+  export type FinanceLogGroupByOutputType = {
+    id: string
+    companyId: string
+    clientCompanyId: string | null
+    entity: string
+    entityId: string | null
+    action: string
+    description: string | null
+    meta: JsonValue | null
+    userName: string | null
+    createdAt: Date
+    _count: FinanceLogCountAggregateOutputType | null
+    _min: FinanceLogMinAggregateOutputType | null
+    _max: FinanceLogMaxAggregateOutputType | null
+  }
+
+  type GetFinanceLogGroupByPayload<T extends FinanceLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FinanceLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FinanceLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FinanceLogGroupByOutputType[P]>
+            : GetScalarType<T[P], FinanceLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FinanceLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    clientCompanyId?: boolean
+    entity?: boolean
+    entityId?: boolean
+    action?: boolean
+    description?: boolean
+    meta?: boolean
+    userName?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["financeLog"]>
+
+  export type FinanceLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    clientCompanyId?: boolean
+    entity?: boolean
+    entityId?: boolean
+    action?: boolean
+    description?: boolean
+    meta?: boolean
+    userName?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["financeLog"]>
+
+  export type FinanceLogSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    clientCompanyId?: boolean
+    entity?: boolean
+    entityId?: boolean
+    action?: boolean
+    description?: boolean
+    meta?: boolean
+    userName?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $FinanceLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FinanceLog"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      clientCompanyId: string | null
+      entity: string
+      entityId: string | null
+      action: string
+      description: string | null
+      meta: Prisma.JsonValue | null
+      userName: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["financeLog"]>
+    composites: {}
+  }
+
+  type FinanceLogGetPayload<S extends boolean | null | undefined | FinanceLogDefaultArgs> = $Result.GetResult<Prisma.$FinanceLogPayload, S>
+
+  type FinanceLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<FinanceLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: FinanceLogCountAggregateInputType | true
+    }
+
+  export interface FinanceLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FinanceLog'], meta: { name: 'FinanceLog' } }
+    /**
+     * Find zero or one FinanceLog that matches the filter.
+     * @param {FinanceLogFindUniqueArgs} args - Arguments to find a FinanceLog
+     * @example
+     * // Get one FinanceLog
+     * const financeLog = await prisma.financeLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FinanceLogFindUniqueArgs>(args: SelectSubset<T, FinanceLogFindUniqueArgs<ExtArgs>>): Prisma__FinanceLogClient<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one FinanceLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {FinanceLogFindUniqueOrThrowArgs} args - Arguments to find a FinanceLog
+     * @example
+     * // Get one FinanceLog
+     * const financeLog = await prisma.financeLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FinanceLogFindUniqueOrThrowArgs>(args: SelectSubset<T, FinanceLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FinanceLogClient<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first FinanceLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinanceLogFindFirstArgs} args - Arguments to find a FinanceLog
+     * @example
+     * // Get one FinanceLog
+     * const financeLog = await prisma.financeLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FinanceLogFindFirstArgs>(args?: SelectSubset<T, FinanceLogFindFirstArgs<ExtArgs>>): Prisma__FinanceLogClient<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first FinanceLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinanceLogFindFirstOrThrowArgs} args - Arguments to find a FinanceLog
+     * @example
+     * // Get one FinanceLog
+     * const financeLog = await prisma.financeLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FinanceLogFindFirstOrThrowArgs>(args?: SelectSubset<T, FinanceLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__FinanceLogClient<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more FinanceLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinanceLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FinanceLogs
+     * const financeLogs = await prisma.financeLog.findMany()
+     * 
+     * // Get first 10 FinanceLogs
+     * const financeLogs = await prisma.financeLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const financeLogWithIdOnly = await prisma.financeLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FinanceLogFindManyArgs>(args?: SelectSubset<T, FinanceLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a FinanceLog.
+     * @param {FinanceLogCreateArgs} args - Arguments to create a FinanceLog.
+     * @example
+     * // Create one FinanceLog
+     * const FinanceLog = await prisma.financeLog.create({
+     *   data: {
+     *     // ... data to create a FinanceLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends FinanceLogCreateArgs>(args: SelectSubset<T, FinanceLogCreateArgs<ExtArgs>>): Prisma__FinanceLogClient<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many FinanceLogs.
+     * @param {FinanceLogCreateManyArgs} args - Arguments to create many FinanceLogs.
+     * @example
+     * // Create many FinanceLogs
+     * const financeLog = await prisma.financeLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FinanceLogCreateManyArgs>(args?: SelectSubset<T, FinanceLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FinanceLogs and returns the data saved in the database.
+     * @param {FinanceLogCreateManyAndReturnArgs} args - Arguments to create many FinanceLogs.
+     * @example
+     * // Create many FinanceLogs
+     * const financeLog = await prisma.financeLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FinanceLogs and only return the `id`
+     * const financeLogWithIdOnly = await prisma.financeLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FinanceLogCreateManyAndReturnArgs>(args?: SelectSubset<T, FinanceLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a FinanceLog.
+     * @param {FinanceLogDeleteArgs} args - Arguments to delete one FinanceLog.
+     * @example
+     * // Delete one FinanceLog
+     * const FinanceLog = await prisma.financeLog.delete({
+     *   where: {
+     *     // ... filter to delete one FinanceLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FinanceLogDeleteArgs>(args: SelectSubset<T, FinanceLogDeleteArgs<ExtArgs>>): Prisma__FinanceLogClient<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one FinanceLog.
+     * @param {FinanceLogUpdateArgs} args - Arguments to update one FinanceLog.
+     * @example
+     * // Update one FinanceLog
+     * const financeLog = await prisma.financeLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FinanceLogUpdateArgs>(args: SelectSubset<T, FinanceLogUpdateArgs<ExtArgs>>): Prisma__FinanceLogClient<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more FinanceLogs.
+     * @param {FinanceLogDeleteManyArgs} args - Arguments to filter FinanceLogs to delete.
+     * @example
+     * // Delete a few FinanceLogs
+     * const { count } = await prisma.financeLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FinanceLogDeleteManyArgs>(args?: SelectSubset<T, FinanceLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FinanceLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinanceLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FinanceLogs
+     * const financeLog = await prisma.financeLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FinanceLogUpdateManyArgs>(args: SelectSubset<T, FinanceLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one FinanceLog.
+     * @param {FinanceLogUpsertArgs} args - Arguments to update or create a FinanceLog.
+     * @example
+     * // Update or create a FinanceLog
+     * const financeLog = await prisma.financeLog.upsert({
+     *   create: {
+     *     // ... data to create a FinanceLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FinanceLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FinanceLogUpsertArgs>(args: SelectSubset<T, FinanceLogUpsertArgs<ExtArgs>>): Prisma__FinanceLogClient<$Result.GetResult<Prisma.$FinanceLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of FinanceLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinanceLogCountArgs} args - Arguments to filter FinanceLogs to count.
+     * @example
+     * // Count the number of FinanceLogs
+     * const count = await prisma.financeLog.count({
+     *   where: {
+     *     // ... the filter for the FinanceLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends FinanceLogCountArgs>(
+      args?: Subset<T, FinanceLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FinanceLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FinanceLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinanceLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FinanceLogAggregateArgs>(args: Subset<T, FinanceLogAggregateArgs>): Prisma.PrismaPromise<GetFinanceLogAggregateType<T>>
+
+    /**
+     * Group by FinanceLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinanceLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FinanceLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FinanceLogGroupByArgs['orderBy'] }
+        : { orderBy?: FinanceLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FinanceLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFinanceLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FinanceLog model
+   */
+  readonly fields: FinanceLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FinanceLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FinanceLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FinanceLog model
+   */ 
+  interface FinanceLogFieldRefs {
+    readonly id: FieldRef<"FinanceLog", 'String'>
+    readonly companyId: FieldRef<"FinanceLog", 'String'>
+    readonly clientCompanyId: FieldRef<"FinanceLog", 'String'>
+    readonly entity: FieldRef<"FinanceLog", 'String'>
+    readonly entityId: FieldRef<"FinanceLog", 'String'>
+    readonly action: FieldRef<"FinanceLog", 'String'>
+    readonly description: FieldRef<"FinanceLog", 'String'>
+    readonly meta: FieldRef<"FinanceLog", 'Json'>
+    readonly userName: FieldRef<"FinanceLog", 'String'>
+    readonly createdAt: FieldRef<"FinanceLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FinanceLog findUnique
+   */
+  export type FinanceLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
+    /**
+     * Filter, which FinanceLog to fetch.
+     */
+    where: FinanceLogWhereUniqueInput
+  }
+
+  /**
+   * FinanceLog findUniqueOrThrow
+   */
+  export type FinanceLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
+    /**
+     * Filter, which FinanceLog to fetch.
+     */
+    where: FinanceLogWhereUniqueInput
+  }
+
+  /**
+   * FinanceLog findFirst
+   */
+  export type FinanceLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
+    /**
+     * Filter, which FinanceLog to fetch.
+     */
+    where?: FinanceLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FinanceLogs to fetch.
+     */
+    orderBy?: FinanceLogOrderByWithRelationInput | FinanceLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FinanceLogs.
+     */
+    cursor?: FinanceLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FinanceLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FinanceLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FinanceLogs.
+     */
+    distinct?: FinanceLogScalarFieldEnum | FinanceLogScalarFieldEnum[]
+  }
+
+  /**
+   * FinanceLog findFirstOrThrow
+   */
+  export type FinanceLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
+    /**
+     * Filter, which FinanceLog to fetch.
+     */
+    where?: FinanceLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FinanceLogs to fetch.
+     */
+    orderBy?: FinanceLogOrderByWithRelationInput | FinanceLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FinanceLogs.
+     */
+    cursor?: FinanceLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FinanceLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FinanceLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FinanceLogs.
+     */
+    distinct?: FinanceLogScalarFieldEnum | FinanceLogScalarFieldEnum[]
+  }
+
+  /**
+   * FinanceLog findMany
+   */
+  export type FinanceLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
+    /**
+     * Filter, which FinanceLogs to fetch.
+     */
+    where?: FinanceLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FinanceLogs to fetch.
+     */
+    orderBy?: FinanceLogOrderByWithRelationInput | FinanceLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FinanceLogs.
+     */
+    cursor?: FinanceLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FinanceLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FinanceLogs.
+     */
+    skip?: number
+    distinct?: FinanceLogScalarFieldEnum | FinanceLogScalarFieldEnum[]
+  }
+
+  /**
+   * FinanceLog create
+   */
+  export type FinanceLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
+    /**
+     * The data needed to create a FinanceLog.
+     */
+    data: XOR<FinanceLogCreateInput, FinanceLogUncheckedCreateInput>
+  }
+
+  /**
+   * FinanceLog createMany
+   */
+  export type FinanceLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FinanceLogs.
+     */
+    data: FinanceLogCreateManyInput | FinanceLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FinanceLog createManyAndReturn
+   */
+  export type FinanceLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many FinanceLogs.
+     */
+    data: FinanceLogCreateManyInput | FinanceLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FinanceLog update
+   */
+  export type FinanceLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
+    /**
+     * The data needed to update a FinanceLog.
+     */
+    data: XOR<FinanceLogUpdateInput, FinanceLogUncheckedUpdateInput>
+    /**
+     * Choose, which FinanceLog to update.
+     */
+    where: FinanceLogWhereUniqueInput
+  }
+
+  /**
+   * FinanceLog updateMany
+   */
+  export type FinanceLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FinanceLogs.
+     */
+    data: XOR<FinanceLogUpdateManyMutationInput, FinanceLogUncheckedUpdateManyInput>
+    /**
+     * Filter which FinanceLogs to update
+     */
+    where?: FinanceLogWhereInput
+  }
+
+  /**
+   * FinanceLog upsert
+   */
+  export type FinanceLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
+    /**
+     * The filter to search for the FinanceLog to update in case it exists.
+     */
+    where: FinanceLogWhereUniqueInput
+    /**
+     * In case the FinanceLog found by the `where` argument doesn't exist, create a new FinanceLog with this data.
+     */
+    create: XOR<FinanceLogCreateInput, FinanceLogUncheckedCreateInput>
+    /**
+     * In case the FinanceLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FinanceLogUpdateInput, FinanceLogUncheckedUpdateInput>
+  }
+
+  /**
+   * FinanceLog delete
+   */
+  export type FinanceLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
+    /**
+     * Filter which FinanceLog to delete.
+     */
+    where: FinanceLogWhereUniqueInput
+  }
+
+  /**
+   * FinanceLog deleteMany
+   */
+  export type FinanceLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FinanceLogs to delete
+     */
+    where?: FinanceLogWhereInput
+  }
+
+  /**
+   * FinanceLog without action
+   */
+  export type FinanceLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinanceLog
+     */
+    select?: FinanceLogSelect<ExtArgs> | null
   }
 
 
@@ -145595,6 +147679,34 @@ export namespace Prisma {
   export type ClientServiceScalarFieldEnum = (typeof ClientServiceScalarFieldEnum)[keyof typeof ClientServiceScalarFieldEnum]
 
 
+  export const BillingSkipScalarFieldEnum: {
+    id: 'id',
+    clientServiceId: 'clientServiceId',
+    month: 'month',
+    reason: 'reason',
+    userName: 'userName',
+    createdAt: 'createdAt'
+  };
+
+  export type BillingSkipScalarFieldEnum = (typeof BillingSkipScalarFieldEnum)[keyof typeof BillingSkipScalarFieldEnum]
+
+
+  export const FinanceLogScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    clientCompanyId: 'clientCompanyId',
+    entity: 'entity',
+    entityId: 'entityId',
+    action: 'action',
+    description: 'description',
+    meta: 'meta',
+    userName: 'userName',
+    createdAt: 'createdAt'
+  };
+
+  export type FinanceLogScalarFieldEnum = (typeof FinanceLogScalarFieldEnum)[keyof typeof FinanceLogScalarFieldEnum]
+
+
   export const ClientInvoiceScalarFieldEnum: {
     id: 'id',
     clientCompanyId: 'clientCompanyId',
@@ -157140,6 +159252,7 @@ export namespace Prisma {
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
     invoices?: ClientInvoiceListRelationFilter
     bonuses?: BonusListRelationFilter
+    billingSkips?: BillingSkipListRelationFilter
   }
 
   export type ClientServiceOrderByWithRelationInput = {
@@ -157169,6 +159282,7 @@ export namespace Prisma {
     service?: ServiceOrderByWithRelationInput
     invoices?: ClientInvoiceOrderByRelationAggregateInput
     bonuses?: BonusOrderByRelationAggregateInput
+    billingSkips?: BillingSkipOrderByRelationAggregateInput
   }
 
   export type ClientServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -157201,6 +159315,7 @@ export namespace Prisma {
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
     invoices?: ClientInvoiceListRelationFilter
     bonuses?: BonusListRelationFilter
+    billingSkips?: BillingSkipListRelationFilter
   }, "id">
 
   export type ClientServiceOrderByWithAggregationInput = {
@@ -157259,6 +159374,144 @@ export namespace Prisma {
     externalClientName?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
+  }
+
+  export type BillingSkipWhereInput = {
+    AND?: BillingSkipWhereInput | BillingSkipWhereInput[]
+    OR?: BillingSkipWhereInput[]
+    NOT?: BillingSkipWhereInput | BillingSkipWhereInput[]
+    id?: StringFilter<"BillingSkip"> | string
+    clientServiceId?: StringFilter<"BillingSkip"> | string
+    month?: StringFilter<"BillingSkip"> | string
+    reason?: StringNullableFilter<"BillingSkip"> | string | null
+    userName?: StringNullableFilter<"BillingSkip"> | string | null
+    createdAt?: DateTimeFilter<"BillingSkip"> | Date | string
+    clientService?: XOR<ClientServiceRelationFilter, ClientServiceWhereInput>
+  }
+
+  export type BillingSkipOrderByWithRelationInput = {
+    id?: SortOrder
+    clientServiceId?: SortOrder
+    month?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    clientService?: ClientServiceOrderByWithRelationInput
+  }
+
+  export type BillingSkipWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    clientServiceId_month?: BillingSkipClientServiceIdMonthCompoundUniqueInput
+    AND?: BillingSkipWhereInput | BillingSkipWhereInput[]
+    OR?: BillingSkipWhereInput[]
+    NOT?: BillingSkipWhereInput | BillingSkipWhereInput[]
+    clientServiceId?: StringFilter<"BillingSkip"> | string
+    month?: StringFilter<"BillingSkip"> | string
+    reason?: StringNullableFilter<"BillingSkip"> | string | null
+    userName?: StringNullableFilter<"BillingSkip"> | string | null
+    createdAt?: DateTimeFilter<"BillingSkip"> | Date | string
+    clientService?: XOR<ClientServiceRelationFilter, ClientServiceWhereInput>
+  }, "id" | "clientServiceId_month">
+
+  export type BillingSkipOrderByWithAggregationInput = {
+    id?: SortOrder
+    clientServiceId?: SortOrder
+    month?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: BillingSkipCountOrderByAggregateInput
+    _max?: BillingSkipMaxOrderByAggregateInput
+    _min?: BillingSkipMinOrderByAggregateInput
+  }
+
+  export type BillingSkipScalarWhereWithAggregatesInput = {
+    AND?: BillingSkipScalarWhereWithAggregatesInput | BillingSkipScalarWhereWithAggregatesInput[]
+    OR?: BillingSkipScalarWhereWithAggregatesInput[]
+    NOT?: BillingSkipScalarWhereWithAggregatesInput | BillingSkipScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BillingSkip"> | string
+    clientServiceId?: StringWithAggregatesFilter<"BillingSkip"> | string
+    month?: StringWithAggregatesFilter<"BillingSkip"> | string
+    reason?: StringNullableWithAggregatesFilter<"BillingSkip"> | string | null
+    userName?: StringNullableWithAggregatesFilter<"BillingSkip"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BillingSkip"> | Date | string
+  }
+
+  export type FinanceLogWhereInput = {
+    AND?: FinanceLogWhereInput | FinanceLogWhereInput[]
+    OR?: FinanceLogWhereInput[]
+    NOT?: FinanceLogWhereInput | FinanceLogWhereInput[]
+    id?: StringFilter<"FinanceLog"> | string
+    companyId?: StringFilter<"FinanceLog"> | string
+    clientCompanyId?: StringNullableFilter<"FinanceLog"> | string | null
+    entity?: StringFilter<"FinanceLog"> | string
+    entityId?: StringNullableFilter<"FinanceLog"> | string | null
+    action?: StringFilter<"FinanceLog"> | string
+    description?: StringNullableFilter<"FinanceLog"> | string | null
+    meta?: JsonNullableFilter<"FinanceLog">
+    userName?: StringNullableFilter<"FinanceLog"> | string | null
+    createdAt?: DateTimeFilter<"FinanceLog"> | Date | string
+  }
+
+  export type FinanceLogOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    entity?: SortOrder
+    entityId?: SortOrderInput | SortOrder
+    action?: SortOrder
+    description?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FinanceLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: FinanceLogWhereInput | FinanceLogWhereInput[]
+    OR?: FinanceLogWhereInput[]
+    NOT?: FinanceLogWhereInput | FinanceLogWhereInput[]
+    companyId?: StringFilter<"FinanceLog"> | string
+    clientCompanyId?: StringNullableFilter<"FinanceLog"> | string | null
+    entity?: StringFilter<"FinanceLog"> | string
+    entityId?: StringNullableFilter<"FinanceLog"> | string | null
+    action?: StringFilter<"FinanceLog"> | string
+    description?: StringNullableFilter<"FinanceLog"> | string | null
+    meta?: JsonNullableFilter<"FinanceLog">
+    userName?: StringNullableFilter<"FinanceLog"> | string | null
+    createdAt?: DateTimeFilter<"FinanceLog"> | Date | string
+  }, "id">
+
+  export type FinanceLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    entity?: SortOrder
+    entityId?: SortOrderInput | SortOrder
+    action?: SortOrder
+    description?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: FinanceLogCountOrderByAggregateInput
+    _max?: FinanceLogMaxOrderByAggregateInput
+    _min?: FinanceLogMinOrderByAggregateInput
+  }
+
+  export type FinanceLogScalarWhereWithAggregatesInput = {
+    AND?: FinanceLogScalarWhereWithAggregatesInput | FinanceLogScalarWhereWithAggregatesInput[]
+    OR?: FinanceLogScalarWhereWithAggregatesInput[]
+    NOT?: FinanceLogScalarWhereWithAggregatesInput | FinanceLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FinanceLog"> | string
+    companyId?: StringWithAggregatesFilter<"FinanceLog"> | string
+    clientCompanyId?: StringNullableWithAggregatesFilter<"FinanceLog"> | string | null
+    entity?: StringWithAggregatesFilter<"FinanceLog"> | string
+    entityId?: StringNullableWithAggregatesFilter<"FinanceLog"> | string | null
+    action?: StringWithAggregatesFilter<"FinanceLog"> | string
+    description?: StringNullableWithAggregatesFilter<"FinanceLog"> | string | null
+    meta?: JsonNullableWithAggregatesFilter<"FinanceLog">
+    userName?: StringNullableWithAggregatesFilter<"FinanceLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"FinanceLog"> | Date | string
   }
 
   export type ClientInvoiceWhereInput = {
@@ -170064,6 +172317,7 @@ export namespace Prisma {
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateInput = {
@@ -170091,6 +172345,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUpdateInput = {
@@ -170118,6 +172373,7 @@ export namespace Prisma {
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateInput = {
@@ -170145,6 +172401,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceCreateManyInput = {
@@ -170218,6 +172475,159 @@ export namespace Prisma {
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingSkipCreateInput = {
+    id?: string
+    month: string
+    reason?: string | null
+    userName?: string | null
+    createdAt?: Date | string
+    clientService: ClientServiceCreateNestedOneWithoutBillingSkipsInput
+  }
+
+  export type BillingSkipUncheckedCreateInput = {
+    id?: string
+    clientServiceId: string
+    month: string
+    reason?: string | null
+    userName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BillingSkipUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientService?: ClientServiceUpdateOneRequiredWithoutBillingSkipsNestedInput
+  }
+
+  export type BillingSkipUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingSkipCreateManyInput = {
+    id?: string
+    clientServiceId: string
+    month: string
+    reason?: string | null
+    userName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BillingSkipUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingSkipUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinanceLogCreateInput = {
+    id?: string
+    companyId: string
+    clientCompanyId?: string | null
+    entity: string
+    entityId?: string | null
+    action: string
+    description?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    userName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type FinanceLogUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    clientCompanyId?: string | null
+    entity: string
+    entityId?: string | null
+    action: string
+    description?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    userName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type FinanceLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    entity?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinanceLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    entity?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinanceLogCreateManyInput = {
+    id?: string
+    companyId: string
+    clientCompanyId?: string | null
+    entity: string
+    entityId?: string | null
+    action: string
+    description?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    userName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type FinanceLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    entity?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinanceLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    entity?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClientInvoiceCreateInput = {
@@ -179526,6 +181936,16 @@ export namespace Prisma {
     order?: SortOrder
   }
 
+  export type BillingSkipListRelationFilter = {
+    every?: BillingSkipWhereInput
+    some?: BillingSkipWhereInput
+    none?: BillingSkipWhereInput
+  }
+
+  export type BillingSkipOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ClientServiceCountOrderByAggregateInput = {
     id?: SortOrder
     clientCompanyId?: SortOrder
@@ -179609,6 +182029,80 @@ export namespace Prisma {
     order?: SortOrder
     amountCents?: SortOrder
     billingDay?: SortOrder
+  }
+
+  export type ClientServiceRelationFilter = {
+    is?: ClientServiceWhereInput
+    isNot?: ClientServiceWhereInput
+  }
+
+  export type BillingSkipClientServiceIdMonthCompoundUniqueInput = {
+    clientServiceId: string
+    month: string
+  }
+
+  export type BillingSkipCountOrderByAggregateInput = {
+    id?: SortOrder
+    clientServiceId?: SortOrder
+    month?: SortOrder
+    reason?: SortOrder
+    userName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BillingSkipMaxOrderByAggregateInput = {
+    id?: SortOrder
+    clientServiceId?: SortOrder
+    month?: SortOrder
+    reason?: SortOrder
+    userName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BillingSkipMinOrderByAggregateInput = {
+    id?: SortOrder
+    clientServiceId?: SortOrder
+    month?: SortOrder
+    reason?: SortOrder
+    userName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FinanceLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrder
+    entity?: SortOrder
+    entityId?: SortOrder
+    action?: SortOrder
+    description?: SortOrder
+    meta?: SortOrder
+    userName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FinanceLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrder
+    entity?: SortOrder
+    entityId?: SortOrder
+    action?: SortOrder
+    description?: SortOrder
+    userName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FinanceLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrder
+    entity?: SortOrder
+    entityId?: SortOrder
+    action?: SortOrder
+    description?: SortOrder
+    userName?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type ClientServiceNullableRelationFilter = {
@@ -191289,6 +193783,13 @@ export namespace Prisma {
     connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
   }
 
+  export type BillingSkipCreateNestedManyWithoutClientServiceInput = {
+    create?: XOR<BillingSkipCreateWithoutClientServiceInput, BillingSkipUncheckedCreateWithoutClientServiceInput> | BillingSkipCreateWithoutClientServiceInput[] | BillingSkipUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: BillingSkipCreateOrConnectWithoutClientServiceInput | BillingSkipCreateOrConnectWithoutClientServiceInput[]
+    createMany?: BillingSkipCreateManyClientServiceInputEnvelope
+    connect?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
+  }
+
   export type ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput = {
     create?: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput> | ClientInvoiceCreateWithoutClientServiceInput[] | ClientInvoiceUncheckedCreateWithoutClientServiceInput[]
     connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientServiceInput | ClientInvoiceCreateOrConnectWithoutClientServiceInput[]
@@ -191301,6 +193802,13 @@ export namespace Prisma {
     connectOrCreate?: BonusCreateOrConnectWithoutClientServiceInput | BonusCreateOrConnectWithoutClientServiceInput[]
     createMany?: BonusCreateManyClientServiceInputEnvelope
     connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+  }
+
+  export type BillingSkipUncheckedCreateNestedManyWithoutClientServiceInput = {
+    create?: XOR<BillingSkipCreateWithoutClientServiceInput, BillingSkipUncheckedCreateWithoutClientServiceInput> | BillingSkipCreateWithoutClientServiceInput[] | BillingSkipUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: BillingSkipCreateOrConnectWithoutClientServiceInput | BillingSkipCreateOrConnectWithoutClientServiceInput[]
+    createMany?: BillingSkipCreateManyClientServiceInputEnvelope
+    connect?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
   }
 
   export type CompanyUpdateOneRequiredWithoutClientServicesNestedInput = {
@@ -191349,6 +193857,20 @@ export namespace Prisma {
     deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
   }
 
+  export type BillingSkipUpdateManyWithoutClientServiceNestedInput = {
+    create?: XOR<BillingSkipCreateWithoutClientServiceInput, BillingSkipUncheckedCreateWithoutClientServiceInput> | BillingSkipCreateWithoutClientServiceInput[] | BillingSkipUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: BillingSkipCreateOrConnectWithoutClientServiceInput | BillingSkipCreateOrConnectWithoutClientServiceInput[]
+    upsert?: BillingSkipUpsertWithWhereUniqueWithoutClientServiceInput | BillingSkipUpsertWithWhereUniqueWithoutClientServiceInput[]
+    createMany?: BillingSkipCreateManyClientServiceInputEnvelope
+    set?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
+    disconnect?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
+    delete?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
+    connect?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
+    update?: BillingSkipUpdateWithWhereUniqueWithoutClientServiceInput | BillingSkipUpdateWithWhereUniqueWithoutClientServiceInput[]
+    updateMany?: BillingSkipUpdateManyWithWhereWithoutClientServiceInput | BillingSkipUpdateManyWithWhereWithoutClientServiceInput[]
+    deleteMany?: BillingSkipScalarWhereInput | BillingSkipScalarWhereInput[]
+  }
+
   export type ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput = {
     create?: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput> | ClientInvoiceCreateWithoutClientServiceInput[] | ClientInvoiceUncheckedCreateWithoutClientServiceInput[]
     connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientServiceInput | ClientInvoiceCreateOrConnectWithoutClientServiceInput[]
@@ -191375,6 +193897,34 @@ export namespace Prisma {
     update?: BonusUpdateWithWhereUniqueWithoutClientServiceInput | BonusUpdateWithWhereUniqueWithoutClientServiceInput[]
     updateMany?: BonusUpdateManyWithWhereWithoutClientServiceInput | BonusUpdateManyWithWhereWithoutClientServiceInput[]
     deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
+  }
+
+  export type BillingSkipUncheckedUpdateManyWithoutClientServiceNestedInput = {
+    create?: XOR<BillingSkipCreateWithoutClientServiceInput, BillingSkipUncheckedCreateWithoutClientServiceInput> | BillingSkipCreateWithoutClientServiceInput[] | BillingSkipUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: BillingSkipCreateOrConnectWithoutClientServiceInput | BillingSkipCreateOrConnectWithoutClientServiceInput[]
+    upsert?: BillingSkipUpsertWithWhereUniqueWithoutClientServiceInput | BillingSkipUpsertWithWhereUniqueWithoutClientServiceInput[]
+    createMany?: BillingSkipCreateManyClientServiceInputEnvelope
+    set?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
+    disconnect?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
+    delete?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
+    connect?: BillingSkipWhereUniqueInput | BillingSkipWhereUniqueInput[]
+    update?: BillingSkipUpdateWithWhereUniqueWithoutClientServiceInput | BillingSkipUpdateWithWhereUniqueWithoutClientServiceInput[]
+    updateMany?: BillingSkipUpdateManyWithWhereWithoutClientServiceInput | BillingSkipUpdateManyWithWhereWithoutClientServiceInput[]
+    deleteMany?: BillingSkipScalarWhereInput | BillingSkipScalarWhereInput[]
+  }
+
+  export type ClientServiceCreateNestedOneWithoutBillingSkipsInput = {
+    create?: XOR<ClientServiceCreateWithoutBillingSkipsInput, ClientServiceUncheckedCreateWithoutBillingSkipsInput>
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutBillingSkipsInput
+    connect?: ClientServiceWhereUniqueInput
+  }
+
+  export type ClientServiceUpdateOneRequiredWithoutBillingSkipsNestedInput = {
+    create?: XOR<ClientServiceCreateWithoutBillingSkipsInput, ClientServiceUncheckedCreateWithoutBillingSkipsInput>
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutBillingSkipsInput
+    upsert?: ClientServiceUpsertWithoutBillingSkipsInput
+    connect?: ClientServiceWhereUniqueInput
+    update?: XOR<XOR<ClientServiceUpdateToOneWithWhereWithoutBillingSkipsInput, ClientServiceUpdateWithoutBillingSkipsInput>, ClientServiceUncheckedUpdateWithoutBillingSkipsInput>
   }
 
   export type CompanyCreateNestedOneWithoutClientInvoicesInput = {
@@ -199592,6 +202142,7 @@ export namespace Prisma {
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateWithoutClientCompanyInput = {
@@ -199618,6 +202169,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceCreateOrConnectWithoutClientCompanyInput = {
@@ -261716,6 +264268,7 @@ export namespace Prisma {
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateWithoutServiceInput = {
@@ -261742,6 +264295,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceCreateOrConnectWithoutServiceInput = {
@@ -262583,6 +265137,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BillingSkipCreateWithoutClientServiceInput = {
+    id?: string
+    month: string
+    reason?: string | null
+    userName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BillingSkipUncheckedCreateWithoutClientServiceInput = {
+    id?: string
+    month: string
+    reason?: string | null
+    userName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BillingSkipCreateOrConnectWithoutClientServiceInput = {
+    where: BillingSkipWhereUniqueInput
+    create: XOR<BillingSkipCreateWithoutClientServiceInput, BillingSkipUncheckedCreateWithoutClientServiceInput>
+  }
+
+  export type BillingSkipCreateManyClientServiceInputEnvelope = {
+    data: BillingSkipCreateManyClientServiceInput | BillingSkipCreateManyClientServiceInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutClientServicesInput = {
     update: XOR<CompanyUpdateWithoutClientServicesInput, CompanyUncheckedUpdateWithoutClientServicesInput>
     create: XOR<CompanyCreateWithoutClientServicesInput, CompanyUncheckedCreateWithoutClientServicesInput>
@@ -262937,6 +265517,158 @@ export namespace Prisma {
     data: XOR<BonusUpdateManyMutationInput, BonusUncheckedUpdateManyWithoutClientServiceInput>
   }
 
+  export type BillingSkipUpsertWithWhereUniqueWithoutClientServiceInput = {
+    where: BillingSkipWhereUniqueInput
+    update: XOR<BillingSkipUpdateWithoutClientServiceInput, BillingSkipUncheckedUpdateWithoutClientServiceInput>
+    create: XOR<BillingSkipCreateWithoutClientServiceInput, BillingSkipUncheckedCreateWithoutClientServiceInput>
+  }
+
+  export type BillingSkipUpdateWithWhereUniqueWithoutClientServiceInput = {
+    where: BillingSkipWhereUniqueInput
+    data: XOR<BillingSkipUpdateWithoutClientServiceInput, BillingSkipUncheckedUpdateWithoutClientServiceInput>
+  }
+
+  export type BillingSkipUpdateManyWithWhereWithoutClientServiceInput = {
+    where: BillingSkipScalarWhereInput
+    data: XOR<BillingSkipUpdateManyMutationInput, BillingSkipUncheckedUpdateManyWithoutClientServiceInput>
+  }
+
+  export type BillingSkipScalarWhereInput = {
+    AND?: BillingSkipScalarWhereInput | BillingSkipScalarWhereInput[]
+    OR?: BillingSkipScalarWhereInput[]
+    NOT?: BillingSkipScalarWhereInput | BillingSkipScalarWhereInput[]
+    id?: StringFilter<"BillingSkip"> | string
+    clientServiceId?: StringFilter<"BillingSkip"> | string
+    month?: StringFilter<"BillingSkip"> | string
+    reason?: StringNullableFilter<"BillingSkip"> | string | null
+    userName?: StringNullableFilter<"BillingSkip"> | string | null
+    createdAt?: DateTimeFilter<"BillingSkip"> | Date | string
+  }
+
+  export type ClientServiceCreateWithoutBillingSkipsInput = {
+    id?: string
+    label: string
+    status?: string
+    renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    url?: string | null
+    notes?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    amountCents?: number | null
+    isRecurring?: boolean
+    billingCycle?: string | null
+    billingDay?: number | null
+    bonusEligible?: boolean
+    externalId?: string | null
+    provider?: string | null
+    externalClientName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
+    service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusCreateNestedManyWithoutClientServiceInput
+  }
+
+  export type ClientServiceUncheckedCreateWithoutBillingSkipsInput = {
+    id?: string
+    clientCompanyId: string
+    serviceId?: string | null
+    label: string
+    status?: string
+    renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    url?: string | null
+    notes?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    amountCents?: number | null
+    isRecurring?: boolean
+    billingCycle?: string | null
+    billingDay?: number | null
+    bonusEligible?: boolean
+    externalId?: string | null
+    provider?: string | null
+    externalClientName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
+  }
+
+  export type ClientServiceCreateOrConnectWithoutBillingSkipsInput = {
+    where: ClientServiceWhereUniqueInput
+    create: XOR<ClientServiceCreateWithoutBillingSkipsInput, ClientServiceUncheckedCreateWithoutBillingSkipsInput>
+  }
+
+  export type ClientServiceUpsertWithoutBillingSkipsInput = {
+    update: XOR<ClientServiceUpdateWithoutBillingSkipsInput, ClientServiceUncheckedUpdateWithoutBillingSkipsInput>
+    create: XOR<ClientServiceCreateWithoutBillingSkipsInput, ClientServiceUncheckedCreateWithoutBillingSkipsInput>
+    where?: ClientServiceWhereInput
+  }
+
+  export type ClientServiceUpdateToOneWithWhereWithoutBillingSkipsInput = {
+    where?: ClientServiceWhereInput
+    data: XOR<ClientServiceUpdateWithoutBillingSkipsInput, ClientServiceUncheckedUpdateWithoutBillingSkipsInput>
+  }
+
+  export type ClientServiceUpdateWithoutBillingSkipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    amountCents?: NullableIntFieldUpdateOperationsInput | number | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
+    service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
+  }
+
+  export type ClientServiceUncheckedUpdateWithoutBillingSkipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    amountCents?: NullableIntFieldUpdateOperationsInput | number | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
+  }
+
   export type CompanyCreateWithoutClientInvoicesInput = {
     id?: string
     name: string
@@ -263230,6 +265962,7 @@ export namespace Prisma {
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
     bonuses?: BonusCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateWithoutInvoicesInput = {
@@ -263256,6 +265989,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceCreateOrConnectWithoutInvoicesInput = {
@@ -263630,6 +266364,7 @@ export namespace Prisma {
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
     bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateWithoutInvoicesInput = {
@@ -263656,6 +266391,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type SaleUpsertWithoutInvoiceInput = {
@@ -265543,6 +268279,7 @@ export namespace Prisma {
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateWithoutBonusesInput = {
@@ -265569,6 +268306,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceCreateOrConnectWithoutBonusesInput = {
@@ -266056,6 +268794,7 @@ export namespace Prisma {
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateWithoutBonusesInput = {
@@ -266082,6 +268821,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type UserUpsertWithoutBonusesInput = {
@@ -277434,6 +280174,7 @@ export namespace Prisma {
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateWithoutClientCompanyInput = {
@@ -277460,6 +280201,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -284670,6 +287412,7 @@ export namespace Prisma {
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateWithoutServiceInput = {
@@ -284696,6 +287439,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateManyWithoutServiceInput = {
@@ -284879,6 +287623,14 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type BillingSkipCreateManyClientServiceInput = {
+    id?: string
+    month: string
+    reason?: string | null
+    userName?: string | null
+    createdAt?: Date | string
+  }
+
   export type ClientInvoiceUpdateWithoutClientServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -284979,6 +287731,30 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingSkipUpdateWithoutClientServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingSkipUncheckedUpdateWithoutClientServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingSkipUncheckedUpdateManyWithoutClientServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BonusCreateManySaleInput = {
@@ -285690,6 +288466,14 @@ export namespace Prisma {
      * @deprecated Use ClientServiceDefaultArgs instead
      */
     export type ClientServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientServiceDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BillingSkipDefaultArgs instead
+     */
+    export type BillingSkipArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BillingSkipDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use FinanceLogDefaultArgs instead
+     */
+    export type FinanceLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = FinanceLogDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ClientInvoiceDefaultArgs instead
      */

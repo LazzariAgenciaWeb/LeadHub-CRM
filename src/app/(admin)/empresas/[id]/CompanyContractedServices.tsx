@@ -54,11 +54,15 @@ export default function CompanyContractedServices({
   const [fDia, setFDia] = useState("");
   const [fInicio, setFInicio] = useState("");
   const [fFim, setFFim] = useState("");
+  // Motivo obrigatório ao encerrar/reabrir — vai pra trilha de auditoria do
+  // financeiro, senão a conferência não sabe por que o contrato saiu/voltou.
+  const [fMotivo, setFMotivo] = useState("");
 
   function openNew() {
     setEditing("new"); setErr("");
     setFServiceId(""); setFLabel(""); setFStatus("ATIVO"); setFRenews(""); setFUrl(""); setFNotes(""); setFDetails([]);
     setFRecorrente(false); setFBonifica(true); setFValor(""); setFCiclo("MENSAL"); setFDia(""); setFInicio(""); setFFim("");
+    setFMotivo("");
   }
   function openEdit(it: Item) {
     setEditing(it); setErr("");
@@ -72,6 +76,7 @@ export default function CompanyContractedServices({
     setFDia(it.billingDay != null ? String(it.billingDay) : "");
     setFInicio(it.startedAt ? it.startedAt.slice(0, 10) : "");
     setFFim(it.endedAt ? it.endedAt.slice(0, 10) : "");
+    setFMotivo("");
   }
   function close() { setEditing(null); setErr(""); }
 
@@ -84,8 +89,19 @@ export default function CompanyContractedServices({
     }
   }
 
+  // Encerrar ou reabrir sem dizer por quê é o que gera divergência depois.
+  const statusOriginal = editing && editing !== "new" ? (editing as Item).status : null;
+  const mudouVigencia =
+    statusOriginal !== null &&
+    statusOriginal !== fStatus &&
+    (statusOriginal === "ENCERRADO" || fStatus === "ENCERRADO");
+
   async function save() {
     if (!fLabel.trim()) { setErr("Dê um apelido ao serviço."); return; }
+    if (mudouVigencia && !fMotivo.trim()) {
+      setErr(fStatus === "ENCERRADO" ? "Informe o motivo do encerramento." : "Informe o motivo da reabertura.");
+      return;
+    }
     setSaving(true); setErr("");
     const payload = {
       serviceId: fServiceId || null, label: fLabel.trim(), status: fStatus,
@@ -98,6 +114,7 @@ export default function CompanyContractedServices({
       })(),
       isRecurring: fRecorrente,
       bonusEligible: fBonifica,
+      ...(fMotivo.trim() ? { motivo: fMotivo.trim() } : {}),
       billingCycle: fCiclo,
       billingDay: fDia ? parseInt(fDia, 10) : null,
       startedAt: fInicio ? new Date(fInicio + "T12:00:00").toISOString() : null,
@@ -237,6 +254,19 @@ export default function CompanyContractedServices({
               <select value={fStatus} onChange={(e) => setFStatus(e.target.value)} className={input + " mt-1"}>
                 {Object.entries(STATUS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
               </select>
+              {mudouVigencia && (
+                <div className="mt-2">
+                  <label className="text-amber-400/90 text-xs">
+                    {fStatus === "ENCERRADO" ? "Motivo do encerramento *" : "Motivo da reabertura *"}
+                  </label>
+                  <input
+                    value={fMotivo}
+                    onChange={(e) => setFMotivo(e.target.value)}
+                    placeholder="Fica registrado no histórico do financeiro"
+                    className={input + " mt-1"}
+                  />
+                </div>
+              )}
             </div>
             <div>
               <label className="text-slate-400 text-xs">Início do contrato</label>

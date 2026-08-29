@@ -1728,6 +1728,28 @@ exports.Prisma.ClientServiceScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BillingSkipScalarFieldEnum = {
+  id: 'id',
+  clientServiceId: 'clientServiceId',
+  month: 'month',
+  reason: 'reason',
+  userName: 'userName',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.FinanceLogScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  clientCompanyId: 'clientCompanyId',
+  entity: 'entity',
+  entityId: 'entityId',
+  action: 'action',
+  description: 'description',
+  meta: 'meta',
+  userName: 'userName',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ClientInvoiceScalarFieldEnum = {
   id: 'id',
   clientCompanyId: 'clientCompanyId',
@@ -2465,6 +2487,8 @@ exports.Prisma.ModelName = {
   AiUsageLog: 'AiUsageLog',
   Service: 'Service',
   ClientService: 'ClientService',
+  BillingSkip: 'BillingSkip',
+  FinanceLog: 'FinanceLog',
   ClientInvoice: 'ClientInvoice',
   Sale: 'Sale',
   Bonus: 'Bonus',

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma";
 import { cleanCobranca } from "@/lib/client-service-billing";
 import { cleanVigencia } from "@/lib/client-service-vigencia";
+import { logFinance, agencyOf } from "@/lib/finance-log";
 
 const STATUSES = ["ATIVO", "EM_IMPLANTACAO", "PAUSADO", "ENCERRADO"];
 
@@ -81,6 +82,34 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data,
     include: { service: { select: { id: true, name: true } } },
   });
+
+  // Trilha: encerrar/reabrir são os eventos que geram divergência na
+  // conferência — merecem ação própria e o motivo de quem fez. O resto vira
+  // um ALTERADO genérico com os campos tocados.
+  {
+    const antes = res.cs;
+    const action =
+      antes.status !== "ENCERRADO" && updated.status === "ENCERRADO"
+        ? "ENCERRADO"
+        : antes.status === "ENCERRADO" && updated.status !== "ENCERRADO"
+          ? "REABERTO"
+          : "ALTERADO";
+    await logFinance({
+      companyId: await agencyOf(id),
+      clientCompanyId: id,
+      entity: "CONTRATO",
+      entityId: csId,
+      action,
+      description: body?.motivo ? String(body.motivo) : null,
+      meta: {
+        label: updated.label,
+        campos: Object.keys(data),
+        ...(antes.status !== updated.status && { statusAntes: antes.status, statusDepois: updated.status }),
+        ...(antes.amountCents !== updated.amountCents && { valorAntes: antes.amountCents, valorDepois: updated.amountCents }),
+      },
+      session,
+    });
+  }
   return NextResponse.json(updated);
 }
 
@@ -91,5 +120,14 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const res = await loadAndAuth(session, id, csId);
   if ("error" in res) return res.error;
   await prisma.clientService.delete({ where: { id: csId } });
+  await logFinance({
+    companyId: await agencyOf(id),
+    clientCompanyId: id,
+    entity: "CONTRATO",
+    entityId: csId,
+    action: "EXCLUIDO",
+    meta: { label: res.cs.label, valorCents: res.cs.amountCents, status: res.cs.status },
+    session,
+  });
   return NextResponse.json({ ok: true });
 }
