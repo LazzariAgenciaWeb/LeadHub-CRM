@@ -45,6 +45,9 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   // Origem escolhida pra lançar: qual linha está com o formulário aberto.
   const [abrindo, setAbrindo] = useState<string | null>(null);
   const [quem, setQuem] = useState("");
+  // Valor do serviço no lançamento inline. Nasce com o valor do cadastro e é
+  // editável: dividir o serviço = cada colaborador lançado com a parte dele.
+  const [valorServico, setValorServico] = useState("");
   const [filtroTipo, setFiltroTipo] = useState<string | null>(null);
   // Serviço avulso: bonificação sem venda nem contrato de origem (um extra
   // combinado por fora). Descrição identifica; valor do serviço é manual.
@@ -82,6 +85,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
       body: JSON.stringify({
         month: data!.month,
         ...origem,
+        serviceValueCents: toCents(valorServico),
         ...(colab ? { userId: colab.id } : { name: quem }),
       }),
     });
@@ -91,7 +95,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
       setErro(e.error ?? "Não foi possível lançar.");
       return;
     }
-    setAbrindo(null); setQuem("");
+    setAbrindo(null); setQuem(""); setValorServico("");
     router.refresh();
   }
 
@@ -191,11 +195,11 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   // dividido entre quem trabalhou nele. A trava contra pagar duas vezes é por
   // (origem, colaborador, mês), no servidor: a mesma pessoa não entra duas
   // vezes na mesma origem.
-  const lancadosPorOrigem = new Map<string, { nome: string; amountCents: number; pago: boolean; pagoEm: string | null }[]>();
+  const lancadosPorOrigem = new Map<string, { id: string; nome: string; amountCents: number; serviceValueCents: number; pago: boolean; pagoEm: string | null }[]>();
   for (const b of data.lancados) {
     const chave = `${b.origem.tipo}:${b.origem.id}`;
     const lista = lancadosPorOrigem.get(chave) ?? [];
-    lista.push({ nome: b.nome, amountCents: b.amountCents, pago: b.pago, pagoEm: b.pagoEm });
+    lista.push({ id: b.id, nome: b.nome, amountCents: b.amountCents, serviceValueCents: b.serviceValueCents, pago: b.pago, pagoEm: b.pagoEm });
     lancadosPorOrigem.set(chave, lista);
   }
 
@@ -204,26 +208,43 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
     if (!lista?.length) return null;
     return (
       <div className="mt-1 flex flex-wrap gap-1">
-        {lista.map((l, i) => (
+        {lista.map((l) => (
           <span
-            key={i}
-            className={`text-[10px] px-1.5 py-0.5 rounded ${
+            key={l.id}
+            className={`text-[10px] px-1.5 py-0.5 rounded inline-flex items-center gap-1 ${
               l.pago ? "bg-emerald-500/15 text-emerald-400" : "bg-amber-500/15 text-amber-400"
             }`}
           >
-            {l.nome} · {brlFromCents(l.amountCents)}
+            {l.nome} · serviço {brlFromCents(l.serviceValueCents)} · bonif. {brlFromCents(l.amountCents)}
             {l.pagoEm && ` · pago ${mesCurto(l.pagoEm)}`}
+            {/* Desfazer sem descer até a lista — mas só enquanto não foi pago:
+                lançamento pago é histórico, apaga-se lá em cima, com intenção. */}
+            {!l.pago && (
+              <button
+                onClick={() => remover(l.id)}
+                disabled={ocupado === l.id}
+                title="Remover este lançamento"
+                className="hover:text-red-400 disabled:opacity-40"
+              >
+                <X className="w-2.5 h-2.5" />
+              </button>
+            )}
           </span>
         ))}
       </div>
     );
   }
 
-  function FormLancar({ origem, chave }: { origem: { saleId?: string; clientServiceId?: string }; chave: string }) {
+  function FormLancar({ origem, chave, valorPadraoCents }: { origem: { saleId?: string; clientServiceId?: string }; chave: string; valorPadraoCents: number }) {
     if (abrindo !== chave) {
       return (
         <button
-          onClick={() => { setAbrindo(chave); setQuem(""); setErro(""); }}
+          onClick={() => {
+            setAbrindo(chave); setQuem(""); setErro("");
+            // Pré-preenche com o valor do cadastro; editar = lançar só a parte
+            // deste colaborador quando o serviço é dividido.
+            setValorServico(valorPadraoCents ? (valorPadraoCents / 100).toFixed(2).replace(".", ",") : "");
+          }}
           className="flex items-center gap-1 px-2 py-1 rounded-lg border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 text-xs hover:bg-indigo-500/20 flex-shrink-0"
         >
           <Plus className="w-3 h-3" /> Bonificar
@@ -232,12 +253,21 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
     }
     return (
       <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
-        {/* Só o colaborador. O valor da bonificação você calcula depois e lança
-            na lista — aqui só se registra QUEM entra no fechamento. */}
+        {/* Colaborador + a parte do serviço que é dele. A bonificação em si
+            você calcula depois e digita na lista de lançamentos. */}
         <select value={quem} onChange={(e) => setQuem(e.target.value)} className={input}>
           <option value="">Colaborador…</option>
           {data!.colaboradores.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
         </select>
+        <label className="flex items-center gap-1.5">
+          <span className="text-[11px] text-slate-500">serviço R$</span>
+          <input
+            value={valorServico}
+            onChange={(e) => setValorServico(e.target.value)}
+            placeholder="0,00"
+            className={input + " w-24 text-right"}
+          />
+        </label>
         <button
           onClick={() => lancar(origem)}
           disabled={ocupado === "novo"}
@@ -382,9 +412,20 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                   </div>
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
-                  <span className="text-[11px] text-slate-500">
-                    serviço <b className="text-slate-400 font-medium">{brlFromCents(b.serviceValueCents)}</b>
-                  </span>
+                  {/* Editável: a parte do serviço que é deste colaborador —
+                      ajusta aqui quando a divisão muda depois do lançamento. */}
+                  <label className="flex items-center gap-1.5">
+                    <span className="text-[11px] text-slate-500">serviço</span>
+                    <input
+                      defaultValue={b.serviceValueCents ? (b.serviceValueCents / 100).toFixed(2).replace(".", ",") : ""}
+                      onBlur={(e) => {
+                        const novo = toCents(e.target.value);
+                        if (novo !== b.serviceValueCents) alterar(b.id, { serviceValueCents: novo });
+                      }}
+                      placeholder="0,00"
+                      className={input + " w-24 text-right text-slate-300"}
+                    />
+                  </label>
                   {/* A bonificação é digitada aqui: é o número que você calcula
                       fora e lança. Salva ao sair do campo. */}
                   <label className="flex items-center gap-1.5">
@@ -491,7 +532,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                     {ocupado === `svc-${r.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "não bonifica"}
                   </button>
                 )}
-                <FormLancar origem={{ clientServiceId: r.id }} chave={`c-${r.id}`} />
+                <FormLancar origem={{ clientServiceId: r.id }} chave={`c-${r.id}`} valorPadraoCents={r.amountCents} />
               </div>
             </div>
           ))}
@@ -557,7 +598,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                   <JaLancados chave={`venda:${v.id}`} />
                 </div>
     
-                <FormLancar origem={{ saleId: v.id }} chave={`v-${v.id}`} />
+                <FormLancar origem={{ saleId: v.id }} chave={`v-${v.id}`} valorPadraoCents={v.valorCents} />
               </div>
             ))}
           </div>

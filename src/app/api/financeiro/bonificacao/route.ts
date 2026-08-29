@@ -33,9 +33,10 @@ const centavos = (v: unknown) => {
 };
 
 // POST /api/financeiro/bonificacao
-// Body: { month, saleId? | clientServiceId?, userId? | name, amountCents? }
-// O valor do serviço NÃO vem do corpo: é lido da origem, pra ninguém informar
-// um valor de referência que não corresponde ao que está cadastrado.
+// Body: { month, saleId? | clientServiceId?, userId? | name, amountCents?,
+//         serviceValueCents?, notes? }
+// O valor do serviço padrão é lido da origem; o corpo pode sobrescrever pra
+// registrar só a PARTE do colaborador quando o serviço é dividido.
 export async function POST(req: NextRequest) {
   const auth = await autorizar();
   if ("erro" in auth) return auth.erro;
@@ -79,6 +80,13 @@ export async function POST(req: NextRequest) {
     });
     if (!cs) return NextResponse.json({ error: "Contrato não encontrado nesta carteira" }, { status: 400 });
     serviceValueCents = cs.amountCents ?? 0;
+  }
+
+  // O valor lido da origem é o PADRÃO, não uma algema: quando o serviço é
+  // dividido entre colaboradores, cada lançamento carrega só a parte de quem
+  // trabalhou nela — e essa parte vem do corpo.
+  if (body?.serviceValueCents !== undefined) {
+    serviceValueCents = centavos(body.serviceValueCents);
   }
 
   const userId = body?.userId ? String(body.userId) : null;
@@ -142,6 +150,7 @@ export async function PATCH(req: NextRequest) {
 
   const data: Record<string, unknown> = {};
   if (body?.amountCents !== undefined) data.amountCents = centavos(body.amountCents);
+  if (body?.serviceValueCents !== undefined) data.serviceValueCents = centavos(body.serviceValueCents);
   if (body?.notes !== undefined) data.notes = body.notes ? String(body.notes) : null;
   // A data acompanha o estado: desmarcar limpa, pra não sobrar data de
   // pagamento em bonificação que voltou a pendente.
