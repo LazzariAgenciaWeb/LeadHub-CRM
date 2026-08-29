@@ -59,6 +59,8 @@ export interface RecurringLike {
   amountCents: number | null;
   billingCycle: string | null;
   renewsAt: Date | null;
+  /** Início da vigência — contrato não é devido antes dele. */
+  startedAt?: Date | null;
 }
 
 /**
@@ -73,6 +75,11 @@ export function dueInMonth(svc: RecurringLike, month: string): boolean {
   if (!svc.isRecurring) return false;
   if (svc.status !== "ATIVO") return false;
   if (!svc.amountCents) return false;
+
+  // Contrato que ainda não começou não é devido: mensal com início em setembro
+  // caía na fila de agosto porque a regra do mensal era "todo mês", sem olhar
+  // a vigência. Comparação por competência (YYYY-MM ordena lexicograficamente).
+  if (svc.startedAt && monthKey(svc.startedAt) > month) return false;
 
   const cycle = (svc.billingCycle as Cycle | null) ?? "MENSAL";
   const step = CYCLE_MONTHS[cycle] ?? 1;
