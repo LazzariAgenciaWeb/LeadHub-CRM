@@ -80,7 +80,11 @@ export function dueInMonth(svc: RecurringLike, month: string): boolean {
 
   if (!svc.renewsAt) return false;
   const dist = monthDistance(monthKey(svc.renewsAt), month);
-  return ((dist % step) + step) % step === 0;
+  // dist < 0 = competência ANTES da renovação registrada. `renewsAt` no futuro
+  // significa "já faturei até lá" — contrato anual renovando em ago/2027 não
+  // pode cair na fila de ago/2026, senão a anuidade é cobrada duas vezes.
+  // Do mês da renovação em diante, cai nos múltiplos do ciclo normalmente.
+  return dist >= 0 && dist % step === 0;
 }
 
 /**
