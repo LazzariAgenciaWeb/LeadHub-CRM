@@ -3914,6 +3914,9 @@ model Sale {
   // ainda preciso encaminhar, o que está sendo feito, e o que já foi entregue
   // (que é o que libera a bonificação).
   productionStatus String    @default("PENDENTE") // PENDENTE (a encaminhar) | LIBERADO (em produção) | ENTREGUE | DISPENSADO
+  // Esta venda entra no fechamento de bonificação? Mesma semântica do
+  // ClientService.bonusEligible — desligado, sai da lista de pontuais da aba.
+  bonusEligible    Boolean   @default(true)
   releasedAt       DateTime? // encaminhado pra produção
   deliveredAt      DateTime? // entregue ao cliente
 

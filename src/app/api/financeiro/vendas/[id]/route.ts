@@ -84,6 +84,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.kind = body.kind;
   }
   if (body?.notes !== undefined) data.notes = body.notes ? String(body.notes) : null;
+  // Entra ou não no fechamento de bonificação — mesma flag do serviço
+  // contratado, marcada direto na lista de pontuais da aba Bonificação.
+  if (body?.bonusEligible !== undefined) data.bonusEligible = !!body.bonusEligible;
 
   // ── Vínculo com o cliente ────────────────────────────────────────────────
   // Duas formas: apontar pra um cliente que já existe, ou cadastrar um novo

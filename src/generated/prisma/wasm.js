@@ -1765,6 +1765,7 @@ exports.Prisma.SaleScalarFieldEnum = {
   billingStatus: 'billingStatus',
   billedAt: 'billedAt',
   productionStatus: 'productionStatus',
+  bonusEligible: 'bonusEligible',
   releasedAt: 'releasedAt',
   deliveredAt: 'deliveredAt',
   notes: 'notes',

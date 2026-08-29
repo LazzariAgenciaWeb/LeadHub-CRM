@@ -59,7 +59,7 @@ export default async function BonificacaoPage({
     prisma.sale.findMany({
       where: { companyId: agencyId, productionStatus: "ENTREGUE", deliveredAt: { gte: from, lt: to } },
       select: {
-        id: true, title: true, valueCents: true, deliveredAt: true,
+        id: true, title: true, valueCents: true, deliveredAt: true, bonusEligible: true,
         clientCompany: { select: { name: true } },
       },
       orderBy: { deliveredAt: "desc" },
@@ -89,14 +89,24 @@ export default async function BonificacaoPage({
     colaboradores: colaboradores.map((u) => ({ id: u.id, nome: u.name ?? u.email })),
     // Serviços tirados do fechamento — visíveis dobrados no fim da lista,
     // senão "marquei sem querer" não tem caminho de volta fora do cadastro.
-    naoBonificam: contratos
-      .filter((c) => !c.bonusEligible)
-      .map((c) => ({
-        id: c.id,
-        clienteId: c.clientCompanyId,
-        nome: `${nomeCliente.get(c.clientCompanyId) ?? "—"} · ${c.label}`,
-      }))
-      .sort((a, b) => a.nome.localeCompare(b.nome)),
+    naoBonificam: [
+      ...contratos
+        .filter((c) => !c.bonusEligible)
+        .map((c) => ({
+          id: c.id,
+          tipo: "contrato" as const,
+          clienteId: c.clientCompanyId,
+          nome: `${nomeCliente.get(c.clientCompanyId) ?? "—"} · ${c.label}`,
+        })),
+      ...vendas
+        .filter((v) => !v.bonusEligible)
+        .map((v) => ({
+          id: v.id,
+          tipo: "venda" as const,
+          clienteId: "",
+          nome: `${v.clientCompany?.name ?? "—"} · ${v.title} (pontual)`,
+        })),
+    ].sort((a, b) => a.nome.localeCompare(b.nome)),
     recorrentes: contratos
       // Serviço marcado como "não bonifica" sai da lista — é a hospedagem que
       // todo mês era ignorada à mão. Lançamento JÁ FEITO continua na lista de
@@ -114,13 +124,15 @@ export default async function BonificacaoPage({
         faturado: faturados.has(c.id),
       }))
       .sort((a, b) => a.cliente.localeCompare(b.cliente)),
-    pontuais: vendas.map((v) => ({
-      id: v.id,
-      titulo: v.title,
-      cliente: v.clientCompany?.name ?? null,
-      valorCents: v.valueCents,
-      entregueEm: v.deliveredAt!.toISOString(),
-    })),
+    pontuais: vendas
+      .filter((v) => v.bonusEligible)
+      .map((v) => ({
+        id: v.id,
+        titulo: v.title,
+        cliente: v.clientCompany?.name ?? null,
+        valorCents: v.valueCents,
+        entregueEm: v.deliveredAt!.toISOString(),
+      })),
     lancados: bonus.map((b) => ({
       id: b.id,
       nome: b.name,

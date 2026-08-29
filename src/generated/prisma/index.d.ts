@@ -132154,6 +132154,7 @@ export namespace Prisma {
     billingStatus: string | null
     billedAt: Date | null
     productionStatus: string | null
+    bonusEligible: boolean | null
     releasedAt: Date | null
     deliveredAt: Date | null
     notes: string | null
@@ -132178,6 +132179,7 @@ export namespace Prisma {
     billingStatus: string | null
     billedAt: Date | null
     productionStatus: string | null
+    bonusEligible: boolean | null
     releasedAt: Date | null
     deliveredAt: Date | null
     notes: string | null
@@ -132202,6 +132204,7 @@ export namespace Prisma {
     billingStatus: number
     billedAt: number
     productionStatus: number
+    bonusEligible: number
     releasedAt: number
     deliveredAt: number
     notes: number
@@ -132236,6 +132239,7 @@ export namespace Prisma {
     billingStatus?: true
     billedAt?: true
     productionStatus?: true
+    bonusEligible?: true
     releasedAt?: true
     deliveredAt?: true
     notes?: true
@@ -132260,6 +132264,7 @@ export namespace Prisma {
     billingStatus?: true
     billedAt?: true
     productionStatus?: true
+    bonusEligible?: true
     releasedAt?: true
     deliveredAt?: true
     notes?: true
@@ -132284,6 +132289,7 @@ export namespace Prisma {
     billingStatus?: true
     billedAt?: true
     productionStatus?: true
+    bonusEligible?: true
     releasedAt?: true
     deliveredAt?: true
     notes?: true
@@ -132395,6 +132401,7 @@ export namespace Prisma {
     billingStatus: string
     billedAt: Date | null
     productionStatus: string
+    bonusEligible: boolean
     releasedAt: Date | null
     deliveredAt: Date | null
     notes: string | null
@@ -132438,6 +132445,7 @@ export namespace Prisma {
     billingStatus?: boolean
     billedAt?: boolean
     productionStatus?: boolean
+    bonusEligible?: boolean
     releasedAt?: boolean
     deliveredAt?: boolean
     notes?: boolean
@@ -132468,6 +132476,7 @@ export namespace Prisma {
     billingStatus?: boolean
     billedAt?: boolean
     productionStatus?: boolean
+    bonusEligible?: boolean
     releasedAt?: boolean
     deliveredAt?: boolean
     notes?: boolean
@@ -132495,6 +132504,7 @@ export namespace Prisma {
     billingStatus?: boolean
     billedAt?: boolean
     productionStatus?: boolean
+    bonusEligible?: boolean
     releasedAt?: boolean
     deliveredAt?: boolean
     notes?: boolean
@@ -132542,6 +132552,7 @@ export namespace Prisma {
       billingStatus: string
       billedAt: Date | null
       productionStatus: string
+      bonusEligible: boolean
       releasedAt: Date | null
       deliveredAt: Date | null
       notes: string | null
@@ -132961,6 +132972,7 @@ export namespace Prisma {
     readonly billingStatus: FieldRef<"Sale", 'String'>
     readonly billedAt: FieldRef<"Sale", 'DateTime'>
     readonly productionStatus: FieldRef<"Sale", 'String'>
+    readonly bonusEligible: FieldRef<"Sale", 'Boolean'>
     readonly releasedAt: FieldRef<"Sale", 'DateTime'>
     readonly deliveredAt: FieldRef<"Sale", 'DateTime'>
     readonly notes: FieldRef<"Sale", 'String'>
@@ -145623,6 +145635,7 @@ export namespace Prisma {
     billingStatus: 'billingStatus',
     billedAt: 'billedAt',
     productionStatus: 'productionStatus',
+    bonusEligible: 'bonusEligible',
     releasedAt: 'releasedAt',
     deliveredAt: 'deliveredAt',
     notes: 'notes',
@@ -157391,6 +157404,7 @@ export namespace Prisma {
     billingStatus?: StringFilter<"Sale"> | string
     billedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     productionStatus?: StringFilter<"Sale"> | string
+    bonusEligible?: BoolFilter<"Sale"> | boolean
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
@@ -157420,6 +157434,7 @@ export namespace Prisma {
     billingStatus?: SortOrder
     billedAt?: SortOrderInput | SortOrder
     productionStatus?: SortOrder
+    bonusEligible?: SortOrder
     releasedAt?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
@@ -157452,6 +157467,7 @@ export namespace Prisma {
     billingStatus?: StringFilter<"Sale"> | string
     billedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     productionStatus?: StringFilter<"Sale"> | string
+    bonusEligible?: BoolFilter<"Sale"> | boolean
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
@@ -157481,6 +157497,7 @@ export namespace Prisma {
     billingStatus?: SortOrder
     billedAt?: SortOrderInput | SortOrder
     productionStatus?: SortOrder
+    bonusEligible?: SortOrder
     releasedAt?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
@@ -157513,6 +157530,7 @@ export namespace Prisma {
     billingStatus?: StringWithAggregatesFilter<"Sale"> | string
     billedAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
     productionStatus?: StringWithAggregatesFilter<"Sale"> | string
+    bonusEligible?: BoolWithAggregatesFilter<"Sale"> | boolean
     releasedAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
     notes?: StringNullableWithAggregatesFilter<"Sale"> | string | null
@@ -170353,6 +170371,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -170382,6 +170401,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -170405,6 +170425,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170434,6 +170455,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170460,6 +170482,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -170481,6 +170504,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170505,6 +170529,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179681,6 +179706,7 @@ export namespace Prisma {
     billingStatus?: SortOrder
     billedAt?: SortOrder
     productionStatus?: SortOrder
+    bonusEligible?: SortOrder
     releasedAt?: SortOrder
     deliveredAt?: SortOrder
     notes?: SortOrder
@@ -179709,6 +179735,7 @@ export namespace Prisma {
     billingStatus?: SortOrder
     billedAt?: SortOrder
     productionStatus?: SortOrder
+    bonusEligible?: SortOrder
     releasedAt?: SortOrder
     deliveredAt?: SortOrder
     notes?: SortOrder
@@ -179733,6 +179760,7 @@ export namespace Prisma {
     billingStatus?: SortOrder
     billedAt?: SortOrder
     productionStatus?: SortOrder
+    bonusEligible?: SortOrder
     releasedAt?: SortOrder
     deliveredAt?: SortOrder
     notes?: SortOrder
@@ -199734,6 +199762,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -199761,6 +199790,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -199794,6 +199824,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -199821,6 +199852,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -203207,6 +203239,7 @@ export namespace Prisma {
     billingStatus?: StringFilter<"Sale"> | string
     billedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     productionStatus?: StringFilter<"Sale"> | string
+    bonusEligible?: BoolFilter<"Sale"> | boolean
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
@@ -207119,6 +207152,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -207146,6 +207180,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -208016,6 +208051,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -208043,6 +208079,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -263240,6 +263277,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -263268,6 +263306,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -263644,6 +263683,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -263672,6 +263712,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265435,6 +265476,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -265463,6 +265505,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -265940,6 +265983,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265968,6 +266012,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -274842,6 +274887,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -274865,6 +274911,7 @@ export namespace Prisma {
     billingStatus?: string
     billedAt?: Date | string | null
     productionStatus?: string
+    bonusEligible?: boolean
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
@@ -277585,6 +277632,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -277612,6 +277660,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -277637,6 +277686,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -277658,6 +277708,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -277685,6 +277736,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -277710,6 +277762,7 @@ export namespace Prisma {
     billingStatus?: StringFieldUpdateOperationsInput | string
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null

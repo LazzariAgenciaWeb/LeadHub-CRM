@@ -15,8 +15,8 @@ export interface BonificacaoData {
   nextMonth: string;
   colaboradores: { id: string; nome: string }[];
   recorrentes: { id: string; clienteId: string; cliente: string; label: string; tipo: string; amountCents: number; faturado: boolean }[];
-  /** Serviços marcados como "não bonifica" — pra reverter sem ir ao cadastro. */
-  naoBonificam: { id: string; clienteId: string; nome: string }[];
+  /** Serviços/vendas marcados como "não bonifica" — pra reverter sem ir ao cadastro. */
+  naoBonificam: { id: string; tipo: "contrato" | "venda"; clienteId: string; nome: string }[];
   pontuais: { id: string; titulo: string; cliente: string | null; valorCents: number; entregueEm: string }[];
   lancados: {
     id: string; nome: string; amountCents: number; serviceValueCents: number;
@@ -125,14 +125,17 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
     router.refresh();
   }
 
-  // Liga/desliga a flag no CADASTRO do serviço contratado, sem sair da
-  // conferência. Por serviço de propósito: o mesmo cliente tem hospedagem que
-  // não bonifica e gestão que bonifica. Desligar tira ESTE contrato da lista
-  // em todos os meses.
-  async function setBonifica(clienteId: string, serviceId: string, flag: boolean) {
-    setOcupado(`svc-${serviceId}`);
+  // Liga/desliga a flag no CADASTRO da origem, sem sair da conferência. Por
+  // serviço/venda de propósito: o mesmo cliente tem hospedagem que não
+  // bonifica e gestão que bonifica. Desligar tira ESTA origem da lista.
+  async function setBonifica(alvo: { tipo: "contrato" | "venda"; id: string; clienteId: string }, flag: boolean) {
+    setOcupado(`svc-${alvo.id}`);
     setErro("");
-    const res = await fetch(`/api/empresas/${clienteId}/servicos-contratados/${serviceId}`, {
+    const url =
+      alvo.tipo === "contrato"
+        ? `/api/empresas/${alvo.clienteId}/servicos-contratados/${alvo.id}`
+        : `/api/financeiro/vendas/${alvo.id}`;
+    const res = await fetch(url, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ bonusEligible: flag }),
@@ -524,7 +527,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                     hospedagem que era ignorada à mão repetidamente. */}
                 {abrindo !== `c-${r.id}` && (
                   <button
-                    onClick={() => setBonifica(r.clienteId, r.id, false)}
+                    onClick={() => setBonifica({ tipo: "contrato", id: r.id, clienteId: r.clienteId }, false)}
                     disabled={ocupado === `svc-${r.id}`}
                     title="Este serviço não gera bonificação — remover da lista em todos os meses"
                     className="px-2 py-1 rounded-md text-[11px] text-slate-600 hover:text-red-300 hover:bg-red-500/10 disabled:opacity-40 transition-colors"
@@ -546,7 +549,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
               onClick={() => setMostrarNaoBonificam((v) => !v)}
               className="text-[11px] text-slate-500 hover:text-slate-300"
             >
-              {mostrarNaoBonificam ? "▾" : "▸"} {data.naoBonificam.length} serviço(s) marcado(s) como &ldquo;não bonifica&rdquo;
+              {`${mostrarNaoBonificam ? "▾" : "▸"} ${data.naoBonificam.length} serviço(s) marcado(s) como "não bonifica"`}
             </button>
             {mostrarNaoBonificam && (
               <div className="mt-2 space-y-1">
@@ -556,7 +559,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                     <div key={s.id} className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-white/[0.02]">
                       <span className="text-xs text-slate-500 truncate">{s.nome}</span>
                       <button
-                        onClick={() => setBonifica(s.clienteId, s.id, true)}
+                        onClick={() => setBonifica(s, true)}
                         disabled={ocupado === `svc-${s.id}`}
                         className="px-2 py-1 rounded-md text-[11px] text-emerald-400/80 hover:bg-emerald-500/10 disabled:opacity-40 flex-shrink-0"
                       >
@@ -598,7 +601,19 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                   <JaLancados chave={`venda:${v.id}`} />
                 </div>
     
-                <FormLancar origem={{ saleId: v.id }} chave={`v-${v.id}`} valorPadraoCents={v.valorCents} />
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  {abrindo !== `v-${v.id}` && (
+                    <button
+                      onClick={() => setBonifica({ tipo: "venda", id: v.id, clienteId: "" }, false)}
+                      disabled={ocupado === `svc-${v.id}`}
+                      title="Esta venda não gera bonificação — remover da lista"
+                      className="px-2 py-1 rounded-md text-[11px] text-slate-600 hover:text-red-300 hover:bg-red-500/10 disabled:opacity-40 transition-colors"
+                    >
+                      {ocupado === `svc-${v.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "não bonifica"}
+                    </button>
+                  )}
+                  <FormLancar origem={{ saleId: v.id }} chave={`v-${v.id}`} valorPadraoCents={v.valorCents} />
+                </div>
               </div>
             ))}
           </div>
