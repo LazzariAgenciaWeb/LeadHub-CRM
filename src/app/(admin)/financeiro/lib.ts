@@ -98,5 +98,13 @@ export function monthlyEquivalentCents(svc: RecurringLike): number {
   return Math.round(svc.amountCents / (CYCLE_MONTHS[cycle] ?? 1));
 }
 
+// Valor redondo fica curto (R$ 900); quebrado mostra os centavos de verdade
+// (R$ 5.397,48). Arredondar centavo em tela de cobrança faz o número não
+// bater com o boleto/NF na conferência.
 export const brlFromCents = (c: number) =>
-  (c / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+  (c / 100).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: c % 100 === 0 ? 0 : 2,
+    maximumFractionDigits: c % 100 === 0 ? 0 : 2,
+  });
