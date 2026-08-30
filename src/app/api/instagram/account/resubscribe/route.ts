@@ -20,5 +20,17 @@ export async function POST() {
   const status = await getSubscribedApps(token);
   const fields: string[] = status.body?.data?.[0]?.subscribed_fields ?? [];
 
-  return NextResponse.json({ ok: result.ok, fields });
+  // Repassa o motivo real da Meta quando a assinatura falha (token vencido,
+  // permissão faltando etc.) — antes a UI só mostrava "falhou".
+  let error: string | undefined;
+  if (!result.ok) {
+    const metaMsg = result.body?.error?.message ?? (typeof result.body === "string" ? result.body : null);
+    const expired = account.tokenExpiresAt && account.tokenExpiresAt.getTime() < Date.now();
+    error = expired
+      ? `Token da conta venceu em ${account.tokenExpiresAt!.toLocaleDateString("pt-BR")} — desconecte e conecte a conta de novo.`
+      : `Meta recusou (HTTP ${result.status})${metaMsg ? `: ${metaMsg}` : ""}`;
+    console.error(`[IG resubscribe] empresa=${ctx.companyId} conta=${account.id}:`, error);
+  }
+
+  return NextResponse.json({ ok: result.ok, fields, ...(error ? { error } : {}) });
 }
