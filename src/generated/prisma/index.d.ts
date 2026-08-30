@@ -943,7 +943,8 @@ export const IgMsgSource: {
   ORGANIC: 'ORGANIC',
   AUTOMATION: 'AUTOMATION',
   AGENT: 'AGENT',
-  EXTERNAL: 'EXTERNAL'
+  EXTERNAL: 'EXTERNAL',
+  AI: 'AI'
 };
 
 export type IgMsgSource = (typeof IgMsgSource)[keyof typeof IgMsgSource]
@@ -13857,12 +13858,14 @@ export namespace Prisma {
     automations: number
     runs: number
     conversations: number
+    assistants: number
   }
 
   export type InstagramAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     automations?: boolean | InstagramAccountCountOutputTypeCountAutomationsArgs
     runs?: boolean | InstagramAccountCountOutputTypeCountRunsArgs
     conversations?: boolean | InstagramAccountCountOutputTypeCountConversationsArgs
+    assistants?: boolean | InstagramAccountCountOutputTypeCountAssistantsArgs
   }
 
   // Custom InputTypes
@@ -13895,6 +13898,13 @@ export namespace Prisma {
    */
   export type InstagramAccountCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: IgConversationWhereInput
+  }
+
+  /**
+   * InstagramAccountCountOutputType without action
+   */
+  export type InstagramAccountCountOutputTypeCountAssistantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantWhereInput
   }
 
 
@@ -73196,6 +73206,7 @@ export namespace Prisma {
     automations?: boolean | InstagramAccount$automationsArgs<ExtArgs>
     runs?: boolean | InstagramAccount$runsArgs<ExtArgs>
     conversations?: boolean | InstagramAccount$conversationsArgs<ExtArgs>
+    assistants?: boolean | InstagramAccount$assistantsArgs<ExtArgs>
     _count?: boolean | InstagramAccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["instagramAccount"]>
 
@@ -73241,6 +73252,7 @@ export namespace Prisma {
     automations?: boolean | InstagramAccount$automationsArgs<ExtArgs>
     runs?: boolean | InstagramAccount$runsArgs<ExtArgs>
     conversations?: boolean | InstagramAccount$conversationsArgs<ExtArgs>
+    assistants?: boolean | InstagramAccount$assistantsArgs<ExtArgs>
     _count?: boolean | InstagramAccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InstagramAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -73254,6 +73266,7 @@ export namespace Prisma {
       automations: Prisma.$IgAutomationPayload<ExtArgs>[]
       runs: Prisma.$IgAutomationRunPayload<ExtArgs>[]
       conversations: Prisma.$IgConversationPayload<ExtArgs>[]
+      assistants: Prisma.$AssistantPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -73639,6 +73652,7 @@ export namespace Prisma {
     automations<T extends InstagramAccount$automationsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$automationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findMany"> | Null>
     runs<T extends InstagramAccount$runsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$runsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findMany"> | Null>
     conversations<T extends InstagramAccount$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgConversationPayload<ExtArgs>, T, "findMany"> | Null>
+    assistants<T extends InstagramAccount$assistantsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$assistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -74058,6 +74072,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: IgConversationScalarFieldEnum | IgConversationScalarFieldEnum[]
+  }
+
+  /**
+   * InstagramAccount.assistants
+   */
+  export type InstagramAccount$assistantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    where?: AssistantWhereInput
+    orderBy?: AssistantOrderByWithRelationInput | AssistantOrderByWithRelationInput[]
+    cursor?: AssistantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
   }
 
   /**
@@ -76315,6 +76349,7 @@ export namespace Prisma {
     lastDirection: $Enums.IgMsgDirection | null
     needsReply: boolean | null
     hadAutomation: boolean | null
+    aiMode: $Enums.AiMode | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -76332,6 +76367,7 @@ export namespace Prisma {
     lastDirection: $Enums.IgMsgDirection | null
     needsReply: boolean | null
     hadAutomation: boolean | null
+    aiMode: $Enums.AiMode | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -76349,6 +76385,7 @@ export namespace Prisma {
     lastDirection: number
     needsReply: number
     hadAutomation: number
+    aiMode: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -76368,6 +76405,7 @@ export namespace Prisma {
     lastDirection?: true
     needsReply?: true
     hadAutomation?: true
+    aiMode?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -76385,6 +76423,7 @@ export namespace Prisma {
     lastDirection?: true
     needsReply?: true
     hadAutomation?: true
+    aiMode?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -76402,6 +76441,7 @@ export namespace Prisma {
     lastDirection?: true
     needsReply?: true
     hadAutomation?: true
+    aiMode?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -76492,6 +76532,7 @@ export namespace Prisma {
     lastDirection: $Enums.IgMsgDirection | null
     needsReply: boolean
     hadAutomation: boolean
+    aiMode: $Enums.AiMode
     createdAt: Date
     updatedAt: Date
     _count: IgConversationCountAggregateOutputType | null
@@ -76526,6 +76567,7 @@ export namespace Prisma {
     lastDirection?: boolean
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -76547,6 +76589,7 @@ export namespace Prisma {
     lastDirection?: boolean
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -76566,6 +76609,7 @@ export namespace Prisma {
     lastDirection?: boolean
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -76601,6 +76645,7 @@ export namespace Prisma {
       lastDirection: $Enums.IgMsgDirection | null
       needsReply: boolean
       hadAutomation: boolean
+      aiMode: $Enums.AiMode
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["igConversation"]>
@@ -77011,6 +77056,7 @@ export namespace Prisma {
     readonly lastDirection: FieldRef<"IgConversation", 'IgMsgDirection'>
     readonly needsReply: FieldRef<"IgConversation", 'Boolean'>
     readonly hadAutomation: FieldRef<"IgConversation", 'Boolean'>
+    readonly aiMode: FieldRef<"IgConversation", 'AiMode'>
     readonly createdAt: FieldRef<"IgConversation", 'DateTime'>
     readonly updatedAt: FieldRef<"IgConversation", 'DateTime'>
   }
@@ -124400,6 +124446,7 @@ export namespace Prisma {
     sendPauseNotice: boolean | null
     pauseNoticeText: string | null
     instanceId: string | null
+    igAccountId: string | null
     model: string | null
     temperature: number | null
     createdById: string | null
@@ -124428,6 +124475,7 @@ export namespace Prisma {
     sendPauseNotice: boolean | null
     pauseNoticeText: string | null
     instanceId: string | null
+    igAccountId: string | null
     model: string | null
     temperature: number | null
     createdById: string | null
@@ -124456,6 +124504,7 @@ export namespace Prisma {
     sendPauseNotice: number
     pauseNoticeText: number
     instanceId: number
+    igAccountId: number
     model: number
     temperature: number
     createdById: number
@@ -124500,6 +124549,7 @@ export namespace Prisma {
     sendPauseNotice?: true
     pauseNoticeText?: true
     instanceId?: true
+    igAccountId?: true
     model?: true
     temperature?: true
     createdById?: true
@@ -124528,6 +124578,7 @@ export namespace Prisma {
     sendPauseNotice?: true
     pauseNoticeText?: true
     instanceId?: true
+    igAccountId?: true
     model?: true
     temperature?: true
     createdById?: true
@@ -124556,6 +124607,7 @@ export namespace Prisma {
     sendPauseNotice?: true
     pauseNoticeText?: true
     instanceId?: true
+    igAccountId?: true
     model?: true
     temperature?: true
     createdById?: true
@@ -124671,6 +124723,7 @@ export namespace Prisma {
     sendPauseNotice: boolean
     pauseNoticeText: string | null
     instanceId: string | null
+    igAccountId: string | null
     model: string | null
     temperature: number | null
     createdById: string | null
@@ -124718,6 +124771,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: boolean
     instanceId?: boolean
+    igAccountId?: boolean
     model?: boolean
     temperature?: boolean
     createdById?: boolean
@@ -124726,6 +124780,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     calendarUser?: boolean | Assistant$calendarUserArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
+    igAccount?: boolean | Assistant$igAccountArgs<ExtArgs>
     usageLogs?: boolean | Assistant$usageLogsArgs<ExtArgs>
     routes?: boolean | Assistant$routesArgs<ExtArgs>
     createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
@@ -124753,6 +124808,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: boolean
     instanceId?: boolean
+    igAccountId?: boolean
     model?: boolean
     temperature?: boolean
     createdById?: boolean
@@ -124761,6 +124817,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     calendarUser?: boolean | Assistant$calendarUserArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
+    igAccount?: boolean | Assistant$igAccountArgs<ExtArgs>
     createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
   }, ExtArgs["result"]["assistant"]>
 
@@ -124785,6 +124842,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: boolean
     instanceId?: boolean
+    igAccountId?: boolean
     model?: boolean
     temperature?: boolean
     createdById?: boolean
@@ -124796,6 +124854,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     calendarUser?: boolean | Assistant$calendarUserArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
+    igAccount?: boolean | Assistant$igAccountArgs<ExtArgs>
     usageLogs?: boolean | Assistant$usageLogsArgs<ExtArgs>
     routes?: boolean | Assistant$routesArgs<ExtArgs>
     createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
@@ -124805,6 +124864,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     calendarUser?: boolean | Assistant$calendarUserArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
+    igAccount?: boolean | Assistant$igAccountArgs<ExtArgs>
     createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
   }
 
@@ -124814,6 +124874,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       calendarUser: Prisma.$UserPayload<ExtArgs> | null
       instance: Prisma.$WhatsappInstancePayload<ExtArgs> | null
+      igAccount: Prisma.$InstagramAccountPayload<ExtArgs> | null
       usageLogs: Prisma.$AiUsageLogPayload<ExtArgs>[]
       routes: Prisma.$AssistantRoutePayload<ExtArgs>[]
       createdBy: Prisma.$UserPayload<ExtArgs> | null
@@ -124839,6 +124900,7 @@ export namespace Prisma {
       sendPauseNotice: boolean
       pauseNoticeText: string | null
       instanceId: string | null
+      igAccountId: string | null
       model: string | null
       temperature: number | null
       createdById: string | null
@@ -125211,6 +125273,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     calendarUser<T extends Assistant$calendarUserArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$calendarUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     instance<T extends Assistant$instanceArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$instanceArgs<ExtArgs>>): Prisma__WhatsappInstanceClient<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    igAccount<T extends Assistant$igAccountArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$igAccountArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     usageLogs<T extends Assistant$usageLogsArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$usageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findMany"> | Null>
     routes<T extends Assistant$routesArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$routesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "findMany"> | Null>
     createdBy<T extends Assistant$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
@@ -125263,6 +125326,7 @@ export namespace Prisma {
     readonly sendPauseNotice: FieldRef<"Assistant", 'Boolean'>
     readonly pauseNoticeText: FieldRef<"Assistant", 'String'>
     readonly instanceId: FieldRef<"Assistant", 'String'>
+    readonly igAccountId: FieldRef<"Assistant", 'String'>
     readonly model: FieldRef<"Assistant", 'String'>
     readonly temperature: FieldRef<"Assistant", 'Float'>
     readonly createdById: FieldRef<"Assistant", 'String'>
@@ -125613,6 +125677,21 @@ export namespace Prisma {
      */
     include?: WhatsappInstanceInclude<ExtArgs> | null
     where?: WhatsappInstanceWhereInput
+  }
+
+  /**
+   * Assistant.igAccount
+   */
+  export type Assistant$igAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    where?: InstagramAccountWhereInput
   }
 
   /**
@@ -146795,6 +146874,7 @@ export namespace Prisma {
     lastDirection: 'lastDirection',
     needsReply: 'needsReply',
     hadAutomation: 'hadAutomation',
+    aiMode: 'aiMode',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -147597,6 +147677,7 @@ export namespace Prisma {
     sendPauseNotice: 'sendPauseNotice',
     pauseNoticeText: 'pauseNoticeText',
     instanceId: 'instanceId',
+    igAccountId: 'igAccountId',
     model: 'model',
     temperature: 'temperature',
     createdById: 'createdById',
@@ -154244,6 +154325,7 @@ export namespace Prisma {
     automations?: IgAutomationListRelationFilter
     runs?: IgAutomationRunListRelationFilter
     conversations?: IgConversationListRelationFilter
+    assistants?: AssistantListRelationFilter
   }
 
   export type InstagramAccountOrderByWithRelationInput = {
@@ -154266,6 +154348,7 @@ export namespace Prisma {
     automations?: IgAutomationOrderByRelationAggregateInput
     runs?: IgAutomationRunOrderByRelationAggregateInput
     conversations?: IgConversationOrderByRelationAggregateInput
+    assistants?: AssistantOrderByRelationAggregateInput
   }
 
   export type InstagramAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -154291,6 +154374,7 @@ export namespace Prisma {
     automations?: IgAutomationListRelationFilter
     runs?: IgAutomationRunListRelationFilter
     conversations?: IgConversationListRelationFilter
+    assistants?: AssistantListRelationFilter
   }, "id" | "igUserId">
 
   export type InstagramAccountOrderByWithAggregationInput = {
@@ -154599,6 +154683,7 @@ export namespace Prisma {
     lastDirection?: EnumIgMsgDirectionNullableFilter<"IgConversation"> | $Enums.IgMsgDirection | null
     needsReply?: BoolFilter<"IgConversation"> | boolean
     hadAutomation?: BoolFilter<"IgConversation"> | boolean
+    aiMode?: EnumAiModeFilter<"IgConversation"> | $Enums.AiMode
     createdAt?: DateTimeFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeFilter<"IgConversation"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -154619,6 +154704,7 @@ export namespace Prisma {
     lastDirection?: SortOrderInput | SortOrder
     needsReply?: SortOrder
     hadAutomation?: SortOrder
+    aiMode?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
@@ -154643,6 +154729,7 @@ export namespace Prisma {
     lastDirection?: EnumIgMsgDirectionNullableFilter<"IgConversation"> | $Enums.IgMsgDirection | null
     needsReply?: BoolFilter<"IgConversation"> | boolean
     hadAutomation?: BoolFilter<"IgConversation"> | boolean
+    aiMode?: EnumAiModeFilter<"IgConversation"> | $Enums.AiMode
     createdAt?: DateTimeFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeFilter<"IgConversation"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -154663,6 +154750,7 @@ export namespace Prisma {
     lastDirection?: SortOrderInput | SortOrder
     needsReply?: SortOrder
     hadAutomation?: SortOrder
+    aiMode?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: IgConversationCountOrderByAggregateInput
@@ -154686,6 +154774,7 @@ export namespace Prisma {
     lastDirection?: EnumIgMsgDirectionNullableWithAggregatesFilter<"IgConversation"> | $Enums.IgMsgDirection | null
     needsReply?: BoolWithAggregatesFilter<"IgConversation"> | boolean
     hadAutomation?: BoolWithAggregatesFilter<"IgConversation"> | boolean
+    aiMode?: EnumAiModeWithAggregatesFilter<"IgConversation"> | $Enums.AiMode
     createdAt?: DateTimeWithAggregatesFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"IgConversation"> | Date | string
   }
@@ -158737,6 +158826,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFilter<"Assistant"> | boolean
     pauseNoticeText?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
+    igAccountId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
     createdById?: StringNullableFilter<"Assistant"> | string | null
@@ -158745,6 +158835,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     calendarUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
+    igAccount?: XOR<InstagramAccountNullableRelationFilter, InstagramAccountWhereInput> | null
     usageLogs?: AiUsageLogListRelationFilter
     routes?: AssistantRouteListRelationFilter
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
@@ -158771,6 +158862,7 @@ export namespace Prisma {
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
+    igAccountId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
@@ -158779,6 +158871,7 @@ export namespace Prisma {
     company?: CompanyOrderByWithRelationInput
     calendarUser?: UserOrderByWithRelationInput
     instance?: WhatsappInstanceOrderByWithRelationInput
+    igAccount?: InstagramAccountOrderByWithRelationInput
     usageLogs?: AiUsageLogOrderByRelationAggregateInput
     routes?: AssistantRouteOrderByRelationAggregateInput
     createdBy?: UserOrderByWithRelationInput
@@ -158808,6 +158901,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFilter<"Assistant"> | boolean
     pauseNoticeText?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
+    igAccountId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
     createdById?: StringNullableFilter<"Assistant"> | string | null
@@ -158816,6 +158910,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     calendarUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
+    igAccount?: XOR<InstagramAccountNullableRelationFilter, InstagramAccountWhereInput> | null
     usageLogs?: AiUsageLogListRelationFilter
     routes?: AssistantRouteListRelationFilter
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
@@ -158842,6 +158937,7 @@ export namespace Prisma {
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
+    igAccountId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
@@ -158878,6 +158974,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolWithAggregatesFilter<"Assistant"> | boolean
     pauseNoticeText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     instanceId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    igAccountId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     model?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     temperature?: FloatNullableWithAggregatesFilter<"Assistant"> | number | null
     createdById?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
@@ -166740,6 +166837,7 @@ export namespace Prisma {
     automations?: IgAutomationCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
     conversations?: IgConversationCreateNestedManyWithoutAccountInput
+    assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountUncheckedCreateInput = {
@@ -166761,6 +166859,7 @@ export namespace Prisma {
     automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
     conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountUpdateInput = {
@@ -166782,6 +166881,7 @@ export namespace Prisma {
     automations?: IgAutomationUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
 
   export type InstagramAccountUncheckedUpdateInput = {
@@ -166803,6 +166903,7 @@ export namespace Prisma {
     automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
 
   export type InstagramAccountCreateManyInput = {
@@ -167155,6 +167256,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
@@ -167175,6 +167277,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: IgMessageUncheckedCreateNestedManyWithoutConversationInput
@@ -167191,6 +167294,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
@@ -167211,6 +167315,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: IgMessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -167229,6 +167334,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -167244,6 +167350,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -167261,6 +167368,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -171756,6 +171864,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutAssistantsInput
     calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    igAccount?: InstagramAccountCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
@@ -171782,6 +171891,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -171816,6 +171926,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    igAccount?: InstagramAccountUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
@@ -171842,6 +171953,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -171872,6 +171984,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -171924,6 +172037,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178760,6 +178874,7 @@ export namespace Prisma {
     lastDirection?: SortOrder
     needsReply?: SortOrder
     hadAutomation?: SortOrder
+    aiMode?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -178777,6 +178892,7 @@ export namespace Prisma {
     lastDirection?: SortOrder
     needsReply?: SortOrder
     hadAutomation?: SortOrder
+    aiMode?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -178794,6 +178910,7 @@ export namespace Prisma {
     lastDirection?: SortOrder
     needsReply?: SortOrder
     hadAutomation?: SortOrder
+    aiMode?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -181698,6 +181815,7 @@ export namespace Prisma {
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrder
     instanceId?: SortOrder
+    igAccountId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
     createdById?: SortOrder
@@ -181733,6 +181851,7 @@ export namespace Prisma {
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrder
     instanceId?: SortOrder
+    igAccountId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
     createdById?: SortOrder
@@ -181761,6 +181880,7 @@ export namespace Prisma {
     sendPauseNotice?: SortOrder
     pauseNoticeText?: SortOrder
     instanceId?: SortOrder
+    igAccountId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
     createdById?: SortOrder
@@ -191723,6 +191843,13 @@ export namespace Prisma {
     connect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
   }
 
+  export type AssistantCreateNestedManyWithoutIgAccountInput = {
+    create?: XOR<AssistantCreateWithoutIgAccountInput, AssistantUncheckedCreateWithoutIgAccountInput> | AssistantCreateWithoutIgAccountInput[] | AssistantUncheckedCreateWithoutIgAccountInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutIgAccountInput | AssistantCreateOrConnectWithoutIgAccountInput[]
+    createMany?: AssistantCreateManyIgAccountInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
   export type IgAutomationUncheckedCreateNestedManyWithoutAccountInput = {
     create?: XOR<IgAutomationCreateWithoutAccountInput, IgAutomationUncheckedCreateWithoutAccountInput> | IgAutomationCreateWithoutAccountInput[] | IgAutomationUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: IgAutomationCreateOrConnectWithoutAccountInput | IgAutomationCreateOrConnectWithoutAccountInput[]
@@ -191742,6 +191869,13 @@ export namespace Prisma {
     connectOrCreate?: IgConversationCreateOrConnectWithoutAccountInput | IgConversationCreateOrConnectWithoutAccountInput[]
     createMany?: IgConversationCreateManyAccountInputEnvelope
     connect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+  }
+
+  export type AssistantUncheckedCreateNestedManyWithoutIgAccountInput = {
+    create?: XOR<AssistantCreateWithoutIgAccountInput, AssistantUncheckedCreateWithoutIgAccountInput> | AssistantCreateWithoutIgAccountInput[] | AssistantUncheckedCreateWithoutIgAccountInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutIgAccountInput | AssistantCreateOrConnectWithoutIgAccountInput[]
+    createMany?: AssistantCreateManyIgAccountInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
   }
 
   export type InstagramAccountUpdatescopesInput = {
@@ -191799,6 +191933,20 @@ export namespace Prisma {
     deleteMany?: IgConversationScalarWhereInput | IgConversationScalarWhereInput[]
   }
 
+  export type AssistantUpdateManyWithoutIgAccountNestedInput = {
+    create?: XOR<AssistantCreateWithoutIgAccountInput, AssistantUncheckedCreateWithoutIgAccountInput> | AssistantCreateWithoutIgAccountInput[] | AssistantUncheckedCreateWithoutIgAccountInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutIgAccountInput | AssistantCreateOrConnectWithoutIgAccountInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutIgAccountInput | AssistantUpsertWithWhereUniqueWithoutIgAccountInput[]
+    createMany?: AssistantCreateManyIgAccountInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutIgAccountInput | AssistantUpdateWithWhereUniqueWithoutIgAccountInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutIgAccountInput | AssistantUpdateManyWithWhereWithoutIgAccountInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
   export type IgAutomationUncheckedUpdateManyWithoutAccountNestedInput = {
     create?: XOR<IgAutomationCreateWithoutAccountInput, IgAutomationUncheckedCreateWithoutAccountInput> | IgAutomationCreateWithoutAccountInput[] | IgAutomationUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: IgAutomationCreateOrConnectWithoutAccountInput | IgAutomationCreateOrConnectWithoutAccountInput[]
@@ -191839,6 +191987,20 @@ export namespace Prisma {
     update?: IgConversationUpdateWithWhereUniqueWithoutAccountInput | IgConversationUpdateWithWhereUniqueWithoutAccountInput[]
     updateMany?: IgConversationUpdateManyWithWhereWithoutAccountInput | IgConversationUpdateManyWithWhereWithoutAccountInput[]
     deleteMany?: IgConversationScalarWhereInput | IgConversationScalarWhereInput[]
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutIgAccountNestedInput = {
+    create?: XOR<AssistantCreateWithoutIgAccountInput, AssistantUncheckedCreateWithoutIgAccountInput> | AssistantCreateWithoutIgAccountInput[] | AssistantUncheckedCreateWithoutIgAccountInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutIgAccountInput | AssistantCreateOrConnectWithoutIgAccountInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutIgAccountInput | AssistantUpsertWithWhereUniqueWithoutIgAccountInput[]
+    createMany?: AssistantCreateManyIgAccountInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutIgAccountInput | AssistantUpdateWithWhereUniqueWithoutIgAccountInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutIgAccountInput | AssistantUpdateManyWithWhereWithoutIgAccountInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
   }
 
   export type IgAutomationCreatekeywordsInput = {
@@ -193453,6 +193615,12 @@ export namespace Prisma {
     connect?: WhatsappInstanceWhereUniqueInput
   }
 
+  export type InstagramAccountCreateNestedOneWithoutAssistantsInput = {
+    create?: XOR<InstagramAccountCreateWithoutAssistantsInput, InstagramAccountUncheckedCreateWithoutAssistantsInput>
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutAssistantsInput
+    connect?: InstagramAccountWhereUniqueInput
+  }
+
   export type AiUsageLogCreateNestedManyWithoutAssistantInput = {
     create?: XOR<AiUsageLogCreateWithoutAssistantInput, AiUsageLogUncheckedCreateWithoutAssistantInput> | AiUsageLogCreateWithoutAssistantInput[] | AiUsageLogUncheckedCreateWithoutAssistantInput[]
     connectOrCreate?: AiUsageLogCreateOrConnectWithoutAssistantInput | AiUsageLogCreateOrConnectWithoutAssistantInput[]
@@ -193517,6 +193685,16 @@ export namespace Prisma {
     delete?: WhatsappInstanceWhereInput | boolean
     connect?: WhatsappInstanceWhereUniqueInput
     update?: XOR<XOR<WhatsappInstanceUpdateToOneWithWhereWithoutAssistantsInput, WhatsappInstanceUpdateWithoutAssistantsInput>, WhatsappInstanceUncheckedUpdateWithoutAssistantsInput>
+  }
+
+  export type InstagramAccountUpdateOneWithoutAssistantsNestedInput = {
+    create?: XOR<InstagramAccountCreateWithoutAssistantsInput, InstagramAccountUncheckedCreateWithoutAssistantsInput>
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutAssistantsInput
+    upsert?: InstagramAccountUpsertWithoutAssistantsInput
+    disconnect?: InstagramAccountWhereInput | boolean
+    delete?: InstagramAccountWhereInput | boolean
+    connect?: InstagramAccountWhereUniqueInput
+    update?: XOR<XOR<InstagramAccountUpdateToOneWithWhereWithoutAssistantsInput, InstagramAccountUpdateWithoutAssistantsInput>, InstagramAccountUncheckedUpdateWithoutAssistantsInput>
   }
 
   export type AiUsageLogUpdateManyWithoutAssistantNestedInput = {
@@ -197076,6 +197254,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutAssistantsInput
     calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    igAccount?: InstagramAccountCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
   }
@@ -197101,6 +197280,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -197143,6 +197323,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAssistantsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    igAccount?: InstagramAccountCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
@@ -197168,6 +197349,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -198560,6 +198742,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFilter<"Assistant"> | boolean
     pauseNoticeText?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
+    igAccountId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
     createdById?: StringNullableFilter<"Assistant"> | string | null
@@ -203079,6 +203262,7 @@ export namespace Prisma {
     automations?: IgAutomationCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
     conversations?: IgConversationCreateNestedManyWithoutAccountInput
+    assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountUncheckedCreateWithoutCompanyInput = {
@@ -203099,6 +203283,7 @@ export namespace Prisma {
     automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
     conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountCreateOrConnectWithoutCompanyInput = {
@@ -203222,6 +203407,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
     account?: InstagramAccountCreateNestedOneWithoutConversationsInput
@@ -203240,6 +203426,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: IgMessageUncheckedCreateNestedManyWithoutConversationInput
@@ -204058,6 +204245,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    igAccount?: InstagramAccountCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
@@ -204083,6 +204271,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -206473,6 +206662,7 @@ export namespace Prisma {
     lastDirection?: EnumIgMsgDirectionNullableFilter<"IgConversation"> | $Enums.IgMsgDirection | null
     needsReply?: BoolFilter<"IgConversation"> | boolean
     hadAutomation?: BoolFilter<"IgConversation"> | boolean
+    aiMode?: EnumAiModeFilter<"IgConversation"> | $Enums.AiMode
     createdAt?: DateTimeFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeFilter<"IgConversation"> | Date | string
   }
@@ -217170,6 +217360,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAssistantsInput
     calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
+    igAccount?: InstagramAccountCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
@@ -217195,6 +217386,7 @@ export namespace Prisma {
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -235422,6 +235614,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
@@ -235440,6 +235633,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: IgMessageUncheckedCreateNestedManyWithoutConversationInput
@@ -235452,6 +235646,76 @@ export namespace Prisma {
 
   export type IgConversationCreateManyAccountInputEnvelope = {
     data: IgConversationCreateManyAccountInput | IgConversationCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssistantCreateWithoutIgAccountInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    autoRespond?: boolean
+    discloseAi?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
+    schedulingLink?: string | null
+    meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
+    groupFirstAidDelayMin?: number
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAssistantsInput
+    calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
+    createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
+  }
+
+  export type AssistantUncheckedCreateWithoutIgAccountInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    autoRespond?: boolean
+    discloseAi?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
+    schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
+    groupFirstAidDelayMin?: number
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteUncheckedCreateNestedManyWithoutAssistantInput
+  }
+
+  export type AssistantCreateOrConnectWithoutIgAccountInput = {
+    where: AssistantWhereUniqueInput
+    create: XOR<AssistantCreateWithoutIgAccountInput, AssistantUncheckedCreateWithoutIgAccountInput>
+  }
+
+  export type AssistantCreateManyIgAccountInputEnvelope = {
+    data: AssistantCreateManyIgAccountInput | AssistantCreateManyIgAccountInput[]
     skipDuplicates?: boolean
   }
 
@@ -235778,6 +236042,22 @@ export namespace Prisma {
     data: XOR<IgConversationUpdateManyMutationInput, IgConversationUncheckedUpdateManyWithoutAccountInput>
   }
 
+  export type AssistantUpsertWithWhereUniqueWithoutIgAccountInput = {
+    where: AssistantWhereUniqueInput
+    update: XOR<AssistantUpdateWithoutIgAccountInput, AssistantUncheckedUpdateWithoutIgAccountInput>
+    create: XOR<AssistantCreateWithoutIgAccountInput, AssistantUncheckedCreateWithoutIgAccountInput>
+  }
+
+  export type AssistantUpdateWithWhereUniqueWithoutIgAccountInput = {
+    where: AssistantWhereUniqueInput
+    data: XOR<AssistantUpdateWithoutIgAccountInput, AssistantUncheckedUpdateWithoutIgAccountInput>
+  }
+
+  export type AssistantUpdateManyWithWhereWithoutIgAccountInput = {
+    where: AssistantScalarWhereInput
+    data: XOR<AssistantUpdateManyMutationInput, AssistantUncheckedUpdateManyWithoutIgAccountInput>
+  }
+
   export type CompanyCreateWithoutIgAutomationsInput = {
     id?: string
     name: string
@@ -236065,6 +236345,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutInstagramAccountsInput
     runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
     conversations?: IgConversationCreateNestedManyWithoutAccountInput
+    assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountUncheckedCreateWithoutAutomationsInput = {
@@ -236085,6 +236366,7 @@ export namespace Prisma {
     createdById?: string | null
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
     conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountCreateOrConnectWithoutAutomationsInput = {
@@ -236440,6 +236722,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
 
   export type InstagramAccountUncheckedUpdateWithoutAutomationsInput = {
@@ -236460,6 +236743,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
 
   export type IgAutomationRunUpsertWithWhereUniqueWithoutAutomationInput = {
@@ -236765,6 +237049,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutInstagramAccountsInput
     automations?: IgAutomationCreateNestedManyWithoutAccountInput
     conversations?: IgConversationCreateNestedManyWithoutAccountInput
+    assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountUncheckedCreateWithoutRunsInput = {
@@ -236785,6 +237070,7 @@ export namespace Prisma {
     createdById?: string | null
     automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
     conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountCreateOrConnectWithoutRunsInput = {
@@ -237147,6 +237433,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
     automations?: IgAutomationUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
 
   export type InstagramAccountUncheckedUpdateWithoutRunsInput = {
@@ -237167,6 +237454,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
 
   export type IgAutomationUpsertWithoutRunsInput = {
@@ -237513,6 +237801,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutInstagramAccountsInput
     automations?: IgAutomationCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+    assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountUncheckedCreateWithoutConversationsInput = {
@@ -237533,6 +237822,7 @@ export namespace Prisma {
     createdById?: string | null
     automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
 
   export type InstagramAccountCreateOrConnectWithoutConversationsInput = {
@@ -237874,6 +238164,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
     automations?: IgAutomationUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
 
   export type InstagramAccountUncheckedUpdateWithoutConversationsInput = {
@@ -237894,6 +238185,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
 
   export type IgMessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -237937,6 +238229,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
@@ -237956,6 +238249,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -237987,6 +238281,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
@@ -238006,6 +238301,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -261692,6 +261988,53 @@ export namespace Prisma {
     create: XOR<WhatsappInstanceCreateWithoutAssistantsInput, WhatsappInstanceUncheckedCreateWithoutAssistantsInput>
   }
 
+  export type InstagramAccountCreateWithoutAssistantsInput = {
+    id?: string
+    igUserId: string
+    igScopedId?: string | null
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutInstagramAccountsInput
+    automations?: IgAutomationCreateNestedManyWithoutAccountInput
+    runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+    conversations?: IgConversationCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountUncheckedCreateWithoutAssistantsInput = {
+    id?: string
+    companyId: string
+    igUserId: string
+    igScopedId?: string | null
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
+    runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+    conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountCreateOrConnectWithoutAssistantsInput = {
+    where: InstagramAccountWhereUniqueInput
+    create: XOR<InstagramAccountCreateWithoutAssistantsInput, InstagramAccountUncheckedCreateWithoutAssistantsInput>
+  }
+
   export type AiUsageLogCreateWithoutAssistantInput = {
     id?: string
     endpoint: string
@@ -262302,6 +262645,59 @@ export namespace Prisma {
     conversations?: ConversationUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
+  }
+
+  export type InstagramAccountUpsertWithoutAssistantsInput = {
+    update: XOR<InstagramAccountUpdateWithoutAssistantsInput, InstagramAccountUncheckedUpdateWithoutAssistantsInput>
+    create: XOR<InstagramAccountCreateWithoutAssistantsInput, InstagramAccountUncheckedCreateWithoutAssistantsInput>
+    where?: InstagramAccountWhereInput
+  }
+
+  export type InstagramAccountUpdateToOneWithWhereWithoutAssistantsInput = {
+    where?: InstagramAccountWhereInput
+    data: XOR<InstagramAccountUpdateWithoutAssistantsInput, InstagramAccountUncheckedUpdateWithoutAssistantsInput>
+  }
+
+  export type InstagramAccountUpdateWithoutAssistantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
+    automations?: IgAutomationUpdateManyWithoutAccountNestedInput
+    runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+    conversations?: IgConversationUpdateManyWithoutAccountNestedInput
+  }
+
+  export type InstagramAccountUncheckedUpdateWithoutAssistantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
+    runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+    conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type AiUsageLogUpsertWithWhereUniqueWithoutAssistantInput = {
@@ -263114,6 +263510,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutAssistantsInput
     calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    igAccount?: InstagramAccountCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
   }
@@ -263139,6 +263536,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -263261,6 +263659,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    igAccount?: InstagramAccountUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
   }
@@ -263286,6 +263685,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -263667,6 +264067,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutAssistantsInput
     calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    igAccount?: InstagramAccountCreateNestedOneWithoutAssistantsInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
   }
@@ -263692,6 +264093,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -264016,6 +264418,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    igAccount?: InstagramAccountUpdateOneWithoutAssistantsNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
   }
@@ -264041,6 +264444,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -275525,6 +275929,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -275551,6 +275956,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -276674,6 +277080,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    igAccount?: InstagramAccountUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
   }
@@ -276699,6 +277106,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -276728,6 +277136,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -276758,6 +277167,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    igAccount?: InstagramAccountUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
@@ -276783,6 +277193,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -276812,6 +277223,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278016,6 +278428,7 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -278305,6 +278718,7 @@ export namespace Prisma {
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
     instanceId?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -281251,6 +281665,7 @@ export namespace Prisma {
     automations?: IgAutomationUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
 
   export type InstagramAccountUncheckedUpdateWithoutCompanyInput = {
@@ -281271,6 +281686,7 @@ export namespace Prisma {
     automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
 
   export type InstagramAccountUncheckedUpdateManyWithoutCompanyInput = {
@@ -281420,6 +281836,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     account?: InstagramAccountUpdateOneWithoutConversationsNestedInput
@@ -281438,6 +281855,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: IgMessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -281455,6 +281873,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -282278,6 +282697,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    igAccount?: InstagramAccountUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
@@ -282303,6 +282723,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -282332,6 +282753,7 @@ export namespace Prisma {
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -284033,6 +284455,7 @@ export namespace Prisma {
     reactivationWord?: string | null
     sendPauseNotice?: boolean
     pauseNoticeText?: string | null
+    igAccountId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -284257,6 +284680,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
+    igAccount?: InstagramAccountUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
@@ -284282,6 +284706,7 @@ export namespace Prisma {
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -284311,6 +284736,7 @@ export namespace Prisma {
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
     sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
     pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
+    igAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -286253,6 +286679,35 @@ export namespace Prisma {
     lastDirection?: $Enums.IgMsgDirection | null
     needsReply?: boolean
     hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantCreateManyIgAccountInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    autoRespond?: boolean
+    discloseAi?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
+    schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
+    groupFirstAidDelayMin?: number
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -286387,6 +286842,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
@@ -286405,6 +286861,7 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: IgMessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -286422,6 +286879,95 @@ export namespace Prisma {
     lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantUpdateWithoutIgAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
+    createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
+  }
+
+  export type AssistantUncheckedUpdateWithoutIgAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUncheckedUpdateManyWithoutAssistantNestedInput
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutIgAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -17,12 +17,15 @@ type Convo = {
 type Msg = {
   id: string;
   direction: "IN" | "OUT";
-  source: "ORGANIC" | "AUTOMATION" | "AGENT" | "EXTERNAL";
+  source: "ORGANIC" | "AUTOMATION" | "AGENT" | "EXTERNAL" | "AI";
   text: string | null;
   createdAt: string;
 };
 
-const SOURCE_LABEL: Record<string, string> = { AUTOMATION: "automação", AGENT: "atendente", EXTERNAL: "fora do LeadHub", ORGANIC: "" };
+type AiMode = "ACTIVE" | "PAUSED_HUMAN" | "OFF";
+
+const SOURCE_LABEL: Record<string, string> = { AUTOMATION: "automação", AGENT: "atendente", EXTERNAL: "fora do LeadHub", AI: "agente IA", ORGANIC: "" };
+const AI_MODE_LABEL: Record<AiMode, string> = { ACTIVE: "IA ativa", PAUSED_HUMAN: "IA pausada (humano assumiu)", OFF: "IA desligada" };
 const CHANNEL: Record<string, { label: string; cls: string }> = {
   INSTAGRAM: { label: "Instagram", cls: "bg-pink-500/20 text-pink-300" },
   MESSENGER: { label: "Messenger", cls: "bg-blue-500/20 text-blue-300" },
@@ -40,6 +43,8 @@ export default function IgInbox() {
   const [reply, setReply] = useState("");
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
+  const [aiMode, setAiMode] = useState<AiMode | null>(null);
+  const [aiSaving, setAiSaving] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -63,8 +68,25 @@ export default function IgInbox() {
     try {
       const res = await fetch(`/api/instagram/inbox/${c.id}`).then((r) => r.json());
       setMsgs(res.messages || []);
+      setAiMode(res.conversation?.aiMode ?? null);
     } finally {
       setThreadLoading(false);
+    }
+  }
+
+  async function toggleAi() {
+    if (!selected || !aiMode) return;
+    const next: AiMode = aiMode === "ACTIVE" ? "OFF" : "ACTIVE";
+    setAiSaving(true);
+    try {
+      const res = await fetch(`/api/instagram/inbox/${selected.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ aiMode: next }),
+      });
+      if (res.ok) setAiMode(next);
+    } finally {
+      setAiSaving(false);
     }
   }
 
@@ -136,16 +158,32 @@ export default function IgInbox() {
                   </span>
                   <span className="text-white text-sm font-medium truncate">{selected.participantUsername || selected.participantId}</span>
                 </div>
-                {selected.channel === "INSTAGRAM" && selected.participantUsername && (
-                  <a
-                    href={`https://instagram.com/${selected.participantUsername}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-indigo-300 hover:text-indigo-200 flex-shrink-0"
-                  >
-                    Abrir perfil ↗
-                  </a>
-                )}
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  {selected.channel === "INSTAGRAM" && aiMode && (
+                    <button
+                      onClick={toggleAi}
+                      disabled={aiSaving}
+                      title={AI_MODE_LABEL[aiMode]}
+                      className={`text-[10px] px-2 py-1 rounded-lg border disabled:opacity-50 ${
+                        aiMode === "ACTIVE"
+                          ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
+                          : "border-white/10 bg-white/5 text-slate-400 hover:bg-white/10"
+                      }`}
+                    >
+                      {aiMode === "ACTIVE" ? "🤖 IA ativa · pausar" : aiMode === "PAUSED_HUMAN" ? "🤖 pausada · reativar" : "🤖 desligada · ligar"}
+                    </button>
+                  )}
+                  {selected.channel === "INSTAGRAM" && selected.participantUsername && (
+                    <a
+                      href={`https://instagram.com/${selected.participantUsername}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-indigo-300 hover:text-indigo-200"
+                    >
+                      Abrir perfil ↗
+                    </a>
+                  )}
+                </div>
               </div>
               <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
                 {threadLoading && <p className="text-slate-500 text-sm">Carregando…</p>}

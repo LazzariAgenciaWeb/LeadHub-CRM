@@ -976,6 +976,7 @@ exports.Prisma.IgConversationScalarFieldEnum = {
   lastDirection: 'lastDirection',
   needsReply: 'needsReply',
   hadAutomation: 'hadAutomation',
+  aiMode: 'aiMode',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1640,6 +1641,7 @@ exports.Prisma.AssistantScalarFieldEnum = {
   sendPauseNotice: 'sendPauseNotice',
   pauseNoticeText: 'pauseNoticeText',
   instanceId: 'instanceId',
+  igAccountId: 'igAccountId',
   model: 'model',
   temperature: 'temperature',
   createdById: 'createdById',
@@ -2176,7 +2178,8 @@ exports.IgMsgSource = exports.$Enums.IgMsgSource = {
   ORGANIC: 'ORGANIC',
   AUTOMATION: 'AUTOMATION',
   AGENT: 'AGENT',
-  EXTERNAL: 'EXTERNAL'
+  EXTERNAL: 'EXTERNAL',
+  AI: 'AI'
 };
 
 exports.PlanTier = exports.$Enums.PlanTier = {

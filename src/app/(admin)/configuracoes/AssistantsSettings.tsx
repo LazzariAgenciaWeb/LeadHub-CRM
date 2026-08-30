@@ -43,6 +43,7 @@ function fmtBrl(v: number) {
 }
 
 interface Instance { id: string; label: string | null; instanceName: string; phone: string | null; status?: string }
+interface IgAccount { id: string; username: string | null; name: string | null; status?: string }
 interface Setor { id: string; name: string }
 interface Route { intent: string; label: string | null; setorId: string; createLead: boolean; createTicket?: boolean; setor?: Setor | null }
 interface CalendarUser { id: string; name: string; googleEmail: string | null; canWrite: boolean }
@@ -57,6 +58,7 @@ interface Assistant {
   learnings: string | null;
   qualificationChecklist: string | null;
   instanceId: string | null;
+  igAccountId: string | null;
   schedulingLink: string | null;
   calendarUserId: string | null;
   meetingDurationMin: number;
@@ -69,6 +71,7 @@ interface Assistant {
   model: string | null;
   temperature: number | null;
   instance: Instance | null;
+  igAccount?: IgAccount | null;
   routes?: Route[];
 }
 interface Quota { aiMonthlyQuota: number; aiUsedThisMonth: number; aiQuotaResetAt: string | null }
@@ -98,6 +101,7 @@ export default function AssistantsSettings({
   isSuperAdmin,
   initialAssistants,
   instances,
+  igAccounts = [],
   setores,
   calendarUsers,
   quota,
@@ -106,6 +110,7 @@ export default function AssistantsSettings({
   isSuperAdmin: boolean;
   initialAssistants: Assistant[];
   instances: Instance[];
+  igAccounts?: IgAccount[];
   setores: Setor[];
   calendarUsers: CalendarUser[];
   quota: Quota;
@@ -119,6 +124,7 @@ export default function AssistantsSettings({
   const [fType, setFType] = useState<AssistantType>("VENDAS");
   const [fManual, setFManual] = useState("");
   const [fInstance, setFInstance] = useState<string>("");
+  const [fIgAccount, setFIgAccount] = useState<string>("");
   const [fSchedulingLink, setFSchedulingLink] = useState("");
   const [fActive, setFActive] = useState(true);
   const [fAutoRespond, setFAutoRespond] = useState(false);
@@ -153,7 +159,7 @@ export default function AssistantsSettings({
 
   function openNew() {
     setEditing("new");
-    setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFSchedulingLink(""); setFActive(true); setErr(null);
+    setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFIgAccount(""); setFSchedulingLink(""); setFActive(true); setErr(null);
     setFAutoRespond(false); setFDiscloseAi(false); setFChecklist(""); setFLearnings("");
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
@@ -167,7 +173,7 @@ export default function AssistantsSettings({
   function openEdit(a: Assistant) {
     setEditing(a);
     setFName(a.name); setFType(a.type); setFManual(a.manual);
-    setFInstance(a.instanceId ?? ""); setFSchedulingLink(a.schedulingLink ?? ""); setFActive(a.isActive); setErr(null);
+    setFInstance(a.instanceId ?? ""); setFIgAccount(a.igAccountId ?? ""); setFSchedulingLink(a.schedulingLink ?? ""); setFActive(a.isActive); setErr(null);
     setFAutoRespond(a.autoRespond ?? false);
     setFDiscloseAi(a.discloseAi ?? false);
     setFChecklist(a.qualificationChecklist ?? "");
@@ -221,7 +227,7 @@ export default function AssistantsSettings({
     setSaving(true); setErr(null);
     const payload: any = {
       companyId, name: fName, type: fType, manual: fManual,
-      instanceId: fInstance || null, schedulingLink: fSchedulingLink, isActive: fActive,
+      instanceId: fInstance || null, igAccountId: fIgAccount || null, schedulingLink: fSchedulingLink, isActive: fActive,
       autoRespond: fAutoRespond,
       discloseAi: fDiscloseAi,
       qualificationChecklist: fChecklist,
@@ -698,6 +704,26 @@ export default function AssistantsSettings({
                 Agente ativo
               </label>
             </div>
+
+            {igAccounts.length > 0 && (
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                  Conta de Instagram <span className="text-slate-600 normal-case">(opcional — agente responde as DMs do Direct)</span>
+                </label>
+                <select
+                  value={fIgAccount} onChange={(e) => setFIgAccount(e.target.value)}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
+                >
+                  <option value="">Nenhuma</option>
+                  {igAccounts.map((a) => (
+                    <option key={a.id} value={a.id}>@{a.username ?? a.name ?? a.id}</option>
+                  ))}
+                </select>
+                <p className="text-slate-500 text-xs mt-1.5">
+                  Com o modo autônomo ligado, o agente responde sozinho as DMs orgânicas dessa conta — respeitando automações de palavra-chave em andamento e pausando quando um atendente assume a conversa.
+                </p>
+              </div>
+            )}
 
             {err && <div className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{err}</div>}
 

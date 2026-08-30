@@ -97,6 +97,18 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.instanceId = instanceId;
   }
 
+  if ("igAccountId" in body) {
+    let igAccountId: string | null = body.igAccountId ?? null;
+    if (igAccountId) {
+      const acc = await prisma.instagramAccount.findFirst({
+        where: { id: igAccountId, companyId: owned.assistant!.companyId },
+        select: { id: true },
+      });
+      if (!acc) return NextResponse.json({ error: "Conta de Instagram inválida" }, { status: 400 });
+    }
+    data.igAccountId = igAccountId;
+  }
+
   // Rotas de triagem — semântica replace-all quando `routes` vem no payload.
   if ("routes" in body) {
     const { sanitizeRoutes } = await import("@/lib/assistant");

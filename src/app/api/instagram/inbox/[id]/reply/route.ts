@@ -55,5 +55,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     mid,
   });
 
+  // Atendente assumiu → agente IA do Direct silencia nesta conversa (igual
+  // ao padrão do WhatsApp). Reativação pelo toggle da inbox.
+  if (convo.aiMode === "ACTIVE") {
+    await prisma.igConversation.update({ where: { id: convo.id }, data: { aiMode: "PAUSED_HUMAN" } });
+  }
+  const { cancelIgAutoAgent } = await import("@/lib/ig-auto-agent");
+  cancelIgAutoAgent(convo.id);
+
   return NextResponse.json({ ok: true });
 }

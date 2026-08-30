@@ -20,6 +20,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       participantUsername: true,
       needsReply: true,
       hadAutomation: true,
+      aiMode: true,
     },
   });
   if (!convo || convo.companyId !== ctx.companyId) {
@@ -48,4 +49,29 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   });
 
   return NextResponse.json({ conversation: convo, messages });
+}
+
+// PATCH /api/instagram/inbox/[id] { aiMode } → liga/pausa/desliga o agente IA
+// do Direct nesta conversa.
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const ctx = await requireInstagramCompany();
+  if (!ctx.ok) return ctx.res;
+  const { id } = await params;
+
+  const convo = await prisma.igConversation.findUnique({ where: { id }, select: { companyId: true } });
+  if (!convo || convo.companyId !== ctx.companyId) {
+    return NextResponse.json({ error: "Conversa não encontrada" }, { status: 404 });
+  }
+
+  const aiMode = String((await req.json().catch(() => ({})))?.aiMode || "");
+  if (!["ACTIVE", "PAUSED_HUMAN", "OFF"].includes(aiMode)) {
+    return NextResponse.json({ error: "aiMode inválido" }, { status: 400 });
+  }
+
+  await prisma.igConversation.update({ where: { id }, data: { aiMode: aiMode as any } });
+  if (aiMode !== "ACTIVE") {
+    const { cancelIgAutoAgent } = await import("@/lib/ig-auto-agent");
+    cancelIgAutoAgent(id);
+  }
+  return NextResponse.json({ ok: true, aiMode });
 }

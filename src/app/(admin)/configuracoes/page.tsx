@@ -466,12 +466,13 @@ export default async function ConfiguracoesPage({
         </div>
       );
     } else {
-      const [assistants, instances, company, setores] = await Promise.all([
+      const [assistants, instances, igAccounts, company, setores] = await Promise.all([
         prisma.assistant.findMany({
           where: { companyId: targetCompanyId },
           orderBy: [{ type: "asc" }, { updatedAt: "desc" }],
           include: {
             instance: { select: { id: true, label: true, instanceName: true, phone: true } },
+            igAccount: { select: { id: true, username: true, name: true } },
             routes: { include: { setor: { select: { id: true, name: true } } }, orderBy: { createdAt: "asc" } },
           },
         }),
@@ -479,6 +480,11 @@ export default async function ConfiguracoesPage({
           where: { companyId: targetCompanyId },
           select: { id: true, label: true, instanceName: true, phone: true, status: true },
           orderBy: { instanceName: "asc" },
+        }),
+        prisma.instagramAccount.findMany({
+          where: { companyId: targetCompanyId },
+          select: { id: true, username: true, name: true, status: true },
+          orderBy: { username: "asc" },
         }),
         prisma.company.findUnique({
           where: { id: targetCompanyId },
@@ -527,6 +533,7 @@ export default async function ConfiguracoesPage({
               updatedAt: a.updatedAt.toISOString(),
             })) as any}
             instances={instances as any}
+            igAccounts={igAccounts as any}
             setores={setores}
             calendarUsers={calendarUsers}
             quota={{

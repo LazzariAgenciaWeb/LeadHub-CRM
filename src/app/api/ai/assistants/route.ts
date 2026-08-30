@@ -67,6 +67,16 @@ export async function POST(req: NextRequest) {
     if (!inst) return NextResponse.json({ error: "Instância inválida" }, { status: 400 });
   }
 
+  // Valida conta de Instagram (se enviada) — precisa ser da mesma empresa.
+  let igAccountId: string | null = body.igAccountId ?? null;
+  if (igAccountId) {
+    const acc = await prisma.instagramAccount.findFirst({
+      where: { id: igAccountId, companyId },
+      select: { id: true },
+    });
+    if (!acc) return NextResponse.json({ error: "Conta de Instagram inválida" }, { status: 400 });
+  }
+
   // Rotas de triagem (modo autônomo)
   const { sanitizeRoutes } = await import("@/lib/assistant");
   const routes = await sanitizeRoutes(body.routes, companyId);
@@ -93,6 +103,7 @@ export async function POST(req: NextRequest) {
       type,
       manual,
       instanceId,
+      igAccountId,
       isActive: body.isActive ?? true,
       autoRespond: body.autoRespond === true,
       discloseAi: body.discloseAi === true,

@@ -2055,6 +2055,7 @@ model InstagramAccount {
   automations   IgAutomation[]
   runs          IgAutomationRun[]
   conversations IgConversation[]
+  assistants    Assistant[]
 
   @@index([companyId])
   @@index([status, tokenExpiresAt])
@@ -2195,6 +2196,9 @@ model IgConversation {
   // último IN orgânico ainda sem resposta de agente → painel "sem resposta".
   needsReply      Boolean         @default(false)
   hadAutomation   Boolean         @default(false)
+  // Agente IA do Direct: ACTIVE = bot pode responder; PAUSED_HUMAN = atendente
+  // assumiu (reply na inbox pausa); OFF = desligado manualmente nesta conversa.
+  aiMode          AiMode          @default(ACTIVE)
 
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -2230,6 +2234,7 @@ enum IgMsgSource {
   AUTOMATION // enviada/recebida no contexto de automação
   AGENT // enviada manualmente pelo atendente na inbox
   EXTERNAL // enviada fora do LeadHub (app do Instagram / Business Suite) — registrada via echo do webhook
+  AI // enviada pelo agente autônomo de IA do Direct
 }
 
 enum InboxChannel {
@@ -3611,6 +3616,11 @@ model Assistant {
   // Vínculo opcional a uma instância WhatsApp (roteamento por número de entrada).
   instance   WhatsappInstance? @relation(fields: [instanceId], references: [id], onDelete: SetNull)
   instanceId String?
+
+  // Vínculo opcional a uma conta de Instagram: com autoRespond, o agente
+  // responde sozinho as DMs orgânicas dessa conta (motor ig-auto-agent).
+  igAccount   InstagramAccount? @relation(fields: [igAccountId], references: [id], onDelete: SetNull)
+  igAccountId String?
 
   // Overrides opcionais do modelo (caem no default global quando nulos).
   model       String? // ex.: "gpt-4o-mini"

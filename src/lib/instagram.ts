@@ -85,7 +85,7 @@ export function decryptAccountToken(accessTokenEnc: string | null | undefined): 
 // ─── Inbox: persistência de mensagens (DMs) ───────────────────────────────────
 
 type IgMsgDir = "IN" | "OUT";
-type IgMsgSrc = "ORGANIC" | "AUTOMATION" | "AGENT" | "EXTERNAL";
+type IgMsgSrc = "ORGANIC" | "AUTOMATION" | "AGENT" | "EXTERNAL" | "AI";
 type InboxChan = "INSTAGRAM" | "MESSENGER" | "FACEBOOK";
 
 /**
@@ -103,16 +103,16 @@ export async function recordIgMessage(opts: {
   source: IgMsgSrc;
   text?: string | null;
   mid?: string | null;
-}): Promise<void> {
+}): Promise<string | null> {
   // Idempotência por mid: o mesmo envio chega por dois caminhos (registro
   // direto no reply/automação + echo do webhook) e a Meta reentrega webhooks.
-  // O primeiro grava; os demais são ignorados.
+  // O primeiro grava; os demais são ignorados. Retorna o id da conversa.
   if (opts.mid) {
     const dupe = await prisma.igMessage.findFirst({
       where: { companyId: opts.companyId, mid: opts.mid },
-      select: { id: true },
+      select: { conversationId: true },
     });
-    if (dupe) return;
+    if (dupe) return dupe.conversationId;
   }
 
   const now = new Date();
@@ -154,6 +154,7 @@ export async function recordIgMessage(opts: {
       mid: opts.mid ?? null,
     },
   });
+  return convo.id;
 }
 
 // ─── Ações na Graph API ───────────────────────────────────────────────────────
@@ -489,7 +490,7 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
   if (msg.message?.is_echo) {
     const participantId = msg.recipient?.id;
     if (!participantId || participantId === account.igUserId) return;
-    await recordIgMessage({
+    const convoId = await recordIgMessage({
       companyId: account.companyId,
       channel: "INSTAGRAM",
       connectionId: account.id,
@@ -499,7 +500,16 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
       source: "EXTERNAL",
       text: msg.message?.text ?? null,
       mid: msg.message?.mid ?? null,
-    }).catch((e) => console.error("[IG] persist echo:", e?.message));
+    }).catch((e) => {
+      console.error("[IG] persist echo:", e?.message);
+      return null;
+    });
+    // Humano respondeu pelo app antes do debounce do agente vencer → o time
+    // chegou primeiro; cancela a resposta automática pendente.
+    if (convoId) {
+      const { cancelIgAutoAgent } = await import("./ig-auto-agent");
+      cancelIgAutoAgent(convoId);
+    }
     return;
   }
   const senderId = msg.sender?.id;
@@ -526,7 +536,7 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
   }
 
   // Persiste o DM recebido na inbox (com botão → automação; senão → orgânico).
-  await recordIgMessage({
+  const convoId = await recordIgMessage({
     companyId: account.companyId,
     channel: "INSTAGRAM",
     connectionId: account.id,
@@ -537,7 +547,10 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
     source: payload ? "AUTOMATION" : "ORGANIC",
     text: msg.message?.text ?? (payload ? `[botão] ${payload}` : null),
     mid: msg.message?.mid ?? null,
-  }).catch((e) => console.error("[IG] persist inbound:", e?.message));
+  }).catch((e) => {
+    console.error("[IG] persist inbound:", e?.message);
+    return null;
+  });
 
   if (!token) return;
 
@@ -553,7 +566,13 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
       return;
     }
     // Texto comum: resolve o follow-gate do fluxo SIMPLES (responder "ok").
-    await resolveTextFollowGate(account, senderId, token);
+    const gateConsumed = await resolveTextFollowGate(account, senderId, token);
+    // DM orgânica sem automação pendente → agente IA do Direct (se a conta
+    // tiver agente vinculado; o motor refaz todos os guards antes de responder).
+    if (!gateConsumed && convoId) {
+      const { scheduleIgAutoAgent } = await import("./ig-auto-agent");
+      scheduleIgAutoAgent(convoId);
+    }
   } catch (e: any) {
     console.error(`[IG] handleMessageEvent erro:`, e?.message);
   }
@@ -619,14 +638,18 @@ async function resolveButtonClick(account: ResolvedAccount, senderId: string, au
   }
 }
 
-/** Fluxo SIMPLES (sem botão): pessoa respondeu texto enquanto run está AWAITING_FOLLOW. */
-async function resolveTextFollowGate(account: ResolvedAccount, senderId: string, token: string) {
+/**
+ * Fluxo SIMPLES (sem botão): pessoa respondeu texto enquanto run está
+ * AWAITING_FOLLOW. Retorna true quando a mensagem foi consumida pelo gate
+ * (havia automação pendente) — o agente IA não deve responder por cima.
+ */
+async function resolveTextFollowGate(account: ResolvedAccount, senderId: string, token: string): Promise<boolean> {
   const run = await prisma.igAutomationRun.findFirst({
     where: { accountId: account.id, igCommenterId: senderId, status: "AWAITING_FOLLOW" },
     orderBy: { createdAt: "desc" },
     include: { automation: true },
   });
-  if (!run || !run.automation) return;
+  if (!run || !run.automation) return false;
   const a = run.automation;
   const follows = await getUserFollowStatus(senderId, token);
 
@@ -647,6 +670,7 @@ async function resolveTextFollowGate(account: ResolvedAccount, senderId: string,
       data: { followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN" },
     });
   }
+  return true;
 }
 
 // Reexport util pra Fase 2 (montar chamadas à Graph API).
