@@ -83,7 +83,13 @@ export async function PATCH(
     moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, moduleEmailInbox, moduleInstagram, moduleEspacoCliente, moduleVideos, moduleBling, moduleRelatorioMarketing, serpapiKey,
     modoAtendimento,
     parentCompanyId,
+    billingNotes,
   } = body;
+
+  // Instrução de cobrança é nota da AGÊNCIA sobre o cliente — o próprio
+  // cliente logado não escreve as regras de como será cobrado.
+  const podeBillingNotes =
+    billingNotes !== undefined && (isSuperAdmin || (userRole === "ADMIN" && id !== userCompanyId));
 
   // Campos que apenas SUPER_ADMIN pode alterar
   const adminOnlyData = isSuperAdmin
@@ -144,6 +150,7 @@ export async function PATCH(
       ...(logoUrl !== undefined && { logoUrl }),
       ...adminOnlyData,
       ...selfServeData,
+      ...(podeBillingNotes && { billingNotes: String(billingNotes ?? "").trim() || null }),
     },
   });
 

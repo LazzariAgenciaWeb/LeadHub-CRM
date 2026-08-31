@@ -35,9 +35,12 @@ export default async function LancamentosPage({
 
   const clients = await prisma.company.findMany({
     where: isGlobal ? { parentCompanyId: { not: null } } : { parentCompanyId: agencyId },
-    select: { id: true, name: true, tradeName: true },
+    select: { id: true, name: true, tradeName: true, billingNotes: true },
   });
   const clientIds = clients.map((c) => c.id);
+  // Particularidades da cobrança — aparecem na linha da fila, no momento em
+  // que a pessoa vai lançar.
+  const clientNotes = new Map(clients.map((c) => [c.id, c.billingNotes] as const));
   // Fantasia na frente, razão social entre parênteses — ver `nomeCliente`.
   const clientName = new Map(clients.map((c) => [c.id, nomeCliente(c)] as const));
 
@@ -106,6 +109,7 @@ export default async function LancamentosPage({
         amountCents: c.amountCents ?? 0,
         cycle: c.billingCycle ?? "MENSAL",
         billingDay: c.billingDay ?? null,
+        obs: clientNotes.get(c.clientCompanyId) ?? null,
       }))
       .sort((a, b) => b.amountCents - a.amountCents),
     ignorados: skips.map((s) => ({

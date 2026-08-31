@@ -12,6 +12,7 @@ import CompanyAchievements from "./CompanyAchievements";
 import CompanyContractedServices from "./CompanyContractedServices";
 import CompanyFinanceiro from "./CompanyFinanceiro";
 import CompanyFinanceHistory, { type FinanceLogItem } from "./CompanyFinanceHistory";
+import CompanyBillingNotes from "./CompanyBillingNotes";
 
 interface Campaign {
   id: string;
@@ -80,6 +81,7 @@ interface Props {
   catalog: { id: string; name: string }[];
   invoices: any[];
   financeLogs: FinanceLogItem[];
+  billingNotes: string | null;
 }
 
 const SOURCE_ICON: Record<string, string> = {
@@ -136,6 +138,7 @@ export default function CompanyDetailTabs({
   catalog,
   invoices,
   financeLogs,
+  billingNotes,
 }: Props) {
   // Counts for tab labels
   const counts: Record<TabId, number> = {
@@ -257,6 +260,7 @@ export default function CompanyDetailTabs({
         {/* ── Cobranças ── */}
         {activeTab === "cobrancas" && (
           <div className="p-5">
+            <CompanyBillingNotes companyId={companyId} initial={billingNotes} />
             <CompanyFinanceiro
               companyId={companyId}
               initial={invoices}

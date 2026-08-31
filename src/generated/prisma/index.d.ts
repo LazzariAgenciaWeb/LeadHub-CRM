@@ -20420,6 +20420,7 @@ export namespace Prisma {
     updatedAt: Date | null
     document: string | null
     blingContactId: string | null
+    billingNotes: string | null
     hasSystemAccess: boolean | null
     fullSystemAccess: boolean | null
     moduleWhatsapp: boolean | null
@@ -20466,6 +20467,7 @@ export namespace Prisma {
     updatedAt: Date | null
     document: string | null
     blingContactId: string | null
+    billingNotes: string | null
     hasSystemAccess: boolean | null
     fullSystemAccess: boolean | null
     moduleWhatsapp: boolean | null
@@ -20512,6 +20514,7 @@ export namespace Prisma {
     updatedAt: number
     document: number
     blingContactId: number
+    billingNotes: number
     hasSystemAccess: number
     fullSystemAccess: number
     moduleWhatsapp: number
@@ -20570,6 +20573,7 @@ export namespace Prisma {
     updatedAt?: true
     document?: true
     blingContactId?: true
+    billingNotes?: true
     hasSystemAccess?: true
     fullSystemAccess?: true
     moduleWhatsapp?: true
@@ -20616,6 +20620,7 @@ export namespace Prisma {
     updatedAt?: true
     document?: true
     blingContactId?: true
+    billingNotes?: true
     hasSystemAccess?: true
     fullSystemAccess?: true
     moduleWhatsapp?: true
@@ -20662,6 +20667,7 @@ export namespace Prisma {
     updatedAt?: true
     document?: true
     blingContactId?: true
+    billingNotes?: true
     hasSystemAccess?: true
     fullSystemAccess?: true
     moduleWhatsapp?: true
@@ -20795,6 +20801,7 @@ export namespace Prisma {
     updatedAt: Date
     document: string | null
     blingContactId: string | null
+    billingNotes: string | null
     hasSystemAccess: boolean
     fullSystemAccess: boolean
     moduleWhatsapp: boolean
@@ -20860,6 +20867,7 @@ export namespace Prisma {
     updatedAt?: boolean
     document?: boolean
     blingContactId?: boolean
+    billingNotes?: boolean
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -20995,6 +21003,7 @@ export namespace Prisma {
     updatedAt?: boolean
     document?: boolean
     blingContactId?: boolean
+    billingNotes?: boolean
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -21042,6 +21051,7 @@ export namespace Prisma {
     updatedAt?: boolean
     document?: boolean
     blingContactId?: boolean
+    billingNotes?: boolean
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -21275,6 +21285,7 @@ export namespace Prisma {
       updatedAt: Date
       document: string | null
       blingContactId: string | null
+      billingNotes: string | null
       hasSystemAccess: boolean
       fullSystemAccess: boolean
       moduleWhatsapp: boolean
@@ -21799,6 +21810,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
     readonly document: FieldRef<"Company", 'String'>
     readonly blingContactId: FieldRef<"Company", 'String'>
+    readonly billingNotes: FieldRef<"Company", 'String'>
     readonly hasSystemAccess: FieldRef<"Company", 'Boolean'>
     readonly fullSystemAccess: FieldRef<"Company", 'Boolean'>
     readonly moduleWhatsapp: FieldRef<"Company", 'Boolean'>
@@ -146015,6 +146027,7 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     document: 'document',
     blingContactId: 'blingContactId',
+    billingNotes: 'billingNotes',
     hasSystemAccess: 'hasSystemAccess',
     fullSystemAccess: 'fullSystemAccess',
     moduleWhatsapp: 'moduleWhatsapp',
@@ -149493,6 +149506,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     document?: StringNullableFilter<"Company"> | string | null
     blingContactId?: StringNullableFilter<"Company"> | string | null
+    billingNotes?: StringNullableFilter<"Company"> | string | null
     hasSystemAccess?: BoolFilter<"Company"> | boolean
     fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
@@ -149627,6 +149641,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     document?: SortOrderInput | SortOrder
     blingContactId?: SortOrderInput | SortOrder
+    billingNotes?: SortOrderInput | SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -149765,6 +149780,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     document?: StringNullableFilter<"Company"> | string | null
+    billingNotes?: StringNullableFilter<"Company"> | string | null
     hasSystemAccess?: BoolFilter<"Company"> | boolean
     fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
@@ -149898,6 +149914,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     document?: SortOrderInput | SortOrder
     blingContactId?: SortOrderInput | SortOrder
+    billingNotes?: SortOrderInput | SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -149952,6 +149969,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     document?: StringNullableWithAggregatesFilter<"Company"> | string | null
     blingContactId?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    billingNotes?: StringNullableWithAggregatesFilter<"Company"> | string | null
     hasSystemAccess?: BoolWithAggregatesFilter<"Company"> | boolean
     fullSystemAccess?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleWhatsapp?: BoolWithAggregatesFilter<"Company"> | boolean
@@ -161419,6 +161437,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -161552,6 +161571,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -161685,6 +161705,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -161818,6 +161839,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -161951,6 +161973,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -161997,6 +162020,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -162042,6 +162066,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -175440,6 +175465,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     document?: SortOrder
     blingContactId?: SortOrder
+    billingNotes?: SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -175491,6 +175517,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     document?: SortOrder
     blingContactId?: SortOrder
+    billingNotes?: SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -175537,6 +175564,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     document?: SortOrder
     blingContactId?: SortOrder
+    billingNotes?: SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -196186,6 +196214,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -196318,6 +196347,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -197854,6 +197884,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -197986,6 +198017,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -199183,6 +199215,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -199315,6 +199348,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -199570,6 +199604,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -199702,6 +199737,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -200607,6 +200643,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -200739,6 +200776,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -200876,6 +200914,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -201008,6 +201047,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -204881,6 +204921,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -205013,6 +205054,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -205164,6 +205206,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     document?: StringNullableFilter<"Company"> | string | null
     blingContactId?: StringNullableFilter<"Company"> | string | null
+    billingNotes?: StringNullableFilter<"Company"> | string | null
     hasSystemAccess?: BoolFilter<"Company"> | boolean
     fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
@@ -207872,6 +207915,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -208004,6 +208048,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -208412,6 +208457,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -208544,6 +208590,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -208781,6 +208828,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -208913,6 +208961,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -209256,6 +209305,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -209388,6 +209438,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -209648,6 +209699,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -209780,6 +209832,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -210569,6 +210622,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -210701,6 +210755,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -211325,6 +211380,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -211457,6 +211513,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -211625,6 +211682,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -211757,6 +211815,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -212201,6 +212260,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -212333,6 +212393,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -212507,6 +212568,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -212639,6 +212701,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -213095,6 +213158,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -213227,6 +213291,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -213401,6 +213466,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -213533,6 +213599,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -213681,6 +213748,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -213813,6 +213881,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -213990,6 +214059,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -214122,6 +214192,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -214406,6 +214477,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -214538,6 +214610,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -215023,6 +215096,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -215155,6 +215229,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -215753,6 +215828,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -215885,6 +215961,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -216033,6 +216110,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -216165,6 +216243,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -216297,6 +216376,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -216429,6 +216509,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -216684,6 +216765,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -216816,6 +216898,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -217168,6 +217251,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -217300,6 +217384,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -217821,6 +217906,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -217953,6 +218039,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -218173,6 +218260,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -218305,6 +218393,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -218828,6 +218917,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -218960,6 +219050,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -219497,6 +219588,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -219629,6 +219721,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -219818,6 +219911,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -219950,6 +220044,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -220354,6 +220449,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -220486,6 +220582,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -221127,6 +221224,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -221259,6 +221357,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -221845,6 +221944,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -221977,6 +222077,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -222384,6 +222485,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -222516,6 +222618,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -222648,6 +222751,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -222780,6 +222884,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -223024,6 +223129,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -223156,6 +223262,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -223717,6 +223824,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -223849,6 +223957,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -224105,6 +224214,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -224237,6 +224347,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -224845,6 +224956,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -224977,6 +225089,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -225427,6 +225540,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -225559,6 +225673,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -226197,6 +226312,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -226329,6 +226445,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -226903,6 +227020,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -227035,6 +227153,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -230704,6 +230823,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -230836,6 +230956,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -231034,6 +231155,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -231166,6 +231288,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -231520,6 +231643,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -231652,6 +231776,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -231851,6 +231976,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -231983,6 +232109,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -232115,6 +232242,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -232247,6 +232375,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -232429,6 +232558,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -232561,6 +232691,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -232740,6 +232871,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -232872,6 +233004,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -233057,6 +233190,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -233189,6 +233323,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -233321,6 +233456,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -233453,6 +233589,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -233601,6 +233738,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -233733,6 +233871,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -233865,6 +234004,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -233997,6 +234137,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -234145,6 +234286,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -234277,6 +234419,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -234409,6 +234552,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -234541,6 +234685,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -234689,6 +234834,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -234821,6 +234967,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -234953,6 +235100,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -235085,6 +235233,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -235233,6 +235382,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -235365,6 +235515,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -235497,6 +235648,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -235629,6 +235781,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -235995,6 +236148,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -236127,6 +236281,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -236323,6 +236478,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -236455,6 +236611,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -236694,6 +236851,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -236826,6 +236984,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -237027,6 +237186,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -237159,6 +237319,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -237405,6 +237566,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -237537,6 +237699,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -237779,6 +237942,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -237911,6 +238075,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -238253,6 +238418,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -238385,6 +238551,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -238815,6 +238982,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -238947,6 +239115,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -239095,6 +239264,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -239227,6 +239397,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -239359,6 +239530,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -239491,6 +239663,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -239639,6 +239812,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -239771,6 +239945,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -239903,6 +240078,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -240035,6 +240211,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -240183,6 +240360,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -240315,6 +240493,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -240447,6 +240626,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -240579,6 +240759,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -240727,6 +240908,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -240859,6 +241041,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -240991,6 +241174,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -241123,6 +241307,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -241271,6 +241456,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -241403,6 +241589,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -241535,6 +241722,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -241667,6 +241855,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -241815,6 +242004,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -241947,6 +242137,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -242079,6 +242270,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -242211,6 +242403,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -242359,6 +242552,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -242491,6 +242685,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -242623,6 +242818,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -242755,6 +242951,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -242903,6 +243100,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -243035,6 +243233,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -243167,6 +243366,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -243299,6 +243499,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -243447,6 +243648,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -243579,6 +243781,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -243711,6 +243914,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -243843,6 +244047,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -243991,6 +244196,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -244123,6 +244329,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -244255,6 +244462,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -244387,6 +244595,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -244535,6 +244744,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -244667,6 +244877,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -244799,6 +245010,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -244931,6 +245143,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -245079,6 +245292,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -245211,6 +245425,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -245343,6 +245558,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -245475,6 +245691,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -245623,6 +245840,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -245755,6 +245973,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -245887,6 +246106,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246019,6 +246239,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246167,6 +246388,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -246299,6 +246521,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -246431,6 +246654,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246563,6 +246787,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246711,6 +246936,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -246843,6 +247069,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -246975,6 +247202,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -247107,6 +247335,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -247255,6 +247484,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -247387,6 +247617,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -247519,6 +247750,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -247651,6 +247883,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -247799,6 +248032,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -247931,6 +248165,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -248063,6 +248298,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -248195,6 +248431,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -248343,6 +248580,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -248475,6 +248713,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -248607,6 +248846,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -248739,6 +248979,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -248911,6 +249152,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -249043,6 +249285,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -249262,6 +249505,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -249394,6 +249638,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -249578,6 +249823,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -249710,6 +249956,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -249965,6 +250212,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -250097,6 +250345,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -250389,6 +250638,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -250521,6 +250771,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -250797,6 +251048,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -250929,6 +251181,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -251190,6 +251443,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -251322,6 +251576,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -251561,6 +251816,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -251693,6 +251949,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -251954,6 +252211,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -252086,6 +252344,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -252325,6 +252584,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -252457,6 +252717,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -252718,6 +252979,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -252850,6 +253112,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -252982,6 +253245,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -253114,6 +253378,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -253262,6 +253527,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -253394,6 +253660,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -253966,6 +254233,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -254098,6 +254366,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -254246,6 +254515,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -254378,6 +254648,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -254510,6 +254781,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -254642,6 +254914,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -254852,6 +255125,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -254984,6 +255258,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -255159,6 +255434,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -255291,6 +255567,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -255747,6 +256024,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -255879,6 +256157,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -256661,6 +256940,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -256793,6 +257073,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -256941,6 +257222,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -257073,6 +257355,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -257205,6 +257488,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -257337,6 +257621,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -257577,6 +257862,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -257709,6 +257995,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -257873,6 +258160,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -258005,6 +258293,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -258447,6 +258736,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -258579,6 +258869,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -259019,6 +259310,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -259151,6 +259443,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -259299,6 +259592,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -259431,6 +259725,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -259699,6 +259994,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -259831,6 +260127,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -260044,6 +260341,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -260176,6 +260474,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -260324,6 +260623,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -260456,6 +260756,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -260604,6 +260905,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -260736,6 +261038,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -260868,6 +261171,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -261000,6 +261304,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -261148,6 +261453,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -261280,6 +261586,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -261495,6 +261802,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -261627,6 +261935,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -261822,6 +262131,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -261954,6 +262264,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -262086,6 +262397,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -262218,6 +262530,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -262738,6 +263051,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -262870,6 +263184,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -263364,6 +263679,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -263496,6 +263812,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -263689,6 +264006,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -263821,6 +264139,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -264292,6 +264611,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -264424,6 +264744,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -264637,6 +264958,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -264769,6 +265091,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -264972,6 +265295,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -265104,6 +265428,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -265424,6 +265749,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -265556,6 +265882,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -265736,6 +266063,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -265868,6 +266196,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -266171,6 +266500,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -266303,6 +266633,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -266666,6 +266997,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -266798,6 +267130,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -267066,6 +267399,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -267198,6 +267532,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -267462,6 +267797,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -267594,6 +267930,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -267848,6 +268185,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -267980,6 +268318,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -268211,6 +268550,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -268343,6 +268683,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -268609,6 +268950,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -268741,6 +269083,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -268938,6 +269281,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -269070,6 +269414,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -269445,6 +269790,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -269577,6 +269923,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -269954,6 +270301,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -270086,6 +270434,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -270234,6 +270583,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -270366,6 +270716,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -270498,6 +270849,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -270630,6 +270982,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -270836,6 +271189,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -270968,6 +271322,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -271186,6 +271541,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -271318,6 +271674,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -271509,6 +271866,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -271641,6 +271999,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -271853,6 +272212,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -271985,6 +272345,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -272240,6 +272601,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -272372,6 +272734,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -272617,6 +272980,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -272749,6 +273113,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -273004,6 +273369,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -273136,6 +273502,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -273381,6 +273748,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -273513,6 +273881,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -273875,6 +274244,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -274007,6 +274377,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -274365,6 +274736,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -274497,6 +274869,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -274859,6 +275232,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -274991,6 +275365,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -275349,6 +275724,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -275481,6 +275857,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -275736,6 +276113,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -275868,6 +276246,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -278079,6 +278458,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     document?: string | null
     blingContactId?: string | null
+    billingNotes?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -279377,6 +279757,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -279509,6 +279890,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -279641,6 +280023,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean

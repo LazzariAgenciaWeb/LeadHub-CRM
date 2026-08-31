@@ -446,6 +446,7 @@ export default async function EmpresaDetailPage({
           contracted={contracted}
           catalog={catalogRaw}
           invoices={invoices}
+          billingNotes={(company as any).billingNotes ?? null}
           financeLogs={financeLogsRaw.map((l) => ({
             id: l.id,
             entity: l.entity,

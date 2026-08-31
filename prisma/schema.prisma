@@ -209,6 +209,12 @@ model Company {
   // financeiro. Preenchido pelo sync (ver src/lib/bling-sync.ts).
   blingContactId String?
 
+  // Particularidades da cobrança DESTE cliente: "emitir NF dentro do mês",
+  // "avisar no WhatsApp e mandar a nota", "mandar o Pix pra ele pagar". Mora
+  // aqui, e não nas observações do serviço, porque é instrução pra quem fatura
+  // — e aparece na fila de faturamento, no momento em que a pessoa age.
+  billingNotes String? @db.Text
+
   // Acesso ao sistema e módulos habilitados
   // Padrão ligado desde 2026-08-26: todo cliente entra e enxerga o sistema com
   // os módulos do plano dele. Quem restringe é o plano, não estes campos — que

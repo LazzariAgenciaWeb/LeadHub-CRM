@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Receipt, Repeat, FileText, AlertTriangle, TrendingUp,
-  ChevronLeft, ChevronRight, Check, ArrowRight,
+  ChevronLeft, ChevronRight, Check, ArrowRight, Info,
 } from "lucide-react";
 import FinanceiroTabs from "../FinanceiroTabs";
 import { brlFromCents, CYCLE_LABEL, monthLabel, type Cycle } from "../lib";
@@ -21,6 +21,8 @@ export interface LancamentosData {
     amountCents: number; cycle: string;
     /** Dia do vencimento combinado no contrato. Null = usa o dia do lote. */
     billingDay: number | null;
+    /** Particularidades da cobrança deste cliente (NF no mês, Pix, avisar…). */
+    obs: string | null;
   }[];
   /** Contratos ignorados NESTA competência, com motivo — decisão de não faturar. */
   ignorados: {
@@ -329,6 +331,15 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
                       {!p.billingDay && " (padrão)"}
                     </span>
                   </div>
+                  {/* Particularidade combinada com o cliente: aparece inteira,
+                      sem truncar — instrução cortada pela metade é pior que
+                      instrução nenhuma. */}
+                  {p.obs && (
+                    <div className="mt-1 flex items-start gap-1.5 rounded-md bg-amber-500/10 border border-amber-500/25 px-2 py-1">
+                      <Info className="w-3 h-3 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <span className="text-[11px] text-amber-200/90 whitespace-pre-wrap">{p.obs}</span>
+                    </div>
+                  )}
                 </Link>
                 {ignorando === p.id ? (
                   /* Ignorar exige dizer POR QUÊ — é a diferença entre "faltou

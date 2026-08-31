@@ -201,6 +201,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   updatedAt: 'updatedAt',
   document: 'document',
   blingContactId: 'blingContactId',
+  billingNotes: 'billingNotes',
   hasSystemAccess: 'hasSystemAccess',
   fullSystemAccess: 'fullSystemAccess',
   moduleWhatsapp: 'moduleWhatsapp',
