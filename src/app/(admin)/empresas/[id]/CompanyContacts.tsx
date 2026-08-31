@@ -636,8 +636,23 @@ export default function CompanyContacts({
                           );
                         })()}
                       </div>
-                      <div className="text-slate-500 text-xs mt-0.5">
+                      <div className="text-slate-500 text-xs mt-0.5 flex items-center gap-2 flex-wrap">
                         {formatPhone(c.phone, c.isGroup)}
+                        {/* Atalho pro WhatsApp: avisar da nota, mandar o Pix,
+                            cobrar. Grupo não tem wa.me — o id @g.us não abre
+                            conversa, então o link só existe pra contato real. */}
+                        {!c.isGroup && (
+                          <a
+                            href={`https://wa.me/${c.phone.replace(/\D/g, "")}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            title="Abrir conversa no WhatsApp"
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium text-green-400 bg-green-500/10 border border-green-500/20 hover:bg-green-500/20 transition-colors"
+                          >
+                            💬 WhatsApp
+                          </a>
+                        )}
                       </div>
                       {c.user && (
                         <div className="text-green-400 text-[10px] mt-0.5 flex items-center gap-2 flex-wrap">

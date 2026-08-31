@@ -41,6 +41,21 @@ export default async function LancamentosPage({
   // Particularidades da cobrança — aparecem na linha da fila, no momento em
   // que a pessoa vai lançar.
   const clientNotes = new Map(clients.map((c) => [c.id, c.billingNotes] as const));
+
+  // Telefone pra falar com o cliente na hora de cobrar. Preferimos o contato
+  // marcado como Financeiro; sem ele, o decisor; sem ele, qualquer contato
+  // real (grupo não abre conversa direta no wa.me).
+  const contatos = await prisma.companyContact.findMany({
+    where: { companyId: { in: clientIds }, isGroup: false },
+    select: { companyId: true, phone: true, name: true, role: true },
+  });
+  const PESO: Record<string, number> = { FINANCIAL: 0, DECISION_MAKER: 1, CONTACT: 2, TECHNICAL: 3 };
+  const clientPhone = new Map<string, { phone: string; nome: string | null }>();
+  for (const ct of [...contatos].sort((a, b) => (PESO[a.role] ?? 9) - (PESO[b.role] ?? 9))) {
+    if (!clientPhone.has(ct.companyId)) {
+      clientPhone.set(ct.companyId, { phone: ct.phone, nome: ct.name });
+    }
+  }
   // Fantasia na frente, razão social entre parênteses — ver `nomeCliente`.
   const clientName = new Map(clients.map((c) => [c.id, nomeCliente(c)] as const));
 
@@ -110,6 +125,8 @@ export default async function LancamentosPage({
         cycle: c.billingCycle ?? "MENSAL",
         billingDay: c.billingDay ?? null,
         obs: clientNotes.get(c.clientCompanyId) ?? null,
+        whatsapp: clientPhone.get(c.clientCompanyId)?.phone.replace(/\D/g, "") ?? null,
+        contato: clientPhone.get(c.clientCompanyId)?.nome ?? null,
       }))
       .sort((a, b) => b.amountCents - a.amountCents),
     ignorados: skips.map((s) => ({

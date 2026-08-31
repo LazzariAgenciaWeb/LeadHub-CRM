@@ -23,6 +23,9 @@ export interface LancamentosData {
     billingDay: number | null;
     /** Particularidades da cobrança deste cliente (NF no mês, Pix, avisar…). */
     obs: string | null;
+    /** Telefone (só dígitos) do contato financeiro — atalho pro WhatsApp. */
+    whatsapp: string | null;
+    contato: string | null;
   }[];
   /** Contratos ignorados NESTA competência, com motivo — decisão de não faturar. */
   ignorados: {
@@ -366,6 +369,20 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
                 ) : (
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="text-sm text-amber-400 font-medium">{brlFromCents(p.amountCents)}</span>
+                    {/* Falar com o cliente sem sair da conferência: mandar o
+                        Pix, avisar da nota. Abre a conversa já no contato
+                        financeiro (ou o decisor, quando não há financeiro). */}
+                    {p.whatsapp && (
+                      <a
+                        href={`https://wa.me/${p.whatsapp}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={`Falar com ${p.contato ?? "o cliente"} no WhatsApp`}
+                        className="px-2 py-1 rounded-md text-[11px] font-medium text-green-400 bg-green-500/10 hover:bg-green-500/20 transition-colors"
+                      >
+                        💬
+                      </a>
+                    )}
                     {/* Lançar só este contrato — quando o mês não fecha em bloco. */}
                     <button
                       onClick={() => faturar([p.id])}
