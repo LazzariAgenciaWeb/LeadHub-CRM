@@ -17,6 +17,7 @@ import { Camera, RefreshCw, MessagesSquare, ExternalLink } from "lucide-react";
 interface Account {
   username: string;
   profilePictureUrl?: string | null;
+  tokenExpiresAt?: string | null;
 }
 
 export default function MetaConnectionPanel() {
@@ -79,9 +80,28 @@ export default function MetaConnectionPanel() {
           )}
           <div className="flex-1 min-w-0">
             <p className="text-white text-sm font-medium truncate">@{account.username}</p>
-            <p className="text-[11px] text-emerald-400">Instagram conectado</p>
+            {account.tokenExpiresAt && new Date(account.tokenExpiresAt).getTime() < Date.now() ? (
+              <p className="text-[11px] text-amber-400">
+                Token vencido em {new Date(account.tokenExpiresAt).toLocaleDateString("pt-BR")} — reconecte a conta
+              </p>
+            ) : (
+              <p className="text-[11px] text-emerald-400">Instagram conectado</p>
+            )}
             {resub && <p className="text-[11px] text-slate-400 mt-0.5">{resub}</p>}
           </div>
+          {connectUrl && (
+            <a
+              href={connectUrl}
+              className={`rounded-lg px-3 py-1.5 text-xs flex-shrink-0 ${
+                account.tokenExpiresAt && new Date(account.tokenExpiresAt).getTime() < Date.now()
+                  ? "bg-gradient-to-r from-pink-500 to-indigo-500 text-white font-medium hover:opacity-90"
+                  : "border border-white/10 text-slate-300 hover:bg-white/5"
+              }`}
+              title="Refaz a autorização no Instagram (renova o token de 60 dias)"
+            >
+              Reconectar
+            </a>
+          )}
           <button
             onClick={resubscribe}
             disabled={resubbing}
