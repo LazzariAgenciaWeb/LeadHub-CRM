@@ -4,6 +4,7 @@ import { isClientPortalUser } from "@/lib/client-portal";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/permissions";
 import ServicosPanel, { type ServicosData } from "./ServicosPanel";
+import { nomeCliente as fmtCliente } from "../lib";
 
 export const dynamic = "force-dynamic";
 
@@ -26,10 +27,11 @@ export default async function ServicosPage() {
 
   const clients = await prisma.company.findMany({
     where: isGlobal ? { parentCompanyId: { not: null } } : { parentCompanyId: agencyId },
-    select: { id: true, name: true },
+    select: { id: true, name: true, tradeName: true },
   });
   const clientIds = clients.map((c) => c.id);
-  const nomeCliente = new Map(clients.map((c) => [c.id, c.name] as const));
+  // Fantasia na frente, razão social entre parênteses — ver `nomeCliente`.
+  const nomeCliente = new Map(clients.map((c) => [c.id, fmtCliente(c)] as const));
 
   const [contratos, catalogo] = await Promise.all([
     prisma.clientService.findMany({

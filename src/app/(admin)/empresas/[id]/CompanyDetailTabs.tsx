@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import CompanyContacts from "./CompanyContacts";
 import AddSystemUser from "./AddSystemUser";
@@ -9,6 +9,9 @@ import CompanyIntegrations from "./CompanyIntegrations";
 import CompanyMarketing from "./CompanyMarketing";
 import CompanySubscription from "./CompanySubscription";
 import CompanyAchievements from "./CompanyAchievements";
+import CompanyContractedServices from "./CompanyContractedServices";
+import CompanyFinanceiro from "./CompanyFinanceiro";
+import CompanyFinanceHistory, { type FinanceLogItem } from "./CompanyFinanceHistory";
 
 interface Campaign {
   id: string;
@@ -71,6 +74,12 @@ interface Props {
   recentChamados: Chamado[];
   contacts: Contact[];
   isSuperAdmin: boolean;
+  // Financeiro do cliente — vinha solto acima da página; virou o primeiro
+  // grupo de abas pra que o topo fique com a identificação do cliente.
+  contracted: any[];
+  catalog: { id: string; name: string }[];
+  invoices: any[];
+  financeLogs: FinanceLogItem[];
 }
 
 const SOURCE_ICON: Record<string, string> = {
@@ -78,9 +87,14 @@ const SOURCE_ICON: Record<string, string> = {
   GOOGLE: "🔍", LINK: "🔗", OTHER: "📌",
 };
 
-type TabId = "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano" | "conquistas";
+type TabId =
+  | "servicos" | "cobrancas" | "historico"
+  | "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano" | "conquistas";
 
 const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean }[] = [
+  { id: "servicos",     label: "Serviços contratados", icon: "📦" },
+  { id: "cobrancas",    label: "Cobranças",    icon: "🧾" },
+  { id: "historico",    label: "Histórico",    icon: "🕓" },
   { id: "marketing",    label: "Marketing",    icon: "📊" },
   { id: "campanhas",    label: "Campanhas",    icon: "📣" },
   { id: "leads",        label: "Leads",        icon: "🎯" },
@@ -96,10 +110,13 @@ const TAB_BY_ID = Object.fromEntries(TABS.map((t) => [t.id, t])) as Record<TabId
 
 // Grupos de 1º nível — condensam as 10 abas em 5. Grupo com >1 aba mostra
 // uma barra de sub-abas embaixo; grupo com 1 aba abre direto.
+// Financeiro vem primeiro: é o que se abre no dia a dia da conta. Integrações
+// deixou de ser grupo próprio e virou sub-aba do CRM — é lá que ela serve,
+// alimentando o dashboard de Marketing.
 const GROUPS: { id: string; label: string; icon: string; tabIds: TabId[] }[] = [
-  { id: "crm",         label: "CRM",                icon: "📊", tabIds: ["marketing", "campanhas", "leads", "oportunidades", "chamados", "conquistas"] },
+  { id: "financeiro",  label: "Financeiro",         icon: "💰", tabIds: ["servicos", "cobrancas", "historico"] },
+  { id: "crm",         label: "CRM",                icon: "📊", tabIds: ["marketing", "integracoes", "campanhas", "leads", "oportunidades", "chamados", "conquistas"] },
   { id: "acessos",     label: "Acessos & usuários", icon: "👥", tabIds: ["contatos"] },
-  { id: "integracoes", label: "Integrações",        icon: "🔌", tabIds: ["integracoes"] },
   { id: "cofre",       label: "Cofre",              icon: "🔐", tabIds: ["cofre"] },
   { id: "plano",       label: "Plano & cobrança",   icon: "💳", tabIds: ["plano"] },
 ];
@@ -115,9 +132,18 @@ export default function CompanyDetailTabs({
   recentChamados,
   contacts,
   isSuperAdmin,
+  contracted,
+  catalog,
+  invoices,
+  financeLogs,
 }: Props) {
   // Counts for tab labels
   const counts: Record<TabId, number> = {
+    servicos:      contracted.length,
+    // Só o que está em aberto: cobrança paga não é pendência, e o número na
+    // aba serve pra dizer "tem coisa esperando aqui".
+    cobrancas:     invoices.filter((i) => i.status === "ABERTO").length,
+    historico:     0,
     campanhas:     campaigns.length,
     leads:         leadsCount + prospeccaoCount,
     oportunidades: oportunidadesCount,
@@ -138,6 +164,23 @@ export default function CompanyDetailTabs({
 
   const [activeTab, setActiveTab] = useState<TabId>(visibleGroups[0]?.tabs[0] ?? "campanhas");
   const activeGroup = visibleGroups.find((g) => g.tabs.includes(activeTab)) ?? visibleGroups[0];
+
+  // Âncoras vindas de fora (esteira, fila de faturamento) abrem a aba certa.
+  // Sem isto, `/empresas/x#financeiro` caía na primeira aba e o link parecia
+  // quebrado — o alvo deixou de ser um bloco na página e virou aba.
+  useEffect(() => {
+    const porAncora: Record<string, TabId> = {
+      "#financeiro": "cobrancas",
+      "#servicos": "servicos",
+      "#historico": "historico",
+      "#cofre": "cofre",
+    };
+    const alvo = porAncora[window.location.hash];
+    if (alvo) {
+      setActiveTab(alvo);
+      document.getElementById("empresa-abas")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
 
   return (
     <div className="mt-6">
@@ -201,6 +244,31 @@ export default function CompanyDetailTabs({
                 </button>
               );
             })}
+          </div>
+        )}
+
+        {/* ── Serviços contratados ── */}
+        {activeTab === "servicos" && (
+          <div className="p-5">
+            <CompanyContractedServices companyId={companyId} initial={contracted} catalog={catalog} />
+          </div>
+        )}
+
+        {/* ── Cobranças ── */}
+        {activeTab === "cobrancas" && (
+          <div className="p-5">
+            <CompanyFinanceiro
+              companyId={companyId}
+              initial={invoices}
+              services={contracted.map((c: any) => ({ id: c.id, label: c.label }))}
+            />
+          </div>
+        )}
+
+        {/* ── Histórico do financeiro ── */}
+        {activeTab === "historico" && (
+          <div className="p-5">
+            <CompanyFinanceHistory logs={financeLogs} />
           </div>
         )}
 

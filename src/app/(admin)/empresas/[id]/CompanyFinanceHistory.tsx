@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { History } from "lucide-react";
 
 export interface FinanceLogItem {
@@ -31,25 +30,26 @@ const brl = (c: number) =>
 
 /**
  * Trilha de auditoria do financeiro deste cliente — quem encerrou, reabriu,
- * faturou, pagou ou excluiu, quando e com que motivo. Dobrada por padrão:
- * é ferramenta de conferência, não de leitura diária.
+ * faturou, pagou ou excluiu, quando e com que motivo. Mora numa aba própria,
+ * então rende a lista inteira sem dobradiça.
  */
 export default function CompanyFinanceHistory({ logs }: { logs: FinanceLogItem[] }) {
-  const [aberto, setAberto] = useState(false);
-  if (logs.length === 0) return null;
-
   return (
-    <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
-      <button onClick={() => setAberto((v) => !v)} className="w-full flex items-center justify-between">
+    <div>
+      <div className="flex items-center justify-between mb-3">
         <h3 className="text-white font-semibold text-sm flex items-center gap-1.5">
           <History className="w-4 h-4 text-slate-400" strokeWidth={2.25} />
           Histórico do financeiro
         </h3>
-        <span className="text-xs text-slate-500">{aberto ? "ocultar" : `${logs.length} registro(s)`}</span>
-      </button>
+        <span className="text-xs text-slate-500">{logs.length} registro(s)</span>
+      </div>
 
-      {aberto && (
-        <div className="mt-3 space-y-1 max-h-[360px] overflow-y-auto">
+      {logs.length === 0 ? (
+        <p className="text-slate-600 text-sm py-8 text-center">
+          Nada registrado ainda. Encerrar, reabrir, faturar, pagar ou excluir aparece aqui — com autor e motivo.
+        </p>
+      ) : (
+        <div className="space-y-1 max-h-[520px] overflow-y-auto">
           {logs.map((l) => {
             const a = ACTION_LABEL[l.action] ?? { label: l.action.toLowerCase(), cls: "text-slate-400" };
             const meta = l.meta ?? {};

@@ -11,9 +11,6 @@ import DeleteCompanyButton from "./DeleteCompanyButton";
 import EditCompanyButton from "./EditCompanyButton";
 import CompanyDetailTabs from "./CompanyDetailTabs";
 import CompanyCustomFields from "./CompanyCustomFields";
-import CompanyContractedServices from "./CompanyContractedServices";
-import CompanyFinanceiro from "./CompanyFinanceiro";
-import CompanyFinanceHistory from "./CompanyFinanceHistory";
 import { getCompanyPlan } from "@/lib/limits";
 import { PLANS, ADDONS, formatPriceBRL } from "@/lib/plans";
 import { MODULES } from "@/lib/modules";
@@ -127,6 +124,9 @@ export default async function EmpresaDetailPage({
     label: c.label, status: c.status, renewsAt: c.renewsAt?.toISOString() ?? null,
     url: c.url, notes: c.notes, details: (c.details as any) ?? null,
     amountCents: c.amountCents, isRecurring: c.isRecurring,
+    // Sem isto o form abria sempre com "Gera bonificação" marcado e um simples
+    // salvar reativava, em silêncio, o serviço que estava fora do fechamento.
+    bonusEligible: c.bonusEligible,
     billingCycle: c.billingCycle, billingDay: c.billingDay,
     startedAt: c.startedAt?.toISOString() ?? null, endedAt: c.endedAt?.toISOString() ?? null,
   }));
@@ -341,28 +341,7 @@ export default async function EmpresaDetailPage({
         </div>
       )}
 
-      {/* Serviços contratados + Financeiro — sobem do rodapé pro topo */}
-      <div id="servicos" className="mb-4">
-        <CompanyContractedServices companyId={id} initial={contracted} catalog={catalogRaw} />
-      </div>
-      <div id="financeiro" className="mb-6">
-        <CompanyFinanceiro companyId={id} initial={invoices} services={contracted.map((c) => ({ id: c.id, label: c.label }))} />
-      </div>
-      <div className="mb-6">
-        <CompanyFinanceHistory
-          logs={financeLogsRaw.map((l) => ({
-            id: l.id,
-            entity: l.entity,
-            action: l.action,
-            description: l.description,
-            userName: l.userName,
-            createdAt: l.createdAt.toISOString(),
-            meta: (l.meta as Record<string, unknown> | null) ?? null,
-          }))}
-        />
-      </div>
-
-      {/* Info + Stats */}
+      {/* Info + Stats — identificação do cliente vem antes das abas */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         {/* Contato */}
         <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4">
@@ -464,6 +443,18 @@ export default async function EmpresaDetailPage({
           recentChamados={recentChamados as any}
           contacts={contactsWithUsers as any}
           isSuperAdmin={isSuperAdmin}
+          contracted={contracted}
+          catalog={catalogRaw}
+          invoices={invoices}
+          financeLogs={financeLogsRaw.map((l) => ({
+            id: l.id,
+            entity: l.entity,
+            action: l.action,
+            description: l.description,
+            userName: l.userName,
+            createdAt: l.createdAt.toISOString(),
+            meta: (l.meta as Record<string, unknown> | null) ?? null,
+          }))}
         />
       </div>
     </div>

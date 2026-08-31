@@ -3,7 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { isClientPortalUser } from "@/lib/client-portal";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/permissions";
-import { monthKey, monthRange, shiftMonth, dueInMonth } from "../lib";
+import { monthKey, monthRange, shiftMonth, dueInMonth, nomeCliente as fmtCliente } from "../lib";
 import BonificacaoPanel, { type BonificacaoData } from "./BonificacaoPanel";
 
 export const dynamic = "force-dynamic";
@@ -35,10 +35,11 @@ export default async function BonificacaoPage({
 
   const clients = await prisma.company.findMany({
     where: { parentCompanyId: agencyId },
-    select: { id: true, name: true },
+    select: { id: true, name: true, tradeName: true },
   });
   const clientIds = clients.map((c) => c.id);
-  const nomeCliente = new Map(clients.map((c) => [c.id, c.name] as const));
+  // Fantasia na frente, razão social entre parênteses — ver `nomeCliente`.
+  const nomeCliente = new Map(clients.map((c) => [c.id, fmtCliente(c)] as const));
 
   const [contratos, faturas, vendas, bonus, colaboradores] = await Promise.all([
     prisma.clientService.findMany({
@@ -61,7 +62,7 @@ export default async function BonificacaoPage({
       select: {
         id: true, title: true, valueCents: true, deliveredAt: true, bonusEligible: true,
         responsibleId: true, responsibleName: true,
-        clientCompany: { select: { name: true } },
+        clientCompany: { select: { name: true, tradeName: true } },
       },
       orderBy: { deliveredAt: "desc" },
     }),
@@ -106,7 +107,7 @@ export default async function BonificacaoPage({
           id: v.id,
           tipo: "venda" as const,
           clienteId: "",
-          nome: `${v.clientCompany?.name ?? "—"} · ${v.title} (pontual)`,
+          nome: `${v.clientCompany ? fmtCliente(v.clientCompany) : "—"} · ${v.title} (pontual)`,
         })),
     ].sort((a, b) => a.nome.localeCompare(b.nome)),
     recorrentes: contratos
@@ -131,7 +132,7 @@ export default async function BonificacaoPage({
       .map((v) => ({
         id: v.id,
         titulo: v.title,
-        cliente: v.clientCompany?.name ?? null,
+        cliente: v.clientCompany ? fmtCliente(v.clientCompany) : null,
         valorCents: v.valueCents,
         entregueEm: v.deliveredAt!.toISOString(),
         // Responsável definido na esteira — pré-seleciona no lançamento.

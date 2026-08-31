@@ -4,6 +4,7 @@ import { isClientPortalUser } from "@/lib/client-portal";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/permissions";
 import EsteiraPanel, { type EsteiraData } from "./EsteiraPanel";
+import { nomeCliente } from "../lib";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +30,7 @@ export default async function EsteiraPage() {
       orderBy: { closedAt: "desc" },
       take: 300,
       include: {
-        clientCompany: { select: { id: true, name: true } },
+        clientCompany: { select: { id: true, name: true, tradeName: true } },
         lead: { select: { id: true } },
         // Cobrança gerada ao marcar "Faturado" — a esteira mostra vencimento e
         // se já foi paga, senão o usuário marca faturado e não vê pra onde foi.
@@ -38,7 +39,7 @@ export default async function EsteiraPage() {
     }),
     prisma.company.findMany({
       where: isGlobal ? { parentCompanyId: { not: null } } : { parentCompanyId: agencyId },
-      select: { id: true, name: true },
+      select: { id: true, name: true, tradeName: true },
       orderBy: { name: "asc" },
     }),
     // Responsáveis possíveis — mesma lista da Bonificação. SUPER_ADMIN é dono
@@ -54,7 +55,8 @@ export default async function EsteiraPage() {
 
   const data: EsteiraData = {
     isGlobal,
-    clients,
+    // Fantasia na frente no seletor e nos cards — ver `nomeCliente`.
+    clients: clients.map((c) => ({ id: c.id, name: nomeCliente(c) })),
     colaboradores: colaboradores.map((u) => ({ id: u.id, nome: u.name ?? u.email })),
     sales: sales.map((s) => ({
       id: s.id,
@@ -66,7 +68,9 @@ export default async function EsteiraPage() {
       responsibleId: s.responsibleId,
       responsibleName: s.responsibleName,
       leadId: s.lead?.id ?? null,
-      client: s.clientCompany,
+      client: s.clientCompany
+        ? { id: s.clientCompany.id, name: nomeCliente(s.clientCompany) }
+        : null,
       contractStatus: s.contractStatus,
       billingStatus: s.billingStatus,
       productionStatus: s.productionStatus,

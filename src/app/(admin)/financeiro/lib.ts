@@ -121,3 +121,15 @@ export const brlFromCents = (c: number) =>
     minimumFractionDigits: c % 100 === 0 ? 0 : 2,
     maximumFractionDigits: c % 100 === 0 ? 0 : 2,
   });
+
+/**
+ * Como o cliente aparece nas listas do Financeiro: fantasia primeiro (é como
+ * ele é chamado no dia a dia), razão social entre parênteses quando diferente
+ * — quem procura uma conta raramente lembra a razão social, mas é ela que casa
+ * com a nota fiscal.
+ */
+export function nomeCliente(c: { name: string; tradeName?: string | null }): string {
+  const fantasia = c.tradeName?.trim();
+  if (!fantasia || fantasia === c.name) return c.name;
+  return `${fantasia} (${c.name})`;
+}

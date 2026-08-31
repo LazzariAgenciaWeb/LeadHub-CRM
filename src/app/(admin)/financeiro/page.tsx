@@ -4,7 +4,7 @@ import { isClientPortalUser } from "@/lib/client-portal";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/permissions";
 import FinanceiroVisaoGeral, { type VisaoGeralData } from "./FinanceiroVisaoGeral";
-import { dueInMonth, monthKey, monthlyEquivalentCents, monthRange, shiftMonth } from "./lib";
+import { dueInMonth, monthKey, monthlyEquivalentCents, monthRange, nomeCliente, shiftMonth } from "./lib";
 
 export const dynamic = "force-dynamic";
 
@@ -36,11 +36,12 @@ export default async function FinanceiroPage({
   // todos os clientes cadastrados (visão global da plataforma).
   const clients = await prisma.company.findMany({
     where: isGlobal ? { parentCompanyId: { not: null } } : { parentCompanyId: agencyId },
-    select: { id: true, name: true },
+    select: { id: true, name: true, tradeName: true },
     orderBy: { name: "asc" },
   });
   const clientIds = clients.map((c) => c.id);
-  const clientName = new Map(clients.map((c) => [c.id, c.name] as const));
+  // Fantasia na frente, razão social entre parênteses — ver `nomeCliente`.
+  const clientName = new Map(clients.map((c) => [c.id, nomeCliente(c)] as const));
 
   // Escopo dos leads é OUTRO: lead pertence à agência, não ao cliente dela.
   const leadWhere = isGlobal ? {} : { companyId: agencyId ?? "__none__" };

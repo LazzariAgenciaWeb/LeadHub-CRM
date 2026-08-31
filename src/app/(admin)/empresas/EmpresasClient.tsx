@@ -8,6 +8,8 @@ import DeleteMergeModal from "./DeleteMergeModal";
 interface Company {
   id: string;
   name: string;
+  /** Nome fantasia — como o cliente é chamado no dia a dia. */
+  tradeName?: string | null;
   segment: string | null;
   status: string;
   hasSystemAccess: boolean;
@@ -109,6 +111,8 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
       const q = search.toLowerCase();
       return (
         c.name.toLowerCase().includes(q) ||
+        // Fantasia entra na busca: quem procura raramente lembra a razão social.
+        (c.tradeName ?? "").toLowerCase().includes(q) ||
         (c.segment ?? "").toLowerCase().includes(q) ||
         (c.parentCompany?.name ?? "").toLowerCase().includes(q)
       );
@@ -265,8 +269,16 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       {isPinned && <span className="text-yellow-500 text-[10px]">📌</span>}
-                      <h2 className="text-white font-bold text-[15px] truncate">{company.name}</h2>
+                      {/* Fantasia na frente quando existe: é como o cliente é
+                          chamado. A razão social fica logo abaixo, porque é
+                          ela que casa com nota fiscal e com o Bling. */}
+                      <h2 className="text-white font-bold text-[15px] truncate">
+                        {company.tradeName || company.name}
+                      </h2>
                     </div>
+                    {company.tradeName && company.tradeName !== company.name && (
+                      <p className="text-slate-500 text-[11px] truncate">{company.name}</p>
+                    )}
                     <p className="text-slate-500 text-xs mt-0.5">{company.segment ?? "Sem segmento"}</p>
                     {/* Tag de empresa-mãe */}
                     {company.parentCompany && (

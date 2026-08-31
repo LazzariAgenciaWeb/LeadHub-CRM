@@ -4,7 +4,7 @@ import { isClientPortalUser } from "@/lib/client-portal";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/permissions";
 import LancamentosPanel, { type LancamentosData } from "./LancamentosPanel";
-import { dueInMonth, monthKey, monthRange, shiftMonth } from "../lib";
+import { dueInMonth, monthKey, monthRange, nomeCliente, shiftMonth } from "../lib";
 
 export const dynamic = "force-dynamic";
 
@@ -35,10 +35,11 @@ export default async function LancamentosPage({
 
   const clients = await prisma.company.findMany({
     where: isGlobal ? { parentCompanyId: { not: null } } : { parentCompanyId: agencyId },
-    select: { id: true, name: true },
+    select: { id: true, name: true, tradeName: true },
   });
   const clientIds = clients.map((c) => c.id);
-  const clientName = new Map(clients.map((c) => [c.id, c.name] as const));
+  // Fantasia na frente, razão social entre parênteses — ver `nomeCliente`.
+  const clientName = new Map(clients.map((c) => [c.id, nomeCliente(c)] as const));
 
   const [contracts, invoicesOfMonth, skips, vendasDoMes] = await Promise.all([
     prisma.clientService.findMany({
@@ -68,7 +69,7 @@ export default async function LancamentosPage({
       orderBy: { valueCents: "desc" },
       select: {
         id: true, title: true, valueCents: true, kind: true, billingStatus: true,
-        clientCompany: { select: { name: true } },
+        clientCompany: { select: { name: true, tradeName: true } },
         invoice: { select: { status: true } },
       },
     }),
@@ -119,7 +120,7 @@ export default async function LancamentosPage({
     vendasDoMes: vendasDoMes.map((s) => ({
       id: s.id,
       title: s.title,
-      cliente: s.clientCompany?.name ?? null,
+      cliente: s.clientCompany ? nomeCliente(s.clientCompany) : null,
       amountCents: s.valueCents,
       kind: s.kind,
       faturado: !!s.invoice,
