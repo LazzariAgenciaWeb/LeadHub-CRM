@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 type Convo = {
   id: string;
@@ -23,6 +23,13 @@ type Msg = {
 };
 
 type AiMode = "ACTIVE" | "PAUSED_HUMAN" | "OFF";
+type ConvoLead = { id: string; name: string | null; pipeline: string | null };
+
+// Deep-link pro lead na tela certa do CRM conforme o pipeline atual.
+function leadUrl(l: ConvoLead): string {
+  const page = l.pipeline === "OPORTUNIDADES" ? "oportunidades" : l.pipeline === "LEADS" ? "leads" : "prospeccao";
+  return `/crm/${page}?lead=${l.id}`;
+}
 
 const SOURCE_LABEL: Record<string, string> = { AUTOMATION: "automação", AGENT: "atendente", EXTERNAL: "fora do LeadHub", AI: "agente IA", ORGANIC: "" };
 const AI_MODE_LABEL: Record<AiMode, string> = { ACTIVE: "IA ativa", PAUSED_HUMAN: "IA pausada (humano assumiu)", OFF: "IA desligada" };
@@ -45,6 +52,7 @@ export default function IgInbox() {
   const [sendErr, setSendErr] = useState("");
   const [aiMode, setAiMode] = useState<AiMode | null>(null);
   const [aiSaving, setAiSaving] = useState(false);
+  const [convoLead, setConvoLead] = useState<ConvoLead | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -60,6 +68,19 @@ export default function IgInbox() {
 
   useEffect(() => { load(); }, [load]);
 
+  // Deep-link: /instagram/inbox?ig=usuario abre a conversa daquele @ (vindo
+  // do card do lead no CRM).
+  const deepLinked = useRef(false);
+  useEffect(() => {
+    if (deepLinked.current || loading || !convos.length) return;
+    const ig = new URLSearchParams(window.location.search).get("ig")?.replace(/^@/, "").toLowerCase();
+    if (!ig) { deepLinked.current = true; return; }
+    const match = convos.find((c) => (c.participantUsername ?? "").toLowerCase() === ig);
+    if (match) void openConvo(match);
+    deepLinked.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, convos]);
+
   async function openConvo(c: Convo) {
     setSelected(c);
     setMsgs([]);
@@ -69,6 +90,7 @@ export default function IgInbox() {
       const res = await fetch(`/api/instagram/inbox/${c.id}`).then((r) => r.json());
       setMsgs(res.messages || []);
       setAiMode(res.conversation?.aiMode ?? null);
+      setConvoLead(res.conversation?.lead ?? null);
     } finally {
       setThreadLoading(false);
     }
@@ -159,6 +181,15 @@ export default function IgInbox() {
                   <span className="text-white text-sm font-medium truncate">{selected.participantUsername || selected.participantId}</span>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
+                  {convoLead && (
+                    <a
+                      href={leadUrl(convoLead)}
+                      className="text-[10px] px-2 py-1 rounded-lg border border-indigo-400/30 bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20"
+                      title={`Abrir no CRM (${convoLead.pipeline ?? "?"})`}
+                    >
+                      🎯 {convoLead.name || "Lead"} · {convoLead.pipeline === "OPORTUNIDADES" ? "Oportunidade" : convoLead.pipeline === "LEADS" ? "Lead" : "Prospecção"}
+                    </a>
+                  )}
                   {selected.channel === "INSTAGRAM" && aiMode && (
                     <button
                       onClick={toggleAi}

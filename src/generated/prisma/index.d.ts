@@ -13151,6 +13151,7 @@ export namespace Prisma {
    */
 
   export type LeadCountOutputType = {
+    igConversations: number
     messages: number
     comments: number
     activities: number
@@ -13162,6 +13163,7 @@ export namespace Prisma {
   }
 
   export type LeadCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    igConversations?: boolean | LeadCountOutputTypeCountIgConversationsArgs
     messages?: boolean | LeadCountOutputTypeCountMessagesArgs
     comments?: boolean | LeadCountOutputTypeCountCommentsArgs
     activities?: boolean | LeadCountOutputTypeCountActivitiesArgs
@@ -13181,6 +13183,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the LeadCountOutputType
      */
     select?: LeadCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LeadCountOutputType without action
+   */
+  export type LeadCountOutputTypeCountIgConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgConversationWhereInput
   }
 
   /**
@@ -27638,6 +27647,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    igConversations?: boolean | Lead$igConversationsArgs<ExtArgs>
     promotedViaEmailCampaign?: boolean | Lead$promotedViaEmailCampaignArgs<ExtArgs>
     conversation?: boolean | Lead$conversationArgs<ExtArgs>
     sale?: boolean | Lead$saleArgs<ExtArgs>
@@ -27755,6 +27765,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    igConversations?: boolean | Lead$igConversationsArgs<ExtArgs>
     promotedViaEmailCampaign?: boolean | Lead$promotedViaEmailCampaignArgs<ExtArgs>
     conversation?: boolean | Lead$conversationArgs<ExtArgs>
     sale?: boolean | Lead$saleArgs<ExtArgs>
@@ -27782,6 +27793,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       campaign: Prisma.$CampaignPayload<ExtArgs> | null
       trackingLink: Prisma.$TrackingLinkPayload<ExtArgs> | null
+      igConversations: Prisma.$IgConversationPayload<ExtArgs>[]
       promotedViaEmailCampaign: Prisma.$EmailCampaignPayload<ExtArgs> | null
       conversation: Prisma.$ConversationPayload<ExtArgs> | null
       sale: Prisma.$SalePayload<ExtArgs> | null
@@ -28206,6 +28218,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     campaign<T extends Lead$campaignArgs<ExtArgs> = {}>(args?: Subset<T, Lead$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     trackingLink<T extends Lead$trackingLinkArgs<ExtArgs> = {}>(args?: Subset<T, Lead$trackingLinkArgs<ExtArgs>>): Prisma__TrackingLinkClient<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    igConversations<T extends Lead$igConversationsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$igConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgConversationPayload<ExtArgs>, T, "findMany"> | Null>
     promotedViaEmailCampaign<T extends Lead$promotedViaEmailCampaignArgs<ExtArgs> = {}>(args?: Subset<T, Lead$promotedViaEmailCampaignArgs<ExtArgs>>): Prisma__EmailCampaignClient<$Result.GetResult<Prisma.$EmailCampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     conversation<T extends Lead$conversationArgs<ExtArgs> = {}>(args?: Subset<T, Lead$conversationArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     sale<T extends Lead$saleArgs<ExtArgs> = {}>(args?: Subset<T, Lead$saleArgs<ExtArgs>>): Prisma__SaleClient<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
@@ -28635,6 +28648,26 @@ export namespace Prisma {
      */
     include?: TrackingLinkInclude<ExtArgs> | null
     where?: TrackingLinkWhereInput
+  }
+
+  /**
+   * Lead.igConversations
+   */
+  export type Lead$igConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgConversation
+     */
+    select?: IgConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgConversationInclude<ExtArgs> | null
+    where?: IgConversationWhereInput
+    orderBy?: IgConversationOrderByWithRelationInput | IgConversationOrderByWithRelationInput[]
+    cursor?: IgConversationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IgConversationScalarFieldEnum | IgConversationScalarFieldEnum[]
   }
 
   /**
@@ -76350,6 +76383,7 @@ export namespace Prisma {
     needsReply: boolean | null
     hadAutomation: boolean | null
     aiMode: $Enums.AiMode | null
+    leadId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -76368,6 +76402,7 @@ export namespace Prisma {
     needsReply: boolean | null
     hadAutomation: boolean | null
     aiMode: $Enums.AiMode | null
+    leadId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -76386,6 +76421,7 @@ export namespace Prisma {
     needsReply: number
     hadAutomation: number
     aiMode: number
+    leadId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -76406,6 +76442,7 @@ export namespace Prisma {
     needsReply?: true
     hadAutomation?: true
     aiMode?: true
+    leadId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -76424,6 +76461,7 @@ export namespace Prisma {
     needsReply?: true
     hadAutomation?: true
     aiMode?: true
+    leadId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -76442,6 +76480,7 @@ export namespace Prisma {
     needsReply?: true
     hadAutomation?: true
     aiMode?: true
+    leadId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -76533,6 +76572,7 @@ export namespace Prisma {
     needsReply: boolean
     hadAutomation: boolean
     aiMode: $Enums.AiMode
+    leadId: string | null
     createdAt: Date
     updatedAt: Date
     _count: IgConversationCountAggregateOutputType | null
@@ -76568,10 +76608,12 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: boolean
+    leadId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     account?: boolean | IgConversation$accountArgs<ExtArgs>
+    lead?: boolean | IgConversation$leadArgs<ExtArgs>
     messages?: boolean | IgConversation$messagesArgs<ExtArgs>
     _count?: boolean | IgConversationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["igConversation"]>
@@ -76590,10 +76632,12 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: boolean
+    leadId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     account?: boolean | IgConversation$accountArgs<ExtArgs>
+    lead?: boolean | IgConversation$leadArgs<ExtArgs>
   }, ExtArgs["result"]["igConversation"]>
 
   export type IgConversationSelectScalar = {
@@ -76610,6 +76654,7 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: boolean
+    leadId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -76617,12 +76662,14 @@ export namespace Prisma {
   export type IgConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     account?: boolean | IgConversation$accountArgs<ExtArgs>
+    lead?: boolean | IgConversation$leadArgs<ExtArgs>
     messages?: boolean | IgConversation$messagesArgs<ExtArgs>
     _count?: boolean | IgConversationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type IgConversationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     account?: boolean | IgConversation$accountArgs<ExtArgs>
+    lead?: boolean | IgConversation$leadArgs<ExtArgs>
   }
 
   export type $IgConversationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -76630,6 +76677,7 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
       account: Prisma.$InstagramAccountPayload<ExtArgs> | null
+      lead: Prisma.$LeadPayload<ExtArgs> | null
       messages: Prisma.$IgMessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -76646,6 +76694,7 @@ export namespace Prisma {
       needsReply: boolean
       hadAutomation: boolean
       aiMode: $Enums.AiMode
+      leadId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["igConversation"]>
@@ -77014,6 +77063,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     account<T extends IgConversation$accountArgs<ExtArgs> = {}>(args?: Subset<T, IgConversation$accountArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    lead<T extends IgConversation$leadArgs<ExtArgs> = {}>(args?: Subset<T, IgConversation$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     messages<T extends IgConversation$messagesArgs<ExtArgs> = {}>(args?: Subset<T, IgConversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgMessagePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -77057,6 +77107,7 @@ export namespace Prisma {
     readonly needsReply: FieldRef<"IgConversation", 'Boolean'>
     readonly hadAutomation: FieldRef<"IgConversation", 'Boolean'>
     readonly aiMode: FieldRef<"IgConversation", 'AiMode'>
+    readonly leadId: FieldRef<"IgConversation", 'String'>
     readonly createdAt: FieldRef<"IgConversation", 'DateTime'>
     readonly updatedAt: FieldRef<"IgConversation", 'DateTime'>
   }
@@ -77389,6 +77440,21 @@ export namespace Prisma {
      */
     include?: InstagramAccountInclude<ExtArgs> | null
     where?: InstagramAccountWhereInput
+  }
+
+  /**
+   * IgConversation.lead
+   */
+  export type IgConversation$leadArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lead
+     */
+    select?: LeadSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    where?: LeadWhereInput
   }
 
   /**
@@ -146875,6 +146941,7 @@ export namespace Prisma {
     needsReply: 'needsReply',
     hadAutomation: 'hadAutomation',
     aiMode: 'aiMode',
+    leadId: 'leadId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -150238,6 +150305,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
+    igConversations?: IgConversationListRelationFilter
     promotedViaEmailCampaign?: XOR<EmailCampaignNullableRelationFilter, EmailCampaignWhereInput> | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
     sale?: XOR<SaleNullableRelationFilter, SaleWhereInput> | null
@@ -150299,6 +150367,7 @@ export namespace Prisma {
     company?: CompanyOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
     trackingLink?: TrackingLinkOrderByWithRelationInput
+    igConversations?: IgConversationOrderByRelationAggregateInput
     promotedViaEmailCampaign?: EmailCampaignOrderByWithRelationInput
     conversation?: ConversationOrderByWithRelationInput
     sale?: SaleOrderByWithRelationInput
@@ -150363,6 +150432,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
+    igConversations?: IgConversationListRelationFilter
     promotedViaEmailCampaign?: XOR<EmailCampaignNullableRelationFilter, EmailCampaignWhereInput> | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
     sale?: XOR<SaleNullableRelationFilter, SaleWhereInput> | null
@@ -154684,10 +154754,12 @@ export namespace Prisma {
     needsReply?: BoolFilter<"IgConversation"> | boolean
     hadAutomation?: BoolFilter<"IgConversation"> | boolean
     aiMode?: EnumAiModeFilter<"IgConversation"> | $Enums.AiMode
+    leadId?: StringNullableFilter<"IgConversation"> | string | null
     createdAt?: DateTimeFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeFilter<"IgConversation"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     account?: XOR<InstagramAccountNullableRelationFilter, InstagramAccountWhereInput> | null
+    lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     messages?: IgMessageListRelationFilter
   }
 
@@ -154705,10 +154777,12 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    leadId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
     account?: InstagramAccountOrderByWithRelationInput
+    lead?: LeadOrderByWithRelationInput
     messages?: IgMessageOrderByRelationAggregateInput
   }
 
@@ -154730,10 +154804,12 @@ export namespace Prisma {
     needsReply?: BoolFilter<"IgConversation"> | boolean
     hadAutomation?: BoolFilter<"IgConversation"> | boolean
     aiMode?: EnumAiModeFilter<"IgConversation"> | $Enums.AiMode
+    leadId?: StringNullableFilter<"IgConversation"> | string | null
     createdAt?: DateTimeFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeFilter<"IgConversation"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     account?: XOR<InstagramAccountNullableRelationFilter, InstagramAccountWhereInput> | null
+    lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     messages?: IgMessageListRelationFilter
   }, "id" | "connectionId_participantId">
 
@@ -154751,6 +154827,7 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    leadId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: IgConversationCountOrderByAggregateInput
@@ -154775,6 +154852,7 @@ export namespace Prisma {
     needsReply?: BoolWithAggregatesFilter<"IgConversation"> | boolean
     hadAutomation?: BoolWithAggregatesFilter<"IgConversation"> | boolean
     aiMode?: EnumAiModeWithAggregatesFilter<"IgConversation"> | $Enums.AiMode
+    leadId?: StringNullableWithAggregatesFilter<"IgConversation"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"IgConversation"> | Date | string
   }
@@ -162338,6 +162416,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -162396,6 +162475,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -162450,6 +162530,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -162508,6 +162589,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -167261,6 +167343,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
     account?: InstagramAccountCreateNestedOneWithoutConversationsInput
+    lead?: LeadCreateNestedOneWithoutIgConversationsInput
     messages?: IgMessageCreateNestedManyWithoutConversationInput
   }
 
@@ -167278,6 +167361,7 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: IgMessageUncheckedCreateNestedManyWithoutConversationInput
@@ -167299,6 +167383,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
     account?: InstagramAccountUpdateOneWithoutConversationsNestedInput
+    lead?: LeadUpdateOneWithoutIgConversationsNestedInput
     messages?: IgMessageUpdateManyWithoutConversationNestedInput
   }
 
@@ -167316,6 +167401,7 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: IgMessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -167335,6 +167421,7 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -167369,6 +167456,7 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -178875,6 +178963,7 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    leadId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -178893,6 +178982,7 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    leadId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -178911,6 +179001,7 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    leadId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -188572,6 +188663,13 @@ export namespace Prisma {
     connect?: TrackingLinkWhereUniqueInput
   }
 
+  export type IgConversationCreateNestedManyWithoutLeadInput = {
+    create?: XOR<IgConversationCreateWithoutLeadInput, IgConversationUncheckedCreateWithoutLeadInput> | IgConversationCreateWithoutLeadInput[] | IgConversationUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: IgConversationCreateOrConnectWithoutLeadInput | IgConversationCreateOrConnectWithoutLeadInput[]
+    createMany?: IgConversationCreateManyLeadInputEnvelope
+    connect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+  }
+
   export type EmailCampaignCreateNestedOneWithoutPromotedLeadsInput = {
     create?: XOR<EmailCampaignCreateWithoutPromotedLeadsInput, EmailCampaignUncheckedCreateWithoutPromotedLeadsInput>
     connectOrCreate?: EmailCampaignCreateOrConnectWithoutPromotedLeadsInput
@@ -188644,6 +188742,13 @@ export namespace Prisma {
     connectOrCreate?: InboxEmailCreateOrConnectWithoutLeadInput | InboxEmailCreateOrConnectWithoutLeadInput[]
     createMany?: InboxEmailCreateManyLeadInputEnvelope
     connect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+  }
+
+  export type IgConversationUncheckedCreateNestedManyWithoutLeadInput = {
+    create?: XOR<IgConversationCreateWithoutLeadInput, IgConversationUncheckedCreateWithoutLeadInput> | IgConversationCreateWithoutLeadInput[] | IgConversationUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: IgConversationCreateOrConnectWithoutLeadInput | IgConversationCreateOrConnectWithoutLeadInput[]
+    createMany?: IgConversationCreateManyLeadInputEnvelope
+    connect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
   }
 
   export type SaleUncheckedCreateNestedOneWithoutLeadInput = {
@@ -188742,6 +188847,20 @@ export namespace Prisma {
     delete?: TrackingLinkWhereInput | boolean
     connect?: TrackingLinkWhereUniqueInput
     update?: XOR<XOR<TrackingLinkUpdateToOneWithWhereWithoutLeadsInput, TrackingLinkUpdateWithoutLeadsInput>, TrackingLinkUncheckedUpdateWithoutLeadsInput>
+  }
+
+  export type IgConversationUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<IgConversationCreateWithoutLeadInput, IgConversationUncheckedCreateWithoutLeadInput> | IgConversationCreateWithoutLeadInput[] | IgConversationUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: IgConversationCreateOrConnectWithoutLeadInput | IgConversationCreateOrConnectWithoutLeadInput[]
+    upsert?: IgConversationUpsertWithWhereUniqueWithoutLeadInput | IgConversationUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: IgConversationCreateManyLeadInputEnvelope
+    set?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+    disconnect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+    delete?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+    connect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+    update?: IgConversationUpdateWithWhereUniqueWithoutLeadInput | IgConversationUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: IgConversationUpdateManyWithWhereWithoutLeadInput | IgConversationUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: IgConversationScalarWhereInput | IgConversationScalarWhereInput[]
   }
 
   export type EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput = {
@@ -188884,6 +189003,20 @@ export namespace Prisma {
     update?: InboxEmailUpdateWithWhereUniqueWithoutLeadInput | InboxEmailUpdateWithWhereUniqueWithoutLeadInput[]
     updateMany?: InboxEmailUpdateManyWithWhereWithoutLeadInput | InboxEmailUpdateManyWithWhereWithoutLeadInput[]
     deleteMany?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
+  }
+
+  export type IgConversationUncheckedUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<IgConversationCreateWithoutLeadInput, IgConversationUncheckedCreateWithoutLeadInput> | IgConversationCreateWithoutLeadInput[] | IgConversationUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: IgConversationCreateOrConnectWithoutLeadInput | IgConversationCreateOrConnectWithoutLeadInput[]
+    upsert?: IgConversationUpsertWithWhereUniqueWithoutLeadInput | IgConversationUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: IgConversationCreateManyLeadInputEnvelope
+    set?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+    disconnect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+    delete?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+    connect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+    update?: IgConversationUpdateWithWhereUniqueWithoutLeadInput | IgConversationUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: IgConversationUpdateManyWithWhereWithoutLeadInput | IgConversationUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: IgConversationScalarWhereInput | IgConversationScalarWhereInput[]
   }
 
   export type SaleUncheckedUpdateOneWithoutLeadNestedInput = {
@@ -192159,6 +192292,12 @@ export namespace Prisma {
     connect?: InstagramAccountWhereUniqueInput
   }
 
+  export type LeadCreateNestedOneWithoutIgConversationsInput = {
+    create?: XOR<LeadCreateWithoutIgConversationsInput, LeadUncheckedCreateWithoutIgConversationsInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutIgConversationsInput
+    connect?: LeadWhereUniqueInput
+  }
+
   export type IgMessageCreateNestedManyWithoutConversationInput = {
     create?: XOR<IgMessageCreateWithoutConversationInput, IgMessageUncheckedCreateWithoutConversationInput> | IgMessageCreateWithoutConversationInput[] | IgMessageUncheckedCreateWithoutConversationInput[]
     connectOrCreate?: IgMessageCreateOrConnectWithoutConversationInput | IgMessageCreateOrConnectWithoutConversationInput[]
@@ -192197,6 +192336,16 @@ export namespace Prisma {
     delete?: InstagramAccountWhereInput | boolean
     connect?: InstagramAccountWhereUniqueInput
     update?: XOR<XOR<InstagramAccountUpdateToOneWithWhereWithoutConversationsInput, InstagramAccountUpdateWithoutConversationsInput>, InstagramAccountUncheckedUpdateWithoutConversationsInput>
+  }
+
+  export type LeadUpdateOneWithoutIgConversationsNestedInput = {
+    create?: XOR<LeadCreateWithoutIgConversationsInput, LeadUncheckedCreateWithoutIgConversationsInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutIgConversationsInput
+    upsert?: LeadUpsertWithoutIgConversationsInput
+    disconnect?: LeadWhereInput | boolean
+    delete?: LeadWhereInput | boolean
+    connect?: LeadWhereUniqueInput
+    update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutIgConversationsInput, LeadUpdateWithoutIgConversationsInput>, LeadUncheckedUpdateWithoutIgConversationsInput>
   }
 
   export type IgMessageUpdateManyWithoutConversationNestedInput = {
@@ -201490,6 +201639,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -201547,6 +201697,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -203411,6 +203562,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     account?: InstagramAccountCreateNestedOneWithoutConversationsInput
+    lead?: LeadCreateNestedOneWithoutIgConversationsInput
     messages?: IgMessageCreateNestedManyWithoutConversationInput
   }
 
@@ -203427,6 +203579,7 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: IgMessageUncheckedCreateNestedManyWithoutConversationInput
@@ -206663,6 +206816,7 @@ export namespace Prisma {
     needsReply?: BoolFilter<"IgConversation"> | boolean
     hadAutomation?: BoolFilter<"IgConversation"> | boolean
     aiMode?: EnumAiModeFilter<"IgConversation"> | $Enums.AiMode
+    leadId?: StringNullableFilter<"IgConversation"> | string | null
     createdAt?: DateTimeFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeFilter<"IgConversation"> | Date | string
   }
@@ -208014,6 +208168,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -208071,6 +208226,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -208921,6 +209077,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -208978,6 +209135,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -209822,6 +209980,54 @@ export namespace Prisma {
   export type TrackingLinkCreateOrConnectWithoutLeadsInput = {
     where: TrackingLinkWhereUniqueInput
     create: XOR<TrackingLinkCreateWithoutLeadsInput, TrackingLinkUncheckedCreateWithoutLeadsInput>
+  }
+
+  export type IgConversationCreateWithoutLeadInput = {
+    id?: string
+    channel?: $Enums.InboxChannel
+    connectionId?: string | null
+    participantId: string
+    participantUsername?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageText?: string | null
+    lastDirection?: $Enums.IgMsgDirection | null
+    needsReply?: boolean
+    hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgConversationsInput
+    account?: InstagramAccountCreateNestedOneWithoutConversationsInput
+    messages?: IgMessageCreateNestedManyWithoutConversationInput
+  }
+
+  export type IgConversationUncheckedCreateWithoutLeadInput = {
+    id?: string
+    companyId: string
+    channel?: $Enums.InboxChannel
+    connectionId?: string | null
+    accountId?: string | null
+    participantId: string
+    participantUsername?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageText?: string | null
+    lastDirection?: $Enums.IgMsgDirection | null
+    needsReply?: boolean
+    hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: IgMessageUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type IgConversationCreateOrConnectWithoutLeadInput = {
+    where: IgConversationWhereUniqueInput
+    create: XOR<IgConversationCreateWithoutLeadInput, IgConversationUncheckedCreateWithoutLeadInput>
+  }
+
+  export type IgConversationCreateManyLeadInputEnvelope = {
+    data: IgConversationCreateManyLeadInput | IgConversationCreateManyLeadInput[]
+    skipDuplicates?: boolean
   }
 
   export type EmailCampaignCreateWithoutPromotedLeadsInput = {
@@ -210702,6 +210908,22 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     clickEvents?: ClickEventUncheckedUpdateManyWithoutTrackingLinkNestedInput
+  }
+
+  export type IgConversationUpsertWithWhereUniqueWithoutLeadInput = {
+    where: IgConversationWhereUniqueInput
+    update: XOR<IgConversationUpdateWithoutLeadInput, IgConversationUncheckedUpdateWithoutLeadInput>
+    create: XOR<IgConversationCreateWithoutLeadInput, IgConversationUncheckedCreateWithoutLeadInput>
+  }
+
+  export type IgConversationUpdateWithWhereUniqueWithoutLeadInput = {
+    where: IgConversationWhereUniqueInput
+    data: XOR<IgConversationUpdateWithoutLeadInput, IgConversationUncheckedUpdateWithoutLeadInput>
+  }
+
+  export type IgConversationUpdateManyWithWhereWithoutLeadInput = {
+    where: IgConversationScalarWhereInput
+    data: XOR<IgConversationUpdateManyMutationInput, IgConversationUncheckedUpdateManyWithoutLeadInput>
   }
 
   export type EmailCampaignUpsertWithoutPromotedLeadsInput = {
@@ -211711,6 +211933,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -211768,6 +211991,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -211862,6 +212086,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -211919,6 +212144,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -212589,6 +212815,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -212646,6 +212873,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -212746,6 +212974,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -212803,6 +213032,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -214087,6 +214317,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -214144,6 +214375,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -214696,6 +214928,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -214753,6 +214986,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -215307,6 +215541,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -215364,6 +215599,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -215433,6 +215669,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -215490,6 +215727,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -218318,6 +218556,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -218375,6 +218614,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -218989,6 +219229,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -219046,6 +219287,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -220537,6 +220779,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -220593,6 +220836,7 @@ export namespace Prisma {
     eventSourceUrl?: string | null
     clientIp?: string | null
     clientUserAgent?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -221453,6 +221697,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -221510,6 +221755,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -221978,6 +222224,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -222035,6 +222282,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -235618,6 +235866,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
+    lead?: LeadCreateNestedOneWithoutIgConversationsInput
     messages?: IgMessageCreateNestedManyWithoutConversationInput
   }
 
@@ -235634,6 +235883,7 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: IgMessageUncheckedCreateNestedManyWithoutConversationInput
@@ -237830,6 +238080,123 @@ export namespace Prisma {
     create: XOR<InstagramAccountCreateWithoutConversationsInput, InstagramAccountUncheckedCreateWithoutConversationsInput>
   }
 
+  export type LeadCreateWithoutIgConversationsInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    wonAt?: Date | string | null
+    lostAt?: Date | string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
+    hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
+    company: CompanyCreateNestedOneWithoutLeadsInput
+    campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
+    sale?: SaleCreateNestedOneWithoutLeadInput
+    messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
+    emailRecipients?: EmailRecipientCreateNestedManyWithoutLeadInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutIgConversationsInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    wonAt?: Date | string | null
+    lostAt?: Date | string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
+    hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
+    conversationId?: string | null
+    sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
+    messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
+    emailRecipients?: EmailRecipientUncheckedCreateNestedManyWithoutLeadInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutIgConversationsInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutIgConversationsInput, LeadUncheckedCreateWithoutIgConversationsInput>
+  }
+
   export type IgMessageCreateWithoutConversationInput = {
     id?: string
     companyId: string
@@ -238188,6 +238555,129 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
 
+  export type LeadUpsertWithoutIgConversationsInput = {
+    update: XOR<LeadUpdateWithoutIgConversationsInput, LeadUncheckedUpdateWithoutIgConversationsInput>
+    create: XOR<LeadCreateWithoutIgConversationsInput, LeadUncheckedCreateWithoutIgConversationsInput>
+    where?: LeadWhereInput
+  }
+
+  export type LeadUpdateToOneWithWhereWithoutIgConversationsInput = {
+    where?: LeadWhereInput
+    data: XOR<LeadUpdateWithoutIgConversationsInput, LeadUncheckedUpdateWithoutIgConversationsInput>
+  }
+
+  export type LeadUpdateWithoutIgConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    wonAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lostAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
+    campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
+    sale?: SaleUpdateOneWithoutLeadNestedInput
+    messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
+    emailRecipients?: EmailRecipientUpdateManyWithoutLeadNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutIgConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    wonAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lostAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
+    emailRecipients?: EmailRecipientUncheckedUpdateManyWithoutLeadNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
   export type IgMessageUpsertWithWhereUniqueWithoutConversationInput = {
     where: IgMessageWhereUniqueInput
     update: XOR<IgMessageUpdateWithoutConversationInput, IgMessageUncheckedUpdateWithoutConversationInput>
@@ -238234,6 +238724,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
     account?: InstagramAccountCreateNestedOneWithoutConversationsInput
+    lead?: LeadCreateNestedOneWithoutIgConversationsInput
   }
 
   export type IgConversationUncheckedCreateWithoutMessagesInput = {
@@ -238250,6 +238741,7 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -238286,6 +238778,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
     account?: InstagramAccountUpdateOneWithoutConversationsNestedInput
+    lead?: LeadUpdateOneWithoutIgConversationsNestedInput
   }
 
   export type IgConversationUncheckedUpdateWithoutMessagesInput = {
@@ -238302,6 +238795,7 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -255115,6 +255609,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -255171,6 +255666,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -255745,6 +256241,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -255802,6 +256299,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -255962,6 +256460,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -256019,6 +256518,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -257739,6 +258239,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -257796,6 +258297,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -258323,6 +258825,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -258380,6 +258883,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -267255,6 +267759,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -267312,6 +267817,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -268008,6 +268514,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -268065,6 +268572,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -278429,6 +278937,7 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -279698,6 +280207,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -279755,6 +280265,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -281840,6 +282351,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     account?: InstagramAccountUpdateOneWithoutConversationsNestedInput
+    lead?: LeadUpdateOneWithoutIgConversationsNestedInput
     messages?: IgMessageUpdateManyWithoutConversationNestedInput
   }
 
@@ -281856,6 +282368,7 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: IgMessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -281874,6 +282387,7 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -283292,6 +283806,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -283349,6 +283864,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -283662,6 +284178,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -283719,6 +284236,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -283798,6 +284316,24 @@ export namespace Prisma {
     targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
     kind?: EnumClickEventKindFieldUpdateOperationsInput | $Enums.ClickEventKind
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgConversationCreateManyLeadInput = {
+    id?: string
+    companyId: string
+    channel?: $Enums.InboxChannel
+    connectionId?: string | null
+    accountId?: string | null
+    participantId: string
+    participantUsername?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageText?: string | null
+    lastDirection?: $Enums.IgMsgDirection | null
+    needsReply?: boolean
+    hadAutomation?: boolean
+    aiMode?: $Enums.AiMode
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MessageCreateManyLeadInput = {
@@ -283920,6 +284456,62 @@ export namespace Prisma {
     sentAt: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type IgConversationUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: EnumInboxChannelFieldUpdateOperationsInput | $Enums.InboxChannel
+    connectionId?: NullableStringFieldUpdateOperationsInput | string | null
+    participantId?: StringFieldUpdateOperationsInput | string
+    participantUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageText?: NullableStringFieldUpdateOperationsInput | string | null
+    lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
+    needsReply?: BoolFieldUpdateOperationsInput | boolean
+    hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
+    account?: InstagramAccountUpdateOneWithoutConversationsNestedInput
+    messages?: IgMessageUpdateManyWithoutConversationNestedInput
+  }
+
+  export type IgConversationUncheckedUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    channel?: EnumInboxChannelFieldUpdateOperationsInput | $Enums.InboxChannel
+    connectionId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    participantId?: StringFieldUpdateOperationsInput | string
+    participantUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageText?: NullableStringFieldUpdateOperationsInput | string | null
+    lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
+    needsReply?: BoolFieldUpdateOperationsInput | boolean
+    hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: IgMessageUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type IgConversationUncheckedUpdateManyWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    channel?: EnumInboxChannelFieldUpdateOperationsInput | $Enums.InboxChannel
+    connectionId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    participantId?: StringFieldUpdateOperationsInput | string
+    participantUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageText?: NullableStringFieldUpdateOperationsInput | string | null
+    lastDirection?: NullableEnumIgMsgDirectionFieldUpdateOperationsInput | $Enums.IgMsgDirection | null
+    needsReply?: BoolFieldUpdateOperationsInput | boolean
+    hadAutomation?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUpdateWithoutLeadInput = {
@@ -285071,6 +285663,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -285127,6 +285720,7 @@ export namespace Prisma {
     eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -286680,6 +287274,7 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -286846,6 +287441,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
+    lead?: LeadUpdateOneWithoutIgConversationsNestedInput
     messages?: IgMessageUpdateManyWithoutConversationNestedInput
   }
 
@@ -286862,6 +287458,7 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: IgMessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -286880,6 +287477,7 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -287419,6 +288017,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -287475,6 +288074,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput

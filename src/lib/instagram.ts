@@ -569,7 +569,7 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
     // effort, independente do agente responder).
     if (username) {
       const { promoteIgProspectOnReply } = await import("./ig-auto-agent");
-      promoteIgProspectOnReply(account.companyId, username).catch((e: any) =>
+      promoteIgProspectOnReply(account.companyId, username, convoId).catch((e: any) =>
         console.error("[IG] promote prospect:", e?.message),
       );
     }

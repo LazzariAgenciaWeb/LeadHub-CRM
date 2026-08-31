@@ -92,13 +92,27 @@ export async function findLeadByIgUsername(companyId: string, username: string |
 }
 
 /**
- * Prospect respondeu no Direct → promove PROSPECCAO → LEADS (primeira etapa)
- * e anota a data. Determinístico: roda no webhook, independente do agente
- * responder ou não. Mesmo padrão do clique no diagnóstico (/d/[token]).
+ * Prospect respondeu no Direct → vincula a conversa ao Lead (leadId) e, se
+ * ainda está em PROSPECCAO, promove pra LEADS (primeira etapa) com atribuição.
+ * Determinístico: roda no webhook, independente do agente responder ou não.
+ * Mesmo padrão do clique no diagnóstico (/d/[token]).
  */
-export async function promoteIgProspectOnReply(companyId: string, username: string | null | undefined): Promise<void> {
+export async function promoteIgProspectOnReply(
+  companyId: string,
+  username: string | null | undefined,
+  conversationId?: string | null,
+): Promise<void> {
   const lead = await findLeadByIgUsername(companyId, username);
-  if (!lead || lead.pipeline !== "PROSPECCAO") return;
+  if (!lead) return;
+
+  // Vínculo conversa ↔ lead (backfill; idempotente).
+  if (conversationId) {
+    await prisma.igConversation
+      .updateMany({ where: { id: conversationId, leadId: null }, data: { leadId: lead.id } })
+      .catch(() => {});
+  }
+
+  if (lead.pipeline !== "PROSPECCAO") return;
   const firstStage = await prisma.pipelineStageConfig.findFirst({
     where: { companyId, pipeline: "LEADS" },
     orderBy: { order: "asc" },
@@ -111,6 +125,9 @@ export async function promoteIgProspectOnReply(companyId: string, username: stri
       pipeline: "LEADS",
       pipelineStage: firstStage?.name ?? null,
       notes: lead.notes ? `${lead.notes}\n\n${stamp}` : stamp,
+      promotedFromPipeline: "PROSPECCAO",
+      promotedAt: new Date(),
+      promotedReason: "direct_reply",
     },
   });
   console.log(`[IgAgent] prospect @${normalizeIgUsername(username)} promovido pra LEADS (lead ${lead.id})`);
@@ -196,8 +213,16 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
     : "Não foi possível verificar se o contato segue o perfil.";
 
   // Dados do prospect levantados pela equipe (rotina de prospecção → webhook
-  // de leads com o @). O agente personaliza com isso, sem recitar de volta.
-  const lead = await findLeadByIgUsername(conv.companyId, conv.participantUsername);
+  // de leads com o @). Usa o vínculo direto quando existe; senão casa pelo @
+  // e faz o backfill do leadId.
+  const lead = conv.leadId
+    ? await prisma.lead.findUnique({ where: { id: conv.leadId } })
+    : await findLeadByIgUsername(conv.companyId, conv.participantUsername);
+  if (lead && !conv.leadId) {
+    await prisma.igConversation
+      .updateMany({ where: { id: conv.id, leadId: null }, data: { leadId: lead.id } })
+      .catch(() => {});
+  }
   const prospectBlock = lead
     ? `\n\n# DADOS DO PROSPECT (levantados pela equipe — use para personalizar a conversa; NUNCA recite esta ficha de volta nem revele que existe)\n` +
       [

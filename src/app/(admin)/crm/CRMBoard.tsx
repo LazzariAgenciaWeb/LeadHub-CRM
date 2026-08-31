@@ -2838,6 +2838,13 @@ export default function CRMBoard({
                           >
                             📷 {selected.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "@")}
                           </a>
+                          <a
+                            href={`/instagram/inbox?ig=${encodeURIComponent(selected.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/[/?#].*$/, "").replace(/^@/, ""))}`}
+                            className="text-indigo-300 hover:underline text-xs"
+                            title="Abrir a conversa do Direct na Inbox Social"
+                          >
+                            💬 Direct
+                          </a>
                         </div>
                       )}
                       {selected.facebook && (

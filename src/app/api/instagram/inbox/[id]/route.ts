@@ -21,6 +21,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       needsReply: true,
       hadAutomation: true,
       aiMode: true,
+      lead: { select: { id: true, name: true, pipeline: true, instagram: true } },
     },
   });
   if (!convo || convo.companyId !== ctx.companyId) {

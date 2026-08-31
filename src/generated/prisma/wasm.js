@@ -977,6 +977,7 @@ exports.Prisma.IgConversationScalarFieldEnum = {
   needsReply: 'needsReply',
   hadAutomation: 'hadAutomation',
   aiMode: 'aiMode',
+  leadId: 'leadId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

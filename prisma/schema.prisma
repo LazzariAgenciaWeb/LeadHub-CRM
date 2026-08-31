@@ -563,6 +563,9 @@ model Lead {
   trackingLink   TrackingLink? @relation(fields: [trackingLinkId], references: [id])
   trackingLinkId String?
 
+  // Conversas do Direct vinculadas (prospecção via Instagram).
+  igConversations IgConversation[]
+
   // ─── Rastreabilidade da promoção entre pipelines (atribuição) ─────────────
   // Setado pelos handlers de clique (shortlink e email) quando movem o lead
   // automático entre pipelines — alimenta relatórios de conversão.
@@ -2199,6 +2202,9 @@ model IgConversation {
   // Agente IA do Direct: ACTIVE = bot pode responder; PAUSED_HUMAN = atendente
   // assumiu (reply na inbox pausa); OFF = desligado manualmente nesta conversa.
   aiMode          AiMode          @default(ACTIVE)
+  // Vínculo com o Lead do CRM (casado pelo @ da prospecção; backfill no match).
+  lead            Lead?           @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  leadId          String?
 
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
