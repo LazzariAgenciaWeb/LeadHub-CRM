@@ -490,12 +490,22 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
   if (msg.message?.is_echo) {
     const participantId = msg.recipient?.id;
     if (!participantId || participantId === account.igUserId) return;
+    // Busca o @ do destinatário: sem ele a lista mostra o IGSID cru e o
+    // casamento com o Lead (que é por @username) não acontece. Numa conversa
+    // que começou por DM nossa (prospecção), o echo é a ÚNICA chance de gravar.
+    const echoToken = decryptAccountToken(account.accessTokenEnc);
+    let echoUsername: string | null = null;
+    if (echoToken) {
+      const prof = await getIgUserProfile(participantId, echoToken);
+      echoUsername = prof.username ?? prof.name ?? null;
+    }
     const convoId = await recordIgMessage({
       companyId: account.companyId,
       channel: "INSTAGRAM",
       connectionId: account.id,
       accountId: account.id,
       participantId,
+      username: echoUsername,
       direction: "OUT",
       source: "EXTERNAL",
       text: msg.message?.text ?? null,
