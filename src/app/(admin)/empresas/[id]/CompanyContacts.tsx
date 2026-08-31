@@ -638,19 +638,18 @@ export default function CompanyContacts({
                       </div>
                       <div className="text-slate-500 text-xs mt-0.5 flex items-center gap-2 flex-wrap">
                         {formatPhone(c.phone, c.isGroup)}
-                        {/* Atalho pro WhatsApp: avisar da nota, mandar o Pix,
-                            cobrar. Grupo não tem wa.me — o id @g.us não abre
-                            conversa, então o link só existe pra contato real. */}
+                        {/* Abre a conversa no inbox do LeadHub, não no
+                            WhatsApp externo: o histórico fica no sistema.
+                            Grupo fica de fora — o id @g.us não é conversa
+                            direta. */}
                         {!c.isGroup && (
                           <a
-                            href={`https://wa.me/${c.phone.replace(/\D/g, "")}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href={`/whatsapp?abrir=${c.phone.replace(/\D/g, "")}`}
                             onClick={(e) => e.stopPropagation()}
-                            title="Abrir conversa no WhatsApp"
+                            title="Abrir conversa no inbox"
                             className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium text-green-400 bg-green-500/10 border border-green-500/20 hover:bg-green-500/20 transition-colors"
                           >
-                            💬 WhatsApp
+                            💬 Conversar
                           </a>
                         )}
                       </div>
