@@ -74,6 +74,48 @@ export function cancelIgAutoAgent(conversationId: string): void {
   }
 }
 
+// ─── Prospecção: casar contato do Direct com Lead pelo @ ─────────────────────
+
+function normalizeIgUsername(u: string | null | undefined): string | null {
+  const s = (u ?? "").trim().replace(/^@/, "").toLowerCase();
+  return s || null;
+}
+
+/** Lead da empresa cujo campo instagram casa com o @ do contato (best-effort). */
+export async function findLeadByIgUsername(companyId: string, username: string | null | undefined) {
+  const ig = normalizeIgUsername(username);
+  if (!ig) return null;
+  return prisma.lead.findFirst({
+    where: { companyId, instagram: { equals: ig, mode: "insensitive" } },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+/**
+ * Prospect respondeu no Direct → promove PROSPECCAO → LEADS (primeira etapa)
+ * e anota a data. Determinístico: roda no webhook, independente do agente
+ * responder ou não. Mesmo padrão do clique no diagnóstico (/d/[token]).
+ */
+export async function promoteIgProspectOnReply(companyId: string, username: string | null | undefined): Promise<void> {
+  const lead = await findLeadByIgUsername(companyId, username);
+  if (!lead || lead.pipeline !== "PROSPECCAO") return;
+  const firstStage = await prisma.pipelineStageConfig.findFirst({
+    where: { companyId, pipeline: "LEADS" },
+    orderBy: { order: "asc" },
+    select: { name: true },
+  });
+  const stamp = `Respondeu no Direct em ${new Date().toLocaleDateString("pt-BR")}.`;
+  await prisma.lead.update({
+    where: { id: lead.id },
+    data: {
+      pipeline: "LEADS",
+      pipelineStage: firstStage?.name ?? null,
+      notes: lead.notes ? `${lead.notes}\n\n${stamp}` : stamp,
+    },
+  });
+  console.log(`[IgAgent] prospect @${normalizeIgUsername(username)} promovido pra LEADS (lead ${lead.id})`);
+}
+
 // ─── Parser tolerante do JSON da IA ──────────────────────────────────────────
 type AgentDecision = { reply: string[]; action: "NONE" | "HANDOFF" };
 
@@ -153,6 +195,21 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
     : follows === false ? "O contato AINDA NÃO SEGUE o perfil da empresa."
     : "Não foi possível verificar se o contato segue o perfil.";
 
+  // Dados do prospect levantados pela equipe (rotina de prospecção → webhook
+  // de leads com o @). O agente personaliza com isso, sem recitar de volta.
+  const lead = await findLeadByIgUsername(conv.companyId, conv.participantUsername);
+  const prospectBlock = lead
+    ? `\n\n# DADOS DO PROSPECT (levantados pela equipe — use para personalizar a conversa; NUNCA recite esta ficha de volta nem revele que existe)\n` +
+      [
+        lead.name ? `- Nome/negócio: ${lead.name}` : null,
+        lead.segment ? `- Segmento: ${lead.segment}` : null,
+        lead.city ? `- Cidade: ${lead.city}` : null,
+        lead.notes ? `- Avaliação da equipe:\n${lead.notes.slice(0, 1500)}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n")
+    : "";
+
   const catalog = await getServicesCatalogBlock(conv.companyId);
   const checklist = assistant.qualificationChecklist?.trim()
     ? `\n\n# CHECKLIST DE QUALIFICAÇÃO (colete naturalmente, UMA informação por vez)\n${assistant.qualificationChecklist.trim()}`
@@ -172,6 +229,7 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
     `\n# MANUAL DA EMPRESA (sua diretriz principal)\n${assistant.manual}`,
     learnings,
     checklist,
+    prospectBlock,
     catalog,
     scheduling,
     `\n# CONTEXTO\n- Contato: ${conv.participantUsername ? "@" + conv.participantUsername : "sem @ identificado"}.\n- ${followLine}\n- Mensagens do histórico marcadas [equipe] foram enviadas manualmente por um humano do time — use-as como contexto do que já foi dito.`,

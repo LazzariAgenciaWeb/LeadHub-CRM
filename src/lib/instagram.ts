@@ -565,6 +565,14 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
       await resolveButtonClick(account, senderId, payload.slice(FOLLOWED_PREFIX.length), token);
       return;
     }
+    // Prospect da rotina respondeu? Promove PROSPECCAO → LEADS pelo @ (best-
+    // effort, independente do agente responder).
+    if (username) {
+      const { promoteIgProspectOnReply } = await import("./ig-auto-agent");
+      promoteIgProspectOnReply(account.companyId, username).catch((e: any) =>
+        console.error("[IG] promote prospect:", e?.message),
+      );
+    }
     // Texto comum: resolve o follow-gate do fluxo SIMPLES (responder "ok").
     const gateConsumed = await resolveTextFollowGate(account, senderId, token);
     // DM orgânica sem automação pendente → agente IA do Direct (se a conta

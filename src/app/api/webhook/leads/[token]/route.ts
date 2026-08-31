@@ -34,14 +34,24 @@ export async function POST(
   const email = String(body.email ?? "").trim() || null;
   const source = String(body.source ?? body.origem ?? body.utm_source ?? "webhook").trim();
   const notes  = String(body.notes ?? body.observacoes ?? body.mensagem ?? "").trim() || null;
+  const segment = String(body.segment ?? body.segmento ?? body.ramo ?? "").trim() || null;
+  const city    = String(body.city ?? body.cidade ?? "").trim() || null;
+  // @ do Instagram — chave de identidade para prospecção via Direct (aceita
+  // "@fulana", "fulana" ou a URL do perfil). Normalizado em minúsculas.
+  const instagram = String(body.instagram ?? body.ig ?? body.username ?? "")
+    .trim()
+    .replace(/^https?:\/\/(www\.)?instagram\.com\//i, "")
+    .replace(/[/?#].*$/, "")
+    .replace(/^@/, "")
+    .toLowerCase() || null;
 
   const rawPipeline = String(body.pipeline ?? "PROSPECCAO").toUpperCase();
   const pipeline = ALLOWED_PIPELINES.includes(rawPipeline as any)
     ? (rawPipeline as (typeof ALLOWED_PIPELINES)[number])
     : "PROSPECCAO";
 
-  if (!phone) {
-    return NextResponse.json({ error: "Campo obrigatório: phone (ou telefone)" }, { status: 400 });
+  if (!phone && !instagram) {
+    return NextResponse.json({ error: "Campo obrigatório: phone (ou telefone) ou instagram" }, { status: 400 });
   }
 
   // Sinais de atribuição do Meta (Conversions API). A landing com o Pixel manda
@@ -65,16 +75,36 @@ export async function POST(
     select: { name: true },
   });
 
-  // Checa duplicata (mesmo telefone + pipeline na empresa)
-  const existing = await prisma.lead.findFirst({
-    where: { companyId: company.id, phone, pipeline },
-    select: { id: true },
-  });
+  // Checa duplicata: por telefone + pipeline (quando tem telefone) ou pelo @
+  // do Instagram em QUALQUER pipeline (prospect que já respondeu e virou LEAD
+  // não deve ser recriado na PROSPECCAO por um repost da rotina).
+  const existing = phone
+    ? await prisma.lead.findFirst({
+        where: { companyId: company.id, phone, pipeline },
+        select: { id: true },
+      })
+    : await prisma.lead.findFirst({
+        where: { companyId: company.id, instagram: { equals: instagram!, mode: "insensitive" } },
+        select: { id: true },
+      });
 
   if (existing) {
+    // Reposte da rotina de prospecção: atualiza os dados levantados sem mexer
+    // no pipeline/estágio atual do lead.
+    await prisma.lead.update({
+      where: { id: existing.id },
+      data: {
+        ...(name ? { name } : {}),
+        ...(notes ? { notes } : {}),
+        ...(segment ? { segment } : {}),
+        ...(city ? { city } : {}),
+        ...(instagram ? { instagram } : {}),
+      },
+    });
     return NextResponse.json({
-      ok: false,
-      message: "Lead já existe neste pipeline",
+      ok: true,
+      updated: true,
+      message: "Lead já existia — dados atualizados",
       leadId: existing.id,
     });
   }
@@ -90,13 +120,16 @@ export async function POST(
       pipeline,
       pipelineStage: firstStage?.name ?? null,
       notes,
+      instagram,
+      segment,
+      city,
       fbc,
       fbp,
       eventSourceUrl,
       clientIp,
       clientUserAgent,
     },
-    select: { id: true, name: true, phone: true, pipeline: true, pipelineStage: true },
+    select: { id: true, name: true, phone: true, instagram: true, pipeline: true, pipelineStage: true },
   });
 
   return NextResponse.json({ ok: true, lead }, { status: 201 });
@@ -123,8 +156,8 @@ export async function GET(
     company: company.name,
     message: "Webhook ativo. Envie um POST com os dados do lead.",
     fields: {
-      required: ["phone"],
-      optional: ["name", "email", "source", "pipeline", "notes", "fbc", "fbp", "fbclid", "eventSourceUrl"],
+      required: ["phone OU instagram"],
+      optional: ["name", "email", "source", "pipeline", "notes", "segment", "city", "instagram", "fbc", "fbp", "fbclid", "eventSourceUrl"],
       pipeline_values: ["PROSPECCAO", "LEADS", "OPORTUNIDADES"],
       meta_capi: "Para melhorar o match no Meta Ads, envie os cookies _fbc e _fbp (ou o fbclid da URL) + eventSourceUrl da landing.",
     },
