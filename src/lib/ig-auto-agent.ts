@@ -25,7 +25,7 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v1-direct";
+export const IG_AUTO_AGENT_REV = "v3-diagnostico-honesto";
 
 const DEBOUNCE_MS = 12_000;
 const HISTORY_LIMIT = 30;
@@ -136,6 +136,43 @@ export async function promoteIgProspectOnReply(
 // ─── Parser tolerante do JSON da IA ──────────────────────────────────────────
 type AgentDecision = { reply: string[]; action: "NONE" | "HANDOFF" };
 
+/**
+ * O histórico marca as mensagens do time com "[equipe] " pra dar contexto ao
+ * modelo — e o modelo imitava o padrão, mandando "[equipe] Beleza!" direto pro
+ * cliente. Aqui a etiqueta é arrancada antes de qualquer envio (o prompt também
+ * proíbe, mas isto é a garantia mecânica).
+ */
+function stripInternalTags(text: string): string {
+  return text
+    .replace(/^\s*[[(](?:equipe|time|atendente|agente|ia|bot)[\])]\s*:?\s*/i, "")
+    .trim();
+}
+
+/** @ do Instagram dentro de link ou menção ("instagram.com/fulano", "@fulano"). */
+function extractIgHandles(text: string): string[] {
+  const handles = new Set<string>();
+  const fromUrl = text.matchAll(/instagram\.com\/([A-Za-z0-9._]{2,30})/gi);
+  for (const m of fromUrl) {
+    const h = m[1].toLowerCase();
+    if (!["p", "reel", "reels", "stories", "explore", "direct"].includes(h)) handles.add(h);
+  }
+  for (const m of text.matchAll(/(?:^|\s)@([A-Za-z0-9._]{2,30})/g)) handles.add(m[1].toLowerCase());
+  return [...handles];
+}
+
+/** O contato aceitou a oferta que a equipe fez ("pode", "manda", "à vontade"…). */
+function looksLikeAcceptance(text: string): boolean {
+  const t = text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "");
+  if (t.length > 140) return false;
+  // "pode chamar no whatsapp / liga pra mim / ta na bio" não é aceite do
+  // diagnóstico — é redirecionamento de canal, tratado pelo manual.
+  if (/\b(whats|whatsapp|zap|bio|liga|ligar|telefone|e-?mail|chama no)\b/.test(t)) return false;
+  return /\b(pode|podes|pode sim|claro|manda|manda ai|pode mandar|quero|bora|vamos|sim|isso|aceito|topo|mostra|me mostra|adoraria|por favor|fico no aguardo|a vontade|fique a vontade|fica a vontade)\b/.test(t);
+}
+
 function parseDecision(raw: string): AgentDecision | null {
   const start = raw.indexOf("{");
   const end = raw.lastIndexOf("}");
@@ -143,9 +180,9 @@ function parseDecision(raw: string): AgentDecision | null {
   try {
     const obj = JSON.parse(raw.slice(start, end + 1));
     const reply = Array.isArray(obj.reply)
-      ? obj.reply.map((b: unknown) => String(b ?? "").trim()).filter(Boolean)
+      ? obj.reply.map((b: unknown) => stripInternalTags(String(b ?? ""))).filter(Boolean)
       : typeof obj.reply === "string" && obj.reply.trim()
-        ? [obj.reply.trim()]
+        ? [stripInternalTags(obj.reply)].filter(Boolean)
         : [];
     const action = obj.action === "HANDOFF" ? "HANDOFF" : "NONE";
     return { reply: reply.slice(0, 3), action };
@@ -224,7 +261,8 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
       .catch(() => {});
   }
   const prospectBlock = lead
-    ? `\n\n# DADOS DO PROSPECT (levantados pela equipe — use para personalizar a conversa; NUNCA recite esta ficha de volta nem revele que existe)\n` +
+    ? `\n\n# ACHADOS DA EQUIPE SOBRE ESTE PROSPECT — é ESTE o material do "diagnóstico" que a abordagem prometeu.\n` +
+      `Use como CONTEÚDO da conversa: quando o contato aceitar ver / pedir pra mostrar, entregue 2-3 achados concretos daqui, com as suas palavras, um por bolha. NÃO copie a ficha inteira, não leia como lista e nunca diga que existe uma ficha.\n` +
       [
         lead.name ? `- Nome/negócio: ${lead.name}` : null,
         lead.segment ? `- Segmento: ${lead.segment}` : null,
@@ -246,8 +284,45 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
     ? `\n\nLink de agendamento (copie EXATAMENTE quando for convidar para reunião): ${assistant.schedulingLink.trim()}`
     : "";
 
+  // Continuidade: a abordagem (enviada pela equipe) costuma terminar com uma
+  // oferta — "posso te mostrar o que vi?". Quando o contato aceita, o pecado é
+  // responder com pergunta genérica de dor em vez de ENTREGAR o prometido.
+  const lastTeamMsg = [...history].reverse().find((m) => m.direction === "OUT");
+  const contactAccepted = looksLikeAcceptance(lastIn.text ?? "");
+  const teamOffered = /\?|posso|quer que|te mostro|te mando|mostrar|vi (?:que|uma|algo)/i.test(lastTeamMsg?.text ?? "");
+  const continuityBlock =
+    contactAccepted && teamOffered
+      ? `\n# ⚠️ O CONTATO ACABOU DE ACEITAR (prioridade máxima)\nA última mensagem nossa fez uma oferta/pergunta e o contato respondeu que SIM. Siga o FLUXO abaixo a partir do passo que faz sentido — e NÃO pergunte "qual sua maior dificuldade" nem qualquer pergunta genérica de qualificação agora: quem acabou de dizer "pode mostrar" quer ver, não responder questionário.`
+      : "";
+
+  // Anti-alucinação: o modelo não abre perfil nenhum. Ele já afirmou "sua bio
+  // está sem chamada pra ação" para um perfil que TINHA — o contato percebe na
+  // hora e a conversa morre. Só pode afirmar o que está nos achados da equipe.
+  const groundingBlock = `\n# 🚫 REGRA DE OURO — NUNCA INVENTE UM DIAGNÓSTICO
+Você NÃO consegue abrir, ver, acessar ou analisar perfis do Instagram, sites, bio ou ficha do Google. Você não "deu uma olhada" em nada.
+- A ÚNICA coisa que você sabe sobre o negócio do contato é o que está em ACHADOS DA EQUIPE${lead ? "" : " — e nesta conversa NÃO HÁ achados nenhum"}.
+- É PROIBIDO afirmar qualquer característica do perfil que não esteja lá ("sua bio está sem link", "falta chamada pra ação", "seu feed está desorganizado"). Já aconteceu de dizer que faltava link na bio quando tinha — isso queima a confiança na hora.
+- Se o contato pedir análise de um perfil que não está nos achados (por exemplo um segundo perfil dele), seja honesto e simpático: diga que vai olhar com calma e que retorna com os pontos — e use action "HANDOFF" pra equipe assumir. NUNCA chute pra parecer útil.`;
+
+  const flowBlock = `\n# FLUXO DESTA CONVERSA (Direct de prospecção)
+1. FOLLOW — se o contato demonstrou interesse e ainda NÃO segue o perfil, você pode pedir o follow, com motivo e UMA vez só ("me segue aqui que eu já te mando o que encontrei"). Se ele já segue, pule direto pro passo 2.
+2. ENTREGA — com o follow feito (ou já existente), entregue o diagnóstico: 2-3 achados concretos dos ACHADOS DA EQUIPE, com as suas palavras, um por bolha, simples e direto. Sem enrolação e sem prometer pra depois.
+3. CONVITE — logo depois de entregar, puxe para a sessão gratuita de diagnóstico${assistant.schedulingLink?.trim() ? " (mande o link de agendamento)" : ""}, conectando com o que você acabou de mostrar.
+Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenário.`;
+
+  // @ enviado pelo contato (link ou menção) — o modelo pedia o @ que já tinha
+  // sido informado, ou tratava o link como pedido de follow.
+  const handlesFromContact = extractIgHandles(lastIn.text ?? "");
+  const handleBlock = handlesFromContact.length
+    ? `\n# PERFIL INFORMADO PELO CONTATO\nO contato enviou: ${handlesFromContact.map((h) => "@" + h).join(", ")}. É sobre esse perfil que ele quer falar — NÃO peça de novo o @ nem o link (você já tem), e não interprete como pedido para ele te seguir. Fale sobre esse perfil.`
+    : "";
+
   const system = [
     `Você atende o DIRECT DO INSTAGRAM de uma empresa. Estilo: mensagens curtas de chat (1 a 3 bolhas de no máximo ~2 frases), tom humano e natural, no idioma do contato.`,
+    continuityBlock,
+    groundingBlock,
+    flowBlock,
+    handleBlock,
     assistant.discloseAi
       ? "Você PODE se apresentar como assistente de IA, com leveza."
       : "Não afirme nem negue ser uma IA; simplesmente atenda bem.",
@@ -257,7 +332,14 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
     prospectBlock,
     catalog,
     scheduling,
-    `\n# CONTEXTO\n- Contato: ${conv.participantUsername ? "@" + conv.participantUsername : "sem @ identificado"}.\n- ${followLine}\n- Mensagens do histórico marcadas [equipe] foram enviadas manualmente por um humano do time — use-as como contexto do que já foi dito.`,
+    `\n# CONTEXTO\n- Contato: ${conv.participantUsername ? "@" + conv.participantUsername : "sem @ identificado"}.\n- ${followLine}\n- Mensagens do histórico marcadas [equipe] foram enviadas manualmente por um humano do time — use-as como contexto do que já foi dito. "[equipe]" é uma ETIQUETA INTERNA: JAMAIS escreva "[equipe]" (ou qualquer marcador entre colchetes) nas suas mensagens.\n- Você está no meio de uma conversa que a equipe começou: continue de onde ela parou. Nunca reinicie do zero, nunca reapresente a empresa e nunca peça algo que o contato já respondeu.`,
+
+    `\n# O QUE NÃO FAZER (erros que já aconteceram aqui)
+- Frase de enchimento sem informação ("isso pode ajudar a otimizar seu negócio", "que bom que você está aqui"). Toda bolha precisa dizer algo concreto ou fazer a conversa avançar; se não tem o que dizer, mande menos bolhas.
+- Perguntar "qual sua maior dificuldade" logo depois que o contato aceitou ver algo — primeiro entregue, depois pergunte.
+- Pedir dado que já está no histórico (@ do perfil, nome do negócio, link).
+- Tratar um link/perfil enviado pelo contato como pedido de follow.
+- Prometer análise para depois sem entregar nada agora: entregue pelo menos um ponto concreto na hora.`,
     `\n# FORMATO DA RESPOSTA\nResponda SOMENTE com um JSON válido, sem texto fora dele:\n{"reply": ["bolha 1", "bolha 2 (opcional)"], "action": "NONE"}\n- "reply": 1 a 3 bolhas CURTAS; resposta simples = 1 bolha; UMA pergunta no máximo, na última bolha; no máximo 1 emoji no total.\n- "action": "NONE" para continuar conversando; "HANDOFF" quando o contato pedir atendimento humano ou você não souber ajudar (nesse caso "reply" avisa que alguém do time vai assumir).\n- Se não houver nada útil a dizer, responda {"reply": [], "action": "NONE"}.`,
   ]
     .filter(Boolean)
