@@ -78,44 +78,86 @@ export async function GET(req: NextRequest) {
   const expiresAt = new Date(Date.now() + tokens.expires_in * 1000);
 
   // Cria/atualiza um MarketingIntegration por serviço autorizado.
-  // Refresh token só vem na PRIMEIRA autorização — preservamos o anterior em re-conexões.
+  //
+  // Reconexão precisa ser IDEMPOTENTE: antes procurávamos só o registro com
+  // accountId=null, então reconectar uma integração já configurada criava um
+  // segundo registro ("selecione a propriedade") e deixava o antigo pendurado.
+  // Agora renovamos o token DO registro existente, preservando a propriedade
+  // escolhida — e, como o consentimento traz os escopos das outras conexões da
+  // mesma conta Google, elas também são renovadas de uma vez só.
+  const authEmail = (idInfo.email ?? "").toLowerCase();
+  const requested = new Set(payload.sv);
+
+  const tokenData: any = {
+    accessTokenEnc: tokenCrypto.encrypt(tokens.access_token),
+    tokenExpiresAt: expiresAt,
+    scopes: tokens.scope.split(/\s+/).filter(Boolean),
+    googleEmail: idInfo.email ?? null,
+    googleName: idInfo.name ?? null,
+    status: "ACTIVE" as const,
+    lastError: null,
+  };
+  // Refresh token só vem na primeira autorização (ou com prompt=consent) —
+  // quando não vier, preservamos o que já está gravado.
+  if (tokens.refresh_token) {
+    tokenData.refreshTokenEnc = tokenCrypto.encrypt(tokens.refresh_token);
+  }
+
   for (const service of grantedServices) {
     const provider = SERVICE_TO_PROVIDER[service];
     if (!provider) continue;
 
-    const data: any = {
-      companyId: payload.c,
-      provider,
-      accountId: null, // ainda não escolheu propriedade — fluxo seguinte
-      accessTokenEnc: tokenCrypto.encrypt(tokens.access_token),
-      tokenExpiresAt: expiresAt,
-      scopes: tokens.scope.split(/\s+/).filter(Boolean),
-      googleEmail: idInfo.email ?? null,
-      googleName: idInfo.name ?? null,
-      status: "ACTIVE" as const,
-      lastError: null,
-      createdById: auth.userId,
-    };
-    if (tokens.refresh_token) {
-      data.refreshTokenEnc = tokenCrypto.encrypt(tokens.refresh_token);
+    const existing = await prisma.marketingIntegration.findMany({
+      where: { companyId: payload.c, provider },
+      orderBy: { createdAt: "asc" },
+      select: { id: true, accountId: true, googleEmail: true },
+    });
+
+    // Só mexemos nas conexões da MESMA conta Google (ou nas antigas, sem email
+    // gravado). Conexão feita com outra conta fica intacta.
+    const sameAccount = existing.filter(
+      (i) => !i.googleEmail || !authEmail || i.googleEmail.toLowerCase() === authEmail
+    );
+
+    if (sameAccount.length > 0) {
+      await prisma.marketingIntegration.updateMany({
+        where: { id: { in: sameAccount.map((i) => i.id) } },
+        data: tokenData,
+      });
+      // Limpa resíduo de reconexões antigas: se já existe registro com
+      // propriedade escolhida, o registro sem accountId é duplicata órfã
+      // (nunca sincronizou nada — não há histórico preso a ele).
+      const orphans = sameAccount.filter((i) => !i.accountId);
+      if (orphans.length > 0 && sameAccount.some((i) => i.accountId)) {
+        await prisma.marketingIntegration.deleteMany({
+          where: { id: { in: orphans.map((i) => i.id) } },
+        });
+      }
+      continue;
     }
 
-    // Upsert por (companyId, provider, accountId=null) — mantém um registro "raiz" antes de
-    // o usuário escolher a propriedade. Quando ele escolhe, gravamos o accountId.
-    const existing = await prisma.marketingIntegration.findFirst({
-      where: { companyId: payload.c, provider, accountId: null },
-    });
-    if (existing) {
-      const updateData: any = { ...data };
-      // se não veio refresh_token novo, preserva o antigo
-      if (!tokens.refresh_token) delete updateData.refreshTokenEnc;
-      delete updateData.companyId;
-      delete updateData.provider;
-      delete updateData.createdById;
-      await prisma.marketingIntegration.update({ where: { id: existing.id }, data: updateData });
-    } else {
-      await prisma.marketingIntegration.create({ data });
+    // Nenhuma conexão desta conta Google ainda. Escopo que veio de carona
+    // (include_granted_scopes) não pode inventar integração que a empresa
+    // nunca pediu — só criamos registro pro serviço que o usuário clicou.
+    if (!requested.has(service)) continue;
+
+    // Registro-raiz sem accountId de outra conta Google: reaproveita (o
+    // @@unique(companyId, provider, accountId) não deixaria criar outro).
+    const rootless = existing.find((i) => !i.accountId);
+    if (rootless) {
+      await prisma.marketingIntegration.update({ where: { id: rootless.id }, data: tokenData });
+      continue;
     }
+
+    await prisma.marketingIntegration.create({
+      data: {
+        ...tokenData,
+        companyId: payload.c,
+        provider,
+        accountId: null, // ainda não escolheu propriedade — fluxo seguinte
+        createdById: auth.userId,
+      },
+    });
   }
 
   return redirectToCompany(payload.c, "?integration_success=1");

@@ -82,7 +82,7 @@ const PLATFORMS: {
   {
     id: "google",
     label: "Google",
-    hint: "Uma autorização por serviço, na conta Google que tem acesso.",
+    hint: "Uma autorização por serviço, na conta Google que tem acesso. Reconectar renova todos os serviços já ligados nessa conta.",
     accent: "text-blue-300",
     providers: ["GA4", "SEARCH_CONSOLE", "BUSINESS_PROFILE", "GOOGLE_ADS"],
   },
@@ -304,6 +304,11 @@ export default function CompanyIntegrations({
                           ? "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10"
                           : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/40"
                       }`}
+                      title={
+                        hasActive
+                          ? "Renova a autorização — a propriedade escolhida é mantida e os demais serviços Google desta conta também são renovados."
+                          : undefined
+                      }
                     >
                       {hasActive ? "Reconectar" : "Conectar"}
                     </button>

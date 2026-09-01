@@ -4,8 +4,16 @@ import { cookies } from "next/headers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
+import { prisma } from "@/lib/prisma";
 import { buildAuthorizeUrl, type GoogleService } from "@/lib/google-oauth";
 import { assertModule, assertFeature } from "@/lib/billing";
+
+const PROVIDER_TO_SERVICE = {
+  GA4: "ga4",
+  SEARCH_CONSOLE: "sc",
+  BUSINESS_PROFILE: "gbp",
+  GOOGLE_ADS: "gads",
+} as const;
 
 // GET /api/integrations/google/connect?companyId=X&services=ga4,sc[,gbp]
 //
@@ -37,15 +45,40 @@ export async function GET(req: NextRequest) {
     .map((s) => s.trim().toLowerCase())
     .filter((s): s is GoogleService => s === "ga4" || s === "sc" || s === "gbp" || s === "gads");
 
-  // Conectar Google Ads exige a feature, não só o módulo Marketing: senão o
-  // plano Free conectaria a conta e veria investimento e ROAS.
-  if (services.includes("gads")) {
-    const adsGate = await assertFeature(session, "googleAds");
-    if (!adsGate.ok) return adsGate.response;
-  }
-
   if (services.length === 0) {
     return NextResponse.json({ error: "services inválidos (use: ga4,sc,gbp,gads)" }, { status: 400 });
+  }
+
+  // Reconectar um serviço renova TODOS os serviços Google já conectados nesta
+  // empresa com a mesma conta. Antes, reconectar o GA4 pedia consentimento só
+  // do Analytics: Search Console, GMN e Ads continuavam com o token velho e
+  // exigiam uma reconexão cada. Pedindo os escopos de todos numa autorização
+  // só, o callback grava o token novo em todas as conexões de uma vez.
+  const connected = await prisma.marketingIntegration.findMany({
+    where: { companyId, provider: { in: ["GA4", "SEARCH_CONSOLE", "BUSINESS_PROFILE", "GOOGLE_ADS"] } },
+    select: { provider: true },
+    distinct: ["provider"],
+  });
+  const inherited: GoogleService[] = [];
+  for (const i of connected) {
+    const s = PROVIDER_TO_SERVICE[i.provider as keyof typeof PROVIDER_TO_SERVICE];
+    if (s && !services.includes(s)) inherited.push(s);
+  }
+
+  const requestedGads = services.includes("gads");
+  const allServices = [...services, ...inherited];
+
+  // Conectar Google Ads exige a feature, não só o módulo Marketing: senão o
+  // plano Free conectaria a conta e veria investimento e ROAS. Quando o Ads só
+  // veio de carona (já conectado, plano rebaixado depois), tiramos o escopo em
+  // vez de bloquear a reconexão do serviço que o usuário pediu.
+  let finalServices = allServices;
+  if (allServices.includes("gads")) {
+    const adsGate = await assertFeature(session, "googleAds");
+    if (!adsGate.ok) {
+      if (requestedGads) return adsGate.response;
+      finalServices = allServices.filter((s) => s !== "gads");
+    }
   }
 
   const stateRaw = randomBytes(24).toString("base64url");
@@ -67,7 +100,7 @@ export async function GET(req: NextRequest) {
   try {
     const authorizeUrl = buildAuthorizeUrl({
       state: stateB64,
-      services,
+      services: finalServices,
     });
     return NextResponse.redirect(authorizeUrl);
   } catch (e: any) {
