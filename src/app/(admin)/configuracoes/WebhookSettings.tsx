@@ -164,7 +164,12 @@ export default function WebhookSettings({ companyId, webhookToken: initialToken,
                 { field: "email",            req: false, desc: "E-mail de contato" },
                 { field: "source / origem",  req: false, desc: "Origem do lead (ex: formulario-site, instagram)" },
                 { field: "pipeline",         req: false, desc: "PROSPECCAO (padrão), LEADS ou OPORTUNIDADES" },
+                { field: "pipelineStage / etapa", req: false, desc: "Etapa do funil. Sem ela, entra na primeira" },
                 { field: "notes / observacoes", req: false, desc: "Observações internas sobre o lead" },
+                { field: "value / valor",    req: false, desc: "Valor do negócio (aceita 1500.50 ou 1.500,50)" },
+                { field: "status",           req: false, desc: "NEW, CONTACTED, PROPOSAL, CLOSED ou LOST" },
+                { field: "website / site",   req: false, desc: "Site do lead" },
+                { field: "update",           req: false, desc: "true = atualiza o lead existente em vez de criar outro" },
               ].map(({ field, req, desc }) => (
                 <tr key={field}>
                   <td className="px-4 py-2.5 font-mono text-indigo-300">{field}</td>
@@ -200,6 +205,35 @@ export default function WebhookSettings({ companyId, webhookToken: initialToken,
     "notes": "Interesse no plano Pro"
   }'`}
           </pre>
+        </div>
+      )}
+
+      {/* Atualizar lead existente */}
+      {webhookUrl && (
+        <div className="mb-6">
+          <h3 className="text-white text-sm font-semibold mb-2">Atualizar um lead que já existe</h3>
+          <p className="text-slate-500 text-xs mb-3">
+            Mande <code className="text-indigo-300 font-mono">"update": true</code> para o mesmo endereço.
+            Ele encontra o lead pelo telefone <strong className="text-slate-400">em qualquer funil</strong> e
+            aplica os campos enviados — inclusive movendo de funil. Sem essa flag, o envio repetido
+            não move o lead de etapa (comportamento antigo, preservado).
+          </p>
+          <pre className="bg-[#080b12] border border-[#1e2d45] rounded-xl px-4 py-3 text-xs text-slate-300 font-mono overflow-x-auto whitespace-pre-wrap">
+{`curl -X POST "${webhookUrl}" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "update": true,
+    "phone": "5511999990001",
+    "pipeline": "OPORTUNIDADES",
+    "value": 2500,
+    "notes": "Fechou o fluxo — enviar proposta"
+  }'`}
+          </pre>
+          <p className="text-slate-500 text-xs mt-2">
+            Se preferir precisão total, guarde o <code className="text-indigo-300 font-mono">leadId</code> devolvido
+            na criação e mande <code className="text-indigo-300 font-mono">"leadId"</code> no lugar do telefone.
+            Lead que fica em OPORTUNIDADES é espelhado no ClickUp automaticamente.
+          </p>
         </div>
       )}
 
