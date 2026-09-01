@@ -117,7 +117,7 @@ interface Props {
   staleLeads:        StaleLead[];
   currentUserId:     string;
   isSuperAdmin:      boolean;
-  googleConn:     { email: string | null; status: string } | null;
+  googleConn:     { email: string | null; status: string; canWrite: boolean } | null;
   googleEvents:   GoogleEvent[];
   googleError:    string | null;
   contactNames:   Record<string, string>; // chave: "companyId|phone"
@@ -515,7 +515,7 @@ function GoogleCalendarCard({
   hasEvents,
   error,
 }: {
-  conn: { email: string | null; status: string } | null;
+  conn: { email: string | null; status: string; canWrite: boolean } | null;
   hasEvents: boolean;
   error: string | null;
 }) {
@@ -591,13 +591,27 @@ function GoogleCalendarCard({
       </div>
       <span className="text-slate-400">Google Calendar:</span>
       <span className="text-white font-medium truncate">{conn.email ?? "conectado"}</span>
-      {!hasEvents && (
+      {!conn.canWrite && (
+        <span className="text-amber-400 text-[11px]" title="Conectada antes da permissão de criar eventos — reconecte pra o agente marcar reunião com Meet.">
+          · sem permissão de criar eventos
+        </span>
+      )}
+      {conn.canWrite && !hasEvents && (
         <span className="text-slate-600 text-[11px]">· sem eventos hoje</span>
       )}
+      <a
+        href="/api/calendar/google/connect"
+        className={`ml-auto text-[11px] transition-colors ${
+          conn.canWrite ? "text-slate-500 hover:text-sky-400" : "text-amber-400 hover:text-amber-300 font-semibold"
+        }`}
+        title="Renova a autorização da agenda com o Google."
+      >
+        Reconectar
+      </a>
       <button
         onClick={disconnect}
         disabled={disconnecting}
-        className="ml-auto text-slate-500 hover:text-red-400 text-[11px] transition-colors disabled:opacity-50"
+        className="text-slate-500 hover:text-red-400 text-[11px] transition-colors disabled:opacity-50"
         title="Desconectar"
       >
         {disconnecting ? "..." : "Desconectar"}

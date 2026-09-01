@@ -19,9 +19,16 @@ export async function GET(_req: NextRequest) {
       lastSyncAt: true,
       lastError: true,
       createdAt: true,
+      scopes: true,
     },
   });
 
   if (!conn) return NextResponse.json({ connected: false });
-  return NextResponse.json({ connected: true, ...conn });
+  // `canWrite`: conexões antigas só pediram calendar.readonly — sem
+  // calendar.events o agente não cria evento e a tela precisa pedir reconexão.
+  const { scopes, ...rest } = conn;
+  const canWrite = scopes.some(
+    (s) => s.includes("auth/calendar.events") || s === "https://www.googleapis.com/auth/calendar"
+  );
+  return NextResponse.json({ connected: true, canWrite, ...rest });
 }

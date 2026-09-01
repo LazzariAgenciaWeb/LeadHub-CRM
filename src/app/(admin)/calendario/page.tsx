@@ -77,7 +77,7 @@ export default async function CalendarioPage({
   // ── Conexão Google Calendar do usuário (per-user) ─────────────────────────
   const googleConn = await prisma.userGoogleConnection.findUnique({
     where: { userId_service: { userId, service: "calendar" } },
-    select: { id: true, googleEmail: true, status: true },
+    select: { id: true, googleEmail: true, status: true, scopes: true },
   });
 
   // Busca eventos do Google só se houver conexão ativa.
@@ -103,7 +103,15 @@ export default async function CalendarioPage({
       staleLeads={data.staleLeads as any}
       currentUserId={userId}
       isSuperAdmin={isSuperAdmin}
-      googleConn={googleConn ? { email: googleConn.googleEmail, status: googleConn.status } : null}
+      googleConn={googleConn ? {
+        email: googleConn.googleEmail,
+        status: googleConn.status,
+        // Conexões antigas só pediram calendar.readonly — sem calendar.events
+        // o agente de IA não consegue criar o evento.
+        canWrite: googleConn.scopes.some(
+          (sc) => sc.includes("auth/calendar.events") || sc === "https://www.googleapis.com/auth/calendar"
+        ),
+      } : null}
       googleEvents={googleEvents as any}
       googleError={googleError}
       contactNames={contactNames}

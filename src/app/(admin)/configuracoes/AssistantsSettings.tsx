@@ -46,7 +46,7 @@ interface Instance { id: string; label: string | null; instanceName: string; pho
 interface IgAccount { id: string; username: string | null; name: string | null; status?: string }
 interface Setor { id: string; name: string }
 interface Route { intent: string; label: string | null; setorId: string; createLead: boolean; createTicket?: boolean; setor?: Setor | null }
-interface CalendarUser { id: string; name: string; googleEmail: string | null; canWrite: boolean }
+interface CalendarUser { id: string; name: string; googleEmail: string | null; canWrite: boolean; isSelf: boolean }
 interface Assistant {
   id: string;
   name: string;
@@ -537,11 +537,36 @@ export default function AssistantsSettings({
                         min
                       </label>
                     </div>
-                    {fCalendarUser && !calendarUsers.find((u) => u.id === fCalendarUser)?.canWrite && (
-                      <p className="text-amber-400 text-[11px] mt-1.5">
-                        ⚠️ Esta conta Google foi conectada antes da permissão de criar eventos — reconecte em Configurações → Integrações → Google (módulo Calendário) pra ativar o agendamento direto. Até lá o agente usa o link.
-                      </p>
-                    )}
+                    {(() => {
+                      const cu = calendarUsers.find((u) => u.id === fCalendarUser);
+                      if (!fCalendarUser || !cu || cu.canWrite) return null;
+                      // A agenda é conexão PESSOAL (UserGoogleConnection): só o
+                      // próprio dono reconecta. Pra ele, botão aqui mesmo — pros
+                      // outros, instrução de onde a pessoa reconecta.
+                      return (
+                        <div className="mt-1.5 flex items-start gap-2 flex-wrap">
+                          <p className="text-amber-400 text-[11px] flex-1 min-w-[220px]">
+                            ⚠️ Esta conta Google foi conectada antes da permissão de criar eventos.
+                            {cu.isSelf
+                              ? " Reconecte pra ativar o agendamento direto — até lá o agente usa o link."
+                              : ` Peça pra ${cu.name} abrir o Calendário e clicar em “Reconectar agenda” — até lá o agente usa o link.`}
+                          </p>
+                          {cu.isSelf && (
+                            <a
+                              href="/api/calendar/google/connect?returnTo=%2Fconfiguracoes%3Fsecao%3Dassistentes"
+                              onClick={(e) => {
+                                if (!confirm("Você vai pro Google autorizar a agenda e volta pra esta tela. Alterações não salvas neste assistente serão perdidas. Continuar?")) {
+                                  e.preventDefault();
+                                }
+                              }}
+                              className="px-2.5 py-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-semibold hover:bg-amber-500/25 whitespace-nowrap"
+                            >
+                              🔄 Reconectar minha agenda
+                            </a>
+                          )}
+                        </div>
+                      );
+                    })()}
                     {fCalendarUser && (
                       <div className="mt-2">
                         <button

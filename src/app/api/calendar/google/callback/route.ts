@@ -18,29 +18,39 @@ export async function GET(req: NextRequest) {
   const state = url.searchParams.get("state");
   const error = url.searchParams.get("error");
 
-  const redirectBase = `${googleConfig.baseUrl.replace(/\/$/, "")}/calendario`;
+  const origin = googleConfig.baseUrl.replace(/\/$/, "");
+  let redirectPath = "/calendario";
+  // `returnTo` (state.r) já foi validado no /connect como caminho interno.
+  // Aqui revalidamos porque o state, apesar de casado com o cookie, é dado
+  // que trafega pelo Google.
+  try {
+    const r = JSON.parse(Buffer.from(state ?? "", "base64url").toString("utf8"))?.r;
+    if (typeof r === "string" && r.startsWith("/") && !r.startsWith("//")) redirectPath = r;
+  } catch { /* state inválido — os checks abaixo cuidam disso */ }
+  const redirectBase = `${origin}${redirectPath}`;
+  const sep = redirectPath.includes("?") ? "&" : "?";
 
   if (error) {
-    return NextResponse.redirect(`${redirectBase}?google_error=${encodeURIComponent(error)}`);
+    return NextResponse.redirect(`${redirectBase}${sep}google_error=${encodeURIComponent(error)}`);
   }
   if (!code || !state) {
-    return NextResponse.redirect(`${redirectBase}?google_error=missing_params`);
+    return NextResponse.redirect(`${redirectBase}${sep}google_error=missing_params`);
   }
 
   // Decodifica state
-  let payload: { s: string; u: string };
+  let payload: { s: string; u: string; r?: string };
   try {
     const decoded = Buffer.from(state, "base64url").toString("utf8");
     payload = JSON.parse(decoded);
   } catch {
-    return NextResponse.redirect(`${redirectBase}?google_error=invalid_state`);
+    return NextResponse.redirect(`${redirectBase}${sep}google_error=invalid_state`);
   }
 
   // Confere CSRF — state em cookie deve bater com o decodificado
   const cookieStore = await cookies();
   const cookieState = cookieStore.get("lh_calendar_oauth_state")?.value;
   if (!cookieState || cookieState !== payload.s) {
-    return NextResponse.redirect(`${redirectBase}?google_error=csrf_mismatch`);
+    return NextResponse.redirect(`${redirectBase}${sep}google_error=csrf_mismatch`);
   }
   cookieStore.delete("lh_calendar_oauth_state");
 
@@ -50,7 +60,7 @@ export async function GET(req: NextRequest) {
     select: { id: true },
   });
   if (!user) {
-    return NextResponse.redirect(`${redirectBase}?google_error=user_not_found`);
+    return NextResponse.redirect(`${redirectBase}${sep}google_error=user_not_found`);
   }
 
   // Troca code por tokens (passando o redirectUri específico do Calendar)
@@ -58,7 +68,7 @@ export async function GET(req: NextRequest) {
   try {
     tokens = await exchangeCodeForTokens(code, googleConfig.calendarRedirectUri);
   } catch (e: any) {
-    return NextResponse.redirect(`${redirectBase}?google_error=${encodeURIComponent(e.message || "exchange_failed")}`);
+    return NextResponse.redirect(`${redirectBase}${sep}google_error=${encodeURIComponent(e.message || "exchange_failed")}`);
   }
 
   const idInfo = decodeIdToken(tokens.id_token);
@@ -92,5 +102,5 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  return NextResponse.redirect(`${redirectBase}?google_connected=1`);
+  return NextResponse.redirect(`${redirectBase}${sep}google_connected=1`);
 }

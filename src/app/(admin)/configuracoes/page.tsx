@@ -513,6 +513,9 @@ export default async function ConfiguracoesPage({
         },
         orderBy: { name: "asc" },
       });
+      // `isSelf` decide se dá pra oferecer o botão de reconectar aqui mesmo: o
+      // OAuth de agenda é pessoal, cada um só reconecta a própria conta.
+      const sessionUserId = (session?.user as any)?.id as string | undefined;
       const calendarUsers = calendarUsersRaw.map((u) => ({
         id: u.id,
         name: u.name,
@@ -520,6 +523,7 @@ export default async function ConfiguracoesPage({
         canWrite: (u.googleConnections[0]?.scopes ?? []).some(
           (s) => s.includes("auth/calendar.events") || s === "https://www.googleapis.com/auth/calendar"
         ),
+        isSelf: u.id === sessionUserId,
       }));
 
       content = (

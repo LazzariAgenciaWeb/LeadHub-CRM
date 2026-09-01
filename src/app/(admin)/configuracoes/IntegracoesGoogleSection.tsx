@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import CompanyIntegrations from "../empresas/[id]/CompanyIntegrations";
+import CalendarConnectionCard from "./CalendarConnectionCard";
 
 /**
  * Seção "Integrações Google" dentro de /configuracoes.
@@ -51,6 +52,10 @@ export default function IntegracoesGoogleSection({
             <option key={c.id} value={c.id}>{c.name}</option>
           ))}
         </select>
+
+        <div className="-mx-6 mt-6">
+          <CalendarConnectionCard returnTo="/configuracoes?secao=integracoes-google" />
+        </div>
       </div>
     );
   }
@@ -76,6 +81,10 @@ export default function IntegracoesGoogleSection({
       )}
 
       <CompanyIntegrations companyId={companyId} platformFilter="google" />
+
+      {/* Agenda é conexão pessoal do usuário logado (não da empresa acima),
+          mas é Google — quem procura "reconectar a agenda" vem parar aqui. */}
+      <CalendarConnectionCard returnTo={`/configuracoes?secao=integracoes-google${companyId ? `&companyId=${companyId}` : ""}`} />
     </div>
   );
 }
