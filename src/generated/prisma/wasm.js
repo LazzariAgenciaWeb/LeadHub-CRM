@@ -517,6 +517,7 @@ exports.Prisma.ConversationScalarFieldEnum = {
   excludeFromGamification: 'excludeFromGamification',
   aiMode: 'aiMode',
   aiPausedAt: 'aiPausedAt',
+  aiEngagedAt: 'aiEngagedAt',
   aiCycleResetAt: 'aiCycleResetAt',
   firstResponseAt: 'firstResponseAt',
   closedAt: 'closedAt',
@@ -1630,6 +1631,8 @@ exports.Prisma.AssistantScalarFieldEnum = {
   manual: 'manual',
   isActive: 'isActive',
   autoRespond: 'autoRespond',
+  activationMode: 'activationMode',
+  triggerKeywords: 'triggerKeywords',
   discloseAi: 'discloseAi',
   learnings: 'learnings',
   qualificationChecklist: 'qualificationChecklist',
@@ -2349,6 +2352,11 @@ exports.AssistantType = exports.$Enums.AssistantType = {
   FINANCEIRO: 'FINANCEIRO',
   GESTOR: 'GESTOR',
   ASSESSOR: 'ASSESSOR'
+};
+
+exports.AiActivation = exports.$Enums.AiActivation = {
+  ALWAYS: 'ALWAYS',
+  TRIGGER: 'TRIGGER'
 };
 
 exports.VideoCategoryScope = exports.$Enums.VideoCategoryScope = {

@@ -54,6 +54,8 @@ interface Assistant {
   manual: string;
   isActive: boolean;
   autoRespond: boolean;
+  activationMode?: "ALWAYS" | "TRIGGER";
+  triggerKeywords?: string[];
   discloseAi: boolean;
   learnings: string | null;
   qualificationChecklist: string | null;
@@ -128,6 +130,8 @@ export default function AssistantsSettings({
   const [fSchedulingLink, setFSchedulingLink] = useState("");
   const [fActive, setFActive] = useState(true);
   const [fAutoRespond, setFAutoRespond] = useState(false);
+  const [fActivation, setFActivation] = useState<"ALWAYS" | "TRIGGER">("ALWAYS");
+  const [fTriggers, setFTriggers] = useState("");
   const [fDiscloseAi, setFDiscloseAi] = useState(false);
   const [fChecklist, setFChecklist] = useState("");
   const [fLearnings, setFLearnings] = useState("");
@@ -161,6 +165,7 @@ export default function AssistantsSettings({
     setEditing("new");
     setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFIgAccount(""); setFSchedulingLink(""); setFActive(true); setErr(null);
     setFAutoRespond(false); setFDiscloseAi(false); setFChecklist(""); setFLearnings("");
+    setFActivation("ALWAYS"); setFTriggers("");
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
@@ -175,6 +180,8 @@ export default function AssistantsSettings({
     setFName(a.name); setFType(a.type); setFManual(a.manual);
     setFInstance(a.instanceId ?? ""); setFIgAccount(a.igAccountId ?? ""); setFSchedulingLink(a.schedulingLink ?? ""); setFActive(a.isActive); setErr(null);
     setFAutoRespond(a.autoRespond ?? false);
+    setFActivation(a.activationMode === "TRIGGER" ? "TRIGGER" : "ALWAYS");
+    setFTriggers((a.triggerKeywords ?? []).join("\n"));
     setFDiscloseAi(a.discloseAi ?? false);
     setFChecklist(a.qualificationChecklist ?? "");
     setFLearnings(a.learnings ?? "");
@@ -229,6 +236,8 @@ export default function AssistantsSettings({
       companyId, name: fName, type: fType, manual: fManual,
       instanceId: fInstance || null, igAccountId: fIgAccount || null, schedulingLink: fSchedulingLink, isActive: fActive,
       autoRespond: fAutoRespond,
+      activationMode: fActivation,
+      triggerKeywords: fTriggers.split("\n").map((k) => k.trim()).filter(Boolean),
       discloseAi: fDiscloseAi,
       qualificationChecklist: fChecklist,
       learnings: fLearnings,
@@ -439,6 +448,37 @@ export default function AssistantsSettings({
                 />
                 Pode se apresentar como assistente de IA <span className="text-slate-600">(modo assessor pessoal)</span>
               </label>
+
+              {/* Quando o agente assume a conversa */}
+              <div className="ml-7">
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                  🎯 Quando ele assume a conversa
+                </label>
+                <select
+                  value={fActivation}
+                  onChange={(e) => setFActivation(e.target.value as "ALWAYS" | "TRIGGER")}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 cursor-pointer"
+                >
+                  <option value="ALWAYS">Todas as conversas que chegam neste número</option>
+                  <option value="TRIGGER">Só quando vier o gatilho (campanha/anúncio)</option>
+                </select>
+                {fActivation === "TRIGGER" && (
+                  <>
+                    <textarea
+                      value={fTriggers}
+                      onChange={(e) => setFTriggers(e.target.value)}
+                      rows={3}
+                      placeholder={"Um gatilho por linha — o agente assume se a mensagem contiver qualquer um deles. Ex.:\nvim pelo anúncio\nquero saber sobre o curso\npromoção de setembro"}
+                      className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
+                    />
+                    <p className="text-slate-600 text-[11px] mt-1.5">
+                      Compara sem diferenciar maiúscula, acento ou pontuação — cole o texto que o anúncio (Click-to-WhatsApp) já manda pronto.
+                      Sem gatilho na conversa, o agente nem aparece: o atendimento é todo do time (a sentinela também fica quieta).
+                      Depois que ele assume, atende normalmente até o ciclo ser concluído — aí volta a esperar um novo gatilho.
+                    </p>
+                  </>
+                )}
+              </div>
 
               {fAutoRespond && (
                 <>

@@ -106,6 +106,10 @@ export async function POST(req: NextRequest) {
       igAccountId,
       isActive: body.isActive ?? true,
       autoRespond: body.autoRespond === true,
+      activationMode: body.activationMode === "TRIGGER" ? "TRIGGER" : "ALWAYS",
+      triggerKeywords: Array.isArray(body.triggerKeywords)
+        ? body.triggerKeywords.map((k: unknown) => String(k ?? "").trim()).filter(Boolean).slice(0, 30)
+        : [],
       discloseAi: body.discloseAi === true,
       learnings: (body.learnings ?? "").trim() || null,
       qualificationChecklist: (body.qualificationChecklist ?? "").trim() || null,

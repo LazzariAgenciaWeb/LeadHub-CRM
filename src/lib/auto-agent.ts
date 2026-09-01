@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v18-sentinela-despedida";
+export const AUTO_AGENT_REV = "v19-gatilho-ativacao";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -54,6 +54,21 @@ const MAX_BUBBLE_CHARS = 200; // acima disso o motor quebra a bolha na marra
 // (humano assumiu) → bot reativa. Configurável por agente (reactivationWord);
 // OFF manual continua respeitado.
 const REACTIVATION_WORD = "atendimento";
+
+/**
+ * Modo TRIGGER: a mensagem contém algum dos gatilhos do agente? Comparação
+ * tolerante (sem acento, sem caixa, sem pontuação) — o texto que vem do
+ * anúncio Click-to-WhatsApp costuma variar em acento e emoji.
+ */
+function matchesTrigger(text: string, triggers: string[]): string | null {
+  const haystack = normalizeWord(text);
+  if (!haystack) return null;
+  for (const raw of triggers) {
+    const needle = normalizeWord(raw);
+    if (needle && haystack.includes(needle)) return raw;
+  }
+  return null;
+}
 
 /** Normaliza pra comparar palavra-gatilho: minúsculas, sem acento/pontuação. */
 function normalizeWord(s: string): string {
@@ -264,7 +279,7 @@ async function getGroupClientCompany(companyId: string, groupJid: string) {
 async function getCourtesyConfig(conversationId: string): Promise<{ delayMs: number; text: string } | null> {
   const conv = await prisma.conversation.findUnique({
     where: { id: conversationId },
-    select: { isGroup: true, companyId: true },
+    select: { isGroup: true, companyId: true, aiEngagedAt: true },
   });
   if (!conv || conv.isGroup) return null;
   const last = await prisma.message.findFirst({
@@ -275,6 +290,9 @@ async function getCourtesyConfig(conversationId: string): Promise<{ delayMs: num
   if (!last?.instanceId) return null;
   const assistant = await getAssistantForInstance(conv.companyId, last.instanceId);
   if (!assistant || !assistant.isActive || !(assistant as any).autoRespond) return null;
+  // Modo TRIGGER: se o agente ainda não assumiu esta conversa, ele não é dono
+  // dela — nem a sentinela deve falar (a conversa é inteira do time).
+  if ((assistant as any).activationMode === "TRIGGER" && !conv.aiEngagedAt) return null;
   const delayMin = ((assistant as any).courtesyDelayMin as number) ?? 5;
   if (delayMin <= 0) return null;
   return {
@@ -650,7 +668,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     where: { id: conversationId },
     select: {
       id: true, phone: true, isGroup: true, status: true, aiMode: true,
-      companyId: true, setorId: true, assigneeId: true, aiCycleResetAt: true,
+      companyId: true, setorId: true, assigneeId: true, aiCycleResetAt: true, aiEngagedAt: true,
     },
   });
 
@@ -698,6 +716,25 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     // No grupo, "obrigado"/"👍" do cliente não é pedido pendente — entrar pra
     // dizer "de nada" na frente de todo mundo é ruído puro.
     if (lastIsTerminal) return { ok: false, skipped: "grupo_msg_terminal" };
+  }
+
+  // MODO DE ATIVAÇÃO: no TRIGGER o agente só assume a conversa quando o gatilho
+  // aparece (ex.: texto do anúncio). Enquanto não assumir, a conversa é 100%
+  // do time — ele nem gasta chamada de IA. Depois de assumir, atende normal
+  // até o ciclo ser concluído (aí o engajamento zera e ele volta a esperar).
+  if ((assistant as any).activationMode === "TRIGGER" && !conv.aiEngagedAt) {
+    const triggers = ((assistant as any).triggerKeywords as string[]) ?? [];
+    const hit = triggers.length ? matchesTrigger(last.body ?? "", triggers) : null;
+    if (!hit) {
+      diag.ativacao = "aguardando_gatilho";
+      return { ok: false, skipped: "aguardando_gatilho" };
+    }
+    await prisma.conversation.update({
+      where: { id: conv.id },
+      data: { aiEngagedAt: new Date() },
+    });
+    diag.ativacao = `gatilho:${hit.slice(0, 40)}`;
+    console.log(`[AutoAgent] gatilho "${hit}" ativou o agente conv=${conv.id}`);
   }
 
   // Estado do bot: OFF manual é sagrado; PAUSED_HUMAN aceita a palavra-gatilho

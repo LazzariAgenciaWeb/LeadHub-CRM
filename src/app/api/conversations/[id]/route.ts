@@ -70,6 +70,7 @@ export async function PATCH(
     // Finalizar também CONCLUI o ciclo de IA: o agente esquece o histórico
     // anterior — se o contato voltar, começa um atendimento novo do zero.
     data.aiCycleResetAt = new Date();
+    data.aiEngagedAt = null; // modo TRIGGER volta a esperar novo gatilho
     activities.push({ type: "CONVERSATION_CLOSED", body: `${userName} finalizou a conversa`, meta: { from: conv.status, to: "CLOSED" } });
   } else if (body.action === "concludeAi") {
     // Conclui SÓ o atendimento de IA (a conversa continua como está): zera o
@@ -77,6 +78,9 @@ export async function PATCH(
     data.aiCycleResetAt = new Date();
     data.aiMode = "ACTIVE";
     data.aiPausedAt = null;
+    // Modo TRIGGER: ciclo concluído = agente solta a conversa e volta a
+    // esperar um novo gatilho.
+    data.aiEngagedAt = null;
     activities.push({
       type: "STATUS_CHANGED",
       body: `${userName} concluiu o atendimento de IA — próximo contato começa um ciclo novo`,
@@ -112,6 +116,7 @@ export async function PATCH(
         if (body.status === "CLOSED") {
           data.closedAt = new Date();
           data.aiCycleResetAt = new Date(); // fechar = concluir o ciclo de IA
+          data.aiEngagedAt = null;
         }
         if (body.status === "OPEN" && conv.status === "CLOSED") data.closedAt = null;
         activities.push({ type: "STATUS_CHANGED", body: `Status: ${conv.status} → ${body.status}`, meta: { from: conv.status, to: body.status } });

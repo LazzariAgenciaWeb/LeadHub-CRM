@@ -1159,6 +1159,14 @@ export const AssistantType: {
 export type AssistantType = (typeof AssistantType)[keyof typeof AssistantType]
 
 
+export const AiActivation: {
+  ALWAYS: 'ALWAYS',
+  TRIGGER: 'TRIGGER'
+};
+
+export type AiActivation = (typeof AiActivation)[keyof typeof AiActivation]
+
+
 export const VideoCategoryScope: {
   GLOBAL: 'GLOBAL',
   COMPANY: 'COMPANY'
@@ -1396,6 +1404,10 @@ export const CouponDiscountType: typeof $Enums.CouponDiscountType
 export type AssistantType = $Enums.AssistantType
 
 export const AssistantType: typeof $Enums.AssistantType
+
+export type AiActivation = $Enums.AiActivation
+
+export const AiActivation: typeof $Enums.AiActivation
 
 export type VideoCategoryScope = $Enums.VideoCategoryScope
 
@@ -44193,6 +44205,7 @@ export namespace Prisma {
     excludeFromGamification: boolean | null
     aiMode: $Enums.AiMode | null
     aiPausedAt: Date | null
+    aiEngagedAt: Date | null
     aiCycleResetAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
@@ -44220,6 +44233,7 @@ export namespace Prisma {
     excludeFromGamification: boolean | null
     aiMode: $Enums.AiMode | null
     aiPausedAt: Date | null
+    aiEngagedAt: Date | null
     aiCycleResetAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
@@ -44247,6 +44261,7 @@ export namespace Prisma {
     excludeFromGamification: number
     aiMode: number
     aiPausedAt: number
+    aiEngagedAt: number
     aiCycleResetAt: number
     firstResponseAt: number
     closedAt: number
@@ -44284,6 +44299,7 @@ export namespace Prisma {
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
+    aiEngagedAt?: true
     aiCycleResetAt?: true
     firstResponseAt?: true
     closedAt?: true
@@ -44311,6 +44327,7 @@ export namespace Prisma {
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
+    aiEngagedAt?: true
     aiCycleResetAt?: true
     firstResponseAt?: true
     closedAt?: true
@@ -44338,6 +44355,7 @@ export namespace Prisma {
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
+    aiEngagedAt?: true
     aiCycleResetAt?: true
     firstResponseAt?: true
     closedAt?: true
@@ -44452,6 +44470,7 @@ export namespace Prisma {
     excludeFromGamification: boolean
     aiMode: $Enums.AiMode
     aiPausedAt: Date | null
+    aiEngagedAt: Date | null
     aiCycleResetAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
@@ -44498,6 +44517,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
+    aiEngagedAt?: boolean
     aiCycleResetAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
@@ -44534,6 +44554,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
+    aiEngagedAt?: boolean
     aiCycleResetAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
@@ -44565,6 +44586,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
+    aiEngagedAt?: boolean
     aiCycleResetAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
@@ -44622,6 +44644,7 @@ export namespace Prisma {
       excludeFromGamification: boolean
       aiMode: $Enums.AiMode
       aiPausedAt: Date | null
+      aiEngagedAt: Date | null
       aiCycleResetAt: Date | null
       firstResponseAt: Date | null
       closedAt: Date | null
@@ -45047,6 +45070,7 @@ export namespace Prisma {
     readonly excludeFromGamification: FieldRef<"Conversation", 'Boolean'>
     readonly aiMode: FieldRef<"Conversation", 'AiMode'>
     readonly aiPausedAt: FieldRef<"Conversation", 'DateTime'>
+    readonly aiEngagedAt: FieldRef<"Conversation", 'DateTime'>
     readonly aiCycleResetAt: FieldRef<"Conversation", 'DateTime'>
     readonly firstResponseAt: FieldRef<"Conversation", 'DateTime'>
     readonly closedAt: FieldRef<"Conversation", 'DateTime'>
@@ -124511,6 +124535,7 @@ export namespace Prisma {
     manual: string | null
     isActive: boolean | null
     autoRespond: boolean | null
+    activationMode: $Enums.AiActivation | null
     discloseAi: boolean | null
     learnings: string | null
     qualificationChecklist: string | null
@@ -124540,6 +124565,7 @@ export namespace Prisma {
     manual: string | null
     isActive: boolean | null
     autoRespond: boolean | null
+    activationMode: $Enums.AiActivation | null
     discloseAi: boolean | null
     learnings: string | null
     qualificationChecklist: string | null
@@ -124569,6 +124595,8 @@ export namespace Prisma {
     manual: number
     isActive: number
     autoRespond: number
+    activationMode: number
+    triggerKeywords: number
     discloseAi: number
     learnings: number
     qualificationChecklist: number
@@ -124614,6 +124642,7 @@ export namespace Prisma {
     manual?: true
     isActive?: true
     autoRespond?: true
+    activationMode?: true
     discloseAi?: true
     learnings?: true
     qualificationChecklist?: true
@@ -124643,6 +124672,7 @@ export namespace Prisma {
     manual?: true
     isActive?: true
     autoRespond?: true
+    activationMode?: true
     discloseAi?: true
     learnings?: true
     qualificationChecklist?: true
@@ -124672,6 +124702,8 @@ export namespace Prisma {
     manual?: true
     isActive?: true
     autoRespond?: true
+    activationMode?: true
+    triggerKeywords?: true
     discloseAi?: true
     learnings?: true
     qualificationChecklist?: true
@@ -124788,6 +124820,8 @@ export namespace Prisma {
     manual: string
     isActive: boolean
     autoRespond: boolean
+    activationMode: $Enums.AiActivation
+    triggerKeywords: string[]
     discloseAi: boolean
     learnings: string | null
     qualificationChecklist: string | null
@@ -124836,6 +124870,8 @@ export namespace Prisma {
     manual?: boolean
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: boolean
+    triggerKeywords?: boolean
     discloseAi?: boolean
     learnings?: boolean
     qualificationChecklist?: boolean
@@ -124873,6 +124909,8 @@ export namespace Prisma {
     manual?: boolean
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: boolean
+    triggerKeywords?: boolean
     discloseAi?: boolean
     learnings?: boolean
     qualificationChecklist?: boolean
@@ -124907,6 +124945,8 @@ export namespace Prisma {
     manual?: boolean
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: boolean
+    triggerKeywords?: boolean
     discloseAi?: boolean
     learnings?: boolean
     qualificationChecklist?: boolean
@@ -124965,6 +125005,8 @@ export namespace Prisma {
       manual: string
       isActive: boolean
       autoRespond: boolean
+      activationMode: $Enums.AiActivation
+      triggerKeywords: string[]
       discloseAi: boolean
       learnings: string | null
       qualificationChecklist: string | null
@@ -125391,6 +125433,8 @@ export namespace Prisma {
     readonly manual: FieldRef<"Assistant", 'String'>
     readonly isActive: FieldRef<"Assistant", 'Boolean'>
     readonly autoRespond: FieldRef<"Assistant", 'Boolean'>
+    readonly activationMode: FieldRef<"Assistant", 'AiActivation'>
+    readonly triggerKeywords: FieldRef<"Assistant", 'String[]'>
     readonly discloseAi: FieldRef<"Assistant", 'Boolean'>
     readonly learnings: FieldRef<"Assistant", 'String'>
     readonly qualificationChecklist: FieldRef<"Assistant", 'String'>
@@ -146403,6 +146447,7 @@ export namespace Prisma {
     excludeFromGamification: 'excludeFromGamification',
     aiMode: 'aiMode',
     aiPausedAt: 'aiPausedAt',
+    aiEngagedAt: 'aiEngagedAt',
     aiCycleResetAt: 'aiCycleResetAt',
     firstResponseAt: 'firstResponseAt',
     closedAt: 'closedAt',
@@ -147744,6 +147789,8 @@ export namespace Prisma {
     manual: 'manual',
     isActive: 'isActive',
     autoRespond: 'autoRespond',
+    activationMode: 'activationMode',
+    triggerKeywords: 'triggerKeywords',
     discloseAi: 'discloseAi',
     learnings: 'learnings',
     qualificationChecklist: 'qualificationChecklist',
@@ -148890,6 +148937,20 @@ export namespace Prisma {
    * Reference to a field of type 'AssistantType[]'
    */
   export type ListEnumAssistantTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssistantType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AiActivation'
+   */
+  export type EnumAiActivationFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiActivation'>
+    
+
+
+  /**
+   * Reference to a field of type 'AiActivation[]'
+   */
+  export type ListEnumAiActivationFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiActivation[]'>
     
 
 
@@ -151785,6 +151846,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    aiEngagedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     aiCycleResetAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -151820,6 +151882,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrderInput | SortOrder
+    aiEngagedAt?: SortOrderInput | SortOrder
     aiCycleResetAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
@@ -151859,6 +151922,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    aiEngagedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     aiCycleResetAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -151894,6 +151958,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrderInput | SortOrder
+    aiEngagedAt?: SortOrderInput | SortOrder
     aiCycleResetAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
@@ -151929,6 +151994,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolWithAggregatesFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeWithAggregatesFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
+    aiEngagedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     aiCycleResetAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
@@ -158909,6 +158975,8 @@ export namespace Prisma {
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
     autoRespond?: BoolFilter<"Assistant"> | boolean
+    activationMode?: EnumAiActivationFilter<"Assistant"> | $Enums.AiActivation
+    triggerKeywords?: StringNullableListFilter<"Assistant">
     discloseAi?: BoolFilter<"Assistant"> | boolean
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
@@ -158945,6 +159013,8 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    activationMode?: SortOrder
+    triggerKeywords?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrderInput | SortOrder
     qualificationChecklist?: SortOrderInput | SortOrder
@@ -158984,6 +159054,8 @@ export namespace Prisma {
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
     autoRespond?: BoolFilter<"Assistant"> | boolean
+    activationMode?: EnumAiActivationFilter<"Assistant"> | $Enums.AiActivation
+    triggerKeywords?: StringNullableListFilter<"Assistant">
     discloseAi?: BoolFilter<"Assistant"> | boolean
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
@@ -159020,6 +159092,8 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    activationMode?: SortOrder
+    triggerKeywords?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrderInput | SortOrder
     qualificationChecklist?: SortOrderInput | SortOrder
@@ -159057,6 +159131,8 @@ export namespace Prisma {
     manual?: StringWithAggregatesFilter<"Assistant"> | string
     isActive?: BoolWithAggregatesFilter<"Assistant"> | boolean
     autoRespond?: BoolWithAggregatesFilter<"Assistant"> | boolean
+    activationMode?: EnumAiActivationWithAggregatesFilter<"Assistant"> | $Enums.AiActivation
+    triggerKeywords?: StringNullableListFilter<"Assistant">
     discloseAi?: BoolWithAggregatesFilter<"Assistant"> | boolean
     learnings?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
@@ -164029,6 +164105,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -164063,6 +164140,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -164091,6 +164169,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -164125,6 +164204,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -164156,6 +164236,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -164180,6 +164261,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -164206,6 +164288,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -171959,6 +172042,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -171991,6 +172076,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -172021,6 +172108,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172053,6 +172142,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172084,6 +172175,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -172112,6 +172205,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172137,6 +172232,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177012,6 +177109,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
+    aiEngagedAt?: SortOrder
     aiCycleResetAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
@@ -177043,6 +177141,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
+    aiEngagedAt?: SortOrder
     aiCycleResetAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
@@ -177070,6 +177169,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
+    aiEngagedAt?: SortOrder
     aiCycleResetAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
@@ -181913,6 +182013,13 @@ export namespace Prisma {
     not?: NestedEnumAssistantTypeFilter<$PrismaModel> | $Enums.AssistantType
   }
 
+  export type EnumAiActivationFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiActivation | EnumAiActivationFieldRefInput<$PrismaModel>
+    in?: $Enums.AiActivation[] | ListEnumAiActivationFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiActivation[] | ListEnumAiActivationFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiActivationFilter<$PrismaModel> | $Enums.AiActivation
+  }
+
   export type AssistantCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
@@ -181921,6 +182028,8 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    activationMode?: SortOrder
+    triggerKeywords?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
@@ -181957,6 +182066,7 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    activationMode?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
@@ -181986,6 +182096,7 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    activationMode?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
@@ -182022,6 +182133,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAssistantTypeFilter<$PrismaModel>
     _max?: NestedEnumAssistantTypeFilter<$PrismaModel>
+  }
+
+  export type EnumAiActivationWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiActivation | EnumAiActivationFieldRefInput<$PrismaModel>
+    in?: $Enums.AiActivation[] | ListEnumAiActivationFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiActivation[] | ListEnumAiActivationFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiActivationWithAggregatesFilter<$PrismaModel> | $Enums.AiActivation
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAiActivationFilter<$PrismaModel>
+    _max?: NestedEnumAiActivationFilter<$PrismaModel>
   }
 
   export type ScheduledMessageCountOrderByAggregateInput = {
@@ -193774,6 +193895,10 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCouponRedemptionsInput, CompanyUpdateWithoutCouponRedemptionsInput>, CompanyUncheckedUpdateWithoutCouponRedemptionsInput>
   }
 
+  export type AssistantCreatetriggerKeywordsInput = {
+    set: string[]
+  }
+
   export type CompanyCreateNestedOneWithoutAssistantsInput = {
     create?: XOR<CompanyCreateWithoutAssistantsInput, CompanyUncheckedCreateWithoutAssistantsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutAssistantsInput
@@ -193834,6 +193959,15 @@ export namespace Prisma {
 
   export type EnumAssistantTypeFieldUpdateOperationsInput = {
     set?: $Enums.AssistantType
+  }
+
+  export type EnumAiActivationFieldUpdateOperationsInput = {
+    set?: $Enums.AiActivation
+  }
+
+  export type AssistantUpdatetriggerKeywordsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type CompanyUpdateOneRequiredWithoutAssistantsNestedInput = {
@@ -196087,6 +196221,13 @@ export namespace Prisma {
     not?: NestedEnumAssistantTypeFilter<$PrismaModel> | $Enums.AssistantType
   }
 
+  export type NestedEnumAiActivationFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiActivation | EnumAiActivationFieldRefInput<$PrismaModel>
+    in?: $Enums.AiActivation[] | ListEnumAiActivationFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiActivation[] | ListEnumAiActivationFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiActivationFilter<$PrismaModel> | $Enums.AiActivation
+  }
+
   export type NestedEnumAssistantTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.AssistantType | EnumAssistantTypeFieldRefInput<$PrismaModel>
     in?: $Enums.AssistantType[] | ListEnumAssistantTypeFieldRefInput<$PrismaModel>
@@ -196095,6 +196236,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAssistantTypeFilter<$PrismaModel>
     _max?: NestedEnumAssistantTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAiActivationWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiActivation | EnumAiActivationFieldRefInput<$PrismaModel>
+    in?: $Enums.AiActivation[] | ListEnumAiActivationFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiActivation[] | ListEnumAiActivationFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiActivationWithAggregatesFilter<$PrismaModel> | $Enums.AiActivation
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAiActivationFilter<$PrismaModel>
+    _max?: NestedEnumAiActivationFilter<$PrismaModel>
   }
 
   export type NestedEnumVideoCategoryScopeFilter<$PrismaModel = never> = {
@@ -196661,6 +196812,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -196693,6 +196845,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -197415,6 +197568,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -197446,6 +197601,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -197485,6 +197642,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -197516,6 +197675,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -198291,6 +198452,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    aiEngagedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     aiCycleResetAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -198910,6 +199072,8 @@ export namespace Prisma {
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
     autoRespond?: BoolFilter<"Assistant"> | boolean
+    activationMode?: EnumAiActivationFilter<"Assistant"> | $Enums.AiActivation
+    triggerKeywords?: StringNullableListFilter<"Assistant">
     discloseAi?: BoolFilter<"Assistant"> | boolean
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
@@ -203064,6 +203228,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -203097,6 +203262,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -204421,6 +204587,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -204451,6 +204619,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -210156,6 +210326,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -210189,6 +210360,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -211071,6 +211243,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -211104,6 +211277,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -217587,6 +217761,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -217619,6 +217794,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -217666,6 +217842,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -217697,6 +217875,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -218735,6 +218915,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -218768,6 +218949,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -219416,6 +219598,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -219449,6 +219632,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -221568,6 +221752,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -221601,6 +221786,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -221644,6 +221830,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -221677,6 +221864,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -221704,6 +221892,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -221737,6 +221926,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -222227,6 +222417,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -222260,6 +222451,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -225350,6 +225542,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -225382,6 +225575,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -236059,6 +236253,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -236090,6 +236286,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -264315,6 +264513,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -264346,6 +264546,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -264464,6 +264666,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264495,6 +264699,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264874,6 +265080,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -264905,6 +265113,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -265227,6 +265437,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265258,6 +265470,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -276545,6 +276759,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -276803,6 +277018,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -276831,6 +277048,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -277138,6 +277357,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -277170,6 +277390,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -277200,6 +277421,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -277949,6 +278171,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -277980,6 +278204,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278010,6 +278236,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278037,6 +278265,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278068,6 +278298,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278098,6 +278330,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -279136,6 +279370,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -279594,6 +279829,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -282152,6 +282389,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -282185,6 +282423,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -282215,6 +282454,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -283577,6 +283817,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283607,6 +283849,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283637,6 +283881,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -285398,6 +285644,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -285418,6 +285665,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -285549,6 +285798,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -285581,6 +285831,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -285611,6 +285862,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -285638,6 +285890,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -285669,6 +285923,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -285699,6 +285955,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -286452,6 +286710,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiEngagedAt?: Date | string | null
     aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
@@ -286632,6 +286891,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -286664,6 +286924,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -286694,6 +286955,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiEngagedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -287670,6 +287932,8 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    activationMode?: $Enums.AiActivation
+    triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -287872,6 +288136,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -287903,6 +288169,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -287933,6 +288201,8 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
+    triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null

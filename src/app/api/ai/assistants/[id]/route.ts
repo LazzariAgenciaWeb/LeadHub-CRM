@@ -54,6 +54,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
   if (typeof body.isActive === "boolean") data.isActive = body.isActive;
   if (typeof body.autoRespond === "boolean") data.autoRespond = body.autoRespond;
+  if (body.activationMode === "TRIGGER" || body.activationMode === "ALWAYS") {
+    data.activationMode = body.activationMode;
+  }
+  if ("triggerKeywords" in body) {
+    data.triggerKeywords = Array.isArray(body.triggerKeywords)
+      ? body.triggerKeywords.map((k: unknown) => String(k ?? "").trim()).filter(Boolean).slice(0, 30)
+      : [];
+  }
   if (typeof body.discloseAi === "boolean") data.discloseAi = body.discloseAi;
   if ("learnings" in body) data.learnings = (body.learnings ?? "").trim() || null;
   if ("qualificationChecklist" in body) data.qualificationChecklist = (body.qualificationChecklist ?? "").trim() || null;

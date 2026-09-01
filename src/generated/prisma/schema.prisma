@@ -1116,6 +1116,10 @@ model Conversation {
   //   OFF          → bot desligado manualmente nesta conversa
   aiMode         AiMode    @default(ACTIVE)
   aiPausedAt     DateTime? // quando o bot foi pausado (handoff/humano)
+  // Quando o agente ASSUMIU esta conversa (só importa no modo TRIGGER).
+  // Enquanto null nesse modo, ele fica fora — a conversa é do time. Zera ao
+  // concluir o ciclo (Concluir IA / Finalizar): volta a esperar novo gatilho.
+  aiEngagedAt    DateTime?
   // Marco de "atendimento de IA concluído": o agente ignora todo o histórico
   // anterior a este instante — a próxima mensagem inicia um ciclo NOVO
   // (re-saudação, re-qualificação). Setado pelo botão da Inbox e no Finalizar.
@@ -3578,6 +3582,14 @@ model Assistant {
   // copiloto (sugestões/resumos como hoje).
   autoRespond Boolean @default(false)
 
+  // QUANDO o agente assume a conversa:
+  //   ALWAYS  → toda conversa que chega na instância (default, comportamento atual)
+  //   TRIGGER → só quando a mensagem casar com triggerKeywords (ex.: texto
+  //             pré-preenchido do anúncio Click-to-WhatsApp). Sem gatilho, a
+  //             conversa é 100% humana e o agente nem aparece.
+  activationMode  AiActivation @default(ALWAYS)
+  triggerKeywords String[]     @default([])
+
   // Assessor pessoal: quando true, o agente PODE (e deve) se apresentar como
   // assistente de IA, com leveza — inverte a regra padrão de não se revelar.
   discloseAi Boolean @default(false)
@@ -3704,6 +3716,11 @@ model AssistantRoute {
 
   @@unique([assistantId, intent])
   @@index([setorId])
+}
+
+enum AiActivation {
+  ALWAYS // assume todas as conversas da instância
+  TRIGGER // assume só quando o gatilho aparece na mensagem
 }
 
 enum AssistantType {
