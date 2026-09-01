@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v17-sentinela-grupo";
+export const AUTO_AGENT_REV = "v18-sentinela-despedida";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -291,10 +291,18 @@ async function getCourtesyConfig(conversationId: string): Promise<{ delayMs: num
 async function runCourtesyCheck(conversationId: string, text: string = COURTESY_DEFAULT_TEXT): Promise<void> {
   const conv = await prisma.conversation.findUnique({
     where: { id: conversationId },
-    select: { id: true, phone: true, isGroup: true, status: true, companyId: true, lastMessageDirection: true },
+    select: {
+      id: true, phone: true, isGroup: true, status: true, companyId: true,
+      lastMessageDirection: true, lastMessageBody: true,
+    },
   });
   if (!conv || conv.isGroup || conv.status === "CLOSED") return;
   if (conv.lastMessageDirection !== "INBOUND") return; // alguém já respondeu
+
+  // Despedida/agradecimento/emoji ("obrigado", "ok", "👍") não é pendência:
+  // avisar "já te respondem" depois de um "valeu" é ruído e reabre um assunto
+  // que o contato acabou de encerrar.
+  if (isTerminalMessage(conv.lastMessageBody ?? "")) return;
 
   const last = await prisma.message.findFirst({
     where: { conversationId },
@@ -687,6 +695,9 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     if (!client) return { ok: false, skipped: "grupo_sem_empresa_cliente" };
     groupCtx = { clientCompanyId: client.id, clientCompanyName: client.name };
     diag.grupo = client.name;
+    // No grupo, "obrigado"/"👍" do cliente não é pedido pendente — entrar pra
+    // dizer "de nada" na frente de todo mundo é ruído puro.
+    if (lastIsTerminal) return { ok: false, skipped: "grupo_msg_terminal" };
   }
 
   // Estado do bot: OFF manual é sagrado; PAUSED_HUMAN aceita a palavra-gatilho
