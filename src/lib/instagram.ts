@@ -572,7 +572,13 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
     }
     // Clique no botão "já te segui".
     if (payload.startsWith(FOLLOWED_PREFIX)) {
-      await resolveButtonClick(account, senderId, payload.slice(FOLLOWED_PREFIX.length), token);
+      const key = payload.slice(FOLLOWED_PREFIX.length);
+      // Gate aberto pelo Direct (agente) — não tem automação por trás.
+      if (key === DIRECT_GATE_KEY) {
+        await resolveDirectFollowGate(account, senderId, token);
+        return;
+      }
+      await resolveButtonClick(account, senderId, key, token);
       return;
     }
     // Prospect da rotina respondeu? Promove PROSPECCAO → LEADS pelo @ (best-
@@ -583,8 +589,11 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
         console.error("[IG] promote prospect:", e?.message),
       );
     }
-    // Texto comum: resolve o follow-gate do fluxo SIMPLES (responder "ok").
-    const gateConsumed = await resolveTextFollowGate(account, senderId, token);
+    // Texto comum: primeiro o gate aberto pelo Direct (agente), depois o gate
+    // do fluxo SIMPLES das automações de post (responder "ok").
+    const gateConsumed =
+      (await resolveDirectFollowGate(account, senderId, token)) ||
+      (await resolveTextFollowGate(account, senderId, token));
     // DM orgânica sem automação pendente → agente IA do Direct (se a conta
     // tiver agente vinculado; o motor refaz todos os guards antes de responder).
     if (!gateConsumed && convoId) {
@@ -622,6 +631,115 @@ function outAuto(account: ResolvedAccount, participantId: string, text: string, 
     text,
     mid: mid ?? null,
   }).catch((e: any) => console.error("[IG] persist out:", e?.message));
+}
+
+// ─── Follow-gate iniciado pelo DIRECT (agente de IA) ─────────────────────────
+// Mesma máquina do gate dos posts (checagem real de follow + botão "já te
+// segui" + estado AWAITING_FOLLOW), só que o run nasce da conversa do Direct
+// (automationId = null) e, ao confirmar o follow, quem entrega é o AGENTE —
+// com o diagnóstico personalizado, não um texto fixo.
+const DIRECT_GATE_KEY = "direct";
+
+/** Texto de "me segue" configurado nas automações da conta (reusa o do post). */
+async function askFollowText(account: ResolvedAccount): Promise<string> {
+  const a = await prisma.igAutomation.findFirst({
+    where: { accountId: account.id, enabled: true, requireFollow: true, notFollowingText: { not: null } },
+    orderBy: { updatedAt: "desc" },
+    select: { notFollowingText: true },
+  });
+  return withProfileLink(a?.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
+}
+
+/**
+ * Chamado pelo agente do Direct quando ele vai entregar algo e precisa do
+ * follow. Retorna:
+ *  - "FOLLOWING": já segue, pode entregar na hora;
+ *  - "ASKED": não segue — pedido enviado (com botão) e run AWAITING_FOLLOW criado;
+ *  - "ERROR": não deu pra checar/enviar (o agente segue o fluxo normal).
+ */
+export async function startDirectFollowGate(
+  account: ResolvedAccount,
+  senderId: string,
+  username: string | null,
+  token: string,
+): Promise<"FOLLOWING" | "ASKED" | "ERROR"> {
+  try {
+    const follows = await getUserFollowStatus(senderId, token);
+    if (follows === true) return "FOLLOWING";
+
+    // Já existe um pedido em aberto? Não repete (evita insistir no follow).
+    const open = await prisma.igAutomationRun.findFirst({
+      where: { accountId: account.id, igCommenterId: senderId, automationId: null, status: "AWAITING_FOLLOW" },
+      select: { id: true },
+    });
+    if (open) return "ASKED";
+
+    const ask = await askFollowText(account);
+    const mid = await sendMessageWithButtons(
+      senderId,
+      ask,
+      [{ title: DEFAULT_FOLLOWED_LABEL, payload: FOLLOWED_PREFIX + DIRECT_GATE_KEY }],
+      token,
+    );
+    await outAuto(account, senderId, ask, mid);
+    await prisma.igAutomationRun.create({
+      data: {
+        companyId: account.companyId,
+        accountId: account.id,
+        automationId: null,
+        igCommenterId: senderId,
+        username: username ?? null,
+        status: "AWAITING_FOLLOW",
+        followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN",
+      },
+    });
+    console.log(`[IG] follow-gate do Direct aberto p/ ${senderId}`);
+    return "ASKED";
+  } catch (e: any) {
+    console.error("[IG] startDirectFollowGate:", e?.message);
+    return "ERROR";
+  }
+}
+
+/**
+ * Contato respondeu (texto ou botão) com um gate de Direct pendente: confere o
+ * follow de verdade. Confirmado → fecha o run e chama o AGENTE pra entregar.
+ * Retorna true quando havia gate pendente (a mensagem foi consumida aqui).
+ */
+async function resolveDirectFollowGate(account: ResolvedAccount, senderId: string, token: string): Promise<boolean> {
+  const run = await prisma.igAutomationRun.findFirst({
+    where: { accountId: account.id, igCommenterId: senderId, automationId: null, status: "AWAITING_FOLLOW" },
+    orderBy: { createdAt: "desc" },
+    select: { id: true },
+  });
+  if (!run) return false;
+
+  const follows = await getUserFollowStatus(senderId, token);
+  if (follows === true) {
+    await prisma.igAutomationRun.update({
+      where: { id: run.id },
+      data: { status: "COMPLETED", followState: "FOLLOWING" },
+    });
+    const conv = await prisma.igConversation.findFirst({
+      where: { accountId: account.id, participantId: senderId },
+      orderBy: { updatedAt: "desc" },
+      select: { id: true },
+    });
+    if (conv) {
+      const { scheduleIgAutoAgent } = await import("./ig-auto-agent");
+      scheduleIgAutoAgent(conv.id); // agora o agente entrega o diagnóstico
+    }
+    console.log(`[IG] follow-gate do Direct liberado p/ ${senderId} (run ${run.id})`);
+  } else {
+    const ask = await askFollowText(account);
+    const mid = await sendMessageToUser(senderId, ask, token);
+    await outAuto(account, senderId, ask, mid);
+    await prisma.igAutomationRun.update({
+      where: { id: run.id },
+      data: { followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN" },
+    });
+  }
+  return true;
 }
 
 /** Resolve clique de botão (CTA "quero receber" ou "já te segui"): checa follow e entrega. */

@@ -5,6 +5,7 @@ import {
   getUserFollowStatus,
   sendMessageToUser,
   recordIgMessage,
+  startDirectFollowGate,
 } from "./instagram";
 
 /**
@@ -25,7 +26,7 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v3-diagnostico-honesto";
+export const IG_AUTO_AGENT_REV = "v4-follow-gate";
 
 const DEBOUNCE_MS = 12_000;
 const HISTORY_LIMIT = 30;
@@ -244,6 +245,25 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
 
   // Follow status (best-effort) — o manual da empresa decide o que fazer com isso.
   const follows = await getUserFollowStatus(conv.participantId, token);
+
+  // FOLLOW-GATE: quando o contato aceita ver o diagnóstico mas ainda não segue,
+  // quem pede o follow é a MESMA máquina das automações de post (checagem real
+  // + botão "já te segui" + run AWAITING_FOLLOW) — não o texto improvisado do
+  // modelo. Assim que o follow é confirmado, o agente é chamado de volta e
+  // entrega. Sem gate: pedido some no meio da conversa e ninguém confere nada.
+  if (follows === false && looksLikeAcceptance(lastIn.text ?? "")) {
+    const gate = await startDirectFollowGate(
+      conv.account,
+      conv.participantId,
+      conv.participantUsername ?? null,
+      token,
+    );
+    if (gate === "ASKED") {
+      recordRun({ conv: conv.id, gate: "follow_pedido_via_automacao" });
+      console.log(`[IgAgent] follow-gate acionado conv=${conv.id} — agente aguarda o follow`);
+      return;
+    }
+  }
   const followLine =
     follows === true ? "O contato JÁ SEGUE o perfil da empresa."
     : follows === false ? "O contato AINDA NÃO SEGUE o perfil da empresa."
@@ -305,7 +325,7 @@ Você NÃO consegue abrir, ver, acessar ou analisar perfis do Instagram, sites, 
 - Se o contato pedir análise de um perfil que não está nos achados (por exemplo um segundo perfil dele), seja honesto e simpático: diga que vai olhar com calma e que retorna com os pontos — e use action "HANDOFF" pra equipe assumir. NUNCA chute pra parecer útil.`;
 
   const flowBlock = `\n# FLUXO DESTA CONVERSA (Direct de prospecção)
-1. FOLLOW — se o contato demonstrou interesse e ainda NÃO segue o perfil, você pode pedir o follow, com motivo e UMA vez só ("me segue aqui que eu já te mando o que encontrei"). Se ele já segue, pule direto pro passo 2.
+1. FOLLOW — NÃO peça follow por conta própria: o sistema cuida disso sozinho (checa de verdade se a pessoa segue e manda o pedido oficial com botão). Se você está sendo chamado, é porque esse passo já foi resolvido — vá direto pro passo 2.
 2. ENTREGA — com o follow feito (ou já existente), entregue o diagnóstico: 2-3 achados concretos dos ACHADOS DA EQUIPE, com as suas palavras, um por bolha, simples e direto. Sem enrolação e sem prometer pra depois.
 3. CONVITE — logo depois de entregar, puxe para a sessão gratuita de diagnóstico${assistant.schedulingLink?.trim() ? " (mande o link de agendamento)" : ""}, conectando com o que você acabou de mostrar.
 Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenário.`;
