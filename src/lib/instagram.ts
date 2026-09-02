@@ -710,15 +710,25 @@ async function resolveDirectFollowGate(account: ResolvedAccount, senderId: strin
   const run = await prisma.igAutomationRun.findFirst({
     where: { accountId: account.id, igCommenterId: senderId, automationId: null, status: "AWAITING_FOLLOW" },
     orderBy: { createdAt: "desc" },
-    select: { id: true },
+    select: { id: true, createdAt: true, updatedAt: true },
   });
   if (!run) return false;
 
   const follows = await getUserFollowStatus(senderId, token);
-  if (follows === true) {
+  // A checagem tem TRÊS respostas: sim, não e "não consegui verificar" (null —
+  // erro da API/permissão). Tratar null como "não segue" prendia a pessoa num
+  // loop: ela clicava "já te segui" e recebia o mesmo pedido de novo. Além
+  // disso, a Meta demora a refletir um follow recém-feito, então o "não" logo
+  // após o clique é frequentemente falso.
+  // Regra: benefício da dúvida — libera quando não dá pra confirmar, e não
+  // cobra o follow mais de uma vez (a pessoa já afirmou que seguiu).
+  const jaCobrouAntes = run.updatedAt.getTime() - run.createdAt.getTime() > 1_000;
+  if (follows === true || follows === null || jaCobrouAntes) {
     await prisma.igAutomationRun.update({
       where: { id: run.id },
-      data: { status: "COMPLETED", followState: "FOLLOWING" },
+      // Grava o estado REAL (não assume FOLLOWING quando só demos o benefício
+      // da dúvida) — o relatório continua honesto.
+      data: { status: "COMPLETED", followState: follows === true ? "FOLLOWING" : "UNKNOWN" },
     });
     const conv = await prisma.igConversation.findFirst({
       where: { accountId: account.id, participantId: senderId },
@@ -757,7 +767,9 @@ async function resolveButtonClick(account: ResolvedAccount, senderId: string, au
   }
 
   const follows = await getUserFollowStatus(senderId, token);
-  if (follows === true) {
+  // null = a API nao respondeu se segue (erro/permissao). Travar a entrega
+  // nesse caso pune quem seguiu de verdade por uma falha nossa — libera.
+  if (follows === true || follows === null) {
     const mid = await sendMessageToUser(senderId, deliveredContent(a), token);
     await outAuto(account, senderId, deliveredContent(a), mid);
     await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED", followState: "FOLLOWING" } });
@@ -789,7 +801,8 @@ async function resolveTextFollowGate(account: ResolvedAccount, senderId: string,
   const a = run.automation;
   const follows = await getUserFollowStatus(senderId, token);
 
-  if (follows === true) {
+  // Mesmo criterio do gate por botao: "nao consegui verificar" nao bloqueia.
+  if (follows === true || follows === null) {
     const fullDm = [a.deliveredText || a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
     if (fullDm) {
       const mid = await sendMessageToUser(senderId, fullDm, token);
