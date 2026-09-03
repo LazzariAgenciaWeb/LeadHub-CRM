@@ -462,6 +462,7 @@ function PropertyPickerModal({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hint, setHint] = useState<string | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -473,13 +474,17 @@ function PropertyPickerModal({
           `/api/companies/${companyId}/integrations/${integration.id}/properties`
         );
         const j = await r.json();
-        if (!r.ok) {
-          if (cancelled) return;
+        if (cancelled) return;
+        // Lista vazia com motivo conhecido vem como 200 + error/hint — mostrar
+        // "nenhum encontrado" e engolir a explicação é o que deixava o cliente
+        // sem saber que o problema era o e-mail sem papel no perfil.
+        if (!r.ok || j.error) {
           setError(j.error || "Erro ao listar propriedades");
           if (j.hint) setHint(j.hint);
           return;
         }
-        if (!cancelled) setItems(j.items || []);
+        setItems(j.items || []);
+        if (j.warning) setWarning(j.warning);
       } catch (e: any) {
         if (!cancelled) setError(e.message);
       } finally {
@@ -549,6 +554,11 @@ function PropertyPickerModal({
           {!loading && !error && items.length === 0 && (
             <div className="py-10 text-center text-slate-500 text-sm">
               Nenhum {noun} encontrado nesta conta Google.
+            </div>
+          )}
+          {!loading && warning && (
+            <div className="mb-3 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] whitespace-pre-wrap break-words">
+              ⚠️ {warning}
             </div>
           )}
           {!loading && !error && groupedItems.length > 0 && (
