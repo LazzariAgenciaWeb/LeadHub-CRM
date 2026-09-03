@@ -81,7 +81,9 @@ export async function PATCH(
     // SUPER_ADMIN only
     hasSystemAccess, fullSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup,
     moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, moduleEmailInbox, moduleInstagram, moduleEspacoCliente, moduleVideos, moduleBling, moduleRelatorioMarketing, serpapiKey,
-    modoAtendimento,
+    // `modoAtendimento` NÃO entra aqui: é cache derivado do plano (aplicado no
+    // salvar da assinatura). Ficava sendo lido do corpo e nunca gravado, o que
+    // fazia o select do cadastro parecer funcionar sem nunca salvar.
     parentCompanyId,
     billingNotes,
   } = body;

@@ -39,6 +39,23 @@ node /app/node_modules/prisma/build/index.js db push --skip-generate --accept-da
   echo "[Backfill acesso] $RES"
 ) &
 
+# Backfill do modo de atendimento (2026-08-29): o modo virou cache derivado do
+# plano, mas antes só era aplicado quando o plano MUDAVA — e o select do
+# cadastro da empresa nunca gravava. Empresa com plano de Caixa de Entrada
+# completa ficava presa em VISAO e o cliente não conseguia enviar mensagem.
+# Idempotente: só toca em quem diverge do default do plano.
+(
+  sleep 24
+  echo "[Backfill modo atendimento] iniciando..."
+  if [ -n "$CRON_SECRET" ]; then
+    RES=$(curl -s -X POST "http://localhost:3000/api/admin/backfill-modo-atendimento" \
+      -H "Authorization: Bearer ${CRON_SECRET}" --max-time 180 2>&1)
+  else
+    RES=$(curl -s -X POST "http://localhost:3000/api/admin/backfill-modo-atendimento" --max-time 180 2>&1)
+  fi
+  echo "[Backfill modo atendimento] $RES"
+) &
+
 # Helper de curl que adiciona Authorization SE CRON_SECRET estiver definido.
 # Antes mandávamos -H "" quando o secret estava vazio — curl quebra silenciosamente
 # com header vazio, fazendo as cron pararem sem aviso.

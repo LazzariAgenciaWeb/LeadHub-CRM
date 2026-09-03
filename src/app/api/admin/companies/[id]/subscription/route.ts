@@ -160,12 +160,13 @@ export async function PATCH(
   //
   // Estratégia: usa getCompanyPlan() pra pegar features EFETIVAS (plan
   // defaults + customFeatures merged), e converte pra Company.module*.
-  // Modo de atendimento só muda quando o plano muda (preserva escolha
-  // manual no resto dos cenários).
+  // Modo de atendimento é cache DERIVADO do plano, igual aos módulos — não
+  // existe mais escolha manual a preservar (o select no cadastro da empresa
+  // nunca chegou a gravar e foi removido). Aplicar só quando o plano mudava
+  // deixava empresa presa em VISAO pra sempre: o plano dava Caixa de Entrada
+  // completa e o cliente não conseguia enviar mensagem pelo painel.
   const ctx = await getCompanyPlan(companyId);
-  const modoAtendimentoToApply = planChanged
-    ? PLANS[ctx.tier].modoAtendimentoDefault
-    : undefined;
+  const modoAtendimentoToApply = PLANS[ctx.tier].modoAtendimentoDefault;
 
   // Cache derivado: uma única definição, no catálogo (src/lib/modules.ts).
   // Antes esse mapa era escrito à mão aqui e não cobria todos os módulos —
@@ -178,9 +179,7 @@ export async function PATCH(
     // plano mudava — cliente subia de plano e continuava com a cota antiga.
     aiMonthlyQuota: ctx.effectiveLimits.aiInteractions,
   };
-  if (modoAtendimentoToApply !== undefined) {
-    modulesUpdate.modoAtendimento = modoAtendimentoToApply;
-  }
+  modulesUpdate.modoAtendimento = modoAtendimentoToApply;
 
   await prisma.company.update({
     where: { id: companyId },

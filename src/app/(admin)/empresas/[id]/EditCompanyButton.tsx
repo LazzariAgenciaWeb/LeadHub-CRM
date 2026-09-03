@@ -36,7 +36,6 @@ interface Company {
   moduleBling: boolean;
   moduleRelatorioMarketing: boolean;
   parentCompanyId?: string | null;
-  modoAtendimento: "VISAO" | "ATENDE";
 }
 
 interface Props {
@@ -89,7 +88,6 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
     moduleVideos: company.moduleVideos,
     moduleBling: (company as any).moduleBling ?? false,
     moduleRelatorioMarketing: (company as any).moduleRelatorioMarketing ?? false,
-    modoAtendimento: company.modoAtendimento,
   });
 
   // Sub-empresa (cliente da agência) + agência tem o módulo → mostra o self-serve.
@@ -118,7 +116,6 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
         payload.triggerOnly = form.triggerOnly;
         payload.hasSystemAccess = form.hasSystemAccess;
         payload.fullSystemAccess = form.fullSystemAccess;
-        payload.modoAtendimento = form.modoAtendimento;
       }
 
       // Self-serve: agência com o módulo libera o painel (Meu Espaço) da sub-empresa.
@@ -347,27 +344,11 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
                           </p>
                         )}
 
-                        {/* Modo de atendimento (WhatsApp) */}
-                        {form.moduleWhatsapp && (
-                          <div className="mt-4 pt-4 border-t border-[#1e2d45]">
-                            <label className="block text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-2">
-                              Modo de atendimento (WhatsApp)
-                            </label>
-                            <select
-                              value={form.modoAtendimento}
-                              onChange={(e) => set("modoAtendimento", e.target.value)}
-                              className="w-full bg-[#161f30] border border-[#2a3d56] rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500"
-                            >
-                              <option value="ATENDE">Atende (completo — envia pelo painel)</option>
-                              <option value="VISAO">Visão (somente leitura — equipe responde pelo celular)</option>
-                            </select>
-                            <p className="text-[11px] text-slate-500 mt-2">
-                              {form.modoAtendimento === "VISAO"
-                                ? "ℹ️ Painel substitui o campo de mensagem por contexto do lead. Sem envio direto — equipe atende pelo celular, sistema só lê."
-                                : "ℹ️ Comportamento padrão: equipe envia mensagens, templates e mídia pelo painel."}
-                            </p>
-                          </div>
-                        )}
+                        {/* O modo de atendimento (Visão × Atende) saiu daqui:
+                            é derivado do PLANO, na aba Plano — como o resto dos
+                            módulos. O select que existia aqui nunca gravou (o
+                            PATCH lia o campo e não salvava), então mostrava uma
+                            escolha que não valia nada. */}
                       </div>
                     )}
                   </div>
