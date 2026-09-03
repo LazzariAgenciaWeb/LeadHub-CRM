@@ -50,10 +50,87 @@ function devToken(): string {
   return t;
 }
 
+/** Contas que a conexão OAuth alcança direto (customers:listAccessibleCustomers). */
+async function accessibleCustomers(accessToken: string): Promise<string[]> {
+  const r = await fetch(`${API_BASE}/customers:listAccessibleCustomers`, {
+    headers: { Authorization: `Bearer ${accessToken}`, "developer-token": devToken() },
+  });
+  if (!r.ok) {
+    const txt = await r.text();
+    throw new Error(`Google Ads listAccessibleCustomers ${r.status}: ${txt.slice(0, 400)}`);
+  }
+  const data = await r.json();
+  return ((data.resourceNames ?? []) as string[]).map(digits).filter(Boolean);
+}
+
+// Cache do login-customer-id resolvido por (integração, conta). Descobrir a MCC
+// custa 1..N chamadas; a hierarquia do Google Ads muda muito pouco.
+const LOGIN_CID_CACHE = new Map<string, { value: string | undefined; at: number }>();
+const LOGIN_CID_TTL = 60 * 60 * 1000; // 1h
+
+/**
+ * Descobre qual login-customer-id usar pra falar com `customerId` NESTA conexão.
+ *
+ * A env GOOGLE_ADS_LOGIN_CUSTOMER_ID (MCC da AZZ) só serve pra quem tem acesso
+ * a ela. Quando o cliente conecta a própria conta Google, mandar a MCC da
+ * agência no header dá 403 USER_PERMISSION_DENIED ("The caller does not have
+ * permission") mesmo com a conta certa selecionada — o erro fala do header, não
+ * da conta. Então resolvemos por conexão:
+ *   1. acesso direto à conta → sem header;
+ *   2. senão, a gestora acessível que enxerga essa conta como cliente;
+ *   3. se a descoberta falhar, cai na env (comportamento antigo).
+ */
+async function resolveLoginCustomerId(
+  integrationId: string,
+  customerId: string,
+  accessToken: string
+): Promise<string | undefined> {
+  const cid = digits(customerId);
+  const key = `${integrationId}:${cid}`;
+  const hit = LOGIN_CID_CACHE.get(key);
+  if (hit && Date.now() - hit.at < LOGIN_CID_TTL) return hit.value;
+
+  const remember = (value: string | undefined) => {
+    LOGIN_CID_CACHE.set(key, { value, at: Date.now() });
+    return value;
+  };
+
+  let accessible: string[];
+  try {
+    accessible = await accessibleCustomers(accessToken);
+  } catch {
+    // Sem a lista não dá pra decidir — mantém o comportamento antigo.
+    const env = process.env.GOOGLE_ADS_LOGIN_CUSTOMER_ID;
+    return env ? digits(env) : undefined;
+  }
+
+  // Acesso direto: nada de login-customer-id (é o caso do cliente que conecta
+  // a própria conta de anúncios).
+  if (accessible.includes(cid)) return remember(undefined);
+
+  // Conta acessada via gestora: acha qual das gestoras enxerga esse cliente.
+  for (const managerCid of accessible) {
+    try {
+      const rows = await googleAdsSearch(
+        integrationId,
+        managerCid,
+        `SELECT customer_client.id FROM customer_client WHERE customer_client.id = ${cid}`,
+        { loginCustomerId: managerCid }
+      );
+      if (rows.length > 0) return remember(managerCid);
+    } catch {
+      // gestora sem permissão de leitura — tenta a próxima
+    }
+  }
+
+  const env = process.env.GOOGLE_ADS_LOGIN_CUSTOMER_ID;
+  return remember(env ? digits(env) : undefined);
+}
+
 /**
  * Roda GAQL via searchStream e devolve todas as linhas (achatadas).
- * `customerId` = conta-cliente alvo (só dígitos). Usa login-customer-id da MCC
- * quando a env existir (acesso de gestor).
+ * `customerId` = conta-cliente alvo (só dígitos). O login-customer-id sai de
+ * `opts` (chamada que já sabe a gestora) ou é descoberto pra esta conexão.
  */
 export async function googleAdsSearch(
   integrationId: string,
@@ -69,10 +146,10 @@ export async function googleAdsSearch(
     "developer-token": devToken(),
     "Content-Type": "application/json",
   };
-  // login-customer-id: o override (ex: varrer clientes de uma MCC específica)
-  // tem prioridade sobre a env global.
-  const loginCid = opts.loginCustomerId || process.env.GOOGLE_ADS_LOGIN_CUSTOMER_ID;
-  if (loginCid) headers["login-customer-id"] = digits(loginCid);
+  const loginCid = opts.loginCustomerId
+    ? digits(opts.loginCustomerId)
+    : await resolveLoginCustomerId(integrationId, cid, accessToken);
+  if (loginCid && loginCid !== cid) headers["login-customer-id"] = loginCid;
 
   const r = await fetch(`${API_BASE}/customers/${cid}/googleAds:searchStream`, {
     method: "POST",
@@ -81,6 +158,15 @@ export async function googleAdsSearch(
   });
   if (!r.ok) {
     const txt = await r.text();
+    // USER_PERMISSION_DENIED é sempre a mesma história: a conta Google que
+    // autorizou não administra essa conta de anúncios. O JSON cru da Google não
+    // diz isso — quem lê o card da integração precisa da frase, não do stack.
+    if (r.status === 403 && txt.includes("USER_PERMISSION_DENIED")) {
+      throw new Error(
+        `Google Ads negou o acesso à conta ${cid}: a conta Google conectada não tem permissão nela. ` +
+        `Confirme no Google Ads que o e-mail conectado é usuário dessa conta (ou da gestora que a administra) e reconecte.`
+      );
+    }
     throw new Error(`Google Ads API ${r.status}: ${txt.slice(0, 400)}`);
   }
   // searchStream (REST) devolve um ARRAY de respostas; cada uma tem `results`.
@@ -110,22 +196,11 @@ export interface GoogleAdsAccount {
  */
 export async function listGoogleAdsAccounts(integrationId: string): Promise<GoogleAdsAccount[]> {
   const { accessToken } = await getValidAccessToken(integrationId);
-  const headers: Record<string, string> = {
-    Authorization: `Bearer ${accessToken}`,
-    "developer-token": devToken(),
-  };
-  const r = await fetch(`${API_BASE}/customers:listAccessibleCustomers`, { headers });
-  if (!r.ok) {
-    const txt = await r.text();
-    throw new Error(`Google Ads listAccessibleCustomers ${r.status}: ${txt.slice(0, 400)}`);
-  }
-  const data = await r.json();
-  const resourceNames: string[] = data.resourceNames ?? [];
+  const resourceNames = await accessibleCustomers(accessToken);
 
   const out = new Map<string, GoogleAdsAccount>();
 
-  for (const rn of resourceNames) {
-    const cid = digits(rn); // "customers/123" → "123"
+  for (const cid of resourceNames) {
     let info: any = {};
     try {
       const rows = await googleAdsSearch(

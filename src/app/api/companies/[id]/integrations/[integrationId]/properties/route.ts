@@ -190,6 +190,13 @@ export async function GET(
         label: a.currency ? `${a.label} (${a.currency})` : a.label,
         group: a.group,
       }));
+      if (items.length === 0) {
+        return NextResponse.json({
+          items: [],
+          error: `A conta Google conectada${integ.googleEmail ? ` (${integ.googleEmail})` : ""} não alcança nenhuma conta do Google Ads.`,
+          hint: "No Google Ads (Administrador → Acesso e segurança), confirme que ESTE e-mail é usuário da conta de anúncios — ou da gestora que a administra. Convite pendente não vale: precisa estar aceito.",
+        });
+      }
       return NextResponse.json({ items });
     }
 
