@@ -446,6 +446,11 @@ export default function CompanyIntegrations({
   );
 }
 
+/** Normaliza pra busca: minúsculo e sem acento. */
+function norm(v: string): string {
+  return v.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 // ─── Modal de seleção de propriedade ─────────────────────────────────────────
 
 function PropertyPickerModal({
@@ -463,6 +468,7 @@ function PropertyPickerModal({
   const [error, setError] = useState<string | null>(null);
   const [hint, setHint] = useState<string | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
+  const [q, setQ] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -506,10 +512,23 @@ function PropertyPickerModal({
     onSaved();
   }
 
+  // Busca sem acento e sem caso — "colegio" acha "Colégio". Casa também com o
+  // id (locations/123, properties/456) e com o nome do grupo/conta, que é como
+  // a pessoa costuma lembrar do perfil ("os da MARKETING AZZ").
+  const filtered = (() => {
+    const needle = norm(q).trim();
+    if (!needle) return items;
+    const terms = needle.split(/\s+/);
+    return items.filter((it) => {
+      const hay = norm(`${it.label} ${it.id} ${it.group ?? ""}`);
+      return terms.every((t) => hay.includes(t));
+    });
+  })();
+
   // Agrupa por "group" se houver
   const groupedItems = (() => {
     const map = new Map<string, { id: string; label: string }[]>();
-    for (const it of items) {
+    for (const it of filtered) {
       const g = it.group || "—";
       if (!map.has(g)) map.set(g, []);
       map.get(g)!.push({ id: it.id, label: it.label });
@@ -536,6 +555,30 @@ function PropertyPickerModal({
           </div>
         </div>
 
+        {!loading && !error && items.length > 7 && (
+          <div className="mb-3">
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                autoFocus
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape" && q) { e.stopPropagation(); setQ(""); }
+                  // Enter com um único resultado seleciona direto — o caso comum
+                  // é digitar o nome da empresa e confirmar.
+                  if (e.key === "Enter" && filtered.length === 1 && !saving) handleSelect(filtered[0]);
+                }}
+                placeholder={`Buscar ${noun}…`}
+                className="w-full bg-[#0a1220] border border-[#1e2d45] rounded-lg pl-8 pr-16 py-2 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60"
+              />
+              <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-600 tabular-nums">
+                {q ? `${filtered.length}/${items.length}` : items.length}
+              </span>
+            </div>
+          </div>
+        )}
+
         <div className="flex-1 overflow-y-auto -mx-5 px-5">
           {loading && (
             <div className="py-10 text-center text-slate-500 text-sm">
@@ -554,6 +597,14 @@ function PropertyPickerModal({
           {!loading && !error && items.length === 0 && (
             <div className="py-10 text-center text-slate-500 text-sm">
               Nenhum {noun} encontrado nesta conta Google.
+            </div>
+          )}
+          {!loading && !error && items.length > 0 && filtered.length === 0 && (
+            <div className="py-10 text-center text-slate-500 text-sm">
+              Nada casou com “{q}”.
+              <button onClick={() => setQ("")} className="block mx-auto mt-2 text-indigo-400 hover:text-indigo-300 text-xs font-semibold">
+                Limpar busca
+              </button>
             </div>
           )}
           {!loading && warning && (
