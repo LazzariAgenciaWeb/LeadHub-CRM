@@ -63,6 +63,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       : [];
   }
   if (typeof body.discloseAi === "boolean") data.discloseAi = body.discloseAi;
+  if (typeof body.skipAutomationConvos === "boolean") data.skipAutomationConvos = body.skipAutomationConvos;
   if ("learnings" in body) data.learnings = (body.learnings ?? "").trim() || null;
   if ("qualificationChecklist" in body) data.qualificationChecklist = (body.qualificationChecklist ?? "").trim() || null;
   if ("model" in body) data.model = (body.model ?? "").trim() || null;

@@ -124536,6 +124536,7 @@ export namespace Prisma {
     isActive: boolean | null
     autoRespond: boolean | null
     activationMode: $Enums.AiActivation | null
+    skipAutomationConvos: boolean | null
     discloseAi: boolean | null
     learnings: string | null
     qualificationChecklist: string | null
@@ -124566,6 +124567,7 @@ export namespace Prisma {
     isActive: boolean | null
     autoRespond: boolean | null
     activationMode: $Enums.AiActivation | null
+    skipAutomationConvos: boolean | null
     discloseAi: boolean | null
     learnings: string | null
     qualificationChecklist: string | null
@@ -124597,6 +124599,7 @@ export namespace Prisma {
     autoRespond: number
     activationMode: number
     triggerKeywords: number
+    skipAutomationConvos: number
     discloseAi: number
     learnings: number
     qualificationChecklist: number
@@ -124643,6 +124646,7 @@ export namespace Prisma {
     isActive?: true
     autoRespond?: true
     activationMode?: true
+    skipAutomationConvos?: true
     discloseAi?: true
     learnings?: true
     qualificationChecklist?: true
@@ -124673,6 +124677,7 @@ export namespace Prisma {
     isActive?: true
     autoRespond?: true
     activationMode?: true
+    skipAutomationConvos?: true
     discloseAi?: true
     learnings?: true
     qualificationChecklist?: true
@@ -124704,6 +124709,7 @@ export namespace Prisma {
     autoRespond?: true
     activationMode?: true
     triggerKeywords?: true
+    skipAutomationConvos?: true
     discloseAi?: true
     learnings?: true
     qualificationChecklist?: true
@@ -124822,6 +124828,7 @@ export namespace Prisma {
     autoRespond: boolean
     activationMode: $Enums.AiActivation
     triggerKeywords: string[]
+    skipAutomationConvos: boolean
     discloseAi: boolean
     learnings: string | null
     qualificationChecklist: string | null
@@ -124872,6 +124879,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: boolean
     triggerKeywords?: boolean
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: boolean
     qualificationChecklist?: boolean
@@ -124911,6 +124919,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: boolean
     triggerKeywords?: boolean
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: boolean
     qualificationChecklist?: boolean
@@ -124947,6 +124956,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: boolean
     triggerKeywords?: boolean
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: boolean
     qualificationChecklist?: boolean
@@ -125007,6 +125017,7 @@ export namespace Prisma {
       autoRespond: boolean
       activationMode: $Enums.AiActivation
       triggerKeywords: string[]
+      skipAutomationConvos: boolean
       discloseAi: boolean
       learnings: string | null
       qualificationChecklist: string | null
@@ -125435,6 +125446,7 @@ export namespace Prisma {
     readonly autoRespond: FieldRef<"Assistant", 'Boolean'>
     readonly activationMode: FieldRef<"Assistant", 'AiActivation'>
     readonly triggerKeywords: FieldRef<"Assistant", 'String[]'>
+    readonly skipAutomationConvos: FieldRef<"Assistant", 'Boolean'>
     readonly discloseAi: FieldRef<"Assistant", 'Boolean'>
     readonly learnings: FieldRef<"Assistant", 'String'>
     readonly qualificationChecklist: FieldRef<"Assistant", 'String'>
@@ -147791,6 +147803,7 @@ export namespace Prisma {
     autoRespond: 'autoRespond',
     activationMode: 'activationMode',
     triggerKeywords: 'triggerKeywords',
+    skipAutomationConvos: 'skipAutomationConvos',
     discloseAi: 'discloseAi',
     learnings: 'learnings',
     qualificationChecklist: 'qualificationChecklist',
@@ -158977,6 +158990,7 @@ export namespace Prisma {
     autoRespond?: BoolFilter<"Assistant"> | boolean
     activationMode?: EnumAiActivationFilter<"Assistant"> | $Enums.AiActivation
     triggerKeywords?: StringNullableListFilter<"Assistant">
+    skipAutomationConvos?: BoolFilter<"Assistant"> | boolean
     discloseAi?: BoolFilter<"Assistant"> | boolean
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
@@ -159015,6 +159029,7 @@ export namespace Prisma {
     autoRespond?: SortOrder
     activationMode?: SortOrder
     triggerKeywords?: SortOrder
+    skipAutomationConvos?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrderInput | SortOrder
     qualificationChecklist?: SortOrderInput | SortOrder
@@ -159056,6 +159071,7 @@ export namespace Prisma {
     autoRespond?: BoolFilter<"Assistant"> | boolean
     activationMode?: EnumAiActivationFilter<"Assistant"> | $Enums.AiActivation
     triggerKeywords?: StringNullableListFilter<"Assistant">
+    skipAutomationConvos?: BoolFilter<"Assistant"> | boolean
     discloseAi?: BoolFilter<"Assistant"> | boolean
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
@@ -159094,6 +159110,7 @@ export namespace Prisma {
     autoRespond?: SortOrder
     activationMode?: SortOrder
     triggerKeywords?: SortOrder
+    skipAutomationConvos?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrderInput | SortOrder
     qualificationChecklist?: SortOrderInput | SortOrder
@@ -159133,6 +159150,7 @@ export namespace Prisma {
     autoRespond?: BoolWithAggregatesFilter<"Assistant"> | boolean
     activationMode?: EnumAiActivationWithAggregatesFilter<"Assistant"> | $Enums.AiActivation
     triggerKeywords?: StringNullableListFilter<"Assistant">
+    skipAutomationConvos?: BoolWithAggregatesFilter<"Assistant"> | boolean
     discloseAi?: BoolWithAggregatesFilter<"Assistant"> | boolean
     learnings?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
@@ -172044,6 +172062,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -172078,6 +172097,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -172110,6 +172130,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172144,6 +172165,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172177,6 +172199,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -172207,6 +172230,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172234,6 +172258,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182030,6 +182055,7 @@ export namespace Prisma {
     autoRespond?: SortOrder
     activationMode?: SortOrder
     triggerKeywords?: SortOrder
+    skipAutomationConvos?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
@@ -182067,6 +182093,7 @@ export namespace Prisma {
     isActive?: SortOrder
     autoRespond?: SortOrder
     activationMode?: SortOrder
+    skipAutomationConvos?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
@@ -182097,6 +182124,7 @@ export namespace Prisma {
     isActive?: SortOrder
     autoRespond?: SortOrder
     activationMode?: SortOrder
+    skipAutomationConvos?: SortOrder
     discloseAi?: SortOrder
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
@@ -197570,6 +197598,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -197603,6 +197632,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -197644,6 +197674,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -197677,6 +197708,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -199074,6 +199106,7 @@ export namespace Prisma {
     autoRespond?: BoolFilter<"Assistant"> | boolean
     activationMode?: EnumAiActivationFilter<"Assistant"> | $Enums.AiActivation
     triggerKeywords?: StringNullableListFilter<"Assistant">
+    skipAutomationConvos?: BoolFilter<"Assistant"> | boolean
     discloseAi?: BoolFilter<"Assistant"> | boolean
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
@@ -204589,6 +204622,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -204621,6 +204655,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -217844,6 +217879,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -217877,6 +217913,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -236255,6 +236292,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -236288,6 +236326,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -264515,6 +264554,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -264548,6 +264588,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -264668,6 +264709,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264701,6 +264743,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265082,6 +265125,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -265115,6 +265159,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -265439,6 +265484,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265472,6 +265518,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -277020,6 +277067,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -277050,6 +277098,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -278173,6 +278222,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278206,6 +278256,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278238,6 +278289,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278267,6 +278319,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278300,6 +278353,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278332,6 +278386,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -279831,6 +279886,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -283819,6 +283875,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283851,6 +283908,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283883,6 +283941,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -285667,6 +285726,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -285892,6 +285952,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -285925,6 +285986,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -285957,6 +286019,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -287934,6 +287997,7 @@ export namespace Prisma {
     autoRespond?: boolean
     activationMode?: $Enums.AiActivation
     triggerKeywords?: AssistantCreatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: boolean
     discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
@@ -288138,6 +288202,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -288171,6 +288236,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
@@ -288203,6 +288269,7 @@ export namespace Prisma {
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
     activationMode?: EnumAiActivationFieldUpdateOperationsInput | $Enums.AiActivation
     triggerKeywords?: AssistantUpdatetriggerKeywordsInput | string[]
+    skipAutomationConvos?: BoolFieldUpdateOperationsInput | boolean
     discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null

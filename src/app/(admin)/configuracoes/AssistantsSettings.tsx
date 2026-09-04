@@ -57,6 +57,7 @@ interface Assistant {
   activationMode?: "ALWAYS" | "TRIGGER";
   triggerKeywords?: string[];
   discloseAi: boolean;
+  skipAutomationConvos?: boolean;
   learnings: string | null;
   qualificationChecklist: string | null;
   instanceId: string | null;
@@ -133,6 +134,7 @@ export default function AssistantsSettings({
   const [fActivation, setFActivation] = useState<"ALWAYS" | "TRIGGER">("ALWAYS");
   const [fTriggers, setFTriggers] = useState("");
   const [fDiscloseAi, setFDiscloseAi] = useState(false);
+  const [fSkipAuto, setFSkipAuto] = useState(false);
   const [fChecklist, setFChecklist] = useState("");
   const [fLearnings, setFLearnings] = useState("");
   const [fRoutes, setFRoutes] = useState<Route[]>([]);
@@ -164,7 +166,7 @@ export default function AssistantsSettings({
   function openNew() {
     setEditing("new");
     setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFIgAccount(""); setFSchedulingLink(""); setFActive(true); setErr(null);
-    setFAutoRespond(false); setFDiscloseAi(false); setFChecklist(""); setFLearnings("");
+    setFAutoRespond(false); setFDiscloseAi(false); setFSkipAuto(false); setFChecklist(""); setFLearnings("");
     setFActivation("ALWAYS"); setFTriggers("");
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
@@ -183,6 +185,7 @@ export default function AssistantsSettings({
     setFActivation(a.activationMode === "TRIGGER" ? "TRIGGER" : "ALWAYS");
     setFTriggers((a.triggerKeywords ?? []).join("\n"));
     setFDiscloseAi(a.discloseAi ?? false);
+    setFSkipAuto(a.skipAutomationConvos ?? false);
     setFChecklist(a.qualificationChecklist ?? "");
     setFLearnings(a.learnings ?? "");
     setFRoutes((a.routes ?? []).map((r) => ({ intent: r.intent, label: r.label, setorId: r.setorId, createLead: r.createLead, createTicket: r.createTicket ?? false })));
@@ -239,6 +242,7 @@ export default function AssistantsSettings({
       activationMode: fActivation,
       triggerKeywords: fTriggers.split("\n").map((k) => k.trim()).filter(Boolean),
       discloseAi: fDiscloseAi,
+      skipAutomationConvos: fSkipAuto,
       qualificationChecklist: fChecklist,
       learnings: fLearnings,
       calendarUserId: fCalendarUser || null,
@@ -447,6 +451,16 @@ export default function AssistantsSettings({
                   className="accent-emerald-500"
                 />
                 Pode se apresentar como assistente de IA <span className="text-slate-600">(modo assessor pessoal)</span>
+              </label>
+
+              <label className="flex items-center gap-2 text-[11px] text-slate-400 cursor-pointer ml-7" title="Instagram: conversas que nasceram de automação (isca, pedido de follow, link) não são assumidas pelo agente nem depois que a automação termina — quem baixou material não virou lead por isso.">
+                <input
+                  type="checkbox"
+                  checked={fSkipAuto}
+                  onChange={(e) => setFSkipAuto(e.target.checked)}
+                  className="accent-emerald-500"
+                />
+                Não assumir conversas vindas de automação <span className="text-slate-600">(Instagram)</span>
               </label>
 
               {/* Quando o agente assume a conversa */}

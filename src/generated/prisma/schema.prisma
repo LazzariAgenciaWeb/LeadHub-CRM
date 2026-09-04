@@ -3590,6 +3590,10 @@ model Assistant {
   activationMode  AiActivation @default(ALWAYS)
   triggerKeywords String[]     @default([])
 
+  // Instagram: nao assumir conversas que vieram de automacao (isca/follow).
+  // Quem baixou material nao e necessariamente lead — o time decide.
+  skipAutomationConvos Boolean @default(false)
+
   // Assessor pessoal: quando true, o agente PODE (e deve) se apresentar como
   // assistente de IA, com leveza — inverte a regra padrão de não se revelar.
   discloseAi Boolean @default(false)

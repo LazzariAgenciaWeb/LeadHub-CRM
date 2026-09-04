@@ -26,7 +26,7 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v5-follow-sem-loop";
+export const IG_AUTO_AGENT_REV = "v6-limites";
 
 const DEBOUNCE_MS = 12_000;
 const HISTORY_LIMIT = 30;
@@ -228,6 +228,13 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
   });
   if (openRun) return skip("automacao_em_andamento", { run: openRun.id });
 
+  // Trava opcional: conversa que NASCEU de automação (isca, follow, link) não
+  // é assumida pelo agente nem depois que a automação termina. Quem baixou
+  // material não virou lead por isso — o time decide se puxa conversa.
+  if ((assistant as any).skipAutomationConvos && conv.hadAutomation) {
+    return skip("conversa_de_automacao");
+  }
+
   const token = decryptAccountToken(conv.account.accessTokenEnc);
   if (!token) return skip("conta_sem_token");
 
@@ -318,11 +325,39 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
   // Anti-alucinação: o modelo não abre perfil nenhum. Ele já afirmou "sua bio
   // está sem chamada pra ação" para um perfil que TINHA — o contato percebe na
   // hora e a conversa morre. Só pode afirmar o que está nos achados da equipe.
+  // Quantas vezes o agente já puxou agendamento nesta conversa. Passou de 2,
+  // vira insistência — e insistência queima a reputação de quem prospecta.
+  const inviteRe = /\b(agendar|agendamos|marcar|marcamos|15\s?min|quinze minutos|hor[áa]rio|conversa r[áa]pida|bate-?papo)\b/i;
+  const invitesSent = history.filter(
+    (m) => m.direction === "OUT" && m.source === "AI" && inviteRe.test(m.text ?? ""),
+  ).length;
+  const inviteGuard =
+    invitesSent >= 2
+      ? `\n# ⛔ PARE DE CONVIDAR (você já chamou pra conversa ${invitesSent} vezes)
+Não convide de novo, não pergunte "vamos agendar?", não reformule o convite. A pessoa já entendeu e não engatou.
+Responda o que ela perguntou, seja útil de graça e ENCERRE com simpatia — ou passe pro humano com action "HANDOFF". Insistir daqui pra frente só queima a imagem do Diego.`
+      : "";
+
+  const notLeadBlock = `\n# 🚩 QUANDO NÃO É LEAD (pare de vender na hora)
+Estes casos NÃO são clientes em potencial. NÃO convide pra conversa, NÃO insista, NÃO tente qualificar. Responda UMA frase educada e use action "HANDOFF":
+- Proposta de EMPREGO ou vaga (CLT, freelancer fixo, salário, "ofereço R$X + benefícios"), ou alguém querendo contratar o Diego como funcionário.
+- Parceria, permuta, convite para evento/podcast, pedido de divulgação.
+- Alguém vendendo algo PARA nós (serviço, curso, ferramenta).
+- Assunto pessoal, cobrança ou qualquer coisa fora de prospecção.
+Exemplo: "Essa parte quem vê é o Diego mesmo — já passei pra ele te responder por aqui 👍"
+Sinal claro de erro: se a pessoa está te oferecendo dinheiro/trabalho e você respondeu convidando pra agendar, você errou. Ela não é lead.`;
+
   const groundingBlock = `\n# 🚫 REGRA DE OURO — NUNCA INVENTE UM DIAGNÓSTICO
 Você NÃO consegue abrir, ver, acessar ou analisar perfis do Instagram, sites, bio ou ficha do Google. Você não "deu uma olhada" em nada.
 - A ÚNICA coisa que você sabe sobre o negócio do contato é o que está em ACHADOS DA EQUIPE${lead ? "" : " — e nesta conversa NÃO HÁ achados nenhum"}.
 - É PROIBIDO afirmar qualquer característica do perfil que não esteja lá ("sua bio está sem link", "falta chamada pra ação", "seu feed está desorganizado"). Já aconteceu de dizer que faltava link na bio quando tinha — isso queima a confiança na hora.
-- Se o contato pedir análise de um perfil que não está nos achados (por exemplo um segundo perfil dele), seja honesto e simpático: diga que vai olhar com calma e que retorna com os pontos — e use action "HANDOFF" pra equipe assumir. NUNCA chute pra parecer útil.`;
+- Se o contato pedir análise de um perfil que não está nos achados (por exemplo um segundo perfil dele), seja honesto e simpático: diga que vai olhar com calma e que retorna com os pontos — e use action "HANDOFF" pra equipe assumir. NUNCA chute pra parecer útil.
+
+# 🚫 NUNCA INVENTE CONHECIMENTO OU EXPERIÊNCIA
+Você também não sabe de que setores, mercados ou assuntos técnicos o Diego entende — só o que está no manual e no catálogo.
+- É PROIBIDO dizer que ele entende do ramo do contato, que já atendeu casos parecidos, ou citar experiência/números/cases que não estejam escritos aqui. JÁ ACONTECEU de afirmar que ele entendia de plantio, tomate e irrigação — ele não entende nada disso, e a pessoa percebe na hora.
+- O que o Diego domina é o DIGITAL do negócio (aparecer, atrair cliente, organizar a presença) — nunca a operação técnica do ramo dela.
+- Perguntaram "você entende do meu setor?": responda com honestidade e vantagem — "de [setor] quem entende é você; o que a gente domina é fazer teu negócio aparecer e atrair cliente. Na conversa vocês juntam as duas coisas."`;
 
   const flowBlock = `\n# FLUXO DESTA CONVERSA (Direct de prospecção)
 1. FOLLOW — NÃO peça follow por conta própria: o sistema cuida disso sozinho (checa de verdade se a pessoa segue e manda o pedido oficial com botão). Se você está sendo chamado, é porque esse passo já foi resolvido — vá direto pro passo 2.
@@ -340,6 +375,8 @@ Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenári
   const system = [
     `Você atende o DIRECT DO INSTAGRAM de uma empresa. Estilo: mensagens curtas de chat (1 a 3 bolhas de no máximo ~2 frases), tom humano e natural, no idioma do contato.`,
     continuityBlock,
+    notLeadBlock,
+    inviteGuard,
     groundingBlock,
     flowBlock,
     handleBlock,

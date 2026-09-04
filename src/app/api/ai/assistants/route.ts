@@ -111,6 +111,7 @@ export async function POST(req: NextRequest) {
         ? body.triggerKeywords.map((k: unknown) => String(k ?? "").trim()).filter(Boolean).slice(0, 30)
         : [],
       discloseAi: body.discloseAi === true,
+      skipAutomationConvos: body.skipAutomationConvos === true,
       learnings: (body.learnings ?? "").trim() || null,
       qualificationChecklist: (body.qualificationChecklist ?? "").trim() || null,
       schedulingLink: (body.schedulingLink ?? "").trim() || null,

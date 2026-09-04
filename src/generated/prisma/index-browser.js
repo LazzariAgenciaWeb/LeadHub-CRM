@@ -1633,6 +1633,7 @@ exports.Prisma.AssistantScalarFieldEnum = {
   autoRespond: 'autoRespond',
   activationMode: 'activationMode',
   triggerKeywords: 'triggerKeywords',
+  skipAutomationConvos: 'skipAutomationConvos',
   discloseAi: 'discloseAi',
   learnings: 'learnings',
   qualificationChecklist: 'qualificationChecklist',
