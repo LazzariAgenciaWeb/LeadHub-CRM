@@ -482,6 +482,52 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
   }
 }
 
+/**
+ * O echo é de algo que o PRÓPRIO sistema enviou (agente, automação, painel)?
+ * Duas checagens, porque o mid nem sempre chega antes do echo:
+ *  1. mid já gravado — o envio registrou a mensagem com o mesmo id;
+ *  2. mesmo texto saindo pelo sistema nos últimos 2 minutos — cobre a corrida
+ *     entre o registro do envio e a chegada do webhook.
+ * Falso positivo aqui só adia o pause; falso negativo pausaria o agente por
+ * causa da própria mensagem dele — por isso as duas redes.
+ */
+async function isSystemEcho(
+  companyId: string,
+  conversationId: string | null,
+  mid: string | null,
+  text: string | null,
+): Promise<boolean> {
+  try {
+    if (mid) {
+      const byMid = await prisma.igMessage.findFirst({
+        where: { companyId, mid },
+        select: { id: true },
+      });
+      if (byMid) return true;
+    }
+    const t = text?.trim();
+    if (conversationId && t) {
+      const recent = await prisma.igMessage.findFirst({
+        where: {
+          conversationId,
+          direction: "OUT",
+          source: { in: ["AI", "AUTOMATION", "AGENT"] },
+          text: t,
+          createdAt: { gte: new Date(Date.now() - 2 * 60_000) },
+        },
+        select: { id: true },
+      });
+      if (recent) return true;
+    }
+  } catch (e: any) {
+    // Na dúvida, trata como eco do sistema: não pausar por engano é mais
+    // seguro do que silenciar o agente sem motivo.
+    console.error("[IG] isSystemEcho:", e?.message);
+    return true;
+  }
+  return false;
+}
+
 async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEvent): Promise<void> {
   // Echo = mensagem que NÓS enviamos (app do Instagram, Business Suite ou API).
   // Persiste como OUT pra thread da inbox ficar completa. O mid deduplica
@@ -499,6 +545,21 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
       const prof = await getIgUserProfile(participantId, echoToken);
       echoUsername = prof.username ?? prof.name ?? null;
     }
+    // O echo chega TANTO de mensagem nossa enviada por fora (app do Instagram,
+    // Business Suite) QUANTO do que o próprio sistema acabou de mandar (agente,
+    // automação, resposta do painel). Só o primeiro caso significa "humano
+    // assumiu" — o segundo faria o agente se pausar sozinho a cada resposta.
+    const prevConv = await prisma.igConversation.findFirst({
+      where: { connectionId: account.id, participantId },
+      select: { id: true },
+    });
+    const systemEcho = await isSystemEcho(
+      account.companyId,
+      prevConv?.id ?? null,
+      msg.message?.mid ?? null,
+      msg.message?.text ?? null,
+    );
+
     const convoId = await recordIgMessage({
       companyId: account.companyId,
       channel: "INSTAGRAM",
@@ -514,11 +575,21 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
       console.error("[IG] persist echo:", e?.message);
       return null;
     });
-    // Humano respondeu pelo app antes do debounce do agente vencer → o time
-    // chegou primeiro; cancela a resposta automática pendente.
+
     if (convoId) {
       const { cancelIgAutoAgent } = await import("./ig-auto-agent");
+      // Cancela a resposta automática que estava no forno (o time chegou antes).
       cancelIgAutoAgent(convoId);
+      // Mensagem escrita por uma PESSOA fora do LeadHub → o agente sai de cena
+      // nessa conversa, igual ao WhatsApp. Sem isso ele voltava a responder na
+      // próxima mensagem do contato, por cima de quem já estava atendendo.
+      if (!systemEcho) {
+        const paused = await prisma.igConversation.updateMany({
+          where: { id: convoId, aiMode: "ACTIVE" },
+          data: { aiMode: "PAUSED_HUMAN" },
+        }).catch(() => ({ count: 0 }));
+        if (paused.count > 0) console.log(`[IG] humano assumiu pelo app — agente pausado na conv ${convoId}`);
+      }
     }
     return;
   }
