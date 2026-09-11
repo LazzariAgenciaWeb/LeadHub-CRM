@@ -4657,6 +4657,16 @@ export default function WhatsappManager({
                       return            <CheckCheck className="w-3.5 h-3.5 text-sky-400"           strokeWidth={2.5} aria-label="Lido" />; // 3=read 4=played
                     })() : null;
 
+                    // Entrega não confirmada: mensagem NOSSA parada no ✓ (ack ≤ 1,
+                    // servidor aceitou mas o WhatsApp não confirmou entrega) há 3+ min.
+                    // Em grupo o ✓✓ exige TODOS os participantes — parado no ✓ =
+                    // alguém não recebeu (sessão de criptografia quebrada no Baileys).
+                    // ack null = mensagem antiga sem tracking → não alarmar.
+                    const deliveryUnconfirmed =
+                      isOut && !!msg.externalId && !msg.deletedAt &&
+                      typeof msg.ack === "number" && msg.ack <= 1 &&
+                      Date.now() - new Date(msg.receivedAt).getTime() > 3 * 60_000;
+
                     return (
                       <div key={msg.id} className="group/msg">
                         {showDivider && (
@@ -4857,6 +4867,14 @@ export default function WhatsappManager({
                                 {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                               </span>
                               {ackIcon}
+                              {deliveryUnconfirmed && (
+                                <span
+                                  title={"O WhatsApp ainda não confirmou a entrega desta mensagem (parada no ✓). Em grupo, o ✓✓ exige TODOS os participantes — alguém pode não ter recebido.\n\nO que fazer: peça pro destinatário te mandar qualquer mensagem (reconstrói a sessão) e reenvie. Persistindo, use Reconectar na instância (Configurações → Instâncias)."}
+                                  className="text-[9px] font-semibold text-amber-300 bg-amber-500/15 border border-amber-500/30 rounded-full px-1.5 py-0.5 leading-none cursor-help"
+                                >
+                                  ⚠️ entrega não confirmada
+                                </span>
+                              )}
                               {msg.campaign && (
                                 <span className="text-[10px] text-indigo-400/70">📣 {msg.campaign.name}</span>
                               )}
