@@ -759,6 +759,9 @@ export async function processInboundMessage(payload: {
       companyId: instance.companyId,
       instanceId: instance.id,
       conversationId: conv.id,
+      // Citação (reply): antes só o fluxo 1:1 gravava — em grupo o bloco
+      // "respondendo a..." sumia do GoHub.
+      ...(quotedId ? { quotedId, quotedBody: quotedBody ?? null } : {}),
       ...(mediaType ? { mediaType } : {}),
       ...(mediaBase64 ? { mediaBase64 } : {}),
     });
@@ -840,6 +843,7 @@ export async function processInboundMessage(payload: {
           companyId,
           instanceId: instance.id,
           conversationId: conv.id,
+          ...(quotedId ? { quotedId, quotedBody: quotedBody ?? null } : {}),
           ...(mediaType ? { mediaType } : {}),
       ...(mediaBase64 ? { mediaBase64 } : {}),
         });
@@ -932,6 +936,7 @@ export async function processInboundMessage(payload: {
       companyId,
       instanceId: instance.id,
       conversationId: conv.id,
+      ...(quotedId ? { quotedId, quotedBody: quotedBody ?? null } : {}),
       ...(mediaType ? { mediaType } : {}),
       ...(mediaBase64 ? { mediaBase64 } : {}),
     });
