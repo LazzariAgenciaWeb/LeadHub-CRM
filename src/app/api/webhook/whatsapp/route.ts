@@ -246,6 +246,34 @@ export async function POST(request: NextRequest) {
           typeof rawAck === "number" ? rawAck :
           typeof rawAck === "string" ? (ACK_MAP[rawAck] ?? ACK_MAP[rawAck.toUpperCase()] ?? null) : null;
 
+        // Recibo POR PARTICIPANTE (grupo): quando o update traz `participant`,
+        // é o recibo de UMA pessoa — grava em receiptsByUser e NÃO mexe no ack
+        // agregado (senão ✓✓ apareceria com só um participante recebendo).
+        // Se a Evolution nunca enviar participant, este bloco fica inerte.
+        const receiptJid: string | undefined =
+          item?.participant ?? item?.key?.participant ?? item?.update?.participant ??
+          item?.userJid ?? item?.update?.userJid;
+        const receiptRemoteJid: string = String(item?.remoteJid ?? item?.key?.remoteJid ?? "");
+        if (msgId && receiptJid && receiptRemoteJid.includes("@g.us") && ackInt !== null && ackInt >= 2) {
+          const target = await prisma.message.findUnique({
+            where: { externalId: msgId },
+            select: { id: true, receiptsByUser: true },
+          }).catch(() => null);
+          if (target) {
+            const cur: Record<string, any> = (target.receiptsByUser as any) ?? {};
+            const prevAck = typeof cur[receiptJid]?.ack === "number" ? cur[receiptJid].ack : 0;
+            if (ackInt > prevAck) {
+              cur[receiptJid] = { ack: ackInt, at: new Date().toISOString() };
+              await prisma.message.update({
+                where: { id: target.id },
+                data: { receiptsByUser: cur },
+              }).catch(() => {});
+            }
+            pushSignal("receipt", msgId, `${receiptJid} ack=${ackInt}`);
+          }
+          continue;
+        }
+
         if (ackInt !== null) {
           // ACK só sobe, nunca regride. Em grupos com 4 instâncias, eventos podem
           // chegar fora de ordem (ex: ack=3 chega antes de ack=2). Filtra por

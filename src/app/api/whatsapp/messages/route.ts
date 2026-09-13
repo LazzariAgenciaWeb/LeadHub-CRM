@@ -100,6 +100,7 @@ export async function GET(req: NextRequest) {
     sentByAI:          true, // balão de IA (🤖 + cor diferente)
     deletedAt:         true, // aviso "apagada pelo remetente"
     reactions:         true, // emojis de reação
+    receiptsByUser:    true, // recibos por participante (grupo) — aviso "fulano sem confirmação"
     instance: { select: { instanceName: true } },
     campaign: { select: { id: true, name: true } },
     sentBy:   { select: { id: true, name: true } },

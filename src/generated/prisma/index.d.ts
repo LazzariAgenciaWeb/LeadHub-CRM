@@ -40155,6 +40155,7 @@ export namespace Prisma {
     sentByAI: number
     deletedAt: number
     reactions: number
+    receiptsByUser: number
     _all: number
   }
 
@@ -40245,6 +40246,7 @@ export namespace Prisma {
     sentByAI?: true
     deletedAt?: true
     reactions?: true
+    receiptsByUser?: true
     _all?: true
   }
 
@@ -40360,6 +40362,7 @@ export namespace Prisma {
     sentByAI: boolean
     deletedAt: Date | null
     reactions: JsonValue | null
+    receiptsByUser: JsonValue | null
     _count: MessageCountAggregateOutputType | null
     _avg: MessageAvgAggregateOutputType | null
     _sum: MessageSumAggregateOutputType | null
@@ -40407,6 +40410,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: boolean
     reactions?: boolean
+    receiptsByUser?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
@@ -40441,6 +40445,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: boolean
     reactions?: boolean
+    receiptsByUser?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
@@ -40475,6 +40480,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: boolean
     reactions?: boolean
+    receiptsByUser?: boolean
   }
 
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -40530,6 +40536,7 @@ export namespace Prisma {
       sentByAI: boolean
       deletedAt: Date | null
       reactions: Prisma.JsonValue | null
+      receiptsByUser: Prisma.JsonValue | null
     }, ExtArgs["result"]["message"]>
     composites: {}
   }
@@ -40954,6 +40961,7 @@ export namespace Prisma {
     readonly sentByAI: FieldRef<"Message", 'Boolean'>
     readonly deletedAt: FieldRef<"Message", 'DateTime'>
     readonly reactions: FieldRef<"Message", 'Json'>
+    readonly receiptsByUser: FieldRef<"Message", 'Json'>
   }
     
 
@@ -146400,7 +146408,8 @@ export namespace Prisma {
     sentByUserId: 'sentByUserId',
     sentByAI: 'sentByAI',
     deletedAt: 'deletedAt',
-    reactions: 'reactions'
+    reactions: 'reactions',
+    receiptsByUser: 'receiptsByUser'
   };
 
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
@@ -151522,6 +151531,7 @@ export namespace Prisma {
     sentByAI?: BoolFilter<"Message"> | boolean
     deletedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     reactions?: JsonNullableFilter<"Message">
+    receiptsByUser?: JsonNullableFilter<"Message">
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
@@ -151556,6 +151566,7 @@ export namespace Prisma {
     sentByAI?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     reactions?: SortOrderInput | SortOrder
+    receiptsByUser?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     instance?: WhatsappInstanceOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
@@ -151593,6 +151604,7 @@ export namespace Prisma {
     sentByAI?: BoolFilter<"Message"> | boolean
     deletedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     reactions?: JsonNullableFilter<"Message">
+    receiptsByUser?: JsonNullableFilter<"Message">
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
@@ -151627,6 +151639,7 @@ export namespace Prisma {
     sentByAI?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     reactions?: SortOrderInput | SortOrder
+    receiptsByUser?: SortOrderInput | SortOrder
     _count?: MessageCountOrderByAggregateInput
     _avg?: MessageAvgOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -151663,6 +151676,7 @@ export namespace Prisma {
     sentByAI?: BoolWithAggregatesFilter<"Message"> | boolean
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Message"> | Date | string | null
     reactions?: JsonNullableWithAggregatesFilter<"Message">
+    receiptsByUser?: JsonNullableWithAggregatesFilter<"Message">
   }
 
   export type KeywordRuleWhereInput = {
@@ -163764,6 +163778,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -163798,6 +163813,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUpdateInput = {
@@ -163820,6 +163836,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -163854,6 +163871,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateManyInput = {
@@ -163882,6 +163900,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUpdateManyMutationInput = {
@@ -163904,6 +163923,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyInput = {
@@ -163932,6 +163952,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type KeywordRuleCreateInput = {
@@ -176863,6 +176884,7 @@ export namespace Prisma {
     sentByAI?: SortOrder
     deletedAt?: SortOrder
     reactions?: SortOrder
+    receiptsByUser?: SortOrder
   }
 
   export type MessageAvgOrderByAggregateInput = {
@@ -197202,6 +197224,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -197234,6 +197257,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutSentByInput = {
@@ -198816,6 +198840,7 @@ export namespace Prisma {
     sentByAI?: BoolFilter<"Message"> | boolean
     deletedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     reactions?: JsonNullableFilter<"Message">
+    receiptsByUser?: JsonNullableFilter<"Message">
   }
 
   export type TaskUpsertWithWhereUniqueWithoutAssigneeInput = {
@@ -202543,6 +202568,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -202575,6 +202601,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutCompanyInput = {
@@ -208518,6 +208545,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -208550,6 +208578,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutCampaignInput = {
@@ -210493,6 +210522,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -210525,6 +210555,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutLeadInput = {
@@ -217736,6 +217767,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -217768,6 +217800,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutInstanceInput = {
@@ -220946,6 +220979,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -220978,6 +221012,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutConversationInput = {
@@ -276938,6 +276973,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TaskCreateManyAssigneeInput = {
@@ -277793,6 +277829,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -277825,6 +277862,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutSentByInput = {
@@ -277852,6 +277890,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TaskUpdateWithoutAssigneeInput = {
@@ -279164,6 +279203,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type KeywordRuleCreateManyCompanyInput = {
@@ -281600,6 +281640,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -281632,6 +281673,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutCompanyInput = {
@@ -281659,6 +281701,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type KeywordRuleUpdateWithoutCompanyInput = {
@@ -284425,6 +284468,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TrackingLinkCreateManyCampaignInput = {
@@ -284630,6 +284674,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -284662,6 +284707,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutCampaignInput = {
@@ -284689,6 +284735,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TrackingLinkUpdateWithoutCampaignInput = {
@@ -285049,6 +285096,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type LeadCommentCreateManyLeadInput = {
@@ -285222,6 +285270,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -285254,6 +285303,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutLeadInput = {
@@ -285281,6 +285331,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type LeadCommentUpdateWithoutLeadInput = {
@@ -285683,6 +285734,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ConversationCreateManyInstanceInput = {
@@ -285781,6 +285833,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -285813,6 +285866,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutInstanceInput = {
@@ -285840,6 +285894,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ConversationUpdateWithoutInstanceInput = {
@@ -286107,6 +286162,7 @@ export namespace Prisma {
     sentByAI?: boolean
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ConversationNoteCreateManyConversationInput = {
@@ -286197,6 +286253,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -286229,6 +286286,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutConversationInput = {
@@ -286256,6 +286314,7 @@ export namespace Prisma {
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
+    receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ConversationNoteUpdateWithoutConversationInput = {

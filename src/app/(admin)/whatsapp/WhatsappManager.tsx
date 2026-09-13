@@ -175,6 +175,9 @@ interface WaMessage {
   deletedAt?: string | null;
   // Reações emoji: reatorKey → { emoji, name, fromMe }
   reactions?: Record<string, { emoji: string; name?: string | null; fromMe?: boolean }> | null;
+  // Recibos por participante (grupo): jid → { ack }. Vazio/ausente = Evolution
+  // não envia recibo individual — a UI fica em silêncio.
+  receiptsByUser?: Record<string, { ack: number; at?: string }> | null;
   ack?: number | null;
   quotedId?: string | null;
   quotedBody?: string | null;
@@ -1415,6 +1418,14 @@ export default function WhatsappManager({
   }, [teamNumbers, teamNumberOverrides]);
 
   // Mapa phone normalizado → nome vindo do pushName (preenchido ao carregar mensagens do grupo)
+  // JIDs dos participantes conhecidos do grupo (histórico da conversa) — usado
+  // pra cruzar com receiptsByUser e apontar QUEM está sem recibo de entrega.
+  const groupParticipantJids = useMemo(() => {
+    const set = new Set<string>();
+    for (const m of convMessages) if (m.participantPhone) set.add(m.participantPhone);
+    return [...set];
+  }, [convMessages]);
+
   const pushNameMap = useMemo(() => {
     const map = new Map<string, string>();
     for (const msg of convMessages) {
@@ -4669,6 +4680,28 @@ export default function WhatsappManager({
                       typeof msg.ack === "number" && msg.ack <= 1 &&
                       Date.now() - new Date(msg.receivedAt).getTime() > 3 * 60_000;
 
+                    // Grupo: aponta CLIENTES sem recibo de entrega — SÓ quando há
+                    // recibos por participante gravados nesta mensagem (Evolution
+                    // enviando `participant` no update). Sem dado → silêncio total,
+                    // nada de alarme falso por instância/aparelho interno preguiçoso.
+                    const groupMissingNames: string[] | null = (() => {
+                      if (!isGroupConv || !isOut || !msg.externalId || msg.deletedAt) return null;
+                      const receipts = msg.receiptsByUser;
+                      if (!receipts || Object.keys(receipts).length === 0) return null;
+                      if (Date.now() - new Date(msg.receivedAt).getTime() < 5 * 60_000) return null;
+                      const normJid = (j: string): string[] => {
+                        const raw = j.replace(/@.*$/, "").replace(/\D/g, "");
+                        return j.includes("@lid") ? [`lid:${raw}`] : phoneVariants(raw).map((v) => `p:${v}`);
+                      };
+                      const received = new Set(Object.keys(receipts).flatMap(normJid));
+                      const missing = groupParticipantJids
+                        .map((pp) => ({ pp, r: resolveParticipant(pp) }))
+                        .filter((x): x is { pp: string; r: NonNullable<ReturnType<typeof resolveParticipant>> } => !!x.r && !x.r.isOurs)
+                        .filter((x) => !normJid(x.pp).some((t) => received.has(t)))
+                        .map((x) => x.r.label);
+                      return missing.length > 0 ? [...new Set(missing)] : null;
+                    })();
+
                     return (
                       <div key={msg.id} className="group/msg">
                         {showDivider && (
@@ -4875,6 +4908,14 @@ export default function WhatsappManager({
                                   className="text-[9px] font-semibold text-amber-300 bg-amber-500/15 border border-amber-500/30 rounded-full px-1.5 py-0.5 leading-none cursor-help"
                                 >
                                   ⚠️ entrega não confirmada
+                                </span>
+                              )}
+                              {groupMissingNames && (
+                                <span
+                                  title={`Sem recibo de entrega: ${groupMissingNames.join(", ")}.\n\nO WhatsApp confirmou a entrega pros demais participantes, mas não pra este(s) — a sessão pode estar quebrada. Peça pra pessoa te mandar qualquer mensagem e reenvie; persistindo, use Reconectar na instância.`}
+                                  className="text-[9px] font-semibold text-amber-300 bg-amber-500/15 border border-amber-500/30 rounded-full px-1.5 py-0.5 leading-none cursor-help"
+                                >
+                                  ⚠️ sem confirmação: {groupMissingNames.slice(0, 2).join(", ")}{groupMissingNames.length > 2 ? ` +${groupMissingNames.length - 2}` : ""}
                                 </span>
                               )}
                               {msg.campaign && (

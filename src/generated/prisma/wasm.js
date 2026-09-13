@@ -470,7 +470,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   sentByUserId: 'sentByUserId',
   sentByAI: 'sentByAI',
   deletedAt: 'deletedAt',
-  reactions: 'reactions'
+  reactions: 'reactions',
+  receiptsByUser: 'receiptsByUser'
 };
 
 exports.Prisma.KeywordRuleScalarFieldEnum = {

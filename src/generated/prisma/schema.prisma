@@ -997,6 +997,12 @@ model Message {
   // "me:<instância>" quando fomos nós). Reação removida = entrada apagada.
   reactions Json?
 
+  // Recibos POR PARTICIPANTE em grupo (quando a Evolution os envia no
+  // messages.update com `participant`): mapa jid → { ack, at }. Permite avisar
+  // "fulano sem confirmação" só quando um NÃO-instância não recebeu — sem dado,
+  // a UI fica em silêncio (nada de alarme falso).
+  receiptsByUser Json?
+
   @@index([companyId])
   // Cobre `WHERE phone = X AND companyId = Y ORDER BY receivedAt DESC LIMIT N`
   // (rota /api/whatsapp/messages — abrir conversa). Substituiu o antigo
@@ -3225,7 +3231,7 @@ model EmailUnsubscribe {
   @@index([email])
 }
 
-// ─── Caixa de Email (grupo Atender · usa moduleEmailMarketing) ───────────────
+// ─── Caixa de Email (grupo Atender �� usa moduleEmailMarketing) ───────────────
 // Caixa de entrada/saída de email operacional da empresa. Cada empresa pode
 // cadastrar VÁRIAS contas (comercial@, suporte@…), cada uma com as próprias
 // credenciais de envio (SMTP) e recebimento (IMAP). Poller em
