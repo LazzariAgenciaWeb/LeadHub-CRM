@@ -4659,10 +4659,12 @@ export default function WhatsappManager({
 
                     // Entrega não confirmada: mensagem NOSSA parada no ✓ (ack ≤ 1,
                     // servidor aceitou mas o WhatsApp não confirmou entrega) há 3+ min.
-                    // Em grupo o ✓✓ exige TODOS os participantes — parado no ✓ =
-                    // alguém não recebeu (sessão de criptografia quebrada no Baileys).
+                    // SÓ EM 1:1 — em grupo o ✓✓ exige TODOS os participantes
+                    // (instâncias nossas inclusas), então qualquer aparelho interno
+                    // preguiçoso gerava alarme falso com o cliente tendo recebido.
                     // ack null = mensagem antiga sem tracking → não alarmar.
                     const deliveryUnconfirmed =
+                      !isGroupConv &&
                       isOut && !!msg.externalId && !msg.deletedAt &&
                       typeof msg.ack === "number" && msg.ack <= 1 &&
                       Date.now() - new Date(msg.receivedAt).getTime() > 3 * 60_000;
@@ -4869,7 +4871,7 @@ export default function WhatsappManager({
                               {ackIcon}
                               {deliveryUnconfirmed && (
                                 <span
-                                  title={"O WhatsApp ainda não confirmou a entrega desta mensagem (parada no ✓). Em grupo, o ✓✓ exige TODOS os participantes — alguém pode não ter recebido.\n\nO que fazer: peça pro destinatário te mandar qualquer mensagem (reconstrói a sessão) e reenvie. Persistindo, use Reconectar na instância (Configurações → Instâncias)."}
+                                  title={"O WhatsApp ainda não confirmou a entrega desta mensagem (parada no ✓) — o cliente pode não ter recebido.\n\nO que fazer: peça pro cliente te mandar qualquer mensagem (reconstrói a sessão) e reenvie. Persistindo, use Reconectar na instância (Configurações → Instâncias)."}
                                   className="text-[9px] font-semibold text-amber-300 bg-amber-500/15 border border-amber-500/30 rounded-full px-1.5 py-0.5 leading-none cursor-help"
                                 >
                                   ⚠️ entrega não confirmada
