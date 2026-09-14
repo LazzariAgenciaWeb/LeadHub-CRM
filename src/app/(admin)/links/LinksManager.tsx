@@ -25,10 +25,129 @@ interface TrackingLink {
   createdAt: string;
   campaignId: string | null;
   companyId: string | null;
+  ogTitle: string | null;
+  ogDescription: string | null;
+  ogImage: string | null;
   campaign: { id: string; name: string } | null;
   company: { id: string; name: string } | null;
   _count: { leads: number; clickEvents: number };
   clickEvents: ClickEvent[];
+}
+
+// Separa telefone e mensagem de um destino https://wa.me/<fone>?text=<msg>
+function parseWhatsapp(destination: string) {
+  try {
+    const u = new URL(destination);
+    return { phone: u.pathname.replace(/\D/g, ""), message: u.searchParams.get("text") ?? "" };
+  } catch {
+    return { phone: "", message: "" };
+  }
+}
+
+const inputCls = "w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
+
+function EditLinkForm({ link, onSaved, onCancel }: {
+  link: TrackingLink;
+  onSaved: (patch: Partial<TrackingLink>) => void;
+  onCancel: () => void;
+}) {
+  const wa = parseWhatsapp(link.destination);
+  const [destType, setDestType] = useState<"url" | "whatsapp">(link.destType === "whatsapp" ? "whatsapp" : "url");
+  const [form, setForm] = useState({
+    label: link.label ?? "",
+    destination: link.destType === "whatsapp" ? "" : link.destination,
+    waPhone: link.destType === "whatsapp" ? wa.phone : "",
+    waMessage: link.destType === "whatsapp" ? wa.message : "",
+    ogTitle: link.ogTitle ?? "",
+    ogDescription: link.ogDescription ?? "",
+    ogImage: link.ogImage ?? "",
+  });
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const destination = destType === "whatsapp"
+      ? `https://wa.me/${form.waPhone.replace(/\D/g, "")}?text=${encodeURIComponent(form.waMessage)}`
+      : form.destination.trim();
+    setSaving(true);
+    setError(null);
+    const res = await fetch(`/api/tracking-links/${link.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        label: form.label, destination, destType,
+        ogTitle: form.ogTitle, ogDescription: form.ogDescription, ogImage: form.ogImage,
+      }),
+    });
+    setSaving(false);
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      setError(data.error ?? "Não foi possível salvar.");
+      return;
+    }
+    const updated = await res.json();
+    onSaved({
+      label: updated.label, destination: updated.destination, destType: updated.destType,
+      ogTitle: updated.ogTitle, ogDescription: updated.ogDescription, ogImage: updated.ogImage,
+    });
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="border-t border-[#1e2d45]/50 bg-[#080b12] px-4 py-4 space-y-3">
+      <p className="text-indigo-300 text-[10px] font-semibold uppercase tracking-wide">
+        Editar link — o endereço /r/{link.code} continua o mesmo
+      </p>
+      <input type="text" value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })}
+        placeholder="Nome do link" className={inputCls} />
+
+      <div className="flex gap-2">
+        <button type="button" onClick={() => setDestType("url")}
+          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${destType === "url" ? "bg-indigo-600 text-white" : "bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white"}`}>
+          🌐 URL / Site
+        </button>
+        <button type="button" onClick={() => setDestType("whatsapp")}
+          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${destType === "whatsapp" ? "bg-green-600 text-white" : "bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white"}`}>
+          💬 WhatsApp
+        </button>
+      </div>
+
+      {destType === "url" ? (
+        <input type="url" required value={form.destination} onChange={(e) => setForm({ ...form, destination: e.target.value })}
+          placeholder="https://seusite.com" className={inputCls} />
+      ) : (
+        <div className="space-y-2">
+          <input type="text" required value={form.waPhone} onChange={(e) => setForm({ ...form, waPhone: e.target.value })}
+            placeholder="Número com DDI (ex: 5511999999999)" className={inputCls} />
+          <textarea rows={2} value={form.waMessage} onChange={(e) => setForm({ ...form, waMessage: e.target.value })}
+            placeholder="Mensagem pré-preenchida" className={`${inputCls} resize-none`} />
+        </div>
+      )}
+
+      <div className="space-y-2 border border-[#1e2d45] rounded-lg p-3">
+        <p className="text-slate-500 text-[10px]">Preview (WhatsApp / redes sociais)</p>
+        <input type="text" value={form.ogTitle} onChange={(e) => setForm({ ...form, ogTitle: e.target.value })}
+          placeholder="Título" className={inputCls} />
+        <textarea rows={2} value={form.ogDescription} onChange={(e) => setForm({ ...form, ogDescription: e.target.value })}
+          placeholder="Descrição" className={`${inputCls} resize-none`} />
+        <input type="url" value={form.ogImage} onChange={(e) => setForm({ ...form, ogImage: e.target.value })}
+          placeholder="URL da imagem (1200×630px recomendado)" className={inputCls} />
+      </div>
+
+      {error && <p className="text-red-400 text-xs">{error}</p>}
+
+      <div className="flex gap-2">
+        <button type="button" onClick={onCancel}
+          className="flex-1 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-sm hover:text-white transition-colors">
+          Cancelar
+        </button>
+        <button type="submit" disabled={saving}
+          className="flex-1 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors">
+          {saving ? "Salvando..." : "Salvar alterações"}
+        </button>
+      </div>
+    </form>
+  );
 }
 
 interface Campaign { id: string; name: string; companyId: string }
@@ -70,6 +189,7 @@ export default function LinksManager({
   const [showForm, setShowForm] = useState(false);
   const [activeTab, setActiveTab] = useState<"links" | "report">("links");
   const [expandedLink, setExpandedLink] = useState<string | null>(null);
+  const [editingLink, setEditingLink] = useState<string | null>(null);
   const [showPixelInfo, setShowPixelInfo] = useState(false);
   const [copiedPixel, setCopiedPixel] = useState(false);
   const [showOgFields, setShowOgFields] = useState(false);
@@ -623,6 +743,12 @@ export default function LinksManager({
                             {copiedDest === link.id ? "✓ Copiado!" : "🔗 URL original"}
                           </button>
                           <button
+                            onClick={() => setEditingLink(editingLink === link.id ? null : link.id)}
+                            className="px-2 py-1 rounded bg-indigo-500/10 text-indigo-300 text-[10px] hover:bg-indigo-500/20 transition-colors"
+                          >
+                            {editingLink === link.id ? "▴ Fechar" : "✏️ Editar"}
+                          </button>
+                          <button
                             onClick={() => handleToggleActive(link)}
                             className={`px-2 py-1 rounded text-[10px] transition-colors ${
                               link.isActive
@@ -642,6 +768,18 @@ export default function LinksManager({
                         </div>
                       </div>
                     </div>
+
+                    {editingLink === link.id && (
+                      <EditLinkForm
+                        link={link}
+                        onCancel={() => setEditingLink(null)}
+                        onSaved={(patch) => {
+                          setLinks((prev) => prev.map((l) => l.id === link.id ? { ...l, ...patch } : l));
+                          setEditingLink(null);
+                          router.refresh();
+                        }}
+                      />
+                    )}
 
                     {/* Cliques internos expandido */}
                     {isExpanded && link.clickEvents.length > 0 && (
