@@ -22,6 +22,8 @@ export interface EsteiraSale {
   contractStatus: string;
   billingStatus: string;
   productionStatus: string;
+  /** Data da entrega — decide a competência da bonificação do pontual. */
+  deliveredAt: string | null;
   /** Cobrança gerada ao faturar. null = ainda não faturada (ou sem cliente). */
   invoice: { id: string; dueDate: string; status: string; amountCents: number } | null;
 }
@@ -31,6 +33,14 @@ export interface EsteiraData {
   clients: { id: string; name: string }[];
   colaboradores: { id: string; nome: string }[];
   sales: EsteiraSale[];
+}
+
+/** YYYY-MM-DD no fuso do navegador. `toISOString().slice(0,10)` usa UTC e,
+ *  pra entrega marcada à noite, mostraria o dia seguinte. */
+function dataLocal(iso: string | null): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
 // Cada checkpoint tem um estado que significa "resolvido" e um "DISPENSADO",
@@ -147,6 +157,7 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
         contractStatus: criada.contractStatus,
         billingStatus: criada.billingStatus,
         productionStatus: criada.productionStatus,
+        deliveredAt: criada.deliveredAt ?? null,
         invoice: null,
       },
       ...prev,
@@ -183,6 +194,16 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
     // status muda mas a cobrança não nasce. Sem mostrar isso, o usuário
     // acharia que faturou e o valor sumiria dos números do mês.
     if (updated.warning) setErr(updated.warning);
+    // Redatar a entrega move a bonificação junto; o que não pôde ir precisa
+    // ser dito, senão parece que foi e o valor fica somando no mês antigo.
+    const bon = updated.bonificacao as { movidos: number; pagosMantidos: number; conflitos: string[] } | undefined;
+    if (bon && (bon.pagosMantidos > 0 || bon.conflitos.length > 0)) {
+      const partes: string[] = [];
+      if (bon.movidos) partes.push(`${bon.movidos} lançamento(s) de bonificação movido(s) pro novo mês`);
+      if (bon.pagosMantidos) partes.push(`${bon.pagosMantidos} já pago(s) ficou(aram) no mês original`);
+      if (bon.conflitos.length) partes.push(`não movido por já existir no novo mês: ${bon.conflitos.join(", ")}`);
+      setErr(`Data de entrega alterada. ${partes.join(" · ")}.`);
+    }
     setSales((prev) =>
       prev.map((s) =>
         s.id === id
@@ -191,6 +212,7 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
               contractStatus: updated.contractStatus,
               billingStatus: updated.billingStatus,
               productionStatus: updated.productionStatus,
+              deliveredAt: updated.deliveredAt ?? null,
               kind: updated.kind,
               responsibleId: updated.responsibleId ?? null,
               responsibleName: updated.responsibleName ?? null,
@@ -584,6 +606,27 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                     </label>
                   );
                 })}
+
+                {/* Data da entrega: é ela que decide em qual mês a venda aparece
+                    na Bonificação. Editável porque marcar "Entregue" com atraso
+                    é rotina — entregue em agosto, registrado em setembro. */}
+                {s.productionStatus === "ENTREGUE" && (
+                  <label className="flex items-center gap-1.5">
+                    <span className="text-[11px] text-emerald-400">Entregue em</span>
+                    <input
+                      type="date"
+                      value={dataLocal(s.deliveredAt)}
+                      max={dataLocal(new Date().toISOString())}
+                      onChange={(e) => {
+                        if (!e.target.value) return;
+                        // Meio-dia local: evita que fuso jogue a data pro dia (e
+                        // às vezes pro mês) vizinho ao converter pra UTC.
+                        patch(s.id, { deliveredAt: new Date(`${e.target.value}T12:00:00`).toISOString() });
+                      }}
+                      className={`${selectCls} border-emerald-500/30 text-emerald-300`}
+                    />
+                  </label>
+                )}
 
                 {/* Quem executa = quem bonifica. Com isso preenchido, o
                     fechamento da bonificação é só conferir, não investigar. */}

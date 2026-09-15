@@ -74,6 +74,7 @@ export default async function EsteiraPage() {
       contractStatus: s.contractStatus,
       billingStatus: s.billingStatus,
       productionStatus: s.productionStatus,
+      deliveredAt: s.deliveredAt?.toISOString() ?? null,
       invoice: s.invoice
         ? {
             id: s.invoice.id,

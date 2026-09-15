@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { findOrCreateClientCompany } from "@/lib/client-company";
 import { can } from "@/lib/permissions";
 import { logFinance } from "@/lib/finance-log";
+import { moverBonificacaoDaVenda, competencia, type ResultadoRedatacao } from "@/lib/sale-delivery";
 
 const CONTRACT = ["PENDENTE", "ENVIADO", "ASSINADO", "DISPENSADO"];
 const BILLING = ["PENDENTE", "FATURADO", "DISPENSADO"];
@@ -20,7 +21,7 @@ function stamp(next: string | undefined, current: string, at: Date | null) {
 }
 
 // PATCH /api/financeiro/vendas/[id]
-// Body: { contractStatus?, billingStatus?, productionStatus?,
+// Body: { contractStatus?, billingStatus?, productionStatus?, deliveredAt?,
 //         clientCompanyId?, newClientName?, kind?, notes? }
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
@@ -76,6 +77,27 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       if (!sale.releasedAt) data.releasedAt = new Date();
       data.deliveredAt = productionStatus === "ENTREGUE" ? (sale.deliveredAt ?? new Date()) : null;
     }
+  }
+
+  // Data de entrega editável. A automática é o dia em que se marca "Entregue",
+  // e marcar atrasado é rotina — entrega feita em agosto registrada em
+  // setembro. Como é a data que decide a competência da bonificação do
+  // pontual, precisa dar pra corrigir.
+  if (body?.deliveredAt !== undefined) {
+    const statusFinal = productionStatus ?? sale.productionStatus;
+    if (statusFinal !== "ENTREGUE") {
+      return NextResponse.json({ error: "Só dá pra definir data de entrega em venda marcada como Entregue" }, { status: 400 });
+    }
+    const d = new Date(String(body.deliveredAt));
+    if (!body.deliveredAt || Number.isNaN(d.getTime())) {
+      return NextResponse.json({ error: "Data de entrega inválida" }, { status: 400 });
+    }
+    // Entrega no futuro é quase sempre erro de digitação (ano trocado) e
+    // jogaria a bonificação num mês que ainda nem fechou.
+    if (d.getTime() > Date.now() + 24 * 60 * 60 * 1000) {
+      return NextResponse.json({ error: "A data de entrega não pode estar no futuro" }, { status: 400 });
+    }
+    data.deliveredAt = d;
   }
 
   if (body?.kind !== undefined) {
@@ -136,6 +158,32 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     include: { clientCompany: { select: { id: true, name: true } } },
   });
 
+  // ── Data de entrega mudou de mês → bonificação acompanha ─────────────────
+  // Ver src/lib/sale-delivery.ts: move os lançamentos não pagos pra nova
+  // competência; os pagos ficam onde saíram.
+  let bonificacao: ResultadoRedatacao | undefined;
+  if (data.deliveredAt instanceof Date) {
+    bonificacao = await moverBonificacaoDaVenda(id, sale.deliveredAt, data.deliveredAt);
+    const mesAntigo = sale.deliveredAt ? competencia(sale.deliveredAt) : null;
+    const mesNovo = competencia(data.deliveredAt);
+
+    await logFinance({
+      companyId: sale.companyId,
+      clientCompanyId: updated.clientCompanyId,
+      entity: "COBRANCA",
+      entityId: null,
+      action: "ENTREGA_REDATADA",
+      description: `Data de entrega da venda alterada${mesAntigo && mesAntigo !== mesNovo ? ` (${mesAntigo} → ${mesNovo})` : ""}`,
+      meta: {
+        venda: sale.title,
+        de: sale.deliveredAt?.toISOString() ?? null,
+        para: data.deliveredAt.toISOString(),
+        ...(bonificacao ?? {}),
+      },
+      session,
+    });
+  }
+
   // ── Faturar gera cobrança de verdade ─────────────────────────────────────
   // Sem isso, "Faturado" na esteira era só um checkbox: a venda não entrava em
   // "Já faturado" nem na barra da meta (que somam ClientInvoice), então venda
@@ -176,6 +224,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       // desfazemos o status — o usuário vê o aviso e vincula o cliente.
       return NextResponse.json({
         ...updated,
+        bonificacao,
         warning: "Venda marcada como faturada, mas sem cliente vinculado — a cobrança não foi criada. Vincule um cliente e marque novamente.",
       });
     }
@@ -219,7 +268,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     }
   }
 
-  return NextResponse.json({ ...updated, invoice });
+  return NextResponse.json({ ...updated, invoice, bonificacao });
 }
 
 // DELETE /api/financeiro/vendas/[id]
