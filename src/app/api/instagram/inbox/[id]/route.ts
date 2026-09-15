@@ -70,9 +70,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
 
   await prisma.igConversation.update({ where: { id }, data: { aiMode: aiMode as any } });
+  const { cancelIgAutoAgent, scheduleIgAutoAgent } = await import("@/lib/ig-auto-agent");
   if (aiMode !== "ACTIVE") {
-    const { cancelIgAutoAgent } = await import("@/lib/ig-auto-agent");
     cancelIgAutoAgent(id);
+    return NextResponse.json({ ok: true, aiMode });
   }
-  return NextResponse.json({ ok: true, aiMode });
+  // CONTINUAR ATENDIMENTO: reativar não pode só destravar e esperar a próxima
+  // mensagem — se o contato já respondeu e ficou sem retorno, o agente
+  // responde AGORA. O motor refaz todos os guards (última msg do contato,
+  // janela de 24h da Meta, automação em andamento) antes de falar.
+  scheduleIgAutoAgent(id);
+  return NextResponse.json({ ok: true, aiMode, continuing: true });
 }

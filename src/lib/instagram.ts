@@ -551,8 +551,13 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
     // assumiu" — o segundo faria o agente se pausar sozinho a cada resposta.
     const prevConv = await prisma.igConversation.findFirst({
       where: { connectionId: account.id, participantId },
-      select: { id: true },
+      select: { id: true, lastDirection: true },
     });
+    // "Humano assumiu" só faz sentido quando havia um contato ESPERANDO
+    // resposta (última mensagem era dele). Mensagem nossa sem nada pendente é
+    // ABORDAGEM ou follow-up de prospecção — pausar ali calava o agente antes
+    // da pessoa responder, e ele ignorava o "Sim" dias depois.
+    const contactWasWaiting = prevConv?.lastDirection === "IN";
     const systemEcho = await isSystemEcho(
       account.companyId,
       prevConv?.id ?? null,
@@ -583,7 +588,7 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
       // Mensagem escrita por uma PESSOA fora do LeadHub → o agente sai de cena
       // nessa conversa, igual ao WhatsApp. Sem isso ele voltava a responder na
       // próxima mensagem do contato, por cima de quem já estava atendendo.
-      if (!systemEcho) {
+      if (!systemEcho && contactWasWaiting) {
         const paused = await prisma.igConversation.updateMany({
           where: { id: convoId, aiMode: "ACTIVE" },
           data: { aiMode: "PAUSED_HUMAN" },

@@ -201,7 +201,9 @@ export default function IgInbox() {
                           : "border-white/10 bg-white/5 text-slate-400 hover:bg-white/10"
                       }`}
                     >
-                      {aiMode === "ACTIVE" ? "🤖 IA ativa · pausar" : aiMode === "PAUSED_HUMAN" ? "🤖 pausada · reativar" : "🤖 desligada · ligar"}
+                      {/* Reativar agora responde na hora o que ficou pendente
+                          — por isso o rótulo diz o que acontece de fato. */}
+                      {aiMode === "ACTIVE" ? "🤖 IA ativa · pausar" : "▶ Continuar atendimento com IA"}
                     </button>
                   )}
                   {selected.channel === "INSTAGRAM" && selected.participantUsername && (
