@@ -38,12 +38,21 @@ const card = "bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5";
 function mesCurto(iso: string) {
   return new Date(iso).toLocaleDateString("pt-BR", { month: "short", year: "numeric" }).replace(".", "");
 }
+/** YYYY-MM-DD no fuso do navegador (toISOString usaria UTC e trocaria o dia). */
+function dataLocal(iso: string): string {
+  const d = new Date(iso);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 const input =
   "bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
 
 export default function BonificacaoPanel({ data }: { data: BonificacaoData | null }) {
   const router = useRouter();
   const [erro, setErro] = useState("");
+  const [aviso, setAviso] = useState("");
+  // Pontual com a data de entrega aberta pra edição.
+  const [redatando, setRedatando] = useState<string | null>(null);
   const [ocupado, setOcupado] = useState<string | null>(null);
   // Origem escolhida pra lançar: qual linha está com o formulário aberto.
   const [abrindo, setAbrindo] = useState<string | null>(null);
@@ -163,6 +172,40 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
     });
     setOcupado(null);
     if (!res.ok) { setErro("Não foi possível atualizar em lote."); return; }
+    router.refresh();
+  }
+
+  /**
+   * Corrige a data de entrega do pontual direto daqui. Marcar "Entregue" com
+   * atraso é rotina — entregue em agosto, registrado em setembro — e é nesta
+   * tela que o erro aparece. A API move junto os lançamentos não pagos da
+   * venda (ver src/lib/sale-delivery.ts).
+   */
+  async function redatarEntrega(v: { id: string; titulo: string }, dia: string) {
+    setOcupado(`d-${v.id}`); setErro(""); setAviso("");
+    const res = await fetch(`/api/financeiro/vendas/${v.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      // Meio-dia local: fuso não empurra a data pro dia (ou mês) vizinho.
+      body: JSON.stringify({ deliveredAt: new Date(`${dia}T12:00:00`).toISOString() }),
+    });
+    setOcupado(null);
+    const r = await res.json().catch(() => ({}));
+    if (!res.ok) { setErro(r.error ?? "Não foi possível alterar a data de entrega."); return; }
+    setRedatando(null);
+
+    const novoMes = dia.slice(0, 7);
+    if (novoMes !== data!.month) {
+      const bon = r.bonificacao as { movidos: number; pagosMantidos: number; conflitos: string[] } | undefined;
+      const extras: string[] = [];
+      if (bon?.movidos) extras.push(`${bon.movidos} lançamento(s) foram junto`);
+      if (bon?.pagosMantidos) extras.push(`${bon.pagosMantidos} já pago(s) ficou(aram) em ${monthLabel(data!.month)}`);
+      if (bon?.conflitos.length) extras.push(`não movido por já existir lá: ${bon.conflitos.join(", ")}`);
+      // A linha some deste mês — sem o aviso, parece que a venda sumiu.
+      setAviso(
+        `"${v.titulo}" agora está em ${monthLabel(novoMes)}.` + (extras.length ? ` ${extras.join(" · ")}.` : "")
+      );
+    }
     router.refresh();
   }
 
@@ -346,6 +389,13 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
       </div>
 
       <FinanceiroTabs />
+
+      {aviso && (
+        <div className="bg-emerald-500/10 border border-emerald-500/25 rounded-lg px-4 py-3 text-sm text-emerald-300 flex items-center justify-between gap-3">
+          {aviso}
+          <button onClick={() => setAviso("")}><X className="w-3.5 h-3.5" /></button>
+        </div>
+      )}
 
       {erro && (
         <div className="bg-red-500/10 border border-red-500/25 rounded-lg px-4 py-3 text-sm text-red-300 flex items-center justify-between">
@@ -674,7 +724,32 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                     {v.cliente && <span className="text-slate-600 text-xs ml-2">{v.cliente}</span>}
                   </div>
                   <div className="text-xs text-slate-600">
-                    vendido por {brlFromCents(v.valorCents)} · entregue {new Date(v.entregueEm).toLocaleDateString("pt-BR")}
+                    vendido por {brlFromCents(v.valorCents)} ·{" "}
+                    {redatando === v.id ? (
+                      <span className="inline-flex items-center gap-1.5">
+                        entregue em
+                        <input
+                          type="date"
+                          autoFocus
+                          defaultValue={dataLocal(v.entregueEm)}
+                          max={dataLocal(new Date().toISOString())}
+                          disabled={ocupado === `d-${v.id}`}
+                          onChange={(e) => e.target.value && redatarEntrega(v, e.target.value)}
+                          className="bg-[#161f30] border border-emerald-500/30 rounded px-1.5 py-0.5 text-[11px] text-emerald-300 focus:outline-none"
+                        />
+                        {ocupado === `d-${v.id}`
+                          ? <Loader2 className="w-3 h-3 animate-spin" />
+                          : <button onClick={() => setRedatando(null)} className="text-slate-500 hover:text-white">cancelar</button>}
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => { setRedatando(v.id); setErro(""); setAviso(""); }}
+                        title="Corrigir a data de entrega — muda o mês em que entra na bonificação"
+                        className="underline decoration-dotted underline-offset-2 hover:text-emerald-300"
+                      >
+                        entregue {new Date(v.entregueEm).toLocaleDateString("pt-BR")}
+                      </button>
+                    )}
                     {v.responsavelNome && (
                       <span className="text-indigo-400/80"> · resp.: {v.responsavelNome}</span>
                     )}
