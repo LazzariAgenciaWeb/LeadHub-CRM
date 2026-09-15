@@ -533,6 +533,27 @@ async function saveWAContactName(phone: string, name: string, companyId: string)
 }
 
 /**
+ * O ID de mensagem do WhatsApp é o MESMO pra quem envia e pra quem recebe.
+ * Quando duas instâncias do LeadHub de EMPRESAS diferentes conversam entre si
+ * (ex.: agência testando o número do cliente), as duas cópias disputam o mesmo
+ * Message.externalId (@unique global) — a segunda sobrescrevia ou descartava a
+ * primeira, e a mensagem de um tenant aparecia no outro. Cada empresa guarda a
+ * sua cópia: quem chega depois usa o ID escopado pela empresa.
+ */
+export function scopedExternalId(externalId: string, companyId: string): string {
+  return `${externalId}@${companyId}`;
+}
+
+/** externalId a gravar pra esta empresa (escopado se outra empresa já tem o ID). */
+export async function resolveOwnExternalId(externalId: string, companyId: string): Promise<string> {
+  const other = await prisma.message.findUnique({
+    where: { externalId },
+    select: { companyId: true },
+  }).catch(() => null);
+  return other && other.companyId !== companyId ? scopedExternalId(externalId, companyId) : externalId;
+}
+
+/**
  * Cria uma Message de forma idempotente.
  * Se externalId for fornecido usa upsert (update: {}) para ser atômico e evitar
  * o race condition de dois webhooks simultâneos para a mesma mensagem.
@@ -543,11 +564,17 @@ async function safeCreateMessage(data: Prisma.MessageUncheckedCreateInput) {
     const externalId = d.externalId ?? undefined;
     if (externalId) {
       try {
-        return await prisma.message.upsert({
+        const row = await prisma.message.upsert({
           where: { externalId },
           create: d,
           update: {}, // já existe → ignorar silenciosamente
         });
+        // O ID já é de OUTRA empresa (instâncias de tenants diferentes
+        // conversando) — grava a cópia desta empresa com o ID escopado.
+        if (row.companyId !== d.companyId) {
+          return write({ ...d, externalId: scopedExternalId(externalId, d.companyId) });
+        }
+        return row;
       } catch (e: any) {
         // P2002 = race condition: outra instância inseriu antes (grupos com várias instâncias)
         if (e?.code === "P2002") return null;
@@ -710,7 +737,7 @@ export async function processInboundMessage(payload: {
     // já gravou a mensagem (OUTBOUND) e deixou o status como WAITING_CUSTOMER.
     if (externalId) {
       const already = await prisma.message.findUnique({
-        where: { externalId },
+        where: { externalId: await resolveOwnExternalId(externalId, instance.companyId) },
         select: { id: true },
       }).catch(() => null);
       if (already) {

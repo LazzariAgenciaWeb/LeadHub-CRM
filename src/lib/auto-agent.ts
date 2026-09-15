@@ -2,12 +2,16 @@ import { LeadStatus } from "@/generated/prisma";
 import { prisma } from "./prisma";
 import { runAssistant, getAssistantForInstance, getServicesCatalogBlock, type ChatMessage } from "./assistant";
 import { evolutionSendText } from "./evolution";
-import { upsertConversation, isTerminalMessage } from "./whatsapp";
+import { upsertConversation, isTerminalMessage, resolveOwnExternalId } from "./whatsapp";
 import { sendPushToUser } from "./push";
 import {
   getAgentCalendarConnection, connectionCanWrite, computeAvailableSlots,
   isSlotStillFree, createMeetEvent, nowLabel, type Slot,
 } from "./scheduling";
+import {
+  loadCompanyHours, isWithinBusinessHoursConfig, nextBusinessOpening,
+  formatLocalDateTime, describeCompanyHours,
+} from "./business-hours";
 
 /**
  * Agente autônomo de atendimento (triagem).
@@ -518,7 +522,34 @@ Regras do agendamento:
 - Se as listas estiverem vazias (sem horário livre), avise que o time vai retornar pra combinar o melhor horário e use action "HANDOFF". NUNCA confirme reunião sem horário livre.`;
 }
 
+/**
+ * Data/hora atual + status do atendimento humano, pro agente saber se a
+ * empresa está aberta e quando o time retorna. O horário só entra se a
+ * empresa configurou em Configurações → Horários (sem config, o fallback
+ * por env não reflete a empresa e induziria o agente a errar).
+ */
+async function timeContextBlock(companyId: string): Promise<string> {
+  const now = new Date();
+  const lines = [`# DATA E HORA ATUAL\nAgora: ${formatLocalDateTime(now)} (horário de Brasília).`];
+
+  const configured = await prisma.businessHoursConfig.count({ where: { companyId } });
+  if (configured > 0) {
+    const hours = await loadCompanyHours(companyId);
+    const open = isWithinBusinessHoursConfig(now, hours);
+    const next = open ? null : nextBusinessOpening(now, hours);
+    lines.push(
+      `\nHorário de atendimento da equipe:\n${describeCompanyHours(hours)}`,
+      open
+        ? "\nStatus agora: DENTRO do horário de atendimento."
+        : `\nStatus agora: FORA do horário de atendimento.${next ? ` Próximo horário de atendimento: ${formatLocalDateTime(next)}.` : ""}`,
+      "(Feriados não estão considerados — se o contato mencionar feriado, trate como fora do horário.)",
+    );
+  }
+  return lines.join("\n");
+}
+
 function buildSystemPrompt(args: {
+  timeContext: string;
   manual: string;
   learnings: string | null;
   schedulingLink: string | null;
@@ -530,7 +561,7 @@ function buildSystemPrompt(args: {
   discloseAi: boolean;
   groupCtx: { clientCompanyName: string } | null;
 }): string {
-  const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling, knownData, discloseAi, groupCtx } = args;
+  const { timeContext, manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling, knownData, discloseAi, groupCtx } = args;
 
   const routeLines = routes
     .map((r) => `- "${r.intent}" → encaminha pro setor ${r.label ?? r.setorName}${r.createTicket ? " e ABRE UM CHAMADO interno com o pedido (avise o contato que o chamado foi registrado)" : ""}. Use quando o contato foi identificado/qualificado como esse caso.`)
@@ -583,6 +614,8 @@ Como se comportar:
 - Se as pessoas estiverem apenas conversando entre si, trocando "bom dia", figurinha ou combinando algo entre elas — e não houver um pedido pendente pro nosso time — responda [] (silêncio). Ficar falando à toa no grupo do cliente é pior que não falar.
 - Seja econômico: no grupo você fala pouco. Assim que o pedido estiver claro, encaminhe pela action da rota e pare.`);
   }
+
+  if (timeContext) parts.push(timeContext);
 
   parts.push(`# MANUAL DO AGENTE (siga à risca)\n${manual.trim()}`);
 
@@ -852,7 +885,15 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     }
   }
 
+  let timeContext = "";
+  try {
+    timeContext = await timeContextBlock(conv.companyId);
+  } catch (err) {
+    console.error(`[AutoAgent] falha ao montar data/horário conv=${conv.id}:`, err);
+  }
+
   const system = buildSystemPrompt({
+    timeContext,
     manual: assistant.manual,
     learnings: (assistant as any).learnings ?? null,
     schedulingLink: assistant.schedulingLink,
@@ -1107,7 +1148,7 @@ async function sendBotText(s: BotSender, text: string): Promise<boolean> {
 
     await prisma.message.create({
       data: {
-        externalId,
+        externalId: await resolveOwnExternalId(externalId, s.companyId),
         body: text,
         direction: "OUTBOUND",
         phone: s.phone,

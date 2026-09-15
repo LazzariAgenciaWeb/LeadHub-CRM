@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { processInboundMessage, upsertConversation } from "@/lib/whatsapp";
+import { processInboundMessage, upsertConversation, scopedExternalId } from "@/lib/whatsapp";
 import { guardWebhook } from "@/lib/webhook-auth";
 
 /**
@@ -538,7 +538,16 @@ export async function POST(request: NextRequest) {
       });
       if (waInstance && key?.id) {
         // 1. Verificar se o registro já existe pelo externalId real.
-        const existing = await prisma.message.findUnique({ where: { externalId: key.id } });
+        let ownExternalId: string = key.id;
+        let existing = await prisma.message.findUnique({ where: { externalId: key.id } });
+        // O registro com esse ID é de OUTRA empresa (instâncias de tenants
+        // diferentes conversando entre si — ex.: agência testando o número do
+        // cliente). NÃO é eco de grupo: não pode "corrigir" a cópia do outro
+        // tenant. Esta empresa usa o ID escopado pra sua própria cópia.
+        if (existing && existing.companyId !== waInstance.companyId) {
+          ownExternalId = scopedExternalId(key.id, waInstance.companyId);
+          existing = await prisma.message.findUnique({ where: { externalId: ownExternalId } });
+        }
 
         // Correção de registro existente: em grupos com várias instâncias
         // nossas, quando enviamos pelo celular de UMA instância, as OUTRAS
@@ -591,7 +600,7 @@ export async function POST(request: NextRequest) {
             // Atualiza o ID fallback → ID real para que o ACK funcione corretamente
             await prisma.message.update({
               where: { id: fallback.id },
-              data: { externalId: key.id },
+              data: { externalId: ownExternalId },
             });
             console.log(`[WA fromMe] fallback externalId ${fallback.externalId} → ${key.id}`);
           } else {
@@ -608,7 +617,7 @@ export async function POST(request: NextRequest) {
             // Para @lid com alias resolvido: usa phoneForLookup (número real) para salvar sob a conversa correta.
             await prisma.message.create({
               data: {
-                externalId: key.id,
+                externalId: ownExternalId,
                 phone: phoneForLookup,
                 participantPhone: isGroup ? (data?.participant ?? key?.participant ?? undefined) : undefined,
                 participantName: isGroup ? (data?.pushName ?? undefined) : undefined,

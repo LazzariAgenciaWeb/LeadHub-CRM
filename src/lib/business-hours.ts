@@ -288,6 +288,48 @@ export function isWithinBusinessHoursConfig(date: Date, config: CompanyHoursConf
   return true;
 }
 
+/**
+ * Próximo instante em que o atendimento abre a partir de `date` (ou `date`
+ * mesmo, se já estiver dentro do horário). Considera abertura mais tarde no
+ * mesmo dia e volta de intervalo (almoço). Null se a empresa nunca abre.
+ */
+export function nextBusinessOpening(date: Date, config: CompanyHoursConfig): Date | null {
+  if (isWithinBusinessHoursConfig(date, config)) return date;
+  if (!config.some((d) => d.isOpen && workBlocksForDay(d).length > 0)) return null;
+
+  const p = localParts(date);
+  const dayCfg = config[p.weekday];
+  if (dayCfg?.isOpen) {
+    const later = workBlocksForDay(dayCfg).find(([bs]) => bs > p.minutesFromMidnight);
+    if (later) return fromLocalParts(p.year, p.month, p.day, minutesToHHMM(later[0]));
+  }
+  return advanceToNextOpenDay(date, config);
+}
+
+const WEEKDAY_PT      = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
+const WEEKDAY_PT_FULL = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
+
+/** "terça-feira, 15/09/2026 14:05" no fuso do sistema. */
+export function formatLocalDateTime(date: Date): string {
+  const p = localParts(date);
+  const dd = String(p.day).padStart(2, "0");
+  const mo = String(p.month + 1).padStart(2, "0");
+  return `${WEEKDAY_PT_FULL[p.weekday]}, ${dd}/${mo}/${p.year} ${String(p.hour).padStart(2, "0")}:${String(p.minute).padStart(2, "0")}`;
+}
+
+/** Uma linha por dia: "seg: 08:00–17:00 (pausa 12:00–13:00)" / "dom: fechado". */
+export function describeCompanyHours(config: CompanyHoursConfig): string {
+  const order = [1, 2, 3, 4, 5, 6, 0];
+  return order
+    .map((d) => {
+      const cfg = config[d];
+      if (!cfg?.isOpen || workBlocksForDay(cfg).length === 0) return `- ${WEEKDAY_PT[d]}: fechado`;
+      const pausas = cfg.intervals.map((iv) => `${iv.startTime}–${iv.endTime}`).join(", ");
+      return `- ${WEEKDAY_PT[d]}: ${cfg.openTime}–${cfg.closeTime}${pausas ? ` (pausa ${pausas})` : ""}`;
+    })
+    .join("\n");
+}
+
 // ─── Helpers internos ─────────────────────────────────────────────────────────
 
 function minutesToHHMM(minutes: number): string {

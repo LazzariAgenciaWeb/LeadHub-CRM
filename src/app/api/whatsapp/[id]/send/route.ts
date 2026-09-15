@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionSendText, evolutionSendMedia } from "@/lib/evolution";
-import { upsertConversation } from "@/lib/whatsapp";
+import { upsertConversation, resolveOwnExternalId } from "@/lib/whatsapp";
 import { assertModule } from "@/lib/billing";
 import { enforceSendGuards, releaseQuota } from "@/lib/whatsapp-guard";
 import { ActivityType } from "@/generated/prisma";
@@ -190,7 +190,7 @@ export async function POST(
     // entraríamos no catch.
     const saved = await prisma.message.create({
       data: {
-        externalId,
+        externalId: await resolveOwnExternalId(externalId, instance.companyId),
         body: bodyToStore,
         direction: "OUTBOUND",
         phone: phoneForStorage,

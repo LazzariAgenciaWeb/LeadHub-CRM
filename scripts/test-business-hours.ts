@@ -6,7 +6,7 @@
  *   npx tsx scripts/test-business-hours.ts
  */
 
-import { businessMinutesBetweenWithConfig, isWithinBusinessHoursConfig } from "../src/lib/business-hours";
+import { businessMinutesBetweenWithConfig, isWithinBusinessHoursConfig, nextBusinessOpening, formatLocalDateTime } from "../src/lib/business-hours";
 
 const HOURS = Array.from({ length: 7 }, (_, d) => ({
   dayOfWeek: d, isOpen: d >= 1 && d <= 5,
@@ -76,6 +76,33 @@ for (const [label, d, hours, expected] of inHoursCases) {
   const got = isWithinBusinessHoursConfig(d, hours);
   check(label, got, expected);
 }
+
+console.log("\n\x1b[1;36m── nextBusinessOpening ──\x1b[0m");
+
+// Clínica: seg-sex 08-17, sáb 08-11, dom fechado
+const HOURS_CLINICA = Array.from({ length: 7 }, (_, d) => ({
+  dayOfWeek: d, isOpen: d !== 0,
+  openTime: "08:00", closeTime: d === 6 ? "11:00" : "17:00", intervals: [],
+}));
+
+const nextCases: [string, Date, any[], string | null][] = [
+  ["ter 10h dentro → agora",           new Date("2026-05-12T13:00:00Z"), HOURS_CLINICA, "2026-05-12T13:00:00.000Z"],
+  ["ter 06h antes → ter 08h",          new Date("2026-05-12T09:00:00Z"), HOURS_CLINICA, "2026-05-12T11:00:00.000Z"],
+  ["ter 18h depois → qua 08h",         new Date("2026-05-12T21:00:00Z"), HOURS_CLINICA, "2026-05-13T11:00:00.000Z"],
+  ["sex 18h → sáb 08h",                new Date("2026-05-15T21:00:00Z"), HOURS_CLINICA, "2026-05-16T11:00:00.000Z"],
+  ["sáb 12h → seg 08h",                new Date("2026-05-16T15:00:00Z"), HOURS_CLINICA, "2026-05-18T11:00:00.000Z"],
+  ["dom 10h → seg 08h",                new Date("2026-05-17T13:00:00Z"), HOURS_CLINICA, "2026-05-18T11:00:00.000Z"],
+  ["ter 12:30 no almoço → ter 13h",    new Date("2026-05-12T15:30:00Z"), HOURS_LUNCH,   "2026-05-12T16:00:00.000Z"],
+  ["nunca abre → null",                new Date("2026-05-12T15:30:00Z"), HOURS.map((h) => ({ ...h, isOpen: false })), null],
+];
+
+for (const [label, d, hours, expected] of nextCases) {
+  const got = nextBusinessOpening(d, hours);
+  check(label, got ? got.toISOString() : null, expected);
+}
+
+console.log("\n\x1b[1;36m── formatLocalDateTime ──\x1b[0m");
+check("ter 12/05/2026 10:05 BRT", formatLocalDateTime(new Date("2026-05-12T13:05:00Z")), "terça-feira, 12/05/2026 10:05");
 
 console.log(`\n\x1b[1m${pass} passou\x1b[0m  \x1b[31m${fail} falhou\x1b[0m`);
 if (fail > 0) {
