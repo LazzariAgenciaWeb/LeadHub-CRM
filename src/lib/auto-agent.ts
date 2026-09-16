@@ -429,6 +429,7 @@ interface AgentDecision {
   replies: string[]; // 0-3 mensagens curtas, enviadas em sequência
   action: string; // "NONE" | "HANDOFF" | "AGENDAR" | intent de AssistantRoute
   resumo: string | null;
+  nome: string | null; // nome do contato, se ele já informou na conversa
   agendarInicio: string | null; // ISO do slot escolhido (action AGENDAR)
   agendarEmail: string | null; // e-mail do contato pro convite (action AGENDAR)
 }
@@ -453,9 +454,12 @@ function parseDecision(raw: string): AgentDecision | null {
     );
     const action = typeof obj.action === "string" && obj.action.trim() ? obj.action.trim().toUpperCase() : "NONE";
     const resumo = typeof obj.resumo === "string" && obj.resumo.trim() ? obj.resumo.trim() : null;
+    const nome = typeof obj.nome === "string" && obj.nome.trim() && obj.nome.trim().toLowerCase() !== "null"
+      ? obj.nome.trim().slice(0, 80)
+      : null;
     const agendarInicio = typeof obj.agendarInicio === "string" && obj.agendarInicio.trim() ? obj.agendarInicio.trim() : null;
     const agendarEmail = typeof obj.agendarEmail === "string" && obj.agendarEmail.includes("@") ? obj.agendarEmail.trim() : null;
-    return { replies, action, resumo, agendarInicio, agendarEmail };
+    return { replies, action, resumo, nome, agendarInicio, agendarEmail };
   } catch {
     return null;
   }
@@ -666,13 +670,77 @@ ${scheduling ? `- "AGENDAR" → confirmar a reunião escolhida (siga as regras d
 
 # FORMATO DA RESPOSTA (obrigatório)
 Responda SOMENTE com um JSON válido, sem texto fora dele, neste formato:
-{"reply": ["primeira mensagem curta", "segunda mensagem curta (opcional)"], "action": "NONE", "resumo": "1 frase objetiva: quem é o contato e o que quer"}
+{"reply": ["primeira mensagem curta", "segunda mensagem curta (opcional)"], "action": "NONE", "resumo": "1 frase objetiva: quem é o contato e o que quer", "nome": "nome do contato ou null"}
 ${scheduling ? `Ao CONFIRMAR reunião, o JSON tem MAIS DOIS CAMPOS OBRIGATÓRIOS (sem eles o agendamento não acontece):
 {"reply": [], "action": "AGENDAR", "agendarInicio": "S1", "agendarEmail": "cliente@email.com", "resumo": "..."}
 ` : ""}- "reply": lista de 1 a 3 mensagens curtas (enviadas em sequência, como bolhas separadas). Pode ser string única. null/[] se não deve responder nada.
-- O campo "resumo" é interno (o time lê) — sempre preencha da melhor forma possível.`);
+- O campo "resumo" é interno (o time lê) — sempre preencha da melhor forma possível, com TUDO que já foi coletado até agora (ele atualiza o lead a cada resposta).
+- "nome": o nome de quem está conversando, se já informou na conversa; senão null. Nunca invente.`);
 
   return parts.join("\n\n");
+}
+
+const IA_LEAD_SOURCE = "ia-triagem";
+
+/**
+ * Cria (1º turno) ou atualiza o lead do contato com o que o agente coletou.
+ * - Nome: o informado na conversa; na criação, cai pro nome do WhatsApp.
+ * - Observações (notes) = último resumo do agente — só em leads criados pela
+ *   IA, pra nunca sobrescrever anotação humana de um lead que já existia.
+ */
+async function syncLeadFromAgent(args: {
+  companyId: string;
+  phone: string;
+  conversationId: string;
+  nome: string | null;
+  resumo: string | null;
+}): Promise<string> {
+  const { companyId, phone, conversationId, nome, resumo } = args;
+  const notes = resumo ? `Qualificação (Agente IA): ${resumo}` : null;
+
+  const lead = await prisma.lead.findFirst({
+    where: { phone, companyId },
+    orderBy: { createdAt: "desc" },
+    select: { id: true, name: true, source: true, notes: true, conversationId: true },
+  });
+
+  if (!lead) {
+    const [firstStage, contact] = await Promise.all([
+      prisma.pipelineStageConfig.findFirst({
+        where: { companyId, pipeline: "LEADS" },
+        orderBy: { order: "asc" },
+        select: { name: true },
+      }),
+      prisma.companyContact.findFirst({
+        where: { companyId, phone },
+        select: { name: true },
+      }),
+    ]);
+    await prisma.lead.create({
+      data: {
+        phone,
+        companyId,
+        name: nome ?? contact?.name ?? null,
+        notes,
+        source: IA_LEAD_SOURCE,
+        status: LeadStatus.NEW,
+        pipeline: "LEADS",
+        pipelineStage: firstStage?.name ?? null,
+        conversationId,
+      },
+    });
+    return "criado";
+  }
+
+  const isIaLead = lead.source === IA_LEAD_SOURCE;
+  const data: { name?: string; notes?: string; conversationId?: string } = {};
+  if (nome && nome !== lead.name && (!lead.name || isIaLead)) data.name = nome;
+  if (notes && isIaLead && notes !== lead.notes) data.notes = notes;
+  if (lead.conversationId !== conversationId) data.conversationId = conversationId;
+
+  if (Object.keys(data).length === 0) return "sem_mudanca";
+  await prisma.lead.update({ where: { id: lead.id }, data });
+  return `atualizado:${Object.keys(data).join(",")}`;
 }
 
 type AgentRunResult =
@@ -977,6 +1045,23 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     select: { id: true },
   });
   if (newer) return { ok: false, skipped: "human_replied_during_ai" };
+
+  // Lead desde o 1º contato: agente com rota "cria lead" registra o lead já
+  // na primeira resposta e o atualiza a cada turno com o que coletou. Antes
+  // da action, pra rota comercial encontrar e só vincular o lead existente.
+  if (!conv.isGroup && routes.some((r) => r.createLead)) {
+    try {
+      diag.lead = await syncLeadFromAgent({
+        companyId: conv.companyId,
+        phone: conv.phone,
+        conversationId: conv.id,
+        nome: decision.nome,
+        resumo: decision.resumo,
+      });
+    } catch (err) {
+      console.error(`[AutoAgent] falha ao sincronizar lead conv=${conv.id}:`, err);
+    }
+  }
 
   const botSender: BotSender = {
     instanceName: instance.instanceName,
