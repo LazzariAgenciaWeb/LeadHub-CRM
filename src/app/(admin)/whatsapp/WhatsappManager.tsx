@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import QuickReplies from "./QuickReplies";
+import AudioRecorder from "./AudioRecorder";
 
 type ConvStatus = "OPEN" | "PENDING" | "IN_PROGRESS" | "WAITING_CUSTOMER" | "SCHEDULED" | "CLOSED";
 
@@ -2378,6 +2379,48 @@ export default function WhatsappManager({
         if (ta) { ta.style.height = "auto"; ta.focus(); }
       }, 0);
     }
+  }
+
+  // Envia um áudio gravado no compositor como mensagem de VOZ (PTT).
+  // Isolado do handleReply: áudio não leva texto/assinatura/menções.
+  // Retorna true em sucesso (o gravador limpa a prévia).
+  async function handleSendAudio(base64: string, mimeType: string): Promise<boolean> {
+    if (!selectedConv) return false;
+    const inst = currentSendInstance;
+    if (!inst) {
+      setReplyError("Nenhuma instância conectada. Configure em Configurações → Instâncias WhatsApp.");
+      return false;
+    }
+    setReplyError(null);
+    const payload: Record<string, unknown> = {
+      phone: selectedConv.phone,
+      text: "",
+      media: base64,
+      mediaMimeType: mimeType,
+      mediaType: "audio",
+    };
+    if (replyingTo?.externalId) {
+      payload.quotedExternalId = replyingTo.externalId;
+      payload.quotedBody = replyingTo.body;
+      payload.quotedFromMe = replyingTo.direction === "OUTBOUND";
+    }
+    const res = await fetch(`/api/whatsapp/${inst.id}/send`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setReplyError(data.error ?? "Erro ao enviar áudio");
+      return false;
+    }
+    forceScrollRef.current = true;
+    if (data.message) setConvMessages((prev) => [...prev, data.message]);
+    if (data.returnFulfilled) {
+      setConvStatusOverride((prev) => new Map(prev).set(selectedConv.phone, "WAITING_CUSTOMER"));
+    }
+    setReplyingTo(null);
+    return true;
   }
 
   async function searchProspects(q: string) {
@@ -5334,7 +5377,7 @@ export default function WhatsappManager({
                   </div>
                 )}
 
-                <form onSubmit={handleReply} className="flex items-end gap-2">
+                <form onSubmit={handleReply} className="relative flex items-end gap-2">
 
                   {/* ── Botão + Ações (abre para cima) ── */}
                   {(() => {
@@ -5788,6 +5831,12 @@ export default function WhatsappManager({
                       😊
                     </button>
                   </div>
+                  {/* Gravar mensagem de voz — ativo cobre a linha do compositor */}
+                  <AudioRecorder
+                    disabled={sendingReply || !!pendingMedia}
+                    onSend={handleSendAudio}
+                    onError={(m) => setReplyError(m)}
+                  />
                   <button
                     type="submit"
                     disabled={sendingReply || (!replyText.trim() && !pendingMedia)}

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { evolutionSendText, evolutionSendMedia } from "@/lib/evolution";
+import { evolutionSendText, evolutionSendMedia, evolutionSendAudio } from "@/lib/evolution";
 import { upsertConversation, resolveOwnExternalId } from "@/lib/whatsapp";
 import { assertModule } from "@/lib/billing";
 import { enforceSendGuards, releaseQuota } from "@/lib/whatsapp-guard";
@@ -86,7 +86,11 @@ export async function POST(
 
   try {
     const instanceToken = (instance as any).instanceToken as string | null | undefined;
-    const result = hasMedia
+    const isAudio = hasMedia && mediaType === "audio";
+    const result = isAudio
+      // Áudio gravado no compositor → mensagem de VOZ (PTT), endpoint próprio.
+      ? await evolutionSendAudio(instance.instanceName, phone, media, instanceToken, quoted)
+      : hasMedia
       ? await evolutionSendMedia(
           instance.instanceName,
           phone,
@@ -138,7 +142,7 @@ export async function POST(
     // Texto a salvar no Message.body — caption se houver; senão um placeholder
     // descritivo conforme o tipo de mídia (mesma convenção da recepção via webhook).
     const placeholder = hasMedia
-      ? (mediaType === "video" ? "[vídeo]" : mediaType === "document" ? "[documento]" : "[imagem]")
+      ? (mediaType === "audio" ? "🎤 Áudio" : mediaType === "video" ? "[vídeo]" : mediaType === "document" ? "[documento]" : "[imagem]")
       : "";
     const bodyToStore = text || placeholder;
 

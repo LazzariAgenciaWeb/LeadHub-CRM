@@ -432,6 +432,59 @@ export async function evolutionSendText(
   return res.json();
 }
 
+/**
+ * Envia ÁUDIO como mensagem de voz (PTT — a "bolinha" do WhatsApp, não arquivo).
+ * Endpoint próprio da Evolution: converte pra opus/ogg de voz. `audio` = base64
+ * puro (prefixo data: é removido). Mesmo retry transitório de "Connection Closed".
+ */
+export async function evolutionSendAudio(
+  instanceName: string,
+  phone: string,
+  audio: string,
+  instanceToken?: string | null,
+  quoted?: { externalId: string; body: string; fromMe: boolean } | null,
+) {
+  const { baseUrl, apiKey } = await getConfig();
+  const authKey = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
+  const number = phone.includes("@g.us") ? phone : phone.replace(/\D/g, "");
+
+  const body: Record<string, unknown> = {
+    number,
+    audio: audio.replace(/^data:[^;]+;base64,/, ""),
+    encoding: true, // Evolution converte pro formato de voz do WhatsApp
+  };
+  if (quoted) {
+    body.quoted = {
+      key: {
+        remoteJid: phone.includes("@g.us") ? phone : `${number}@s.whatsapp.net`,
+        fromMe: quoted.fromMe,
+        id: quoted.externalId,
+      },
+      message: { conversation: quoted.body },
+    };
+  }
+
+  const doPost = () => fetch(`${baseUrl}/message/sendWhatsAppAudio/${instanceName}`, {
+    method: "POST",
+    headers: headers(authKey),
+    body: JSON.stringify(body),
+  });
+
+  let res = await doPost();
+  let lastErr = "";
+  for (let attempt = 0; attempt < 2 && !res.ok; attempt++) {
+    lastErr = await res.text();
+    if (!(res.status === 400 && /connection closed/i.test(lastErr))) break;
+    await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
+    res = await doPost();
+  }
+  if (!res.ok) {
+    const err = res.bodyUsed ? lastErr : await res.text();
+    throw new Error(`Evolution sendAudio: ${res.status} ${err}`);
+  }
+  return res.json();
+}
+
 /** Envia mídia (imagem, vídeo, documento) — base64 OU URL */
 export async function evolutionSendMedia(
   instanceName: string,
