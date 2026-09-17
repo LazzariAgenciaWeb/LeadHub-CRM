@@ -47,6 +47,9 @@ export default function AudioRecorder({
   const [seconds, setSeconds] = useState(0);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  // Pedindo permissão / erro visível ao lado do botão (antes falhava em silêncio)
+  const [requesting, setRequesting] = useState(false);
+  const [localError, setLocalError] = useState<string | null>(null);
 
   const recorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -97,13 +100,46 @@ export default function AudioRecorder({
     }
   }
 
+  // Mostra o problema no próprio botão (balão acima dele) E no aviso do compositor.
+  function fail(msg: string, err?: any) {
+    if (err) console.error("[AudioRecorder]", err?.name, err?.message, err);
+    setRequesting(false);
+    setLocalError(msg);
+    onError(msg);
+  }
+
   async function start() {
-    if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
-      onError("Seu navegador não suporta gravação de áudio.");
+    setLocalError(null);
+    if (typeof window !== "undefined" && !window.isSecureContext) {
+      fail("Gravação exige conexão segura (https).");
       return;
     }
+    if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+      fail("Seu navegador não suporta gravação de áudio. Use Chrome, Edge, Firefox ou Safari atualizado.");
+      return;
+    }
+
+    // Permissão já bloqueada pro site → o navegador recusa SEM mostrar pedido.
+    // Avisa antes, com o caminho pra liberar.
+    try {
+      const perm = await navigator.permissions?.query({ name: "microphone" as PermissionName });
+      if (perm?.state === "denied") {
+        fail("Microfone bloqueado para este site. Clique no cadeado 🔒 ao lado do endereço → Microfone → Permitir, e recarregue a página.");
+        return;
+      }
+    } catch { /* Safari/Firefox antigos não suportam query de microfone — segue */ }
+
+    setRequesting(true);
+    // Se o pedido de permissão não aparecer/ficar pendente, orienta o usuário.
+    const hint = setTimeout(() => {
+      setLocalError("Aguardando permissão do microfone… procure o aviso/ícone 🎤 na barra de endereço e clique em Permitir.");
+    }, 5000);
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      clearTimeout(hint);
+      setRequesting(false);
+      setLocalError(null);
       streamRef.current = stream;
       const mimeType = pickMimeType();
       const rec = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
@@ -137,11 +173,21 @@ export default function AudioRecorder({
         });
       }, 1000);
     } catch (err: any) {
+      clearTimeout(hint);
       releaseStream();
-      onError(
-        err?.name === "NotAllowedError"
-          ? "Permissão de microfone negada. Libere o microfone para este site no navegador."
-          : "Não foi possível acessar o microfone.",
+      const name = err?.name ?? "";
+      const byMacOS = /system/i.test(err?.message ?? "");
+      fail(
+        name === "NotAllowedError" && byMacOS
+          ? "O macOS está bloqueando o microfone do navegador. Abra Ajustes do Sistema → Privacidade e Segurança → Microfone, ative o seu navegador e reabra-o."
+          : name === "NotAllowedError"
+          ? "Permissão de microfone negada. Clique no cadeado 🔒 ao lado do endereço → Microfone → Permitir, e tente de novo."
+          : name === "NotFoundError"
+          ? "Nenhum microfone encontrado neste computador."
+          : name === "NotReadableError"
+          ? "O microfone está em uso por outro aplicativo (Meet, Zoom, WhatsApp…). Feche-o e tente de novo."
+          : `Não foi possível acessar o microfone (${name || "erro desconhecido"}).`,
+        err,
       );
     }
   }
@@ -159,16 +205,30 @@ export default function AudioRecorder({
 
   if (state === "idle") {
     return (
-      <button
-        type="button"
-        onClick={start}
-        disabled={disabled}
-        title="Gravar mensagem de voz"
-        className="px-3 rounded-xl bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white hover:border-indigo-500/40 disabled:opacity-40 transition-colors flex-shrink-0 flex items-center justify-center"
-        style={{ height: "42px" }}
-      >
-        <Mic className="w-4 h-4" strokeWidth={2.5} />
-      </button>
+      <div className="relative flex-shrink-0">
+        <button
+          type="button"
+          onClick={start}
+          disabled={disabled || requesting}
+          title={requesting ? "Pedindo permissão do microfone…" : "Gravar mensagem de voz"}
+          className={`px-3 rounded-xl border transition-colors flex items-center justify-center disabled:opacity-60 ${
+            requesting
+              ? "bg-rose-500/15 border-rose-500/40 text-rose-300 animate-pulse"
+              : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-indigo-500/40"
+          }`}
+          style={{ height: "42px" }}
+        >
+          <Mic className="w-4 h-4" strokeWidth={2.5} />
+        </button>
+        {localError && (
+          <div className="absolute bottom-full right-0 mb-2 w-72 z-30 bg-[#1a0f14] border border-rose-500/40 rounded-xl px-3 py-2 shadow-2xl">
+            <div className="flex items-start gap-2">
+              <span className="text-xs text-rose-200 leading-snug flex-1">🎤 {localError}</span>
+              <button type="button" onClick={() => setLocalError(null)} className="text-rose-300/70 hover:text-white text-xs">✕</button>
+            </div>
+          </div>
+        )}
+      </div>
     );
   }
 
