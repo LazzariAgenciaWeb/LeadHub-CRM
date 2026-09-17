@@ -377,7 +377,12 @@ export async function evolutionSendText(
   // Para grupos: preservar o JID completo; para individuais: só dígitos
   const number = phone.includes("@g.us") ? phone : phone.replace(/\D/g, "");
 
-  const body: Record<string, unknown> = { number, text };
+  // linkPreview:false — o preview gerado pelo Baileys (thumb + título do site)
+  // sai malformado em parte dos aparelhos: o cliente vê só o card do link e
+  // o TEXTO da mensagem não aparece (em nossos aparelhos aparece normal, o que
+  // mascara o problema). Sem preview, o link continua clicável e o texto sempre
+  // chega.
+  const body: Record<string, unknown> = { number, text, linkPreview: false };
 
   // Menções (só em grupo). Recebe JIDs completos — mantém @lid (identidade
   // anonimizada do WhatsApp Business, hoje o identificador válido) e normaliza
