@@ -16,6 +16,7 @@ interface Integration {
   provider: Provider;
   accountId: string | null;
   accountLabel: string | null;
+  nickname: string | null;
   scopes: string[];
   googleEmail: string | null;
   googleName: string | null;
@@ -104,6 +105,20 @@ const META_ELSEWHERE: { label: string; desc: string; href: string }[] = [
   { label: "Conversions API (CAPI)",  desc: "Envio de conversões do site pra Meta.", href: "/configuracoes?secao=integracoes-meta" },
 ];
 
+// Providers cujas tabelas de dados já carregam `integrationId` e, portanto,
+// suportam mais de um recurso por empresa sem um sync sobrescrever o outro.
+// GOOGLE_ADS e META_ADS gravam em AdCampaignDaily & cia., que ainda são
+// chaveadas por (companyId, provider, ...) — lá duas contas ainda colidem.
+const MULTI_PROVIDERS = new Set<Provider>(["GA4", "SEARCH_CONSOLE", "BUSINESS_PROFILE"]);
+
+/** Como chamar o recurso de cada provider na interface. */
+function nounFor(p: Provider): string {
+  return p === "GA4" ? "propriedade"
+    : p === "SEARCH_CONSOLE" ? "site"
+    : p === "BUSINESS_PROFILE" ? "unidade"
+    : "conta";
+}
+
 const STATUS_META: Record<Status, { label: string; color: string }> = {
   ACTIVE:       { label: "Conectado",    color: "text-emerald-400" },
   EXPIRED:      { label: "Expirado",     color: "text-amber-400" },
@@ -131,6 +146,7 @@ export default function CompanyIntegrations({
   const [flash, setFlash] = useState<{ kind: "ok" | "err"; msg: string } | null>(null);
   const [picker, setPicker] = useState<{ integration: Integration } | null>(null);
   const [syncing, setSyncing] = useState<string | null>(null);
+  const [adding, setAdding] = useState<Provider | null>(null);
 
   async function handleSyncNow(integration: Integration) {
     if (!integration.accountId) {
@@ -182,7 +198,7 @@ export default function CompanyIntegrations({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [companyId]);
 
-  async function load() {
+  async function load(): Promise<Integration[]> {
     setLoading(true);
     setError(null);
     try {
@@ -191,10 +207,45 @@ export default function CompanyIntegrations({
       const j = await r.json();
       setIntegrations(j.integrations);
       setCanWrite(j.canWrite);
+      return j.integrations as Integration[];
     } catch (e: any) {
       setError(e.message);
+      return [];
     } finally {
       setLoading(false);
+    }
+  }
+
+  /**
+   * Adiciona OUTRA propriedade do mesmo provider reaproveitando a autorização
+   * já concedida — o caso de uma conta Google que administra dois sites.
+   *
+   * Refazer o OAuth aqui não resolveria: com a MESMA conta Google, o callback
+   * renova a conexão existente em vez de criar outra (de propósito, senão toda
+   * reconexão viraria duplicata). Pra outra conta Google, o caminho continua
+   * sendo o botão "Conectar".
+   */
+  async function handleAddAnother(provider: Provider, source: Integration) {
+    setAdding(provider);
+    try {
+      const r = await fetch(`/api/companies/${companyId}/integrations`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fromIntegrationId: source.id }),
+      });
+      const j = await r.json();
+      if (!r.ok) {
+        setFlash({ kind: "err", msg: j.error || "Falha ao adicionar" });
+        return;
+      }
+      // Abre o seletor já na conexão nova — sem propriedade escolhida ela não
+      // sincroniza nada, e deixar o usuário procurar o link "selecione" na
+      // lista seria um passo a mais sem motivo.
+      const lista = await load();
+      const nova = lista.find((i) => i.id === j.integration.id);
+      if (nova) setPicker({ integration: nova });
+    } finally {
+      setAdding(null);
     }
   }
 
@@ -211,6 +262,42 @@ export default function CompanyIntegrations({
   async function handleDisconnect(integrationId: string, label: string) {
     if (!confirm(`Desconectar ${label}? Tokens serão removidos. Histórico de dados sincronizados é mantido.`)) return;
     const r = await fetch(`/api/companies/${companyId}/integrations/${integrationId}`, { method: "DELETE" });
+    if (!r.ok) { alert((await r.json()).error || "Falha"); return; }
+    void load();
+  }
+
+  /**
+   * Remove a conexão E o histórico que ela sincronizou. Só oferecido pra
+   * conexão JÁ desconectada — desconectar mantém o histórico de propósito, e a
+   * purga é o passo consciente de quem quer sumir com o dado.
+   */
+  async function handlePurge(integrationId: string, label: string) {
+    if (!confirm(
+      `Apagar DEFINITIVAMENTE ${label} e todo o histórico sincronizado por ela?\n\n` +
+      `Os números dessa fonte somem do relatório, inclusive do modo "Todas". Não dá pra desfazer.`
+    )) return;
+    const r = await fetch(`/api/companies/${companyId}/integrations/${integrationId}?purge=1`, { method: "DELETE" });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) { alert(j.error || "Falha"); return; }
+    setFlash({ kind: "ok", msg: `Conexão removida — ${j.rowsDeleted ?? 0} linhas de histórico apagadas.` });
+    void load();
+  }
+
+  /** Apelido pra distinguir duas conexões cujo nome na Google é parecido. */
+  async function handleRename(integ: Integration) {
+    const atual = integ.nickname || "";
+    const novo = prompt(
+      `Apelido desta conexão (aparece no seletor do relatório).\n` +
+      `Nome na Google: ${integ.accountLabel || integ.accountId || "—"}\n\n` +
+      `Deixe em branco para usar o nome da Google.`,
+      atual
+    );
+    if (novo === null) return; // cancelou
+    const r = await fetch(`/api/companies/${companyId}/integrations/${integ.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nickname: novo }),
+    });
     if (!r.ok) { alert((await r.json()).error || "Falha"); return; }
     void load();
   }
@@ -274,6 +361,15 @@ export default function CompanyIntegrations({
           const items = byProvider.get(provider) || [];
           const hasActive = items.some((i) => i.status === "ACTIVE");
           const isAvailable = !!meta.oauth;
+          // Providers que aceitam N recursos por empresa. Meta Ads fica de fora
+          // desta leva: as tabelas de Ads ainda não carregam integrationId, então
+          // duas contas continuariam se sobrescrevendo — habilitar o botão aqui
+          // só entregaria a duplicação mais rápido.
+          const multiOk = MULTI_PROVIDERS.has(provider);
+          // Conexão que empresta a autorização pra próxima: precisa estar ativa
+          // e já ter propriedade escolhida (a pendente é a que estamos evitando
+          // duplicar).
+          const addSource = items.find((i) => i.status === "ACTIVE" && i.accountId);
 
           return (
             <div key={provider} className={`rounded-xl border ${meta.bg} p-4`}>
@@ -296,6 +392,19 @@ export default function CompanyIntegrations({
                   <p className="text-slate-400 text-[11px] mt-0.5">{meta.description}</p>
                 </div>
                 <div className="flex-shrink-0 flex items-center gap-2">
+                  {/* Adicionar OUTRA propriedade da mesma conta Google. Só
+                      aparece pra provider que aceita mais de uma e que já tem
+                      conexão viva pra emprestar a autorização. */}
+                  {isAvailable && canWrite && multiOk && addSource && (
+                    <button
+                      onClick={() => handleAddAnother(provider, addSource)}
+                      disabled={adding === provider}
+                      className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 hover:bg-white/10 text-indigo-300 border border-indigo-500/30 disabled:opacity-50 transition-colors"
+                      title={`Adiciona outra ${nounFor(provider)} usando a mesma conta Google (${addSource.googleEmail ?? "já conectada"}). Pra usar OUTRA conta Google, clique em Conectar.`}
+                    >
+                      {adding === provider ? "Adicionando…" : `+ ${nounFor(provider)}`}
+                    </button>
+                  )}
                   {isAvailable && canWrite && (
                     <button
                       onClick={() => handleConnect(provider)}
@@ -331,14 +440,31 @@ export default function CompanyIntegrations({
                             )}
                           </div>
                           {integ.accountLabel ? (
-                            <div className="flex items-center gap-2 mt-0.5">
-                              <p className="text-slate-300 text-xs truncate">{integ.accountLabel}</p>
+                            <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                              <p className="text-slate-300 text-xs truncate">
+                                {integ.nickname || integ.accountLabel}
+                                {/* Com apelido, o nome da Google vira detalhe —
+                                    mas continua visível pra ninguém perder de
+                                    vista qual recurso está ligado ali. */}
+                                {integ.nickname && (
+                                  <span className="text-slate-600 ml-1.5">({integ.accountLabel})</span>
+                                )}
+                              </p>
                               {canWrite && (
                                 <button
                                   onClick={() => setPicker({ integration: integ })}
                                   className="text-indigo-400 hover:text-indigo-300 text-[10px] font-semibold uppercase tracking-wide"
                                 >
                                   trocar
+                                </button>
+                              )}
+                              {canWrite && multiOk && items.length > 1 && (
+                                <button
+                                  onClick={() => handleRename(integ)}
+                                  className="text-slate-500 hover:text-slate-300 text-[10px] font-semibold uppercase tracking-wide"
+                                  title="Apelido que aparece no seletor do relatório"
+                                >
+                                  apelidar
                                 </button>
                               )}
                             </div>
@@ -389,11 +515,22 @@ export default function CompanyIntegrations({
                             )}
                           </button>
                         )}
-                        {canWrite && (
+                        {/* Conexão viva: desconectar (mantém histórico).
+                            Já desconectada: apagar de vez, com o histórico. */}
+                        {canWrite && integ.status !== "DISCONNECTED" && (
                           <button
-                            onClick={() => handleDisconnect(integ.id, meta.label)}
+                            onClick={() => handleDisconnect(integ.id, integ.nickname || integ.accountLabel || meta.label)}
                             className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
-                            title="Desconectar"
+                            title="Desconectar (mantém o histórico já sincronizado)"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                        {canWrite && integ.status === "DISCONNECTED" && (
+                          <button
+                            onClick={() => handlePurge(integ.id, integ.nickname || integ.accountLabel || meta.label)}
+                            className="p-1.5 text-slate-600 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                            title="Apagar a conexão e o histórico dela"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -438,6 +575,14 @@ export default function CompanyIntegrations({
         <PropertyPickerModal
           companyId={companyId}
           integration={picker.integration}
+          // Recursos já ligados a OUTRA conexão desta empresa. O servidor
+          // recusaria (409), mas descobrir isso só depois de clicar é ruim —
+          // aqui a lista já mostra qual está tomado.
+          usedIds={new Set(
+            integrations
+              .filter((i) => i.provider === picker.integration.provider && i.id !== picker.integration.id && i.accountId)
+              .map((i) => i.accountId as string)
+          )}
           onClose={() => setPicker(null)}
           onSaved={() => { setPicker(null); void load(); }}
         />
@@ -454,10 +599,11 @@ function norm(v: string): string {
 // ─── Modal de seleção de propriedade ─────────────────────────────────────────
 
 function PropertyPickerModal({
-  companyId, integration, onClose, onSaved,
+  companyId, integration, usedIds, onClose, onSaved,
 }: {
   companyId: string;
   integration: Integration;
+  usedIds: Set<string>;
   onClose: () => void;
   onSaved: () => void;
 }) {
@@ -624,15 +770,21 @@ function PropertyPickerModal({
                   <div className="space-y-1">
                     {list.map((it) => {
                       const isCurrent = integration.accountId === it.id;
+                      // Já ligado a outra conexão desta empresa — apontar duas
+                      // pro mesmo recurso duplicaria todo número no consolidado.
+                      const emUso = !isCurrent && usedIds.has(it.id);
                       return (
                         <button
                           key={it.id}
                           onClick={() => handleSelect(it)}
-                          disabled={saving}
+                          disabled={saving || emUso}
+                          title={emUso ? "Já conectada em outra linha desta empresa" : undefined}
                           className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-left transition-colors disabled:opacity-50 ${
                             isCurrent
                               ? "bg-emerald-500/10 border border-emerald-500/30"
-                              : "bg-[#0a1220] border border-[#1e2d45] hover:border-indigo-500/50"
+                              : emUso
+                                ? "bg-[#0a1220] border border-[#1e2d45] cursor-not-allowed"
+                                : "bg-[#0a1220] border border-[#1e2d45] hover:border-indigo-500/50"
                           }`}
                         >
                           <div className="min-w-0 flex-1">
@@ -641,6 +793,10 @@ function PropertyPickerModal({
                           </div>
                           {isCurrent ? (
                             <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                          ) : emUso ? (
+                            <span className="text-slate-600 text-[11px] font-semibold flex-shrink-0">
+                              já conectada
+                            </span>
                           ) : (
                             <span className="text-indigo-400 text-[11px] font-semibold flex-shrink-0">
                               {saving ? "..." : "Selecionar →"}

@@ -54,10 +54,13 @@ export async function syncSearchConsole(integrationId: string, daysBack = 35): P
   let daysProcessed = 0;
 
   try {
-    // Limpa registros antigos do range pra evitar entradas órfãs
+    // Limpa registros antigos do range pra evitar entradas órfãs — só os DESTE
+    // site. Sem o integrationId, empresa com dois sites no Search Console tinha
+    // o sync de um apagando as queries do outro a cada rodada.
     await prisma.searchConsoleQuery.deleteMany({
       where: {
         companyId: integ.companyId,
+        integrationId: integ.id,
         date: { gte: startDate, lte: endDate },
       },
     });
@@ -101,6 +104,7 @@ export async function syncSearchConsole(integrationId: string, daysBack = 35): P
         await prisma.searchConsoleQuery.create({
           data: {
             companyId: integ.companyId,
+            integrationId: integ.id,
             date: new Date(dateStr + "T00:00:00.000Z"),
             query: query || "",
             page: page || null,

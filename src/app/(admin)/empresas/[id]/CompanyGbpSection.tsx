@@ -32,7 +32,12 @@ interface GbpResponse {
     lastSyncStatus: string | null;
     lastError: string | null;
     accountLabel: string | null;
+    nickname?: string | null;
   };
+  // Unidades conectadas (empresa com filiais tem mais de uma) + qual recorte a
+  // API aplicou. "all" soma os perfis.
+  sources?: { id: string; label: string; status: string; lastSyncAt: string | null }[];
+  selected?: string;
   period?: { days: number; start: string; end: string };
   kpis?: {
     impressions: { current: number; previous: number; deltaPct: number | null };
@@ -68,6 +73,9 @@ interface GbpResponse {
     primaryCategory: string | null;
     missing: string[];
   } | null;
+  // true = saúde do perfil veio vazia porque o recorte soma 2+ unidades (e não
+  // porque falta sync). Endereço, categoria e horário são de UMA unidade.
+  profileHealthNeedsPick?: boolean;
 }
 
 export default function CompanyGbpSection({ companyId, days = 30 }: { companyId: string; days?: number }) {
@@ -75,15 +83,22 @@ export default function CompanyGbpSection({ companyId, days = 30 }: { companyId:
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
+  // "all" = consolidado. Só vira controle visível com 2+ unidades conectadas.
+  const [perfil, setPerfil] = useState("all");
 
   async function load() {
     setLoading(true);
     setError(null);
     try {
-      const r = await fetch(`/api/companies/${companyId}/marketing/gbp?days=${days}`);
+      const qs = new URLSearchParams({ days: String(days) });
+      if (perfil !== "all") qs.set("gbp", perfil);
+      const r = await fetch(`/api/companies/${companyId}/marketing/gbp?${qs}`);
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const json = await r.json();
+      const json: GbpResponse = await r.json();
       setData(json);
+      // A API diz qual recorte aplicou de fato — perfil removido volta pro
+      // consolidado, e o seletor acompanha em vez de mentir.
+      if (json.selected && json.selected !== perfil) setPerfil(json.selected);
     } catch (e: any) {
       setError(e.message || "Falha ao carregar");
     } finally {
@@ -94,13 +109,19 @@ export default function CompanyGbpSection({ companyId, days = 30 }: { companyId:
   useEffect(() => {
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [companyId, days]);
+  }, [companyId, days, perfil]);
 
   async function handleSync() {
     if (!data?.integration?.id) return;
     setSyncing(true);
     try {
-      const r = await fetch(`/api/companies/${companyId}/integrations/${data.integration.id}/sync`, { method: "POST" });
+      // No consolidado, sincronizar só o perfil do cabeçalho deixaria as outras
+      // unidades pra trás e o número somado desatualizado — vai de /sync, que
+      // roda todos os perfis do provider (force ignora o throttle de 2h).
+      const consolidado = perfil === "all" && (data.sources?.length ?? 0) > 1;
+      const r = consolidado
+        ? await fetch(`/api/companies/${companyId}/marketing/sync?provider=gbp&force=1`, { method: "POST" })
+        : await fetch(`/api/companies/${companyId}/integrations/${data.integration.id}/sync`, { method: "POST" });
       if (!r.ok) {
         const err = await r.json().catch(() => ({}));
         throw new Error(err.error || `HTTP ${r.status}`);
@@ -166,6 +187,8 @@ export default function CompanyGbpSection({ companyId, days = 30 }: { companyId:
 
   const { kpis, dailySeries, reviews, keywords, profileHealth, integration } = data;
   const showProfileHealth = profileHealth && profileHealth.score < 80;
+  const perfis = data.sources ?? [];
+  const multiPerfil = perfis.length > 1;
 
   return (
     <div className="space-y-4">
@@ -178,15 +201,36 @@ export default function CompanyGbpSection({ companyId, days = 30 }: { companyId:
           <div>
             <h2 className="text-white font-bold text-sm">Google Meu Negócio</h2>
             <p className="text-slate-500 text-[11px]">
-              {integration?.accountLabel ?? "perfil conectado"}
+              {multiPerfil && perfil === "all"
+                ? `${perfis.length} unidades somadas`
+                : integration?.nickname || integration?.accountLabel || "perfil conectado"}
               {integration?.lastSyncAt && (
                 <span className="ml-2 text-slate-600">
                   · sync {timeAgo(integration.lastSyncAt)}
+                  {multiPerfil && perfil === "all" ? " (a mais antiga)" : ""}
                 </span>
               )}
             </p>
           </div>
         </div>
+        {/* Seletor de unidade — só pra empresa com mais de um perfil conectado */}
+        {multiPerfil && (
+          <label className="flex items-center gap-1.5 ml-auto mr-1">
+            <MapPin className="w-3.5 h-3.5 text-emerald-300" strokeWidth={2.25} />
+            <select
+              value={perfil}
+              onChange={(e) => setPerfil(e.target.value)}
+              className="bg-[#070b14] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white max-w-[220px] focus:outline-none focus:border-emerald-500/60"
+            >
+              <option value="all">Todas as unidades ({perfis.length})</option>
+              {perfis.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.label}{p.status !== "ACTIVE" ? " (desconectada)" : ""}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
         <button
           onClick={handleSync}
           disabled={syncing}
@@ -211,6 +255,29 @@ export default function CompanyGbpSection({ companyId, days = 30 }: { companyId:
             {integration.lastSyncStatus === "error" ? "Último sync falhou:" : "Sync parcial — algumas etapas falharam:"}{" "}
             <span className="font-mono">{integration.lastError}</span>
           </div>
+        </div>
+      )}
+
+      {/* Saúde do perfil não existe no consolidado: endereço, categoria e
+          horário são de UMA unidade. Em vez de sumir sem explicação, pede a
+          escolha — e deixa escolher ali mesmo. */}
+      {data.profileHealthNeedsPick && (
+        <div className="bg-white/[0.03] border border-white/10 rounded-xl p-3 flex items-center gap-2.5 flex-wrap">
+          <AlertCircle className="w-4 h-4 text-slate-400 flex-shrink-0" />
+          <p className="text-slate-400 text-xs flex-1 min-w-[220px]">
+            A saúde do perfil (endereço, categoria, horário) é de uma unidade só.
+            Escolha qual para ver.
+          </p>
+          <select
+            value={perfil}
+            onChange={(e) => setPerfil(e.target.value)}
+            className="bg-[#070b14] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white"
+          >
+            <option value="all">— escolher unidade —</option>
+            {perfis.map((p) => (
+              <option key={p.id} value={p.id}>{p.label}</option>
+            ))}
+          </select>
         </div>
       )}
 

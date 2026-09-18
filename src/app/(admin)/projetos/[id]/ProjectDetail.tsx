@@ -12,6 +12,7 @@ import ProjectServiceSelector from "./ProjectServiceSelector";
 import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
+import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
 import { DescricaoEditor } from "@/components/DescricaoRich";
 
 type Project = {
@@ -1220,6 +1221,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
         <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Checklist / sub-passos</label>
         <ChecklistEditor projectId={projectId} taskId={task.id} initial={task.checklist} />
       </div>
+      <AttachmentsPanel target={{ projectTaskId: task.id }} title="Arquivos da tarefa" />
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Início</label>

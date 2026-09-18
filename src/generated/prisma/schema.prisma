@@ -75,6 +75,7 @@ model User {
   punchAdjustsReviewed PunchAdjustRequest[] @relation("AdjustReviewer")
   timesheetSignatures  TimesheetSignature[]
   ownedInstances       WhatsappInstance[]   @relation("InstanceOwner")
+  uploadedFiles        StorageObject[]      @relation("StorageObjectUploader")
 
   @@index([companyId])
 }
@@ -388,6 +389,9 @@ model Company {
 
   // Integração Bling (só a AZZ conecta — 1 conexão por empresa, na prática singleton).
   blingIntegration BlingIntegration?
+
+  // Arquivos no MinIO (anexos de chamados/tarefas) — base do consumo de espaço.
+  storageObjects StorageObject[]
 
   @@unique([blingContactId])
   @@index([parentCompanyId])
@@ -1299,6 +1303,7 @@ model Ticket {
   activities  Activity[]
   accessUsers TicketAccessUser[]
   inboxEmails InboxEmail[]
+  attachments StorageObject[]
 
   @@index([companyId])
   @@index([status])
@@ -1331,6 +1336,8 @@ model TicketMessage {
 
   ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   ticketId String
+
+  attachments StorageObject[]
 
   @@index([ticketId])
   @@index([externalId])
@@ -1526,7 +1533,8 @@ model ProjectTask {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  materials ProjectMaterial[]
+  materials   ProjectMaterial[]
+  attachments StorageObject[]
 
   @@index([projectId, done])
   @@index([assigneeId])
@@ -1882,7 +1890,11 @@ model MarketingIntegration {
   provider     IntegrationProvider
   // Conta/propriedade conectada (ex: "properties/123456" pra GA4, "sc-domain:x.com" pra SC)
   accountId    String?
-  accountLabel String? // nome amigável (ex: "azz.com.br")
+  accountLabel String? // nome que veio da Google (ex: "azz.com.br - GA4")
+  // Apelido dado pela agência. Com 2+ propriedades por empresa, o nome da
+  // Google costuma ser ruim de distinguir ("GA4 - Todos os dados do site" nos
+  // dois) — o apelido é o que aparece no seletor do relatório.
+  nickname     String?
 
   // OAuth tokens (criptografados)
   accessTokenEnc  String?   @db.Text
@@ -2288,12 +2300,33 @@ model FacebookPage {
   @@index([companyId])
 }
 
+// ─── Dados de marketing: por CONEXÃO, não só por empresa ─────────────────────
+//
+// Toda tabela abaixo carrega `integrationId` = MarketingIntegration.id que
+// gerou a linha. Sem isso, empresa com 2 propriedades GA4 (ou 2 sites no Search
+// Console, ou 2 perfis do Meu Negócio) tinha os dados de uma sobrescrevendo os
+// da outra: o @@unique era só (companyId, date, ...) e cada sync fazia
+// deleteMany por companyId antes de gravar.
+//
+// Por que é uma coluna solta e não uma @relation:
+//   1. desconectar uma integração APAGA a MarketingIntegration (ver DELETE em
+//      integrations/[integrationId]) mas a UI promete "histórico é mantido" —
+//      uma FK com cascade quebraria essa promessa, e sem cascade o delete falha;
+//   2. linhas antigas (anteriores a esta mudança) e linhas de conexões já
+//      removidas ficam com o sentinela "legacy" — ver o backfill em
+//      /api/admin/backfill-integration-id.
+//
+// O @default("legacy") existe porque o deploy roda `prisma db push`, que não
+// consegue adicionar coluna NOT NULL sem default em tabela populada. Código
+// novo SEMPRE passa integrationId explicitamente — o default é rede de
+// segurança de migração, não valor esperado em escrita.
 model AnalyticsSnapshot {
-  id        String   @id @default(cuid())
-  companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date      DateTime @db.Date
-  source    String // "ga4" | "pixel" (futuramente)
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  integrationId String   @default("legacy")
+  date          DateTime @db.Date
+  source        String // "ga4" | "pixel" (futuramente)
 
   sessions        Int    @default(0)
   users           Int    @default(0)
@@ -2307,16 +2340,18 @@ model AnalyticsSnapshot {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([companyId, date, source])
+  @@unique([companyId, integrationId, date, source])
   @@index([companyId, date])
+  @@index([integrationId, date])
 }
 
 model AnalyticsTopPage {
-  id        String   @id @default(cuid())
-  companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date      DateTime @db.Date
-  source    String // "ga4"
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  integrationId String   @default("legacy")
+  date          DateTime @db.Date
+  source        String // "ga4"
 
   pagePath   String
   pageTitle  String?
@@ -2324,16 +2359,18 @@ model AnalyticsTopPage {
   users      Int     @default(0)
   avgTimeSec Float?
 
-  @@unique([companyId, date, source, pagePath])
+  @@unique([companyId, integrationId, date, source, pagePath])
   @@index([companyId, date])
+  @@index([integrationId, date])
 }
 
 model AnalyticsTrafficSource {
-  id        String   @id @default(cuid())
-  companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date      DateTime @db.Date
-  source    String // "ga4"
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  integrationId String   @default("legacy")
+  date          DateTime @db.Date
+  source        String // "ga4"
 
   // Dados brutos do GA4
   rawSource String // ex: "google", "instagram.com", "chatgpt.com"
@@ -2346,16 +2383,18 @@ model AnalyticsTrafficSource {
   users       Int @default(0)
   conversions Int @default(0)
 
-  @@unique([companyId, date, source, rawSource, rawMedium])
+  @@unique([companyId, integrationId, date, source, rawSource, rawMedium])
   @@index([companyId, date, bucket])
+  @@index([integrationId, date])
 }
 
 model AnalyticsGeoData {
-  id        String   @id @default(cuid())
-  companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date      DateTime @db.Date
-  source    String // "ga4"
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  integrationId String   @default("legacy")
+  date          DateTime @db.Date
+  source        String // "ga4"
 
   countryCode String? // "BR", "US"
   countryName String?
@@ -2365,18 +2404,20 @@ model AnalyticsGeoData {
   sessions Int @default(0)
   users    Int @default(0)
 
-  @@unique([companyId, date, source, countryCode, region, city])
+  @@unique([companyId, integrationId, date, source, countryCode, region, city])
   @@index([companyId, date])
+  @@index([integrationId, date])
 }
 
 // Eventos GA4 por dia (padrão como page_view/scroll/click + personalizados).
 // Sync diário popula. UI mostra a lista pra cliente marcar quais são conversão (ver MarketingEventConfig).
 model AnalyticsEventDaily {
-  id        String   @id @default(cuid())
-  companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date      DateTime @db.Date
-  source    String // "ga4"
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  integrationId String   @default("legacy")
+  date          DateTime @db.Date
+  source        String // "ga4"
 
   eventName  String
   eventCount Int    @default(0)
@@ -2385,9 +2426,10 @@ model AnalyticsEventDaily {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([companyId, date, source, eventName])
+  @@unique([companyId, integrationId, date, source, eventName])
   @@index([companyId, date])
   @@index([companyId, eventName])
+  @@index([integrationId, date])
 }
 
 // Detalhamento dos parâmetros personalizados (dimensões customEvent: do GA4) por evento/dia.
@@ -2395,11 +2437,12 @@ model AnalyticsEventDaily {
 // ex.: whatsapp_click quebrado por wpp_produto / wpp_codigo / wpp_local.
 // Valores "(not set)" são descartados no sync (cleanGAValue).
 model AnalyticsEventParamDaily {
-  id        String   @id @default(cuid())
-  companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date      DateTime @db.Date
-  source    String // "ga4"
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  integrationId String   @default("legacy")
+  date          DateTime @db.Date
+  source        String // "ga4"
 
   eventName  String
   paramName  String // parameterName da dimensão personalizada no GA4 (ex.: "wpp_produto")
@@ -2410,14 +2453,20 @@ model AnalyticsEventParamDaily {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([companyId, date, source, eventName, paramName, paramValue])
+  @@unique([companyId, integrationId, date, source, eventName, paramName, paramValue])
   @@index([companyId, date])
   @@index([companyId, eventName, paramName])
+  @@index([integrationId, date])
 }
 
 // Config por empresa: quais eventos contam como conversão no LeadHub, rótulo amigável,
 // e se devem ser ocultados da lista do dashboard. Independente do que o admin do GA4
 // marcou como "key event" — o cliente do LeadHub decide aqui.
+//
+// Continua sendo por EMPRESA (não por integrationId, ao contrário das tabelas de
+// dados): com 2 propriedades GA4 o nome do evento costuma ser o mesmo nas duas
+// (whatsapp_click, form_submit), e marcar conversão duas vezes seria só atrito.
+// Se um dia as propriedades divergirem de verdade, aí sim vale quebrar por conexão.
 model MarketingEventConfig {
   id        String  @id @default(cuid())
   companyId String
@@ -2441,10 +2490,11 @@ model MarketingEventConfig {
 }
 
 model SearchConsoleQuery {
-  id        String   @id @default(cuid())
-  companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date      DateTime @db.Date
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  integrationId String   @default("legacy")
+  date          DateTime @db.Date
 
   query   String
   page    String?
@@ -2456,9 +2506,10 @@ model SearchConsoleQuery {
   ctr         Float // 0..1
   position    Float // posição média
 
-  @@unique([companyId, date, query, page, country, device])
+  @@unique([companyId, integrationId, date, query, page, country, device])
   @@index([companyId, date])
   @@index([companyId, query])
+  @@index([integrationId, date])
 }
 
 // ─── Google Business Profile (GBP / "Meu Negócio") ────────────────────────────
@@ -2474,10 +2525,11 @@ model SearchConsoleQuery {
 
 // 1 linha/dia/empresa — KPIs operacionais do perfil
 model GbpInsight {
-  id        String   @id @default(cuid())
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId String
-  date      DateTime @db.Date
+  id            String   @id @default(cuid())
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId     String
+  integrationId String   @default("legacy") // perfil que gerou a linha — ver nota em AnalyticsSnapshot
+  date          DateTime @db.Date
 
   // Impressões (views do perfil)
   impressionsSearchDesktop Int @default(0)
@@ -2495,17 +2547,20 @@ model GbpInsight {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([companyId, date])
+  @@unique([companyId, integrationId, date])
   @@index([companyId, date])
+  @@index([integrationId, date])
 }
 
 // 1 linha/review — usada em card "últimas reviews" + KPI rating médio
 model GbpReview {
-  id        String  @id @default(cuid())
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId String
+  id            String  @id @default(cuid())
+  company       Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId     String
+  integrationId String  @default("legacy") // perfil que gerou a linha
 
-  // ID externo do Google (accounts/X/locations/Y/reviews/Z)
+  // ID externo do Google (accounts/X/locations/Y/reviews/Z) — já embute a
+  // location, então continua único por perfil sem precisar do integrationId.
   googleReviewId String @unique
 
   reviewerName     String?
@@ -2524,13 +2579,15 @@ model GbpReview {
 
   @@index([companyId, createTime])
   @@index([companyId, starRating])
+  @@index([integrationId, createTime])
 }
 
 // Termo de busca → impressões mensais (granularidade que a API entrega)
 model GbpSearchKeyword {
-  id        String  @id @default(cuid())
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId String
+  id            String  @id @default(cuid())
+  company       Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId     String
+  integrationId String  @default("legacy") // perfil que gerou a linha
 
   keyword     String
   year        Int
@@ -2540,15 +2597,17 @@ model GbpSearchKeyword {
 
   createdAt DateTime @default(now())
 
-  @@unique([companyId, year, month, keyword])
+  @@unique([companyId, integrationId, year, month, keyword])
   @@index([companyId, year, month])
+  @@index([integrationId, year, month])
 }
 
 // Snapshot do perfil — espelho dos campos + completenessScore calculado
 model GbpProfileSnapshot {
-  id        String  @id @default(cuid())
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId String
+  id            String  @id @default(cuid())
+  company       Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId     String
+  integrationId String  @default("legacy") // perfil que gerou o snapshot
 
   title             String?
   primaryCategory   String?
@@ -2570,6 +2629,7 @@ model GbpProfileSnapshot {
   syncedAt DateTime @default(now())
 
   @@index([companyId, syncedAt])
+  @@index([integrationId, syncedAt])
 }
 
 // ─── Ads (Google Ads / Meta Ads) — relatório de campanha patrocinada ──────────
@@ -3231,7 +3291,7 @@ model EmailUnsubscribe {
   @@index([email])
 }
 
-// ─── Caixa de Email (grupo Atender �� usa moduleEmailMarketing) ───────────────
+// ─── Caixa de Email (grupo Atender · usa moduleEmailMarketing) ───────────────
 // Caixa de entrada/saída de email operacional da empresa. Cada empresa pode
 // cadastrar VÁRIAS contas (comercial@, suporte@…), cada uma com as próprias
 // credenciais de envio (SMTP) e recebimento (IMAP). Poller em
@@ -4318,4 +4378,43 @@ model TimesheetSignature {
 
   @@unique([userId, year, month])
   @@index([companyId, year, month])
+}
+
+// Arquivo guardado no MinIO (S3). O binário vive no bucket; aqui fica o
+// metadado + o vínculo (chamado, mensagem do chamado ou tarefa de projeto),
+// que é o que decide quem pode baixar. companyId = empresa DONA do chamado/
+// projeto (a agência) — é quem consome a cota de espaço.
+//
+// Ciclo: PENDING (URL de upload emitida) → READY (confirmado no bucket).
+// DRAFT = subiu pelo composer da conversa e espera a mensagem ser enviada;
+// ao enviar, vira READY com ticketMessageId preenchido.
+model StorageObject {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  bucket   String
+  key      String @unique
+  fileName String
+  mimeType String
+  size     Int    @default(0) // bytes (confirmado via HEAD no bucket)
+  status   String @default("PENDING") // "PENDING" | "DRAFT" | "READY"
+
+  ticketId        String?
+  ticket          Ticket?        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketMessageId String?
+  ticketMessage   TicketMessage? @relation(fields: [ticketMessageId], references: [id], onDelete: SetNull)
+  projectTaskId   String?
+  projectTask     ProjectTask?   @relation(fields: [projectTaskId], references: [id], onDelete: Cascade)
+
+  uploadedById String?
+  uploadedBy   User?   @relation("StorageObjectUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([ticketId])
+  @@index([ticketMessageId])
+  @@index([projectTaskId])
 }

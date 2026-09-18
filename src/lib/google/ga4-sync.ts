@@ -149,6 +149,12 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
   const startDate = `${daysBack}daysAgo`;
   const endDate = "today";
 
+  // Toda linha gravada aqui é carimbada com o id DESTA conexão, e todo
+  // deleteMany é escopado por ele. Sem isso, empresa com duas propriedades GA4
+  // tinha o sync de uma apagando os dados da outra (a limpeza de range era por
+  // companyId) e sobrescrevendo no upsert (o @@unique não tinha integrationId).
+  const iid = integ.id;
+
   let snapshotsCount = 0;
   let topPagesCount = 0;
   let trafficCount = 0;
@@ -182,14 +188,16 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
 
       await prisma.analyticsSnapshot.upsert({
         where: {
-          companyId_date_source: {
+          companyId_integrationId_date_source: {
             companyId: integ.companyId,
+            integrationId: iid,
             date,
             source: "ga4",
           },
         },
         create: {
           companyId: integ.companyId,
+          integrationId: iid,
           date,
           source: "ga4",
           sessions: parseInt(v[0].value, 10) || 0,
@@ -240,7 +248,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       Array.from(pagesByDay.keys()).sort()[0] ?? compactDate(daysAgo(daysBack))
     );
     await prisma.analyticsTopPage.deleteMany({
-      where: { companyId: integ.companyId, source: "ga4", date: { gte: earliestDate } },
+      where: { companyId: integ.companyId, integrationId: iid, source: "ga4", date: { gte: earliestDate } },
     });
 
     for (const [dateStr, rows] of pagesByDay) {
@@ -250,8 +258,9 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
         const pageTitle = row.dimensionValues[2]?.value || null;
         await prisma.analyticsTopPage.upsert({
           where: {
-            companyId_date_source_pagePath: {
+            companyId_integrationId_date_source_pagePath: {
               companyId: integ.companyId,
+              integrationId: iid,
               date,
               source: "ga4",
               pagePath,
@@ -259,6 +268,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
           },
           create: {
             companyId: integ.companyId,
+            integrationId: iid,
             date,
             source: "ga4",
             pagePath,
@@ -293,7 +303,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       ? parseGADate(trafficRows[0].dimensionValues[0].value)
       : parseGADate(compactDate(daysAgo(daysBack)));
     await prisma.analyticsTrafficSource.deleteMany({
-      where: { companyId: integ.companyId, source: "ga4", date: { gte: trafficEarliest } },
+      where: { companyId: integ.companyId, integrationId: iid, source: "ga4", date: { gte: trafficEarliest } },
     });
 
     for (const row of trafficRows) {
@@ -304,8 +314,9 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
 
       await prisma.analyticsTrafficSource.upsert({
         where: {
-          companyId_date_source_rawSource_rawMedium: {
+          companyId_integrationId_date_source_rawSource_rawMedium: {
             companyId: integ.companyId,
+            integrationId: iid,
             date,
             source: "ga4",
             rawSource,
@@ -314,6 +325,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
         },
         create: {
           companyId: integ.companyId,
+          integrationId: iid,
           date,
           source: "ga4",
           rawSource,
@@ -347,7 +359,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       ? parseGADate(geoRows[0].dimensionValues[0].value)
       : parseGADate(compactDate(daysAgo(daysBack)));
     await prisma.analyticsGeoData.deleteMany({
-      where: { companyId: integ.companyId, source: "ga4", date: { gte: geoEarliest } },
+      where: { companyId: integ.companyId, integrationId: iid, source: "ga4", date: { gte: geoEarliest } },
     });
 
     for (const row of geoRows) {
@@ -359,8 +371,9 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
 
       await prisma.analyticsGeoData.upsert({
         where: {
-          companyId_date_source_countryCode_region_city: {
+          companyId_integrationId_date_source_countryCode_region_city: {
             companyId: integ.companyId,
+            integrationId: iid,
             date,
             source: "ga4",
             countryCode: countryCode ?? "",
@@ -370,6 +383,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
         },
         create: {
           companyId: integ.companyId,
+          integrationId: iid,
           date,
           source: "ga4",
           countryCode,
@@ -406,7 +420,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       ? parseGADate(eventRows[0].dimensionValues[0].value)
       : parseGADate(compactDate(daysAgo(daysBack)));
     await prisma.analyticsEventDaily.deleteMany({
-      where: { companyId: integ.companyId, source: "ga4", date: { gte: eventsEarliest } },
+      where: { companyId: integ.companyId, integrationId: iid, source: "ga4", date: { gte: eventsEarliest } },
     });
 
     for (const row of eventRows) {
@@ -414,8 +428,9 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       const eventName = row.dimensionValues[1].value || "(unknown)";
       await prisma.analyticsEventDaily.upsert({
         where: {
-          companyId_date_source_eventName: {
+          companyId_integrationId_date_source_eventName: {
             companyId: integ.companyId,
+            integrationId: iid,
             date,
             source: "ga4",
             eventName,
@@ -423,6 +438,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
         },
         create: {
           companyId: integ.companyId,
+          integrationId: iid,
           date,
           source: "ga4",
           eventName,
@@ -454,10 +470,11 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
 
     // Busca interna: o GA4 com medição avançada dispara view_search_results;
     // implementações próprias costumam nomear o evento com search/busca/pesquisa.
-    // Descobre pelos eventos já sincronizados no passo 5.
+    // Descobre pelos eventos já sincronizados no passo 5 — só os DESTA
+    // propriedade, senão o evento de busca de um site puxaria report na outra.
     const searchEventNames = (
       await prisma.analyticsEventDaily.findMany({
-        where: { companyId: integ.companyId, source: "ga4", date: { gte: windowStart } },
+        where: { companyId: integ.companyId, integrationId: iid, source: "ga4", date: { gte: windowStart } },
         select: { eventName: true },
         distinct: ["eventName"],
       })
@@ -500,13 +517,14 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
         // Limpa só a janela DESTE parâmetro: falha parcial não derruba o que já
         // estava gravado dos outros.
         await prisma.analyticsEventParamDaily.deleteMany({
-          where: { companyId: integ.companyId, source: "ga4", paramName, date: { gte: windowStart } },
+          where: { companyId: integ.companyId, integrationId: iid, source: "ga4", paramName, date: { gte: windowStart } },
         });
 
         if (rows.length > 0) {
           await prisma.analyticsEventParamDaily.createMany({
             data: rows.map((r) => ({
               companyId: integ.companyId,
+              integrationId: iid,
               source: "ga4",
               date: r.date,
               eventName: r.eventName,
@@ -556,6 +574,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
           await prisma.analyticsEventParamDaily.deleteMany({
             where: {
               companyId: integ.companyId,
+              integrationId: iid,
               source: "ga4",
               eventName: SITE_SEARCH_MISS_EVENT,
               date: { gte: windowStart },
@@ -566,6 +585,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
             await prisma.analyticsEventParamDaily.createMany({
               data: rows.map((r) => ({
                 companyId: integ.companyId,
+                integrationId: iid,
                 source: "ga4",
                 date: r.date,
                 eventName: SITE_SEARCH_MISS_EVENT,
@@ -611,6 +631,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       await prisma.analyticsEventParamDaily.deleteMany({
         where: {
           companyId: integ.companyId,
+          integrationId: iid,
           source: "ga4",
           eventName: SITE_SEARCH_EVENT,
           date: { gte: windowStart },
@@ -621,6 +642,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
         await prisma.analyticsEventParamDaily.createMany({
           data: rows.map((r) => ({
             companyId: integ.companyId,
+            integrationId: iid,
             source: "ga4",
             date: r.date,
             eventName: SITE_SEARCH_EVENT,

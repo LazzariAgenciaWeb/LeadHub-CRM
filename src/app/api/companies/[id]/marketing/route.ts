@@ -15,7 +15,14 @@ import { classifyTrafficSource, type TrafficBucket } from "@/lib/traffic-classif
 import { assertModule } from "@/lib/billing";
 import { resolveUf, ufName } from "@/lib/br-states";
 
-// GET /api/companies/[id]/marketing?days=30
+// GET /api/companies/[id]/marketing?days=30&ga4=<integrationId>&sc=<integrationId>
+//
+// `ga4` e `sc` escolhem QUAL conexão ler quando a empresa tem mais de uma
+// propriedade GA4 / site no Search Console. Omitido (ou "all") = consolidado:
+// soma de todas as conexões daquele provider, inclusive o histórico de conexões
+// já desconectadas. Id que não pertence à empresa cai no consolidado — e o
+// campo `selected` da resposta diz o que foi REALMENTE usado, pra tela nunca
+// mostrar um filtro que não foi aplicado.
 //
 // Retorna agregação completa pra renderizar o Dashboard de Marketing:
 //  - KPIs do período + comparação com o período anterior (mesmo tamanho)
@@ -48,6 +55,54 @@ export async function GET(
   const url = new URL(req.url);
   const days = Math.max(7, Math.min(365, parseInt(url.searchParams.get("days") || "30", 10)));
 
+  // ─── 0. Conexões da empresa + qual delas ler ─────────────────────────────
+  const allIntegrations = await prisma.marketingIntegration.findMany({
+    where: { companyId, provider: { in: ["GA4", "SEARCH_CONSOLE", "BUSINESS_PROFILE"] } },
+    select: {
+      id: true, provider: true, accountId: true, accountLabel: true, nickname: true,
+      status: true, lastSyncAt: true, lastSyncStatus: true, createdAt: true,
+    },
+    orderBy: { createdAt: "asc" },
+  });
+
+  // Só conexão com propriedade escolhida entra no seletor — as pendentes não
+  // têm dado nenhum e só confundiriam a lista.
+  const sourcesFor = (provider: string) =>
+    allIntegrations
+      .filter((i) => i.provider === provider && i.accountId)
+      .map((i) => ({
+        id: i.id,
+        label: i.nickname || i.accountLabel || i.accountId || "(sem nome)",
+        accountId: i.accountId,
+        accountLabel: i.accountLabel,
+        nickname: i.nickname,
+        status: i.status,
+        lastSyncAt: i.lastSyncAt,
+      }));
+
+  const sources = {
+    ga4: sourcesFor("GA4"),
+    sc: sourcesFor("SEARCH_CONSOLE"),
+    gbp: sourcesFor("BUSINESS_PROFILE"),
+  };
+
+  /**
+   * Resolve o parâmetro num filtro de Prisma. Id desconhecido vira consolidado
+   * em vez de erro: link antigo/salvo continua abrindo, só que sem filtro — e o
+   * `selected` da resposta conta a verdade pra UI não mentir sobre o recorte.
+   */
+  function resolveSource(param: string | null, lista: { id: string }[]) {
+    if (!param || param === "all") return { selected: "all" as const, where: {} };
+    const achou = lista.some((s) => s.id === param);
+    if (!achou) return { selected: "all" as const, where: {} };
+    return { selected: param, where: { integrationId: param } };
+  }
+
+  const ga4Sel = resolveSource(url.searchParams.get("ga4"), sources.ga4);
+  const scSel = resolveSource(url.searchParams.get("sc"), sources.sc);
+  const ga4Where = ga4Sel.where; // {} = todas as propriedades (consolidado)
+  const scWhere = scSel.where;
+
   const today = new Date();
   today.setUTCHours(0, 0, 0, 0);
   const periodEnd = today;
@@ -59,19 +114,20 @@ export async function GET(
   prevStart.setUTCDate(prevStart.getUTCDate() - days + 1);
 
   // ─── 1. Snapshots — KPIs do período atual + período anterior ─────────────
-  const [snapsCurrent, snapsPrev, dailySeries] = await Promise.all([
+  const [snapsCurrent, snapsPrev, snapRows] = await Promise.all([
     prisma.analyticsSnapshot.aggregate({
       where: {
         companyId,
+        ...ga4Where,
         source: "ga4",
         date: { gte: periodStart, lte: periodEnd },
       },
       _sum: { sessions: true, users: true, newUsers: true, pageviews: true, conversions: true, engagedSessions: true },
-      _avg: { bounceRate: true, avgSessionSec: true },
     }),
     prisma.analyticsSnapshot.aggregate({
       where: {
         companyId,
+        ...ga4Where,
         source: "ga4",
         date: { gte: prevStart, lte: prevEnd },
       },
@@ -80,18 +136,53 @@ export async function GET(
     prisma.analyticsSnapshot.findMany({
       where: {
         companyId,
+        ...ga4Where,
         source: "ga4",
         date: { gte: periodStart, lte: periodEnd },
       },
-      select: { date: true, sessions: true, users: true, conversions: true, pageviews: true },
+      select: {
+        date: true, sessions: true, users: true, conversions: true, pageviews: true,
+        bounceRate: true, avgSessionSec: true,
+      },
       orderBy: { date: "asc" },
     }),
   ]);
+
+  // Taxa de rejeição e duração média são MÉDIAS — não somam. Antes vinham do
+  // `_avg` do banco, que faz média simples das linhas: com 1 propriedade isso
+  // já dava peso igual a um domingo de 3 sessões e uma segunda de 900; com 2
+  // propriedades passaria a misturar sites de portes diferentes na mesma conta.
+  // Média ponderada por sessões é o número que o GA4 mostraria.
+  let pesoSessoes = 0;
+  let somaBounce = 0;
+  let somaDuracao = 0;
+  for (const r of snapRows) {
+    const peso = r.sessions || 0;
+    if (peso <= 0) continue;
+    pesoSessoes += peso;
+    somaBounce += (r.bounceRate ?? 0) * peso;
+    somaDuracao += (r.avgSessionSec ?? 0) * peso;
+  }
+  const bounceRateMedia = pesoSessoes > 0 ? somaBounce / pesoSessoes : 0;
+  const avgSessionSecMedia = pesoSessoes > 0 ? somaDuracao / pesoSessoes : 0;
+
+  // Uma linha por (dia, propriedade) — no consolidado o mesmo dia aparece N
+  // vezes. Sem agrupar, o gráfico repetiria a data e desenharia degrau.
+  const serieMap = new Map<string, { sessions: number; users: number; pageviews: number }>();
+  for (const r of snapRows) {
+    const key = r.date.toISOString().slice(0, 10);
+    const slot = serieMap.get(key) ?? { sessions: 0, users: 0, pageviews: 0 };
+    slot.sessions += r.sessions;
+    slot.users += r.users;
+    slot.pageviews += r.pageviews;
+    serieMap.set(key, slot);
+  }
 
   // ─── 2. Origens (traffic sources) — agrega por bucket ────────────────────
   const trafficRows = await prisma.analyticsTrafficSource.findMany({
     where: {
       companyId,
+      ...ga4Where,
       source: "ga4",
       date: { gte: periodStart, lte: periodEnd },
     },
@@ -136,9 +227,13 @@ export async function GET(
   const pagesRaw = await prisma.analyticsTopPage.findMany({
     where: {
       companyId,
+      ...ga4Where,
       source: "ga4",
       date: { gte: periodStart, lte: periodEnd },
     },
+    // No consolidado, "/" de dois sites diferentes vira a mesma linha. É a
+    // leitura certa pra "páginas mais vistas da empresa"; quem precisa saber de
+    // qual site troca o seletor pra propriedade específica.
     select: { pagePath: true, pageTitle: true, views: true, users: true },
   });
   const pagesMap = new Map<string, { views: number; users: number; title: string | null }>();
@@ -160,6 +255,7 @@ export async function GET(
   const geoRaw = await prisma.analyticsGeoData.findMany({
     where: {
       companyId,
+      ...ga4Where,
       source: "ga4",
       date: { gte: periodStart, lte: periodEnd },
     },
@@ -254,43 +350,56 @@ export async function GET(
   // (mesmo número de dias). Usado pra mostrar variação de posição.
   const [scRows, scPrevRows] = await Promise.all([
     prisma.searchConsoleQuery.findMany({
-      where: { companyId, date: { gte: periodStart, lte: periodEnd } },
+      where: { companyId, ...scWhere, date: { gte: periodStart, lte: periodEnd } },
       select: { query: true, clicks: true, impressions: true, ctr: true, position: true },
     }),
     prisma.searchConsoleQuery.findMany({
-      where: { companyId, date: { gte: prevStart, lte: prevEnd } },
+      where: { companyId, ...scWhere, date: { gte: prevStart, lte: prevEnd } },
       select: { query: true, clicks: true, impressions: true, position: true },
     }),
   ]);
 
-  // Indexa período anterior por query → média de posição (pra delta)
-  const prevPositionByQuery = new Map<string, number>();
-  const prevTmp = new Map<string, { positions: number[]; clicks: number }>();
-  for (const q of scPrevRows) {
-    if (!prevTmp.has(q.query)) prevTmp.set(q.query, { positions: [], clicks: 0 });
-    const slot = prevTmp.get(q.query)!;
-    slot.positions.push(q.position);
-    slot.clicks += q.clicks;
-  }
-  for (const [query, v] of prevTmp) {
-    if (v.positions.length > 0) {
-      prevPositionByQuery.set(query, v.positions.reduce((a, b) => a + b, 0) / v.positions.length);
+  // Posição média ponderada por impressões — é assim que o próprio Search
+  // Console calcula. A média simples das linhas dava o mesmo peso a um dia com
+  // 2 impressões e outro com 2 mil, e no consolidado passaria a misturar dois
+  // sites de portes diferentes.
+  const mediaPonderada = (linhas: { position: number; impressions: number }[]): number | null => {
+    let peso = 0;
+    let soma = 0;
+    for (const l of linhas) {
+      const p = l.impressions || 0;
+      if (p <= 0) continue;
+      peso += p;
+      soma += l.position * p;
     }
+    return peso > 0 ? soma / peso : null;
+  };
+
+  // Indexa período anterior por query → posição ponderada (pra delta)
+  const prevPositionByQuery = new Map<string, number>();
+  const prevTmp = new Map<string, { position: number; impressions: number }[]>();
+  for (const q of scPrevRows) {
+    if (!prevTmp.has(q.query)) prevTmp.set(q.query, []);
+    prevTmp.get(q.query)!.push({ position: q.position, impressions: q.impressions });
+  }
+  for (const [query, linhas] of prevTmp) {
+    const m = mediaPonderada(linhas);
+    if (m !== null) prevPositionByQuery.set(query, m);
   }
 
-  const queriesMap = new Map<string, { clicks: number; impressions: number; positions: number[]; }>();
+  const queriesMap = new Map<string, { clicks: number; impressions: number; linhas: { position: number; impressions: number }[] }>();
   for (const q of scRows) {
     if (!queriesMap.has(q.query)) {
-      queriesMap.set(q.query, { clicks: 0, impressions: 0, positions: [] });
+      queriesMap.set(q.query, { clicks: 0, impressions: 0, linhas: [] });
     }
     const slot = queriesMap.get(q.query)!;
     slot.clicks += q.clicks;
     slot.impressions += q.impressions;
-    slot.positions.push(q.position);
+    slot.linhas.push({ position: q.position, impressions: q.impressions });
   }
   const topQueries = Array.from(queriesMap.entries())
     .map(([query, v]) => {
-      const position = v.positions.length > 0 ? v.positions.reduce((a, b) => a + b, 0) / v.positions.length : 0;
+      const position = mediaPonderada(v.linhas) ?? 0;
       const prevPosition = prevPositionByQuery.get(query) ?? null;
       // Delta positivo = melhorou (subiu na busca, posição diminuiu)
       const positionDelta = prevPosition !== null ? prevPosition - position : null;
@@ -319,9 +428,12 @@ export async function GET(
   const [eventAggRows, eventConfigs] = await Promise.all([
     prisma.analyticsEventDaily.groupBy({
       by: ["eventName"],
-      where: { companyId, source: "ga4", date: { gte: periodStart, lte: periodEnd } },
+      where: { companyId, ...ga4Where, source: "ga4", date: { gte: periodStart, lte: periodEnd } },
       _sum: { eventCount: true, users: true },
     }),
+    // Config continua por empresa (não por conexão) — ver nota no schema:
+    // com 2 propriedades o nome do evento costuma ser o mesmo nas duas, e
+    // marcar conversão duas vezes seria só atrito.
     prisma.marketingEventConfig.findMany({ where: { companyId, source: "ga4" } }),
   ]);
   const configByName = new Map(eventConfigs.map((c) => [c.eventName, c]));
@@ -376,6 +488,7 @@ export async function GET(
       prisma.analyticsEventDaily.aggregate({
         where: {
           companyId,
+          ...ga4Where,
           source: "ga4",
           date: { gte: prevStart, lte: prevEnd },
           eventName: { in: conversionEventNames },
@@ -386,6 +499,7 @@ export async function GET(
         by: ["date"],
         where: {
           companyId,
+          ...ga4Where,
           source: "ga4",
           date: { gte: periodStart, lte: periodEnd },
           eventName: { in: conversionEventNames },
@@ -396,6 +510,7 @@ export async function GET(
         by: ["eventName", "paramName", "paramValue"],
         where: {
           companyId,
+          ...ga4Where,
           source: "ga4",
           date: { gte: periodStart, lte: periodEnd },
           eventName: { in: conversionEventNames },
@@ -447,6 +562,7 @@ export async function GET(
     by: ["eventName", "paramName", "paramValue"],
     where: {
       companyId,
+      ...ga4Where,
       source: "ga4",
       date: { gte: periodStart, lte: periodEnd },
       eventName: { in: [SITE_SEARCH_EVENT, SITE_SEARCH_MISS_EVENT, ...searchEventNames] },
@@ -565,14 +681,28 @@ export async function GET(
   };
 
   // ─── 8. Status das integrações (pra UI mostrar lastSync por bloco) ──────
-  const integStatusRows = await prisma.marketingIntegration.findMany({
-    where: { companyId, provider: { in: ["GA4", "SEARCH_CONSOLE", "BUSINESS_PROFILE"] } },
-    select: { provider: true, status: true, lastSyncAt: true, lastSyncStatus: true, accountId: true, accountLabel: true },
-  });
+  // Reflete o RECORTE em tela: com uma propriedade escolhida, mostra o sync
+  // dela; no consolidado, o mais ANTIGO entre as ativas — "atualizado até" só é
+  // verdade se valer pra todas, senão o rodapé prometeria dado mais fresco do
+  // que o relatório tem.
+  const statusDoRecorte = (provider: string, selecionado: string) => {
+    const doProvider = allIntegrations.filter((i) => i.provider === provider && i.accountId);
+    if (doProvider.length === 0) return null;
+    if (selecionado !== "all") {
+      return doProvider.find((i) => i.id === selecionado) ?? null;
+    }
+    const comSync = doProvider.filter((i) => i.lastSyncAt);
+    if (comSync.length === 0) return doProvider[0];
+    return comSync.reduce((maisAntigo, i) =>
+      i.lastSyncAt! < maisAntigo.lastSyncAt! ? i : maisAntigo
+    );
+  };
   const integrationStatus = {
-    ga4: integStatusRows.find((i) => i.provider === "GA4") ?? null,
-    sc:  integStatusRows.find((i) => i.provider === "SEARCH_CONSOLE") ?? null,
-    gbp: integStatusRows.find((i) => i.provider === "BUSINESS_PROFILE") ?? null,
+    ga4: statusDoRecorte("GA4", ga4Sel.selected),
+    sc: statusDoRecorte("SEARCH_CONSOLE", scSel.selected),
+    // GBP tem endpoint próprio (marketing/gbp) com seletor próprio; aqui só o
+    // status pro cabeçalho.
+    gbp: statusDoRecorte("BUSINESS_PROFILE", "all"),
   };
 
   // ─── Resposta ────────────────────────────────────────────────────────────
@@ -597,13 +727,13 @@ export async function GET(
       conversions: { value: conversionsLeadHub, delta: pct(conversionsLeadHub, conversionsLeadHubPrev) },
       pageviews:   { value: snapsCurrent._sum.pageviews ?? 0 },
       newUsers:    { value: snapsCurrent._sum.newUsers ?? 0 },
-      bounceRate:  { value: snapsCurrent._avg.bounceRate ?? 0 },
-      avgSessionSec: { value: snapsCurrent._avg.avgSessionSec ?? 0 },
+      bounceRate:  { value: bounceRateMedia },
+      avgSessionSec: { value: avgSessionSecMedia },
       engagedSessions: { value: snapsCurrent._sum.engagedSessions ?? 0 },
     },
-    dailySeries: dailySeries.map((d) => {
-      const dateKey = d.date.toISOString().slice(0, 10);
-      return {
+    dailySeries: Array.from(serieMap.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([dateKey, d]) => ({
         date: dateKey,
         sessions: d.sessions,
         users: d.users,
@@ -611,8 +741,7 @@ export async function GET(
         // (cai pra 0 nos dias sem eventos marcados — não usa mais d.conversions nativa do GA4).
         conversions: conversionsByDay.get(dateKey) ?? 0,
         pageviews: d.pageviews,
-      };
-    }),
+      })),
     trafficBuckets,
     topPages,
     countries,
@@ -638,6 +767,10 @@ export async function GET(
     siteSearch,
     funnel,
     integrationStatus,
+    // Conexões disponíveis + qual recorte foi aplicado de fato. A tela usa isso
+    // pra montar o seletor de propriedade — e só o mostra quando há mais de uma.
+    sources,
+    selected: { ga4: ga4Sel.selected, sc: scSel.selected },
     hasData: (snapsCurrent._sum.sessions ?? 0) > 0 || scRows.length > 0,
   });
 }

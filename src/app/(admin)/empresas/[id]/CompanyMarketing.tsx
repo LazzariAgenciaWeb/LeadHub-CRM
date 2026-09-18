@@ -72,11 +72,26 @@ interface MarketingData {
     lost: number | null;
   };
   integrationStatus: {
-    ga4: { provider: string; status: string; lastSyncAt: string | null; lastSyncStatus: string | null; accountId: string | null; accountLabel: string | null } | null;
-    sc:  { provider: string; status: string; lastSyncAt: string | null; lastSyncStatus: string | null; accountId: string | null; accountLabel: string | null } | null;
-    gbp: { provider: string; status: string; lastSyncAt: string | null; lastSyncStatus: string | null; accountId: string | null; accountLabel: string | null } | null;
+    ga4: { provider?: string; status: string; lastSyncAt: string | null; lastSyncStatus: string | null; accountId: string | null; accountLabel: string | null } | null;
+    sc:  { provider?: string; status: string; lastSyncAt: string | null; lastSyncStatus: string | null; accountId: string | null; accountLabel: string | null } | null;
+    gbp: { provider?: string; status: string; lastSyncAt: string | null; lastSyncStatus: string | null; accountId: string | null; accountLabel: string | null } | null;
   };
+  // Conexões disponíveis por provider. Vazio/1 item = empresa com uma
+  // propriedade só (o caso comum) e o seletor nem aparece.
+  sources?: { ga4: MktSource[]; sc: MktSource[]; gbp: MktSource[] };
+  // Recorte que a API aplicou de fato ("all" = consolidado).
+  selected?: { ga4: string; sc: string };
   hasData: boolean;
+}
+
+export interface MktSource {
+  id: string;
+  label: string;
+  accountId?: string | null;
+  accountLabel?: string | null;
+  nickname?: string | null;
+  status: string;
+  lastSyncAt: string | null;
 }
 
 // Abas do dashboard. "geral" é o painel de entrada (resumo); "organico" reúne
@@ -131,6 +146,10 @@ export default function CompanyMarketing({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [days, setDays] = useState(30);
+  // Recorte por conexão: "all" = consolidado (soma das propriedades). Só vira
+  // controle visível quando a empresa tem mais de uma conexão do provider.
+  const [srcGa4, setSrcGa4] = useState("all");
+  const [srcSc, setSrcSc] = useState("all");
   const [tab, setTab] = useState<MktTab>("geral");
   const [activeBucket, setActiveBucket] = useState<TrafficBucket | null>(null);
   const [querySort, setQuerySort] = useState<{ key: "clicks" | "impressions" | "ctr" | "position"; dir: "asc" | "desc" }>({
@@ -141,7 +160,7 @@ export default function CompanyMarketing({
   useEffect(() => {
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [companyId, days]);
+  }, [companyId, days, srcGa4, srcSc]);
 
   // Auto-refresh: se algum provider conectado ficou > 2h sem sync, dispara em
   // background. Sem força — o endpoint /sync respeita o throttle de 2h pra
@@ -195,10 +214,20 @@ export default function CompanyMarketing({
     setLoading(true);
     setError(null);
     try {
-      const r = await fetch(`/api/companies/${companyId}/marketing?days=${days}`);
+      const qs = new URLSearchParams({ days: String(days) });
+      if (srcGa4 !== "all") qs.set("ga4", srcGa4);
+      if (srcSc !== "all") qs.set("sc", srcSc);
+      const r = await fetch(`/api/companies/${companyId}/marketing?${qs}`);
       if (!r.ok) throw new Error((await r.json()).error || "Erro ao carregar");
-      const j = await r.json();
+      const j: MarketingData = await r.json();
       setData(j);
+      // A API devolve o recorte que REALMENTE aplicou. Se a conexão escolhida
+      // sumiu (desconectada em outra aba, por exemplo), ela cai no consolidado —
+      // e o seletor precisa acompanhar, senão mostraria um filtro que não existe.
+      if (j.selected) {
+        if (j.selected.ga4 !== srcGa4) setSrcGa4(j.selected.ga4);
+        if (j.selected.sc !== srcSc) setSrcSc(j.selected.sc);
+      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -257,6 +286,15 @@ export default function CompanyMarketing({
           </button>
         </div>
       </div>
+
+      {/* Seletor de fonte — só aparece pra quem tem mais de uma conexão */}
+      <SourcePickerBar
+        sources={data.sources}
+        ga4={srcGa4}
+        sc={srcSc}
+        onGa4={setSrcGa4}
+        onSc={setSrcSc}
+      />
 
       {!data.hasData && (
         <div className="p-8 text-center bg-amber-500/5 border border-amber-500/30 rounded-xl">
@@ -835,5 +873,102 @@ function PositionDelta({ delta }: { delta: number | null }) {
         : <ArrowDown className="w-2.5 h-2.5" strokeWidth={3} />}
       {Math.abs(delta).toFixed(1)}
     </span>
+  );
+}
+
+// ─── Seletor de fonte (empresa com mais de uma propriedade conectada) ────────
+//
+// Uma empresa pode ter duas propriedades GA4 (site institucional + loja) ou
+// dois sites no Search Console. O padrão é "Todas" — os números somam, que é o
+// que a agência quer ver de cara. Trocar pra uma propriedade específica isola
+// o relatório inteiro nela.
+//
+// Um dropdown por provider, e SÓ pro provider que tem mais de uma conexão:
+// cliente com uma propriedade só (o caso comum) não ganha controle nenhum na
+// tela. Um seletor único pros dois não funcionaria — GA4 e Search Console são
+// autorizações independentes e nada garante que estejam pareados.
+
+function SourcePickerBar({
+  sources, ga4, sc, onGa4, onSc,
+}: {
+  sources?: { ga4: MktSource[]; sc: MktSource[]; gbp: MktSource[] };
+  ga4: string;
+  sc: string;
+  onGa4: (v: string) => void;
+  onSc: (v: string) => void;
+}) {
+  const listaGa4 = sources?.ga4 ?? [];
+  const listaSc = sources?.sc ?? [];
+  const mostraGa4 = listaGa4.length > 1;
+  const mostraSc = listaSc.length > 1;
+  if (!mostraGa4 && !mostraSc) return null;
+
+  return (
+    <div className="flex items-center gap-3 flex-wrap bg-[#0a1220] border border-[#1e2d45] rounded-xl px-3.5 py-2.5">
+      <span className="text-slate-500 text-[11px] font-semibold uppercase tracking-wide">
+        Fonte dos dados
+      </span>
+      {mostraGa4 && (
+        <SourceSelect
+          Icon={BarChart3}
+          iconColor="text-orange-300"
+          titulo="Analytics"
+          todosLabel={`Todas as propriedades (${listaGa4.length})`}
+          itens={listaGa4}
+          value={ga4}
+          onChange={onGa4}
+        />
+      )}
+      {mostraSc && (
+        <SourceSelect
+          Icon={Search}
+          iconColor="text-blue-300"
+          titulo="Search Console"
+          todosLabel={`Todos os sites (${listaSc.length})`}
+          itens={listaSc}
+          value={sc}
+          onChange={onSc}
+        />
+      )}
+      {(ga4 === "all" || sc === "all") && (
+        <span className="text-slate-600 text-[10px] ml-auto">
+          Somando as fontes. Taxa de rejeição, tempo médio e posição são médias
+          ponderadas, não somas.
+        </span>
+      )}
+    </div>
+  );
+}
+
+function SourceSelect({
+  Icon, iconColor, titulo, todosLabel, itens, value, onChange,
+}: {
+  Icon: typeof BarChart3;
+  iconColor: string;
+  titulo: string;
+  todosLabel: string;
+  itens: MktSource[];
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <label className="flex items-center gap-1.5" title={titulo}>
+      <Icon className={`w-3.5 h-3.5 ${iconColor}`} strokeWidth={2.25} />
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="bg-[#070b14] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white max-w-[240px] focus:outline-none focus:border-indigo-500/60"
+      >
+        <option value="all">{todosLabel}</option>
+        {itens.map((s) => (
+          <option key={s.id} value={s.id}>
+            {s.label}
+            {/* Conexão desconectada continua no seletor: o histórico dela é
+                real e some da tela se a gente esconder. */}
+            {s.status !== "ACTIVE" ? " (desconectada)" : ""}
+          </option>
+        ))}
+      </select>
+    </label>
   );
 }

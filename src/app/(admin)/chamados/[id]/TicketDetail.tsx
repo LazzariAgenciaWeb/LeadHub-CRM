@@ -6,6 +6,9 @@ import Link from "next/link";
 import { diffCalendarDays } from "@/lib/datetime";
 import VisibilityControl from "@/components/VisibilityControl";
 import SendEmailButton from "@/components/SendEmailButton";
+import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
+import AttachmentList from "@/components/attachments/AttachmentList";
+import { uploadFile, type StoredFile } from "@/components/attachments/upload";
 
 interface TicketMessage {
   id: string;
@@ -19,6 +22,8 @@ interface TicketMessage {
   mediaType?: string | null;
   source?: string;
   createdAt: string;
+  // Arquivos no MinIO enviados junto com a mensagem.
+  attachments?: StoredFile[];
 }
 
 interface TicketActivity {
@@ -145,6 +150,8 @@ export default function TicketDetail({
   projetos,
   whatsappEnabled = false,
   whatsappWindow,
+  storageEnabled = false,
+  currentUserId,
 }: {
   ticket: Ticket;
   isSuperAdmin: boolean;
@@ -160,6 +167,9 @@ export default function TicketDetail({
   clientCompanies?: { id: string; name: string }[];
   projetos?: { id: string; name: string }[];
   whatsappEnabled?: boolean;
+  // MinIO configurado → 📎 aceita qualquer arquivo (não só imagem em base64).
+  storageEnabled?: boolean;
+  currentUserId?: string;
 }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -439,6 +449,35 @@ export default function TicketDetail({
   // Anexo de imagem na resposta (paste/upload — base64)
   const [attachment, setAttachment] = useState<{ data: string; type: string; name: string } | null>(null);
 
+  // Arquivos da resposta que já subiram pro MinIO como rascunho (DRAFT) —
+  // viram anexos da mensagem ao enviar.
+  type DraftUpload = { key: string; name: string; pct: number; file?: StoredFile; error?: string };
+  const [draftUploads, setDraftUploads] = useState<DraftUpload[]>([]);
+  const readyDrafts = draftUploads.filter((d) => d.file);
+  const draftsBusy = draftUploads.some((d) => !d.file && !d.error);
+
+  async function pickStorageFiles(list: FileList | null) {
+    if (!list) return;
+    for (const f of Array.from(list)) {
+      const key = `${Date.now()}-${Math.random()}`;
+      setDraftUploads((d) => [...d, { key, name: f.name, pct: 0 }]);
+      try {
+        const saved = await uploadFile(f, { ticketId: ticket.id }, {
+          draft: true,
+          onProgress: (pct) => setDraftUploads((d) => d.map((x) => (x.key === key ? { ...x, pct } : x))),
+        });
+        setDraftUploads((d) => d.map((x) => (x.key === key ? { ...x, file: saved, pct: 100 } : x)));
+      } catch (e: any) {
+        setDraftUploads((d) => d.map((x) => (x.key === key ? { ...x, error: e?.message ?? "Erro no upload" } : x)));
+      }
+    }
+  }
+
+  async function removeDraft(d: DraftUpload) {
+    setDraftUploads((list) => list.filter((x) => x.key !== d.key));
+    if (d.file) await fetch(`/api/storage/${d.file.id}`, { method: "DELETE" }).catch(() => {});
+  }
+
   // Reabertura quando ticket está fechado/resolvido
   const [reopening, setReopening] = useState(false);
 
@@ -524,9 +563,11 @@ export default function TicketDetail({
 
   async function sendReply(e: React.FormEvent) {
     e.preventDefault();
-    if (!reply.trim() && !attachment) return;
+    if (!reply.trim() && !attachment && readyDrafts.length === 0) return;
+    if (draftsBusy) return;
     setSending(true);
     const payload: any = { messageBody: reply, isInternal };
+    if (readyDrafts.length) payload.attachmentIds = readyDrafts.map((d) => d.file!.id);
     if (attachment) {
       payload.mediaBase64 = attachment.data;
       payload.mediaType = attachment.type;
@@ -541,6 +582,7 @@ export default function TicketDetail({
       setMessages((prev) => [...prev, msg]);
       setReply("");
       setAttachment(null);
+      setDraftUploads([]);
     }
     setSending(false);
   }
@@ -904,6 +946,9 @@ export default function TicketDetail({
                             </span>
                           </div>
                           <p className="text-amber-200/70 text-sm whitespace-pre-wrap">{msg.body}</p>
+                          {!!msg.attachments?.length && (
+                            <div className="mt-2"><AttachmentList files={msg.attachments} compact /></div>
+                          )}
                         </div>
                       );
                     }
@@ -935,6 +980,11 @@ export default function TicketDetail({
                             )}
                             {msg.body}
                           </div>
+                          {!!msg.attachments?.length && (
+                            <div className="max-w-[85%] mt-1 w-full">
+                              <AttachmentList files={msg.attachments} compact />
+                            </div>
+                          )}
                         </div>
                       </div>
                     );
@@ -1163,6 +1213,27 @@ export default function TicketDetail({
                   </div>
                 )}
 
+                {/* Arquivos subindo/subidos pro MinIO */}
+                {draftUploads.length > 0 && (
+                  <div className="space-y-1">
+                    {draftUploads.map((d) => (
+                      <div key={d.key} className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 flex items-center gap-2">
+                        <span className="text-xs">📎</span>
+                        <span className={`flex-1 min-w-0 truncate text-xs ${d.error ? "text-red-400" : "text-slate-200"}`}>
+                          {d.name}{d.error ? ` — ${d.error}` : ""}
+                        </span>
+                        {!d.file && !d.error && <span className="text-[10px] text-slate-500">{d.pct}%</span>}
+                        {d.file && <span className="text-[10px] text-emerald-400">pronto</span>}
+                        <button
+                          type="button"
+                          onClick={() => void removeDraft(d)}
+                          className="text-slate-500 hover:text-red-400 text-sm leading-none px-1"
+                        >×</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-3">
                     {canManage && (
@@ -1171,15 +1242,27 @@ export default function TicketDetail({
                         <span className="text-amber-400 text-xs">🔒 Nota interna</span>
                       </label>
                     )}
-                    <label className="flex items-center gap-1 text-slate-500 text-xs hover:text-indigo-300 cursor-pointer transition-colors">
-                      <input type="file" accept="image/*" className="hidden" onChange={(e) => pickFile(e.target.files?.[0] ?? null)} />
-                      📎 Anexar
-                    </label>
+                    {storageEnabled ? (
+                      <label className="flex items-center gap-1 text-slate-500 text-xs hover:text-indigo-300 cursor-pointer transition-colors">
+                        <input
+                          type="file"
+                          multiple
+                          className="hidden"
+                          onChange={(e) => { void pickStorageFiles(e.target.files); e.target.value = ""; }}
+                        />
+                        📎 Anexar arquivo
+                      </label>
+                    ) : (
+                      <label className="flex items-center gap-1 text-slate-500 text-xs hover:text-indigo-300 cursor-pointer transition-colors">
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => pickFile(e.target.files?.[0] ?? null)} />
+                        📎 Anexar
+                      </label>
+                    )}
                     <span className="text-slate-700 text-xs">ou Ctrl+V cola imagem</span>
                   </div>
                   <button
                     type="submit"
-                    disabled={sending || (!reply.trim() && !attachment)}
+                    disabled={sending || draftsBusy || (!reply.trim() && !attachment && readyDrafts.length === 0)}
                     className="px-4 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors"
                   >
                     {sending ? "Enviando..." : "Enviar"}
@@ -1205,6 +1288,16 @@ export default function TicketDetail({
 
         {/* Right sidebar: metadata */}
         <div className="w-[260px] min-w-[260px] flex-shrink-0 overflow-y-auto p-4 space-y-4">
+          {/* Arquivos do chamado (MinIO) — inclui os enviados pela conversa */}
+          {storageEnabled && (
+            <AttachmentsPanel
+              target={{ ticketId: ticket.id }}
+              currentUserId={currentUserId}
+              canManage={canManage}
+              refreshKey={messages.length}
+            />
+          )}
+
           {/* Stage */}
           {canManage && stages.length > 0 && (
             <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">

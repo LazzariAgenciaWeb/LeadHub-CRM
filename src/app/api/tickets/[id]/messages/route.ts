@@ -36,8 +36,21 @@ export async function POST(
   const body = await req.json();
   const { messageBody, isInternal, mediaBase64, mediaType } = body;
 
+  // Arquivos já enviados ao MinIO pelo composer (status DRAFT) — só os do
+  // próprio autor e deste chamado; ids de fora são ignorados.
+  const userIdForFiles = (session.user as any)?.id as string | undefined;
+  const attachmentIds: string[] = Array.isArray(body.attachmentIds)
+    ? body.attachmentIds.filter((x: unknown) => typeof x === "string").slice(0, 20)
+    : [];
+  const draftFiles = attachmentIds.length && userIdForFiles
+    ? await prisma.storageObject.findMany({
+        where: { id: { in: attachmentIds }, ticketId, status: "DRAFT", uploadedById: userIdForFiles },
+        select: { id: true },
+      })
+    : [];
+
   // Aceita mensagem vazia se houver anexo (igual WhatsApp permite mandar só foto)
-  const hasMedia = !!(mediaBase64 && mediaType);
+  const hasMedia = !!(mediaBase64 && mediaType) || draftFiles.length > 0;
   if (!hasMedia && !messageBody?.trim()) {
     return NextResponse.json({ error: "Mensagem não pode ser vazia" }, { status: 400 });
   }
@@ -66,6 +79,19 @@ export async function POST(
       ? [prisma.ticket.update({ where: { id: ticketId }, data: updates })]
       : []),
   ]);
+
+  let attachments: unknown[] = [];
+  if (draftFiles.length) {
+    await prisma.storageObject.updateMany({
+      where: { id: { in: draftFiles.map((f) => f.id) } },
+      data: { ticketMessageId: message.id, status: "READY" },
+    });
+    attachments = await prisma.storageObject.findMany({
+      where: { ticketMessageId: message.id },
+      select: { id: true, fileName: true, mimeType: true, size: true },
+      orderBy: { createdAt: "asc" },
+    });
+  }
 
   // ── ClickUp comment sync ───────────────────────────────────────────────
   // Não sincroniza notas internas para o ClickUp.
@@ -124,5 +150,5 @@ export async function POST(
   // Resposta sem inline base64 — UI consome `hasMedia` e busca o binário
   // sob demanda em /api/tickets/messages/[id]/media (mesmo padrão da listagem).
   const { mediaBase64: _drop, ...messageRest } = message;
-  return NextResponse.json({ ...messageRest, hasMedia: !!_drop }, { status: 201 });
+  return NextResponse.json({ ...messageRest, hasMedia: !!_drop, attachments }, { status: 201 });
 }

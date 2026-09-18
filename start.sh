@@ -56,6 +56,24 @@ node /app/node_modules/prisma/build/index.js db push --skip-generate --accept-da
   echo "[Backfill modo atendimento] $RES"
 ) &
 
+# Backfill do integrationId nos dados de marketing (2026-09-08): as tabelas de
+# GA4/Search Console/Meu Negócio passaram a carregar QUAL conexão gerou cada
+# linha (é o que permite 2+ propriedades por empresa). O `db push` cria a coluna
+# com o default 'legacy'; este passo adota o histórico na conexão certa onde a
+# empresa tem uma só daquele provider — sem ele o seletor de propriedade do
+# relatório apareceria vazio pra todo cliente antigo. Idempotente.
+(
+  sleep 30
+  echo "[Backfill integrationId marketing] iniciando..."
+  if [ -n "$CRON_SECRET" ]; then
+    RES=$(curl -s -X POST "http://localhost:3000/api/admin/backfill-integration-id" \
+      -H "Authorization: Bearer ${CRON_SECRET}" --max-time 300 2>&1)
+  else
+    RES=$(curl -s -X POST "http://localhost:3000/api/admin/backfill-integration-id" --max-time 300 2>&1)
+  fi
+  echo "[Backfill integrationId marketing] $RES"
+) &
+
 # Helper de curl que adiciona Authorization SE CRON_SECRET estiver definido.
 # Antes mandávamos -H "" quando o secret estava vazio — curl quebra silenciosamente
 # com header vazio, fazendo as cron pararem sem aviso.

@@ -224,6 +224,7 @@ async function syncProfile(integrationId: string, companyId: string, locationNam
   const snapshot = await prisma.gbpProfileSnapshot.create({
     data: {
       companyId,
+      integrationId,
       title,
       primaryCategory,
       storefrontAddress: storefrontAddress ?? undefined,
@@ -320,8 +321,8 @@ async function syncInsights(integrationId: string, companyId: string, locationNa
     const [y, m, d] = key.split("-").map(Number);
     const date = new Date(Date.UTC(y, m - 1, d));
     await prisma.gbpInsight.upsert({
-      where: { companyId_date: { companyId, date } },
-      create: { companyId, date, ...buckets },
+      where: { companyId_integrationId_date: { companyId, integrationId, date } },
+      create: { companyId, integrationId, date, ...buckets },
       update: buckets,
     });
     count++;
@@ -391,12 +392,16 @@ async function syncReviews(integrationId: string, companyId: string, accountName
       await prisma.gbpReview.upsert({
         where: { googleReviewId },
         create: {
-          companyId, googleReviewId,
+          companyId, integrationId, googleReviewId,
           reviewerName, reviewerPhotoUrl, starRating, comment,
           createTime, updateTime,
           replyComment, replyUpdateTime,
         },
         update: {
+          // integrationId no update também: review antiga (gravada antes do
+          // carimbo, ou por uma conexão que foi refeita) migra pro perfil atual
+          // na primeira ressincronização, em vez de ficar presa em "legacy".
+          integrationId,
           reviewerName, reviewerPhotoUrl, starRating, comment, updateTime,
           replyComment, replyUpdateTime,
         },
@@ -472,8 +477,8 @@ async function syncKeywords(integrationId: string, companyId: string, locationNa
     const y = now.getUTCFullYear();
     const m = now.getUTCMonth() + 1;
     await prisma.gbpSearchKeyword.upsert({
-      where: { companyId_year_month_keyword: { companyId, year: y, month: m, keyword } },
-      create: { companyId, year: y, month: m, keyword, impressions, isThreshold },
+      where: { companyId_integrationId_year_month_keyword: { companyId, integrationId, year: y, month: m, keyword } },
+      create: { companyId, integrationId, year: y, month: m, keyword, impressions, isThreshold },
       update: { impressions, isThreshold },
     });
     count++;

@@ -840,6 +840,7 @@ exports.Prisma.MarketingIntegrationScalarFieldEnum = {
   provider: 'provider',
   accountId: 'accountId',
   accountLabel: 'accountLabel',
+  nickname: 'nickname',
   accessTokenEnc: 'accessTokenEnc',
   refreshTokenEnc: 'refreshTokenEnc',
   tokenExpiresAt: 'tokenExpiresAt',
@@ -1013,6 +1014,7 @@ exports.Prisma.FacebookPageScalarFieldEnum = {
 exports.Prisma.AnalyticsSnapshotScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   date: 'date',
   source: 'source',
   sessions: 'sessions',
@@ -1030,6 +1032,7 @@ exports.Prisma.AnalyticsSnapshotScalarFieldEnum = {
 exports.Prisma.AnalyticsTopPageScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   date: 'date',
   source: 'source',
   pagePath: 'pagePath',
@@ -1042,6 +1045,7 @@ exports.Prisma.AnalyticsTopPageScalarFieldEnum = {
 exports.Prisma.AnalyticsTrafficSourceScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   date: 'date',
   source: 'source',
   rawSource: 'rawSource',
@@ -1055,6 +1059,7 @@ exports.Prisma.AnalyticsTrafficSourceScalarFieldEnum = {
 exports.Prisma.AnalyticsGeoDataScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   date: 'date',
   source: 'source',
   countryCode: 'countryCode',
@@ -1068,6 +1073,7 @@ exports.Prisma.AnalyticsGeoDataScalarFieldEnum = {
 exports.Prisma.AnalyticsEventDailyScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   date: 'date',
   source: 'source',
   eventName: 'eventName',
@@ -1080,6 +1086,7 @@ exports.Prisma.AnalyticsEventDailyScalarFieldEnum = {
 exports.Prisma.AnalyticsEventParamDailyScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   date: 'date',
   source: 'source',
   eventName: 'eventName',
@@ -1107,6 +1114,7 @@ exports.Prisma.MarketingEventConfigScalarFieldEnum = {
 exports.Prisma.SearchConsoleQueryScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   date: 'date',
   query: 'query',
   page: 'page',
@@ -1121,6 +1129,7 @@ exports.Prisma.SearchConsoleQueryScalarFieldEnum = {
 exports.Prisma.GbpInsightScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   date: 'date',
   impressionsSearchDesktop: 'impressionsSearchDesktop',
   impressionsSearchMobile: 'impressionsSearchMobile',
@@ -1138,6 +1147,7 @@ exports.Prisma.GbpInsightScalarFieldEnum = {
 exports.Prisma.GbpReviewScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   googleReviewId: 'googleReviewId',
   reviewerName: 'reviewerName',
   reviewerPhotoUrl: 'reviewerPhotoUrl',
@@ -1154,6 +1164,7 @@ exports.Prisma.GbpReviewScalarFieldEnum = {
 exports.Prisma.GbpSearchKeywordScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   keyword: 'keyword',
   year: 'year',
   month: 'month',
@@ -1165,6 +1176,7 @@ exports.Prisma.GbpSearchKeywordScalarFieldEnum = {
 exports.Prisma.GbpProfileSnapshotScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  integrationId: 'integrationId',
   title: 'title',
   primaryCategory: 'primaryCategory',
   storefrontAddress: 'storefrontAddress',
@@ -1929,6 +1941,23 @@ exports.Prisma.TimesheetSignatureScalarFieldEnum = {
   ip: 'ip'
 };
 
+exports.Prisma.StorageObjectScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  bucket: 'bucket',
+  key: 'key',
+  fileName: 'fileName',
+  mimeType: 'mimeType',
+  size: 'size',
+  status: 'status',
+  ticketId: 'ticketId',
+  ticketMessageId: 'ticketMessageId',
+  projectTaskId: 'projectTaskId',
+  uploadedById: 'uploadedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2517,7 +2546,8 @@ exports.Prisma.ModelName = {
   WorkScheduleDay: 'WorkScheduleDay',
   TimeOffEntry: 'TimeOffEntry',
   PunchAdjustRequest: 'PunchAdjustRequest',
-  TimesheetSignature: 'TimesheetSignature'
+  TimesheetSignature: 'TimesheetSignature',
+  StorageObject: 'StorageObject'
 };
 
 /**

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getViewer, canSeeTicket } from "@/lib/visibility";
 import { notFound } from "next/navigation";
 import { startOfTodayInSystemTZ, endOfTodayInSystemTZ } from "@/lib/datetime";
+import { storageEnabled } from "@/lib/storage/s3";
 import TicketDetail from "./TicketDetail";
 
 export default async function TicketPage({
@@ -50,6 +51,11 @@ export default async function TicketPage({
           source:       true,
           createdAt:    true,
           mediaBase64:  true, // só pra derivar hasMedia, removido abaixo
+          attachments:  {
+            where:   { status: "READY" },
+            select:  { id: true, fileName: true, mimeType: true, size: true },
+            orderBy: { createdAt: "asc" },
+          },
         },
       },
       activities: { orderBy: { createdAt: "asc" } },
@@ -178,6 +184,8 @@ export default async function TicketPage({
       clientCompanies={clientCompanies as any}
       projetos={projetos as any}
       whatsappEnabled={whatsappEnabled}
+      storageEnabled={storageEnabled()}
+      currentUserId={(session?.user as any)?.id}
       whatsappWindow={{
         openedAt: whatsappSince.toISOString(),
         closedAt: whatsappUntil ? whatsappUntil.toISOString() : null,

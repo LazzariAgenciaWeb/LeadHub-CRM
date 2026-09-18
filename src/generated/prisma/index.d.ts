@@ -618,6 +618,11 @@ export type PunchAdjustRequest = $Result.DefaultSelection<Prisma.$PunchAdjustReq
  * 
  */
 export type TimesheetSignature = $Result.DefaultSelection<Prisma.$TimesheetSignaturePayload>
+/**
+ * Model StorageObject
+ * 
+ */
+export type StorageObject = $Result.DefaultSelection<Prisma.$StorageObjectPayload>
 
 /**
  * Enums
@@ -2765,6 +2770,16 @@ export class PrismaClient<
     * ```
     */
   get timesheetSignature(): Prisma.TimesheetSignatureDelegate<ExtArgs>;
+
+  /**
+   * `prisma.storageObject`: Exposes CRUD operations for the **StorageObject** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StorageObjects
+    * const storageObjects = await prisma.storageObject.findMany()
+    * ```
+    */
+  get storageObject(): Prisma.StorageObjectDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -3326,7 +3341,8 @@ export namespace Prisma {
     WorkScheduleDay: 'WorkScheduleDay',
     TimeOffEntry: 'TimeOffEntry',
     PunchAdjustRequest: 'PunchAdjustRequest',
-    TimesheetSignature: 'TimesheetSignature'
+    TimesheetSignature: 'TimesheetSignature',
+    StorageObject: 'StorageObject'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3342,7 +3358,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature"
+      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -11816,6 +11832,76 @@ export namespace Prisma {
           }
         }
       }
+      StorageObject: {
+        payload: Prisma.$StorageObjectPayload<ExtArgs>
+        fields: Prisma.StorageObjectFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StorageObjectFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StorageObjectFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload>
+          }
+          findFirst: {
+            args: Prisma.StorageObjectFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StorageObjectFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload>
+          }
+          findMany: {
+            args: Prisma.StorageObjectFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload>[]
+          }
+          create: {
+            args: Prisma.StorageObjectCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload>
+          }
+          createMany: {
+            args: Prisma.StorageObjectCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StorageObjectCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload>[]
+          }
+          delete: {
+            args: Prisma.StorageObjectDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload>
+          }
+          update: {
+            args: Prisma.StorageObjectUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload>
+          }
+          deleteMany: {
+            args: Prisma.StorageObjectDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StorageObjectUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.StorageObjectUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageObjectPayload>
+          }
+          aggregate: {
+            args: Prisma.StorageObjectAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStorageObject>
+          }
+          groupBy: {
+            args: Prisma.StorageObjectGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StorageObjectGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StorageObjectCountArgs<ExtArgs>
+            result: $Utils.Optional<StorageObjectCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -12010,6 +12096,7 @@ export namespace Prisma {
     punchAdjustsReviewed: number
     timesheetSignatures: number
     ownedInstances: number
+    uploadedFiles: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12046,6 +12133,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: boolean | UserCountOutputTypeCountPunchAdjustsReviewedArgs
     timesheetSignatures?: boolean | UserCountOutputTypeCountTimesheetSignaturesArgs
     ownedInstances?: boolean | UserCountOutputTypeCountOwnedInstancesArgs
+    uploadedFiles?: boolean | UserCountOutputTypeCountUploadedFilesArgs
   }
 
   // Custom InputTypes
@@ -12290,6 +12378,13 @@ export namespace Prisma {
     where?: WhatsappInstanceWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUploadedFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageObjectWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -12379,6 +12474,7 @@ export namespace Prisma {
     timeOffEntries: number
     punchAdjustRequests: number
     timesheetSignatures: number
+    storageObjects: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12465,6 +12561,7 @@ export namespace Prisma {
     timeOffEntries?: boolean | CompanyCountOutputTypeCountTimeOffEntriesArgs
     punchAdjustRequests?: boolean | CompanyCountOutputTypeCountPunchAdjustRequestsArgs
     timesheetSignatures?: boolean | CompanyCountOutputTypeCountTimesheetSignaturesArgs
+    storageObjects?: boolean | CompanyCountOutputTypeCountStorageObjectsArgs
   }
 
   // Custom InputTypes
@@ -13059,6 +13156,13 @@ export namespace Prisma {
     where?: TimesheetSignatureWhereInput
   }
 
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountStorageObjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageObjectWhereInput
+  }
+
 
   /**
    * Count Type CampaignCountOutputType
@@ -13488,6 +13592,7 @@ export namespace Prisma {
     activities: number
     accessUsers: number
     inboxEmails: number
+    attachments: number
   }
 
   export type TicketCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13495,6 +13600,7 @@ export namespace Prisma {
     activities?: boolean | TicketCountOutputTypeCountActivitiesArgs
     accessUsers?: boolean | TicketCountOutputTypeCountAccessUsersArgs
     inboxEmails?: boolean | TicketCountOutputTypeCountInboxEmailsArgs
+    attachments?: boolean | TicketCountOutputTypeCountAttachmentsArgs
   }
 
   // Custom InputTypes
@@ -13534,6 +13640,44 @@ export namespace Prisma {
    */
   export type TicketCountOutputTypeCountInboxEmailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InboxEmailWhereInput
+  }
+
+  /**
+   * TicketCountOutputType without action
+   */
+  export type TicketCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageObjectWhereInput
+  }
+
+
+  /**
+   * Count Type TicketMessageCountOutputType
+   */
+
+  export type TicketMessageCountOutputType = {
+    attachments: number
+  }
+
+  export type TicketMessageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attachments?: boolean | TicketMessageCountOutputTypeCountAttachmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TicketMessageCountOutputType without action
+   */
+  export type TicketMessageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketMessageCountOutputType
+     */
+    select?: TicketMessageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TicketMessageCountOutputType without action
+   */
+  export type TicketMessageCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageObjectWhereInput
   }
 
 
@@ -13722,10 +13866,12 @@ export namespace Prisma {
 
   export type ProjectTaskCountOutputType = {
     materials: number
+    attachments: number
   }
 
   export type ProjectTaskCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     materials?: boolean | ProjectTaskCountOutputTypeCountMaterialsArgs
+    attachments?: boolean | ProjectTaskCountOutputTypeCountAttachmentsArgs
   }
 
   // Custom InputTypes
@@ -13744,6 +13890,13 @@ export namespace Prisma {
    */
   export type ProjectTaskCountOutputTypeCountMaterialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectMaterialWhereInput
+  }
+
+  /**
+   * ProjectTaskCountOutputType without action
+   */
+  export type ProjectTaskCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageObjectWhereInput
   }
 
 
@@ -14782,6 +14935,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: boolean | User$punchAdjustsReviewedArgs<ExtArgs>
     timesheetSignatures?: boolean | User$timesheetSignaturesArgs<ExtArgs>
     ownedInstances?: boolean | User$ownedInstancesArgs<ExtArgs>
+    uploadedFiles?: boolean | User$uploadedFilesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -14857,6 +15011,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: boolean | User$punchAdjustsReviewedArgs<ExtArgs>
     timesheetSignatures?: boolean | User$timesheetSignaturesArgs<ExtArgs>
     ownedInstances?: boolean | User$ownedInstancesArgs<ExtArgs>
+    uploadedFiles?: boolean | User$uploadedFilesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14902,6 +15057,7 @@ export namespace Prisma {
       punchAdjustsReviewed: Prisma.$PunchAdjustRequestPayload<ExtArgs>[]
       timesheetSignatures: Prisma.$TimesheetSignaturePayload<ExtArgs>[]
       ownedInstances: Prisma.$WhatsappInstancePayload<ExtArgs>[]
+      uploadedFiles: Prisma.$StorageObjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15318,6 +15474,7 @@ export namespace Prisma {
     punchAdjustsReviewed<T extends User$punchAdjustsReviewedArgs<ExtArgs> = {}>(args?: Subset<T, User$punchAdjustsReviewedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PunchAdjustRequestPayload<ExtArgs>, T, "findMany"> | Null>
     timesheetSignatures<T extends User$timesheetSignaturesArgs<ExtArgs> = {}>(args?: Subset<T, User$timesheetSignaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetSignaturePayload<ExtArgs>, T, "findMany"> | Null>
     ownedInstances<T extends User$ownedInstancesArgs<ExtArgs> = {}>(args?: Subset<T, User$ownedInstancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findMany"> | Null>
+    uploadedFiles<T extends User$uploadedFilesArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedFilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16381,6 +16538,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WhatsappInstanceScalarFieldEnum | WhatsappInstanceScalarFieldEnum[]
+  }
+
+  /**
+   * User.uploadedFiles
+   */
+  export type User$uploadedFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    where?: StorageObjectWhereInput
+    orderBy?: StorageObjectOrderByWithRelationInput | StorageObjectOrderByWithRelationInput[]
+    cursor?: StorageObjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
   }
 
   /**
@@ -20997,6 +21174,7 @@ export namespace Prisma {
     punchAdjustRequests?: boolean | Company$punchAdjustRequestsArgs<ExtArgs>
     timesheetSignatures?: boolean | Company$timesheetSignaturesArgs<ExtArgs>
     blingIntegration?: boolean | Company$blingIntegrationArgs<ExtArgs>
+    storageObjects?: boolean | Company$storageObjectsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -21184,6 +21362,7 @@ export namespace Prisma {
     punchAdjustRequests?: boolean | Company$punchAdjustRequestsArgs<ExtArgs>
     timesheetSignatures?: boolean | Company$timesheetSignaturesArgs<ExtArgs>
     blingIntegration?: boolean | Company$blingIntegrationArgs<ExtArgs>
+    storageObjects?: boolean | Company$storageObjectsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21281,6 +21460,7 @@ export namespace Prisma {
       punchAdjustRequests: Prisma.$PunchAdjustRequestPayload<ExtArgs>[]
       timesheetSignatures: Prisma.$TimesheetSignaturePayload<ExtArgs>[]
       blingIntegration: Prisma.$BlingIntegrationPayload<ExtArgs> | null
+      storageObjects: Prisma.$StorageObjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21779,6 +21959,7 @@ export namespace Prisma {
     punchAdjustRequests<T extends Company$punchAdjustRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Company$punchAdjustRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PunchAdjustRequestPayload<ExtArgs>, T, "findMany"> | Null>
     timesheetSignatures<T extends Company$timesheetSignaturesArgs<ExtArgs> = {}>(args?: Subset<T, Company$timesheetSignaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetSignaturePayload<ExtArgs>, T, "findMany"> | Null>
     blingIntegration<T extends Company$blingIntegrationArgs<ExtArgs> = {}>(args?: Subset<T, Company$blingIntegrationArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    storageObjects<T extends Company$storageObjectsArgs<ExtArgs> = {}>(args?: Subset<T, Company$storageObjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23902,6 +24083,26 @@ export namespace Prisma {
      */
     include?: BlingIntegrationInclude<ExtArgs> | null
     where?: BlingIntegrationWhereInput
+  }
+
+  /**
+   * Company.storageObjects
+   */
+  export type Company$storageObjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    where?: StorageObjectWhereInput
+    orderBy?: StorageObjectOrderByWithRelationInput | StorageObjectOrderByWithRelationInput[]
+    cursor?: StorageObjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
   }
 
   /**
@@ -47865,6 +48066,7 @@ export namespace Prisma {
     activities?: boolean | Ticket$activitiesArgs<ExtArgs>
     accessUsers?: boolean | Ticket$accessUsersArgs<ExtArgs>
     inboxEmails?: boolean | Ticket$inboxEmailsArgs<ExtArgs>
+    attachments?: boolean | Ticket$attachmentsArgs<ExtArgs>
     _count?: boolean | TicketCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
@@ -47933,6 +48135,7 @@ export namespace Prisma {
     activities?: boolean | Ticket$activitiesArgs<ExtArgs>
     accessUsers?: boolean | Ticket$accessUsersArgs<ExtArgs>
     inboxEmails?: boolean | Ticket$inboxEmailsArgs<ExtArgs>
+    attachments?: boolean | Ticket$attachmentsArgs<ExtArgs>
     _count?: boolean | TicketCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -47957,6 +48160,7 @@ export namespace Prisma {
       activities: Prisma.$ActivityPayload<ExtArgs>[]
       accessUsers: Prisma.$TicketAccessUserPayload<ExtArgs>[]
       inboxEmails: Prisma.$InboxEmailPayload<ExtArgs>[]
+      attachments: Prisma.$StorageObjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -48354,6 +48558,7 @@ export namespace Prisma {
     activities<T extends Ticket$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
     accessUsers<T extends Ticket$accessUsersArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$accessUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "findMany"> | Null>
     inboxEmails<T extends Ticket$inboxEmailsArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$inboxEmailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxEmailPayload<ExtArgs>, T, "findMany"> | Null>
+    attachments<T extends Ticket$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -48877,6 +49082,26 @@ export namespace Prisma {
   }
 
   /**
+   * Ticket.attachments
+   */
+  export type Ticket$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    where?: StorageObjectWhereInput
+    orderBy?: StorageObjectOrderByWithRelationInput | StorageObjectOrderByWithRelationInput[]
+    cursor?: StorageObjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
+  }
+
+  /**
    * Ticket without action
    */
   export type TicketDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -49104,6 +49329,8 @@ export namespace Prisma {
     createdAt?: boolean
     ticketId?: boolean
     ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    attachments?: boolean | TicketMessage$attachmentsArgs<ExtArgs>
+    _count?: boolean | TicketMessageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ticketMessage"]>
 
   export type TicketMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -49137,6 +49364,8 @@ export namespace Prisma {
 
   export type TicketMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    attachments?: boolean | TicketMessage$attachmentsArgs<ExtArgs>
+    _count?: boolean | TicketMessageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TicketMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ticket?: boolean | TicketDefaultArgs<ExtArgs>
@@ -49146,6 +49375,7 @@ export namespace Prisma {
     name: "TicketMessage"
     objects: {
       ticket: Prisma.$TicketPayload<ExtArgs>
+      attachments: Prisma.$StorageObjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -49524,6 +49754,7 @@ export namespace Prisma {
   export interface Prisma__TicketMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     ticket<T extends TicketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TicketDefaultArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    attachments<T extends TicketMessage$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, TicketMessage$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -49879,6 +50110,26 @@ export namespace Prisma {
      * Filter which TicketMessages to delete
      */
     where?: TicketMessageWhereInput
+  }
+
+  /**
+   * TicketMessage.attachments
+   */
+  export type TicketMessage$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    where?: StorageObjectWhereInput
+    orderBy?: StorageObjectOrderByWithRelationInput | StorageObjectOrderByWithRelationInput[]
+    cursor?: StorageObjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
   }
 
   /**
@@ -53894,6 +54145,7 @@ export namespace Prisma {
     assignee?: boolean | ProjectTask$assigneeArgs<ExtArgs>
     createdBy?: boolean | ProjectTask$createdByArgs<ExtArgs>
     materials?: boolean | ProjectTask$materialsArgs<ExtArgs>
+    attachments?: boolean | ProjectTask$attachmentsArgs<ExtArgs>
     _count?: boolean | ProjectTaskCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["projectTask"]>
 
@@ -53953,6 +54205,7 @@ export namespace Prisma {
     assignee?: boolean | ProjectTask$assigneeArgs<ExtArgs>
     createdBy?: boolean | ProjectTask$createdByArgs<ExtArgs>
     materials?: boolean | ProjectTask$materialsArgs<ExtArgs>
+    attachments?: boolean | ProjectTask$attachmentsArgs<ExtArgs>
     _count?: boolean | ProjectTaskCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectTaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -53970,6 +54223,7 @@ export namespace Prisma {
       assignee: Prisma.$UserPayload<ExtArgs> | null
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       materials: Prisma.$ProjectMaterialPayload<ExtArgs>[]
+      attachments: Prisma.$StorageObjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -54361,6 +54615,7 @@ export namespace Prisma {
     assignee<T extends ProjectTask$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     createdBy<T extends ProjectTask$createdByArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     materials<T extends ProjectTask$materialsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMaterialPayload<ExtArgs>, T, "findMany"> | Null>
+    attachments<T extends ProjectTask$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -54790,6 +55045,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProjectMaterialScalarFieldEnum | ProjectMaterialScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTask.attachments
+   */
+  export type ProjectTask$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    where?: StorageObjectWhereInput
+    orderBy?: StorageObjectOrderByWithRelationInput | StorageObjectOrderByWithRelationInput[]
+    cursor?: StorageObjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
   }
 
   /**
@@ -68755,6 +69030,7 @@ export namespace Prisma {
     provider: $Enums.IntegrationProvider | null
     accountId: string | null
     accountLabel: string | null
+    nickname: string | null
     accessTokenEnc: string | null
     refreshTokenEnc: string | null
     tokenExpiresAt: Date | null
@@ -68775,6 +69051,7 @@ export namespace Prisma {
     provider: $Enums.IntegrationProvider | null
     accountId: string | null
     accountLabel: string | null
+    nickname: string | null
     accessTokenEnc: string | null
     refreshTokenEnc: string | null
     tokenExpiresAt: Date | null
@@ -68795,6 +69072,7 @@ export namespace Prisma {
     provider: number
     accountId: number
     accountLabel: number
+    nickname: number
     accessTokenEnc: number
     refreshTokenEnc: number
     tokenExpiresAt: number
@@ -68818,6 +69096,7 @@ export namespace Prisma {
     provider?: true
     accountId?: true
     accountLabel?: true
+    nickname?: true
     accessTokenEnc?: true
     refreshTokenEnc?: true
     tokenExpiresAt?: true
@@ -68838,6 +69117,7 @@ export namespace Prisma {
     provider?: true
     accountId?: true
     accountLabel?: true
+    nickname?: true
     accessTokenEnc?: true
     refreshTokenEnc?: true
     tokenExpiresAt?: true
@@ -68858,6 +69138,7 @@ export namespace Prisma {
     provider?: true
     accountId?: true
     accountLabel?: true
+    nickname?: true
     accessTokenEnc?: true
     refreshTokenEnc?: true
     tokenExpiresAt?: true
@@ -68952,6 +69233,7 @@ export namespace Prisma {
     provider: $Enums.IntegrationProvider
     accountId: string | null
     accountLabel: string | null
+    nickname: string | null
     accessTokenEnc: string | null
     refreshTokenEnc: string | null
     tokenExpiresAt: Date | null
@@ -68990,6 +69272,7 @@ export namespace Prisma {
     provider?: boolean
     accountId?: boolean
     accountLabel?: boolean
+    nickname?: boolean
     accessTokenEnc?: boolean
     refreshTokenEnc?: boolean
     tokenExpiresAt?: boolean
@@ -69012,6 +69295,7 @@ export namespace Prisma {
     provider?: boolean
     accountId?: boolean
     accountLabel?: boolean
+    nickname?: boolean
     accessTokenEnc?: boolean
     refreshTokenEnc?: boolean
     tokenExpiresAt?: boolean
@@ -69034,6 +69318,7 @@ export namespace Prisma {
     provider?: boolean
     accountId?: boolean
     accountLabel?: boolean
+    nickname?: boolean
     accessTokenEnc?: boolean
     refreshTokenEnc?: boolean
     tokenExpiresAt?: boolean
@@ -69067,6 +69352,7 @@ export namespace Prisma {
       provider: $Enums.IntegrationProvider
       accountId: string | null
       accountLabel: string | null
+      nickname: string | null
       accessTokenEnc: string | null
       refreshTokenEnc: string | null
       tokenExpiresAt: Date | null
@@ -69479,6 +69765,7 @@ export namespace Prisma {
     readonly provider: FieldRef<"MarketingIntegration", 'IntegrationProvider'>
     readonly accountId: FieldRef<"MarketingIntegration", 'String'>
     readonly accountLabel: FieldRef<"MarketingIntegration", 'String'>
+    readonly nickname: FieldRef<"MarketingIntegration", 'String'>
     readonly accessTokenEnc: FieldRef<"MarketingIntegration", 'String'>
     readonly refreshTokenEnc: FieldRef<"MarketingIntegration", 'String'>
     readonly tokenExpiresAt: FieldRef<"MarketingIntegration", 'DateTime'>
@@ -79543,6 +79830,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     sessions: number | null
@@ -79560,6 +79848,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     sessions: number | null
@@ -79577,6 +79866,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     date: number
     source: number
     sessions: number
@@ -79618,6 +79908,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     sessions?: true
@@ -79635,6 +79926,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     sessions?: true
@@ -79652,6 +79944,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     sessions?: true
@@ -79756,6 +80049,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     date: Date
     source: string
     sessions: number
@@ -79792,6 +80086,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     sessions?: boolean
@@ -79810,6 +80105,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     sessions?: boolean
@@ -79828,6 +80124,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotSelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     sessions?: boolean
@@ -79857,6 +80154,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       date: Date
       source: string
       sessions: number
@@ -80265,6 +80563,7 @@ export namespace Prisma {
   interface AnalyticsSnapshotFieldRefs {
     readonly id: FieldRef<"AnalyticsSnapshot", 'String'>
     readonly companyId: FieldRef<"AnalyticsSnapshot", 'String'>
+    readonly integrationId: FieldRef<"AnalyticsSnapshot", 'String'>
     readonly date: FieldRef<"AnalyticsSnapshot", 'DateTime'>
     readonly source: FieldRef<"AnalyticsSnapshot", 'String'>
     readonly sessions: FieldRef<"AnalyticsSnapshot", 'Int'>
@@ -80636,6 +80935,7 @@ export namespace Prisma {
   export type AnalyticsTopPageMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     pagePath: string | null
@@ -80648,6 +80948,7 @@ export namespace Prisma {
   export type AnalyticsTopPageMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     pagePath: string | null
@@ -80660,6 +80961,7 @@ export namespace Prisma {
   export type AnalyticsTopPageCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     date: number
     source: number
     pagePath: number
@@ -80686,6 +80988,7 @@ export namespace Prisma {
   export type AnalyticsTopPageMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     pagePath?: true
@@ -80698,6 +81001,7 @@ export namespace Prisma {
   export type AnalyticsTopPageMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     pagePath?: true
@@ -80710,6 +81014,7 @@ export namespace Prisma {
   export type AnalyticsTopPageCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     pagePath?: true
@@ -80809,6 +81114,7 @@ export namespace Prisma {
   export type AnalyticsTopPageGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     date: Date
     source: string
     pagePath: string
@@ -80840,6 +81146,7 @@ export namespace Prisma {
   export type AnalyticsTopPageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     pagePath?: boolean
@@ -80853,6 +81160,7 @@ export namespace Prisma {
   export type AnalyticsTopPageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     pagePath?: boolean
@@ -80866,6 +81174,7 @@ export namespace Prisma {
   export type AnalyticsTopPageSelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     pagePath?: boolean
@@ -80890,6 +81199,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       date: Date
       source: string
       pagePath: string
@@ -81293,6 +81603,7 @@ export namespace Prisma {
   interface AnalyticsTopPageFieldRefs {
     readonly id: FieldRef<"AnalyticsTopPage", 'String'>
     readonly companyId: FieldRef<"AnalyticsTopPage", 'String'>
+    readonly integrationId: FieldRef<"AnalyticsTopPage", 'String'>
     readonly date: FieldRef<"AnalyticsTopPage", 'DateTime'>
     readonly source: FieldRef<"AnalyticsTopPage", 'String'>
     readonly pagePath: FieldRef<"AnalyticsTopPage", 'String'>
@@ -81659,6 +81970,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     rawSource: string | null
@@ -81672,6 +81984,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     rawSource: string | null
@@ -81685,6 +81998,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     date: number
     source: number
     rawSource: number
@@ -81712,6 +82026,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     rawSource?: true
@@ -81725,6 +82040,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     rawSource?: true
@@ -81738,6 +82054,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     rawSource?: true
@@ -81838,6 +82155,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     date: Date
     source: string
     rawSource: string
@@ -81870,6 +82188,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     rawSource?: boolean
@@ -81884,6 +82203,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     rawSource?: boolean
@@ -81898,6 +82218,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceSelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     rawSource?: boolean
@@ -81923,6 +82244,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       date: Date
       source: string
       rawSource: string
@@ -82327,6 +82649,7 @@ export namespace Prisma {
   interface AnalyticsTrafficSourceFieldRefs {
     readonly id: FieldRef<"AnalyticsTrafficSource", 'String'>
     readonly companyId: FieldRef<"AnalyticsTrafficSource", 'String'>
+    readonly integrationId: FieldRef<"AnalyticsTrafficSource", 'String'>
     readonly date: FieldRef<"AnalyticsTrafficSource", 'DateTime'>
     readonly source: FieldRef<"AnalyticsTrafficSource", 'String'>
     readonly rawSource: FieldRef<"AnalyticsTrafficSource", 'String'>
@@ -82692,6 +83015,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     countryCode: string | null
@@ -82705,6 +83029,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     countryCode: string | null
@@ -82718,6 +83043,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     date: number
     source: number
     countryCode: number
@@ -82743,6 +83069,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     countryCode?: true
@@ -82756,6 +83083,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     countryCode?: true
@@ -82769,6 +83097,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     countryCode?: true
@@ -82869,6 +83198,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     date: Date
     source: string
     countryCode: string | null
@@ -82901,6 +83231,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     countryCode?: boolean
@@ -82915,6 +83246,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     countryCode?: boolean
@@ -82929,6 +83261,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataSelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     countryCode?: boolean
@@ -82954,6 +83287,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       date: Date
       source: string
       countryCode: string | null
@@ -83358,6 +83692,7 @@ export namespace Prisma {
   interface AnalyticsGeoDataFieldRefs {
     readonly id: FieldRef<"AnalyticsGeoData", 'String'>
     readonly companyId: FieldRef<"AnalyticsGeoData", 'String'>
+    readonly integrationId: FieldRef<"AnalyticsGeoData", 'String'>
     readonly date: FieldRef<"AnalyticsGeoData", 'DateTime'>
     readonly source: FieldRef<"AnalyticsGeoData", 'String'>
     readonly countryCode: FieldRef<"AnalyticsGeoData", 'String'>
@@ -83723,6 +84058,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     eventName: string | null
@@ -83735,6 +84071,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     eventName: string | null
@@ -83747,6 +84084,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     date: number
     source: number
     eventName: number
@@ -83771,6 +84109,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     eventName?: true
@@ -83783,6 +84122,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     eventName?: true
@@ -83795,6 +84135,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     eventName?: true
@@ -83894,6 +84235,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     date: Date
     source: string
     eventName: string
@@ -83925,6 +84267,7 @@ export namespace Prisma {
   export type AnalyticsEventDailySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     eventName?: boolean
@@ -83938,6 +84281,7 @@ export namespace Prisma {
   export type AnalyticsEventDailySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     eventName?: boolean
@@ -83951,6 +84295,7 @@ export namespace Prisma {
   export type AnalyticsEventDailySelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     eventName?: boolean
@@ -83975,6 +84320,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       date: Date
       source: string
       eventName: string
@@ -84378,6 +84724,7 @@ export namespace Prisma {
   interface AnalyticsEventDailyFieldRefs {
     readonly id: FieldRef<"AnalyticsEventDaily", 'String'>
     readonly companyId: FieldRef<"AnalyticsEventDaily", 'String'>
+    readonly integrationId: FieldRef<"AnalyticsEventDaily", 'String'>
     readonly date: FieldRef<"AnalyticsEventDaily", 'DateTime'>
     readonly source: FieldRef<"AnalyticsEventDaily", 'String'>
     readonly eventName: FieldRef<"AnalyticsEventDaily", 'String'>
@@ -84742,6 +85089,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     eventName: string | null
@@ -84756,6 +85104,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     source: string | null
     eventName: string | null
@@ -84770,6 +85119,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     date: number
     source: number
     eventName: number
@@ -84796,6 +85146,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     eventName?: true
@@ -84810,6 +85161,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     eventName?: true
@@ -84824,6 +85176,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     source?: true
     eventName?: true
@@ -84925,6 +85278,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     date: Date
     source: string
     eventName: string
@@ -84958,6 +85312,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     eventName?: boolean
@@ -84973,6 +85328,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     eventName?: boolean
@@ -84988,6 +85344,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailySelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     source?: boolean
     eventName?: boolean
@@ -85014,6 +85371,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       date: Date
       source: string
       eventName: string
@@ -85419,6 +85777,7 @@ export namespace Prisma {
   interface AnalyticsEventParamDailyFieldRefs {
     readonly id: FieldRef<"AnalyticsEventParamDaily", 'String'>
     readonly companyId: FieldRef<"AnalyticsEventParamDaily", 'String'>
+    readonly integrationId: FieldRef<"AnalyticsEventParamDaily", 'String'>
     readonly date: FieldRef<"AnalyticsEventParamDaily", 'DateTime'>
     readonly source: FieldRef<"AnalyticsEventParamDaily", 'String'>
     readonly eventName: FieldRef<"AnalyticsEventParamDaily", 'String'>
@@ -86782,6 +87141,7 @@ export namespace Prisma {
   export type SearchConsoleQueryMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     query: string | null
     page: string | null
@@ -86796,6 +87156,7 @@ export namespace Prisma {
   export type SearchConsoleQueryMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     query: string | null
     page: string | null
@@ -86810,6 +87171,7 @@ export namespace Prisma {
   export type SearchConsoleQueryCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     date: number
     query: number
     page: number
@@ -86840,6 +87202,7 @@ export namespace Prisma {
   export type SearchConsoleQueryMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     query?: true
     page?: true
@@ -86854,6 +87217,7 @@ export namespace Prisma {
   export type SearchConsoleQueryMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     query?: true
     page?: true
@@ -86868,6 +87232,7 @@ export namespace Prisma {
   export type SearchConsoleQueryCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     query?: true
     page?: true
@@ -86969,6 +87334,7 @@ export namespace Prisma {
   export type SearchConsoleQueryGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     date: Date
     query: string
     page: string | null
@@ -87002,6 +87368,7 @@ export namespace Prisma {
   export type SearchConsoleQuerySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     query?: boolean
     page?: boolean
@@ -87017,6 +87384,7 @@ export namespace Prisma {
   export type SearchConsoleQuerySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     query?: boolean
     page?: boolean
@@ -87032,6 +87400,7 @@ export namespace Prisma {
   export type SearchConsoleQuerySelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     query?: boolean
     page?: boolean
@@ -87058,6 +87427,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       date: Date
       query: string
       page: string | null
@@ -87463,6 +87833,7 @@ export namespace Prisma {
   interface SearchConsoleQueryFieldRefs {
     readonly id: FieldRef<"SearchConsoleQuery", 'String'>
     readonly companyId: FieldRef<"SearchConsoleQuery", 'String'>
+    readonly integrationId: FieldRef<"SearchConsoleQuery", 'String'>
     readonly date: FieldRef<"SearchConsoleQuery", 'DateTime'>
     readonly query: FieldRef<"SearchConsoleQuery", 'String'>
     readonly page: FieldRef<"SearchConsoleQuery", 'String'>
@@ -87843,6 +88214,7 @@ export namespace Prisma {
   export type GbpInsightMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     impressionsSearchDesktop: number | null
     impressionsSearchMobile: number | null
@@ -87860,6 +88232,7 @@ export namespace Prisma {
   export type GbpInsightMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     date: Date | null
     impressionsSearchDesktop: number | null
     impressionsSearchMobile: number | null
@@ -87877,6 +88250,7 @@ export namespace Prisma {
   export type GbpInsightCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     date: number
     impressionsSearchDesktop: number
     impressionsSearchMobile: number
@@ -87920,6 +88294,7 @@ export namespace Prisma {
   export type GbpInsightMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     impressionsSearchDesktop?: true
     impressionsSearchMobile?: true
@@ -87937,6 +88312,7 @@ export namespace Prisma {
   export type GbpInsightMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     impressionsSearchDesktop?: true
     impressionsSearchMobile?: true
@@ -87954,6 +88330,7 @@ export namespace Prisma {
   export type GbpInsightCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     date?: true
     impressionsSearchDesktop?: true
     impressionsSearchMobile?: true
@@ -88058,6 +88435,7 @@ export namespace Prisma {
   export type GbpInsightGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     date: Date
     impressionsSearchDesktop: number
     impressionsSearchMobile: number
@@ -88094,6 +88472,7 @@ export namespace Prisma {
   export type GbpInsightSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     impressionsSearchDesktop?: boolean
     impressionsSearchMobile?: boolean
@@ -88112,6 +88491,7 @@ export namespace Prisma {
   export type GbpInsightSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     impressionsSearchDesktop?: boolean
     impressionsSearchMobile?: boolean
@@ -88130,6 +88510,7 @@ export namespace Prisma {
   export type GbpInsightSelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     date?: boolean
     impressionsSearchDesktop?: boolean
     impressionsSearchMobile?: boolean
@@ -88159,6 +88540,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       date: Date
       impressionsSearchDesktop: number
       impressionsSearchMobile: number
@@ -88567,6 +88949,7 @@ export namespace Prisma {
   interface GbpInsightFieldRefs {
     readonly id: FieldRef<"GbpInsight", 'String'>
     readonly companyId: FieldRef<"GbpInsight", 'String'>
+    readonly integrationId: FieldRef<"GbpInsight", 'String'>
     readonly date: FieldRef<"GbpInsight", 'DateTime'>
     readonly impressionsSearchDesktop: FieldRef<"GbpInsight", 'Int'>
     readonly impressionsSearchMobile: FieldRef<"GbpInsight", 'Int'>
@@ -88934,6 +89317,7 @@ export namespace Prisma {
   export type GbpReviewMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     googleReviewId: string | null
     reviewerName: string | null
     reviewerPhotoUrl: string | null
@@ -88950,6 +89334,7 @@ export namespace Prisma {
   export type GbpReviewMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     googleReviewId: string | null
     reviewerName: string | null
     reviewerPhotoUrl: string | null
@@ -88966,6 +89351,7 @@ export namespace Prisma {
   export type GbpReviewCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     googleReviewId: number
     reviewerName: number
     reviewerPhotoUrl: number
@@ -88992,6 +89378,7 @@ export namespace Prisma {
   export type GbpReviewMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     googleReviewId?: true
     reviewerName?: true
     reviewerPhotoUrl?: true
@@ -89008,6 +89395,7 @@ export namespace Prisma {
   export type GbpReviewMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     googleReviewId?: true
     reviewerName?: true
     reviewerPhotoUrl?: true
@@ -89024,6 +89412,7 @@ export namespace Prisma {
   export type GbpReviewCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     googleReviewId?: true
     reviewerName?: true
     reviewerPhotoUrl?: true
@@ -89127,6 +89516,7 @@ export namespace Prisma {
   export type GbpReviewGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     googleReviewId: string
     reviewerName: string | null
     reviewerPhotoUrl: string | null
@@ -89162,6 +89552,7 @@ export namespace Prisma {
   export type GbpReviewSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     googleReviewId?: boolean
     reviewerName?: boolean
     reviewerPhotoUrl?: boolean
@@ -89179,6 +89570,7 @@ export namespace Prisma {
   export type GbpReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     googleReviewId?: boolean
     reviewerName?: boolean
     reviewerPhotoUrl?: boolean
@@ -89196,6 +89588,7 @@ export namespace Prisma {
   export type GbpReviewSelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     googleReviewId?: boolean
     reviewerName?: boolean
     reviewerPhotoUrl?: boolean
@@ -89224,6 +89617,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       googleReviewId: string
       reviewerName: string | null
       reviewerPhotoUrl: string | null
@@ -89631,6 +90025,7 @@ export namespace Prisma {
   interface GbpReviewFieldRefs {
     readonly id: FieldRef<"GbpReview", 'String'>
     readonly companyId: FieldRef<"GbpReview", 'String'>
+    readonly integrationId: FieldRef<"GbpReview", 'String'>
     readonly googleReviewId: FieldRef<"GbpReview", 'String'>
     readonly reviewerName: FieldRef<"GbpReview", 'String'>
     readonly reviewerPhotoUrl: FieldRef<"GbpReview", 'String'>
@@ -90001,6 +90396,7 @@ export namespace Prisma {
   export type GbpSearchKeywordMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     keyword: string | null
     year: number | null
     month: number | null
@@ -90012,6 +90408,7 @@ export namespace Prisma {
   export type GbpSearchKeywordMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     keyword: string | null
     year: number | null
     month: number | null
@@ -90023,6 +90420,7 @@ export namespace Prisma {
   export type GbpSearchKeywordCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     keyword: number
     year: number
     month: number
@@ -90048,6 +90446,7 @@ export namespace Prisma {
   export type GbpSearchKeywordMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     keyword?: true
     year?: true
     month?: true
@@ -90059,6 +90458,7 @@ export namespace Prisma {
   export type GbpSearchKeywordMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     keyword?: true
     year?: true
     month?: true
@@ -90070,6 +90470,7 @@ export namespace Prisma {
   export type GbpSearchKeywordCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     keyword?: true
     year?: true
     month?: true
@@ -90168,6 +90569,7 @@ export namespace Prisma {
   export type GbpSearchKeywordGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     keyword: string
     year: number
     month: number
@@ -90198,6 +90600,7 @@ export namespace Prisma {
   export type GbpSearchKeywordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     keyword?: boolean
     year?: boolean
     month?: boolean
@@ -90210,6 +90613,7 @@ export namespace Prisma {
   export type GbpSearchKeywordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     keyword?: boolean
     year?: boolean
     month?: boolean
@@ -90222,6 +90626,7 @@ export namespace Prisma {
   export type GbpSearchKeywordSelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     keyword?: boolean
     year?: boolean
     month?: boolean
@@ -90245,6 +90650,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       keyword: string
       year: number
       month: number
@@ -90647,6 +91053,7 @@ export namespace Prisma {
   interface GbpSearchKeywordFieldRefs {
     readonly id: FieldRef<"GbpSearchKeyword", 'String'>
     readonly companyId: FieldRef<"GbpSearchKeyword", 'String'>
+    readonly integrationId: FieldRef<"GbpSearchKeyword", 'String'>
     readonly keyword: FieldRef<"GbpSearchKeyword", 'String'>
     readonly year: FieldRef<"GbpSearchKeyword", 'Int'>
     readonly month: FieldRef<"GbpSearchKeyword", 'Int'>
@@ -91014,6 +91421,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotMinAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     title: string | null
     primaryCategory: string | null
     primaryPhone: string | null
@@ -91029,6 +91437,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotMaxAggregateOutputType = {
     id: string | null
     companyId: string | null
+    integrationId: string | null
     title: string | null
     primaryCategory: string | null
     primaryPhone: string | null
@@ -91044,6 +91453,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotCountAggregateOutputType = {
     id: number
     companyId: number
+    integrationId: number
     title: number
     primaryCategory: number
     storefrontAddress: number
@@ -91077,6 +91487,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotMinAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     title?: true
     primaryCategory?: true
     primaryPhone?: true
@@ -91092,6 +91503,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotMaxAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     title?: true
     primaryCategory?: true
     primaryPhone?: true
@@ -91107,6 +91519,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotCountAggregateInputType = {
     id?: true
     companyId?: true
+    integrationId?: true
     title?: true
     primaryCategory?: true
     storefrontAddress?: true
@@ -91211,6 +91624,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotGroupByOutputType = {
     id: string
     companyId: string
+    integrationId: string
     title: string | null
     primaryCategory: string | null
     storefrontAddress: JsonValue | null
@@ -91247,6 +91661,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     title?: boolean
     primaryCategory?: boolean
     storefrontAddress?: boolean
@@ -91265,6 +91680,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     title?: boolean
     primaryCategory?: boolean
     storefrontAddress?: boolean
@@ -91283,6 +91699,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotSelectScalar = {
     id?: boolean
     companyId?: boolean
+    integrationId?: boolean
     title?: boolean
     primaryCategory?: boolean
     storefrontAddress?: boolean
@@ -91312,6 +91729,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       companyId: string
+      integrationId: string
       title: string | null
       primaryCategory: string | null
       storefrontAddress: Prisma.JsonValue | null
@@ -91720,6 +92138,7 @@ export namespace Prisma {
   interface GbpProfileSnapshotFieldRefs {
     readonly id: FieldRef<"GbpProfileSnapshot", 'String'>
     readonly companyId: FieldRef<"GbpProfileSnapshot", 'String'>
+    readonly integrationId: FieldRef<"GbpProfileSnapshot", 'String'>
     readonly title: FieldRef<"GbpProfileSnapshot", 'String'>
     readonly primaryCategory: FieldRef<"GbpProfileSnapshot", 'String'>
     readonly storefrontAddress: FieldRef<"GbpProfileSnapshot", 'Json'>
@@ -145984,6 +146403,1165 @@ export namespace Prisma {
 
 
   /**
+   * Model StorageObject
+   */
+
+  export type AggregateStorageObject = {
+    _count: StorageObjectCountAggregateOutputType | null
+    _avg: StorageObjectAvgAggregateOutputType | null
+    _sum: StorageObjectSumAggregateOutputType | null
+    _min: StorageObjectMinAggregateOutputType | null
+    _max: StorageObjectMaxAggregateOutputType | null
+  }
+
+  export type StorageObjectAvgAggregateOutputType = {
+    size: number | null
+  }
+
+  export type StorageObjectSumAggregateOutputType = {
+    size: number | null
+  }
+
+  export type StorageObjectMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    bucket: string | null
+    key: string | null
+    fileName: string | null
+    mimeType: string | null
+    size: number | null
+    status: string | null
+    ticketId: string | null
+    ticketMessageId: string | null
+    projectTaskId: string | null
+    uploadedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StorageObjectMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    bucket: string | null
+    key: string | null
+    fileName: string | null
+    mimeType: string | null
+    size: number | null
+    status: string | null
+    ticketId: string | null
+    ticketMessageId: string | null
+    projectTaskId: string | null
+    uploadedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StorageObjectCountAggregateOutputType = {
+    id: number
+    companyId: number
+    bucket: number
+    key: number
+    fileName: number
+    mimeType: number
+    size: number
+    status: number
+    ticketId: number
+    ticketMessageId: number
+    projectTaskId: number
+    uploadedById: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StorageObjectAvgAggregateInputType = {
+    size?: true
+  }
+
+  export type StorageObjectSumAggregateInputType = {
+    size?: true
+  }
+
+  export type StorageObjectMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    bucket?: true
+    key?: true
+    fileName?: true
+    mimeType?: true
+    size?: true
+    status?: true
+    ticketId?: true
+    ticketMessageId?: true
+    projectTaskId?: true
+    uploadedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StorageObjectMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    bucket?: true
+    key?: true
+    fileName?: true
+    mimeType?: true
+    size?: true
+    status?: true
+    ticketId?: true
+    ticketMessageId?: true
+    projectTaskId?: true
+    uploadedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StorageObjectCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    bucket?: true
+    key?: true
+    fileName?: true
+    mimeType?: true
+    size?: true
+    status?: true
+    ticketId?: true
+    ticketMessageId?: true
+    projectTaskId?: true
+    uploadedById?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StorageObjectAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StorageObject to aggregate.
+     */
+    where?: StorageObjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageObjects to fetch.
+     */
+    orderBy?: StorageObjectOrderByWithRelationInput | StorageObjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StorageObjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageObjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageObjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StorageObjects
+    **/
+    _count?: true | StorageObjectCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StorageObjectAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StorageObjectSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StorageObjectMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StorageObjectMaxAggregateInputType
+  }
+
+  export type GetStorageObjectAggregateType<T extends StorageObjectAggregateArgs> = {
+        [P in keyof T & keyof AggregateStorageObject]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStorageObject[P]>
+      : GetScalarType<T[P], AggregateStorageObject[P]>
+  }
+
+
+
+
+  export type StorageObjectGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageObjectWhereInput
+    orderBy?: StorageObjectOrderByWithAggregationInput | StorageObjectOrderByWithAggregationInput[]
+    by: StorageObjectScalarFieldEnum[] | StorageObjectScalarFieldEnum
+    having?: StorageObjectScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StorageObjectCountAggregateInputType | true
+    _avg?: StorageObjectAvgAggregateInputType
+    _sum?: StorageObjectSumAggregateInputType
+    _min?: StorageObjectMinAggregateInputType
+    _max?: StorageObjectMaxAggregateInputType
+  }
+
+  export type StorageObjectGroupByOutputType = {
+    id: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size: number
+    status: string
+    ticketId: string | null
+    ticketMessageId: string | null
+    projectTaskId: string | null
+    uploadedById: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: StorageObjectCountAggregateOutputType | null
+    _avg: StorageObjectAvgAggregateOutputType | null
+    _sum: StorageObjectSumAggregateOutputType | null
+    _min: StorageObjectMinAggregateOutputType | null
+    _max: StorageObjectMaxAggregateOutputType | null
+  }
+
+  type GetStorageObjectGroupByPayload<T extends StorageObjectGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StorageObjectGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StorageObjectGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StorageObjectGroupByOutputType[P]>
+            : GetScalarType<T[P], StorageObjectGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StorageObjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    bucket?: boolean
+    key?: boolean
+    fileName?: boolean
+    mimeType?: boolean
+    size?: boolean
+    status?: boolean
+    ticketId?: boolean
+    ticketMessageId?: boolean
+    projectTaskId?: boolean
+    uploadedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    ticket?: boolean | StorageObject$ticketArgs<ExtArgs>
+    ticketMessage?: boolean | StorageObject$ticketMessageArgs<ExtArgs>
+    projectTask?: boolean | StorageObject$projectTaskArgs<ExtArgs>
+    uploadedBy?: boolean | StorageObject$uploadedByArgs<ExtArgs>
+  }, ExtArgs["result"]["storageObject"]>
+
+  export type StorageObjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    bucket?: boolean
+    key?: boolean
+    fileName?: boolean
+    mimeType?: boolean
+    size?: boolean
+    status?: boolean
+    ticketId?: boolean
+    ticketMessageId?: boolean
+    projectTaskId?: boolean
+    uploadedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    ticket?: boolean | StorageObject$ticketArgs<ExtArgs>
+    ticketMessage?: boolean | StorageObject$ticketMessageArgs<ExtArgs>
+    projectTask?: boolean | StorageObject$projectTaskArgs<ExtArgs>
+    uploadedBy?: boolean | StorageObject$uploadedByArgs<ExtArgs>
+  }, ExtArgs["result"]["storageObject"]>
+
+  export type StorageObjectSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    bucket?: boolean
+    key?: boolean
+    fileName?: boolean
+    mimeType?: boolean
+    size?: boolean
+    status?: boolean
+    ticketId?: boolean
+    ticketMessageId?: boolean
+    projectTaskId?: boolean
+    uploadedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StorageObjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    ticket?: boolean | StorageObject$ticketArgs<ExtArgs>
+    ticketMessage?: boolean | StorageObject$ticketMessageArgs<ExtArgs>
+    projectTask?: boolean | StorageObject$projectTaskArgs<ExtArgs>
+    uploadedBy?: boolean | StorageObject$uploadedByArgs<ExtArgs>
+  }
+  export type StorageObjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    ticket?: boolean | StorageObject$ticketArgs<ExtArgs>
+    ticketMessage?: boolean | StorageObject$ticketMessageArgs<ExtArgs>
+    projectTask?: boolean | StorageObject$projectTaskArgs<ExtArgs>
+    uploadedBy?: boolean | StorageObject$uploadedByArgs<ExtArgs>
+  }
+
+  export type $StorageObjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StorageObject"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      ticket: Prisma.$TicketPayload<ExtArgs> | null
+      ticketMessage: Prisma.$TicketMessagePayload<ExtArgs> | null
+      projectTask: Prisma.$ProjectTaskPayload<ExtArgs> | null
+      uploadedBy: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      bucket: string
+      key: string
+      fileName: string
+      mimeType: string
+      size: number
+      status: string
+      ticketId: string | null
+      ticketMessageId: string | null
+      projectTaskId: string | null
+      uploadedById: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["storageObject"]>
+    composites: {}
+  }
+
+  type StorageObjectGetPayload<S extends boolean | null | undefined | StorageObjectDefaultArgs> = $Result.GetResult<Prisma.$StorageObjectPayload, S>
+
+  type StorageObjectCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<StorageObjectFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: StorageObjectCountAggregateInputType | true
+    }
+
+  export interface StorageObjectDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StorageObject'], meta: { name: 'StorageObject' } }
+    /**
+     * Find zero or one StorageObject that matches the filter.
+     * @param {StorageObjectFindUniqueArgs} args - Arguments to find a StorageObject
+     * @example
+     * // Get one StorageObject
+     * const storageObject = await prisma.storageObject.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StorageObjectFindUniqueArgs>(args: SelectSubset<T, StorageObjectFindUniqueArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one StorageObject that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {StorageObjectFindUniqueOrThrowArgs} args - Arguments to find a StorageObject
+     * @example
+     * // Get one StorageObject
+     * const storageObject = await prisma.storageObject.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StorageObjectFindUniqueOrThrowArgs>(args: SelectSubset<T, StorageObjectFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first StorageObject that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageObjectFindFirstArgs} args - Arguments to find a StorageObject
+     * @example
+     * // Get one StorageObject
+     * const storageObject = await prisma.storageObject.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StorageObjectFindFirstArgs>(args?: SelectSubset<T, StorageObjectFindFirstArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first StorageObject that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageObjectFindFirstOrThrowArgs} args - Arguments to find a StorageObject
+     * @example
+     * // Get one StorageObject
+     * const storageObject = await prisma.storageObject.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StorageObjectFindFirstOrThrowArgs>(args?: SelectSubset<T, StorageObjectFindFirstOrThrowArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more StorageObjects that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageObjectFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StorageObjects
+     * const storageObjects = await prisma.storageObject.findMany()
+     * 
+     * // Get first 10 StorageObjects
+     * const storageObjects = await prisma.storageObject.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const storageObjectWithIdOnly = await prisma.storageObject.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StorageObjectFindManyArgs>(args?: SelectSubset<T, StorageObjectFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a StorageObject.
+     * @param {StorageObjectCreateArgs} args - Arguments to create a StorageObject.
+     * @example
+     * // Create one StorageObject
+     * const StorageObject = await prisma.storageObject.create({
+     *   data: {
+     *     // ... data to create a StorageObject
+     *   }
+     * })
+     * 
+     */
+    create<T extends StorageObjectCreateArgs>(args: SelectSubset<T, StorageObjectCreateArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many StorageObjects.
+     * @param {StorageObjectCreateManyArgs} args - Arguments to create many StorageObjects.
+     * @example
+     * // Create many StorageObjects
+     * const storageObject = await prisma.storageObject.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StorageObjectCreateManyArgs>(args?: SelectSubset<T, StorageObjectCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StorageObjects and returns the data saved in the database.
+     * @param {StorageObjectCreateManyAndReturnArgs} args - Arguments to create many StorageObjects.
+     * @example
+     * // Create many StorageObjects
+     * const storageObject = await prisma.storageObject.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StorageObjects and only return the `id`
+     * const storageObjectWithIdOnly = await prisma.storageObject.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StorageObjectCreateManyAndReturnArgs>(args?: SelectSubset<T, StorageObjectCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a StorageObject.
+     * @param {StorageObjectDeleteArgs} args - Arguments to delete one StorageObject.
+     * @example
+     * // Delete one StorageObject
+     * const StorageObject = await prisma.storageObject.delete({
+     *   where: {
+     *     // ... filter to delete one StorageObject
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StorageObjectDeleteArgs>(args: SelectSubset<T, StorageObjectDeleteArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one StorageObject.
+     * @param {StorageObjectUpdateArgs} args - Arguments to update one StorageObject.
+     * @example
+     * // Update one StorageObject
+     * const storageObject = await prisma.storageObject.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StorageObjectUpdateArgs>(args: SelectSubset<T, StorageObjectUpdateArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more StorageObjects.
+     * @param {StorageObjectDeleteManyArgs} args - Arguments to filter StorageObjects to delete.
+     * @example
+     * // Delete a few StorageObjects
+     * const { count } = await prisma.storageObject.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StorageObjectDeleteManyArgs>(args?: SelectSubset<T, StorageObjectDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StorageObjects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageObjectUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StorageObjects
+     * const storageObject = await prisma.storageObject.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StorageObjectUpdateManyArgs>(args: SelectSubset<T, StorageObjectUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one StorageObject.
+     * @param {StorageObjectUpsertArgs} args - Arguments to update or create a StorageObject.
+     * @example
+     * // Update or create a StorageObject
+     * const storageObject = await prisma.storageObject.upsert({
+     *   create: {
+     *     // ... data to create a StorageObject
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StorageObject we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StorageObjectUpsertArgs>(args: SelectSubset<T, StorageObjectUpsertArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of StorageObjects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageObjectCountArgs} args - Arguments to filter StorageObjects to count.
+     * @example
+     * // Count the number of StorageObjects
+     * const count = await prisma.storageObject.count({
+     *   where: {
+     *     // ... the filter for the StorageObjects we want to count
+     *   }
+     * })
+    **/
+    count<T extends StorageObjectCountArgs>(
+      args?: Subset<T, StorageObjectCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StorageObjectCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StorageObject.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageObjectAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StorageObjectAggregateArgs>(args: Subset<T, StorageObjectAggregateArgs>): Prisma.PrismaPromise<GetStorageObjectAggregateType<T>>
+
+    /**
+     * Group by StorageObject.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageObjectGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StorageObjectGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StorageObjectGroupByArgs['orderBy'] }
+        : { orderBy?: StorageObjectGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StorageObjectGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStorageObjectGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StorageObject model
+   */
+  readonly fields: StorageObjectFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StorageObject.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StorageObjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    ticket<T extends StorageObject$ticketArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$ticketArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    ticketMessage<T extends StorageObject$ticketMessageArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$ticketMessageArgs<ExtArgs>>): Prisma__TicketMessageClient<$Result.GetResult<Prisma.$TicketMessagePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    projectTask<T extends StorageObject$projectTaskArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$projectTaskArgs<ExtArgs>>): Prisma__ProjectTaskClient<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    uploadedBy<T extends StorageObject$uploadedByArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$uploadedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StorageObject model
+   */ 
+  interface StorageObjectFieldRefs {
+    readonly id: FieldRef<"StorageObject", 'String'>
+    readonly companyId: FieldRef<"StorageObject", 'String'>
+    readonly bucket: FieldRef<"StorageObject", 'String'>
+    readonly key: FieldRef<"StorageObject", 'String'>
+    readonly fileName: FieldRef<"StorageObject", 'String'>
+    readonly mimeType: FieldRef<"StorageObject", 'String'>
+    readonly size: FieldRef<"StorageObject", 'Int'>
+    readonly status: FieldRef<"StorageObject", 'String'>
+    readonly ticketId: FieldRef<"StorageObject", 'String'>
+    readonly ticketMessageId: FieldRef<"StorageObject", 'String'>
+    readonly projectTaskId: FieldRef<"StorageObject", 'String'>
+    readonly uploadedById: FieldRef<"StorageObject", 'String'>
+    readonly createdAt: FieldRef<"StorageObject", 'DateTime'>
+    readonly updatedAt: FieldRef<"StorageObject", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StorageObject findUnique
+   */
+  export type StorageObjectFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageObject to fetch.
+     */
+    where: StorageObjectWhereUniqueInput
+  }
+
+  /**
+   * StorageObject findUniqueOrThrow
+   */
+  export type StorageObjectFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageObject to fetch.
+     */
+    where: StorageObjectWhereUniqueInput
+  }
+
+  /**
+   * StorageObject findFirst
+   */
+  export type StorageObjectFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageObject to fetch.
+     */
+    where?: StorageObjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageObjects to fetch.
+     */
+    orderBy?: StorageObjectOrderByWithRelationInput | StorageObjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StorageObjects.
+     */
+    cursor?: StorageObjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageObjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageObjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StorageObjects.
+     */
+    distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
+  }
+
+  /**
+   * StorageObject findFirstOrThrow
+   */
+  export type StorageObjectFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageObject to fetch.
+     */
+    where?: StorageObjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageObjects to fetch.
+     */
+    orderBy?: StorageObjectOrderByWithRelationInput | StorageObjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StorageObjects.
+     */
+    cursor?: StorageObjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageObjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageObjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StorageObjects.
+     */
+    distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
+  }
+
+  /**
+   * StorageObject findMany
+   */
+  export type StorageObjectFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageObjects to fetch.
+     */
+    where?: StorageObjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageObjects to fetch.
+     */
+    orderBy?: StorageObjectOrderByWithRelationInput | StorageObjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StorageObjects.
+     */
+    cursor?: StorageObjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageObjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageObjects.
+     */
+    skip?: number
+    distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
+  }
+
+  /**
+   * StorageObject create
+   */
+  export type StorageObjectCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StorageObject.
+     */
+    data: XOR<StorageObjectCreateInput, StorageObjectUncheckedCreateInput>
+  }
+
+  /**
+   * StorageObject createMany
+   */
+  export type StorageObjectCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StorageObjects.
+     */
+    data: StorageObjectCreateManyInput | StorageObjectCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StorageObject createManyAndReturn
+   */
+  export type StorageObjectCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many StorageObjects.
+     */
+    data: StorageObjectCreateManyInput | StorageObjectCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StorageObject update
+   */
+  export type StorageObjectUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StorageObject.
+     */
+    data: XOR<StorageObjectUpdateInput, StorageObjectUncheckedUpdateInput>
+    /**
+     * Choose, which StorageObject to update.
+     */
+    where: StorageObjectWhereUniqueInput
+  }
+
+  /**
+   * StorageObject updateMany
+   */
+  export type StorageObjectUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StorageObjects.
+     */
+    data: XOR<StorageObjectUpdateManyMutationInput, StorageObjectUncheckedUpdateManyInput>
+    /**
+     * Filter which StorageObjects to update
+     */
+    where?: StorageObjectWhereInput
+  }
+
+  /**
+   * StorageObject upsert
+   */
+  export type StorageObjectUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StorageObject to update in case it exists.
+     */
+    where: StorageObjectWhereUniqueInput
+    /**
+     * In case the StorageObject found by the `where` argument doesn't exist, create a new StorageObject with this data.
+     */
+    create: XOR<StorageObjectCreateInput, StorageObjectUncheckedCreateInput>
+    /**
+     * In case the StorageObject was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StorageObjectUpdateInput, StorageObjectUncheckedUpdateInput>
+  }
+
+  /**
+   * StorageObject delete
+   */
+  export type StorageObjectDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    /**
+     * Filter which StorageObject to delete.
+     */
+    where: StorageObjectWhereUniqueInput
+  }
+
+  /**
+   * StorageObject deleteMany
+   */
+  export type StorageObjectDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StorageObjects to delete
+     */
+    where?: StorageObjectWhereInput
+  }
+
+  /**
+   * StorageObject.ticket
+   */
+  export type StorageObject$ticketArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ticket
+     */
+    select?: TicketSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketInclude<ExtArgs> | null
+    where?: TicketWhereInput
+  }
+
+  /**
+   * StorageObject.ticketMessage
+   */
+  export type StorageObject$ticketMessageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketMessage
+     */
+    select?: TicketMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketMessageInclude<ExtArgs> | null
+    where?: TicketMessageWhereInput
+  }
+
+  /**
+   * StorageObject.projectTask
+   */
+  export type StorageObject$projectTaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTask
+     */
+    select?: ProjectTaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskInclude<ExtArgs> | null
+    where?: ProjectTaskWhereInput
+  }
+
+  /**
+   * StorageObject.uploadedBy
+   */
+  export type StorageObject$uploadedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * StorageObject without action
+   */
+  export type StorageObjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -146859,6 +148437,7 @@ export namespace Prisma {
     provider: 'provider',
     accountId: 'accountId',
     accountLabel: 'accountLabel',
+    nickname: 'nickname',
     accessTokenEnc: 'accessTokenEnc',
     refreshTokenEnc: 'refreshTokenEnc',
     tokenExpiresAt: 'tokenExpiresAt',
@@ -147062,6 +148641,7 @@ export namespace Prisma {
   export const AnalyticsSnapshotScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     date: 'date',
     source: 'source',
     sessions: 'sessions',
@@ -147082,6 +148662,7 @@ export namespace Prisma {
   export const AnalyticsTopPageScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     date: 'date',
     source: 'source',
     pagePath: 'pagePath',
@@ -147097,6 +148678,7 @@ export namespace Prisma {
   export const AnalyticsTrafficSourceScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     date: 'date',
     source: 'source',
     rawSource: 'rawSource',
@@ -147113,6 +148695,7 @@ export namespace Prisma {
   export const AnalyticsGeoDataScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     date: 'date',
     source: 'source',
     countryCode: 'countryCode',
@@ -147129,6 +148712,7 @@ export namespace Prisma {
   export const AnalyticsEventDailyScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     date: 'date',
     source: 'source',
     eventName: 'eventName',
@@ -147144,6 +148728,7 @@ export namespace Prisma {
   export const AnalyticsEventParamDailyScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     date: 'date',
     source: 'source',
     eventName: 'eventName',
@@ -147177,6 +148762,7 @@ export namespace Prisma {
   export const SearchConsoleQueryScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     date: 'date',
     query: 'query',
     page: 'page',
@@ -147194,6 +148780,7 @@ export namespace Prisma {
   export const GbpInsightScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     date: 'date',
     impressionsSearchDesktop: 'impressionsSearchDesktop',
     impressionsSearchMobile: 'impressionsSearchMobile',
@@ -147214,6 +148801,7 @@ export namespace Prisma {
   export const GbpReviewScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     googleReviewId: 'googleReviewId',
     reviewerName: 'reviewerName',
     reviewerPhotoUrl: 'reviewerPhotoUrl',
@@ -147233,6 +148821,7 @@ export namespace Prisma {
   export const GbpSearchKeywordScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     keyword: 'keyword',
     year: 'year',
     month: 'month',
@@ -147247,6 +148836,7 @@ export namespace Prisma {
   export const GbpProfileSnapshotScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
+    integrationId: 'integrationId',
     title: 'title',
     primaryCategory: 'primaryCategory',
     storefrontAddress: 'storefrontAddress',
@@ -148165,6 +149755,26 @@ export namespace Prisma {
   };
 
   export type TimesheetSignatureScalarFieldEnum = (typeof TimesheetSignatureScalarFieldEnum)[keyof typeof TimesheetSignatureScalarFieldEnum]
+
+
+  export const StorageObjectScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    bucket: 'bucket',
+    key: 'key',
+    fileName: 'fileName',
+    mimeType: 'mimeType',
+    size: 'size',
+    status: 'status',
+    ticketId: 'ticketId',
+    ticketMessageId: 'ticketMessageId',
+    projectTaskId: 'projectTaskId',
+    uploadedById: 'uploadedById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StorageObjectScalarFieldEnum = (typeof StorageObjectScalarFieldEnum)[keyof typeof StorageObjectScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -149117,6 +150727,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     ownedInstances?: WhatsappInstanceListRelationFilter
+    uploadedFiles?: StorageObjectListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -149170,6 +150781,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestOrderByRelationAggregateInput
     timesheetSignatures?: TimesheetSignatureOrderByRelationAggregateInput
     ownedInstances?: WhatsappInstanceOrderByRelationAggregateInput
+    uploadedFiles?: StorageObjectOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -149226,6 +150838,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     ownedInstances?: WhatsappInstanceListRelationFilter
+    uploadedFiles?: StorageObjectListRelationFilter
   }, "id" | "email" | "passwordResetToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -149707,6 +151320,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     blingIntegration?: XOR<BlingIntegrationNullableRelationFilter, BlingIntegrationWhereInput> | null
+    storageObjects?: StorageObjectListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -149842,6 +151456,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestOrderByRelationAggregateInput
     timesheetSignatures?: TimesheetSignatureOrderByRelationAggregateInput
     blingIntegration?: BlingIntegrationOrderByWithRelationInput
+    storageObjects?: StorageObjectOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -149980,6 +151595,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     blingIntegration?: XOR<BlingIntegrationNullableRelationFilter, BlingIntegrationWhereInput> | null
+    storageObjects?: StorageObjectListRelationFilter
   }, "id" | "slug" | "webhookToken" | "blingContactId">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -152224,6 +153840,7 @@ export namespace Prisma {
     activities?: ActivityListRelationFilter
     accessUsers?: TicketAccessUserListRelationFilter
     inboxEmails?: InboxEmailListRelationFilter
+    attachments?: StorageObjectListRelationFilter
   }
 
   export type TicketOrderByWithRelationInput = {
@@ -152258,6 +153875,7 @@ export namespace Prisma {
     activities?: ActivityOrderByRelationAggregateInput
     accessUsers?: TicketAccessUserOrderByRelationAggregateInput
     inboxEmails?: InboxEmailOrderByRelationAggregateInput
+    attachments?: StorageObjectOrderByRelationAggregateInput
   }
 
   export type TicketWhereUniqueInput = Prisma.AtLeast<{
@@ -152295,6 +153913,7 @@ export namespace Prisma {
     activities?: ActivityListRelationFilter
     accessUsers?: TicketAccessUserListRelationFilter
     inboxEmails?: InboxEmailListRelationFilter
+    attachments?: StorageObjectListRelationFilter
   }, "id">
 
   export type TicketOrderByWithAggregationInput = {
@@ -152367,6 +153986,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"TicketMessage"> | Date | string
     ticketId?: StringFilter<"TicketMessage"> | string
     ticket?: XOR<TicketRelationFilter, TicketWhereInput>
+    attachments?: StorageObjectListRelationFilter
   }
 
   export type TicketMessageOrderByWithRelationInput = {
@@ -152382,6 +154002,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     ticketId?: SortOrder
     ticket?: TicketOrderByWithRelationInput
+    attachments?: StorageObjectOrderByRelationAggregateInput
   }
 
   export type TicketMessageWhereUniqueInput = Prisma.AtLeast<{
@@ -152400,6 +154021,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"TicketMessage"> | Date | string
     ticketId?: StringFilter<"TicketMessage"> | string
     ticket?: XOR<TicketRelationFilter, TicketWhereInput>
+    attachments?: StorageObjectListRelationFilter
   }, "id">
 
   export type TicketMessageOrderByWithAggregationInput = {
@@ -152878,6 +154500,7 @@ export namespace Prisma {
     assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     materials?: ProjectMaterialListRelationFilter
+    attachments?: StorageObjectListRelationFilter
   }
 
   export type ProjectTaskOrderByWithRelationInput = {
@@ -152906,6 +154529,7 @@ export namespace Prisma {
     assignee?: UserOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
     materials?: ProjectMaterialOrderByRelationAggregateInput
+    attachments?: StorageObjectOrderByRelationAggregateInput
   }
 
   export type ProjectTaskWhereUniqueInput = Prisma.AtLeast<{
@@ -152937,6 +154561,7 @@ export namespace Prisma {
     assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     materials?: ProjectMaterialListRelationFilter
+    attachments?: StorageObjectListRelationFilter
   }, "id">
 
   export type ProjectTaskOrderByWithAggregationInput = {
@@ -154061,6 +155686,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFilter<"MarketingIntegration"> | $Enums.IntegrationProvider
     accountId?: StringNullableFilter<"MarketingIntegration"> | string | null
     accountLabel?: StringNullableFilter<"MarketingIntegration"> | string | null
+    nickname?: StringNullableFilter<"MarketingIntegration"> | string | null
     accessTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
     refreshTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
     tokenExpiresAt?: DateTimeNullableFilter<"MarketingIntegration"> | Date | string | null
@@ -154083,6 +155709,7 @@ export namespace Prisma {
     provider?: SortOrder
     accountId?: SortOrderInput | SortOrder
     accountLabel?: SortOrderInput | SortOrder
+    nickname?: SortOrderInput | SortOrder
     accessTokenEnc?: SortOrderInput | SortOrder
     refreshTokenEnc?: SortOrderInput | SortOrder
     tokenExpiresAt?: SortOrderInput | SortOrder
@@ -154109,6 +155736,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFilter<"MarketingIntegration"> | $Enums.IntegrationProvider
     accountId?: StringNullableFilter<"MarketingIntegration"> | string | null
     accountLabel?: StringNullableFilter<"MarketingIntegration"> | string | null
+    nickname?: StringNullableFilter<"MarketingIntegration"> | string | null
     accessTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
     refreshTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
     tokenExpiresAt?: DateTimeNullableFilter<"MarketingIntegration"> | Date | string | null
@@ -154131,6 +155759,7 @@ export namespace Prisma {
     provider?: SortOrder
     accountId?: SortOrderInput | SortOrder
     accountLabel?: SortOrderInput | SortOrder
+    nickname?: SortOrderInput | SortOrder
     accessTokenEnc?: SortOrderInput | SortOrder
     refreshTokenEnc?: SortOrderInput | SortOrder
     tokenExpiresAt?: SortOrderInput | SortOrder
@@ -154158,6 +155787,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderWithAggregatesFilter<"MarketingIntegration"> | $Enums.IntegrationProvider
     accountId?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
     accountLabel?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+    nickname?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
     accessTokenEnc?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
     refreshTokenEnc?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
     tokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"MarketingIntegration"> | Date | string | null
@@ -155129,6 +156759,7 @@ export namespace Prisma {
     NOT?: AnalyticsSnapshotWhereInput | AnalyticsSnapshotWhereInput[]
     id?: StringFilter<"AnalyticsSnapshot"> | string
     companyId?: StringFilter<"AnalyticsSnapshot"> | string
+    integrationId?: StringFilter<"AnalyticsSnapshot"> | string
     date?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
     source?: StringFilter<"AnalyticsSnapshot"> | string
     sessions?: IntFilter<"AnalyticsSnapshot"> | number
@@ -155147,6 +156778,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     sessions?: SortOrder
@@ -155164,11 +156796,12 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    companyId_date_source?: AnalyticsSnapshotCompanyIdDateSourceCompoundUniqueInput
+    companyId_integrationId_date_source?: AnalyticsSnapshotCompanyIdIntegrationIdDateSourceCompoundUniqueInput
     AND?: AnalyticsSnapshotWhereInput | AnalyticsSnapshotWhereInput[]
     OR?: AnalyticsSnapshotWhereInput[]
     NOT?: AnalyticsSnapshotWhereInput | AnalyticsSnapshotWhereInput[]
     companyId?: StringFilter<"AnalyticsSnapshot"> | string
+    integrationId?: StringFilter<"AnalyticsSnapshot"> | string
     date?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
     source?: StringFilter<"AnalyticsSnapshot"> | string
     sessions?: IntFilter<"AnalyticsSnapshot"> | number
@@ -155182,11 +156815,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
     updatedAt?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "companyId_date_source">
+  }, "id" | "companyId_integrationId_date_source">
 
   export type AnalyticsSnapshotOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     sessions?: SortOrder
@@ -155212,6 +156846,7 @@ export namespace Prisma {
     NOT?: AnalyticsSnapshotScalarWhereWithAggregatesInput | AnalyticsSnapshotScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AnalyticsSnapshot"> | string
     companyId?: StringWithAggregatesFilter<"AnalyticsSnapshot"> | string
+    integrationId?: StringWithAggregatesFilter<"AnalyticsSnapshot"> | string
     date?: DateTimeWithAggregatesFilter<"AnalyticsSnapshot"> | Date | string
     source?: StringWithAggregatesFilter<"AnalyticsSnapshot"> | string
     sessions?: IntWithAggregatesFilter<"AnalyticsSnapshot"> | number
@@ -155232,6 +156867,7 @@ export namespace Prisma {
     NOT?: AnalyticsTopPageWhereInput | AnalyticsTopPageWhereInput[]
     id?: StringFilter<"AnalyticsTopPage"> | string
     companyId?: StringFilter<"AnalyticsTopPage"> | string
+    integrationId?: StringFilter<"AnalyticsTopPage"> | string
     date?: DateTimeFilter<"AnalyticsTopPage"> | Date | string
     source?: StringFilter<"AnalyticsTopPage"> | string
     pagePath?: StringFilter<"AnalyticsTopPage"> | string
@@ -155245,6 +156881,7 @@ export namespace Prisma {
   export type AnalyticsTopPageOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     pagePath?: SortOrder
@@ -155257,11 +156894,12 @@ export namespace Prisma {
 
   export type AnalyticsTopPageWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    companyId_date_source_pagePath?: AnalyticsTopPageCompanyIdDateSourcePagePathCompoundUniqueInput
+    companyId_integrationId_date_source_pagePath?: AnalyticsTopPageCompanyIdIntegrationIdDateSourcePagePathCompoundUniqueInput
     AND?: AnalyticsTopPageWhereInput | AnalyticsTopPageWhereInput[]
     OR?: AnalyticsTopPageWhereInput[]
     NOT?: AnalyticsTopPageWhereInput | AnalyticsTopPageWhereInput[]
     companyId?: StringFilter<"AnalyticsTopPage"> | string
+    integrationId?: StringFilter<"AnalyticsTopPage"> | string
     date?: DateTimeFilter<"AnalyticsTopPage"> | Date | string
     source?: StringFilter<"AnalyticsTopPage"> | string
     pagePath?: StringFilter<"AnalyticsTopPage"> | string
@@ -155270,11 +156908,12 @@ export namespace Prisma {
     users?: IntFilter<"AnalyticsTopPage"> | number
     avgTimeSec?: FloatNullableFilter<"AnalyticsTopPage"> | number | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "companyId_date_source_pagePath">
+  }, "id" | "companyId_integrationId_date_source_pagePath">
 
   export type AnalyticsTopPageOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     pagePath?: SortOrder
@@ -155295,6 +156934,7 @@ export namespace Prisma {
     NOT?: AnalyticsTopPageScalarWhereWithAggregatesInput | AnalyticsTopPageScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AnalyticsTopPage"> | string
     companyId?: StringWithAggregatesFilter<"AnalyticsTopPage"> | string
+    integrationId?: StringWithAggregatesFilter<"AnalyticsTopPage"> | string
     date?: DateTimeWithAggregatesFilter<"AnalyticsTopPage"> | Date | string
     source?: StringWithAggregatesFilter<"AnalyticsTopPage"> | string
     pagePath?: StringWithAggregatesFilter<"AnalyticsTopPage"> | string
@@ -155310,6 +156950,7 @@ export namespace Prisma {
     NOT?: AnalyticsTrafficSourceWhereInput | AnalyticsTrafficSourceWhereInput[]
     id?: StringFilter<"AnalyticsTrafficSource"> | string
     companyId?: StringFilter<"AnalyticsTrafficSource"> | string
+    integrationId?: StringFilter<"AnalyticsTrafficSource"> | string
     date?: DateTimeFilter<"AnalyticsTrafficSource"> | Date | string
     source?: StringFilter<"AnalyticsTrafficSource"> | string
     rawSource?: StringFilter<"AnalyticsTrafficSource"> | string
@@ -155324,6 +156965,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     rawSource?: SortOrder
@@ -155337,11 +156979,12 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    companyId_date_source_rawSource_rawMedium?: AnalyticsTrafficSourceCompanyIdDateSourceRawSourceRawMediumCompoundUniqueInput
+    companyId_integrationId_date_source_rawSource_rawMedium?: AnalyticsTrafficSourceCompanyIdIntegrationIdDateSourceRawSourceRawMediumCompoundUniqueInput
     AND?: AnalyticsTrafficSourceWhereInput | AnalyticsTrafficSourceWhereInput[]
     OR?: AnalyticsTrafficSourceWhereInput[]
     NOT?: AnalyticsTrafficSourceWhereInput | AnalyticsTrafficSourceWhereInput[]
     companyId?: StringFilter<"AnalyticsTrafficSource"> | string
+    integrationId?: StringFilter<"AnalyticsTrafficSource"> | string
     date?: DateTimeFilter<"AnalyticsTrafficSource"> | Date | string
     source?: StringFilter<"AnalyticsTrafficSource"> | string
     rawSource?: StringFilter<"AnalyticsTrafficSource"> | string
@@ -155351,11 +156994,12 @@ export namespace Prisma {
     users?: IntFilter<"AnalyticsTrafficSource"> | number
     conversions?: IntFilter<"AnalyticsTrafficSource"> | number
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "companyId_date_source_rawSource_rawMedium">
+  }, "id" | "companyId_integrationId_date_source_rawSource_rawMedium">
 
   export type AnalyticsTrafficSourceOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     rawSource?: SortOrder
@@ -155377,6 +157021,7 @@ export namespace Prisma {
     NOT?: AnalyticsTrafficSourceScalarWhereWithAggregatesInput | AnalyticsTrafficSourceScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
     companyId?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
+    integrationId?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
     date?: DateTimeWithAggregatesFilter<"AnalyticsTrafficSource"> | Date | string
     source?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
     rawSource?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
@@ -155393,6 +157038,7 @@ export namespace Prisma {
     NOT?: AnalyticsGeoDataWhereInput | AnalyticsGeoDataWhereInput[]
     id?: StringFilter<"AnalyticsGeoData"> | string
     companyId?: StringFilter<"AnalyticsGeoData"> | string
+    integrationId?: StringFilter<"AnalyticsGeoData"> | string
     date?: DateTimeFilter<"AnalyticsGeoData"> | Date | string
     source?: StringFilter<"AnalyticsGeoData"> | string
     countryCode?: StringNullableFilter<"AnalyticsGeoData"> | string | null
@@ -155407,6 +157053,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     countryCode?: SortOrderInput | SortOrder
@@ -155420,11 +157067,12 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    companyId_date_source_countryCode_region_city?: AnalyticsGeoDataCompanyIdDateSourceCountryCodeRegionCityCompoundUniqueInput
+    companyId_integrationId_date_source_countryCode_region_city?: AnalyticsGeoDataCompanyIdIntegrationIdDateSourceCountryCodeRegionCityCompoundUniqueInput
     AND?: AnalyticsGeoDataWhereInput | AnalyticsGeoDataWhereInput[]
     OR?: AnalyticsGeoDataWhereInput[]
     NOT?: AnalyticsGeoDataWhereInput | AnalyticsGeoDataWhereInput[]
     companyId?: StringFilter<"AnalyticsGeoData"> | string
+    integrationId?: StringFilter<"AnalyticsGeoData"> | string
     date?: DateTimeFilter<"AnalyticsGeoData"> | Date | string
     source?: StringFilter<"AnalyticsGeoData"> | string
     countryCode?: StringNullableFilter<"AnalyticsGeoData"> | string | null
@@ -155434,11 +157082,12 @@ export namespace Prisma {
     sessions?: IntFilter<"AnalyticsGeoData"> | number
     users?: IntFilter<"AnalyticsGeoData"> | number
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "companyId_date_source_countryCode_region_city">
+  }, "id" | "companyId_integrationId_date_source_countryCode_region_city">
 
   export type AnalyticsGeoDataOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     countryCode?: SortOrderInput | SortOrder
@@ -155460,6 +157109,7 @@ export namespace Prisma {
     NOT?: AnalyticsGeoDataScalarWhereWithAggregatesInput | AnalyticsGeoDataScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AnalyticsGeoData"> | string
     companyId?: StringWithAggregatesFilter<"AnalyticsGeoData"> | string
+    integrationId?: StringWithAggregatesFilter<"AnalyticsGeoData"> | string
     date?: DateTimeWithAggregatesFilter<"AnalyticsGeoData"> | Date | string
     source?: StringWithAggregatesFilter<"AnalyticsGeoData"> | string
     countryCode?: StringNullableWithAggregatesFilter<"AnalyticsGeoData"> | string | null
@@ -155476,6 +157126,7 @@ export namespace Prisma {
     NOT?: AnalyticsEventDailyWhereInput | AnalyticsEventDailyWhereInput[]
     id?: StringFilter<"AnalyticsEventDaily"> | string
     companyId?: StringFilter<"AnalyticsEventDaily"> | string
+    integrationId?: StringFilter<"AnalyticsEventDaily"> | string
     date?: DateTimeFilter<"AnalyticsEventDaily"> | Date | string
     source?: StringFilter<"AnalyticsEventDaily"> | string
     eventName?: StringFilter<"AnalyticsEventDaily"> | string
@@ -155489,6 +157140,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -155501,11 +157153,12 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    companyId_date_source_eventName?: AnalyticsEventDailyCompanyIdDateSourceEventNameCompoundUniqueInput
+    companyId_integrationId_date_source_eventName?: AnalyticsEventDailyCompanyIdIntegrationIdDateSourceEventNameCompoundUniqueInput
     AND?: AnalyticsEventDailyWhereInput | AnalyticsEventDailyWhereInput[]
     OR?: AnalyticsEventDailyWhereInput[]
     NOT?: AnalyticsEventDailyWhereInput | AnalyticsEventDailyWhereInput[]
     companyId?: StringFilter<"AnalyticsEventDaily"> | string
+    integrationId?: StringFilter<"AnalyticsEventDaily"> | string
     date?: DateTimeFilter<"AnalyticsEventDaily"> | Date | string
     source?: StringFilter<"AnalyticsEventDaily"> | string
     eventName?: StringFilter<"AnalyticsEventDaily"> | string
@@ -155514,11 +157167,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AnalyticsEventDaily"> | Date | string
     updatedAt?: DateTimeFilter<"AnalyticsEventDaily"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "companyId_date_source_eventName">
+  }, "id" | "companyId_integrationId_date_source_eventName">
 
   export type AnalyticsEventDailyOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -155539,6 +157193,7 @@ export namespace Prisma {
     NOT?: AnalyticsEventDailyScalarWhereWithAggregatesInput | AnalyticsEventDailyScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AnalyticsEventDaily"> | string
     companyId?: StringWithAggregatesFilter<"AnalyticsEventDaily"> | string
+    integrationId?: StringWithAggregatesFilter<"AnalyticsEventDaily"> | string
     date?: DateTimeWithAggregatesFilter<"AnalyticsEventDaily"> | Date | string
     source?: StringWithAggregatesFilter<"AnalyticsEventDaily"> | string
     eventName?: StringWithAggregatesFilter<"AnalyticsEventDaily"> | string
@@ -155554,6 +157209,7 @@ export namespace Prisma {
     NOT?: AnalyticsEventParamDailyWhereInput | AnalyticsEventParamDailyWhereInput[]
     id?: StringFilter<"AnalyticsEventParamDaily"> | string
     companyId?: StringFilter<"AnalyticsEventParamDaily"> | string
+    integrationId?: StringFilter<"AnalyticsEventParamDaily"> | string
     date?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
     source?: StringFilter<"AnalyticsEventParamDaily"> | string
     eventName?: StringFilter<"AnalyticsEventParamDaily"> | string
@@ -155569,6 +157225,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -155583,11 +157240,12 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    companyId_date_source_eventName_paramName_paramValue?: AnalyticsEventParamDailyCompanyIdDateSourceEventNameParamNameParamValueCompoundUniqueInput
+    companyId_integrationId_date_source_eventName_paramName_paramValue?: AnalyticsEventParamDailyCompanyIdIntegrationIdDateSourceEventNameParamNameParamValueCompoundUniqueInput
     AND?: AnalyticsEventParamDailyWhereInput | AnalyticsEventParamDailyWhereInput[]
     OR?: AnalyticsEventParamDailyWhereInput[]
     NOT?: AnalyticsEventParamDailyWhereInput | AnalyticsEventParamDailyWhereInput[]
     companyId?: StringFilter<"AnalyticsEventParamDaily"> | string
+    integrationId?: StringFilter<"AnalyticsEventParamDaily"> | string
     date?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
     source?: StringFilter<"AnalyticsEventParamDaily"> | string
     eventName?: StringFilter<"AnalyticsEventParamDaily"> | string
@@ -155598,11 +157256,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
     updatedAt?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "companyId_date_source_eventName_paramName_paramValue">
+  }, "id" | "companyId_integrationId_date_source_eventName_paramName_paramValue">
 
   export type AnalyticsEventParamDailyOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -155625,6 +157284,7 @@ export namespace Prisma {
     NOT?: AnalyticsEventParamDailyScalarWhereWithAggregatesInput | AnalyticsEventParamDailyScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
     companyId?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
+    integrationId?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
     date?: DateTimeWithAggregatesFilter<"AnalyticsEventParamDaily"> | Date | string
     source?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
     eventName?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
@@ -155723,6 +157383,7 @@ export namespace Prisma {
     NOT?: SearchConsoleQueryWhereInput | SearchConsoleQueryWhereInput[]
     id?: StringFilter<"SearchConsoleQuery"> | string
     companyId?: StringFilter<"SearchConsoleQuery"> | string
+    integrationId?: StringFilter<"SearchConsoleQuery"> | string
     date?: DateTimeFilter<"SearchConsoleQuery"> | Date | string
     query?: StringFilter<"SearchConsoleQuery"> | string
     page?: StringNullableFilter<"SearchConsoleQuery"> | string | null
@@ -155738,6 +157399,7 @@ export namespace Prisma {
   export type SearchConsoleQueryOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     query?: SortOrder
     page?: SortOrderInput | SortOrder
@@ -155752,11 +157414,12 @@ export namespace Prisma {
 
   export type SearchConsoleQueryWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    companyId_date_query_page_country_device?: SearchConsoleQueryCompanyIdDateQueryPageCountryDeviceCompoundUniqueInput
+    companyId_integrationId_date_query_page_country_device?: SearchConsoleQueryCompanyIdIntegrationIdDateQueryPageCountryDeviceCompoundUniqueInput
     AND?: SearchConsoleQueryWhereInput | SearchConsoleQueryWhereInput[]
     OR?: SearchConsoleQueryWhereInput[]
     NOT?: SearchConsoleQueryWhereInput | SearchConsoleQueryWhereInput[]
     companyId?: StringFilter<"SearchConsoleQuery"> | string
+    integrationId?: StringFilter<"SearchConsoleQuery"> | string
     date?: DateTimeFilter<"SearchConsoleQuery"> | Date | string
     query?: StringFilter<"SearchConsoleQuery"> | string
     page?: StringNullableFilter<"SearchConsoleQuery"> | string | null
@@ -155767,11 +157430,12 @@ export namespace Prisma {
     ctr?: FloatFilter<"SearchConsoleQuery"> | number
     position?: FloatFilter<"SearchConsoleQuery"> | number
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "companyId_date_query_page_country_device">
+  }, "id" | "companyId_integrationId_date_query_page_country_device">
 
   export type SearchConsoleQueryOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     query?: SortOrder
     page?: SortOrderInput | SortOrder
@@ -155794,6 +157458,7 @@ export namespace Prisma {
     NOT?: SearchConsoleQueryScalarWhereWithAggregatesInput | SearchConsoleQueryScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"SearchConsoleQuery"> | string
     companyId?: StringWithAggregatesFilter<"SearchConsoleQuery"> | string
+    integrationId?: StringWithAggregatesFilter<"SearchConsoleQuery"> | string
     date?: DateTimeWithAggregatesFilter<"SearchConsoleQuery"> | Date | string
     query?: StringWithAggregatesFilter<"SearchConsoleQuery"> | string
     page?: StringNullableWithAggregatesFilter<"SearchConsoleQuery"> | string | null
@@ -155811,6 +157476,7 @@ export namespace Prisma {
     NOT?: GbpInsightWhereInput | GbpInsightWhereInput[]
     id?: StringFilter<"GbpInsight"> | string
     companyId?: StringFilter<"GbpInsight"> | string
+    integrationId?: StringFilter<"GbpInsight"> | string
     date?: DateTimeFilter<"GbpInsight"> | Date | string
     impressionsSearchDesktop?: IntFilter<"GbpInsight"> | number
     impressionsSearchMobile?: IntFilter<"GbpInsight"> | number
@@ -155829,6 +157495,7 @@ export namespace Prisma {
   export type GbpInsightOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     impressionsSearchDesktop?: SortOrder
     impressionsSearchMobile?: SortOrder
@@ -155846,11 +157513,12 @@ export namespace Prisma {
 
   export type GbpInsightWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    companyId_date?: GbpInsightCompanyIdDateCompoundUniqueInput
+    companyId_integrationId_date?: GbpInsightCompanyIdIntegrationIdDateCompoundUniqueInput
     AND?: GbpInsightWhereInput | GbpInsightWhereInput[]
     OR?: GbpInsightWhereInput[]
     NOT?: GbpInsightWhereInput | GbpInsightWhereInput[]
     companyId?: StringFilter<"GbpInsight"> | string
+    integrationId?: StringFilter<"GbpInsight"> | string
     date?: DateTimeFilter<"GbpInsight"> | Date | string
     impressionsSearchDesktop?: IntFilter<"GbpInsight"> | number
     impressionsSearchMobile?: IntFilter<"GbpInsight"> | number
@@ -155864,11 +157532,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"GbpInsight"> | Date | string
     updatedAt?: DateTimeFilter<"GbpInsight"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "companyId_date">
+  }, "id" | "companyId_integrationId_date">
 
   export type GbpInsightOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     impressionsSearchDesktop?: SortOrder
     impressionsSearchMobile?: SortOrder
@@ -155894,6 +157563,7 @@ export namespace Prisma {
     NOT?: GbpInsightScalarWhereWithAggregatesInput | GbpInsightScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"GbpInsight"> | string
     companyId?: StringWithAggregatesFilter<"GbpInsight"> | string
+    integrationId?: StringWithAggregatesFilter<"GbpInsight"> | string
     date?: DateTimeWithAggregatesFilter<"GbpInsight"> | Date | string
     impressionsSearchDesktop?: IntWithAggregatesFilter<"GbpInsight"> | number
     impressionsSearchMobile?: IntWithAggregatesFilter<"GbpInsight"> | number
@@ -155914,6 +157584,7 @@ export namespace Prisma {
     NOT?: GbpReviewWhereInput | GbpReviewWhereInput[]
     id?: StringFilter<"GbpReview"> | string
     companyId?: StringFilter<"GbpReview"> | string
+    integrationId?: StringFilter<"GbpReview"> | string
     googleReviewId?: StringFilter<"GbpReview"> | string
     reviewerName?: StringNullableFilter<"GbpReview"> | string | null
     reviewerPhotoUrl?: StringNullableFilter<"GbpReview"> | string | null
@@ -155931,6 +157602,7 @@ export namespace Prisma {
   export type GbpReviewOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     googleReviewId?: SortOrder
     reviewerName?: SortOrderInput | SortOrder
     reviewerPhotoUrl?: SortOrderInput | SortOrder
@@ -155952,6 +157624,7 @@ export namespace Prisma {
     OR?: GbpReviewWhereInput[]
     NOT?: GbpReviewWhereInput | GbpReviewWhereInput[]
     companyId?: StringFilter<"GbpReview"> | string
+    integrationId?: StringFilter<"GbpReview"> | string
     reviewerName?: StringNullableFilter<"GbpReview"> | string | null
     reviewerPhotoUrl?: StringNullableFilter<"GbpReview"> | string | null
     starRating?: IntFilter<"GbpReview"> | number
@@ -155968,6 +157641,7 @@ export namespace Prisma {
   export type GbpReviewOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     googleReviewId?: SortOrder
     reviewerName?: SortOrderInput | SortOrder
     reviewerPhotoUrl?: SortOrderInput | SortOrder
@@ -155992,6 +157666,7 @@ export namespace Prisma {
     NOT?: GbpReviewScalarWhereWithAggregatesInput | GbpReviewScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"GbpReview"> | string
     companyId?: StringWithAggregatesFilter<"GbpReview"> | string
+    integrationId?: StringWithAggregatesFilter<"GbpReview"> | string
     googleReviewId?: StringWithAggregatesFilter<"GbpReview"> | string
     reviewerName?: StringNullableWithAggregatesFilter<"GbpReview"> | string | null
     reviewerPhotoUrl?: StringNullableWithAggregatesFilter<"GbpReview"> | string | null
@@ -156011,6 +157686,7 @@ export namespace Prisma {
     NOT?: GbpSearchKeywordWhereInput | GbpSearchKeywordWhereInput[]
     id?: StringFilter<"GbpSearchKeyword"> | string
     companyId?: StringFilter<"GbpSearchKeyword"> | string
+    integrationId?: StringFilter<"GbpSearchKeyword"> | string
     keyword?: StringFilter<"GbpSearchKeyword"> | string
     year?: IntFilter<"GbpSearchKeyword"> | number
     month?: IntFilter<"GbpSearchKeyword"> | number
@@ -156023,6 +157699,7 @@ export namespace Prisma {
   export type GbpSearchKeywordOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     keyword?: SortOrder
     year?: SortOrder
     month?: SortOrder
@@ -156034,11 +157711,12 @@ export namespace Prisma {
 
   export type GbpSearchKeywordWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    companyId_year_month_keyword?: GbpSearchKeywordCompanyIdYearMonthKeywordCompoundUniqueInput
+    companyId_integrationId_year_month_keyword?: GbpSearchKeywordCompanyIdIntegrationIdYearMonthKeywordCompoundUniqueInput
     AND?: GbpSearchKeywordWhereInput | GbpSearchKeywordWhereInput[]
     OR?: GbpSearchKeywordWhereInput[]
     NOT?: GbpSearchKeywordWhereInput | GbpSearchKeywordWhereInput[]
     companyId?: StringFilter<"GbpSearchKeyword"> | string
+    integrationId?: StringFilter<"GbpSearchKeyword"> | string
     keyword?: StringFilter<"GbpSearchKeyword"> | string
     year?: IntFilter<"GbpSearchKeyword"> | number
     month?: IntFilter<"GbpSearchKeyword"> | number
@@ -156046,11 +157724,12 @@ export namespace Prisma {
     isThreshold?: BoolFilter<"GbpSearchKeyword"> | boolean
     createdAt?: DateTimeFilter<"GbpSearchKeyword"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "companyId_year_month_keyword">
+  }, "id" | "companyId_integrationId_year_month_keyword">
 
   export type GbpSearchKeywordOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     keyword?: SortOrder
     year?: SortOrder
     month?: SortOrder
@@ -156070,6 +157749,7 @@ export namespace Prisma {
     NOT?: GbpSearchKeywordScalarWhereWithAggregatesInput | GbpSearchKeywordScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"GbpSearchKeyword"> | string
     companyId?: StringWithAggregatesFilter<"GbpSearchKeyword"> | string
+    integrationId?: StringWithAggregatesFilter<"GbpSearchKeyword"> | string
     keyword?: StringWithAggregatesFilter<"GbpSearchKeyword"> | string
     year?: IntWithAggregatesFilter<"GbpSearchKeyword"> | number
     month?: IntWithAggregatesFilter<"GbpSearchKeyword"> | number
@@ -156084,6 +157764,7 @@ export namespace Prisma {
     NOT?: GbpProfileSnapshotWhereInput | GbpProfileSnapshotWhereInput[]
     id?: StringFilter<"GbpProfileSnapshot"> | string
     companyId?: StringFilter<"GbpProfileSnapshot"> | string
+    integrationId?: StringFilter<"GbpProfileSnapshot"> | string
     title?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
     primaryCategory?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
     storefrontAddress?: JsonNullableFilter<"GbpProfileSnapshot">
@@ -156102,6 +157783,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotOrderByWithRelationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     title?: SortOrderInput | SortOrder
     primaryCategory?: SortOrderInput | SortOrder
     storefrontAddress?: SortOrderInput | SortOrder
@@ -156123,6 +157805,7 @@ export namespace Prisma {
     OR?: GbpProfileSnapshotWhereInput[]
     NOT?: GbpProfileSnapshotWhereInput | GbpProfileSnapshotWhereInput[]
     companyId?: StringFilter<"GbpProfileSnapshot"> | string
+    integrationId?: StringFilter<"GbpProfileSnapshot"> | string
     title?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
     primaryCategory?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
     storefrontAddress?: JsonNullableFilter<"GbpProfileSnapshot">
@@ -156141,6 +157824,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     title?: SortOrderInput | SortOrder
     primaryCategory?: SortOrderInput | SortOrder
     storefrontAddress?: SortOrderInput | SortOrder
@@ -156166,6 +157850,7 @@ export namespace Prisma {
     NOT?: GbpProfileSnapshotScalarWhereWithAggregatesInput | GbpProfileSnapshotScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"GbpProfileSnapshot"> | string
     companyId?: StringWithAggregatesFilter<"GbpProfileSnapshot"> | string
+    integrationId?: StringWithAggregatesFilter<"GbpProfileSnapshot"> | string
     title?: StringNullableWithAggregatesFilter<"GbpProfileSnapshot"> | string | null
     primaryCategory?: StringNullableWithAggregatesFilter<"GbpProfileSnapshot"> | string | null
     storefrontAddress?: JsonNullableWithAggregatesFilter<"GbpProfileSnapshot">
@@ -160948,6 +162633,120 @@ export namespace Prisma {
     ip?: StringNullableWithAggregatesFilter<"TimesheetSignature"> | string | null
   }
 
+  export type StorageObjectWhereInput = {
+    AND?: StorageObjectWhereInput | StorageObjectWhereInput[]
+    OR?: StorageObjectWhereInput[]
+    NOT?: StorageObjectWhereInput | StorageObjectWhereInput[]
+    id?: StringFilter<"StorageObject"> | string
+    companyId?: StringFilter<"StorageObject"> | string
+    bucket?: StringFilter<"StorageObject"> | string
+    key?: StringFilter<"StorageObject"> | string
+    fileName?: StringFilter<"StorageObject"> | string
+    mimeType?: StringFilter<"StorageObject"> | string
+    size?: IntFilter<"StorageObject"> | number
+    status?: StringFilter<"StorageObject"> | string
+    ticketId?: StringNullableFilter<"StorageObject"> | string | null
+    ticketMessageId?: StringNullableFilter<"StorageObject"> | string | null
+    projectTaskId?: StringNullableFilter<"StorageObject"> | string | null
+    uploadedById?: StringNullableFilter<"StorageObject"> | string | null
+    createdAt?: DateTimeFilter<"StorageObject"> | Date | string
+    updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
+    ticketMessage?: XOR<TicketMessageNullableRelationFilter, TicketMessageWhereInput> | null
+    projectTask?: XOR<ProjectTaskNullableRelationFilter, ProjectTaskWhereInput> | null
+    uploadedBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }
+
+  export type StorageObjectOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    bucket?: SortOrder
+    key?: SortOrder
+    fileName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    status?: SortOrder
+    ticketId?: SortOrderInput | SortOrder
+    ticketMessageId?: SortOrderInput | SortOrder
+    projectTaskId?: SortOrderInput | SortOrder
+    uploadedById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    ticket?: TicketOrderByWithRelationInput
+    ticketMessage?: TicketMessageOrderByWithRelationInput
+    projectTask?: ProjectTaskOrderByWithRelationInput
+    uploadedBy?: UserOrderByWithRelationInput
+  }
+
+  export type StorageObjectWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    key?: string
+    AND?: StorageObjectWhereInput | StorageObjectWhereInput[]
+    OR?: StorageObjectWhereInput[]
+    NOT?: StorageObjectWhereInput | StorageObjectWhereInput[]
+    companyId?: StringFilter<"StorageObject"> | string
+    bucket?: StringFilter<"StorageObject"> | string
+    fileName?: StringFilter<"StorageObject"> | string
+    mimeType?: StringFilter<"StorageObject"> | string
+    size?: IntFilter<"StorageObject"> | number
+    status?: StringFilter<"StorageObject"> | string
+    ticketId?: StringNullableFilter<"StorageObject"> | string | null
+    ticketMessageId?: StringNullableFilter<"StorageObject"> | string | null
+    projectTaskId?: StringNullableFilter<"StorageObject"> | string | null
+    uploadedById?: StringNullableFilter<"StorageObject"> | string | null
+    createdAt?: DateTimeFilter<"StorageObject"> | Date | string
+    updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
+    ticketMessage?: XOR<TicketMessageNullableRelationFilter, TicketMessageWhereInput> | null
+    projectTask?: XOR<ProjectTaskNullableRelationFilter, ProjectTaskWhereInput> | null
+    uploadedBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }, "id" | "key">
+
+  export type StorageObjectOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    bucket?: SortOrder
+    key?: SortOrder
+    fileName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    status?: SortOrder
+    ticketId?: SortOrderInput | SortOrder
+    ticketMessageId?: SortOrderInput | SortOrder
+    projectTaskId?: SortOrderInput | SortOrder
+    uploadedById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StorageObjectCountOrderByAggregateInput
+    _avg?: StorageObjectAvgOrderByAggregateInput
+    _max?: StorageObjectMaxOrderByAggregateInput
+    _min?: StorageObjectMinOrderByAggregateInput
+    _sum?: StorageObjectSumOrderByAggregateInput
+  }
+
+  export type StorageObjectScalarWhereWithAggregatesInput = {
+    AND?: StorageObjectScalarWhereWithAggregatesInput | StorageObjectScalarWhereWithAggregatesInput[]
+    OR?: StorageObjectScalarWhereWithAggregatesInput[]
+    NOT?: StorageObjectScalarWhereWithAggregatesInput | StorageObjectScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StorageObject"> | string
+    companyId?: StringWithAggregatesFilter<"StorageObject"> | string
+    bucket?: StringWithAggregatesFilter<"StorageObject"> | string
+    key?: StringWithAggregatesFilter<"StorageObject"> | string
+    fileName?: StringWithAggregatesFilter<"StorageObject"> | string
+    mimeType?: StringWithAggregatesFilter<"StorageObject"> | string
+    size?: IntWithAggregatesFilter<"StorageObject"> | number
+    status?: StringWithAggregatesFilter<"StorageObject"> | string
+    ticketId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
+    ticketMessageId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
+    projectTaskId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
+    uploadedById?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"StorageObject"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StorageObject"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -160998,6 +162797,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -161050,6 +162850,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUpdateInput = {
@@ -161102,6 +162903,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -161154,6 +162956,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -161662,6 +163465,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -161796,6 +163600,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -161930,6 +163735,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -162064,6 +163870,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -164525,6 +166332,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateInput = {
@@ -164553,6 +166361,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUpdateInput = {
@@ -164581,6 +166390,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateInput = {
@@ -164609,6 +166419,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketCreateManyInput = {
@@ -164689,6 +166500,7 @@ export namespace Prisma {
     externalId?: string | null
     createdAt?: Date | string
     ticket: TicketCreateNestedOneWithoutMessagesInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketMessageInput
   }
 
   export type TicketMessageUncheckedCreateInput = {
@@ -164703,6 +166515,7 @@ export namespace Prisma {
     externalId?: string | null
     createdAt?: Date | string
     ticketId: string
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketMessageInput
   }
 
   export type TicketMessageUpdateInput = {
@@ -164717,6 +166530,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ticket?: TicketUpdateOneRequiredWithoutMessagesNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketMessageNestedInput
   }
 
   export type TicketMessageUncheckedUpdateInput = {
@@ -164731,6 +166545,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketId?: StringFieldUpdateOperationsInput | string
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketMessageNestedInput
   }
 
   export type TicketMessageCreateManyInput = {
@@ -165284,6 +167099,7 @@ export namespace Prisma {
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskUncheckedCreateInput = {
@@ -165308,6 +167124,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskUpdateInput = {
@@ -165332,6 +167149,7 @@ export namespace Prisma {
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateInput = {
@@ -165356,6 +167174,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskCreateManyInput = {
@@ -166545,6 +168364,7 @@ export namespace Prisma {
     provider: $Enums.IntegrationProvider
     accountId?: string | null
     accountLabel?: string | null
+    nickname?: string | null
     accessTokenEnc?: string | null
     refreshTokenEnc?: string | null
     tokenExpiresAt?: Date | string | null
@@ -166567,6 +168387,7 @@ export namespace Prisma {
     provider: $Enums.IntegrationProvider
     accountId?: string | null
     accountLabel?: string | null
+    nickname?: string | null
     accessTokenEnc?: string | null
     refreshTokenEnc?: string | null
     tokenExpiresAt?: Date | string | null
@@ -166587,6 +168408,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -166609,6 +168431,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -166630,6 +168453,7 @@ export namespace Prisma {
     provider: $Enums.IntegrationProvider
     accountId?: string | null
     accountLabel?: string | null
+    nickname?: string | null
     accessTokenEnc?: string | null
     refreshTokenEnc?: string | null
     tokenExpiresAt?: Date | string | null
@@ -166650,6 +168474,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -166671,6 +168496,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167783,6 +169609,7 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotCreateInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     sessions?: number
@@ -167801,6 +169628,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     sessions?: number
@@ -167817,6 +169645,7 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     sessions?: IntFieldUpdateOperationsInput | number
@@ -167835,6 +169664,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     sessions?: IntFieldUpdateOperationsInput | number
@@ -167852,6 +169682,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     sessions?: number
@@ -167868,6 +169699,7 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     sessions?: IntFieldUpdateOperationsInput | number
@@ -167885,6 +169717,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     sessions?: IntFieldUpdateOperationsInput | number
@@ -167901,6 +169734,7 @@ export namespace Prisma {
 
   export type AnalyticsTopPageCreateInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     pagePath: string
@@ -167914,6 +169748,7 @@ export namespace Prisma {
   export type AnalyticsTopPageUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     pagePath: string
@@ -167925,6 +169760,7 @@ export namespace Prisma {
 
   export type AnalyticsTopPageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     pagePath?: StringFieldUpdateOperationsInput | string
@@ -167938,6 +169774,7 @@ export namespace Prisma {
   export type AnalyticsTopPageUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     pagePath?: StringFieldUpdateOperationsInput | string
@@ -167950,6 +169787,7 @@ export namespace Prisma {
   export type AnalyticsTopPageCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     pagePath: string
@@ -167961,6 +169799,7 @@ export namespace Prisma {
 
   export type AnalyticsTopPageUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     pagePath?: StringFieldUpdateOperationsInput | string
@@ -167973,6 +169812,7 @@ export namespace Prisma {
   export type AnalyticsTopPageUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     pagePath?: StringFieldUpdateOperationsInput | string
@@ -167984,6 +169824,7 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceCreateInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     rawSource: string
@@ -167998,6 +169839,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     rawSource: string
@@ -168010,6 +169852,7 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     rawSource?: StringFieldUpdateOperationsInput | string
@@ -168024,6 +169867,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     rawSource?: StringFieldUpdateOperationsInput | string
@@ -168037,6 +169881,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     rawSource: string
@@ -168049,6 +169894,7 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     rawSource?: StringFieldUpdateOperationsInput | string
@@ -168062,6 +169908,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     rawSource?: StringFieldUpdateOperationsInput | string
@@ -168074,6 +169921,7 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataCreateInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     countryCode?: string | null
@@ -168088,6 +169936,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     countryCode?: string | null
@@ -168100,6 +169949,7 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168114,6 +169964,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168127,6 +169978,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     countryCode?: string | null
@@ -168139,6 +169991,7 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168152,6 +170005,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168164,6 +170018,7 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyCreateInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -168177,6 +170032,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -168188,6 +170044,7 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -168201,6 +170058,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -168213,6 +170071,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -168224,6 +170083,7 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -168236,6 +170096,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -168247,6 +170108,7 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyCreateInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -168262,6 +170124,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -168275,6 +170138,7 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -168290,6 +170154,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -168304,6 +170169,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -168317,6 +170183,7 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -168331,6 +170198,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -168434,6 +170302,7 @@ export namespace Prisma {
 
   export type SearchConsoleQueryCreateInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     query: string
     page?: string | null
@@ -168449,6 +170318,7 @@ export namespace Prisma {
   export type SearchConsoleQueryUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     query: string
     page?: string | null
@@ -168462,6 +170332,7 @@ export namespace Prisma {
 
   export type SearchConsoleQueryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     query?: StringFieldUpdateOperationsInput | string
     page?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168477,6 +170348,7 @@ export namespace Prisma {
   export type SearchConsoleQueryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     query?: StringFieldUpdateOperationsInput | string
     page?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168491,6 +170363,7 @@ export namespace Prisma {
   export type SearchConsoleQueryCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     query: string
     page?: string | null
@@ -168504,6 +170377,7 @@ export namespace Prisma {
 
   export type SearchConsoleQueryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     query?: StringFieldUpdateOperationsInput | string
     page?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168518,6 +170392,7 @@ export namespace Prisma {
   export type SearchConsoleQueryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     query?: StringFieldUpdateOperationsInput | string
     page?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168531,6 +170406,7 @@ export namespace Prisma {
 
   export type GbpInsightCreateInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     impressionsSearchDesktop?: number
     impressionsSearchMobile?: number
@@ -168549,6 +170425,7 @@ export namespace Prisma {
   export type GbpInsightUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     impressionsSearchDesktop?: number
     impressionsSearchMobile?: number
@@ -168565,6 +170442,7 @@ export namespace Prisma {
 
   export type GbpInsightUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
     impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
@@ -168583,6 +170461,7 @@ export namespace Prisma {
   export type GbpInsightUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
     impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
@@ -168600,6 +170479,7 @@ export namespace Prisma {
   export type GbpInsightCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     date: Date | string
     impressionsSearchDesktop?: number
     impressionsSearchMobile?: number
@@ -168616,6 +170496,7 @@ export namespace Prisma {
 
   export type GbpInsightUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
     impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
@@ -168633,6 +170514,7 @@ export namespace Prisma {
   export type GbpInsightUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
     impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
@@ -168649,6 +170531,7 @@ export namespace Prisma {
 
   export type GbpReviewCreateInput = {
     id?: string
+    integrationId?: string
     googleReviewId: string
     reviewerName?: string | null
     reviewerPhotoUrl?: string | null
@@ -168666,6 +170549,7 @@ export namespace Prisma {
   export type GbpReviewUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     googleReviewId: string
     reviewerName?: string | null
     reviewerPhotoUrl?: string | null
@@ -168681,6 +170565,7 @@ export namespace Prisma {
 
   export type GbpReviewUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     googleReviewId?: StringFieldUpdateOperationsInput | string
     reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
     reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168698,6 +170583,7 @@ export namespace Prisma {
   export type GbpReviewUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     googleReviewId?: StringFieldUpdateOperationsInput | string
     reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
     reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168714,6 +170600,7 @@ export namespace Prisma {
   export type GbpReviewCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     googleReviewId: string
     reviewerName?: string | null
     reviewerPhotoUrl?: string | null
@@ -168729,6 +170616,7 @@ export namespace Prisma {
 
   export type GbpReviewUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     googleReviewId?: StringFieldUpdateOperationsInput | string
     reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
     reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168745,6 +170633,7 @@ export namespace Prisma {
   export type GbpReviewUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     googleReviewId?: StringFieldUpdateOperationsInput | string
     reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
     reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168760,6 +170649,7 @@ export namespace Prisma {
 
   export type GbpSearchKeywordCreateInput = {
     id?: string
+    integrationId?: string
     keyword: string
     year: number
     month: number
@@ -168772,6 +170662,7 @@ export namespace Prisma {
   export type GbpSearchKeywordUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     keyword: string
     year: number
     month: number
@@ -168782,6 +170673,7 @@ export namespace Prisma {
 
   export type GbpSearchKeywordUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
@@ -168794,6 +170686,7 @@ export namespace Prisma {
   export type GbpSearchKeywordUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
@@ -168805,6 +170698,7 @@ export namespace Prisma {
   export type GbpSearchKeywordCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     keyword: string
     year: number
     month: number
@@ -168815,6 +170709,7 @@ export namespace Prisma {
 
   export type GbpSearchKeywordUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
@@ -168826,6 +170721,7 @@ export namespace Prisma {
   export type GbpSearchKeywordUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
@@ -168836,6 +170732,7 @@ export namespace Prisma {
 
   export type GbpProfileSnapshotCreateInput = {
     id?: string
+    integrationId?: string
     title?: string | null
     primaryCategory?: string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -168854,6 +170751,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotUncheckedCreateInput = {
     id?: string
     companyId: string
+    integrationId?: string
     title?: string | null
     primaryCategory?: string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -168870,6 +170768,7 @@ export namespace Prisma {
 
   export type GbpProfileSnapshotUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -168888,6 +170787,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -168905,6 +170805,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotCreateManyInput = {
     id?: string
     companyId: string
+    integrationId?: string
     title?: string | null
     primaryCategory?: string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -168921,6 +170822,7 @@ export namespace Prisma {
 
   export type GbpProfileSnapshotUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -168938,6 +170840,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -174215,6 +176118,120 @@ export namespace Prisma {
     ip?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type StorageObjectCreateInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStorageObjectsInput
+    ticket?: TicketCreateNestedOneWithoutAttachmentsInput
+    ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
+    projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type StorageObjectUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageObjectUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
+    ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
+    ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
+    projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type StorageObjectUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageObjectCreateManyInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageObjectUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageObjectUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -174463,6 +176480,12 @@ export namespace Prisma {
     none?: WhatsappInstanceWhereInput
   }
 
+  export type StorageObjectListRelationFilter = {
+    every?: StorageObjectWhereInput
+    some?: StorageObjectWhereInput
+    none?: StorageObjectWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -174573,6 +176596,10 @@ export namespace Prisma {
   }
 
   export type WhatsappInstanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StorageObjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -178578,6 +180605,7 @@ export namespace Prisma {
     provider?: SortOrder
     accountId?: SortOrder
     accountLabel?: SortOrder
+    nickname?: SortOrder
     accessTokenEnc?: SortOrder
     refreshTokenEnc?: SortOrder
     tokenExpiresAt?: SortOrder
@@ -178599,6 +180627,7 @@ export namespace Prisma {
     provider?: SortOrder
     accountId?: SortOrder
     accountLabel?: SortOrder
+    nickname?: SortOrder
     accessTokenEnc?: SortOrder
     refreshTokenEnc?: SortOrder
     tokenExpiresAt?: SortOrder
@@ -178619,6 +180648,7 @@ export namespace Prisma {
     provider?: SortOrder
     accountId?: SortOrder
     accountLabel?: SortOrder
+    nickname?: SortOrder
     accessTokenEnc?: SortOrder
     refreshTokenEnc?: SortOrder
     tokenExpiresAt?: SortOrder
@@ -179313,8 +181343,9 @@ export namespace Prisma {
     createdById?: SortOrder
   }
 
-  export type AnalyticsSnapshotCompanyIdDateSourceCompoundUniqueInput = {
+  export type AnalyticsSnapshotCompanyIdIntegrationIdDateSourceCompoundUniqueInput = {
     companyId: string
+    integrationId: string
     date: Date | string
     source: string
   }
@@ -179322,6 +181353,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     sessions?: SortOrder
@@ -179350,6 +181382,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     sessions?: SortOrder
@@ -179367,6 +181400,7 @@ export namespace Prisma {
   export type AnalyticsSnapshotMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     sessions?: SortOrder
@@ -179392,8 +181426,9 @@ export namespace Prisma {
     engagedSessions?: SortOrder
   }
 
-  export type AnalyticsTopPageCompanyIdDateSourcePagePathCompoundUniqueInput = {
+  export type AnalyticsTopPageCompanyIdIntegrationIdDateSourcePagePathCompoundUniqueInput = {
     companyId: string
+    integrationId: string
     date: Date | string
     source: string
     pagePath: string
@@ -179402,6 +181437,7 @@ export namespace Prisma {
   export type AnalyticsTopPageCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     pagePath?: SortOrder
@@ -179420,6 +181456,7 @@ export namespace Prisma {
   export type AnalyticsTopPageMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     pagePath?: SortOrder
@@ -179432,6 +181469,7 @@ export namespace Prisma {
   export type AnalyticsTopPageMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     pagePath?: SortOrder
@@ -179447,8 +181485,9 @@ export namespace Prisma {
     avgTimeSec?: SortOrder
   }
 
-  export type AnalyticsTrafficSourceCompanyIdDateSourceRawSourceRawMediumCompoundUniqueInput = {
+  export type AnalyticsTrafficSourceCompanyIdIntegrationIdDateSourceRawSourceRawMediumCompoundUniqueInput = {
     companyId: string
+    integrationId: string
     date: Date | string
     source: string
     rawSource: string
@@ -179458,6 +181497,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     rawSource?: SortOrder
@@ -179477,6 +181517,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     rawSource?: SortOrder
@@ -179490,6 +181531,7 @@ export namespace Prisma {
   export type AnalyticsTrafficSourceMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     rawSource?: SortOrder
@@ -179506,8 +181548,9 @@ export namespace Prisma {
     conversions?: SortOrder
   }
 
-  export type AnalyticsGeoDataCompanyIdDateSourceCountryCodeRegionCityCompoundUniqueInput = {
+  export type AnalyticsGeoDataCompanyIdIntegrationIdDateSourceCountryCodeRegionCityCompoundUniqueInput = {
     companyId: string
+    integrationId: string
     date: Date | string
     source: string
     countryCode: string
@@ -179518,6 +181561,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     countryCode?: SortOrder
@@ -179536,6 +181580,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     countryCode?: SortOrder
@@ -179549,6 +181594,7 @@ export namespace Prisma {
   export type AnalyticsGeoDataMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     countryCode?: SortOrder
@@ -179564,8 +181610,9 @@ export namespace Prisma {
     users?: SortOrder
   }
 
-  export type AnalyticsEventDailyCompanyIdDateSourceEventNameCompoundUniqueInput = {
+  export type AnalyticsEventDailyCompanyIdIntegrationIdDateSourceEventNameCompoundUniqueInput = {
     companyId: string
+    integrationId: string
     date: Date | string
     source: string
     eventName: string
@@ -179574,6 +181621,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -179591,6 +181639,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -179603,6 +181652,7 @@ export namespace Prisma {
   export type AnalyticsEventDailyMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -179617,8 +181667,9 @@ export namespace Prisma {
     users?: SortOrder
   }
 
-  export type AnalyticsEventParamDailyCompanyIdDateSourceEventNameParamNameParamValueCompoundUniqueInput = {
+  export type AnalyticsEventParamDailyCompanyIdIntegrationIdDateSourceEventNameParamNameParamValueCompoundUniqueInput = {
     companyId: string
+    integrationId: string
     date: Date | string
     source: string
     eventName: string
@@ -179629,6 +181680,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -179648,6 +181700,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -179662,6 +181715,7 @@ export namespace Prisma {
   export type AnalyticsEventParamDailyMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     source?: SortOrder
     eventName?: SortOrder
@@ -179734,8 +181788,9 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type SearchConsoleQueryCompanyIdDateQueryPageCountryDeviceCompoundUniqueInput = {
+  export type SearchConsoleQueryCompanyIdIntegrationIdDateQueryPageCountryDeviceCompoundUniqueInput = {
     companyId: string
+    integrationId: string
     date: Date | string
     query: string
     page: string
@@ -179746,6 +181801,7 @@ export namespace Prisma {
   export type SearchConsoleQueryCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     query?: SortOrder
     page?: SortOrder
@@ -179767,6 +181823,7 @@ export namespace Prisma {
   export type SearchConsoleQueryMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     query?: SortOrder
     page?: SortOrder
@@ -179781,6 +181838,7 @@ export namespace Prisma {
   export type SearchConsoleQueryMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     query?: SortOrder
     page?: SortOrder
@@ -179815,14 +181873,16 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type GbpInsightCompanyIdDateCompoundUniqueInput = {
+  export type GbpInsightCompanyIdIntegrationIdDateCompoundUniqueInput = {
     companyId: string
+    integrationId: string
     date: Date | string
   }
 
   export type GbpInsightCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     impressionsSearchDesktop?: SortOrder
     impressionsSearchMobile?: SortOrder
@@ -179852,6 +181912,7 @@ export namespace Prisma {
   export type GbpInsightMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     impressionsSearchDesktop?: SortOrder
     impressionsSearchMobile?: SortOrder
@@ -179869,6 +181930,7 @@ export namespace Prisma {
   export type GbpInsightMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     date?: SortOrder
     impressionsSearchDesktop?: SortOrder
     impressionsSearchMobile?: SortOrder
@@ -179898,6 +181960,7 @@ export namespace Prisma {
   export type GbpReviewCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     googleReviewId?: SortOrder
     reviewerName?: SortOrder
     reviewerPhotoUrl?: SortOrder
@@ -179918,6 +181981,7 @@ export namespace Prisma {
   export type GbpReviewMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     googleReviewId?: SortOrder
     reviewerName?: SortOrder
     reviewerPhotoUrl?: SortOrder
@@ -179934,6 +181998,7 @@ export namespace Prisma {
   export type GbpReviewMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     googleReviewId?: SortOrder
     reviewerName?: SortOrder
     reviewerPhotoUrl?: SortOrder
@@ -179951,8 +182016,9 @@ export namespace Prisma {
     starRating?: SortOrder
   }
 
-  export type GbpSearchKeywordCompanyIdYearMonthKeywordCompoundUniqueInput = {
+  export type GbpSearchKeywordCompanyIdIntegrationIdYearMonthKeywordCompoundUniqueInput = {
     companyId: string
+    integrationId: string
     year: number
     month: number
     keyword: string
@@ -179961,6 +182027,7 @@ export namespace Prisma {
   export type GbpSearchKeywordCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     keyword?: SortOrder
     year?: SortOrder
     month?: SortOrder
@@ -179978,6 +182045,7 @@ export namespace Prisma {
   export type GbpSearchKeywordMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     keyword?: SortOrder
     year?: SortOrder
     month?: SortOrder
@@ -179989,6 +182057,7 @@ export namespace Prisma {
   export type GbpSearchKeywordMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     keyword?: SortOrder
     year?: SortOrder
     month?: SortOrder
@@ -180006,6 +182075,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     title?: SortOrder
     primaryCategory?: SortOrder
     storefrontAddress?: SortOrder
@@ -180030,6 +182100,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotMaxOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     title?: SortOrder
     primaryCategory?: SortOrder
     primaryPhone?: SortOrder
@@ -180045,6 +182116,7 @@ export namespace Prisma {
   export type GbpProfileSnapshotMinOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
+    integrationId?: SortOrder
     title?: SortOrder
     primaryCategory?: SortOrder
     primaryPhone?: SortOrder
@@ -183291,6 +185363,70 @@ export namespace Prisma {
     month?: SortOrder
   }
 
+  export type TicketMessageNullableRelationFilter = {
+    is?: TicketMessageWhereInput | null
+    isNot?: TicketMessageWhereInput | null
+  }
+
+  export type StorageObjectCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    bucket?: SortOrder
+    key?: SortOrder
+    fileName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    status?: SortOrder
+    ticketId?: SortOrder
+    ticketMessageId?: SortOrder
+    projectTaskId?: SortOrder
+    uploadedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StorageObjectAvgOrderByAggregateInput = {
+    size?: SortOrder
+  }
+
+  export type StorageObjectMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    bucket?: SortOrder
+    key?: SortOrder
+    fileName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    status?: SortOrder
+    ticketId?: SortOrder
+    ticketMessageId?: SortOrder
+    projectTaskId?: SortOrder
+    uploadedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StorageObjectMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    bucket?: SortOrder
+    key?: SortOrder
+    fileName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    status?: SortOrder
+    ticketId?: SortOrder
+    ticketMessageId?: SortOrder
+    projectTaskId?: SortOrder
+    uploadedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StorageObjectSumOrderByAggregateInput = {
+    size?: SortOrder
+  }
+
   export type CompanyCreateNestedOneWithoutUsersInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
@@ -183540,6 +185676,13 @@ export namespace Prisma {
     connect?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
   }
 
+  export type StorageObjectCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<StorageObjectCreateWithoutUploadedByInput, StorageObjectUncheckedCreateWithoutUploadedByInput> | StorageObjectCreateWithoutUploadedByInput[] | StorageObjectUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutUploadedByInput | StorageObjectCreateOrConnectWithoutUploadedByInput[]
+    createMany?: StorageObjectCreateManyUploadedByInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -183781,6 +185924,13 @@ export namespace Prisma {
     connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutOwnerInput | WhatsappInstanceCreateOrConnectWithoutOwnerInput[]
     createMany?: WhatsappInstanceCreateManyOwnerInputEnvelope
     connect?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+  }
+
+  export type StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<StorageObjectCreateWithoutUploadedByInput, StorageObjectUncheckedCreateWithoutUploadedByInput> | StorageObjectCreateWithoutUploadedByInput[] | StorageObjectUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutUploadedByInput | StorageObjectCreateOrConnectWithoutUploadedByInput[]
+    createMany?: StorageObjectCreateManyUploadedByInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -184303,6 +186453,20 @@ export namespace Prisma {
     deleteMany?: WhatsappInstanceScalarWhereInput | WhatsappInstanceScalarWhereInput[]
   }
 
+  export type StorageObjectUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutUploadedByInput, StorageObjectUncheckedCreateWithoutUploadedByInput> | StorageObjectCreateWithoutUploadedByInput[] | StorageObjectUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutUploadedByInput | StorageObjectCreateOrConnectWithoutUploadedByInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutUploadedByInput | StorageObjectUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: StorageObjectCreateManyUploadedByInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutUploadedByInput | StorageObjectUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutUploadedByInput | StorageObjectUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -184783,6 +186947,20 @@ export namespace Prisma {
     update?: WhatsappInstanceUpdateWithWhereUniqueWithoutOwnerInput | WhatsappInstanceUpdateWithWhereUniqueWithoutOwnerInput[]
     updateMany?: WhatsappInstanceUpdateManyWithWhereWithoutOwnerInput | WhatsappInstanceUpdateManyWithWhereWithoutOwnerInput[]
     deleteMany?: WhatsappInstanceScalarWhereInput | WhatsappInstanceScalarWhereInput[]
+  }
+
+  export type StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutUploadedByInput, StorageObjectUncheckedCreateWithoutUploadedByInput> | StorageObjectCreateWithoutUploadedByInput[] | StorageObjectUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutUploadedByInput | StorageObjectCreateOrConnectWithoutUploadedByInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutUploadedByInput | StorageObjectUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: StorageObjectCreateManyUploadedByInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutUploadedByInput | StorageObjectUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutUploadedByInput | StorageObjectUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutQuickRepliesInput = {
@@ -185485,6 +187663,13 @@ export namespace Prisma {
     connect?: BlingIntegrationWhereUniqueInput
   }
 
+  export type StorageObjectCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<StorageObjectCreateWithoutCompanyInput, StorageObjectUncheckedCreateWithoutCompanyInput> | StorageObjectCreateWithoutCompanyInput[] | StorageObjectUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutCompanyInput | StorageObjectCreateOrConnectWithoutCompanyInput[]
+    createMany?: StorageObjectCreateManyCompanyInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -186088,6 +188273,13 @@ export namespace Prisma {
     create?: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
     connectOrCreate?: BlingIntegrationCreateOrConnectWithoutCompanyInput
     connect?: BlingIntegrationWhereUniqueInput
+  }
+
+  export type StorageObjectUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<StorageObjectCreateWithoutCompanyInput, StorageObjectUncheckedCreateWithoutCompanyInput> | StorageObjectCreateWithoutCompanyInput[] | StorageObjectUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutCompanyInput | StorageObjectCreateOrConnectWithoutCompanyInput[]
+    createMany?: StorageObjectCreateManyCompanyInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -187310,6 +189502,20 @@ export namespace Prisma {
     update?: XOR<XOR<BlingIntegrationUpdateToOneWithWhereWithoutCompanyInput, BlingIntegrationUpdateWithoutCompanyInput>, BlingIntegrationUncheckedUpdateWithoutCompanyInput>
   }
 
+  export type StorageObjectUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutCompanyInput, StorageObjectUncheckedCreateWithoutCompanyInput> | StorageObjectCreateWithoutCompanyInput[] | StorageObjectUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutCompanyInput | StorageObjectCreateOrConnectWithoutCompanyInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutCompanyInput | StorageObjectUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: StorageObjectCreateManyCompanyInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutCompanyInput | StorageObjectUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutCompanyInput | StorageObjectUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -188510,6 +190716,20 @@ export namespace Prisma {
     delete?: BlingIntegrationWhereInput | boolean
     connect?: BlingIntegrationWhereUniqueInput
     update?: XOR<XOR<BlingIntegrationUpdateToOneWithWhereWithoutCompanyInput, BlingIntegrationUpdateWithoutCompanyInput>, BlingIntegrationUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutCompanyInput, StorageObjectUncheckedCreateWithoutCompanyInput> | StorageObjectCreateWithoutCompanyInput[] | StorageObjectUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutCompanyInput | StorageObjectCreateOrConnectWithoutCompanyInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutCompanyInput | StorageObjectUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: StorageObjectCreateManyCompanyInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutCompanyInput | StorageObjectUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutCompanyInput | StorageObjectUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -190498,6 +192718,13 @@ export namespace Prisma {
     connect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
   }
 
+  export type StorageObjectCreateNestedManyWithoutTicketInput = {
+    create?: XOR<StorageObjectCreateWithoutTicketInput, StorageObjectUncheckedCreateWithoutTicketInput> | StorageObjectCreateWithoutTicketInput[] | StorageObjectUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutTicketInput | StorageObjectCreateOrConnectWithoutTicketInput[]
+    createMany?: StorageObjectCreateManyTicketInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+  }
+
   export type TicketMessageUncheckedCreateNestedManyWithoutTicketInput = {
     create?: XOR<TicketMessageCreateWithoutTicketInput, TicketMessageUncheckedCreateWithoutTicketInput> | TicketMessageCreateWithoutTicketInput[] | TicketMessageUncheckedCreateWithoutTicketInput[]
     connectOrCreate?: TicketMessageCreateOrConnectWithoutTicketInput | TicketMessageCreateOrConnectWithoutTicketInput[]
@@ -190524,6 +192751,13 @@ export namespace Prisma {
     connectOrCreate?: InboxEmailCreateOrConnectWithoutTicketInput | InboxEmailCreateOrConnectWithoutTicketInput[]
     createMany?: InboxEmailCreateManyTicketInputEnvelope
     connect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+  }
+
+  export type StorageObjectUncheckedCreateNestedManyWithoutTicketInput = {
+    create?: XOR<StorageObjectCreateWithoutTicketInput, StorageObjectUncheckedCreateWithoutTicketInput> | StorageObjectCreateWithoutTicketInput[] | StorageObjectUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutTicketInput | StorageObjectCreateOrConnectWithoutTicketInput[]
+    createMany?: StorageObjectCreateManyTicketInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
   }
 
   export type EnumTicketStatusFieldUpdateOperationsInput = {
@@ -190648,6 +192882,20 @@ export namespace Prisma {
     deleteMany?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
   }
 
+  export type StorageObjectUpdateManyWithoutTicketNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutTicketInput, StorageObjectUncheckedCreateWithoutTicketInput> | StorageObjectCreateWithoutTicketInput[] | StorageObjectUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutTicketInput | StorageObjectCreateOrConnectWithoutTicketInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutTicketInput | StorageObjectUpsertWithWhereUniqueWithoutTicketInput[]
+    createMany?: StorageObjectCreateManyTicketInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutTicketInput | StorageObjectUpdateWithWhereUniqueWithoutTicketInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutTicketInput | StorageObjectUpdateManyWithWhereWithoutTicketInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+  }
+
   export type TicketMessageUncheckedUpdateManyWithoutTicketNestedInput = {
     create?: XOR<TicketMessageCreateWithoutTicketInput, TicketMessageUncheckedCreateWithoutTicketInput> | TicketMessageCreateWithoutTicketInput[] | TicketMessageUncheckedCreateWithoutTicketInput[]
     connectOrCreate?: TicketMessageCreateOrConnectWithoutTicketInput | TicketMessageCreateOrConnectWithoutTicketInput[]
@@ -190704,10 +192952,38 @@ export namespace Prisma {
     deleteMany?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
   }
 
+  export type StorageObjectUncheckedUpdateManyWithoutTicketNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutTicketInput, StorageObjectUncheckedCreateWithoutTicketInput> | StorageObjectCreateWithoutTicketInput[] | StorageObjectUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutTicketInput | StorageObjectCreateOrConnectWithoutTicketInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutTicketInput | StorageObjectUpsertWithWhereUniqueWithoutTicketInput[]
+    createMany?: StorageObjectCreateManyTicketInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutTicketInput | StorageObjectUpdateWithWhereUniqueWithoutTicketInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutTicketInput | StorageObjectUpdateManyWithWhereWithoutTicketInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+  }
+
   export type TicketCreateNestedOneWithoutMessagesInput = {
     create?: XOR<TicketCreateWithoutMessagesInput, TicketUncheckedCreateWithoutMessagesInput>
     connectOrCreate?: TicketCreateOrConnectWithoutMessagesInput
     connect?: TicketWhereUniqueInput
+  }
+
+  export type StorageObjectCreateNestedManyWithoutTicketMessageInput = {
+    create?: XOR<StorageObjectCreateWithoutTicketMessageInput, StorageObjectUncheckedCreateWithoutTicketMessageInput> | StorageObjectCreateWithoutTicketMessageInput[] | StorageObjectUncheckedCreateWithoutTicketMessageInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutTicketMessageInput | StorageObjectCreateOrConnectWithoutTicketMessageInput[]
+    createMany?: StorageObjectCreateManyTicketMessageInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+  }
+
+  export type StorageObjectUncheckedCreateNestedManyWithoutTicketMessageInput = {
+    create?: XOR<StorageObjectCreateWithoutTicketMessageInput, StorageObjectUncheckedCreateWithoutTicketMessageInput> | StorageObjectCreateWithoutTicketMessageInput[] | StorageObjectUncheckedCreateWithoutTicketMessageInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutTicketMessageInput | StorageObjectCreateOrConnectWithoutTicketMessageInput[]
+    createMany?: StorageObjectCreateManyTicketMessageInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
   }
 
   export type TicketUpdateOneRequiredWithoutMessagesNestedInput = {
@@ -190716,6 +192992,34 @@ export namespace Prisma {
     upsert?: TicketUpsertWithoutMessagesInput
     connect?: TicketWhereUniqueInput
     update?: XOR<XOR<TicketUpdateToOneWithWhereWithoutMessagesInput, TicketUpdateWithoutMessagesInput>, TicketUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type StorageObjectUpdateManyWithoutTicketMessageNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutTicketMessageInput, StorageObjectUncheckedCreateWithoutTicketMessageInput> | StorageObjectCreateWithoutTicketMessageInput[] | StorageObjectUncheckedCreateWithoutTicketMessageInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutTicketMessageInput | StorageObjectCreateOrConnectWithoutTicketMessageInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutTicketMessageInput | StorageObjectUpsertWithWhereUniqueWithoutTicketMessageInput[]
+    createMany?: StorageObjectCreateManyTicketMessageInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutTicketMessageInput | StorageObjectUpdateWithWhereUniqueWithoutTicketMessageInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutTicketMessageInput | StorageObjectUpdateManyWithWhereWithoutTicketMessageInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+  }
+
+  export type StorageObjectUncheckedUpdateManyWithoutTicketMessageNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutTicketMessageInput, StorageObjectUncheckedCreateWithoutTicketMessageInput> | StorageObjectCreateWithoutTicketMessageInput[] | StorageObjectUncheckedCreateWithoutTicketMessageInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutTicketMessageInput | StorageObjectCreateOrConnectWithoutTicketMessageInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutTicketMessageInput | StorageObjectUpsertWithWhereUniqueWithoutTicketMessageInput[]
+    createMany?: StorageObjectCreateManyTicketMessageInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutTicketMessageInput | StorageObjectUpdateWithWhereUniqueWithoutTicketMessageInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutTicketMessageInput | StorageObjectUpdateManyWithWhereWithoutTicketMessageInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutSetoresInput = {
@@ -191471,11 +193775,25 @@ export namespace Prisma {
     connect?: ProjectMaterialWhereUniqueInput | ProjectMaterialWhereUniqueInput[]
   }
 
+  export type StorageObjectCreateNestedManyWithoutProjectTaskInput = {
+    create?: XOR<StorageObjectCreateWithoutProjectTaskInput, StorageObjectUncheckedCreateWithoutProjectTaskInput> | StorageObjectCreateWithoutProjectTaskInput[] | StorageObjectUncheckedCreateWithoutProjectTaskInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutProjectTaskInput | StorageObjectCreateOrConnectWithoutProjectTaskInput[]
+    createMany?: StorageObjectCreateManyProjectTaskInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+  }
+
   export type ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput = {
     create?: XOR<ProjectMaterialCreateWithoutTaskInput, ProjectMaterialUncheckedCreateWithoutTaskInput> | ProjectMaterialCreateWithoutTaskInput[] | ProjectMaterialUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: ProjectMaterialCreateOrConnectWithoutTaskInput | ProjectMaterialCreateOrConnectWithoutTaskInput[]
     createMany?: ProjectMaterialCreateManyTaskInputEnvelope
     connect?: ProjectMaterialWhereUniqueInput | ProjectMaterialWhereUniqueInput[]
+  }
+
+  export type StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput = {
+    create?: XOR<StorageObjectCreateWithoutProjectTaskInput, StorageObjectUncheckedCreateWithoutProjectTaskInput> | StorageObjectCreateWithoutProjectTaskInput[] | StorageObjectUncheckedCreateWithoutProjectTaskInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutProjectTaskInput | StorageObjectCreateOrConnectWithoutProjectTaskInput[]
+    createMany?: StorageObjectCreateManyProjectTaskInputEnvelope
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
   }
 
   export type SetorClickupListUpdateOneRequiredWithoutInternalTasksNestedInput = {
@@ -191530,6 +193848,20 @@ export namespace Prisma {
     deleteMany?: ProjectMaterialScalarWhereInput | ProjectMaterialScalarWhereInput[]
   }
 
+  export type StorageObjectUpdateManyWithoutProjectTaskNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutProjectTaskInput, StorageObjectUncheckedCreateWithoutProjectTaskInput> | StorageObjectCreateWithoutProjectTaskInput[] | StorageObjectUncheckedCreateWithoutProjectTaskInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutProjectTaskInput | StorageObjectCreateOrConnectWithoutProjectTaskInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutProjectTaskInput | StorageObjectUpsertWithWhereUniqueWithoutProjectTaskInput[]
+    createMany?: StorageObjectCreateManyProjectTaskInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutProjectTaskInput | StorageObjectUpdateWithWhereUniqueWithoutProjectTaskInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutProjectTaskInput | StorageObjectUpdateManyWithWhereWithoutProjectTaskInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+  }
+
   export type ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput = {
     create?: XOR<ProjectMaterialCreateWithoutTaskInput, ProjectMaterialUncheckedCreateWithoutTaskInput> | ProjectMaterialCreateWithoutTaskInput[] | ProjectMaterialUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: ProjectMaterialCreateOrConnectWithoutTaskInput | ProjectMaterialCreateOrConnectWithoutTaskInput[]
@@ -191542,6 +193874,20 @@ export namespace Prisma {
     update?: ProjectMaterialUpdateWithWhereUniqueWithoutTaskInput | ProjectMaterialUpdateWithWhereUniqueWithoutTaskInput[]
     updateMany?: ProjectMaterialUpdateManyWithWhereWithoutTaskInput | ProjectMaterialUpdateManyWithWhereWithoutTaskInput[]
     deleteMany?: ProjectMaterialScalarWhereInput | ProjectMaterialScalarWhereInput[]
+  }
+
+  export type StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutProjectTaskInput, StorageObjectUncheckedCreateWithoutProjectTaskInput> | StorageObjectCreateWithoutProjectTaskInput[] | StorageObjectUncheckedCreateWithoutProjectTaskInput[]
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutProjectTaskInput | StorageObjectCreateOrConnectWithoutProjectTaskInput[]
+    upsert?: StorageObjectUpsertWithWhereUniqueWithoutProjectTaskInput | StorageObjectUpsertWithWhereUniqueWithoutProjectTaskInput[]
+    createMany?: StorageObjectCreateManyProjectTaskInputEnvelope
+    set?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    disconnect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    delete?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+    update?: StorageObjectUpdateWithWhereUniqueWithoutProjectTaskInput | StorageObjectUpdateWithWhereUniqueWithoutProjectTaskInput[]
+    updateMany?: StorageObjectUpdateManyWithWhereWithoutProjectTaskInput | StorageObjectUpdateManyWithWhereWithoutProjectTaskInput[]
+    deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
   }
 
   export type SetorClickupListCreateNestedOneWithoutServiceStepsInput = {
@@ -195104,6 +197450,84 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTimesheetSignaturesInput, UserUpdateWithoutTimesheetSignaturesInput>, UserUncheckedUpdateWithoutTimesheetSignaturesInput>
   }
 
+  export type CompanyCreateNestedOneWithoutStorageObjectsInput = {
+    create?: XOR<CompanyCreateWithoutStorageObjectsInput, CompanyUncheckedCreateWithoutStorageObjectsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutStorageObjectsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type TicketCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<TicketCreateWithoutAttachmentsInput, TicketUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: TicketCreateOrConnectWithoutAttachmentsInput
+    connect?: TicketWhereUniqueInput
+  }
+
+  export type TicketMessageCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<TicketMessageCreateWithoutAttachmentsInput, TicketMessageUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: TicketMessageCreateOrConnectWithoutAttachmentsInput
+    connect?: TicketMessageWhereUniqueInput
+  }
+
+  export type ProjectTaskCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<ProjectTaskCreateWithoutAttachmentsInput, ProjectTaskUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: ProjectTaskCreateOrConnectWithoutAttachmentsInput
+    connect?: ProjectTaskWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutUploadedFilesInput = {
+    create?: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedFilesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput = {
+    create?: XOR<CompanyCreateWithoutStorageObjectsInput, CompanyUncheckedCreateWithoutStorageObjectsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutStorageObjectsInput
+    upsert?: CompanyUpsertWithoutStorageObjectsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutStorageObjectsInput, CompanyUpdateWithoutStorageObjectsInput>, CompanyUncheckedUpdateWithoutStorageObjectsInput>
+  }
+
+  export type TicketUpdateOneWithoutAttachmentsNestedInput = {
+    create?: XOR<TicketCreateWithoutAttachmentsInput, TicketUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: TicketCreateOrConnectWithoutAttachmentsInput
+    upsert?: TicketUpsertWithoutAttachmentsInput
+    disconnect?: TicketWhereInput | boolean
+    delete?: TicketWhereInput | boolean
+    connect?: TicketWhereUniqueInput
+    update?: XOR<XOR<TicketUpdateToOneWithWhereWithoutAttachmentsInput, TicketUpdateWithoutAttachmentsInput>, TicketUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type TicketMessageUpdateOneWithoutAttachmentsNestedInput = {
+    create?: XOR<TicketMessageCreateWithoutAttachmentsInput, TicketMessageUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: TicketMessageCreateOrConnectWithoutAttachmentsInput
+    upsert?: TicketMessageUpsertWithoutAttachmentsInput
+    disconnect?: TicketMessageWhereInput | boolean
+    delete?: TicketMessageWhereInput | boolean
+    connect?: TicketMessageWhereUniqueInput
+    update?: XOR<XOR<TicketMessageUpdateToOneWithWhereWithoutAttachmentsInput, TicketMessageUpdateWithoutAttachmentsInput>, TicketMessageUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type ProjectTaskUpdateOneWithoutAttachmentsNestedInput = {
+    create?: XOR<ProjectTaskCreateWithoutAttachmentsInput, ProjectTaskUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: ProjectTaskCreateOrConnectWithoutAttachmentsInput
+    upsert?: ProjectTaskUpsertWithoutAttachmentsInput
+    disconnect?: ProjectTaskWhereInput | boolean
+    delete?: ProjectTaskWhereInput | boolean
+    connect?: ProjectTaskWhereUniqueInput
+    update?: XOR<XOR<ProjectTaskUpdateToOneWithWhereWithoutAttachmentsInput, ProjectTaskUpdateWithoutAttachmentsInput>, ProjectTaskUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type UserUpdateOneWithoutUploadedFilesNestedInput = {
+    create?: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedFilesInput
+    upsert?: UserUpsertWithoutUploadedFilesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUploadedFilesInput, UserUpdateWithoutUploadedFilesInput>, UserUncheckedUpdateWithoutUploadedFilesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -196531,6 +198955,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -196664,6 +199089,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -196696,6 +199122,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutCreatedByInput = {
@@ -196723,6 +199150,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutCreatedByInput = {
@@ -196760,6 +199188,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutAssigneeInput = {
@@ -196787,6 +199216,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutAssigneeInput = {
@@ -197371,6 +199801,7 @@ export namespace Prisma {
     projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutAssigneeInput = {
@@ -197394,6 +199825,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutAssigneeInput = {
@@ -197427,6 +199859,7 @@ export namespace Prisma {
     projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutCreatedByInput = {
@@ -197450,6 +199883,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutCreatedByInput = {
@@ -198075,6 +200509,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type StorageObjectCreateWithoutUploadedByInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStorageObjectsInput
+    ticket?: TicketCreateNestedOneWithoutAttachmentsInput
+    ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
+    projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+  }
+
+  export type StorageObjectUncheckedCreateWithoutUploadedByInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageObjectCreateOrConnectWithoutUploadedByInput = {
+    where: StorageObjectWhereUniqueInput
+    create: XOR<StorageObjectCreateWithoutUploadedByInput, StorageObjectUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type StorageObjectCreateManyUploadedByInputEnvelope = {
+    data: StorageObjectCreateManyUploadedByInput | StorageObjectCreateManyUploadedByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -198217,6 +200693,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -198350,6 +200827,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -199422,6 +201900,42 @@ export namespace Prisma {
     companyId?: StringFilter<"WhatsappInstance"> | string
   }
 
+  export type StorageObjectUpsertWithWhereUniqueWithoutUploadedByInput = {
+    where: StorageObjectWhereUniqueInput
+    update: XOR<StorageObjectUpdateWithoutUploadedByInput, StorageObjectUncheckedUpdateWithoutUploadedByInput>
+    create: XOR<StorageObjectCreateWithoutUploadedByInput, StorageObjectUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type StorageObjectUpdateWithWhereUniqueWithoutUploadedByInput = {
+    where: StorageObjectWhereUniqueInput
+    data: XOR<StorageObjectUpdateWithoutUploadedByInput, StorageObjectUncheckedUpdateWithoutUploadedByInput>
+  }
+
+  export type StorageObjectUpdateManyWithWhereWithoutUploadedByInput = {
+    where: StorageObjectScalarWhereInput
+    data: XOR<StorageObjectUpdateManyMutationInput, StorageObjectUncheckedUpdateManyWithoutUploadedByInput>
+  }
+
+  export type StorageObjectScalarWhereInput = {
+    AND?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+    OR?: StorageObjectScalarWhereInput[]
+    NOT?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+    id?: StringFilter<"StorageObject"> | string
+    companyId?: StringFilter<"StorageObject"> | string
+    bucket?: StringFilter<"StorageObject"> | string
+    key?: StringFilter<"StorageObject"> | string
+    fileName?: StringFilter<"StorageObject"> | string
+    mimeType?: StringFilter<"StorageObject"> | string
+    size?: IntFilter<"StorageObject"> | number
+    status?: StringFilter<"StorageObject"> | string
+    ticketId?: StringNullableFilter<"StorageObject"> | string | null
+    ticketMessageId?: StringNullableFilter<"StorageObject"> | string | null
+    projectTaskId?: StringNullableFilter<"StorageObject"> | string | null
+    uploadedById?: StringNullableFilter<"StorageObject"> | string | null
+    createdAt?: DateTimeFilter<"StorageObject"> | Date | string
+    updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
+  }
+
   export type CompanyCreateWithoutQuickRepliesInput = {
     id?: string
     name: string
@@ -199553,6 +202067,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutQuickRepliesInput = {
@@ -199686,6 +202201,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutQuickRepliesInput = {
@@ -199742,6 +202258,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutQuickRepliesInput = {
@@ -199793,6 +202310,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutQuickRepliesInput = {
@@ -199942,6 +202460,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutQuickRepliesInput = {
@@ -200075,6 +202594,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutQuickRepliesInput = {
@@ -200137,6 +202657,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuickRepliesInput = {
@@ -200188,6 +202709,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserCreateWithoutVaultChallengesInput = {
@@ -200239,6 +202761,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -200290,6 +202813,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -200357,6 +202881,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -200408,6 +202933,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -200459,6 +202985,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -200510,6 +203037,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -200577,6 +203105,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -200628,6 +203157,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -200679,6 +203209,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -200730,6 +203261,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -200797,6 +203329,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -200848,6 +203381,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -200981,6 +203515,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -201114,6 +203649,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -201252,6 +203788,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -201385,6 +203922,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -201446,6 +203984,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -201497,6 +204036,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -202669,6 +205209,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutCompanyInput = {
@@ -202696,6 +205237,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutCompanyInput = {
@@ -202733,6 +205275,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutClientCompanyInput = {
@@ -202760,6 +205303,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutClientCompanyInput = {
@@ -203535,6 +206079,7 @@ export namespace Prisma {
     provider: $Enums.IntegrationProvider
     accountId?: string | null
     accountLabel?: string | null
+    nickname?: string | null
     accessTokenEnc?: string | null
     refreshTokenEnc?: string | null
     tokenExpiresAt?: Date | string | null
@@ -203555,6 +206100,7 @@ export namespace Prisma {
     provider: $Enums.IntegrationProvider
     accountId?: string | null
     accountLabel?: string | null
+    nickname?: string | null
     accessTokenEnc?: string | null
     refreshTokenEnc?: string | null
     tokenExpiresAt?: Date | string | null
@@ -203899,6 +206445,7 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     sessions?: number
@@ -203915,6 +206462,7 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     sessions?: number
@@ -203941,6 +206489,7 @@ export namespace Prisma {
 
   export type AnalyticsTopPageCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     pagePath: string
@@ -203952,6 +206501,7 @@ export namespace Prisma {
 
   export type AnalyticsTopPageUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     pagePath: string
@@ -203973,6 +206523,7 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     rawSource: string
@@ -203985,6 +206536,7 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     rawSource: string
@@ -204007,6 +206559,7 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     countryCode?: string | null
@@ -204019,6 +206572,7 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     countryCode?: string | null
@@ -204041,6 +206595,7 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -204052,6 +206607,7 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -204073,6 +206629,7 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -204086,6 +206643,7 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -204143,6 +206701,7 @@ export namespace Prisma {
 
   export type SearchConsoleQueryCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     query: string
     page?: string | null
@@ -204156,6 +206715,7 @@ export namespace Prisma {
 
   export type SearchConsoleQueryUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     query: string
     page?: string | null
@@ -204179,6 +206739,7 @@ export namespace Prisma {
 
   export type GbpInsightCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     impressionsSearchDesktop?: number
     impressionsSearchMobile?: number
@@ -204195,6 +206756,7 @@ export namespace Prisma {
 
   export type GbpInsightUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     impressionsSearchDesktop?: number
     impressionsSearchMobile?: number
@@ -204221,6 +206783,7 @@ export namespace Prisma {
 
   export type GbpReviewCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     googleReviewId: string
     reviewerName?: string | null
     reviewerPhotoUrl?: string | null
@@ -204236,6 +206799,7 @@ export namespace Prisma {
 
   export type GbpReviewUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     googleReviewId: string
     reviewerName?: string | null
     reviewerPhotoUrl?: string | null
@@ -204261,6 +206825,7 @@ export namespace Prisma {
 
   export type GbpSearchKeywordCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     keyword: string
     year: number
     month: number
@@ -204271,6 +206836,7 @@ export namespace Prisma {
 
   export type GbpSearchKeywordUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     keyword: string
     year: number
     month: number
@@ -204291,6 +206857,7 @@ export namespace Prisma {
 
   export type GbpProfileSnapshotCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     title?: string | null
     primaryCategory?: string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -204307,6 +206874,7 @@ export namespace Prisma {
 
   export type GbpProfileSnapshotUncheckedCreateWithoutCompanyInput = {
     id?: string
+    integrationId?: string
     title?: string | null
     primaryCategory?: string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -205127,6 +207695,48 @@ export namespace Prisma {
     create: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
   }
 
+  export type StorageObjectCreateWithoutCompanyInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ticket?: TicketCreateNestedOneWithoutAttachmentsInput
+    ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
+    projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type StorageObjectUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageObjectCreateOrConnectWithoutCompanyInput = {
+    where: StorageObjectWhereUniqueInput
+    create: XOR<StorageObjectCreateWithoutCompanyInput, StorageObjectUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type StorageObjectCreateManyCompanyInputEnvelope = {
+    data: StorageObjectCreateManyCompanyInput | StorageObjectCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutSubCompaniesInput = {
     update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
     create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
@@ -205269,6 +207879,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -205402,6 +208013,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -206849,6 +209461,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFilter<"MarketingIntegration"> | $Enums.IntegrationProvider
     accountId?: StringNullableFilter<"MarketingIntegration"> | string | null
     accountLabel?: StringNullableFilter<"MarketingIntegration"> | string | null
+    nickname?: StringNullableFilter<"MarketingIntegration"> | string | null
     accessTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
     refreshTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
     tokenExpiresAt?: DateTimeNullableFilter<"MarketingIntegration"> | Date | string | null
@@ -207151,6 +209764,7 @@ export namespace Prisma {
     NOT?: AnalyticsSnapshotScalarWhereInput | AnalyticsSnapshotScalarWhereInput[]
     id?: StringFilter<"AnalyticsSnapshot"> | string
     companyId?: StringFilter<"AnalyticsSnapshot"> | string
+    integrationId?: StringFilter<"AnalyticsSnapshot"> | string
     date?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
     source?: StringFilter<"AnalyticsSnapshot"> | string
     sessions?: IntFilter<"AnalyticsSnapshot"> | number
@@ -207187,6 +209801,7 @@ export namespace Prisma {
     NOT?: AnalyticsTopPageScalarWhereInput | AnalyticsTopPageScalarWhereInput[]
     id?: StringFilter<"AnalyticsTopPage"> | string
     companyId?: StringFilter<"AnalyticsTopPage"> | string
+    integrationId?: StringFilter<"AnalyticsTopPage"> | string
     date?: DateTimeFilter<"AnalyticsTopPage"> | Date | string
     source?: StringFilter<"AnalyticsTopPage"> | string
     pagePath?: StringFilter<"AnalyticsTopPage"> | string
@@ -207218,6 +209833,7 @@ export namespace Prisma {
     NOT?: AnalyticsTrafficSourceScalarWhereInput | AnalyticsTrafficSourceScalarWhereInput[]
     id?: StringFilter<"AnalyticsTrafficSource"> | string
     companyId?: StringFilter<"AnalyticsTrafficSource"> | string
+    integrationId?: StringFilter<"AnalyticsTrafficSource"> | string
     date?: DateTimeFilter<"AnalyticsTrafficSource"> | Date | string
     source?: StringFilter<"AnalyticsTrafficSource"> | string
     rawSource?: StringFilter<"AnalyticsTrafficSource"> | string
@@ -207250,6 +209866,7 @@ export namespace Prisma {
     NOT?: AnalyticsGeoDataScalarWhereInput | AnalyticsGeoDataScalarWhereInput[]
     id?: StringFilter<"AnalyticsGeoData"> | string
     companyId?: StringFilter<"AnalyticsGeoData"> | string
+    integrationId?: StringFilter<"AnalyticsGeoData"> | string
     date?: DateTimeFilter<"AnalyticsGeoData"> | Date | string
     source?: StringFilter<"AnalyticsGeoData"> | string
     countryCode?: StringNullableFilter<"AnalyticsGeoData"> | string | null
@@ -207282,6 +209899,7 @@ export namespace Prisma {
     NOT?: AnalyticsEventDailyScalarWhereInput | AnalyticsEventDailyScalarWhereInput[]
     id?: StringFilter<"AnalyticsEventDaily"> | string
     companyId?: StringFilter<"AnalyticsEventDaily"> | string
+    integrationId?: StringFilter<"AnalyticsEventDaily"> | string
     date?: DateTimeFilter<"AnalyticsEventDaily"> | Date | string
     source?: StringFilter<"AnalyticsEventDaily"> | string
     eventName?: StringFilter<"AnalyticsEventDaily"> | string
@@ -207313,6 +209931,7 @@ export namespace Prisma {
     NOT?: AnalyticsEventParamDailyScalarWhereInput | AnalyticsEventParamDailyScalarWhereInput[]
     id?: StringFilter<"AnalyticsEventParamDaily"> | string
     companyId?: StringFilter<"AnalyticsEventParamDaily"> | string
+    integrationId?: StringFilter<"AnalyticsEventParamDaily"> | string
     date?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
     source?: StringFilter<"AnalyticsEventParamDaily"> | string
     eventName?: StringFilter<"AnalyticsEventParamDaily"> | string
@@ -207378,6 +209997,7 @@ export namespace Prisma {
     NOT?: SearchConsoleQueryScalarWhereInput | SearchConsoleQueryScalarWhereInput[]
     id?: StringFilter<"SearchConsoleQuery"> | string
     companyId?: StringFilter<"SearchConsoleQuery"> | string
+    integrationId?: StringFilter<"SearchConsoleQuery"> | string
     date?: DateTimeFilter<"SearchConsoleQuery"> | Date | string
     query?: StringFilter<"SearchConsoleQuery"> | string
     page?: StringNullableFilter<"SearchConsoleQuery"> | string | null
@@ -207411,6 +210031,7 @@ export namespace Prisma {
     NOT?: GbpInsightScalarWhereInput | GbpInsightScalarWhereInput[]
     id?: StringFilter<"GbpInsight"> | string
     companyId?: StringFilter<"GbpInsight"> | string
+    integrationId?: StringFilter<"GbpInsight"> | string
     date?: DateTimeFilter<"GbpInsight"> | Date | string
     impressionsSearchDesktop?: IntFilter<"GbpInsight"> | number
     impressionsSearchMobile?: IntFilter<"GbpInsight"> | number
@@ -207447,6 +210068,7 @@ export namespace Prisma {
     NOT?: GbpReviewScalarWhereInput | GbpReviewScalarWhereInput[]
     id?: StringFilter<"GbpReview"> | string
     companyId?: StringFilter<"GbpReview"> | string
+    integrationId?: StringFilter<"GbpReview"> | string
     googleReviewId?: StringFilter<"GbpReview"> | string
     reviewerName?: StringNullableFilter<"GbpReview"> | string | null
     reviewerPhotoUrl?: StringNullableFilter<"GbpReview"> | string | null
@@ -207482,6 +210104,7 @@ export namespace Prisma {
     NOT?: GbpSearchKeywordScalarWhereInput | GbpSearchKeywordScalarWhereInput[]
     id?: StringFilter<"GbpSearchKeyword"> | string
     companyId?: StringFilter<"GbpSearchKeyword"> | string
+    integrationId?: StringFilter<"GbpSearchKeyword"> | string
     keyword?: StringFilter<"GbpSearchKeyword"> | string
     year?: IntFilter<"GbpSearchKeyword"> | number
     month?: IntFilter<"GbpSearchKeyword"> | number
@@ -207512,6 +210135,7 @@ export namespace Prisma {
     NOT?: GbpProfileSnapshotScalarWhereInput | GbpProfileSnapshotScalarWhereInput[]
     id?: StringFilter<"GbpProfileSnapshot"> | string
     companyId?: StringFilter<"GbpProfileSnapshot"> | string
+    integrationId?: StringFilter<"GbpProfileSnapshot"> | string
     title?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
     primaryCategory?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
     storefrontAddress?: JsonNullableFilter<"GbpProfileSnapshot">
@@ -208132,6 +210756,22 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type StorageObjectUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: StorageObjectWhereUniqueInput
+    update: XOR<StorageObjectUpdateWithoutCompanyInput, StorageObjectUncheckedUpdateWithoutCompanyInput>
+    create: XOR<StorageObjectCreateWithoutCompanyInput, StorageObjectUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type StorageObjectUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: StorageObjectWhereUniqueInput
+    data: XOR<StorageObjectUpdateWithoutCompanyInput, StorageObjectUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type StorageObjectUpdateManyWithWhereWithoutCompanyInput = {
+    where: StorageObjectScalarWhereInput
+    data: XOR<StorageObjectUpdateManyMutationInput, StorageObjectUncheckedUpdateManyWithoutCompanyInput>
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -208263,6 +210903,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -208396,6 +211037,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -208807,6 +211449,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -208940,6 +211583,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -209178,6 +211822,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -209311,6 +211956,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -209655,6 +212301,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -209788,6 +212435,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -210049,6 +212697,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -210182,6 +212831,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -210976,6 +213626,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -211109,6 +213760,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -211736,6 +214388,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTagsInput = {
@@ -211869,6 +214522,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTagsInput = {
@@ -212038,6 +214692,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTagsInput = {
@@ -212171,6 +214826,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadTagUpsertWithWhereUniqueWithoutTagInput = {
@@ -212616,6 +215272,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -212749,6 +215406,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -212924,6 +215582,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -213057,6 +215716,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -213514,6 +216174,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyFieldDefsInput = {
@@ -213647,6 +216308,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyFieldDefsInput = {
@@ -213822,6 +216484,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyFieldDefsInput = {
@@ -213955,6 +216618,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -214104,6 +216768,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyCustomValuesInput = {
@@ -214237,6 +216902,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyCustomValuesInput = {
@@ -214415,6 +217081,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyCustomValuesInput = {
@@ -214548,6 +217215,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCustomFieldDefUpsertWithoutValuesInput = {
@@ -214833,6 +217501,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -214966,6 +217635,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -215022,6 +217692,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutTasksAssignedInput = {
@@ -215073,6 +217744,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutTasksAssignedInput = {
@@ -215129,6 +217801,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutTasksCreatedInput = {
@@ -215180,6 +217853,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutTasksCreatedInput = {
@@ -215452,6 +218126,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -215585,6 +218260,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksAssignedInput = {
@@ -215647,6 +218323,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksAssignedInput = {
@@ -215698,6 +218375,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUpsertWithoutTasksCreatedInput = {
@@ -215760,6 +218438,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksCreatedInput = {
@@ -215811,6 +218490,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type LeadCreateWithoutCommentsInput = {
@@ -216184,6 +218864,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -216317,6 +218998,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -216466,6 +219148,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -216599,6 +219282,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -216732,6 +219416,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -216865,6 +219550,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -216921,6 +219607,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -216972,6 +219659,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -217121,6 +219809,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -217254,6 +219943,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -217316,6 +220006,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -217367,6 +220058,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserCreateWithoutOwnedInstancesInput = {
@@ -217418,6 +220110,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutOwnedInstancesInput = {
@@ -217469,6 +220162,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutOwnedInstancesInput = {
@@ -217607,6 +220301,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -217740,6 +220435,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -218077,6 +220773,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedInstancesInput = {
@@ -218128,6 +220825,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyUpsertWithoutWhatsappInstancesInput = {
@@ -218272,6 +220970,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -218405,6 +221104,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -218626,6 +221326,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -218759,6 +221460,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -219085,6 +221787,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -219136,6 +221839,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -219285,6 +221989,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -219418,6 +222123,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -219774,6 +222480,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -219825,6 +222532,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -219958,6 +222666,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -220091,6 +222800,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -220281,6 +222991,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -220414,6 +223125,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -220512,6 +223224,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -220563,6 +223276,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -220819,6 +223533,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutConversationsInput = {
@@ -220952,6 +223667,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutConversationsInput = {
@@ -221271,6 +223987,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -221322,6 +224039,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -221596,6 +224314,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutConversationsInput = {
@@ -221729,6 +224448,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -222157,6 +224877,7 @@ export namespace Prisma {
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutActivitiesInput = {
@@ -222184,6 +224905,7 @@ export namespace Prisma {
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutActivitiesInput = {
@@ -222322,6 +225044,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutActivitiesInput = {
@@ -222455,6 +225178,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutActivitiesInput = {
@@ -222694,6 +225418,7 @@ export namespace Prisma {
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutActivitiesInput = {
@@ -222721,6 +225446,7 @@ export namespace Prisma {
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type CompanyUpsertWithoutActivitiesInput = {
@@ -222865,6 +225591,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutActivitiesInput = {
@@ -222998,6 +225725,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutTicketsAsClientInput = {
@@ -223131,6 +225859,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsAsClientInput = {
@@ -223264,6 +225993,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsAsClientInput = {
@@ -223320,6 +226050,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -223371,6 +226102,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -223509,6 +226241,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -223642,6 +226375,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -223698,6 +226432,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -223749,6 +226484,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -223913,6 +226649,7 @@ export namespace Prisma {
     source?: string
     externalId?: string | null
     createdAt?: Date | string
+    attachments?: StorageObjectCreateNestedManyWithoutTicketMessageInput
   }
 
   export type TicketMessageUncheckedCreateWithoutTicketInput = {
@@ -223926,6 +226663,7 @@ export namespace Prisma {
     source?: string
     externalId?: string | null
     createdAt?: Date | string
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketMessageInput
   }
 
   export type TicketMessageCreateOrConnectWithoutTicketInput = {
@@ -224059,6 +226797,48 @@ export namespace Prisma {
 
   export type InboxEmailCreateManyTicketInputEnvelope = {
     data: InboxEmailCreateManyTicketInput | InboxEmailCreateManyTicketInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StorageObjectCreateWithoutTicketInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStorageObjectsInput
+    ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
+    projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type StorageObjectUncheckedCreateWithoutTicketInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageObjectCreateOrConnectWithoutTicketInput = {
+    where: StorageObjectWhereUniqueInput
+    create: XOR<StorageObjectCreateWithoutTicketInput, StorageObjectUncheckedCreateWithoutTicketInput>
+  }
+
+  export type StorageObjectCreateManyTicketInputEnvelope = {
+    data: StorageObjectCreateManyTicketInput | StorageObjectCreateManyTicketInput[]
     skipDuplicates?: boolean
   }
 
@@ -224204,6 +226984,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsAsClientInput = {
@@ -224337,6 +227118,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsAssignedInput = {
@@ -224399,6 +227181,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -224450,6 +227233,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -224594,6 +227378,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -224727,6 +227512,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -224789,6 +227575,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -224840,6 +227627,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -225081,6 +227869,22 @@ export namespace Prisma {
     data: XOR<InboxEmailUpdateManyMutationInput, InboxEmailUncheckedUpdateManyWithoutTicketInput>
   }
 
+  export type StorageObjectUpsertWithWhereUniqueWithoutTicketInput = {
+    where: StorageObjectWhereUniqueInput
+    update: XOR<StorageObjectUpdateWithoutTicketInput, StorageObjectUncheckedUpdateWithoutTicketInput>
+    create: XOR<StorageObjectCreateWithoutTicketInput, StorageObjectUncheckedCreateWithoutTicketInput>
+  }
+
+  export type StorageObjectUpdateWithWhereUniqueWithoutTicketInput = {
+    where: StorageObjectWhereUniqueInput
+    data: XOR<StorageObjectUpdateWithoutTicketInput, StorageObjectUncheckedUpdateWithoutTicketInput>
+  }
+
+  export type StorageObjectUpdateManyWithWhereWithoutTicketInput = {
+    where: StorageObjectScalarWhereInput
+    data: XOR<StorageObjectUpdateManyMutationInput, StorageObjectUncheckedUpdateManyWithoutTicketInput>
+  }
+
   export type TicketCreateWithoutMessagesInput = {
     id?: string
     title: string
@@ -225106,6 +227910,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutMessagesInput = {
@@ -225133,11 +227938,54 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutMessagesInput = {
     where: TicketWhereUniqueInput
     create: XOR<TicketCreateWithoutMessagesInput, TicketUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type StorageObjectCreateWithoutTicketMessageInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStorageObjectsInput
+    ticket?: TicketCreateNestedOneWithoutAttachmentsInput
+    projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type StorageObjectUncheckedCreateWithoutTicketMessageInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    projectTaskId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageObjectCreateOrConnectWithoutTicketMessageInput = {
+    where: StorageObjectWhereUniqueInput
+    create: XOR<StorageObjectCreateWithoutTicketMessageInput, StorageObjectUncheckedCreateWithoutTicketMessageInput>
+  }
+
+  export type StorageObjectCreateManyTicketMessageInputEnvelope = {
+    data: StorageObjectCreateManyTicketMessageInput | StorageObjectCreateManyTicketMessageInput[]
+    skipDuplicates?: boolean
   }
 
   export type TicketUpsertWithoutMessagesInput = {
@@ -225176,6 +228024,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutMessagesInput = {
@@ -225203,6 +228052,23 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
+  }
+
+  export type StorageObjectUpsertWithWhereUniqueWithoutTicketMessageInput = {
+    where: StorageObjectWhereUniqueInput
+    update: XOR<StorageObjectUpdateWithoutTicketMessageInput, StorageObjectUncheckedUpdateWithoutTicketMessageInput>
+    create: XOR<StorageObjectCreateWithoutTicketMessageInput, StorageObjectUncheckedCreateWithoutTicketMessageInput>
+  }
+
+  export type StorageObjectUpdateWithWhereUniqueWithoutTicketMessageInput = {
+    where: StorageObjectWhereUniqueInput
+    data: XOR<StorageObjectUpdateWithoutTicketMessageInput, StorageObjectUncheckedUpdateWithoutTicketMessageInput>
+  }
+
+  export type StorageObjectUpdateManyWithWhereWithoutTicketMessageInput = {
+    where: StorageObjectScalarWhereInput
+    data: XOR<StorageObjectUpdateManyMutationInput, StorageObjectUncheckedUpdateManyWithoutTicketMessageInput>
   }
 
   export type CompanyCreateWithoutSetoresInput = {
@@ -225336,6 +228202,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetoresInput = {
@@ -225469,6 +228336,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetoresInput = {
@@ -225559,6 +228427,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutSetorInput = {
@@ -225586,6 +228455,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutSetorInput = {
@@ -225922,6 +228792,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
@@ -226055,6 +228926,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
@@ -226694,6 +229566,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput = {
@@ -226827,6 +229700,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetorClickupListsAsClientInput = {
@@ -226992,6 +229866,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutProjetoInput = {
@@ -227019,6 +229894,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutProjetoInput = {
@@ -227052,6 +229928,7 @@ export namespace Prisma {
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutProjectInput = {
@@ -227075,6 +229952,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutProjectInput = {
@@ -227402,6 +230280,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput = {
@@ -227535,6 +230414,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutProjectsInput = {
@@ -227927,6 +230807,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksAssignedInput = {
@@ -227978,6 +230859,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksAssignedInput = {
@@ -228034,6 +230916,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksCreatedInput = {
@@ -228085,6 +230968,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksCreatedInput = {
@@ -228135,6 +231019,48 @@ export namespace Prisma {
 
   export type ProjectMaterialCreateManyTaskInputEnvelope = {
     data: ProjectMaterialCreateManyTaskInput | ProjectMaterialCreateManyTaskInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StorageObjectCreateWithoutProjectTaskInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStorageObjectsInput
+    ticket?: TicketCreateNestedOneWithoutAttachmentsInput
+    ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
+    uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type StorageObjectUncheckedCreateWithoutProjectTaskInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageObjectCreateOrConnectWithoutProjectTaskInput = {
+    where: StorageObjectWhereUniqueInput
+    create: XOR<StorageObjectCreateWithoutProjectTaskInput, StorageObjectUncheckedCreateWithoutProjectTaskInput>
+  }
+
+  export type StorageObjectCreateManyProjectTaskInputEnvelope = {
+    data: StorageObjectCreateManyProjectTaskInput | StorageObjectCreateManyProjectTaskInput[]
     skipDuplicates?: boolean
   }
 
@@ -228308,6 +231234,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksAssignedInput = {
@@ -228359,6 +231286,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUpsertWithoutProjectTasksCreatedInput = {
@@ -228421,6 +231349,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksCreatedInput = {
@@ -228472,6 +231401,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type ProjectMaterialUpsertWithWhereUniqueWithoutTaskInput = {
@@ -228488,6 +231418,22 @@ export namespace Prisma {
   export type ProjectMaterialUpdateManyWithWhereWithoutTaskInput = {
     where: ProjectMaterialScalarWhereInput
     data: XOR<ProjectMaterialUpdateManyMutationInput, ProjectMaterialUncheckedUpdateManyWithoutTaskInput>
+  }
+
+  export type StorageObjectUpsertWithWhereUniqueWithoutProjectTaskInput = {
+    where: StorageObjectWhereUniqueInput
+    update: XOR<StorageObjectUpdateWithoutProjectTaskInput, StorageObjectUncheckedUpdateWithoutProjectTaskInput>
+    create: XOR<StorageObjectCreateWithoutProjectTaskInput, StorageObjectUncheckedCreateWithoutProjectTaskInput>
+  }
+
+  export type StorageObjectUpdateWithWhereUniqueWithoutProjectTaskInput = {
+    where: StorageObjectWhereUniqueInput
+    data: XOR<StorageObjectUpdateWithoutProjectTaskInput, StorageObjectUncheckedUpdateWithoutProjectTaskInput>
+  }
+
+  export type StorageObjectUpdateManyWithWhereWithoutProjectTaskInput = {
+    where: StorageObjectScalarWhereInput
+    data: XOR<StorageObjectUpdateManyMutationInput, StorageObjectUncheckedUpdateManyWithoutProjectTaskInput>
   }
 
   export type SetorClickupListCreateWithoutServiceStepsInput = {
@@ -228625,6 +231571,7 @@ export namespace Prisma {
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutProjectServiceInput = {
@@ -228648,6 +231595,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutProjectServiceInput = {
@@ -228827,6 +231775,7 @@ export namespace Prisma {
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutAccessUsersInput = {
@@ -228854,6 +231803,7 @@ export namespace Prisma {
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutAccessUsersInput = {
@@ -228910,6 +231860,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutTicketAccessInput = {
@@ -228961,6 +231912,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutTicketAccessInput = {
@@ -229004,6 +231956,7 @@ export namespace Prisma {
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutAccessUsersInput = {
@@ -229031,6 +231984,7 @@ export namespace Prisma {
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type UserUpsertWithoutTicketAccessInput = {
@@ -229093,6 +232047,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketAccessInput = {
@@ -229144,6 +232099,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type SetorClickupListCreateWithoutAccessUsersInput = {
@@ -229268,6 +232224,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutProjectAccessInput = {
@@ -229319,6 +232276,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutProjectAccessInput = {
@@ -229465,6 +232423,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectAccessInput = {
@@ -229516,6 +232475,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type SetorClickupListCreateWithoutTaskStatesInput = {
@@ -229944,6 +232904,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -229995,6 +232956,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -230141,6 +233103,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -230192,6 +233155,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type SetorClickupListCreateWithoutMaterialsInput = {
@@ -230288,6 +233252,7 @@ export namespace Prisma {
     projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
+    attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutMaterialsInput = {
@@ -230311,6 +233276,7 @@ export namespace Prisma {
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutMaterialsInput = {
@@ -230429,6 +233395,7 @@ export namespace Prisma {
     projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
+    attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutMaterialsInput = {
@@ -230452,6 +233419,7 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type SetorCreateWithoutUsersInput = {
@@ -230576,6 +233544,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -230627,6 +233596,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -230773,6 +233743,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -230824,6 +233795,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -231205,6 +234177,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -231338,6 +234311,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -231537,6 +234511,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -231670,6 +234645,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput = {
@@ -232025,6 +235001,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCredentialAccessLogsInput = {
@@ -232158,6 +235135,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCredentialAccessLogsInput = {
@@ -232358,6 +235336,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCredentialAccessLogsInput = {
@@ -232491,6 +235470,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSecureNotesInput = {
@@ -232624,6 +235604,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNotesInput = {
@@ -232757,6 +235738,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNotesInput = {
@@ -232940,6 +235922,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNotesInput = {
@@ -233073,6 +236056,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput = {
@@ -233253,6 +236237,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput = {
@@ -233386,6 +236371,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNoteAccessLogsInput = {
@@ -233572,6 +236558,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput = {
@@ -233705,6 +236692,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingIntegrationsInput = {
@@ -233838,6 +236826,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingIntegrationsInput = {
@@ -233971,6 +236960,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingIntegrationsInput = {
@@ -234120,6 +237110,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingIntegrationsInput = {
@@ -234253,6 +237244,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBlingIntegrationInput = {
@@ -234386,6 +237378,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBlingIntegrationInput = {
@@ -234519,6 +237512,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBlingIntegrationInput = {
@@ -234668,6 +237662,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBlingIntegrationInput = {
@@ -234801,6 +237796,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMetaConversionConfigInput = {
@@ -234934,6 +237930,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionConfigInput = {
@@ -235067,6 +238064,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionConfigInput = {
@@ -235216,6 +238214,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionConfigInput = {
@@ -235349,6 +238348,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMetaConversionLogsInput = {
@@ -235482,6 +238482,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionLogsInput = {
@@ -235615,6 +238616,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionLogsInput = {
@@ -235764,6 +238766,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionLogsInput = {
@@ -235897,6 +238900,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutInstagramAccountsInput = {
@@ -236030,6 +239034,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInstagramAccountsInput = {
@@ -236163,6 +239168,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInstagramAccountsInput = {
@@ -236536,6 +239542,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInstagramAccountsInput = {
@@ -236669,6 +239676,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type IgAutomationUpsertWithWhereUniqueWithoutAccountInput = {
@@ -236866,6 +239874,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationsInput = {
@@ -236999,6 +240008,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationsInput = {
@@ -237239,6 +240249,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationsInput = {
@@ -237372,6 +240383,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutAutomationsInput = {
@@ -237574,6 +240586,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationRunsInput = {
@@ -237707,6 +240720,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationRunsInput = {
@@ -237954,6 +240968,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationRunsInput = {
@@ -238087,6 +241102,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutRunsInput = {
@@ -238330,6 +241346,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgConversationsInput = {
@@ -238463,6 +241480,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgConversationsInput = {
@@ -238806,6 +241824,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgConversationsInput = {
@@ -238939,6 +241958,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutConversationsInput = {
@@ -239370,6 +242390,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutFacebookPagesInput = {
@@ -239503,6 +242524,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutFacebookPagesInput = {
@@ -239652,6 +242674,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutFacebookPagesInput = {
@@ -239785,6 +242808,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
@@ -239918,6 +242942,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput = {
@@ -240051,6 +243076,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput = {
@@ -240200,6 +243226,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput = {
@@ -240333,6 +243360,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTopPagesInput = {
@@ -240466,6 +243494,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTopPagesInput = {
@@ -240599,6 +243628,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTopPagesInput = {
@@ -240748,6 +243778,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput = {
@@ -240881,6 +243912,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -241014,6 +244046,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -241147,6 +244180,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTrafficSourcesInput = {
@@ -241296,6 +244330,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput = {
@@ -241429,6 +244464,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsGeoDataInput = {
@@ -241562,6 +244598,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsGeoDataInput = {
@@ -241695,6 +244732,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsGeoDataInput = {
@@ -241844,6 +244882,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput = {
@@ -241977,6 +245016,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsEventDailyInput = {
@@ -242110,6 +245150,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsEventDailyInput = {
@@ -242243,6 +245284,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsEventDailyInput = {
@@ -242392,6 +245434,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsEventDailyInput = {
@@ -242525,6 +245568,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsEventParamDailyInput = {
@@ -242658,6 +245702,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsEventParamDailyInput = {
@@ -242791,6 +245836,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsEventParamDailyInput = {
@@ -242940,6 +245986,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsEventParamDailyInput = {
@@ -243073,6 +246120,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingEventConfigInput = {
@@ -243206,6 +246254,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingEventConfigInput = {
@@ -243339,6 +246388,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingEventConfigInput = {
@@ -243488,6 +246538,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingEventConfigInput = {
@@ -243621,6 +246672,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSearchConsoleQueriesInput = {
@@ -243754,6 +246806,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSearchConsoleQueriesInput = {
@@ -243887,6 +246940,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSearchConsoleQueriesInput = {
@@ -244036,6 +247090,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput = {
@@ -244169,6 +247224,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpInsightsInput = {
@@ -244302,6 +247358,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpInsightsInput = {
@@ -244435,6 +247492,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpInsightsInput = {
@@ -244584,6 +247642,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpInsightsInput = {
@@ -244717,6 +247776,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpReviewsInput = {
@@ -244850,6 +247910,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpReviewsInput = {
@@ -244983,6 +248044,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpReviewsInput = {
@@ -245132,6 +248194,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpReviewsInput = {
@@ -245265,6 +248328,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpSearchKeywordsInput = {
@@ -245398,6 +248462,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpSearchKeywordsInput = {
@@ -245531,6 +248596,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpSearchKeywordsInput = {
@@ -245680,6 +248746,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput = {
@@ -245813,6 +248880,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpProfileSnapshotsInput = {
@@ -245946,6 +249014,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput = {
@@ -246079,6 +249148,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpProfileSnapshotsInput = {
@@ -246228,6 +249298,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput = {
@@ -246361,6 +249432,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCampaignDailiesInput = {
@@ -246494,6 +249566,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCampaignDailiesInput = {
@@ -246627,6 +249700,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCampaignDailiesInput = {
@@ -246776,6 +249850,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCampaignDailiesInput = {
@@ -246909,6 +249984,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdSearchTermDailiesInput = {
@@ -247042,6 +250118,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdSearchTermDailiesInput = {
@@ -247175,6 +250252,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdSearchTermDailiesInput = {
@@ -247324,6 +250402,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdSearchTermDailiesInput = {
@@ -247457,6 +250536,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativesInput = {
@@ -247590,6 +250670,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativesInput = {
@@ -247723,6 +250804,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativesInput = {
@@ -247872,6 +250954,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativesInput = {
@@ -248005,6 +251088,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativeDailiesInput = {
@@ -248138,6 +251222,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativeDailiesInput = {
@@ -248271,6 +251356,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativeDailiesInput = {
@@ -248420,6 +251506,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativeDailiesInput = {
@@ -248553,6 +251640,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSubscriptionInput = {
@@ -248686,6 +251774,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubscriptionInput = {
@@ -248819,6 +251908,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubscriptionInput = {
@@ -248968,6 +252058,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubscriptionInput = {
@@ -249101,6 +252192,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBusinessHoursInput = {
@@ -249234,6 +252326,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBusinessHoursInput = {
@@ -249367,6 +252460,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBusinessHoursInput = {
@@ -249540,6 +252634,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBusinessHoursInput = {
@@ -249673,6 +252768,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput = {
@@ -249893,6 +252989,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardsInput = {
@@ -250026,6 +253123,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardsInput = {
@@ -250211,6 +253309,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardsInput = {
@@ -250344,6 +253443,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput = {
@@ -250411,6 +253511,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -250462,6 +253563,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -250600,6 +253702,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -250733,6 +253836,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -250831,6 +253935,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -250882,6 +253987,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyUpsertWithoutRewardRedemptionsInput = {
@@ -251026,6 +254132,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -251159,6 +254266,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RewardUpsertWithoutRedemptionsInput = {
@@ -251247,6 +254355,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -251298,6 +254407,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -251436,6 +254546,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserScoresInput = {
@@ -251569,6 +254680,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserScoresInput = {
@@ -251636,6 +254748,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -251687,6 +254800,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -251831,6 +254945,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserScoresInput = {
@@ -251964,6 +255079,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutUserBadgesInput = {
@@ -252015,6 +255131,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -252066,6 +255183,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -252204,6 +255322,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserBadgesInput = {
@@ -252337,6 +255456,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserBadgesInput = {
@@ -252404,6 +255524,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -252455,6 +255576,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -252599,6 +255721,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserBadgesInput = {
@@ -252732,6 +255855,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutScoreEventsInput = {
@@ -252783,6 +255907,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -252834,6 +255959,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -252972,6 +256098,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreEventsInput = {
@@ -253105,6 +256232,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreEventsInput = {
@@ -253172,6 +256300,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -253223,6 +256352,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -253367,6 +256497,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreEventsInput = {
@@ -253500,6 +256631,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutScoreRuleConfigsInput = {
@@ -253633,6 +256765,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreRuleConfigsInput = {
@@ -253766,6 +256899,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreRuleConfigsInput = {
@@ -253915,6 +257049,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreRuleConfigsInput = {
@@ -254048,6 +257183,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutPushSubscriptionsInput = {
@@ -254099,6 +257235,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -254150,6 +257287,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -254217,6 +257355,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -254268,6 +257407,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserCreateWithoutNotifPreferencesInput = {
@@ -254319,6 +257459,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutNotifPreferencesInput = {
@@ -254370,6 +257511,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutNotifPreferencesInput = {
@@ -254437,6 +257579,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotifPreferencesInput = {
@@ -254488,6 +257631,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyCreateWithoutEmailConfigInput = {
@@ -254621,6 +257765,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailConfigInput = {
@@ -254754,6 +257899,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailConfigInput = {
@@ -254903,6 +258049,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailConfigInput = {
@@ -255036,6 +258183,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailTemplatesInput = {
@@ -255169,6 +258317,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailTemplatesInput = {
@@ -255302,6 +258451,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailTemplatesInput = {
@@ -255513,6 +258663,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
@@ -255646,6 +258797,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type EmailCampaignUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -255822,6 +258974,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailCampaignsInput = {
@@ -255955,6 +259108,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailCampaignsInput = {
@@ -256011,6 +259165,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutEmailCampaignsCreatedInput = {
@@ -256062,6 +259217,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutEmailCampaignsCreatedInput = {
@@ -256412,6 +259568,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailCampaignsInput = {
@@ -256545,6 +259702,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutEmailCampaignsCreatedInput = {
@@ -256607,6 +259765,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailCampaignsCreatedInput = {
@@ -256658,6 +259817,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type EmailRecipientUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -257328,6 +260488,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailUnsubscribesInput = {
@@ -257461,6 +260622,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailUnsubscribesInput = {
@@ -257610,6 +260772,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailUnsubscribesInput = {
@@ -257743,6 +260906,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailAccountsInput = {
@@ -257876,6 +261040,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailAccountsInput = {
@@ -258009,6 +261174,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailAccountsInput = {
@@ -258250,6 +261416,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailAccountsInput = {
@@ -258383,6 +261550,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InboxEmailUpsertWithWhereUniqueWithoutAccountInput = {
@@ -258548,6 +261716,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxEmailsInput = {
@@ -258681,6 +261850,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxEmailsInput = {
@@ -258899,6 +262069,7 @@ export namespace Prisma {
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutInboxEmailsInput = {
@@ -258926,6 +262097,7 @@ export namespace Prisma {
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutInboxEmailsInput = {
@@ -259124,6 +262296,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxEmailsInput = {
@@ -259257,6 +262430,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type EmailAccountUpsertWithoutEmailsInput = {
@@ -259493,6 +262667,7 @@ export namespace Prisma {
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutInboxEmailsInput = {
@@ -259520,6 +262695,7 @@ export namespace Prisma {
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type InboxEmailTagUpsertWithWhereUniqueWithoutEmailsInput = {
@@ -259698,6 +262874,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxSenderRulesInput = {
@@ -259831,6 +263008,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxSenderRulesInput = {
@@ -259980,6 +263158,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxSenderRulesInput = {
@@ -260113,6 +263292,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InboxEmailCreateWithoutAttachmentsInput = {
@@ -260382,6 +263562,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxEmailTagsInput = {
@@ -260515,6 +263696,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxEmailTagsInput = {
@@ -260729,6 +263911,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxEmailTagsInput = {
@@ -260862,6 +264045,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InboxEmailUpsertWithWhereUniqueWithoutTagsInput = {
@@ -261011,6 +264195,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBillingEventsInput = {
@@ -261144,6 +264329,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBillingEventsInput = {
@@ -261293,6 +264479,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBillingEventsInput = {
@@ -261426,6 +264613,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAddonsInput = {
@@ -261559,6 +264747,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAddonsInput = {
@@ -261692,6 +264881,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAddonsInput = {
@@ -261841,6 +265031,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAddonsInput = {
@@ -261974,6 +265165,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CouponRedemptionCreateWithoutCouponInput = {
@@ -262190,6 +265382,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCouponRedemptionsInput = {
@@ -262323,6 +265516,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCouponRedemptionsInput = {
@@ -262519,6 +265713,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCouponRedemptionsInput = {
@@ -262652,6 +265847,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAssistantsInput = {
@@ -262785,6 +265981,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssistantsInput = {
@@ -262918,6 +266115,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssistantsInput = {
@@ -262974,6 +266172,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutAssistantCalendarsInput = {
@@ -263025,6 +266224,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutAssistantCalendarsInput = {
@@ -263239,6 +266439,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutAssistantsCreatedInput = {
@@ -263290,6 +266491,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutAssistantsCreatedInput = {
@@ -263439,6 +266641,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssistantsInput = {
@@ -263572,6 +266775,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutAssistantCalendarsInput = {
@@ -263634,6 +266838,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantCalendarsInput = {
@@ -263685,6 +266890,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutAssistantsInput = {
@@ -263883,6 +267089,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantsCreatedInput = {
@@ -263934,6 +267141,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyCreateWithoutScheduledMessagesInput = {
@@ -264067,6 +267275,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScheduledMessagesInput = {
@@ -264200,6 +267409,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScheduledMessagesInput = {
@@ -264394,6 +267604,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScheduledMessagesInput = {
@@ -264527,6 +267738,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutScheduledMessagesInput = {
@@ -265011,6 +268223,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAiUsageLogsInput = {
@@ -265144,6 +268357,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAiUsageLogsInput = {
@@ -265364,6 +268578,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAiUsageLogsInput = {
@@ -265497,6 +268712,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type AssistantUpsertWithoutUsageLogsInput = {
@@ -265707,6 +268923,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutServicesInput = {
@@ -265840,6 +269057,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutServicesInput = {
@@ -266161,6 +269379,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutServicesInput = {
@@ -266294,6 +269513,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithWhereUniqueWithoutServiceInput = {
@@ -266475,6 +269695,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientServicesInput = {
@@ -266608,6 +269829,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientServicesInput = {
@@ -266912,6 +270134,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientServicesInput = {
@@ -267045,6 +270268,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutClientInstancesInput = {
@@ -267409,6 +270633,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientInvoicesInput = {
@@ -267542,6 +270767,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientInvoicesInput = {
@@ -267811,6 +271037,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientInvoicesInput = {
@@ -267944,6 +271171,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithoutInvoicesInput = {
@@ -268209,6 +271437,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSalesAsAgencyInput = {
@@ -268342,6 +271571,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSalesAsAgencyInput = {
@@ -268597,6 +271827,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSalesAsClientInput = {
@@ -268730,6 +271961,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSalesAsClientInput = {
@@ -268962,6 +272194,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSalesAsAgencyInput = {
@@ -269095,6 +272328,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithoutSaleInput = {
@@ -269362,6 +272596,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSalesAsClientInput = {
@@ -269495,6 +272730,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type BonusUpsertWithWhereUniqueWithoutSaleInput = {
@@ -269693,6 +272929,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBonusesInput = {
@@ -269826,6 +273063,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBonusesInput = {
@@ -270002,6 +273240,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutBonusesInput = {
@@ -270053,6 +273292,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutBonusesInput = {
@@ -270202,6 +273442,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBonusesInput = {
@@ -270335,6 +273576,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SaleUpsertWithoutBonusesInput = {
@@ -270529,6 +273771,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBonusesInput = {
@@ -270580,6 +273823,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyCreateWithoutMonthlyTargetsInput = {
@@ -270713,6 +273957,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMonthlyTargetsInput = {
@@ -270846,6 +274091,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMonthlyTargetsInput = {
@@ -270995,6 +274241,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMonthlyTargetsInput = {
@@ -271128,6 +274375,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutVideoCategoriesInput = {
@@ -271261,6 +274509,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVideoCategoriesInput = {
@@ -271394,6 +274643,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVideoCategoriesInput = {
@@ -271601,6 +274851,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVideoCategoriesInput = {
@@ -271734,6 +274985,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type VideoUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -271953,6 +275205,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVideoReleasesInput = {
@@ -272086,6 +275339,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVideoReleasesInput = {
@@ -272278,6 +275532,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVideoReleasesInput = {
@@ -272411,6 +275666,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type VideoCategoryCreateWithoutVideosInput = {
@@ -272624,6 +275880,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTimePunchesInput = {
@@ -272757,6 +276014,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTimePunchesInput = {
@@ -272813,6 +276071,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutTimePunchesInput = {
@@ -272864,6 +276123,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutTimePunchesInput = {
@@ -273013,6 +276273,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTimePunchesInput = {
@@ -273146,6 +276407,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTimePunchesInput = {
@@ -273208,6 +276470,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimePunchesInput = {
@@ -273259,6 +276522,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyCreateWithoutWorkScheduleDaysInput = {
@@ -273392,6 +276656,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWorkScheduleDaysInput = {
@@ -273525,6 +276790,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWorkScheduleDaysInput = {
@@ -273581,6 +276847,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutWorkScheduleDaysInput = {
@@ -273632,6 +276899,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutWorkScheduleDaysInput = {
@@ -273781,6 +277049,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWorkScheduleDaysInput = {
@@ -273914,6 +277183,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutWorkScheduleDaysInput = {
@@ -273976,6 +277246,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkScheduleDaysInput = {
@@ -274027,6 +277298,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyCreateWithoutTimeOffEntriesInput = {
@@ -274160,6 +277432,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTimeOffEntriesInput = {
@@ -274293,6 +277566,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTimeOffEntriesInput = {
@@ -274349,6 +277623,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutTimeOffEntriesInput = {
@@ -274400,6 +277675,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutTimeOffEntriesInput = {
@@ -274456,6 +277732,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutTimeOffsCreatedInput = {
@@ -274507,6 +277784,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutTimeOffsCreatedInput = {
@@ -274656,6 +277934,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTimeOffEntriesInput = {
@@ -274789,6 +278068,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTimeOffEntriesInput = {
@@ -274851,6 +278131,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeOffEntriesInput = {
@@ -274902,6 +278183,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUpsertWithoutTimeOffsCreatedInput = {
@@ -274964,6 +278246,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeOffsCreatedInput = {
@@ -275015,6 +278298,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyCreateWithoutPunchAdjustRequestsInput = {
@@ -275148,6 +278432,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPunchAdjustRequestsInput = {
@@ -275281,6 +278566,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPunchAdjustRequestsInput = {
@@ -275337,6 +278623,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutPunchAdjustRequestsInput = {
@@ -275388,6 +278675,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutPunchAdjustRequestsInput = {
@@ -275444,6 +278732,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutPunchAdjustsReviewedInput = {
@@ -275495,6 +278784,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutPunchAdjustsReviewedInput = {
@@ -275644,6 +278934,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPunchAdjustRequestsInput = {
@@ -275777,6 +279068,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutPunchAdjustRequestsInput = {
@@ -275839,6 +279131,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPunchAdjustRequestsInput = {
@@ -275890,6 +279183,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUpsertWithoutPunchAdjustsReviewedInput = {
@@ -275952,6 +279246,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPunchAdjustsReviewedInput = {
@@ -276003,6 +279298,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type CompanyCreateWithoutTimesheetSignaturesInput = {
@@ -276136,6 +279432,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTimesheetSignaturesInput = {
@@ -276269,6 +279566,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTimesheetSignaturesInput = {
@@ -276325,6 +279623,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserUncheckedCreateWithoutTimesheetSignaturesInput = {
@@ -276376,6 +279675,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutTimesheetSignaturesInput = {
@@ -276525,6 +279825,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTimesheetSignaturesInput = {
@@ -276658,6 +279959,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTimesheetSignaturesInput = {
@@ -276720,6 +280022,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimesheetSignaturesInput = {
@@ -276770,6 +280073,1095 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+  }
+
+  export type CompanyCreateWithoutStorageObjectsInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutStorageObjectsInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutStorageObjectsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutStorageObjectsInput, CompanyUncheckedCreateWithoutStorageObjectsInput>
+  }
+
+  export type TicketCreateWithoutAttachmentsInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    visibility?: string
+    clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
+    company: CompanyCreateNestedOneWithoutTicketsInput
+    createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
+    setor?: SetorCreateNestedOneWithoutTicketsInput
+    projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
+    messages?: TicketMessageCreateNestedManyWithoutTicketInput
+    activities?: ActivityCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketUncheckedCreateWithoutAttachmentsInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    createdById?: string | null
+    setorId?: string | null
+    projetoId?: string | null
+    visibility?: string
+    messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketCreateOrConnectWithoutAttachmentsInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutAttachmentsInput, TicketUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type TicketMessageCreateWithoutAttachmentsInput = {
+    id?: string
+    body: string
+    isInternal?: boolean
+    authorName: string
+    authorRole?: string
+    mediaBase64?: string | null
+    mediaType?: string | null
+    source?: string
+    externalId?: string | null
+    createdAt?: Date | string
+    ticket: TicketCreateNestedOneWithoutMessagesInput
+  }
+
+  export type TicketMessageUncheckedCreateWithoutAttachmentsInput = {
+    id?: string
+    body: string
+    isInternal?: boolean
+    authorName: string
+    authorRole?: string
+    mediaBase64?: string | null
+    mediaType?: string | null
+    source?: string
+    externalId?: string | null
+    createdAt?: Date | string
+    ticketId: string
+  }
+
+  export type TicketMessageCreateOrConnectWithoutAttachmentsInput = {
+    where: TicketMessageWhereUniqueInput
+    create: XOR<TicketMessageCreateWithoutAttachmentsInput, TicketMessageUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type ProjectTaskCreateWithoutAttachmentsInput = {
+    id?: string
+    title: string
+    description?: string | null
+    stage?: string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: string | null
+    awaitingClient?: boolean
+    visibleToClient?: boolean
+    done?: boolean
+    priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: SetorClickupListCreateNestedOneWithoutInternalTasksInput
+    projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
+    assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
+    createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
+    materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
+  }
+
+  export type ProjectTaskUncheckedCreateWithoutAttachmentsInput = {
+    id?: string
+    projectId: string
+    title: string
+    description?: string | null
+    stage?: string | null
+    projectServiceId?: string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: string | null
+    awaitingClient?: boolean
+    visibleToClient?: boolean
+    done?: boolean
+    priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    assigneeId?: string | null
+    createdById?: string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
+  }
+
+  export type ProjectTaskCreateOrConnectWithoutAttachmentsInput = {
+    where: ProjectTaskWhereUniqueInput
+    create: XOR<ProjectTaskCreateWithoutAttachmentsInput, ProjectTaskUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type UserCreateWithoutUploadedFilesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserUncheckedCreateWithoutUploadedFilesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserCreateOrConnectWithoutUploadedFilesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
+  }
+
+  export type CompanyUpsertWithoutStorageObjectsInput = {
+    update: XOR<CompanyUpdateWithoutStorageObjectsInput, CompanyUncheckedUpdateWithoutStorageObjectsInput>
+    create: XOR<CompanyCreateWithoutStorageObjectsInput, CompanyUncheckedCreateWithoutStorageObjectsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutStorageObjectsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutStorageObjectsInput, CompanyUncheckedUpdateWithoutStorageObjectsInput>
+  }
+
+  export type CompanyUpdateWithoutStorageObjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutStorageObjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+  }
+
+  export type TicketUpsertWithoutAttachmentsInput = {
+    update: XOR<TicketUpdateWithoutAttachmentsInput, TicketUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<TicketCreateWithoutAttachmentsInput, TicketUncheckedCreateWithoutAttachmentsInput>
+    where?: TicketWhereInput
+  }
+
+  export type TicketUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: TicketWhereInput
+    data: XOR<TicketUpdateWithoutAttachmentsInput, TicketUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type TicketUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
+    clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
+    company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
+    createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
+    setor?: SetorUpdateOneWithoutTicketsNestedInput
+    projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
+    messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketMessageUpsertWithoutAttachmentsInput = {
+    update: XOR<TicketMessageUpdateWithoutAttachmentsInput, TicketMessageUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<TicketMessageCreateWithoutAttachmentsInput, TicketMessageUncheckedCreateWithoutAttachmentsInput>
+    where?: TicketMessageWhereInput
+  }
+
+  export type TicketMessageUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: TicketMessageWhereInput
+    data: XOR<TicketMessageUpdateWithoutAttachmentsInput, TicketMessageUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type TicketMessageUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: StringFieldUpdateOperationsInput | string
+    authorRole?: StringFieldUpdateOperationsInput | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ticket?: TicketUpdateOneRequiredWithoutMessagesNestedInput
+  }
+
+  export type TicketMessageUncheckedUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: StringFieldUpdateOperationsInput | string
+    authorRole?: StringFieldUpdateOperationsInput | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ticketId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProjectTaskUpsertWithoutAttachmentsInput = {
+    update: XOR<ProjectTaskUpdateWithoutAttachmentsInput, ProjectTaskUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<ProjectTaskCreateWithoutAttachmentsInput, ProjectTaskUncheckedCreateWithoutAttachmentsInput>
+    where?: ProjectTaskWhereInput
+  }
+
+  export type ProjectTaskUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: ProjectTaskWhereInput
+    data: XOR<ProjectTaskUpdateWithoutAttachmentsInput, ProjectTaskUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type ProjectTaskUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    done?: BoolFieldUpdateOperationsInput | boolean
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: SetorClickupListUpdateOneRequiredWithoutInternalTasksNestedInput
+    projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
+    assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
+    createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
+    materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
+  }
+
+  export type ProjectTaskUncheckedUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    done?: BoolFieldUpdateOperationsInput | boolean
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
+  }
+
+  export type UserUpsertWithoutUploadedFilesInput = {
+    update: XOR<UserUpdateWithoutUploadedFilesInput, UserUncheckedUpdateWithoutUploadedFilesInput>
+    create: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUploadedFilesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUploadedFilesInput, UserUncheckedUpdateWithoutUploadedFilesInput>
+  }
+
+  export type UserUpdateWithoutUploadedFilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUploadedFilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
@@ -277260,6 +281652,22 @@ export namespace Prisma {
     companyId: string
   }
 
+  export type StorageObjectCreateManyUploadedByInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TicketUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -277285,6 +281693,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutCreatedByInput = {
@@ -277312,6 +281721,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutCreatedByInput = {
@@ -277362,6 +281772,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutAssigneeInput = {
@@ -277389,6 +281800,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutAssigneeInput = {
@@ -278004,6 +282416,7 @@ export namespace Prisma {
     projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutAssigneeInput = {
@@ -278027,6 +282440,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateManyWithoutAssigneeInput = {
@@ -278072,6 +282486,7 @@ export namespace Prisma {
     projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutCreatedByInput = {
@@ -278095,6 +282510,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateManyWithoutCreatedByInput = {
@@ -278769,6 +283185,54 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StorageObjectUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
+    ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
+    ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
+    projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+  }
+
+  export type StorageObjectUncheckedUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageObjectUncheckedUpdateManyWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompanyCreateManyParentCompanyInput = {
@@ -279544,6 +284008,7 @@ export namespace Prisma {
     provider: $Enums.IntegrationProvider
     accountId?: string | null
     accountLabel?: string | null
+    nickname?: string | null
     accessTokenEnc?: string | null
     refreshTokenEnc?: string | null
     tokenExpiresAt?: Date | string | null
@@ -279667,6 +284132,7 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     sessions?: number
@@ -279683,6 +284149,7 @@ export namespace Prisma {
 
   export type AnalyticsTopPageCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     pagePath: string
@@ -279694,6 +284161,7 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     rawSource: string
@@ -279706,6 +284174,7 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     countryCode?: string | null
@@ -279718,6 +284187,7 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -279729,6 +284199,7 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     source: string
     eventName: string
@@ -279754,6 +284225,7 @@ export namespace Prisma {
 
   export type SearchConsoleQueryCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     query: string
     page?: string | null
@@ -279767,6 +284239,7 @@ export namespace Prisma {
 
   export type GbpInsightCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     date: Date | string
     impressionsSearchDesktop?: number
     impressionsSearchMobile?: number
@@ -279783,6 +284256,7 @@ export namespace Prisma {
 
   export type GbpReviewCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     googleReviewId: string
     reviewerName?: string | null
     reviewerPhotoUrl?: string | null
@@ -279798,6 +284272,7 @@ export namespace Prisma {
 
   export type GbpSearchKeywordCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     keyword: string
     year: number
     month: number
@@ -279808,6 +284283,7 @@ export namespace Prisma {
 
   export type GbpProfileSnapshotCreateManyCompanyInput = {
     id?: string
+    integrationId?: string
     title?: string | null
     primaryCategory?: string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -280075,6 +284551,22 @@ export namespace Prisma {
     ip?: string | null
   }
 
+  export type StorageObjectCreateManyCompanyInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -280206,6 +284698,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -280339,6 +284832,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -280436,6 +284930,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -280487,6 +284982,7 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -281759,6 +286255,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutCompanyInput = {
@@ -281786,6 +286283,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutCompanyInput = {
@@ -281836,6 +286334,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutClientCompanyInput = {
@@ -281863,6 +286362,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -282768,6 +287268,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -282788,6 +287289,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -282808,6 +287310,7 @@ export namespace Prisma {
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -283155,6 +287658,7 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     sessions?: IntFieldUpdateOperationsInput | number
@@ -283171,6 +287675,7 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     sessions?: IntFieldUpdateOperationsInput | number
@@ -283187,6 +287692,7 @@ export namespace Prisma {
 
   export type AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     sessions?: IntFieldUpdateOperationsInput | number
@@ -283203,6 +287709,7 @@ export namespace Prisma {
 
   export type AnalyticsTopPageUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     pagePath?: StringFieldUpdateOperationsInput | string
@@ -283214,6 +287721,7 @@ export namespace Prisma {
 
   export type AnalyticsTopPageUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     pagePath?: StringFieldUpdateOperationsInput | string
@@ -283225,6 +287733,7 @@ export namespace Prisma {
 
   export type AnalyticsTopPageUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     pagePath?: StringFieldUpdateOperationsInput | string
@@ -283236,6 +287745,7 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     rawSource?: StringFieldUpdateOperationsInput | string
@@ -283248,6 +287758,7 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     rawSource?: StringFieldUpdateOperationsInput | string
@@ -283260,6 +287771,7 @@ export namespace Prisma {
 
   export type AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     rawSource?: StringFieldUpdateOperationsInput | string
@@ -283272,6 +287784,7 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283284,6 +287797,7 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283296,6 +287810,7 @@ export namespace Prisma {
 
   export type AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283308,6 +287823,7 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -283319,6 +287835,7 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -283330,6 +287847,7 @@ export namespace Prisma {
 
   export type AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -283341,6 +287859,7 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -283354,6 +287873,7 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -283367,6 +287887,7 @@ export namespace Prisma {
 
   export type AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
@@ -283416,6 +287937,7 @@ export namespace Prisma {
 
   export type SearchConsoleQueryUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     query?: StringFieldUpdateOperationsInput | string
     page?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283429,6 +287951,7 @@ export namespace Prisma {
 
   export type SearchConsoleQueryUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     query?: StringFieldUpdateOperationsInput | string
     page?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283442,6 +287965,7 @@ export namespace Prisma {
 
   export type SearchConsoleQueryUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     query?: StringFieldUpdateOperationsInput | string
     page?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283455,6 +287979,7 @@ export namespace Prisma {
 
   export type GbpInsightUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
     impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
@@ -283471,6 +287996,7 @@ export namespace Prisma {
 
   export type GbpInsightUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
     impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
@@ -283487,6 +288013,7 @@ export namespace Prisma {
 
   export type GbpInsightUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
     impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
@@ -283503,6 +288030,7 @@ export namespace Prisma {
 
   export type GbpReviewUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     googleReviewId?: StringFieldUpdateOperationsInput | string
     reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
     reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283518,6 +288046,7 @@ export namespace Prisma {
 
   export type GbpReviewUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     googleReviewId?: StringFieldUpdateOperationsInput | string
     reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
     reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283533,6 +288062,7 @@ export namespace Prisma {
 
   export type GbpReviewUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     googleReviewId?: StringFieldUpdateOperationsInput | string
     reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
     reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283548,6 +288078,7 @@ export namespace Prisma {
 
   export type GbpSearchKeywordUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
@@ -283558,6 +288089,7 @@ export namespace Prisma {
 
   export type GbpSearchKeywordUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
@@ -283568,6 +288100,7 @@ export namespace Prisma {
 
   export type GbpSearchKeywordUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
@@ -283578,6 +288111,7 @@ export namespace Prisma {
 
   export type GbpProfileSnapshotUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -283594,6 +288128,7 @@ export namespace Prisma {
 
   export type GbpProfileSnapshotUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -283610,6 +288145,7 @@ export namespace Prisma {
 
   export type GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
     storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
@@ -284395,6 +288931,54 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     signedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ip?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type StorageObjectUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
+    ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
+    projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type StorageObjectUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageObjectUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LeadCreateManyCampaignInput = {
@@ -286599,6 +291183,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type StorageObjectCreateManyTicketInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TicketMessageUpdateWithoutTicketInput = {
     id?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
@@ -286610,6 +291210,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: StorageObjectUpdateManyWithoutTicketMessageNestedInput
   }
 
   export type TicketMessageUncheckedUpdateWithoutTicketInput = {
@@ -286623,6 +291224,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketMessageNestedInput
   }
 
   export type TicketMessageUncheckedUpdateManyWithoutTicketInput = {
@@ -286773,6 +291375,118 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageObjectUpdateWithoutTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
+    ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
+    projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type StorageObjectUncheckedUpdateWithoutTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageObjectUncheckedUpdateManyWithoutTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageObjectCreateManyTicketMessageInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    projectTaskId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageObjectUpdateWithoutTicketMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
+    ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
+    projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type StorageObjectUncheckedUpdateWithoutTicketMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageObjectUncheckedUpdateManyWithoutTicketMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -286945,6 +291659,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutSetorInput = {
@@ -286972,6 +291687,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutSetorInput = {
@@ -287438,6 +292154,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutProjetoInput = {
@@ -287465,6 +292182,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutProjetoInput = {
@@ -287511,6 +292229,7 @@ export namespace Prisma {
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutProjectInput = {
@@ -287534,6 +292253,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateManyWithoutProjectInput = {
@@ -287671,6 +292391,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type StorageObjectCreateManyProjectTaskInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ProjectMaterialUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
@@ -287725,6 +292461,54 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StorageObjectUpdateWithoutProjectTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
+    ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
+    ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
+    uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type StorageObjectUncheckedUpdateWithoutProjectTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageObjectUncheckedUpdateManyWithoutProjectTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProjectTaskCreateManyProjectServiceInput = {
     id?: string
     projectId: string
@@ -287768,6 +292552,7 @@ export namespace Prisma {
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutProjectServiceInput = {
@@ -287791,6 +292576,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateManyWithoutProjectServiceInput = {
@@ -289974,6 +294760,10 @@ export namespace Prisma {
      */
     export type TicketCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TicketCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use TicketMessageCountOutputTypeDefaultArgs instead
+     */
+    export type TicketMessageCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TicketMessageCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use SetorCountOutputTypeDefaultArgs instead
      */
     export type SetorCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorCountOutputTypeDefaultArgs<ExtArgs>
@@ -290553,6 +295343,10 @@ export namespace Prisma {
      * @deprecated Use TimesheetSignatureDefaultArgs instead
      */
     export type TimesheetSignatureArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TimesheetSignatureDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use StorageObjectDefaultArgs instead
+     */
+    export type StorageObjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = StorageObjectDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
