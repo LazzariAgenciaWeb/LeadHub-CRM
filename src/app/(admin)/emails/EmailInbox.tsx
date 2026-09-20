@@ -6,9 +6,10 @@ import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
-  Tag as TagIcon, Flame, Activity, ChevronsDown, Globe, ChevronDown, ChevronRight,
+  Tag as TagIcon, ListChecks, Info, Globe, ChevronDown, ChevronRight,
   Layers, Eye, EyeOff, Maximize2, type LucideIcon,
 } from "lucide-react";
+import { EMAIL_BUCKETS, bucketOf, type EmailBucket, type EmailBucketFilter } from "@/lib/email-buckets";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
 // Seleção da coluna esquerda: pastas reais + pseudo-pasta "Todos" (busca geral).
@@ -120,13 +121,24 @@ function fmtSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-// Importância da triagem IA — ícones lucide no padrão do sistema, uma cor
-// por nível (vermelho/azul/cinza) pra diferenciar de tag (◦ colorido) e
-// conta (@).
-const IMPORTANCE_BADGE: Record<string, { label: string; cls: string; Icon: LucideIcon }> = {
-  ALTA:   { label: "alta",   cls: "bg-red-500/20 text-red-300",     Icon: Flame },
-  NORMAL: { label: "normal", cls: "bg-sky-500/20 text-sky-300",     Icon: Activity },
-  BAIXA:  { label: "baixa",  cls: "bg-slate-500/20 text-slate-400", Icon: ChevronsDown },
+// Gavetas da triagem — o eixo é AÇÃO ("o que faço com isso?"), não urgência.
+// Derivadas de (aiImportance, suspicious) em src/lib/email-buckets.ts.
+const BUCKET_BADGE: Record<EmailBucket, { label: string; chip: string; cls: string; Icon: LucideIcon; hint: string }> = {
+  RESOLVER: {
+    label: "resolver", chip: "Precisa resolver",
+    cls: "bg-red-500/20 text-red-300", Icon: ListChecks,
+    hint: "Exige resposta ou providência sua — cliente, lead, cobrança, prazo, problema técnico.",
+  },
+  INFO: {
+    label: "informativo", chip: "Informativo",
+    cls: "bg-sky-500/20 text-sky-300", Icon: Info,
+    hint: "Bom saber, mas ninguém precisa fazer nada — confirmação, comprovante, relatório.",
+  },
+  DESCARTE: {
+    label: "descarte", chip: "Descarte / spam",
+    cls: "bg-slate-500/20 text-slate-400", Icon: Trash2,
+    hint: "Newsletter, propaganda, notificação automática e golpe — candidato a lixeira.",
+  },
 };
 
 /**
@@ -175,7 +187,8 @@ export default function EmailInbox() {
   const [sideAccountsOpen, setSideAccountsOpen] = useState(true);
   const [sideTagsOpen, setSideTagsOpen] = useState(true);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
-  const [aiFilter, setAiFilter] = useState<"ALTA" | "NORMAL" | "BAIXA" | null>(null);
+  const [bucketFilter, setBucketFilter] = useState<EmailBucketFilter | null>(null);
+  const [bucketCounts, setBucketCounts] = useState<Record<string, number>>({});
   const [tags, setTags] = useState<EmailTag[]>([]);
   // Contagem por tag escopada na pasta/conta atual (vem da listagem).
   const [tagCounts, setTagCounts] = useState<Record<string, number>>({});
@@ -269,22 +282,23 @@ export default function EmailInbox() {
       if (q.trim()) params.set("q", q.trim());
       if (visibleAccounts.length) params.set("accountIds", visibleAccounts.join(","));
       if (tagFilter) params.set("tagId", tagFilter);
-      if (aiFilter) params.set("importance", aiFilter);
+      if (bucketFilter) params.set("bucket", bucketFilter);
       const res = await fetch(`/api/email/inbox?${params}`).then((r) => r.json());
       setEmails(res.emails || []);
       setCounts(res.counts || {});
       setUnseen(res.unseen || 0);
       setAccounts(res.accounts || []);
       setTagCounts(res.tagCounts || {});
+      setBucketCounts(res.bucketCounts || {});
     } finally {
       if (!opts?.silent) setLoading(false);
     }
-  }, [folder, q, visibleAccounts, tagFilter, aiFilter]);
+  }, [folder, q, visibleAccounts, tagFilter, bucketFilter]);
 
   useEffect(() => { load(); }, [load]);
 
   // Seleção zera ao trocar pasta/filtros.
-  useEffect(() => { setSelectedIds(new Set()); }, [folder, visibleAccounts, tagFilter, aiFilter, q]);
+  useEffect(() => { setSelectedIds(new Set()); }, [folder, visibleAccounts, tagFilter, bucketFilter, q]);
 
   const loadTags = useCallback(async () => {
     const res = await fetch(`/api/email/inbox/tags`).then((r) => r.json()).catch(() => null);
@@ -870,23 +884,34 @@ export default function EmailInbox() {
       </div>
 
 
-      {/* Filtro pela triagem IA */}
+      {/* Triagem por AÇÃO: resolver / informativo / descarte (+ sem triagem) */}
       <div className="flex flex-wrap items-center gap-1.5 mb-3">
         <Sparkles size={12} className="text-indigo-400" />
-        {(["ALTA", "NORMAL", "BAIXA"] as const).map((imp) => {
-          const b = IMPORTANCE_BADGE[imp];
+        {EMAIL_BUCKETS.map((key) => {
+          const b = BUCKET_BADGE[key];
+          const n = bucketCounts[key] ?? 0;
           return (
-            <button key={imp} onClick={() => setAiFilter(aiFilter === imp ? null : imp)}
+            <button key={key} onClick={() => setBucketFilter(bucketFilter === key ? null : key)}
+              title={b.hint}
               className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
-                aiFilter === imp ? "border-indigo-500/50 " + b.cls : "border-white/10 text-slate-400 hover:bg-white/5"}`}>
-              <b.Icon size={11} /> {b.label}
+                bucketFilter === key ? "border-indigo-500/50 " + b.cls : "border-white/10 text-slate-400 hover:bg-white/5"}`}>
+              <b.Icon size={11} /> {b.chip}
+              {n > 0 && <span className="text-[9px] opacity-70">{n}</span>}
             </button>
           );
         })}
-        {aiFilter && (
-          <button onClick={() => setAiFilter(null)} className="text-[10px] text-slate-500 hover:text-white">limpar</button>
+        {(bucketCounts.NONE ?? 0) > 0 && (
+          <button onClick={() => setBucketFilter(bucketFilter === "NONE" ? null : "NONE")}
+            title="Recebidos que ainda não passaram pela triagem da IA"
+            className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
+              bucketFilter === "NONE" ? "border-indigo-500/50 text-slate-200" : "border-dashed border-white/15 text-slate-500 hover:bg-white/5"}`}>
+            sem triagem <span className="text-[9px] opacity-70">{bucketCounts.NONE}</span>
+          </button>
         )}
-        {aiFilter === "BAIXA" && (
+        {bucketFilter && (
+          <button onClick={() => setBucketFilter(null)} className="text-[10px] text-slate-500 hover:text-white">limpar</button>
+        )}
+        {bucketFilter === "DESCARTE" && (
           <span className="text-[10px] text-slate-500">
             dica: selecione todos e mande pra Lixeira ou Spam de uma vez
           </span>
@@ -1132,10 +1157,12 @@ export default function EmailInbox() {
                         ⚠️ suspeito
                       </span>
                     )}
-                    {e.aiImportance && e.direction === "IN" && IMPORTANCE_BADGE[e.aiImportance] && (() => {
-                      const b = IMPORTANCE_BADGE[e.aiImportance];
+                    {e.direction === "IN" && (() => {
+                      const key = bucketOf(e);
+                      if (!key) return null;
+                      const b = BUCKET_BADGE[key];
                       return (
-                        <span className={`flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${b.cls}`}>
+                        <span className={`flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${b.cls}`} title={b.hint}>
                           <b.Icon size={9} /> {b.label}
                         </span>
                       );
@@ -1221,11 +1248,13 @@ export default function EmailInbox() {
                   </p>
                 )}
                 <div className="flex flex-wrap gap-2 items-center">
-                      {selected.aiImportance && selected.direction === "IN" && IMPORTANCE_BADGE[selected.aiImportance] && (() => {
-                        const b = IMPORTANCE_BADGE[selected.aiImportance];
+                      {selected.direction === "IN" && (() => {
+                        const key = bucketOf(selected);
+                        if (!key) return null;
+                        const b = BUCKET_BADGE[key];
                         return (
-                          <span className={`flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${b.cls}`}>
-                            <b.Icon size={10} /> {b.label}
+                          <span className={`flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${b.cls}`} title={b.hint}>
+                            <b.Icon size={10} /> {b.chip}
                           </span>
                         );
                       })()}

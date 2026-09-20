@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
+import { bucketOf, bucketWhere, isEmailBucketFilter } from "@/lib/email-buckets";
 import type { InboxEmailFolder, Prisma } from "@/generated/prisma";
 
 const FOLDERS: InboxEmailFolder[] = ["INBOX", "IMPORTANT", "SENT", "ARCHIVE", "SPAM", "TRASH"];
@@ -39,7 +40,10 @@ export async function GET(req: NextRequest) {
   // navegador). Interseção com a restrição de setor quando houver.
   const accountIdsParam = sp.get("accountIds")?.split(",").map((x) => x.trim()).filter(Boolean) ?? null;
   const tagId = sp.get("tagId");
-  // Filtro pela triagem IA: ALTA | NORMAL | BAIXA | NONE (ainda sem análise)
+  // Gaveta da triagem: RESOLVER | INFO | DESCARTE | NONE (ainda sem análise).
+  const bucketParam = sp.get("bucket")?.toUpperCase() ?? null;
+  const bucket = isEmailBucketFilter(bucketParam) ? bucketParam : null;
+  // Compat: filtro antigo por nível de importância (ALTA|NORMAL|BAIXA|NONE).
   const importanceParam = sp.get("importance")?.toUpperCase() ?? null;
   const importance = ["ALTA", "NORMAL", "BAIXA", "NONE"].includes(importanceParam ?? "")
     ? importanceParam
@@ -75,6 +79,8 @@ export async function GET(req: NextRequest) {
   if (tagId === "__none") where.tags = { none: {} };
   else if (tagId) where.tags = { some: { id: tagId } };
   if (importance) where.aiImportance = importance === "NONE" ? null : importance;
+  // AND (não OR): a busca por texto usa where.OR e um sobrescreveria o outro.
+  if (bucket) where.AND = [bucketWhere(bucket)];
   if (q) {
     where.OR = [
       { subject: { contains: q, mode: "insensitive" } },
@@ -91,8 +97,10 @@ export async function GET(req: NextRequest) {
   // da tag mostra só quantos emails daquela tag estão na Entrada. Em "Todos",
   // conta geral.
   const tagScope: Prisma.InboxEmailWhereInput = isAll ? countScope : { ...countScope, folder };
+  // Gavetas só fazem sentido em recebidos (enviado não passa por triagem).
+  const bucketScope: Prisma.InboxEmailWhereInput = { ...tagScope, direction: "IN" };
 
-  const [emails, grouped, unseen, accounts, tagCountRows, noTagCount] = await Promise.all([
+  const [emails, grouped, unseen, accounts, tagCountRows, noTagCount, bucketRows] = await Promise.all([
     prisma.inboxEmail.findMany({
       where,
       orderBy: { sentAt: "desc" },
@@ -131,6 +139,11 @@ export async function GET(req: NextRequest) {
       select: { id: true, _count: { select: { emails: { where: tagScope } } } },
     }),
     prisma.inboxEmail.count({ where: { ...tagScope, tags: { none: {} } } }),
+    prisma.inboxEmail.groupBy({
+      by: ["aiImportance", "suspicious"],
+      where: bucketScope,
+      _count: { _all: true },
+    }),
   ]);
 
   const counts: Record<string, number> = {};
@@ -140,11 +153,16 @@ export async function GET(req: NextRequest) {
   const tagCounts: Record<string, number> = { __none: noTagCount };
   for (const t of tagCountRows) tagCounts[t.id] = t._count.emails;
 
+  // Contagem por gaveta na pasta/conta atual — alimenta os chips de triagem.
+  const bucketCounts: Record<string, number> = { RESOLVER: 0, INFO: 0, DESCARTE: 0, NONE: 0 };
+  for (const row of bucketRows) bucketCounts[bucketOf(row) ?? "NONE"] += row._count._all;
+
   return NextResponse.json({
     emails,
     counts,
     unseen,
     accounts: allowed ? accounts.filter((a) => allowed.includes(a.id)) : accounts,
     tagCounts,
+    bucketCounts,
   });
 }
