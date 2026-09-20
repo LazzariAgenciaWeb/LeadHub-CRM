@@ -43,7 +43,7 @@ export async function runEmailTriage(
     select: {
       id: true, fromEmail: true, fromName: true, subject: true,
       snippet: true, textBody: true, seen: true, sentAt: true,
-      suspicious: true,
+      suspicious: true, suspiciousReasons: true,
       tags: { select: { name: true } },
       lead: { select: { name: true } },
       ticket: { select: { title: true } },
@@ -62,7 +62,9 @@ export async function runEmailTriage(
   const list = emails.map((e, i) => {
     const bodyText = (e.textBody || e.snippet || "").replace(/\s+/g, " ").slice(0, BODY_CHARS);
     const flags = [
-      e.suspicious ? "⚠️ HEURÍSTICA JÁ MARCOU COMO SUSPEITO" : null,
+      e.suspicious
+        ? `⚠️ JÁ MARCADO COMO SUSPEITO${e.suspiciousReasons.length ? ` (${e.suspiciousReasons.join("; ")})` : ""}`
+        : null,
       e.seen ? null : "não lido",
       e.tags.length ? `tags atuais: ${e.tags.map((t) => t.name).join(", ")}` : null,
       e.lead ? `vinculado ao lead ${e.lead.name ?? ""}` : null,
@@ -160,6 +162,8 @@ Responda APENAS com JSON válido, sem markdown, neste formato:
   // Mapa nome→id das tags reais (case-insensitive) — a IA só aplica existentes.
   const tagByName = new Map(companyTags.map((t) => [t.name.toLowerCase(), t.id]));
   const alreadyTagged = new Set(emails.filter((e) => e.tags.length).map((e) => e.id));
+  // Já suspeitos pela heurística: a IA não precisa repetir o motivo.
+  const alreadySuspicious = new Set(emails.filter((e) => e.suspicious).map((e) => e.id));
 
   const validIds = new Set(emails.map((e) => e.id));
   let updated = 0;
@@ -179,7 +183,14 @@ Responda APENAS com JSON válido, sem markdown, neste formato:
         aiImportance: IMPORTANCE.has(importance) ? importance : "NORMAL",
         aiSummary: String(item.summary ?? "").slice(0, 500) || null,
         // Suspeita só LIGA (heurística ou IA) — nunca desliga sozinha.
-        ...(item.suspicious === true ? { suspicious: true } : {}),
+        ...(item.suspicious === true
+          ? {
+              suspicious: true,
+              ...(alreadySuspicious.has(item.id)
+                ? {}
+                : { suspiciousReasons: { push: "A triagem por IA identificou sinais de golpe no conteúdo deste email" } }),
+            }
+          : {}),
         ...(tagIds.length ? { tags: { connect: tagIds.map((id) => ({ id })) } } : {}),
       },
     }).catch(() => null);

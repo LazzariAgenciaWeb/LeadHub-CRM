@@ -18,6 +18,7 @@
     "test:gamification": "tsx scripts/test-gamification.ts",
     "test:business-hours": "tsx scripts/test-business-hours.ts",
     "test:messaging": "tsx scripts/test-messaging-flow.ts",
+    "test:email-scan": "tsx scripts/test-email-scan.ts",
     "prepare": "git config core.hooksPath scripts/git-hooks 2>/dev/null || true",
     "postinstall": "echo 'Build pre-compilado incluido no repositorio'"
   },

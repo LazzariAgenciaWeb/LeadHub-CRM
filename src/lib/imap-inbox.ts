@@ -21,6 +21,7 @@ import { simpleParser, type ParsedMail } from "mailparser";
 import { prisma } from "./prisma";
 import { encryptSecret, tryDecryptSecret } from "./crypto";
 import { sendCompanyMail } from "./company-email";
+import { scanEmailThreats } from "./email-threat-scan";
 import type { EmailAccount, InboxEmailFolder } from "@/generated/prisma";
 
 export interface EmailAccountInput {
@@ -407,9 +408,29 @@ async function storeMessage(
     folder = "SENT";
   }
 
-  // Suspeita de golpe (só em recebidos): heurística barata no remetente.
-  const suspicious =
-    direction === "IN" && looksSuspiciousSender(fromAddr?.name ?? null, fromEmail, parsed.subject ?? "");
+  // Anexos: só a REFERÊNCIA (parte MIME) — o conteúdo fica no servidor e é
+  // baixado sob demanda. Coletado aqui em cima porque a varredura de ameaça
+  // usa os metadados (nome + MIME) antes mesmo de gravar o email.
+  const attachments = collectAttachmentParts(bodyStructure).slice(0, MAX_ATTACHMENTS_PER_EMAIL);
+
+  // Suspeita de golpe (só em recebidos): remetente + links + anexos. Tudo
+  // local, sem baixar arquivo nem consultar serviço externo.
+  const suspiciousReasons: string[] = [];
+  if (direction === "IN") {
+    if (looksSuspiciousSender(fromAddr?.name ?? null, fromEmail, parsed.subject ?? "")) {
+      suspiciousReasons.push(
+        `Remetente parece se passar por outra instituição — o domínio ${fromEmail.split("@")[1] ?? ""} não confere com quem ele diz ser`
+      );
+    }
+    suspiciousReasons.push(
+      ...scanEmailThreats({
+        html: typeof parsed.html === "string" ? parsed.html : null,
+        fromEmail,
+        attachments,
+      })
+    );
+  }
+  const suspicious = suspiciousReasons.length > 0;
 
   const created = await prisma.inboxEmail.create({
     data: {
@@ -418,6 +439,7 @@ async function storeMessage(
       direction,
       folder,
       suspicious,
+      suspiciousReasons: suspiciousReasons.slice(0, 6),
       messageId,
       imapUid: uid,
       fromEmail: fromEmail || "desconhecido",
@@ -436,9 +458,7 @@ async function storeMessage(
     select: { id: true },
   });
 
-  // Anexos: só a REFERÊNCIA (parte MIME) — conteúdo fica no servidor e é
-  // baixado sob demanda no clique. Best-effort: falha não perde o email.
-  const attachments = collectAttachmentParts(bodyStructure).slice(0, MAX_ATTACHMENTS_PER_EMAIL);
+  // Grava as referências dos anexos. Best-effort: falha não perde o email.
   for (const a of attachments) {
     await prisma.inboxEmailAttachment.create({
       data: { emailId: created.id, ...a },

@@ -6,10 +6,11 @@ import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
-  Tag as TagIcon, ListChecks, Info, Globe, ChevronDown, ChevronRight,
+  Tag as TagIcon, ListChecks, Info, Globe, ChevronDown, ChevronRight, Link2,
   Layers, Eye, EyeOff, Maximize2, type LucideIcon,
 } from "lucide-react";
 import { EMAIL_BUCKETS, bucketOf, type EmailBucket, type EmailBucketFilter } from "@/lib/email-buckets";
+import { analyzeAttachment, analyzeLinks, type EmailLink } from "@/lib/email-threat-scan";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
 // Seleção da coluna esquerda: pastas reais + pseudo-pasta "Todos" (busca geral).
@@ -37,6 +38,7 @@ type EmailRow = {
   aiImportance: "ALTA" | "NORMAL" | "BAIXA" | null;
   aiSummary: string | null;
   suspicious: boolean;
+  suspiciousReasons?: string[];
   tags: EmailTag[];
   _count?: { attachments: number };
   leadId: string | null;
@@ -204,6 +206,9 @@ export default function EmailInbox() {
   const [detailLoading, setDetailLoading] = useState(false);
   // Leitor expandido (modal quase tela cheia) pra email largo.
   const [readerExpanded, setReaderExpanded] = useState(false);
+  // Painel "Links deste email" — o iframe é sandbox fechado, então clicar
+  // dentro do email não abre nada; é por aqui que o link vai pra aba nova.
+  const [linksOpen, setLinksOpen] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [notice, setNotice] = useState("");
 
@@ -315,6 +320,7 @@ export default function EmailInbox() {
   async function openEmail(row: EmailRow) {
     setDetailLoading(true);
     setSelected(null);
+    setLinksOpen(false);
     try {
       const res = await fetch(`/api/email/inbox/${row.id}`).then((r) => r.json());
       if (res.email) {
@@ -1297,26 +1303,93 @@ export default function EmailInbox() {
               {selected.suspicious && (
                 <div className="px-4 py-2.5 bg-red-500/15 border-b border-red-500/30 flex items-start gap-2">
                   <span className="text-red-300 text-sm flex-shrink-0">⚠️</span>
-                  <p className="text-red-200 text-xs leading-relaxed">
-                    <b>Possível golpe:</b> o remetente aparenta se passar por outra instituição
-                    (<span className="font-mono">{selected.fromEmail}</span>). Não clique em links,
-                    não baixe anexos e não pague boletos deste email. Se confirmar, marque como spam —
-                    o remetente entra na blacklist (e dá pra bloquear o domínio inteiro nas Regras).
-                  </p>
+                  <div className="text-red-200 text-xs leading-relaxed min-w-0">
+                    <b>Possível golpe.</b>{" "}
+                    {selected.suspiciousReasons?.length ? "Por que suspeitamos:" : (
+                      <>O remetente aparenta se passar por outra instituição (<span className="font-mono">{selected.fromEmail}</span>).</>
+                    )}
+                    {selected.suspiciousReasons?.length ? (
+                      <ul className="list-disc pl-4 mt-1 space-y-0.5">
+                        {selected.suspiciousReasons.map((r, i) => <li key={i}>{r}</li>)}
+                      </ul>
+                    ) : null}
+                    <p className="mt-1 text-red-200/80">
+                      Não clique em links, não baixe anexos e não pague boletos deste email. Se confirmar,
+                      marque como spam — o remetente entra na blacklist (e dá pra bloquear o domínio nas Regras).
+                    </p>
+                  </div>
                 </div>
               )}
               {selected.attachments?.length > 0 && (
                 <div className="px-4 py-2 border-b border-white/10 flex flex-wrap gap-1.5">
-                  {selected.attachments.map((a) => (
-                    <a key={a.id} href={`/api/email/inbox/attachments/${a.id}`} target="_blank" rel="noopener noreferrer"
-                      title={a.contentType}
-                      className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-indigo-200 hover:bg-white/10">
-                      📎 <span className="truncate max-w-[200px]">{a.filename}</span>
-                      <span className="text-slate-500">({fmtSize(a.size)})</span>
-                    </a>
-                  ))}
+                  {selected.attachments.map((a) => {
+                    const scan = analyzeAttachment(a);
+                    const danger = scan.risk === "high";
+                    return (
+                      <a key={a.id} href={`/api/email/inbox/attachments/${a.id}`} target="_blank" rel="noopener noreferrer"
+                        title={scan.reasons.join(" · ") || a.contentType}
+                        onClick={(ev) => {
+                          if (danger && !window.confirm(`⚠️ ${scan.reasons[0]}\n\nAbrir mesmo assim?`)) ev.preventDefault();
+                        }}
+                        className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11px] ${
+                          danger
+                            ? "border-red-500/40 bg-red-500/10 text-red-200 hover:bg-red-500/20"
+                            : scan.risk === "warn"
+                            ? "border-amber-500/30 bg-amber-500/10 text-amber-200 hover:bg-amber-500/20"
+                            : "border-white/10 bg-white/5 text-indigo-200 hover:bg-white/10"}`}>
+                        {danger ? "⚠️" : "📎"} <span className="truncate max-w-[200px]">{a.filename}</span>
+                        <span className="opacity-60">({fmtSize(a.size)})</span>
+                      </a>
+                    );
+                  })}
                 </div>
               )}
+              {(() => {
+                // Links do email, com o destino REAL visível. O iframe roda em
+                // sandbox fechado (nada clicável lá dentro) — sair do LeadHub
+                // é sempre por aqui, com o domínio na cara e aviso no risco.
+                const links: EmailLink[] = analyzeLinks(selected.htmlBody, selected.fromEmail);
+                if (!links.length) return null;
+                const risky = links.filter((l) => l.risk !== "ok").length;
+                return (
+                  <div className="px-4 py-2 border-b border-white/10">
+                    <button onClick={() => setLinksOpen((v) => !v)}
+                      className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-white">
+                      {linksOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                      <Link2 size={12} /> {links.length} link{links.length !== 1 ? "s" : ""} neste email
+                      {risky > 0 && (
+                        <span className="ml-1 px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 text-[9px] font-semibold">
+                          {risky} suspeito{risky !== 1 ? "s" : ""}
+                        </span>
+                      )}
+                    </button>
+                    {(linksOpen || risky > 0) && (
+                      <div className="mt-1.5 space-y-1">
+                        {links.map((l, i) => (
+                          <a key={i} href={l.href} target="_blank" rel="noopener noreferrer nofollow"
+                            title={l.reasons.join(" · ") || l.href}
+                            onClick={(ev) => {
+                              if (l.risk === "high" && !window.confirm(`⚠️ ${l.reasons[0]}\n\nDestino: ${l.href}\n\nAbrir mesmo assim?`)) ev.preventDefault();
+                            }}
+                            className={`flex items-center gap-2 rounded-lg border px-2 py-1 text-[11px] ${
+                              l.risk === "high"
+                                ? "border-red-500/40 bg-red-500/10 hover:bg-red-500/20"
+                                : l.risk === "warn"
+                                ? "border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20"
+                                : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
+                            <span className="flex-shrink-0">{l.risk === "high" ? "⚠️" : l.risk === "warn" ? "⚡" : "🔗"}</span>
+                            <span className="text-slate-300 truncate max-w-[45%]">{l.text || l.host || l.href}</span>
+                            <span className="text-slate-500 flex-shrink-0">→</span>
+                            <span className={`font-mono truncate ${l.risk === "high" ? "text-red-300" : "text-slate-400"}`}>
+                              {l.host || l.href}
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
               <div className="flex-1 min-h-0 bg-white rounded-b-xl overflow-hidden">
                 {selected.htmlBody ? (
                   // sandbox sem allow-scripts: HTML de terceiros não executa nada.

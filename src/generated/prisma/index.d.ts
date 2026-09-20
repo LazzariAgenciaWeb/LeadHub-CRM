@@ -115771,6 +115771,7 @@ export namespace Prisma {
     aiImportance: number
     aiSummary: number
     suspicious: number
+    suspiciousReasons: number
     seen: number
     sentAt: number
     createdAt: number
@@ -115868,6 +115869,7 @@ export namespace Prisma {
     aiImportance?: true
     aiSummary?: true
     suspicious?: true
+    suspiciousReasons?: true
     seen?: true
     sentAt?: true
     createdAt?: true
@@ -115984,6 +115986,7 @@ export namespace Prisma {
     aiImportance: string | null
     aiSummary: string | null
     suspicious: boolean
+    suspiciousReasons: string[]
     seen: boolean
     sentAt: Date
     createdAt: Date
@@ -116032,6 +116035,7 @@ export namespace Prisma {
     aiImportance?: boolean
     aiSummary?: boolean
     suspicious?: boolean
+    suspiciousReasons?: boolean
     seen?: boolean
     sentAt?: boolean
     createdAt?: boolean
@@ -116068,6 +116072,7 @@ export namespace Prisma {
     aiImportance?: boolean
     aiSummary?: boolean
     suspicious?: boolean
+    suspiciousReasons?: boolean
     seen?: boolean
     sentAt?: boolean
     createdAt?: boolean
@@ -116101,6 +116106,7 @@ export namespace Prisma {
     aiImportance?: boolean
     aiSummary?: boolean
     suspicious?: boolean
+    suspiciousReasons?: boolean
     seen?: boolean
     sentAt?: boolean
     createdAt?: boolean
@@ -116156,6 +116162,7 @@ export namespace Prisma {
       aiImportance: string | null
       aiSummary: string | null
       suspicious: boolean
+      suspiciousReasons: string[]
       seen: boolean
       sentAt: Date
       createdAt: Date
@@ -116581,6 +116588,7 @@ export namespace Prisma {
     readonly aiImportance: FieldRef<"InboxEmail", 'String'>
     readonly aiSummary: FieldRef<"InboxEmail", 'String'>
     readonly suspicious: FieldRef<"InboxEmail", 'Boolean'>
+    readonly suspiciousReasons: FieldRef<"InboxEmail", 'String[]'>
     readonly seen: FieldRef<"InboxEmail", 'Boolean'>
     readonly sentAt: FieldRef<"InboxEmail", 'DateTime'>
     readonly createdAt: FieldRef<"InboxEmail", 'DateTime'>
@@ -149270,6 +149278,7 @@ export namespace Prisma {
     aiImportance: 'aiImportance',
     aiSummary: 'aiSummary',
     suspicious: 'suspicious',
+    suspiciousReasons: 'suspiciousReasons',
     seen: 'seen',
     sentAt: 'sentAt',
     createdAt: 'createdAt',
@@ -159942,6 +159951,7 @@ export namespace Prisma {
     aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
     suspicious?: BoolFilter<"InboxEmail"> | boolean
+    suspiciousReasons?: StringNullableListFilter<"InboxEmail">
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
     createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
@@ -159977,6 +159987,7 @@ export namespace Prisma {
     aiImportance?: SortOrderInput | SortOrder
     aiSummary?: SortOrderInput | SortOrder
     suspicious?: SortOrder
+    suspiciousReasons?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     createdAt?: SortOrder
@@ -160016,6 +160027,7 @@ export namespace Prisma {
     aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
     suspicious?: BoolFilter<"InboxEmail"> | boolean
+    suspiciousReasons?: StringNullableListFilter<"InboxEmail">
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
     createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
@@ -160051,6 +160063,7 @@ export namespace Prisma {
     aiImportance?: SortOrderInput | SortOrder
     aiSummary?: SortOrderInput | SortOrder
     suspicious?: SortOrder
+    suspiciousReasons?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     createdAt?: SortOrder
@@ -160088,6 +160101,7 @@ export namespace Prisma {
     aiImportance?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     suspicious?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
+    suspiciousReasons?: StringNullableListFilter<"InboxEmail">
     seen?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeWithAggregatesFilter<"InboxEmail"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"InboxEmail"> | Date | string
@@ -173165,6 +173179,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -173200,6 +173215,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -173227,6 +173243,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -173262,6 +173279,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -173293,6 +173311,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -173318,6 +173337,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -173347,6 +173367,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -183645,6 +183666,7 @@ export namespace Prisma {
     aiImportance?: SortOrder
     aiSummary?: SortOrder
     suspicious?: SortOrder
+    suspiciousReasons?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     createdAt?: SortOrder
@@ -195942,6 +195964,10 @@ export namespace Prisma {
     deleteMany?: SetorEmailAccountScalarWhereInput | SetorEmailAccountScalarWhereInput[]
   }
 
+  export type InboxEmailCreatesuspiciousReasonsInput = {
+    set: string[]
+  }
+
   export type CompanyCreateNestedOneWithoutInboxEmailsInput = {
     create?: XOR<CompanyCreateWithoutInboxEmailsInput, CompanyUncheckedCreateWithoutInboxEmailsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutInboxEmailsInput
@@ -195998,6 +196024,11 @@ export namespace Prisma {
 
   export type EnumInboxEmailFolderFieldUpdateOperationsInput = {
     set?: $Enums.InboxEmailFolder
+  }
+
+  export type InboxEmailUpdatesuspiciousReasonsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput = {
@@ -204877,6 +204908,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -204910,6 +204942,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -208706,6 +208739,7 @@ export namespace Prisma {
     aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
     suspicious?: BoolFilter<"InboxEmail"> | boolean
+    suspiciousReasons?: StringNullableListFilter<"InboxEmail">
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
     createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
@@ -213433,6 +213467,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -213466,6 +213501,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -226749,6 +226785,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -226782,6 +226819,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -261201,6 +261239,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -261234,6 +261273,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -263314,6 +263354,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -263348,6 +263389,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -263390,6 +263432,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -263424,6 +263467,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -263723,6 +263767,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -263757,6 +263802,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -283588,6 +283634,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -285889,6 +285936,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -285922,6 +285970,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -285952,6 +286001,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -289772,6 +289822,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -290140,6 +290191,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -290173,6 +290225,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -290203,6 +290256,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -291177,6 +291231,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -291310,6 +291365,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -291343,6 +291399,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -291373,6 +291430,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -293755,6 +293813,7 @@ export namespace Prisma {
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -293786,6 +293845,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -293819,6 +293879,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -293849,6 +293910,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -293952,6 +294014,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -293986,6 +294049,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -294016,6 +294080,7 @@ export namespace Prisma {
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
