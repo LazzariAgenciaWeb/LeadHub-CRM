@@ -1003,8 +1003,8 @@ export default function EmailInbox() {
         sideCollapsed
           ? "md:grid-cols-[48px_minmax(0,460px)_minmax(0,1fr)]"
           : "md:grid-cols-[170px_320px_minmax(0,1fr)]"}`}>
-        {sideCollapsed ? (
-          /* Trilho recolhido: pastas em ícone + botão de expandir */
+        {sideCollapsed && (
+          /* Trilho recolhido (só desktop): pastas em ícone + botão de expandir */
           <div className="hidden md:flex rounded-xl border border-white/10 bg-white/5 p-1.5 flex-col items-center gap-1 overflow-y-auto">
             <button onClick={toggleSideCollapsed} title="Mostrar caixas, pastas e tags"
               className="p-2 rounded-lg text-slate-400 hover:bg-white/5 hover:text-white"><PanelLeftOpen size={15} /></button>
@@ -1025,9 +1025,10 @@ export default function EmailInbox() {
               <span title="Filtro de caixa ou tag ativo — expanda pra ver" className="mt-1 w-1.5 h-1.5 rounded-full bg-amber-400" />
             )}
           </div>
-        ) : (
-        /* Coluna esquerda: Contas · Pastas · Todos · Tags */
-        <div className="rounded-xl border border-white/10 bg-white/5 p-2 flex md:flex-col gap-1 overflow-x-auto md:overflow-y-auto">
+        )}
+        {/* Coluna esquerda: Contas · Pastas · Todos · Tags. Recolhida, some só
+            no desktop (md:hidden) — no celular ela é a única navegação. */}
+        <div className={`rounded-xl border border-white/10 bg-white/5 p-2 flex md:flex-col gap-1 overflow-x-auto md:overflow-y-auto ${sideCollapsed ? "md:hidden" : ""}`}>
           <button onClick={toggleSideCollapsed} title="Recolher e alargar a lista"
             className="hidden md:flex items-center gap-1.5 self-end px-1.5 py-1 rounded-md text-[10px] text-slate-500 hover:text-slate-300 hover:bg-white/5">
             <PanelLeftClose size={13} /> recolher
@@ -1141,7 +1142,6 @@ export default function EmailInbox() {
             </>
           )}
         </div>
-        )}
 
         {/* Lista */}
         <div className="rounded-xl border border-white/10 bg-white/5 flex flex-col min-h-0 min-w-0">
@@ -1349,12 +1349,25 @@ export default function EmailInbox() {
                     )}
                   </div>
                 </div>
-                <p className="text-xs text-slate-400 break-all">
-                  {selected.direction === "IN"
-                    ? <>De: <span className="text-slate-300">{selected.fromName ? `${selected.fromName} <${selected.fromEmail}>` : selected.fromEmail}</span></>
-                    : <>Para: <span className="text-slate-300">{selected.toEmail}</span></>}
-                  <span className="text-slate-600"> · {fmtDate(selected.sentAt)}</span>
-                </p>
+                {selected.direction === "IN" ? (
+                  <div className="text-xs leading-snug">
+                    <p className="text-slate-300 font-medium break-words">
+                      {selected.fromName || selected.fromEmail}
+                      <span className="text-slate-600 font-normal"> · {fmtDate(selected.sentAt)}</span>
+                    </p>
+                    {selected.fromName && (
+                      <button onClick={() => setQ(selected.fromEmail)} title={`Filtrar a lista por ${selected.fromEmail}`}
+                        className="text-slate-500 hover:text-indigo-300 break-all text-left">
+                        {selected.fromEmail}
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-400 break-all">
+                    Para: <span className="text-slate-300">{selected.toEmail}</span>
+                    <span className="text-slate-600"> · {fmtDate(selected.sentAt)}</span>
+                  </p>
+                )}
                 {selected.aiSummary && (
                   <p className="text-[11px] text-indigo-200/80 flex items-start gap-1">
                     <Sparkles size={11} className="mt-0.5 flex-shrink-0 text-indigo-400" />
