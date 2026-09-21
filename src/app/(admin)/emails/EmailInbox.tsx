@@ -7,7 +7,7 @@ import {
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
   Tag as TagIcon, ListChecks, Info, Globe, ChevronDown, ChevronRight, Link2,
-  Layers, Eye, EyeOff, Maximize2, type LucideIcon,
+  Layers, Eye, EyeOff, Maximize2, PanelLeftClose, PanelLeftOpen, Lock, type LucideIcon,
 } from "lucide-react";
 import { EMAIL_BUCKETS, bucketOf, type EmailBucket, type EmailBucketFilter } from "@/lib/email-buckets";
 import { analyzeAttachment, analyzeLinks, type EmailLink } from "@/lib/email-threat-scan";
@@ -39,6 +39,8 @@ type EmailRow = {
   aiSummary: string | null;
   suspicious: boolean;
   suspiciousReasons?: string[];
+  /** Gaveta corrigida à mão — a triagem IA não altera mais. */
+  aiLocked?: boolean;
   tags: EmailTag[];
   _count?: { attachments: number };
   leadId: string | null;
@@ -185,6 +187,8 @@ export default function EmailInbox() {
   // navegador (localStorage) — com 7+ caixas, você ativa só as que quer ver.
   const [visibleAccounts, setVisibleAccounts] = useState<string[]>([]);
   const [visibleLoaded, setVisibleLoaded] = useState(false);
+  // Coluna esquerda recolhida vira um trilho de ícones e a lista ganha largura.
+  const [sideCollapsed, setSideCollapsed] = useState(false);
   // Seções colapsáveis da coluna esquerda (Contas / Tags).
   const [sideAccountsOpen, setSideAccountsOpen] = useState(true);
   const [sideTagsOpen, setSideTagsOpen] = useState(true);
@@ -265,6 +269,7 @@ export default function EmailInbox() {
     try {
       const saved = localStorage.getItem("leadhub.emails.visibleAccounts");
       if (saved) setVisibleAccounts(JSON.parse(saved));
+      setSideCollapsed(localStorage.getItem("leadhub.emails.sideCollapsed") === "1");
     } catch {}
     setVisibleLoaded(true);
   }, []);
@@ -272,6 +277,13 @@ export default function EmailInbox() {
     if (!visibleLoaded) return;
     try { localStorage.setItem("leadhub.emails.visibleAccounts", JSON.stringify(visibleAccounts)); } catch {}
   }, [visibleAccounts, visibleLoaded]);
+
+  function toggleSideCollapsed() {
+    setSideCollapsed((v) => {
+      try { localStorage.setItem("leadhub.emails.sideCollapsed", v ? "0" : "1"); } catch {}
+      return !v;
+    });
+  }
 
   function toggleVisibleAccount(id: string) {
     setSelected(null);
@@ -531,6 +543,52 @@ export default function EmailInbox() {
     setSelectedIds((prev) =>
       prev.size === emails.length ? new Set() : new Set(emails.map((e) => e.id))
     );
+  }
+
+  // Reclassificar (gaveta) e confiar no remetente — valem pro email aberto e
+  // pra seleção em lote.
+  async function runEmailAction(ids: string[], action: "SET_BUCKET" | "TRUST", extra?: Record<string, unknown>) {
+    if (!ids.length) return;
+    const res = await fetch(`/api/email/inbox/bulk`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids, action, ...extra }),
+    });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setNotice(j.error || "Falha na ação");
+    } else if (action === "TRUST") {
+      setNotice(
+        `${j.senders} remetente(s) agora confiável(eis)` +
+        (j.restored ? ` · ${j.restored} voltaram do Spam` : "") +
+        (j.unflagged ? ` · ${j.unflagged} alerta(s) de golpe removido(s)` : "") +
+        (j.promoted ? ` · ${j.promoted} saíram de Descarte` : "")
+      );
+    } else {
+      setNotice(`${j.affected} email(s) reclassificado(s) — a IA não muda mais essa escolha`);
+    }
+    setTimeout(() => setNotice(""), 8000);
+    if (!res.ok) return;
+    setSelectedIds(new Set());
+    load({ silent: true });
+    if (selected && ids.includes(selected.id)) {
+      const r = await fetch(`/api/email/inbox/${selected.id}`).then((x) => x.json()).catch(() => null);
+      if (r?.email) setSelected(r.email);
+    }
+  }
+
+  function reclassify(ids: string[], bucket: EmailBucket, touchesSuspicious: boolean) {
+    if (touchesSuspicious && bucket !== "DESCARTE" &&
+        !window.confirm("Há email marcado como possível golpe. Reclassificar remove o alerta dele. Continuar?")) return;
+    runEmailAction(ids, "SET_BUCKET", { bucket });
+  }
+
+  function trustSenders(ids: string[], who: string) {
+    if (!window.confirm(
+      `Marcar ${who} como confiável?\n\nOs emails saem de Spam e de Descarte e não serão mais marcados como golpe. ` +
+      `O aviso de anexo ou link perigoso continua valendo na hora de abrir.`
+    )) return;
+    runEmailAction(ids, "TRUST");
   }
 
   async function bulkAction(action: string, tagId?: string) {
@@ -941,9 +999,39 @@ export default function EmailInbox() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-[170px_320px_minmax(0,1fr)] gap-4 h-[72vh] overflow-hidden">
-        {/* Coluna esquerda: Contas · Pastas · Todos · Tags */}
+      <div className={`grid grid-cols-1 gap-4 h-[72vh] overflow-hidden ${
+        sideCollapsed
+          ? "md:grid-cols-[48px_minmax(0,460px)_minmax(0,1fr)]"
+          : "md:grid-cols-[170px_320px_minmax(0,1fr)]"}`}>
+        {sideCollapsed ? (
+          /* Trilho recolhido: pastas em ícone + botão de expandir */
+          <div className="hidden md:flex rounded-xl border border-white/10 bg-white/5 p-1.5 flex-col items-center gap-1 overflow-y-auto">
+            <button onClick={toggleSideCollapsed} title="Mostrar caixas, pastas e tags"
+              className="p-2 rounded-lg text-slate-400 hover:bg-white/5 hover:text-white"><PanelLeftOpen size={15} /></button>
+            <div className="w-full border-t border-white/5 my-1" />
+            {FOLDER_META.map(({ key, label, Icon }) => (
+              <button key={key} onClick={() => { setFolder(key); setSelected(null); }}
+                title={`${label}${(counts[key] ?? 0) > 0 ? ` (${counts[key]})` : ""}`}
+                className={`relative p-2 rounded-lg ${folder === key ? "bg-indigo-500/20 text-indigo-200" : "text-slate-400 hover:bg-white/5"}`}>
+                <Icon size={15} />
+                {key === "INBOX" && unseen > 0 && <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-indigo-400" />}
+              </button>
+            ))}
+            <button onClick={() => { setFolder("ALL"); setSelected(null); }} title="Todos"
+              className={`p-2 rounded-lg ${folder === "ALL" ? "bg-violet-500/20 text-violet-200" : "text-violet-300/70 hover:bg-violet-500/10"}`}>
+              <Layers size={15} />
+            </button>
+            {(visibleAccounts.length > 0 || tagFilter) && (
+              <span title="Filtro de caixa ou tag ativo — expanda pra ver" className="mt-1 w-1.5 h-1.5 rounded-full bg-amber-400" />
+            )}
+          </div>
+        ) : (
+        /* Coluna esquerda: Contas · Pastas · Todos · Tags */
         <div className="rounded-xl border border-white/10 bg-white/5 p-2 flex md:flex-col gap-1 overflow-x-auto md:overflow-y-auto">
+          <button onClick={toggleSideCollapsed} title="Recolher e alargar a lista"
+            className="hidden md:flex items-center gap-1.5 self-end px-1.5 py-1 rounded-md text-[10px] text-slate-500 hover:text-slate-300 hover:bg-white/5">
+            <PanelLeftClose size={13} /> recolher
+          </button>
           {/* Contas (caixas) — colapsável */}
           {accounts.length > 0 && (
             <>
@@ -1053,6 +1141,7 @@ export default function EmailInbox() {
             </>
           )}
         </div>
+        )}
 
         {/* Lista */}
         <div className="rounded-xl border border-white/10 bg-white/5 flex flex-col min-h-0 min-w-0">
@@ -1075,6 +1164,19 @@ export default function EmailInbox() {
                   className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5 disabled:opacity-40"><Eye size={13} /></button>
                 <button onClick={() => bulkAction("MARK_UNREAD")} disabled={bulkBusy} title="Marcar como não lidos"
                   className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5 disabled:opacity-40"><EyeOff size={13} /></button>
+                <select value="" disabled={bulkBusy} title="Reclassificar: mudar a gaveta dos selecionados"
+                  onChange={(ev) => {
+                    const v = ev.target.value as EmailBucket;
+                    ev.target.value = "";
+                    if (v) reclassify([...selectedIds], v, emails.some((x) => selectedIds.has(x.id) && x.suspicious));
+                  }}
+                  className="rounded-lg bg-white/5 border border-white/10 px-1.5 py-1 text-[10px] text-slate-300 focus:outline-none max-w-[110px]">
+                  <option value="" className="bg-[#0f1623]">classificar…</option>
+                  {EMAIL_BUCKETS.map((k) => <option key={k} value={k} className="bg-[#0f1623]">{BUCKET_BADGE[k].chip}</option>)}
+                </select>
+                <button onClick={() => trustSenders([...selectedIds], "os remetentes selecionados")} disabled={bulkBusy}
+                  title="Confiável: tira de Spam/Descarte e nunca mais marca esses remetentes como golpe"
+                  className="rounded-lg border border-emerald-500/30 p-1.5 text-emerald-300 hover:bg-emerald-500/10 disabled:opacity-40"><ShieldCheck size={13} /></button>
                 {folder !== "IMPORTANT" && (
                   <button onClick={() => bulkAction("IMPORTANT")} disabled={bulkBusy} title="Marcar importantes"
                     className="rounded-lg border border-white/10 p-1.5 text-amber-300 hover:bg-white/5 disabled:opacity-40"><Star size={13} /></button>
@@ -1126,14 +1228,14 @@ export default function EmailInbox() {
                   onClick={(ev) => ev.stopPropagation()}
                   className="accent-indigo-500 flex-shrink-0 mt-1" />
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    {!e.seen && e.direction === "IN" && <span className="w-2 h-2 rounded-full bg-indigo-400 flex-shrink-0" />}
+                  <div className="flex items-start gap-2">
+                    {!e.seen && e.direction === "IN" && <span className="w-2 h-2 mt-1.5 rounded-full bg-indigo-400 flex-shrink-0" />}
                     {e.direction === "OUT" ? (
                       <span className={`text-sm truncate flex-1 ${e.seen ? "text-slate-300" : "text-white font-semibold"}`}>
                         Para: {e.toEmail}
                       </span>
                     ) : (
-                      <span className="flex-1 min-w-0 flex items-baseline gap-1.5">
+                      <span className="flex-1 min-w-0 flex flex-col">
                         <span className={`text-sm truncate ${e.seen ? "text-slate-300" : "text-white font-semibold"}`}>
                           {e.fromName || e.fromEmail}
                         </span>
@@ -1143,15 +1245,15 @@ export default function EmailInbox() {
                           <span
                             onClick={(ev) => { ev.stopPropagation(); setQ(e.fromEmail); }}
                             title={`Filtrar por ${e.fromEmail}`}
-                            className="text-[10px] text-slate-500 truncate hover:text-indigo-300 cursor-pointer flex-shrink min-w-0"
+                            className="text-[10px] text-slate-500 truncate hover:text-indigo-300 cursor-pointer self-start max-w-full"
                           >
                             {e.fromEmail}
                           </span>
                         )}
                       </span>
                     )}
-                    {(e._count?.attachments ?? 0) > 0 && <span className="text-[10px] text-slate-500 flex-shrink-0" title="Com anexo">📎</span>}
-                    <span className="text-[10px] text-slate-500 flex-shrink-0">{fmtDate(e.sentAt)}</span>
+                    {(e._count?.attachments ?? 0) > 0 && <span className="text-[10px] text-slate-500 flex-shrink-0 mt-1" title="Com anexo">📎</span>}
+                    <span className="text-[10px] text-slate-500 flex-shrink-0 mt-1">{fmtDate(e.sentAt)}</span>
                   </div>
                   <p className={`text-xs truncate ${e.seen ? "text-slate-400" : "text-slate-200"}`}>{e.subject || "(sem assunto)"}</p>
                   {/* Trecho/resumo em linha PRÓPRIA (largura toda) — badges na
@@ -1215,6 +1317,12 @@ export default function EmailInbox() {
                       className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5">
                       {selected.seen ? <EyeOff size={14} /> : <Eye size={14} />}
                     </button>
+                    {selected.direction === "IN" &&
+                      (selected.suspicious || bucketOf(selected) === "DESCARTE" || selected.folder === "SPAM") && (
+                      <button onClick={() => trustSenders([selected.id], selected.fromEmail)}
+                        title="Confiável: tira de Spam/Descarte e nunca mais marca este remetente como golpe"
+                        className="rounded-lg border border-emerald-500/30 p-1.5 text-emerald-300 hover:bg-emerald-500/10"><ShieldCheck size={14} /></button>
+                    )}
                     {!selected.ticket && (
                       <button onClick={() => startCreateTicket(selected)} title="Criar chamado a partir deste email"
                         className="rounded-lg border border-white/10 p-1.5 text-sky-300 hover:bg-white/5"><LifeBuoy size={14} /></button>
@@ -1254,16 +1362,24 @@ export default function EmailInbox() {
                   </p>
                 )}
                 <div className="flex flex-wrap gap-2 items-center">
-                      {selected.direction === "IN" && (() => {
-                        const key = bucketOf(selected);
-                        if (!key) return null;
-                        const b = BUCKET_BADGE[key];
-                        return (
-                          <span className={`flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${b.cls}`} title={b.hint}>
-                            <b.Icon size={10} /> {b.chip}
-                          </span>
-                        );
-                      })()}
+                      {selected.direction === "IN" && (
+                        <div className="flex items-center rounded-lg border border-white/10 overflow-hidden"
+                          title={selected.aiLocked ? "Classificação definida por você — a IA não altera mais" : "Classificação da IA — clique pra corrigir"}>
+                          {EMAIL_BUCKETS.map((k) => {
+                            const b = BUCKET_BADGE[k];
+                            const active = bucketOf(selected) === k;
+                            return (
+                              <button key={k} title={b.hint}
+                                onClick={() => { if (!active) reclassify([selected.id], k, !!selected.suspicious); }}
+                                className={`flex items-center gap-1 text-[10px] px-2 py-0.5 ${
+                                  active ? b.cls : "text-slate-500 hover:bg-white/5 hover:text-slate-300"}`}>
+                                <b.Icon size={10} /> {b.label}
+                              </button>
+                            );
+                          })}
+                          {selected.aiLocked && <Lock size={10} className="mx-1.5 text-slate-500 flex-shrink-0" />}
+                        </div>
+                      )}
                       {selected.account && (
                         <span className={`flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${accountColor(selected.accountId)}`}>
                           <AtSign size={10} /> {selected.direction === "IN" ? "recebido em" : "enviado por"} {accountName(selected.account)}

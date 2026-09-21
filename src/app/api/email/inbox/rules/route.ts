@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
+import { applyTrust } from "@/lib/email-trust";
 import type { Prisma } from "@/generated/prisma";
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -90,11 +91,8 @@ export async function POST(req: NextRequest) {
     });
     moved = r.count;
   } else {
-    const r = await prisma.inboxEmail.updateMany({
-      where: { companyId: ctx.companyId, ...senderMatch, folder: "SPAM", direction: "IN" },
-      data: { folder: "INBOX" },
-    });
-    moved = r.count;
+    const r = await applyTrust(ctx.companyId, senderMatch);
+    moved = r.restored;
   }
   return NextResponse.json({ ok: true, moved, rule: ruleKey });
 }

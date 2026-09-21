@@ -22,6 +22,7 @@ import { prisma } from "./prisma";
 import { encryptSecret, tryDecryptSecret } from "./crypto";
 import { sendCompanyMail } from "./company-email";
 import { scanEmailThreats } from "./email-threat-scan";
+import { pickSenderRule, senderRuleCandidates } from "./email-trust";
 import type { EmailAccount, InboxEmailFolder } from "@/generated/prisma";
 
 export interface EmailAccountInput {
@@ -375,6 +376,7 @@ async function storeMessage(
 
   let folder: InboxEmailFolder;
   let link: { leadId: string | null; ticketId: string | null };
+  let senderTrusted = false;
   if (direction === "IN") {
     link = await resolveIncomingLink(companyId, inReplyTo, fromEmail);
     // Blacklist/whitelist: regra do EMAIL exato tem precedência sobre a regra
@@ -383,25 +385,13 @@ async function storeMessage(
     // "@dominio.com". BLOCK → SPAM; ALLOW/nenhuma → Entrada.
     let ruleType: string | null = null;
     if (fromEmail) {
-      const domain = fromEmail.split("@")[1] ?? "";
-      // Candidatos: o domínio completo e cada sufixo com ≥2 labels
-      // (e.ultrasul1.com → ["@e.ultrasul1.com", "@ultrasul1.com"]).
-      const parts = domain.split(".");
-      const candidates: string[] = [fromEmail];
-      for (let i = 0; i <= parts.length - 2; i++) {
-        candidates.push(`@${parts.slice(i).join(".")}`);
-      }
       const rules = await prisma.inboxSenderRule.findMany({
-        where: { companyId, fromEmail: { in: candidates } },
+        where: { companyId, fromEmail: { in: senderRuleCandidates(fromEmail) } },
         select: { fromEmail: true, type: true },
       });
-      const exact = rules.find((r) => r.fromEmail === fromEmail);
-      // Empate entre domínios: o mais específico (mais longo) decide.
-      const domRule = rules
-        .filter((r) => r.fromEmail.startsWith("@"))
-        .sort((a, b) => b.fromEmail.length - a.fromEmail.length)[0];
-      ruleType = (exact ?? domRule)?.type ?? null;
+      ruleType = pickSenderRule(rules, fromEmail)?.type ?? null;
     }
+    senderTrusted = ruleType === "ALLOW";
     folder = ruleType === "BLOCK" ? "SPAM" : "INBOX";
   } else {
     link = await resolveOutgoingLink(companyId, inReplyTo, firstToAddress(parsed));
@@ -416,7 +406,9 @@ async function storeMessage(
   // Suspeita de golpe (só em recebidos): remetente + links + anexos. Tudo
   // local, sem baixar arquivo nem consultar serviço externo.
   const suspiciousReasons: string[] = [];
-  if (direction === "IN") {
+  // Remetente confiável nunca é marcado — o aviso de anexo/link perigoso
+  // continua no leitor, na hora do clique (ver email-trust.ts).
+  if (direction === "IN" && !senderTrusted) {
     if (looksSuspiciousSender(fromAddr?.name ?? null, fromEmail, parsed.subject ?? "")) {
       suspiciousReasons.push(
         `Remetente parece se passar por outra instituição — o domínio ${fromEmail.split("@")[1] ?? ""} não confere com quem ele diz ser`

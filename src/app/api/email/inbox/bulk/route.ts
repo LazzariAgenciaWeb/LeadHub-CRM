@@ -4,6 +4,7 @@ import { assertModule } from "@/lib/billing";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { deleteEmailFromServer } from "@/lib/imap-inbox";
+import { applyTrust } from "@/lib/email-trust";
 import type { InboxEmailFolder } from "@/generated/prisma";
 
 const MAX_IDS = 100;
@@ -14,7 +15,8 @@ const FOLDER_ACTIONS: Record<string, InboxEmailFolder> = {
 // POST /api/email/inbox/bulk
 // { ids: string[], action: "INBOX"|"IMPORTANT"|"ARCHIVE"|"SPAM"|"TRASH"
 //                        | "DELETE_SERVER" | "ADD_TAG" | "REMOVE_TAG"
-//                        | "MARK_READ" | "MARK_UNREAD", tagId? }
+//                        | "MARK_READ" | "MARK_UNREAD"
+//                        | "SET_BUCKET" (bucket: RESOLVER|INFO|DESCARTE) | "TRUST", tagId? }
 // Ações em lote sobre emails selecionados. SPAM aplica blacklist por remetente
 // (mesmo efeito do PATCH individual). DELETE_SERVER: exclusão definitiva —
 // apaga do servidor IMAP (best-effort, com verificação de Message-ID) e do LeadHub.
@@ -45,6 +47,43 @@ export async function POST(req: NextRequest) {
     : emailsRaw;
   if (!emails.length) return NextResponse.json({ error: "Emails não encontrados" }, { status: 404 });
   const validIds = emails.map((e) => e.id);
+
+  // ── Reclassificar à mão (gaveta) — trava contra a triagem IA ──
+  if (action === "SET_BUCKET") {
+    const IMPORTANCE_OF: Record<string, string> = { RESOLVER: "ALTA", INFO: "NORMAL", DESCARTE: "BAIXA" };
+    const aiImportance = IMPORTANCE_OF[String(body?.bucket ?? "").toUpperCase()];
+    if (!aiImportance) return NextResponse.json({ error: "Gaveta inválida" }, { status: 400 });
+    // Tirar de Descarte é declarar que não é golpe: limpa o alerta junto.
+    const data = aiImportance === "BAIXA"
+      ? { aiImportance, aiLocked: true }
+      : { aiImportance, aiLocked: true, suspicious: false, suspiciousReasons: [] };
+    const messageIds = [...new Set(emails.map((e) => e.messageId).filter((m): m is string => !!m))];
+    const r = await prisma.inboxEmail.updateMany({
+      where: {
+        companyId,
+        OR: [{ id: { in: validIds } }, ...(messageIds.length ? [{ messageId: { in: messageIds } }] : [])],
+      },
+      data,
+    });
+    return NextResponse.json({ ok: true, affected: validIds.length, withCopies: r.count });
+  }
+
+  // ── Confiar no remetente: whitelist + limpa alerta/Descarte/Spam dele ──
+  if (action === "TRUST") {
+    const senders = [...new Set(
+      emails.filter((e) => e.direction === "IN" && e.fromEmail).map((e) => e.fromEmail.toLowerCase())
+    )];
+    if (!senders.length) return NextResponse.json({ error: "Nenhum remetente pra confiar" }, { status: 400 });
+    for (const fromEmail of senders) {
+      await prisma.inboxSenderRule.upsert({
+        where: { companyId_fromEmail: { companyId, fromEmail } },
+        create: { companyId, fromEmail, type: "ALLOW" },
+        update: { type: "ALLOW" },
+      });
+    }
+    const r = await applyTrust(companyId, { fromEmail: { in: senders } });
+    return NextResponse.json({ ok: true, affected: validIds.length, senders: senders.length, ...r });
+  }
 
   // ── Lido / não lido em massa ──
   if (action === "MARK_READ" || action === "MARK_UNREAD") {

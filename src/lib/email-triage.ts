@@ -6,6 +6,7 @@
  */
 import { prisma } from "./prisma";
 import { runAssistant } from "./assistant";
+import { loadTrustMatcher } from "./email-trust";
 
 /** Teto de segurança de emails por análise (dia muito cheio). */
 const MAX_EMAILS = 100;
@@ -43,7 +44,7 @@ export async function runEmailTriage(
     select: {
       id: true, fromEmail: true, fromName: true, subject: true,
       snippet: true, textBody: true, seen: true, sentAt: true,
-      suspicious: true, suspiciousReasons: true,
+      suspicious: true, suspiciousReasons: true, aiLocked: true,
       tags: { select: { name: true } },
       lead: { select: { name: true } },
       ticket: { select: { title: true } },
@@ -95,6 +96,23 @@ ${examples ? `\nComo o usuário tagueou emails anteriores (imite este padrão pr
 No JSON, inclua "tags": ["Nome"] por email SOMENTE quando tiver confiança clara pelo padrão acima; sem certeza, mande "tags": []. Não sugira tag pra email que já tem "tags atuais".`;
   }
 
+  // Correções feitas à mão: a IA imita a decisão do usuário pra emails do
+  // mesmo remetente ou do mesmo tipo — é assim que ela para de errar igual.
+  const corrections = await prisma.inboxEmail.findMany({
+    where: { companyId, aiLocked: true, direction: "IN", aiImportance: { not: null } },
+    orderBy: { updatedAt: "desc" },
+    take: 30,
+    select: { fromEmail: true, subject: true, aiImportance: true },
+  });
+  const LABEL: Record<string, string> = {
+    ALTA: "ALTA (precisa resolver)", NORMAL: "NORMAL (informativo)", BAIXA: "BAIXA (descarte)",
+  };
+  const correctionsBlock = corrections.length
+    ? `\n\nCORREÇÕES FEITAS PELO USUÁRIO — esta é a classificação CERTA pra ele; aplique a mesma a emails do mesmo remetente ou do mesmo tipo de conteúdo:\n${corrections
+        .map((c) => `- ${c.fromEmail} | "${c.subject.slice(0, 80)}" → ${LABEL[c.aiImportance ?? ""] ?? c.aiImportance}`)
+        .join("\n")}`
+    : "";
+
   const result = await runAssistant({
     companyId,
     endpoint: "email-triage",
@@ -142,7 +160,7 @@ O "digest" é um BRIEFING EXECUTIVO em texto puro (use \\n pra quebras de linha)
 Agrupe emails do mesmo assunto/chamado numa linha só. Seja específico: nomes, números de chamado, datas, valores.
 
 Responda APENAS com JSON válido, sem markdown, neste formato:
-{"digest":"o briefing acima","emails":[{"id":"...","importance":"ALTA|NORMAL|BAIXA","summary":"resumo de 1 linha em português","suspicious":false,"tags":["Nome da tag existente"]}]}${tagsBlock}`,
+{"digest":"o briefing acima","emails":[{"id":"...","importance":"ALTA|NORMAL|BAIXA","summary":"resumo de 1 linha em português","suspicious":false,"tags":["Nome da tag existente"]}]}${tagsBlock}${correctionsBlock}`,
       },
       { role: "user", content: `Data/hora atual: ${new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}\n\nEmails da caixa de entrada (mais recentes primeiro):\n\n${list}` },
     ],
@@ -164,6 +182,10 @@ Responda APENAS com JSON válido, sem markdown, neste formato:
   const alreadyTagged = new Set(emails.filter((e) => e.tags.length).map((e) => e.id));
   // Já suspeitos pela heurística: a IA não precisa repetir o motivo.
   const alreadySuspicious = new Set(emails.filter((e) => e.suspicious).map((e) => e.id));
+  // Decisão humana nunca é sobrescrita; remetente confiável nunca vira golpe/descarte.
+  const locked = new Set(emails.filter((e) => e.aiLocked).map((e) => e.id));
+  const fromById = new Map(emails.map((e) => [e.id, e.fromEmail]));
+  const isTrusted = await loadTrustMatcher(companyId);
 
   const validIds = new Set(emails.map((e) => e.id));
   let updated = 0;
@@ -177,13 +199,19 @@ Responda APENAS com JSON válido, sem markdown, neste formato:
           .map((name) => tagByName.get(String(name).trim().toLowerCase()))
           .filter((id): id is string => !!id);
 
+    const isLocked = locked.has(item.id);
+    const trusted = isTrusted(fromById.get(item.id) ?? "");
+    let finalImportance = IMPORTANCE.has(importance) ? importance : "NORMAL";
+    if (trusted && finalImportance === "BAIXA") finalImportance = "NORMAL";
+
     await prisma.inboxEmail.update({
       where: { id: item.id },
       data: {
-        aiImportance: IMPORTANCE.has(importance) ? importance : "NORMAL",
+        ...(isLocked ? {} : { aiImportance: finalImportance }),
         aiSummary: String(item.summary ?? "").slice(0, 500) || null,
-        // Suspeita só LIGA (heurística ou IA) — nunca desliga sozinha.
-        ...(item.suspicious === true
+        // Suspeita só LIGA (heurística ou IA) — nunca desliga sozinha. Não liga
+        // em correção manual nem em remetente confiável.
+        ...(item.suspicious === true && !isLocked && !trusted
           ? {
               suspicious: true,
               ...(alreadySuspicious.has(item.id)

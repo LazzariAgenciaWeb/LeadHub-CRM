@@ -3403,6 +3403,9 @@ model InboxEmail {
   suspicious   Boolean @default(false)
   // Por que suspeitamos — frases prontas pro banner do leitor e pra IA.
   suspiciousReasons String[] @default([])
+  // Classificação corrigida À MÃO (gaveta escolhida pelo usuário). A triagem
+  // IA nunca sobrescreve e usa esses emails como exemplo do que é certo.
+  aiLocked Boolean @default(false)
 
   // Tags livres da empresa (classificação manual, m2m implícito).
   tags InboxEmailTag[] @relation("InboxEmailTags")
