@@ -126362,6 +126362,8 @@ export namespace Prisma {
     phone: string | null
     body: string | null
     sendAt: Date | null
+    mediaBase64: string | null
+    mediaType: string | null
     status: string | null
     kind: string | null
     sentAt: Date | null
@@ -126376,6 +126378,8 @@ export namespace Prisma {
     phone: string | null
     body: string | null
     sendAt: Date | null
+    mediaBase64: string | null
+    mediaType: string | null
     status: string | null
     kind: string | null
     sentAt: Date | null
@@ -126390,6 +126394,8 @@ export namespace Prisma {
     phone: number
     body: number
     sendAt: number
+    mediaBase64: number
+    mediaType: number
     status: number
     kind: number
     meta: number
@@ -126407,6 +126413,8 @@ export namespace Prisma {
     phone?: true
     body?: true
     sendAt?: true
+    mediaBase64?: true
+    mediaType?: true
     status?: true
     kind?: true
     sentAt?: true
@@ -126421,6 +126429,8 @@ export namespace Prisma {
     phone?: true
     body?: true
     sendAt?: true
+    mediaBase64?: true
+    mediaType?: true
     status?: true
     kind?: true
     sentAt?: true
@@ -126435,6 +126445,8 @@ export namespace Prisma {
     phone?: true
     body?: true
     sendAt?: true
+    mediaBase64?: true
+    mediaType?: true
     status?: true
     kind?: true
     meta?: true
@@ -126523,6 +126535,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date
+    mediaBase64: string | null
+    mediaType: string | null
     status: string
     kind: string | null
     meta: JsonValue | null
@@ -126555,6 +126569,8 @@ export namespace Prisma {
     phone?: boolean
     body?: boolean
     sendAt?: boolean
+    mediaBase64?: boolean
+    mediaType?: boolean
     status?: boolean
     kind?: boolean
     meta?: boolean
@@ -126572,6 +126588,8 @@ export namespace Prisma {
     phone?: boolean
     body?: boolean
     sendAt?: boolean
+    mediaBase64?: boolean
+    mediaType?: boolean
     status?: boolean
     kind?: boolean
     meta?: boolean
@@ -126589,6 +126607,8 @@ export namespace Prisma {
     phone?: boolean
     body?: boolean
     sendAt?: boolean
+    mediaBase64?: boolean
+    mediaType?: boolean
     status?: boolean
     kind?: boolean
     meta?: boolean
@@ -126619,6 +126639,8 @@ export namespace Prisma {
       phone: string
       body: string
       sendAt: Date
+      mediaBase64: string | null
+      mediaType: string | null
       status: string
       kind: string | null
       meta: Prisma.JsonValue | null
@@ -127026,6 +127048,8 @@ export namespace Prisma {
     readonly phone: FieldRef<"ScheduledMessage", 'String'>
     readonly body: FieldRef<"ScheduledMessage", 'String'>
     readonly sendAt: FieldRef<"ScheduledMessage", 'DateTime'>
+    readonly mediaBase64: FieldRef<"ScheduledMessage", 'String'>
+    readonly mediaType: FieldRef<"ScheduledMessage", 'String'>
     readonly status: FieldRef<"ScheduledMessage", 'String'>
     readonly kind: FieldRef<"ScheduledMessage", 'String'>
     readonly meta: FieldRef<"ScheduledMessage", 'Json'>
@@ -149456,6 +149480,8 @@ export namespace Prisma {
     phone: 'phone',
     body: 'body',
     sendAt: 'sendAt',
+    mediaBase64: 'mediaBase64',
+    mediaType: 'mediaType',
     status: 'status',
     kind: 'kind',
     meta: 'meta',
@@ -160913,6 +160939,8 @@ export namespace Prisma {
     phone?: StringFilter<"ScheduledMessage"> | string
     body?: StringFilter<"ScheduledMessage"> | string
     sendAt?: DateTimeFilter<"ScheduledMessage"> | Date | string
+    mediaBase64?: StringNullableFilter<"ScheduledMessage"> | string | null
+    mediaType?: StringNullableFilter<"ScheduledMessage"> | string | null
     status?: StringFilter<"ScheduledMessage"> | string
     kind?: StringNullableFilter<"ScheduledMessage"> | string | null
     meta?: JsonNullableFilter<"ScheduledMessage">
@@ -160930,6 +160958,8 @@ export namespace Prisma {
     phone?: SortOrder
     body?: SortOrder
     sendAt?: SortOrder
+    mediaBase64?: SortOrderInput | SortOrder
+    mediaType?: SortOrderInput | SortOrder
     status?: SortOrder
     kind?: SortOrderInput | SortOrder
     meta?: SortOrderInput | SortOrder
@@ -160950,6 +160980,8 @@ export namespace Prisma {
     phone?: StringFilter<"ScheduledMessage"> | string
     body?: StringFilter<"ScheduledMessage"> | string
     sendAt?: DateTimeFilter<"ScheduledMessage"> | Date | string
+    mediaBase64?: StringNullableFilter<"ScheduledMessage"> | string | null
+    mediaType?: StringNullableFilter<"ScheduledMessage"> | string | null
     status?: StringFilter<"ScheduledMessage"> | string
     kind?: StringNullableFilter<"ScheduledMessage"> | string | null
     meta?: JsonNullableFilter<"ScheduledMessage">
@@ -160967,6 +160999,8 @@ export namespace Prisma {
     phone?: SortOrder
     body?: SortOrder
     sendAt?: SortOrder
+    mediaBase64?: SortOrderInput | SortOrder
+    mediaType?: SortOrderInput | SortOrder
     status?: SortOrder
     kind?: SortOrderInput | SortOrder
     meta?: SortOrderInput | SortOrder
@@ -160988,6 +161022,8 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter<"ScheduledMessage"> | string
     body?: StringWithAggregatesFilter<"ScheduledMessage"> | string
     sendAt?: DateTimeWithAggregatesFilter<"ScheduledMessage"> | Date | string
+    mediaBase64?: StringNullableWithAggregatesFilter<"ScheduledMessage"> | string | null
+    mediaType?: StringNullableWithAggregatesFilter<"ScheduledMessage"> | string | null
     status?: StringWithAggregatesFilter<"ScheduledMessage"> | string
     kind?: StringNullableWithAggregatesFilter<"ScheduledMessage"> | string | null
     meta?: JsonNullableWithAggregatesFilter<"ScheduledMessage">
@@ -174255,6 +174291,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date | string
+    mediaBase64?: string | null
+    mediaType?: string | null
     status?: string
     kind?: string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -174272,6 +174310,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date | string
+    mediaBase64?: string | null
+    mediaType?: string | null
     status?: string
     kind?: string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -174285,6 +174325,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -174302,6 +174344,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -174317,6 +174361,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date | string
+    mediaBase64?: string | null
+    mediaType?: string | null
     status?: string
     kind?: string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -174330,6 +174376,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -174345,6 +174393,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -184324,6 +184374,8 @@ export namespace Prisma {
     phone?: SortOrder
     body?: SortOrder
     sendAt?: SortOrder
+    mediaBase64?: SortOrder
+    mediaType?: SortOrder
     status?: SortOrder
     kind?: SortOrder
     meta?: SortOrder
@@ -184339,6 +184391,8 @@ export namespace Prisma {
     phone?: SortOrder
     body?: SortOrder
     sendAt?: SortOrder
+    mediaBase64?: SortOrder
+    mediaType?: SortOrder
     status?: SortOrder
     kind?: SortOrder
     sentAt?: SortOrder
@@ -184353,6 +184407,8 @@ export namespace Prisma {
     phone?: SortOrder
     body?: SortOrder
     sendAt?: SortOrder
+    mediaBase64?: SortOrder
+    mediaType?: SortOrder
     status?: SortOrder
     kind?: SortOrder
     sentAt?: SortOrder
@@ -207352,6 +207408,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date | string
+    mediaBase64?: string | null
+    mediaType?: string | null
     status?: string
     kind?: string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -207367,6 +207425,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date | string
+    mediaBase64?: string | null
+    mediaType?: string | null
     status?: string
     kind?: string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -210547,6 +210607,8 @@ export namespace Prisma {
     phone?: StringFilter<"ScheduledMessage"> | string
     body?: StringFilter<"ScheduledMessage"> | string
     sendAt?: DateTimeFilter<"ScheduledMessage"> | Date | string
+    mediaBase64?: StringNullableFilter<"ScheduledMessage"> | string | null
+    mediaType?: StringNullableFilter<"ScheduledMessage"> | string | null
     status?: StringFilter<"ScheduledMessage"> | string
     kind?: StringNullableFilter<"ScheduledMessage"> | string | null
     meta?: JsonNullableFilter<"ScheduledMessage">
@@ -220749,6 +220811,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date | string
+    mediaBase64?: string | null
+    mediaType?: string | null
     status?: string
     kind?: string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -220764,6 +220828,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date | string
+    mediaBase64?: string | null
+    mediaType?: string | null
     status?: string
     kind?: string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -284521,6 +284587,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date | string
+    mediaBase64?: string | null
+    mediaType?: string | null
     status?: string
     kind?: string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -288644,6 +288712,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -288659,6 +288729,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -288673,6 +288745,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -290494,6 +290568,8 @@ export namespace Prisma {
     phone: string
     body: string
     sendAt: Date | string
+    mediaBase64?: string | null
+    mediaType?: string | null
     status?: string
     kind?: string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -290789,6 +290865,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -290804,6 +290882,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue
@@ -290818,6 +290898,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     kind?: NullableStringFieldUpdateOperationsInput | string | null
     meta?: NullableJsonNullValueInput | InputJsonValue

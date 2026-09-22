@@ -3752,6 +3752,11 @@ model ScheduledMessage {
   body   String   @db.Text
   sendAt DateTime // quando enviar
 
+  // Imagem agendada (opcional). body vira a legenda. Base64 puro, já
+  // comprimido no cliente (mesmo pipeline do anexo do compositor).
+  mediaBase64 String? @db.Text
+  mediaType   String?
+
   status    String    @default("PENDING") // PENDING | SENT | FAILED | CANCELED
   kind      String? // "meeting_reminder" | ...
   meta      Json? // ex.: { eventId, meetLink, conversationId }

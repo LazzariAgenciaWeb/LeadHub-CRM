@@ -1677,6 +1677,8 @@ exports.Prisma.ScheduledMessageScalarFieldEnum = {
   phone: 'phone',
   body: 'body',
   sendAt: 'sendAt',
+  mediaBase64: 'mediaBase64',
+  mediaType: 'mediaType',
   status: 'status',
   kind: 'kind',
   meta: 'meta',

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import QuickReplies from "./QuickReplies";
 import AudioRecorder from "./AudioRecorder";
+import { ScheduleMessageModal, ScheduledList } from "./ScheduledMessages";
 
 type ConvStatus = "OPEN" | "PENDING" | "IN_PROGRESS" | "WAITING_CUSTOMER" | "SCHEDULED" | "CLOSED";
 
@@ -536,6 +537,11 @@ export default function WhatsappManager({
   // Anexo de mídia (imagem) pendente pra envio. Suporta tanto file picker quanto Ctrl+V.
   // Imagem é comprimida client-side (canvas → JPEG 1920px max, 0.85 quality)
   // antes de virar base64 — economiza payload e DB sem perder qualidade aparente.
+  // Agendamento de mensagens (modal de sequência + faixa de agendadas)
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [scheduledReloadKey, setScheduledReloadKey] = useState(0);
+  const [scheduleNotice, setScheduleNotice] = useState<string | null>(null);
+
   const [pendingMedia, setPendingMedia] = useState<{
     base64: string;       // sem prefixo data:...
     mimeType: string;     // sempre "image/jpeg" após compressão
@@ -5297,6 +5303,35 @@ export default function WhatsappManager({
               <div className="flex-shrink-0 border-t border-[#1e2d45] px-4 py-3">
                 {/* Seletor de instância foi movido para o menu '+ Ações → Envio → Trocar instância'.
                     A instância atual aparece no placeholder do textarea ('Escreva via ...'). */}
+                {/* Mensagens agendadas desta conversa (cancelar / ver falhas) */}
+                <ScheduledList
+                  phone={selectedConv.phone}
+                  companyId={selectedConv.companyId}
+                  reloadKey={scheduledReloadKey}
+                />
+                {scheduleNotice && (
+                  <div className="mb-2 flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg px-3 py-1.5">
+                    <span className="text-emerald-300 text-xs flex-1">{scheduleNotice}</span>
+                    <button onClick={() => setScheduleNotice(null)} className="text-emerald-300/70 hover:text-white text-xs">✕</button>
+                  </div>
+                )}
+                <ScheduleMessageModal
+                  open={showScheduleModal}
+                  onClose={() => setShowScheduleModal(false)}
+                  instanceId={currentSendInstance?.id ?? null}
+                  instanceLabel={instDisplay(currentSendInstance?.instanceName) || "—"}
+                  phone={selectedConv.phone}
+                  initialText={replyText}
+                  initialImage={pendingMedia ? { base64: pendingMedia.base64, mimeType: pendingMedia.mimeType, previewUrl: pendingMedia.previewUrl } : null}
+                  signature={includeSignature && userSignature ? userSignature : null}
+                  compressImage={compressImageFile}
+                  onScheduled={(count) => {
+                    setReplyText("");
+                    setPendingMedia(null);
+                    setScheduledReloadKey((k) => k + 1);
+                    setScheduleNotice(count > 1 ? `✓ ${count} mensagens agendadas.` : "✓ Mensagem agendada.");
+                  }}
+                />
                 {replyError && (
                   <div className="mb-2 flex items-start gap-2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
                     <span className="text-red-400 text-sm flex-shrink-0">⚠️</span>
@@ -5831,6 +5866,17 @@ export default function WhatsappManager({
                       😊
                     </button>
                   </div>
+                  {/* Agendar mensagem (texto/imagem/sequência) — leva o que está no compositor */}
+                  <button
+                    type="button"
+                    onClick={() => { setScheduleNotice(null); setShowScheduleModal(true); }}
+                    disabled={sendingReply || !currentSendInstance}
+                    title="Agendar mensagem para data e hora"
+                    className="px-3 rounded-xl bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white hover:border-indigo-500/40 disabled:opacity-40 transition-colors flex-shrink-0 flex items-center justify-center"
+                    style={{ height: "42px" }}
+                  >
+                    <Clock className="w-4 h-4" strokeWidth={2.5} />
+                  </button>
                   {/* Gravar mensagem de voz — ativo cobre a linha do compositor */}
                   <AudioRecorder
                     disabled={sendingReply || !!pendingMedia}
