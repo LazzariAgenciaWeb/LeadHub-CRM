@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, Pencil, Plus, Link2, X } from "lucide-react";
+import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Pencil, Plus, Link2, X } from "lucide-react";
 import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
@@ -146,6 +146,10 @@ export default function ProjectDetail({
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [configOpen, setConfigOpen] = useState(false);
+  // Colapsáveis do rodapé — reduzem a percepção de "muita coisa" na página.
+  // Chamados abre por padrão só quando tem pouca coisa; histórico começa fechado.
+  const [chamadosOpen, setChamadosOpen] = useState(false);
+  const [historicoOpen, setHistoricoOpen] = useState(false);
 
   // ClickUp: quais tarefas já foram importadas como interna (pra não duplicar).
   const importedClickupIds = new Set(internalTasks.map((t) => t.clickupTaskId).filter((x): x is string => !!x));
@@ -443,13 +447,19 @@ export default function ProjectDetail({
             />
           </div>
 
-          {/* Chamados agrupados no projeto */}
+          {/* Chamados agrupados no projeto — colapsável, começa fechado */}
           {chamados.length > 0 && (
             <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
-              <div className="px-5 py-4 border-b border-[#1e2d45]">
+              <button
+                onClick={() => setChamadosOpen((v) => !v)}
+                className="w-full flex items-center justify-between gap-2 px-5 py-3.5 hover:bg-[#080b12] transition-colors text-left"
+                aria-expanded={chamadosOpen}
+              >
                 <h3 className="text-white font-semibold text-sm">🎫 Chamados do projeto ({chamados.length})</h3>
-              </div>
-              <div className="divide-y divide-[#1e2d45]">
+                {chamadosOpen ? <ChevronUp className="w-4 h-4 text-slate-500 flex-none" /> : <ChevronDown className="w-4 h-4 text-slate-500 flex-none" />}
+              </button>
+              {chamadosOpen && (
+              <div className="divide-y divide-[#1e2d45] border-t border-[#1e2d45]">
                 {chamados.map((c) => {
                   const due = c.dueDate ? new Date(c.dueDate) : null;
                   const overdue = due && due < new Date() && c.status !== "RESOLVED" && c.status !== "CLOSED";
@@ -481,77 +491,76 @@ export default function ProjectDetail({
                   );
                 })}
               </div>
+              )}
             </div>
           )}
 
-          {/* Descrição */}
-          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
-            <span className="text-slate-500 text-xs uppercase tracking-wider block mb-2">Descrição</span>
-            <textarea
-              value={form.description}
-              onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
-              onBlur={save}
-              rows={4}
-              placeholder="Escopo, observações, links..."
-              className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
-            />
-          </div>
-
-          {/* Histórico de tarefas (do ClickUp) */}
+          {/* Histórico de tarefas (do ClickUp) — colapsável, começa fechado */}
           <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-[#1e2d45]">
-              <h3 className="text-white font-semibold text-sm">📋 Histórico de tarefas</h3>
-              <p className="text-slate-500 text-xs mt-0.5">
-                Movimentações detectadas no ClickUp via sync. Cada uma vira pontos de gamificação.
-              </p>
-            </div>
-            {activities.length === 0 ? (
-              <div className="p-6 text-center text-slate-500 text-xs">
-                Nenhuma movimentação ainda. Faça uma sync e edite tarefas no ClickUp.
+            <button
+              onClick={() => setHistoricoOpen((v) => !v)}
+              className="w-full flex items-center justify-between gap-2 px-5 py-3.5 hover:bg-[#080b12] transition-colors text-left"
+              aria-expanded={historicoOpen}
+            >
+              <div className="min-w-0 flex-1">
+                <h3 className="text-white font-semibold text-sm">📋 Histórico de tarefas</h3>
+                <p className="text-slate-500 text-xs mt-0.5">
+                  {activities.length === 0 ? "Sem movimentações ainda." : `${activities.length} movimentaç${activities.length === 1 ? "ão" : "ões"} detectada${activities.length === 1 ? "" : "s"} do ClickUp.`}
+                </p>
               </div>
-            ) : (
-              <div className="divide-y divide-[#1e2d45] max-h-[420px] overflow-y-auto">
-                {activities.map((a) => {
-                  const meta = ACTIVITY_META[a.type] ?? { icon: "📝", text: "Atualizada", color: "text-slate-400" };
-                  const isFollowup = a.type === "CLIENT_FOLLOWUP";
-                  const isIncident = a.type === "INCIDENT";
-                  return (
-                    <div key={a.id} className="flex items-start gap-2 px-5 py-2.5 hover:bg-[#080b12]/50">
-                      <span className="text-base flex-shrink-0 mt-0.5">{meta.icon}</span>
-                      <div className="min-w-0 flex-1">
-                        <div className="text-slate-300 text-xs">
-                          <span className={`font-medium ${meta.color}`}>{meta.text}</span>
-                          {!isFollowup && <> <span className="text-white truncate">{a.taskName}</span></>}
-                        </div>
-                        {isFollowup && a.description && (
-                          <div className="mt-1 text-slate-200 text-xs whitespace-pre-wrap bg-fuchsia-500/5 border border-fuchsia-500/20 rounded px-2 py-1.5">
-                            {a.description}
+              {historicoOpen ? <ChevronUp className="w-4 h-4 text-slate-500 flex-none" /> : <ChevronDown className="w-4 h-4 text-slate-500 flex-none" />}
+            </button>
+            {historicoOpen && (
+              <div className="border-t border-[#1e2d45]">
+                {activities.length === 0 ? (
+                  <div className="p-6 text-center text-slate-500 text-xs">
+                    Faça uma sync e edite tarefas no ClickUp — cada movimentação vira pontos de gamificação.
+                  </div>
+                ) : (
+                  <div className="divide-y divide-[#1e2d45] max-h-[420px] overflow-y-auto">
+                    {activities.map((a) => {
+                      const meta = ACTIVITY_META[a.type] ?? { icon: "📝", text: "Atualizada", color: "text-slate-400" };
+                      const isFollowup = a.type === "CLIENT_FOLLOWUP";
+                      const isIncident = a.type === "INCIDENT";
+                      return (
+                        <div key={a.id} className="flex items-start gap-2 px-5 py-2.5 hover:bg-[#080b12]/50">
+                          <span className="text-base flex-shrink-0 mt-0.5">{meta.icon}</span>
+                          <div className="min-w-0 flex-1">
+                            <div className="text-slate-300 text-xs">
+                              <span className={`font-medium ${meta.color}`}>{meta.text}</span>
+                              {!isFollowup && <> <span className="text-white truncate">{a.taskName}</span></>}
+                            </div>
+                            {isFollowup && a.description && (
+                              <div className="mt-1 text-slate-200 text-xs whitespace-pre-wrap bg-fuchsia-500/5 border border-fuchsia-500/20 rounded px-2 py-1.5">
+                                {a.description}
+                              </div>
+                            )}
+                            {isIncident && a.description && (
+                              <div className="mt-1 text-red-200 text-xs whitespace-pre-wrap bg-red-500/5 border border-red-500/30 rounded px-2 py-1.5">
+                                {a.description}
+                              </div>
+                            )}
+                            <div className="text-slate-600 text-[10px] mt-0.5">
+                              {a.authorName && <>{a.authorName} · </>}
+                              {formatBrazilDateTime(a.createdAt)}
+                            </div>
                           </div>
-                        )}
-                        {isIncident && a.description && (
-                          <div className="mt-1 text-red-200 text-xs whitespace-pre-wrap bg-red-500/5 border border-red-500/30 rounded px-2 py-1.5">
-                            {a.description}
-                          </div>
-                        )}
-                        <div className="text-slate-600 text-[10px] mt-0.5">
-                          {a.authorName && <>{a.authorName} · </>}
-                          {formatBrazilDateTime(a.createdAt)}
+                          {!isFollowup && !isIncident && a.taskId && (
+                            <a
+                              href={`https://app.clickup.com/t/${a.taskId}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-slate-600 hover:text-[#7B68EE] flex-shrink-0 mt-0.5"
+                              title="Abrir tarefa no ClickUp"
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                            </a>
+                          )}
                         </div>
-                      </div>
-                      {!isFollowup && !isIncident && a.taskId && (
-                        <a
-                          href={`https://app.clickup.com/t/${a.taskId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-slate-600 hover:text-[#7B68EE] flex-shrink-0 mt-0.5"
-                          title="Abrir tarefa no ClickUp"
-                        >
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      )}
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -595,6 +604,17 @@ export default function ProjectDetail({
                   {formatBrazilDate(dueDate)}
                 </p>
               )}
+            </div>
+            <div>
+              <label className="text-slate-500 text-xs uppercase tracking-wider block mb-1">Descrição</label>
+              <textarea
+                value={form.description}
+                onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
+                onBlur={save}
+                rows={3}
+                placeholder="Escopo, observações, links..."
+                className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+              />
             </div>
           </div>
 
