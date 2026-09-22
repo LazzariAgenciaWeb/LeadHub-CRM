@@ -6,6 +6,7 @@ import Link from "next/link";
 import { diffCalendarDays } from "@/lib/datetime";
 import VisibilityControl from "@/components/VisibilityControl";
 import SendEmailButton from "@/components/SendEmailButton";
+import { RichMessageBody } from "@/components/RichMessageBody";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
 import AttachmentList from "@/components/attachments/AttachmentList";
 import { uploadFile, type StoredFile } from "@/components/attachments/upload";
@@ -883,7 +884,10 @@ export default function TicketDetail({
                     {new Date(initialMsg.createdAt).toLocaleString("pt-BR")}
                   </span>
                 </div>
-                <p className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">{initialMsg.body}</p>
+                <RichMessageBody
+                  text={initialMsg.body}
+                  className="text-slate-200 text-sm leading-relaxed"
+                />
               </div>
             )}
 
@@ -945,7 +949,11 @@ export default function TicketDetail({
                               {new Date(msg.createdAt).toLocaleString("pt-BR")}
                             </span>
                           </div>
-                          <p className="text-amber-200/70 text-sm whitespace-pre-wrap">{msg.body}</p>
+                          <RichMessageBody
+                            text={msg.body}
+                            className="text-amber-200/70 text-sm"
+                            linkClassName="text-amber-200 hover:text-amber-100 underline decoration-amber-400/40 break-all"
+                          />
                           {!!msg.attachments?.length && (
                             <div className="mt-2"><AttachmentList files={msg.attachments} compact /></div>
                           )}
@@ -966,7 +974,7 @@ export default function TicketDetail({
                               {new Date(msg.createdAt).toLocaleString("pt-BR")}
                             </span>
                           </div>
-                          <div className={`rounded-xl px-4 py-2.5 text-sm whitespace-pre-wrap max-w-[85%] ${isAdmin ? "bg-indigo-600 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"}`}>
+                          <div className={`rounded-xl px-4 py-2.5 text-sm max-w-[85%] ${isAdmin ? "bg-indigo-600 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"}`}>
                             {msg.hasMedia && msg.mediaType?.startsWith("image/") && (
                               <img
                                 src={`/api/tickets/messages/${msg.id}/media`}
@@ -978,7 +986,14 @@ export default function TicketDetail({
                                 }}
                               />
                             )}
-                            {msg.body}
+                            <RichMessageBody
+                              text={msg.body}
+                              linkClassName={
+                                isAdmin
+                                  ? "text-white hover:text-indigo-100 underline decoration-white/50 break-all"
+                                  : "text-indigo-300 hover:text-indigo-200 underline decoration-indigo-400/40 break-all"
+                              }
+                            />
                           </div>
                           {!!msg.attachments?.length && (
                             <div className="max-w-[85%] mt-1 w-full">
@@ -1259,6 +1274,16 @@ export default function TicketDetail({
                       </label>
                     )}
                     <span className="text-slate-700 text-xs">ou Ctrl+V cola imagem</span>
+                    <span
+                      className="text-slate-700 text-[10px] hidden md:inline"
+                      title="Formatação estilo WhatsApp — o texto renderiza ao enviar"
+                    >
+                      • <span className="font-semibold text-slate-500">**negrito**</span>
+                      {" · "}
+                      <span className="text-slate-500">* item</span>
+                      {" · "}
+                      <span className="text-slate-500">1. lista</span>
+                    </span>
                   </div>
                   <button
                     type="submit"
