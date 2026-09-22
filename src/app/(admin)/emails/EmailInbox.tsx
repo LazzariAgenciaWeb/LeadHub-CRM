@@ -47,6 +47,9 @@ type EmailRow = {
   ticketId: string | null;
   accountId: string | null;
   account: AccountRef;
+  /** Caixas onde este mesmo email está (cópias agrupadas numa linha só). */
+  boxes?: NonNullable<AccountRef>[];
+  copies?: number;
   lead: { id: string; name: string | null } | null;
   ticket: { id: string; title: string } | null;
 };
@@ -1281,11 +1284,13 @@ export default function EmailInbox() {
                         <TagIcon size={9} />{t.name}
                       </span>
                     ))}
-                    {e.account && (
-                      <span className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${accountColor(e.accountId)}`}>
-                        {accountName(e.account)}
+                    {(e.boxes?.length ? e.boxes : e.account ? [e.account] : []).map((b) => (
+                      <span key={b.id}
+                        title={(e.copies ?? 1) > 1 ? `Este mesmo email está em ${e.copies} caixas — tratar aqui vale pra todas` : b.fromEmail}
+                        className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${accountColor(b.id)}`}>
+                        {accountName(b)}
                       </span>
-                    )}
+                    ))}
                     {e.lead && <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0">lead</span>}
                     {e.ticket && <span className="text-[9px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 flex-shrink-0">chamado</span>}
                   </div>

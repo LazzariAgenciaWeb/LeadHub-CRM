@@ -25,7 +25,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     where: { id, companyId },
     select: {
       id: true, subject: true, fromEmail: true, fromName: true,
-      textBody: true, snippet: true, sentAt: true, ticketId: true,
+      textBody: true, snippet: true, sentAt: true, ticketId: true, messageId: true,
       aiImportance: true, aiSummary: true, accountId: true,
     },
   });
@@ -78,7 +78,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   });
 
   // Vincula o email (e, por consequência, as respostas futuras da thread).
-  await prisma.inboxEmail.update({ where: { id: email.id }, data: { ticketId: ticket.id } });
+  // As cópias em outras caixas ganham o mesmo vínculo — o chamado é um só.
+  if (email.messageId) {
+    await prisma.inboxEmail.updateMany({
+      where: { companyId, messageId: email.messageId },
+      data: { ticketId: ticket.id },
+    });
+  } else {
+    await prisma.inboxEmail.update({ where: { id: email.id }, data: { ticketId: ticket.id } });
+  }
 
   // ClickUp best-effort — mesmo comportamento do POST /api/tickets.
   try {

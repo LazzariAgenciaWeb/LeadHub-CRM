@@ -47,7 +47,15 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   if (!email.seen) {
-    await prisma.inboxEmail.update({ where: { id: email.id }, data: { seen: true } });
+    // Abrir marca como lido em todas as cópias: quem já olhou, olhou pela empresa.
+    if (email.messageId) {
+      await prisma.inboxEmail.updateMany({
+        where: { companyId: ctx.companyId, messageId: email.messageId },
+        data: { seen: true },
+      });
+    } else {
+      await prisma.inboxEmail.update({ where: { id: email.id }, data: { seen: true } });
+    }
   }
   return NextResponse.json({ email: { ...email, seen: true } });
 }
@@ -105,16 +113,32 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   });
 
   // ── Propagação entre cópias: o MESMO email pode existir em várias caixas
-  // (redirecionamento). Mover de pasta (resolver/lixeira/spam/restaurar)
-  // aplica em todas as cópias da empresa — resolve uma vez só. ─────────────
+  // (redirecionamento, cópia). Pasta, lido/não lido, tags e vínculo de
+  // lead/chamado valem pra todas as cópias da empresa — inclusive as de
+  // caixas que este usuário não enxerga. Resolveu aqui, resolveu pra todos.
   let propagated = 0;
-  const newFolderForCopies = data.folder as InboxEmailFolder | undefined;
-  if (newFolderForCopies && existing.messageId) {
-    const r = await prisma.inboxEmail.updateMany({
+  if (existing.messageId) {
+    const copies = await prisma.inboxEmail.findMany({
       where: { companyId: ctx.companyId, messageId: existing.messageId, id: { not: existing.id } },
-      data: { folder: newFolderForCopies },
+      select: { id: true },
     });
-    propagated = r.count;
+    const copyIds = copies.map((c) => c.id);
+    if (copyIds.length) {
+      const scalar: Record<string, unknown> = {};
+      for (const k of ["folder", "seen", "leadId", "ticketId"] as const) {
+        if (data[k] !== undefined) scalar[k] = data[k];
+      }
+      if (Object.keys(scalar).length) {
+        const r = await prisma.inboxEmail.updateMany({ where: { id: { in: copyIds } }, data: scalar });
+        propagated = r.count;
+      }
+      if (data.tags) {
+        for (const id of copyIds) {
+          await prisma.inboxEmail.update({ where: { id }, data: { tags: data.tags as never } }).catch(() => null);
+        }
+        propagated = copyIds.length;
+      }
+    }
   }
 
   // ── Regras de remetente (blacklist automática) ──────────────────────────

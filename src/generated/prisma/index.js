@@ -2533,7 +2533,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/private/tmp/claude-501/gohub-main-wt/src/generated/prisma",
+      "value": "/Users/diegolazzari/dev/GoHub/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -2559,11 +2559,12 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/private/tmp/claude-501/gohub-main-wt/prisma/schema.prisma",
+    "sourceFilePath": "/Users/diegolazzari/dev/GoHub/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null
+    "rootEnvPath": null,
+    "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
   "clientVersion": "5.22.0",

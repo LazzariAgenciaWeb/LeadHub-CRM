@@ -48,6 +48,18 @@ export async function POST(req: NextRequest) {
   if (!emails.length) return NextResponse.json({ error: "Emails não encontrados" }, { status: 404 });
   const validIds = emails.map((e) => e.id);
 
+  // Cópias do MESMO email em outras caixas da empresa — inclusive nas que
+  // este usuário não enxerga. Quem resolveu, resolveu pra todo mundo: ninguém
+  // precisa reanalisar na caixa dele se já foi tratado aqui.
+  const messageIds = [...new Set(emails.map((e) => e.messageId).filter((m): m is string => !!m))];
+  const copyIds = messageIds.length
+    ? (await prisma.inboxEmail.findMany({
+        where: { companyId, messageId: { in: messageIds }, id: { notIn: validIds } },
+        select: { id: true },
+      })).map((e) => e.id)
+    : [];
+  const allIds = [...validIds, ...copyIds];
+
   // ── Reclassificar à mão (gaveta) — trava contra a triagem IA ──
   if (action === "SET_BUCKET") {
     const IMPORTANCE_OF: Record<string, string> = { RESOLVER: "ALTA", INFO: "NORMAL", DESCARTE: "BAIXA" };
@@ -57,14 +69,7 @@ export async function POST(req: NextRequest) {
     const data = aiImportance === "BAIXA"
       ? { aiImportance, aiLocked: true }
       : { aiImportance, aiLocked: true, suspicious: false, suspiciousReasons: [] };
-    const messageIds = [...new Set(emails.map((e) => e.messageId).filter((m): m is string => !!m))];
-    const r = await prisma.inboxEmail.updateMany({
-      where: {
-        companyId,
-        OR: [{ id: { in: validIds } }, ...(messageIds.length ? [{ messageId: { in: messageIds } }] : [])],
-      },
-      data,
-    });
+    const r = await prisma.inboxEmail.updateMany({ where: { id: { in: allIds }, companyId }, data });
     return NextResponse.json({ ok: true, affected: validIds.length, withCopies: r.count });
   }
 
@@ -88,10 +93,10 @@ export async function POST(req: NextRequest) {
   // ── Lido / não lido em massa ──
   if (action === "MARK_READ" || action === "MARK_UNREAD") {
     await prisma.inboxEmail.updateMany({
-      where: { id: { in: validIds }, companyId },
+      where: { id: { in: allIds }, companyId },
       data: { seen: action === "MARK_READ" },
     });
-    return NextResponse.json({ ok: true, affected: validIds.length });
+    return NextResponse.json({ ok: true, affected: validIds.length, copies: copyIds.length });
   }
 
   // ── Tags ──
@@ -100,7 +105,7 @@ export async function POST(req: NextRequest) {
     const tag = await prisma.inboxEmailTag.findFirst({ where: { id: tagId, companyId }, select: { id: true } });
     if (!tag) return NextResponse.json({ error: "Tag não encontrada" }, { status: 404 });
     const op = action === "ADD_TAG" ? { connect: { id: tag.id } } : { disconnect: { id: tag.id } };
-    for (const id of validIds) {
+    for (const id of allIds) {
       await prisma.inboxEmail.update({ where: { id }, data: { tags: op } }).catch(() => null);
     }
     return NextResponse.json({ ok: true, affected: validIds.length });
@@ -108,13 +113,14 @@ export async function POST(req: NextRequest) {
 
   // ── Exclusão definitiva (servidor + local) ──
   if (action === "DELETE_SERVER") {
+    // Cada cópia é apagada no SEU servidor — a caixa do colega também limpa.
     let serverDeleted = 0;
-    for (const id of validIds) {
+    for (const id of allIds) {
       const okServer = await deleteEmailFromServer(companyId, id);
       if (okServer) serverDeleted++;
     }
-    await prisma.inboxEmail.deleteMany({ where: { id: { in: validIds }, companyId } });
-    return NextResponse.json({ ok: true, affected: validIds.length, serverDeleted });
+    await prisma.inboxEmail.deleteMany({ where: { id: { in: allIds }, companyId } });
+    return NextResponse.json({ ok: true, affected: validIds.length, copies: copyIds.length, serverDeleted });
   }
 
   // ── Mover de pasta ──
@@ -122,18 +128,9 @@ export async function POST(req: NextRequest) {
   if (!folder) return NextResponse.json({ error: "Ação inválida" }, { status: 400 });
 
   await prisma.inboxEmail.updateMany({
-    where: { id: { in: validIds }, companyId },
+    where: { id: { in: allIds }, companyId },
     data: { folder },
   });
-
-  // Propagação: cópias do mesmo email em outras caixas acompanham a pasta.
-  const messageIds = [...new Set(emails.map((e) => e.messageId).filter((m): m is string => !!m))];
-  if (messageIds.length) {
-    await prisma.inboxEmail.updateMany({
-      where: { companyId, messageId: { in: messageIds }, id: { notIn: validIds } },
-      data: { folder },
-    });
-  }
 
   // SPAM em lote: blacklist de cada remetente + arrasta os da Entrada junto.
   let rulesCreated = 0;
@@ -155,5 +152,5 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ ok: true, affected: validIds.length, rulesCreated });
+  return NextResponse.json({ ok: true, affected: validIds.length, copies: copyIds.length, rulesCreated });
 }

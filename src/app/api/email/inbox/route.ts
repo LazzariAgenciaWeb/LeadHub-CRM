@@ -4,6 +4,7 @@ import { assertModule } from "@/lib/billing";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { bucketOf, bucketWhere, isEmailBucketFilter } from "@/lib/email-buckets";
+import { groupEmailCopies } from "@/lib/email-group";
 import type { InboxEmailFolder, Prisma } from "@/generated/prisma";
 
 const FOLDERS: InboxEmailFolder[] = ["INBOX", "IMPORTANT", "SENT", "ARCHIVE", "SPAM", "TRASH"];
@@ -51,6 +52,10 @@ export async function GET(req: NextRequest) {
   const q = sp.get("q")?.trim();
   const skip = Math.max(0, parseInt(sp.get("skip") ?? "0", 10) || 0);
   const take = Math.min(100, Math.max(1, parseInt(sp.get("take") ?? "50", 10) || 50));
+  // O mesmo email pode estar em várias caixas (redirecionamento, cópia). A
+  // lista mostra UMA linha com as etiquetas de todas as caixas, então busca
+  // com folga pra não encolher a página ao colapsar as cópias.
+  const rawTake = Math.min(200, take * 3);
 
   // "ALL" = pseudo-pasta "Todos": busca/lista atravessando todas as pastas.
   const folderParam = (sp.get("folder") ?? "INBOX").toUpperCase();
@@ -100,14 +105,14 @@ export async function GET(req: NextRequest) {
   // Gavetas só fazem sentido em recebidos (enviado não passa por triagem).
   const bucketScope: Prisma.InboxEmailWhereInput = { ...tagScope, direction: "IN" };
 
-  const [emails, grouped, unseen, accounts, tagCountRows, noTagCount, bucketRows] = await Promise.all([
+  const [rawEmails, grouped, unseen, accounts, tagCountRows, noTagCount, bucketRows] = await Promise.all([
     prisma.inboxEmail.findMany({
       where,
       orderBy: { sentAt: "desc" },
       skip,
-      take,
+      take: rawTake,
       select: {
-        id: true, direction: true, folder: true,
+        id: true, direction: true, folder: true, messageId: true,
         fromEmail: true, fromName: true, toEmail: true,
         subject: true, snippet: true, seen: true, sentAt: true,
         aiImportance: true, aiSummary: true, suspicious: true, aiLocked: true,
@@ -119,12 +124,18 @@ export async function GET(req: NextRequest) {
         ticket: { select: { id: true, title: true } },
       },
     }),
+    // Contadores por email ÚNICO (não por cópia): agrupa por messageId. A
+    // linha de messageId null junta os sem identificador — aí cada um conta 1.
     prisma.inboxEmail.groupBy({
-      by: ["folder"],
+      by: ["folder", "messageId"],
       where: countScope,
       _count: { _all: true },
     }),
-    prisma.inboxEmail.count({ where: { ...countScope, folder: "INBOX", seen: false } }),
+    prisma.inboxEmail.groupBy({
+      by: ["messageId"],
+      where: { ...countScope, folder: "INBOX", seen: false },
+      _count: { _all: true },
+    }),
     prisma.emailAccount.findMany({
       where: { companyId },
       orderBy: { createdAt: "asc" },
@@ -148,7 +159,11 @@ export async function GET(req: NextRequest) {
 
   const counts: Record<string, number> = {};
   for (const f of FOLDERS) counts[f] = 0;
-  for (const g of grouped) counts[g.folder] = g._count._all;
+  for (const g of grouped) counts[g.folder] += g.messageId === null ? g._count._all : 1;
+  const unseenCount = unseen.reduce((acc, r) => acc + (r.messageId === null ? r._count._all : 1), 0);
+
+  // Colapsa as cópias do mesmo email numa linha só (ver email-group.ts).
+  const emails = groupEmailCopies(rawEmails, take);
 
   const tagCounts: Record<string, number> = { __none: noTagCount };
   for (const t of tagCountRows) tagCounts[t.id] = t._count.emails;
@@ -160,7 +175,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     emails,
     counts,
-    unseen,
+    unseen: unseenCount,
     accounts: allowed ? accounts.filter((a) => allowed.includes(a.id)) : accounts,
     tagCounts,
     bucketCounts,
