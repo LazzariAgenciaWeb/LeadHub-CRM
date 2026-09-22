@@ -4,6 +4,7 @@ import { assertModule } from "@/lib/billing";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
+import { findCopyIds } from "@/lib/email-copies";
 
 // POST /api/email/inbox/[id]/create-ticket
 // { title?, dueDate, priority?, description? }
@@ -79,13 +80,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   // Vincula o email (e, por consequência, as respostas futuras da thread).
   // As cópias em outras caixas ganham o mesmo vínculo — o chamado é um só.
-  if (email.messageId) {
-    await prisma.inboxEmail.updateMany({
-      where: { companyId, messageId: email.messageId },
-      data: { ticketId: ticket.id },
-    });
-  } else {
-    await prisma.inboxEmail.update({ where: { id: email.id }, data: { ticketId: ticket.id } });
+  await prisma.inboxEmail.update({ where: { id: email.id }, data: { ticketId: ticket.id } });
+  const copyIds = await findCopyIds(companyId, [email]);
+  if (copyIds.length) {
+    await prisma.inboxEmail.updateMany({ where: { id: { in: copyIds } }, data: { ticketId: ticket.id } });
   }
 
   // ClickUp best-effort — mesmo comportamento do POST /api/tickets.

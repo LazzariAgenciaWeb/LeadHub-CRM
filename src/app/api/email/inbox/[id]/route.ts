@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
+import { findCopyIds } from "@/lib/email-copies";
 import type { InboxEmailFolder } from "@/generated/prisma";
 
 const FOLDERS: InboxEmailFolder[] = ["INBOX", "IMPORTANT", "SENT", "ARCHIVE", "SPAM", "TRASH"];
@@ -48,13 +49,10 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 
   if (!email.seen) {
     // Abrir marca como lido em todas as cópias: quem já olhou, olhou pela empresa.
-    if (email.messageId) {
-      await prisma.inboxEmail.updateMany({
-        where: { companyId: ctx.companyId, messageId: email.messageId },
-        data: { seen: true },
-      });
-    } else {
-      await prisma.inboxEmail.update({ where: { id: email.id }, data: { seen: true } });
+    await prisma.inboxEmail.update({ where: { id: email.id }, data: { seen: true } });
+    const copyIds = await findCopyIds(ctx.companyId, [email]);
+    if (copyIds.length) {
+      await prisma.inboxEmail.updateMany({ where: { id: { in: copyIds } }, data: { seen: true } });
     }
   }
   return NextResponse.json({ email: { ...email, seen: true } });
@@ -74,7 +72,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const existing = await prisma.inboxEmail.findFirst({
     where: { id, companyId: ctx.companyId },
-    select: { id: true, folder: true, direction: true, fromEmail: true, accountId: true, messageId: true },
+    select: {
+      id: true, folder: true, direction: true, fromEmail: true,
+      accountId: true, messageId: true, subject: true, sentAt: true,
+    },
   });
   if (!existing) return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
   if (ctx.allowed && (!existing.accountId || !ctx.allowed.includes(existing.accountId))) {
@@ -117,12 +118,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   // lead/chamado valem pra todas as cópias da empresa — inclusive as de
   // caixas que este usuário não enxerga. Resolveu aqui, resolveu pra todos.
   let propagated = 0;
-  if (existing.messageId) {
-    const copies = await prisma.inboxEmail.findMany({
-      where: { companyId: ctx.companyId, messageId: existing.messageId, id: { not: existing.id } },
-      select: { id: true },
-    });
-    const copyIds = copies.map((c) => c.id);
+  {
+    const copyIds = await findCopyIds(ctx.companyId, [existing]);
     if (copyIds.length) {
       const scalar: Record<string, unknown> = {};
       for (const k of ["folder", "seen", "leadId", "ticketId"] as const) {

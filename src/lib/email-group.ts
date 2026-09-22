@@ -8,13 +8,56 @@
  *
  * Regra dos sinais na união: prevalece o que exige atenção — não lido em
  * qualquer caixa deixa a linha não lida, suspeita em qualquer cópia marca a
- * linha, e vínculo/tag/anexo de qualquer cópia aparece. Email sem
- * Message-ID não agrupa (não há como afirmar que é o mesmo).
+ * linha, e vínculo/tag/anexo de qualquer cópia aparece.
+ *
+ * Como as cópias são reconhecidas:
+ *  1. mesmo Message-ID — o caso do redirecionamento (a mensagem é a mesma);
+ *  2. mesma impressão digital — mesmo remetente, mesmo assunto, horário a até
+ *     10 min de distância e CAIXAS DIFERENTES. Isso cobre o sistema que
+ *     dispara um email pra cada destinatário (cada disparo ganha um
+ *     Message-ID próprio, mas pra quem lê é o mesmo email).
+ * A exigência de caixas diferentes é a trava: duas mensagens de verdade que
+ * caíram na mesma caixa nunca se fundem.
  */
+
+/** Distância máxima entre cópias quando o Message-ID não bate (minutos). */
+export const COPY_WINDOW_MIN = 10;
+
+/** Assunto comparável: sem Re:/Fwd:, sem espaço duplicado, minúsculo. */
+export function normalizeSubject(subject: string | null | undefined): string {
+  return (subject ?? "")
+    .toLowerCase()
+    .replace(/^((re|res|fw|fwd|enc|encaminhada?):\s*)+/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Chave "é o mesmo email" quando o Message-ID difere. */
+export function fingerprintKey(e: { fromEmail?: string | null; subject?: string | null }): string | null {
+  const from = (e.fromEmail ?? "").toLowerCase();
+  const subject = normalizeSubject(e.subject);
+  return from && subject ? `${from}|${subject}` : null;
+}
+
+function millis(v: Date | string | null | undefined): number | null {
+  if (!v) return null;
+  const t = v instanceof Date ? v.getTime() : new Date(v).getTime();
+  return Number.isNaN(t) ? null : t;
+}
+
+/** Horários próximos o bastante pra serem a mesma mensagem. */
+export function withinCopyWindow(a: Date | string | null | undefined, b: Date | string | null | undefined): boolean {
+  const ta = millis(a), tb = millis(b);
+  if (ta === null || tb === null) return false;
+  return Math.abs(ta - tb) <= COPY_WINDOW_MIN * 60_000;
+}
 
 export interface GroupableEmail {
   id: string;
   messageId?: string | null;
+  fromEmail?: string | null;
+  subject?: string | null;
+  sentAt?: Date | string | null;
   seen?: boolean;
   suspicious?: boolean;
   accountId?: string | null;
@@ -40,14 +83,27 @@ export type GroupedEmail<T extends GroupableEmail> = T & {
  */
 export function groupEmailCopies<T extends GroupableEmail>(rows: T[], take: number): GroupedEmail<T>[] {
   const groups: GroupedEmail<T>[] = [];
-  const indexByKey = new Map<string, number>();
+  const byMessageId = new Map<string, number>();
+  const byFingerprint = new Map<string, number[]>();
 
   for (const r of rows) {
-    const key = r.messageId ? `m:${r.messageId}` : `i:${r.id}`;
-    const at = indexByKey.get(key);
+    let at = r.messageId ? byMessageId.get(r.messageId) : undefined;
+    const fp = fingerprintKey(r);
+
+    // Sem Message-ID igual, tenta a impressão digital — exigindo caixa
+    // diferente, que é o que garante ser cópia e não mensagem repetida.
+    if (at === undefined && fp) {
+      for (const idx of byFingerprint.get(fp) ?? []) {
+        const g = groups[idx];
+        const outraCaixa = !!r.accountId && !g.boxes.some((b) => b.id === r.accountId);
+        if (outraCaixa && withinCopyWindow(g.sentAt, r.sentAt)) { at = idx; break; }
+      }
+    }
 
     if (at === undefined) {
-      indexByKey.set(key, groups.length);
+      const idx = groups.length;
+      if (r.messageId) byMessageId.set(r.messageId, idx);
+      if (fp) byFingerprint.set(fp, [...(byFingerprint.get(fp) ?? []), idx]);
       groups.push({
         ...r,
         // cópia do array: unir tags não pode mexer no objeto original
@@ -57,6 +113,10 @@ export function groupEmailCopies<T extends GroupableEmail>(rows: T[], take: numb
       });
       continue;
     }
+
+    // Cópia reconhecida por impressão digital traz o Message-ID dela pro
+    // mesmo grupo — as próximas do mesmo identificador caem aqui direto.
+    if (r.messageId && !byMessageId.has(r.messageId)) byMessageId.set(r.messageId, at);
 
     const g = groups[at];
     g.copies++;

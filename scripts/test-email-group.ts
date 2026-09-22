@@ -58,5 +58,41 @@ check("chamado vindo da segunda cópia", groupEmailCopies(comVinculo, 50)[0].tic
 const muitos: GroupableEmail[] = Array.from({ length: 10 }, (_, i) => ({ id: `m${i}`, messageId: `<${i}@srv>`, account: FIN }));
 check("take corta depois de agrupar", groupEmailCopies([...muitos, ...muitos], 10).length === 10);
 
+// ── Cópias com Message-ID DIFERENTE (sistema que dispara um email por
+//    destinatário): reconhecidas por remetente + assunto + horário + caixa ──
+const t = (min: number) => new Date(Date.UTC(2026, 8, 20, 12, min)).toISOString();
+
+const disparoSeparado: GroupableEmail[] = [
+  { id: "p", messageId: "<1@erp>", fromEmail: "kelly@pillares.com.br", subject: "Nota Mensal | Pillares", sentAt: t(0), account: FIN, accountId: FIN.id },
+  { id: "q", messageId: "<2@erp>", fromEmail: "kelly@pillares.com.br", subject: "Nota Mensal | Pillares", sentAt: t(2), account: BOL, accountId: BOL.id },
+];
+const gd = groupEmailCopies(disparoSeparado, 50);
+check("IDs diferentes, mesmo remetente/assunto/horário → uma linha", gd.length === 1, `${gd.length} linha(s)`);
+check("as duas caixas aparecem na linha", gd[0]?.boxes.length === 2);
+
+check("mesma caixa não funde (são mensagens de verdade)",
+  groupEmailCopies([
+    { id: "r", messageId: "<3@erp>", fromEmail: "kelly@pillares.com.br", subject: "Nota Mensal | Pillares", sentAt: t(0), account: FIN, accountId: FIN.id },
+    { id: "s", messageId: "<4@erp>", fromEmail: "kelly@pillares.com.br", subject: "Nota Mensal | Pillares", sentAt: t(3), account: FIN, accountId: FIN.id },
+  ], 50).length === 2);
+
+check("mesmo assunto horas depois não funde (é a fatura do mês seguinte)",
+  groupEmailCopies([
+    { id: "u", messageId: "<5@erp>", fromEmail: "kelly@pillares.com.br", subject: "Nota Mensal | Pillares", sentAt: t(0), account: FIN, accountId: FIN.id },
+    { id: "v", messageId: "<6@erp>", fromEmail: "kelly@pillares.com.br", subject: "Nota Mensal | Pillares", sentAt: t(200), account: BOL, accountId: BOL.id },
+  ], 50).length === 2);
+
+check("assunto diferente do mesmo remetente não funde",
+  groupEmailCopies([
+    { id: "w", messageId: "<7@erp>", fromEmail: "kelly@pillares.com.br", subject: "Nota Mensal", sentAt: t(0), account: FIN, accountId: FIN.id },
+    { id: "x", messageId: "<8@erp>", fromEmail: "kelly@pillares.com.br", subject: "Boleto vencido", sentAt: t(1), account: BOL, accountId: BOL.id },
+  ], 50).length === 2);
+
+check('"Re:" no assunto conta como o mesmo email',
+  groupEmailCopies([
+    { id: "y", messageId: "<9@erp>", fromEmail: "cris@escritorio.com.br", subject: "HONORARIO", sentAt: t(0), account: FIN, accountId: FIN.id },
+    { id: "z", messageId: "<10@erp>", fromEmail: "cris@escritorio.com.br", subject: "Re: HONORARIO", sentAt: t(1), account: BOL, accountId: BOL.id },
+  ], 50).length === 1);
+
 console.log(falhas ? `\n❌ ${falhas} falha(s)` : "\n✅ todos os casos passaram");
 if (falhas) process.exit(1);

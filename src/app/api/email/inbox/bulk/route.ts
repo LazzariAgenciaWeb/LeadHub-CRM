@@ -5,6 +5,7 @@ import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { deleteEmailFromServer } from "@/lib/imap-inbox";
 import { applyTrust } from "@/lib/email-trust";
+import { findCopyIds } from "@/lib/email-copies";
 import type { InboxEmailFolder } from "@/generated/prisma";
 
 const MAX_IDS = 100;
@@ -40,7 +41,10 @@ export async function POST(req: NextRequest) {
 
   const emailsRaw = await prisma.inboxEmail.findMany({
     where: { id: { in: ids }, companyId },
-    select: { id: true, direction: true, fromEmail: true, folder: true, accountId: true, messageId: true },
+    select: {
+      id: true, direction: true, fromEmail: true, folder: true,
+      accountId: true, messageId: true, subject: true, sentAt: true,
+    },
   });
   const emails = allowed
     ? emailsRaw.filter((e) => e.accountId && allowed.includes(e.accountId))
@@ -51,13 +55,7 @@ export async function POST(req: NextRequest) {
   // Cópias do MESMO email em outras caixas da empresa — inclusive nas que
   // este usuário não enxerga. Quem resolveu, resolveu pra todo mundo: ninguém
   // precisa reanalisar na caixa dele se já foi tratado aqui.
-  const messageIds = [...new Set(emails.map((e) => e.messageId).filter((m): m is string => !!m))];
-  const copyIds = messageIds.length
-    ? (await prisma.inboxEmail.findMany({
-        where: { companyId, messageId: { in: messageIds }, id: { notIn: validIds } },
-        select: { id: true },
-      })).map((e) => e.id)
-    : [];
+  const copyIds = await findCopyIds(companyId, emails);
   const allIds = [...validIds, ...copyIds];
 
   // ── Reclassificar à mão (gaveta) — trava contra a triagem IA ──
