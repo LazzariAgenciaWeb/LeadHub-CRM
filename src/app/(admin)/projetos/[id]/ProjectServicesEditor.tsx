@@ -36,7 +36,7 @@ export default function ProjectServicesEditor({
   return (
     <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
       <span className="text-slate-500 text-xs uppercase tracking-wider flex items-center gap-1.5">
-        <ListOrdered className="w-3.5 h-3.5 text-indigo-400" strokeWidth={2.25} /> Serviços deste projeto (sequência)
+        <ListOrdered className="w-3.5 h-3.5 text-indigo-400" strokeWidth={2.25} /> Etapas do projeto
       </span>
 
       {steps.length > 0 ? (
@@ -54,7 +54,7 @@ export default function ProjectServicesEditor({
           ))}
         </div>
       ) : (
-        <p className="text-slate-600 text-xs mt-3">Nenhum serviço na sequência ainda. Adicione abaixo pra o cliente ver as etapas em ordem.</p>
+        <p className="text-slate-600 text-xs mt-3">Nenhuma etapa ainda. Adicione abaixo pra o cliente acompanhar o projeto em ordem.</p>
       )}
 
       <div className="flex gap-2 mt-3">
@@ -76,7 +76,7 @@ export default function ProjectServicesEditor({
         </button>
       </div>
       <p className="text-slate-600 text-[11px] mt-1.5">
-        Dá pra repetir o mesmo serviço (ex.: 3 hospedagens). Cada tarefa escolhe a qual serviço pertence.
+        As fases internas que agrupam as tarefas (ex.: Diagnóstico → Conteúdo → Relatório). Dá pra repetir o mesmo serviço do catálogo em etapas diferentes (ex.: 3 hospedagens). Cada tarefa escolhe a qual etapa pertence.
       </p>
     </div>
   );

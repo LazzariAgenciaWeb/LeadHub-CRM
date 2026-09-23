@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Pencil, Plus, Link2, X } from "lucide-react";
+import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Pencil, Plus, Link2, X, Check, Lock, EyeOff, RotateCcw } from "lucide-react";
 import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
@@ -100,6 +100,7 @@ type InternalTask = {
   clickupTaskId: string | null; // vínculo ClickUp (se importada)
   awaitingClient: boolean; // aguardando resposta do cliente
   visibleToClient: boolean; // aparece pro cliente no painel
+  ignored:      boolean; // veio do ClickUp mas foi descartada — fora da fila
   assigneeName: string | null;
   materials: { id: string; kind: string; title: string; url: string | null }[]; // links/anexos da tarefa
 };
@@ -402,32 +403,21 @@ export default function ProjectDetail({
               <div className="text-[11px] text-slate-500 mt-1.5">Serviços</div>
             </div>
             <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3">
-              <div className="text-2xl font-bold text-white tabular-nums leading-none">{internalTasks.length}</div>
+              <div className="text-2xl font-bold text-white tabular-nums leading-none">{internalTasks.filter((t) => !t.ignored).length}</div>
               <div className="text-[11px] text-slate-500 mt-1.5">Tarefas</div>
             </div>
             <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3">
-              <div className="text-2xl font-bold text-amber-300 tabular-nums leading-none">{internalTasks.filter((t) => !t.done).length}</div>
+              <div className="text-2xl font-bold text-amber-300 tabular-nums leading-none">{internalTasks.filter((t) => !t.done && !t.ignored).length}</div>
               <div className="text-[11px] text-slate-500 mt-1.5">Em andamento</div>
             </div>
             <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3">
-              <div className="text-2xl font-bold text-emerald-300 tabular-nums leading-none">{internalTasks.filter((t) => t.visibleToClient).length}</div>
+              <div className="text-2xl font-bold text-emerald-300 tabular-nums leading-none">{internalTasks.filter((t) => t.visibleToClient && !t.ignored).length}</div>
               <div className="text-[11px] text-slate-500 mt-1.5">Visíveis ao cliente</div>
             </div>
           </div>
 
-          {/* Caixa de entrada: tarefas do ClickUp espelhadas, ainda sem serviço */}
-          {serviceSteps.length > 0 && (
-            <ProjectInbox
-              projectId={project.id}
-              tasks={internalTasks
-                .filter((t) => t.clickupTaskId && !t.projectServiceId)
-                .map((t) => ({ id: t.id, title: t.title, done: t.done, visibleToClient: t.visibleToClient, clickupTaskId: t.clickupTaskId }))}
-              serviceSteps={serviceSteps}
-              clickupUrlBase={null}
-            />
-          )}
-
-          {/* Tarefas do projeto (LeadHub + ClickUp) */}
+          {/* Tarefas do projeto (LeadHub + ClickUp) — a Caixa de entrada virou
+              a aba "A organizar" lá dentro, pra não repetir as mesmas tarefas. */}
           <ProjectTasksCard
             projectId={project.id}
             availableUsers={availableUsers}
@@ -1357,7 +1347,16 @@ function ProjectTasksCard({
   const [bulkSvc, setBulkSvc] = useState("");
   const [bulkStage, setBulkStage] = useState("");
   const [bulkSaving, setBulkSaving] = useState(false);
-  const [taskFilter, setTaskFilter] = useState<"all" | "doing" | "done">("all");
+  const [taskFilter, setTaskFilter] = useState<"inbox" | "all" | "doing" | "done">("all");
+
+  // "A organizar": vieram do ClickUp e ainda não caíram numa etapa. Viram a
+  // primeira aba — antes eram um card separado que repetia as mesmas tarefas.
+  const toInboxRow = (t: InternalTask) => ({
+    id: t.id, title: t.title, done: t.done,
+    visibleToClient: t.visibleToClient, clickupTaskId: t.clickupTaskId,
+  });
+  const inboxTasks   = internalTasks.filter((t) => t.clickupTaskId && !t.projectServiceId && !t.ignored).map(toInboxRow);
+  const ignoredTasks = internalTasks.filter((t) => t.ignored).map(toInboxRow);
   const [taskQuery, setTaskQuery] = useState("");
 
   function toggleSelect(taskId: string) {
@@ -1642,6 +1641,18 @@ function ProjectTasksCard({
       {internalTasks.length > 0 && (
         <div className="px-5 py-3 border-b border-[#1e2d45] flex items-center gap-2 flex-wrap">
           <div className="inline-flex bg-[#080b12] border border-[#1e2d45] rounded-lg p-0.5">
+            {inboxTasks.length > 0 && (
+              <button
+                onClick={() => setTaskFilter("inbox")}
+                className={`text-xs font-semibold px-3 py-1.5 rounded-md transition-colors flex items-center gap-1.5 ${
+                  taskFilter === "inbox" ? "bg-amber-500/20 text-amber-200" : "text-amber-400/70 hover:text-amber-200"
+                }`}
+                title="Vieram do ClickUp e ainda não estão numa etapa"
+              >
+                A organizar
+                <span className="bg-amber-500/25 text-amber-100 rounded-full px-1.5 tabular-nums">{inboxTasks.length}</span>
+              </button>
+            )}
             {(["all", "doing", "done"] as const).map((f) => (
               <button
                 key={f}
@@ -1661,47 +1672,77 @@ function ProjectTasksCard({
         </div>
       )}
 
-      {(() => {
+      {taskFilter === "inbox" ? (
+        <ProjectInbox
+          embedded
+          projectId={projectId}
+          tasks={inboxTasks}
+          ignoredTasks={ignoredTasks}
+          serviceSteps={serviceSteps}
+          clickupUrlBase={null}
+        />
+      ) : (() => {
         const rowOf = (t: InternalTask) => {
           const start = t.startDate ? new Date(t.startDate) : null;
           const due = t.dueDate ? new Date(t.dueDate) : null;
           const overdue = due && due < new Date() && !t.done;
           const prio = PRIORITY_PILL[t.priority] ?? PRIORITY_PILL.MEDIUM;
           return (
-            <div key={t.id} className={`flex items-center gap-2 px-5 py-2.5 group ${selectMode && selected.has(t.id) ? "bg-indigo-500/10" : "hover:bg-[#080b12]"}`}>
-              <input
-                type="checkbox"
-                checked={selectMode ? selected.has(t.id) : t.done}
-                onChange={() => (selectMode ? toggleSelect(t.id) : toggleDone(t))}
-                className={`w-4 h-4 rounded cursor-pointer flex-shrink-0 ${selectMode ? "accent-indigo-500" : "accent-emerald-500"}`}
-                title={selectMode ? "Selecionar" : "Concluir"}
-              />
+            <div key={t.id} className={`flex items-start gap-3 px-5 py-2.5 group ${selectMode && selected.has(t.id) ? "bg-indigo-500/10" : "hover:bg-[#080b12]"}`}>
+              {selectMode ? (
+                <input
+                  type="checkbox"
+                  checked={selected.has(t.id)}
+                  onChange={() => toggleSelect(t.id)}
+                  className="w-4 h-4 mt-0.5 rounded cursor-pointer flex-shrink-0 accent-indigo-500"
+                  title="Selecionar"
+                />
+              ) : (
+                <button
+                  onClick={() => toggleDone(t)}
+                  title={t.done ? "Reabrir" : "Concluir"}
+                  aria-label={t.done ? "Reabrir tarefa" : "Concluir tarefa"}
+                  className={`mt-0.5 w-4 h-4 rounded-full border flex-shrink-0 flex items-center justify-center transition-colors ${
+                    t.done
+                      ? "bg-emerald-500 border-emerald-500 text-[#0a0f1a]"
+                      : "border-slate-600 hover:border-emerald-400 text-transparent hover:text-emerald-400"
+                  }`}
+                >
+                  <Check className="w-2.5 h-2.5" strokeWidth={3.5} />
+                </button>
+              )}
+
               <button onClick={() => (selectMode ? toggleSelect(t.id) : setEditingId(t.id))} className="min-w-0 flex-1 text-left cursor-pointer">
-                <span className={`text-xs ${t.done ? "text-slate-500 line-through" : "text-slate-200"}`}>
-                  {t.title}
-                </span>
-                <div className="text-[10px] mt-0.5 flex items-center gap-2 flex-wrap">
-                  {!t.visibleToClient && <span className="px-1.5 py-0.5 rounded bg-slate-500/15 text-slate-400 font-medium" title="Não aparece pro cliente">🔒 interna</span>}
-                  {!t.projectServiceId && t.stage && <span className="px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 font-medium">{t.stage}</span>}
-                  {t.clickupTaskId && <span className="px-1.5 py-0.5 rounded bg-[#7B68EE]/15 text-[#b9aefb] font-medium" title="Vinculada ao ClickUp">↻ ClickUp</span>}
+                <div className="flex items-center gap-1.5">
+                  <span className={`text-[13px] leading-snug ${t.done ? "text-slate-500 line-through" : "text-slate-100"}`}>
+                    {t.title}
+                  </span>
+                  {!t.visibleToClient && <Lock className="w-3 h-3 text-slate-600 flex-none" strokeWidth={2.5} aria-label="Interna — não aparece pro cliente" />}
+                  {t.clickupTaskId && <RefreshCw className="w-3 h-3 text-[#7B68EE] flex-none" strokeWidth={2.5} aria-label="Vinculada ao ClickUp" />}
+                </div>
+                <div className="text-[10px] mt-1 flex items-center gap-1.5 flex-wrap text-slate-600">
                   <span className={prio.cls}>{prio.label}</span>
-                  {t.assigneeName && <span className="text-slate-600">· {t.assigneeName}</span>}
-                  {(start || due) && (
-                    <span className={overdue ? "text-red-300" : "text-slate-600"}>
-                      · {start ? formatBrazilDate(start) : "?"}{due ? ` → ${formatBrazilDate(due)}` : ""}
-                    </span>
-                  )}
-                  {t.checklist.length > 0 && <span className="text-slate-600">· {t.checklist.filter((c) => c.done).length}/{t.checklist.length} ✓</span>}
-                  {t.comments.length > 0 && <span className="text-slate-600">· 💬 {t.comments.length}</span>}
+                  {!t.projectServiceId && t.stage && <><span>·</span><span className="text-indigo-300">{t.stage}</span></>}
+                  {t.assigneeName && <><span>·</span><span>{t.assigneeName}</span></>}
+                  {t.checklist.length > 0 && <><span>·</span><span>{t.checklist.filter((c) => c.done).length}/{t.checklist.length} ✓</span></>}
+                  {t.comments.length > 0 && <><span>·</span><span>💬 {t.comments.length}</span></>}
                 </div>
               </button>
-              <button
-                onClick={() => remove(t)}
-                className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
-                title="Excluir"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-              </button>
+
+              <div className="flex items-center gap-2 flex-none pt-0.5">
+                {(start || due) && (
+                  <span className={`text-[10px] tabular-nums text-right ${overdue ? "text-red-300 font-medium" : "text-slate-500"}`}>
+                    {due ? formatBrazilDate(due) : formatBrazilDate(start!)}
+                  </span>
+                )}
+                <button
+                  onClick={() => remove(t)}
+                  className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                  title="Excluir"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           );
         };
@@ -1713,6 +1754,9 @@ function ProjectTasksCard({
         const q = taskQuery.trim().toLowerCase();
         const filtering = taskFilter !== "all" || q.length > 0;
         const list = internalTasks.filter((t) => {
+          if (t.ignored) return false; // ignoradas vivem só na aba "A organizar"
+          // Sem etapa + vinda do ClickUp = pertence à aba "A organizar", não a esta lista.
+          if (t.clickupTaskId && !t.projectServiceId) return false;
           if (taskFilter === "doing" && t.done) return false;
           if (taskFilter === "done" && !t.done) return false;
           if (q && !t.title.toLowerCase().includes(q)) return false;
@@ -1734,12 +1778,23 @@ function ProjectTasksCard({
         }));
         const noSvc = list.filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId));
 
-        const GroupHead = ({ label, tasks, muted }: { label: string; tasks: InternalTask[]; muted?: boolean }) => (
-          <div className={`px-5 py-2 bg-[#0b111c] border-t border-b border-[#1e2d45] text-[11px] font-bold flex items-center justify-between ${muted ? "text-slate-400" : "text-indigo-300"}`}>
-            <span>{label}</span>
-            <span className="text-slate-600 font-medium tabular-nums">{tasks.filter((t) => t.done).length}/{tasks.length}</span>
-          </div>
-        );
+        const GroupHead = ({ label, tasks, muted }: { label: string; tasks: InternalTask[]; muted?: boolean }) => {
+          const feitas = tasks.filter((t) => t.done).length;
+          const pct = tasks.length > 0 ? Math.round((feitas / tasks.length) * 100) : 0;
+          return (
+            <div className={`px-5 pt-3.5 pb-2 bg-[#0b111c] border-t border-b border-[#1e2d45] ${muted ? "" : ""}`}>
+              <div className="flex items-baseline justify-between gap-3">
+                <span className={`text-[13px] font-semibold tracking-tight ${muted ? "text-slate-400" : "text-white"}`}>{label}</span>
+                <span className="text-[11px] text-slate-500 font-medium tabular-nums flex-none">{feitas}/{tasks.length}</span>
+              </div>
+              {tasks.length > 0 && (
+                <div className="mt-1.5 h-[3px] rounded-full bg-[#080b12] overflow-hidden">
+                  <div className={`h-full rounded-full ${pct === 100 ? "bg-emerald-500" : muted ? "bg-slate-600" : "bg-indigo-500"}`} style={{ width: `${pct}%` }} />
+                </div>
+              )}
+            </div>
+          );
+        };
 
         return (
           <div>
@@ -1747,13 +1802,13 @@ function ProjectTasksCard({
               <div key={g.id}>
                 <GroupHead label={g.label} tasks={g.tasks} />
                 {g.tasks.length === 0
-                  ? <div className="px-5 py-2.5 text-[11px] text-slate-600 italic">nenhuma tarefa neste serviço</div>
+                  ? <div className="px-5 py-2.5 text-[11px] text-slate-600 italic">nenhuma tarefa nesta etapa</div>
                   : <div className="divide-y divide-[#1e2d45]">{g.tasks.map(rowOf)}</div>}
               </div>
             ))}
             {noSvc.length > 0 && (
               <div>
-                <GroupHead label="Sem serviço — a organizar" tasks={noSvc} muted />
+                <GroupHead label="Sem etapa — a organizar" tasks={noSvc} muted />
                 <div className="divide-y divide-[#1e2d45]">{noSvc.map(rowOf)}</div>
               </div>
             )}

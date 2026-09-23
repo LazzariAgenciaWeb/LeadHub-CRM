@@ -32,7 +32,7 @@ export default function ProjectServiceSelector({
   return (
     <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
       <span className="text-slate-500 text-xs uppercase tracking-wider flex items-center gap-1.5">
-        <Tag className="w-3.5 h-3.5 text-indigo-400" strokeWidth={2.25} /> Serviço (catálogo)
+        <Tag className="w-3.5 h-3.5 text-indigo-400" strokeWidth={2.25} /> Serviço contratado
       </span>
       <select
         value={value}
@@ -44,7 +44,7 @@ export default function ProjectServiceSelector({
         {services.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
       </select>
       <p className="text-slate-600 text-[11px] mt-1.5">
-        Vinculando, este projeto já conta como <b className="text-slate-400">serviço contratado</b> do cliente — não precisa cadastrar de novo na empresa.
+        O que o cliente contratou. Vira o <b className="text-slate-400">rótulo do projeto</b> no painel dele, e já conta como serviço contratado — não precisa cadastrar de novo na empresa. Um por projeto.
       </p>
     </div>
   );

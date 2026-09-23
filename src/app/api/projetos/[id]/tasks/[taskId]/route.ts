@@ -62,7 +62,7 @@ export async function PATCH(
   if ("error" in res) return NextResponse.json({ error: res.error }, { status: res.status });
 
   const body = await req.json();
-  const { done, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, comments, awaitingClient, visibleToClient, projectServiceId } = body;
+  const { done, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, comments, awaitingClient, visibleToClient, projectServiceId, ignored } = body;
 
   const data: any = {};
 
@@ -98,6 +98,8 @@ export async function PATCH(
   if (checklist !== undefined) data.checklist = sanitizeChecklist(checklist) ?? Prisma.DbNull;
   if (comments !== undefined) data.comments = sanitizeComments(comments) ?? Prisma.DbNull;
   if (awaitingClient !== undefined) data.awaitingClient = !!awaitingClient;
+  // Ignorar: sai da Caixa de entrada sem apagar. Restaurar = ignored:false.
+  if (ignored !== undefined) data.ignoredAt = ignored ? new Date() : null;
   if (visibleToClient !== undefined) data.visibleToClient = !!visibleToClient;
 
   const task = await prisma.projectTask.update({

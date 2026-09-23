@@ -47,11 +47,15 @@ export async function PATCH(
   const taskIds: string[] = Array.isArray(body.taskIds) ? body.taskIds.filter((x: unknown) => typeof x === "string") : [];
   if (taskIds.length === 0) return NextResponse.json({ error: "Nenhuma tarefa selecionada" }, { status: 400 });
 
-  const { projectServiceId, stage, visibleToClient } = body;
+  const { projectServiceId, stage, visibleToClient, ignored } = body;
   const data: any = {};
 
   if (typeof visibleToClient === "boolean") {
     data.visibleToClient = visibleToClient;
+  }
+  // Ignorar/restaurar em massa — tira da Caixa de entrada sem apagar.
+  if (typeof ignored === "boolean") {
+    data.ignoredAt = ignored ? new Date() : null;
   }
 
   // Serviço/etapa da sequência — espelha o nome no `stage` (fallback), igual à

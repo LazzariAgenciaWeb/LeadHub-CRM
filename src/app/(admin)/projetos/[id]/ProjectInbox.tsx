@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Inbox, Eye, EyeOff, ExternalLink, CheckSquare, Square, X } from "lucide-react";
+import { Inbox, Eye, EyeOff, ExternalLink, CheckSquare, Square, X, Ban, RotateCcw, ChevronDown, ChevronUp } from "lucide-react";
 
 // Caixa de entrada "a organizar": tarefas espelhadas do ClickUp que ainda não
 // têm serviço. Cada uma aparece UMA vez aqui (não nos serviços). Ao escolher um
@@ -16,24 +16,31 @@ type InboxTask = {
 };
 
 export default function ProjectInbox({
-  projectId, tasks, serviceSteps, clickupUrlBase,
+  projectId, tasks, ignoredTasks = [], serviceSteps, clickupUrlBase, embedded = false,
 }: {
   projectId: string;
   tasks: InboxTask[];
+  ignoredTasks?: InboxTask[];
   serviceSteps: { id: string; name: string; order: number }[];
   clickupUrlBase: string | null; // ex.: "https://app.clickup.com/t/" — pra deep-link
+  // embedded = renderiza sem card/cabeçalho próprios, pra viver dentro de uma
+  // aba do card de Tarefas (o rótulo da aba já diz o que é).
+  embedded?: boolean;
 }) {
   const router = useRouter();
   const [busy, setBusy] = useState<string | null>(null); // taskId ativo p/ ação individual
   const [bulkBusy, setBulkBusy] = useState(false);
   const [selectMode, setSelectMode] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [ignoredOpen, setIgnoredOpen] = useState(false);
 
   const allIds = useMemo(() => tasks.map((t) => t.id), [tasks]);
   const allSelected = selected.size > 0 && selected.size === tasks.length;
   const someSelected = selected.size > 0 && !allSelected;
 
-  if (tasks.length === 0) return null;
+  // Card solto some de vez quando não há nada na fila nem em ignorados.
+  // Embutido numa aba, fica — a aba precisa mostrar o estado vazio.
+  if (!embedded && tasks.length === 0 && ignoredTasks.length === 0) return null;
 
   // ── Ações individuais (mantidas quando NÃO está em modo seleção) ────────
   async function patch(taskId: string, body: any) {
@@ -77,14 +84,18 @@ export default function ProjectInbox({
   function exitSelectMode() { setSelected(new Set()); setSelectMode(false); }
 
   return (
-    <div className="bg-[#0a0f1a] border border-amber-500/30 rounded-xl p-5">
+    <div className={embedded ? "px-5 py-4" : "bg-[#0a0f1a] border border-amber-500/30 rounded-xl p-5"}>
       {/* Cabeçalho + botão de entrar/sair do modo seleção */}
       <div className="flex items-center gap-2 flex-wrap">
-        <Inbox className="w-4 h-4 text-amber-400" strokeWidth={2.25} />
-        <span className="text-white text-sm font-semibold">Caixa de entrada — a organizar</span>
-        <span className="text-amber-300 text-xs font-bold bg-amber-500/15 border border-amber-500/30 rounded-full px-2 py-0.5">
-          {tasks.length}
-        </span>
+        {!embedded && (
+          <>
+            <Inbox className="w-4 h-4 text-amber-400" strokeWidth={2.25} />
+            <span className="text-white text-sm font-semibold">Caixa de entrada — a organizar</span>
+            <span className="text-amber-300 text-xs font-bold bg-amber-500/15 border border-amber-500/30 rounded-full px-2 py-0.5">
+              {tasks.length}
+            </span>
+          </>
+        )}
         <span className="flex-1" />
         {!selectMode ? (
           <button
@@ -103,7 +114,7 @@ export default function ProjectInbox({
         )}
       </div>
       <p className="text-slate-500 text-xs mt-1 mb-3">
-        Tarefas vindas do ClickUp que ainda não estão num serviço. Escolha o serviço (some daqui) e decida se o cliente vê.
+        Vieram do ClickUp e ainda não estão numa etapa. Escolha a etapa (some daqui), decida se o cliente vê, ou ignore.
       </p>
 
       {/* Barra de seleção — some quando não está no modo */}
@@ -145,6 +156,14 @@ export default function ProjectInbox({
           >
             <EyeOff className="w-3.5 h-3.5" /> Ocultar
           </button>
+          <button
+            disabled={bulkBusy || selected.size === 0}
+            onClick={() => bulk({ ignored: true })}
+            className="text-xs px-2 py-1 rounded bg-[#080b12] hover:bg-red-500/15 border border-[#1e2d45] hover:border-red-500/30 text-slate-300 hover:text-red-300 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+            title="Ignorar as selecionadas — saem da fila sem apagar"
+          >
+            <Ban className="w-3.5 h-3.5" /> Ignorar
+          </button>
 
           {serviceSteps.length > 0 && (
             <select
@@ -152,9 +171,9 @@ export default function ProjectInbox({
               defaultValue=""
               onChange={(e) => { if (e.target.value) { bulk({ projectServiceId: e.target.value }); e.currentTarget.value = ""; } }}
               className="bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed"
-              title="Pôr as selecionadas num serviço"
+              title="Pôr as selecionadas numa etapa"
             >
-              <option value="">— pôr no serviço —</option>
+              <option value="">— pôr na etapa —</option>
               {serviceSteps.map((s, i) => (
                 <option key={s.id} value={s.id}>{String(i + 1).padStart(2, "0")} · {s.name}</option>
               ))}
@@ -165,6 +184,9 @@ export default function ProjectInbox({
 
       {/* Lista de tarefas */}
       <div className="flex flex-col gap-2">
+        {tasks.length === 0 && (
+          <p className="text-slate-600 text-xs py-2">Nada a organizar — tudo já está numa etapa ou foi ignorado. 👌</p>
+        )}
         {tasks.map((t) => {
           const isChecked = selected.has(t.id);
           return (
@@ -205,26 +227,76 @@ export default function ProjectInbox({
                 {t.visibleToClient ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
               </button>
 
+              <button
+                disabled={busy === t.id || bulkBusy}
+                onClick={() => patch(t.id, { ignored: true })}
+                className="flex-none text-slate-600 hover:text-red-400 disabled:opacity-30 transition-colors"
+                title="Ignorar — sai da fila sem apagar (dá pra restaurar)"
+                aria-label="Ignorar tarefa"
+              >
+                <Ban className="w-4 h-4" />
+              </button>
+
               {serviceSteps.length > 0 ? (
                 <select
                   disabled={busy === t.id || bulkBusy}
                   defaultValue=""
                   onChange={(e) => { if (e.target.value) patch(t.id, { projectServiceId: e.target.value }); }}
                   className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 disabled:opacity-40 flex-none"
-                  title="Pôr num serviço"
+                  title="Pôr numa etapa"
                 >
-                  <option value="">— pôr no serviço —</option>
+                  <option value="">— pôr na etapa —</option>
                   {serviceSteps.map((s, i) => (
                     <option key={s.id} value={s.id}>{String(i + 1).padStart(2, "0")} · {s.name}</option>
                   ))}
                 </select>
               ) : (
-                <span className="text-[11px] text-slate-600 flex-none">crie serviços pra organizar</span>
+                <span className="text-[11px] text-slate-600 flex-none">crie etapas pra organizar</span>
               )}
             </div>
           );
         })}
       </div>
+
+      {/* Ignorados — fora da fila, mas recuperável */}
+      {ignoredTasks.length > 0 && (
+        <div className="mt-3 border-t border-[#1e2d45] pt-3">
+          <button
+            onClick={() => setIgnoredOpen((v) => !v)}
+            className="w-full flex items-center justify-between gap-2 text-left group"
+            aria-expanded={ignoredOpen}
+          >
+            <span className="text-[11px] text-slate-500 group-hover:text-slate-300 flex items-center gap-1.5 transition-colors">
+              <Ban className="w-3.5 h-3.5" />
+              Ignorados ({ignoredTasks.length})
+            </span>
+            {ignoredOpen ? <ChevronUp className="w-3.5 h-3.5 text-slate-600" /> : <ChevronDown className="w-3.5 h-3.5 text-slate-600" />}
+          </button>
+
+          {ignoredOpen && (
+            <div className="mt-2 flex flex-col gap-1.5">
+              {ignoredTasks.map((t) => (
+                <div key={t.id} className="flex items-center gap-2 bg-[#0d1422] border border-[#1a2334] rounded-lg px-3 py-1.5">
+                  <span className="flex-1 text-xs text-slate-500 truncate line-through">{t.title}</span>
+                  {clickupUrlBase && t.clickupTaskId && (
+                    <a href={`${clickupUrlBase}${t.clickupTaskId}`} target="_blank" rel="noreferrer" className="text-slate-700 hover:text-indigo-400 flex-none" title="Abrir no ClickUp">
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                  <button
+                    disabled={busy === t.id || bulkBusy}
+                    onClick={() => patch(t.id, { ignored: false })}
+                    className="flex-none text-[11px] text-slate-500 hover:text-emerald-300 disabled:opacity-30 flex items-center gap-1 transition-colors"
+                    title="Restaurar — volta pra fila"
+                  >
+                    <RotateCcw className="w-3 h-3" /> restaurar
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

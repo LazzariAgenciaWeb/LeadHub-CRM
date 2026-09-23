@@ -107,6 +107,7 @@ export default async function ProjectDetailPage({
     clickupTaskId: t.clickupTaskId ?? null,
     awaitingClient: t.awaitingClient,
     visibleToClient: t.visibleToClient,
+    ignored:      t.ignoredAt != null,
     assigneeName: t.assignee?.name ?? null,
     materials: materials
       .filter((m) => m.taskId === t.id && m.kind !== "INLINE") // INLINE = print no descritivo
