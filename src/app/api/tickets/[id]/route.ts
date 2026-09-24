@@ -10,6 +10,7 @@ import { formatBrazilDateTime } from "@/lib/datetime";
 import { createConversationEvent } from "@/lib/conversation-events";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { getViewer, canSeeTicket } from "@/lib/visibility";
+import { notifyClientOnTicketClose } from "@/lib/ticket-notify";
 
 // GET /api/tickets/[id]
 export async function GET(
@@ -455,6 +456,21 @@ export async function PATCH(
       authorName: userName ?? null,
       meta:       { ticketId: id },
     });
+
+    // WhatsApp pro cliente que acompanha (só se tem publicToken). Não bloqueia
+    // resposta do PATCH. Só na PRIMEIRA transição pra final — o `status !==
+    // existing.status` acima já garante isso (reabrir+fechar não redispara).
+    if (existing.publicToken) {
+      void notifyClientOnTicketClose({
+        ticketId:    id,
+        companyId:   existing.companyId,
+        phone:       (ticket as any).phone,
+        title:       ticket.title,
+        status:      status as "RESOLVED" | "CLOSED",
+        publicToken: existing.publicToken,
+        userId,
+      });
+    }
   }
 
   // Penalidade: empurrar dueDate depois de já estar vencido (cumulativa).
