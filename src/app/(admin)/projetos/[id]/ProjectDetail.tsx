@@ -103,6 +103,7 @@ type InternalTask = {
   awaitingClient: boolean; // derivado do status
   visibleToClient: boolean; // aparece pro cliente no painel
   ignored:      boolean; // veio do ClickUp mas foi descartada — fora da fila
+  assigneeId:   string | null;
   assigneeName: string | null;
   materials: { id: string; kind: string; title: string; url: string | null }[]; // links/anexos da tarefa
 };
@@ -1021,7 +1022,7 @@ function ChecklistEditor({
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
-function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean }) {
+function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup, availableUsers }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean; availableUsers: { id: string; name: string }[] }) {
   const router = useRouter();
   const [title, setTitle] = useState(task.title);
   const [stage, setStage] = useState(task.stage ?? "");
@@ -1034,6 +1035,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   const [savedAt, setSavedAt] = useState<number | null>(null);
   const dirtyRef = useRef(false);
   const [taskStatus, setTaskStatus] = useState(task.status);
+  const [assigneeId, setAssigneeId] = useState(task.assigneeId ?? "");
 
   // Aviso de "salvo" some sozinho depois de 2s — é confirmação, não estado fixo.
   useEffect(() => {
@@ -1120,6 +1122,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
       description: description.trim() || null,
       startDate:   startDate ? new Date(startDate).toISOString() : null,
       dueDate:     dueDate ? new Date(dueDate).toISOString() : null,
+      assigneeId:  assigneeId || null,
     };
   }
 
@@ -1344,6 +1347,21 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
           </div>
 
           <div className="pt-3 border-t border-[#1e2d45] space-y-3">
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Responsável</label>
+              <select
+                value={assigneeId}
+                onChange={(e) => { setAssigneeId(e.target.value); dirtyRef.current = true; }}
+                onBlur={saveQuiet}
+                className={inCls}
+              >
+                <option value="">— sem responsável —</option>
+                {availableUsers.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
+              </select>
+              <p className="text-[10px] text-slate-600 mt-1">
+                Quem vai executar. A tarefa passa a aparecer no “Minhas tarefas” dessa pessoa.
+              </p>
+            </div>
             <div>
               <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">{serviceSteps.length > 0 ? "Serviço / etapa" : "Etapa"}</label>
               {serviceSteps.length > 0 ? (
@@ -2116,7 +2134,7 @@ function ProjectTasksCard({
                 <button onClick={closeTaskModal} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
               <div className="flex-1 min-h-0 px-6 py-5">
-                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} />
+                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} />
               </div>
             </div>
           </div>

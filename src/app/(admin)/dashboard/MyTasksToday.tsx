@@ -16,6 +16,10 @@ interface MyTask {
     phone: string;
     pipeline: string | null;
   } | null;
+  // De onde a tarefa veio: CRM (lead) ou uma tarefa interna de projeto.
+  // Muda a rota de concluir e o destino do clique.
+  kind?: "lead" | "projeto";
+  projeto?: { id: string; name: string; status: string } | null;
 }
 
 const PIPELINE_HREF: Record<string, string> = {
@@ -64,11 +68,18 @@ export default function MyTasksToday() {
     // optimistic: remove da lista quando marcada
     setTasks((prev) => prev.filter((t) => t.id !== task.id));
     try {
-      const res = await fetch(`/api/tasks/${task.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ done: true }),
-      });
+      // Tarefa de projeto tem outra rota e conclui via status (fonte única).
+      const res = task.kind === "projeto" && task.projeto
+        ? await fetch(`/api/projetos/${task.projeto.id}/tasks/${task.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "APROVADO" }),
+          })
+        : await fetch(`/api/tasks/${task.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ done: true }),
+          });
       if (!res.ok) {
         // rollback
         setTasks((prev) => [...prev, task].sort(
@@ -81,6 +92,7 @@ export default function MyTasksToday() {
   }
 
   function leadHref(task: MyTask): string {
+    if (task.kind === "projeto" && task.projeto) return `/projetos/${task.projeto.id}`;
     if (!task.lead) return "/crm/leads";
     const base = PIPELINE_HREF[task.lead.pipeline ?? ""] ?? "/crm/leads";
     return `${base}?lead=${task.lead.id}`;
@@ -171,14 +183,26 @@ export default function MyTasksToday() {
                         </Link>
                       </>
                     )}
+                    {t.kind === "projeto" && t.projeto && (
+                      <>
+                        <span className="text-slate-700 text-[10px]">·</span>
+                        <Link
+                          href={leadHref(t)}
+                          className="text-cyan-400 hover:text-cyan-300 text-[11px] truncate max-w-[200px] hover:underline"
+                          title="Abrir projeto"
+                        >
+                          📁 {t.projeto.name}
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </div>
 
-                {t.lead && (
+                {(t.lead || t.projeto) && (
                   <Link
                     href={leadHref(t)}
                     className="text-slate-600 hover:text-white text-xs flex-shrink-0 self-center"
-                    title="Abrir lead"
+                    title={t.kind === "projeto" ? "Abrir projeto" : "Abrir lead"}
                   >
                     →
                   </Link>

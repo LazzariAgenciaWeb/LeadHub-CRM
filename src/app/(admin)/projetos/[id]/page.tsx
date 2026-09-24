@@ -110,6 +110,7 @@ export default async function ProjectDetailPage({
     awaitingClient: t.awaitingClient,
     visibleToClient: t.visibleToClient,
     ignored:      t.ignoredAt != null,
+    assigneeId:   t.assigneeId ?? null,
     assigneeName: t.assignee?.name ?? null,
     materials: materials
       .filter((m) => m.taskId === t.id && m.kind !== "INLINE") // INLINE = print no descritivo

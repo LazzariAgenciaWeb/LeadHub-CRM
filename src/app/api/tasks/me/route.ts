@@ -41,5 +41,51 @@ export async function GET(req: NextRequest) {
       lead: { select: { id: true, name: true, phone: true, pipeline: true } },
     },
   });
-  return NextResponse.json(tasks);
+
+  // Tarefas de PROJETO atribuídas a mim entram na mesma fila. Sem isto, quem é
+  // responsável por uma tarefa de projeto nunca a via no painel — só se abrisse
+  // o projeto na mão. Aqui exigimos assigneeId (tarefa de projeto sem dono não
+  // é "minha fila"; ela aparece dentro do projeto).
+  const projWhere: any = {
+    assigneeId: userId,
+    ignoredAt: null,
+    done: false,
+    dueDate: { not: null },
+  };
+  if (role !== "SUPER_ADMIN" && userCompanyId) {
+    projWhere.project = { setor: { companyId: userCompanyId } };
+  }
+  if (scope === "today")         projWhere.dueDate = { not: null, lte: endOfDay };
+  else if (scope === "overdue")  projWhere.dueDate = { not: null, lt: startOfDay };
+  else if (scope === "upcoming") projWhere.dueDate = { not: null, gt: endOfDay };
+  else delete projWhere.done;
+
+  const projTasks = await prisma.projectTask.findMany({
+    where: projWhere,
+    orderBy: [{ done: "asc" }, { dueDate: "asc" }],
+    take: 100,
+    select: {
+      id: true, title: true, dueDate: true, done: true, description: true, status: true,
+      project: { select: { id: true, name: true } },
+    },
+  });
+
+  // Normaliza pro mesmo formato do widget. `kind` diz de onde veio — o painel
+  // usa isso pra saber qual rota chamar ao concluir e pra onde levar no clique.
+  const unified = [
+    ...tasks.map((t) => ({ ...t, kind: "lead" as const, projeto: null })),
+    ...projTasks.map((p) => ({
+      id: p.id,
+      title: p.title,
+      dueAt: p.dueDate!.toISOString(),
+      done: p.done,
+      notes: p.description,
+      source: "MANUAL" as const,
+      lead: null,
+      kind: "projeto" as const,
+      projeto: { id: p.project.id, name: p.project.name, status: p.status },
+    })),
+  ].sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
+
+  return NextResponse.json(unified);
 }
