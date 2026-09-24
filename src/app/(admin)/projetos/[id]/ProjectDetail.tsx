@@ -1206,6 +1206,19 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   const fmt = (iso: string) =>
     new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" });
 
+  // Situação do prazo — em dias-calendário, pra "vence hoje" não virar atraso.
+  const prazo = (() => {
+    if (taskStatus === "APROVADO") return { msg: "concluída", late: false, soon: false };
+    if (!dueDate) return { msg: "", late: false, soon: false };
+    const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+    const fim = new Date(`${dueDate}T00:00:00`);
+    const dias = Math.round((fim.getTime() - hoje.getTime()) / 86400000);
+    if (dias < 0)  return { msg: `atrasada ${Math.abs(dias)} dia${Math.abs(dias) > 1 ? "s" : ""}`, late: true,  soon: false };
+    if (dias === 0) return { msg: "vence hoje",  late: false, soon: true };
+    if (dias <= 3)  return { msg: `faltam ${dias} dia${dias > 1 ? "s" : ""}`, late: false, soon: true };
+    return { msg: `no prazo · ${dias} dias`, late: false, soon: false };
+  })();
+
   return (
     <div className="flex flex-col h-full min-h-0 relative">
       {/* Aviso de salvamento — flutua no canto, aparece só quando acontece algo */}
@@ -1219,17 +1232,62 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
         </div>
       )}
 
+      {/* Título — único no modal (o cabeçalho não repete mais) */}
+      <input
+        value={title}
+        onChange={(e) => { setTitle(e.target.value); dirtyRef.current = true; }}
+        onBlur={saveQuiet}
+        placeholder="Título da tarefa"
+        className="shrink-0 w-full bg-transparent border-0 text-white text-lg font-semibold tracking-tight px-1 -mx-1 mb-3 rounded focus:outline-none focus:bg-[#0a0f1a] placeholder-slate-600"
+      />
+
+      {/* Trilha de andamento + prazo */}
+      <div className="shrink-0 mb-3 space-y-2">
+        <div className="flex items-center gap-1">
+          {TASK_STATUS.map((s, i) => {
+            const cur = TASK_STATUS.findIndex((x) => x.id === taskStatus);
+            const isCur = s.id === taskStatus;
+            const passed = i < cur;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => changeStatus(s.id)}
+                title={`Marcar como ${s.label}`}
+                className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-md border text-[11px] font-semibold transition-colors ${
+                  isCur ? s.badge : passed
+                    ? "bg-[#0f1729] border-[#1e2d45] text-slate-400"
+                    : "bg-[#0a0f1a] border-[#1e2d45] text-slate-600 hover:text-slate-300"
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${isCur || passed ? s.dot : "bg-slate-700"}`} />
+                {s.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex items-center gap-3 flex-wrap text-[11px]">
+          <label className="flex items-center gap-1.5 text-slate-500">
+            Início
+            <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet}
+              className="bg-[#0a0f1a] border border-[#1e2d45] rounded px-1.5 py-0.5 text-slate-200 focus:outline-none focus:border-indigo-500" />
+          </label>
+          <label className="flex items-center gap-1.5 text-slate-500">
+            Prazo
+            <input type="date" value={dueDate} onChange={(e) => { setDueDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet}
+              className={`bg-[#0a0f1a] border rounded px-1.5 py-0.5 text-slate-200 focus:outline-none focus:border-indigo-500 ${prazo.late ? "border-red-500/50" : "border-[#1e2d45]"}`} />
+          </label>
+          {prazo.msg && (
+            <span className={`font-semibold ${prazo.late ? "text-red-300" : prazo.soon ? "text-amber-300" : "text-emerald-300"}`}>
+              {prazo.msg}
+            </span>
+          )}
+        </div>
+      </div>
+
       {/* Barra de estados — compacta, uma linha só */}
       <div className="flex items-center gap-2 flex-wrap pb-3 mb-3 border-b border-[#1e2d45] shrink-0">
-        {/* Status — fonte única do andamento (deriva concluída / aguardando) */}
-        <select
-          value={taskStatus}
-          onChange={(e) => changeStatus(e.target.value)}
-          title="Status da tarefa"
-          className={`px-2.5 py-1 rounded-full border text-[11px] font-semibold cursor-pointer focus:outline-none ${statusOf(taskStatus).badge}`}
-        >
-          {TASK_STATUS.map((s) => <option key={s.id} value={s.id} className="bg-[#0f1729] text-slate-200">{s.label}</option>)}
-        </select>
         <button type="button" onClick={toggleVisible} className={pill(visible, "emerald")} title="Aparece no painel do cliente">
           {visible ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
           {visible ? "Cliente vê" : "Só interna"}
@@ -1265,17 +1323,6 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
         {/* ─── ESQUERDA: descrição em destaque + dados ─── */}
         <div className="min-h-0 overflow-y-auto pr-1 space-y-4">
           <div>
-            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Título</label>
-            <input
-              value={title}
-              onChange={(e) => { setTitle(e.target.value); dirtyRef.current = true; }}
-              onBlur={saveQuiet}
-              placeholder="Título"
-              className={`${inCls} !text-base`}
-            />
-          </div>
-
-          <div>
             <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">
               Descrição <span className="text-slate-600 normal-case">(o cliente vê · cole prints aqui)</span>
             </label>
@@ -1310,16 +1357,6 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                   <datalist id="etapas-list">{stageSuggestions.map((s) => <option key={s} value={s} />)}</datalist>
                 </>
               )}
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Início</label>
-                <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls} />
-              </div>
-              <div>
-                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Fim / prazo</label>
-                <input type="date" value={dueDate} onChange={(e) => { setDueDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls} />
-              </div>
             </div>
           </div>
         </div>
@@ -2005,11 +2042,10 @@ function ProjectTasksCard({
         return (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={closeTaskModal}>
             <div className="w-[85vw] h-[85vh] max-w-5xl bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e2d45] flex-shrink-0">
-                <div className="min-w-0">
-                  <h3 className="text-white text-base font-semibold truncate">{t.title}</h3>
-                  <p className="text-slate-500 text-xs">Última atualização: {new Date(t.updatedAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" })}</p>
-                </div>
+              {/* O título mora só dentro do editor (é editável lá) — aqui fica
+                  apenas o carimbo de atualização e o fechar. */}
+              <div className="flex items-center justify-between px-5 py-2.5 border-b border-[#1e2d45] flex-shrink-0">
+                <p className="text-slate-500 text-xs">Última atualização: {new Date(t.updatedAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" })}</p>
                 <button onClick={closeTaskModal} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
               <div className="flex-1 min-h-0 px-6 py-5">
