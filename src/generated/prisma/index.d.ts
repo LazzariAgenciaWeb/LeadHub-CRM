@@ -189,6 +189,11 @@ export type ProjectTask = $Result.DefaultSelection<Prisma.$ProjectTaskPayload>
  */
 export type ProjectService = $Result.DefaultSelection<Prisma.$ProjectServicePayload>
 /**
+ * Model ProjectTaskEvent
+ * 
+ */
+export type ProjectTaskEvent = $Result.DefaultSelection<Prisma.$ProjectTaskEventPayload>
+/**
  * Model TicketAccessUser
  * 
  */
@@ -1912,6 +1917,16 @@ export class PrismaClient<
   get projectService(): Prisma.ProjectServiceDelegate<ExtArgs>;
 
   /**
+   * `prisma.projectTaskEvent`: Exposes CRUD operations for the **ProjectTaskEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectTaskEvents
+    * const projectTaskEvents = await prisma.projectTaskEvent.findMany()
+    * ```
+    */
+  get projectTaskEvent(): Prisma.ProjectTaskEventDelegate<ExtArgs>;
+
+  /**
    * `prisma.ticketAccessUser`: Exposes CRUD operations for the **TicketAccessUser** model.
     * Example usage:
     * ```ts
@@ -3256,6 +3271,7 @@ export namespace Prisma {
     SetorClickupList: 'SetorClickupList',
     ProjectTask: 'ProjectTask',
     ProjectService: 'ProjectService',
+    ProjectTaskEvent: 'ProjectTaskEvent',
     TicketAccessUser: 'TicketAccessUser',
     ProjectAccessUser: 'ProjectAccessUser',
     ProjectTaskState: 'ProjectTaskState',
@@ -3358,7 +3374,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject"
+      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5809,6 +5825,76 @@ export namespace Prisma {
           count: {
             args: Prisma.ProjectServiceCountArgs<ExtArgs>
             result: $Utils.Optional<ProjectServiceCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectTaskEvent: {
+        payload: Prisma.$ProjectTaskEventPayload<ExtArgs>
+        fields: Prisma.ProjectTaskEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectTaskEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectTaskEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectTaskEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectTaskEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectTaskEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectTaskEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectTaskEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectTaskEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectTaskEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload>
+          }
+          update: {
+            args: Prisma.ProjectTaskEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectTaskEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectTaskEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ProjectTaskEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskEventPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectTaskEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectTaskEvent>
+          }
+          groupBy: {
+            args: Prisma.ProjectTaskEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectTaskEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectTaskEventCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectTaskEventCountAggregateOutputType> | number
           }
         }
       }
@@ -13777,6 +13863,7 @@ export namespace Prisma {
     tickets: number
     internalTasks: number
     accessUsers: number
+    taskEvents: number
     materials: number
     serviceSteps: number
   }
@@ -13788,6 +13875,7 @@ export namespace Prisma {
     tickets?: boolean | SetorClickupListCountOutputTypeCountTicketsArgs
     internalTasks?: boolean | SetorClickupListCountOutputTypeCountInternalTasksArgs
     accessUsers?: boolean | SetorClickupListCountOutputTypeCountAccessUsersArgs
+    taskEvents?: boolean | SetorClickupListCountOutputTypeCountTaskEventsArgs
     materials?: boolean | SetorClickupListCountOutputTypeCountMaterialsArgs
     serviceSteps?: boolean | SetorClickupListCountOutputTypeCountServiceStepsArgs
   }
@@ -13848,6 +13936,13 @@ export namespace Prisma {
   /**
    * SetorClickupListCountOutputType without action
    */
+  export type SetorClickupListCountOutputTypeCountTaskEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectTaskEventWhereInput
+  }
+
+  /**
+   * SetorClickupListCountOutputType without action
+   */
   export type SetorClickupListCountOutputTypeCountMaterialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectMaterialWhereInput
   }
@@ -13867,11 +13962,13 @@ export namespace Prisma {
   export type ProjectTaskCountOutputType = {
     materials: number
     attachments: number
+    events: number
   }
 
   export type ProjectTaskCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     materials?: boolean | ProjectTaskCountOutputTypeCountMaterialsArgs
     attachments?: boolean | ProjectTaskCountOutputTypeCountAttachmentsArgs
+    events?: boolean | ProjectTaskCountOutputTypeCountEventsArgs
   }
 
   // Custom InputTypes
@@ -13897,6 +13994,13 @@ export namespace Prisma {
    */
   export type ProjectTaskCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StorageObjectWhereInput
+  }
+
+  /**
+   * ProjectTaskCountOutputType without action
+   */
+  export type ProjectTaskCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectTaskEventWhereInput
   }
 
 
@@ -52804,6 +52908,7 @@ export namespace Prisma {
     tickets?: boolean | SetorClickupList$ticketsArgs<ExtArgs>
     internalTasks?: boolean | SetorClickupList$internalTasksArgs<ExtArgs>
     accessUsers?: boolean | SetorClickupList$accessUsersArgs<ExtArgs>
+    taskEvents?: boolean | SetorClickupList$taskEventsArgs<ExtArgs>
     materials?: boolean | SetorClickupList$materialsArgs<ExtArgs>
     serviceSteps?: boolean | SetorClickupList$serviceStepsArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
@@ -52876,6 +52981,7 @@ export namespace Prisma {
     tickets?: boolean | SetorClickupList$ticketsArgs<ExtArgs>
     internalTasks?: boolean | SetorClickupList$internalTasksArgs<ExtArgs>
     accessUsers?: boolean | SetorClickupList$accessUsersArgs<ExtArgs>
+    taskEvents?: boolean | SetorClickupList$taskEventsArgs<ExtArgs>
     materials?: boolean | SetorClickupList$materialsArgs<ExtArgs>
     serviceSteps?: boolean | SetorClickupList$serviceStepsArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
@@ -52898,6 +53004,7 @@ export namespace Prisma {
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       internalTasks: Prisma.$ProjectTaskPayload<ExtArgs>[]
       accessUsers: Prisma.$ProjectAccessUserPayload<ExtArgs>[]
+      taskEvents: Prisma.$ProjectTaskEventPayload<ExtArgs>[]
       materials: Prisma.$ProjectMaterialPayload<ExtArgs>[]
       serviceSteps: Prisma.$ProjectServicePayload<ExtArgs>[]
     }
@@ -53299,6 +53406,7 @@ export namespace Prisma {
     tickets<T extends SetorClickupList$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     internalTasks<T extends SetorClickupList$internalTasksArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$internalTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findMany"> | Null>
     accessUsers<T extends SetorClickupList$accessUsersArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$accessUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "findMany"> | Null>
+    taskEvents<T extends SetorClickupList$taskEventsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$taskEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "findMany"> | Null>
     materials<T extends SetorClickupList$materialsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMaterialPayload<ExtArgs>, T, "findMany"> | Null>
     serviceSteps<T extends SetorClickupList$serviceStepsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$serviceStepsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findMany"> | Null>
     /**
@@ -53822,6 +53930,26 @@ export namespace Prisma {
   }
 
   /**
+   * SetorClickupList.taskEvents
+   */
+  export type SetorClickupList$taskEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    where?: ProjectTaskEventWhereInput
+    orderBy?: ProjectTaskEventOrderByWithRelationInput | ProjectTaskEventOrderByWithRelationInput[]
+    cursor?: ProjectTaskEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectTaskEventScalarFieldEnum | ProjectTaskEventScalarFieldEnum[]
+  }
+
+  /**
    * SetorClickupList.materials
    */
   export type SetorClickupList$materialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -54174,6 +54302,7 @@ export namespace Prisma {
     createdBy?: boolean | ProjectTask$createdByArgs<ExtArgs>
     materials?: boolean | ProjectTask$materialsArgs<ExtArgs>
     attachments?: boolean | ProjectTask$attachmentsArgs<ExtArgs>
+    events?: boolean | ProjectTask$eventsArgs<ExtArgs>
     _count?: boolean | ProjectTaskCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["projectTask"]>
 
@@ -54238,6 +54367,7 @@ export namespace Prisma {
     createdBy?: boolean | ProjectTask$createdByArgs<ExtArgs>
     materials?: boolean | ProjectTask$materialsArgs<ExtArgs>
     attachments?: boolean | ProjectTask$attachmentsArgs<ExtArgs>
+    events?: boolean | ProjectTask$eventsArgs<ExtArgs>
     _count?: boolean | ProjectTaskCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectTaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -54256,6 +54386,7 @@ export namespace Prisma {
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       materials: Prisma.$ProjectMaterialPayload<ExtArgs>[]
       attachments: Prisma.$StorageObjectPayload<ExtArgs>[]
+      events: Prisma.$ProjectTaskEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -54650,6 +54781,7 @@ export namespace Prisma {
     createdBy<T extends ProjectTask$createdByArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     materials<T extends ProjectTask$materialsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMaterialPayload<ExtArgs>, T, "findMany"> | Null>
     attachments<T extends ProjectTask$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany"> | Null>
+    events<T extends ProjectTask$eventsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -55101,6 +55233,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTask.events
+   */
+  export type ProjectTask$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    where?: ProjectTaskEventWhereInput
+    orderBy?: ProjectTaskEventOrderByWithRelationInput | ProjectTaskEventOrderByWithRelationInput[]
+    cursor?: ProjectTaskEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectTaskEventScalarFieldEnum | ProjectTaskEventScalarFieldEnum[]
   }
 
   /**
@@ -56153,6 +56305,1005 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectServiceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectTaskEvent
+   */
+
+  export type AggregateProjectTaskEvent = {
+    _count: ProjectTaskEventCountAggregateOutputType | null
+    _min: ProjectTaskEventMinAggregateOutputType | null
+    _max: ProjectTaskEventMaxAggregateOutputType | null
+  }
+
+  export type ProjectTaskEventMinAggregateOutputType = {
+    id: string | null
+    taskId: string | null
+    projectId: string | null
+    type: string | null
+    fromText: string | null
+    toText: string | null
+    authorId: string | null
+    authorName: string | null
+    byClient: boolean | null
+    createdAt: Date | null
+  }
+
+  export type ProjectTaskEventMaxAggregateOutputType = {
+    id: string | null
+    taskId: string | null
+    projectId: string | null
+    type: string | null
+    fromText: string | null
+    toText: string | null
+    authorId: string | null
+    authorName: string | null
+    byClient: boolean | null
+    createdAt: Date | null
+  }
+
+  export type ProjectTaskEventCountAggregateOutputType = {
+    id: number
+    taskId: number
+    projectId: number
+    type: number
+    fromText: number
+    toText: number
+    authorId: number
+    authorName: number
+    byClient: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ProjectTaskEventMinAggregateInputType = {
+    id?: true
+    taskId?: true
+    projectId?: true
+    type?: true
+    fromText?: true
+    toText?: true
+    authorId?: true
+    authorName?: true
+    byClient?: true
+    createdAt?: true
+  }
+
+  export type ProjectTaskEventMaxAggregateInputType = {
+    id?: true
+    taskId?: true
+    projectId?: true
+    type?: true
+    fromText?: true
+    toText?: true
+    authorId?: true
+    authorName?: true
+    byClient?: true
+    createdAt?: true
+  }
+
+  export type ProjectTaskEventCountAggregateInputType = {
+    id?: true
+    taskId?: true
+    projectId?: true
+    type?: true
+    fromText?: true
+    toText?: true
+    authorId?: true
+    authorName?: true
+    byClient?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ProjectTaskEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectTaskEvent to aggregate.
+     */
+    where?: ProjectTaskEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTaskEvents to fetch.
+     */
+    orderBy?: ProjectTaskEventOrderByWithRelationInput | ProjectTaskEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectTaskEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTaskEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTaskEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectTaskEvents
+    **/
+    _count?: true | ProjectTaskEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectTaskEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectTaskEventMaxAggregateInputType
+  }
+
+  export type GetProjectTaskEventAggregateType<T extends ProjectTaskEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectTaskEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectTaskEvent[P]>
+      : GetScalarType<T[P], AggregateProjectTaskEvent[P]>
+  }
+
+
+
+
+  export type ProjectTaskEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectTaskEventWhereInput
+    orderBy?: ProjectTaskEventOrderByWithAggregationInput | ProjectTaskEventOrderByWithAggregationInput[]
+    by: ProjectTaskEventScalarFieldEnum[] | ProjectTaskEventScalarFieldEnum
+    having?: ProjectTaskEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectTaskEventCountAggregateInputType | true
+    _min?: ProjectTaskEventMinAggregateInputType
+    _max?: ProjectTaskEventMaxAggregateInputType
+  }
+
+  export type ProjectTaskEventGroupByOutputType = {
+    id: string
+    taskId: string
+    projectId: string
+    type: string
+    fromText: string | null
+    toText: string | null
+    authorId: string | null
+    authorName: string | null
+    byClient: boolean
+    createdAt: Date
+    _count: ProjectTaskEventCountAggregateOutputType | null
+    _min: ProjectTaskEventMinAggregateOutputType | null
+    _max: ProjectTaskEventMaxAggregateOutputType | null
+  }
+
+  type GetProjectTaskEventGroupByPayload<T extends ProjectTaskEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectTaskEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectTaskEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectTaskEventGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectTaskEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectTaskEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    taskId?: boolean
+    projectId?: boolean
+    type?: boolean
+    fromText?: boolean
+    toText?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    byClient?: boolean
+    createdAt?: boolean
+    task?: boolean | ProjectTaskDefaultArgs<ExtArgs>
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectTaskEvent"]>
+
+  export type ProjectTaskEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    taskId?: boolean
+    projectId?: boolean
+    type?: boolean
+    fromText?: boolean
+    toText?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    byClient?: boolean
+    createdAt?: boolean
+    task?: boolean | ProjectTaskDefaultArgs<ExtArgs>
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectTaskEvent"]>
+
+  export type ProjectTaskEventSelectScalar = {
+    id?: boolean
+    taskId?: boolean
+    projectId?: boolean
+    type?: boolean
+    fromText?: boolean
+    toText?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    byClient?: boolean
+    createdAt?: boolean
+  }
+
+  export type ProjectTaskEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | ProjectTaskDefaultArgs<ExtArgs>
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }
+  export type ProjectTaskEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | ProjectTaskDefaultArgs<ExtArgs>
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectTaskEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectTaskEvent"
+    objects: {
+      task: Prisma.$ProjectTaskPayload<ExtArgs>
+      project: Prisma.$SetorClickupListPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      taskId: string
+      projectId: string
+      type: string
+      fromText: string | null
+      toText: string | null
+      authorId: string | null
+      authorName: string | null
+      byClient: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["projectTaskEvent"]>
+    composites: {}
+  }
+
+  type ProjectTaskEventGetPayload<S extends boolean | null | undefined | ProjectTaskEventDefaultArgs> = $Result.GetResult<Prisma.$ProjectTaskEventPayload, S>
+
+  type ProjectTaskEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ProjectTaskEventFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ProjectTaskEventCountAggregateInputType | true
+    }
+
+  export interface ProjectTaskEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectTaskEvent'], meta: { name: 'ProjectTaskEvent' } }
+    /**
+     * Find zero or one ProjectTaskEvent that matches the filter.
+     * @param {ProjectTaskEventFindUniqueArgs} args - Arguments to find a ProjectTaskEvent
+     * @example
+     * // Get one ProjectTaskEvent
+     * const projectTaskEvent = await prisma.projectTaskEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectTaskEventFindUniqueArgs>(args: SelectSubset<T, ProjectTaskEventFindUniqueArgs<ExtArgs>>): Prisma__ProjectTaskEventClient<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ProjectTaskEvent that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ProjectTaskEventFindUniqueOrThrowArgs} args - Arguments to find a ProjectTaskEvent
+     * @example
+     * // Get one ProjectTaskEvent
+     * const projectTaskEvent = await prisma.projectTaskEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectTaskEventFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectTaskEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectTaskEventClient<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ProjectTaskEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskEventFindFirstArgs} args - Arguments to find a ProjectTaskEvent
+     * @example
+     * // Get one ProjectTaskEvent
+     * const projectTaskEvent = await prisma.projectTaskEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectTaskEventFindFirstArgs>(args?: SelectSubset<T, ProjectTaskEventFindFirstArgs<ExtArgs>>): Prisma__ProjectTaskEventClient<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ProjectTaskEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskEventFindFirstOrThrowArgs} args - Arguments to find a ProjectTaskEvent
+     * @example
+     * // Get one ProjectTaskEvent
+     * const projectTaskEvent = await prisma.projectTaskEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectTaskEventFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectTaskEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectTaskEventClient<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ProjectTaskEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectTaskEvents
+     * const projectTaskEvents = await prisma.projectTaskEvent.findMany()
+     * 
+     * // Get first 10 ProjectTaskEvents
+     * const projectTaskEvents = await prisma.projectTaskEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectTaskEventWithIdOnly = await prisma.projectTaskEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectTaskEventFindManyArgs>(args?: SelectSubset<T, ProjectTaskEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ProjectTaskEvent.
+     * @param {ProjectTaskEventCreateArgs} args - Arguments to create a ProjectTaskEvent.
+     * @example
+     * // Create one ProjectTaskEvent
+     * const ProjectTaskEvent = await prisma.projectTaskEvent.create({
+     *   data: {
+     *     // ... data to create a ProjectTaskEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectTaskEventCreateArgs>(args: SelectSubset<T, ProjectTaskEventCreateArgs<ExtArgs>>): Prisma__ProjectTaskEventClient<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ProjectTaskEvents.
+     * @param {ProjectTaskEventCreateManyArgs} args - Arguments to create many ProjectTaskEvents.
+     * @example
+     * // Create many ProjectTaskEvents
+     * const projectTaskEvent = await prisma.projectTaskEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectTaskEventCreateManyArgs>(args?: SelectSubset<T, ProjectTaskEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectTaskEvents and returns the data saved in the database.
+     * @param {ProjectTaskEventCreateManyAndReturnArgs} args - Arguments to create many ProjectTaskEvents.
+     * @example
+     * // Create many ProjectTaskEvents
+     * const projectTaskEvent = await prisma.projectTaskEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectTaskEvents and only return the `id`
+     * const projectTaskEventWithIdOnly = await prisma.projectTaskEvent.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectTaskEventCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectTaskEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ProjectTaskEvent.
+     * @param {ProjectTaskEventDeleteArgs} args - Arguments to delete one ProjectTaskEvent.
+     * @example
+     * // Delete one ProjectTaskEvent
+     * const ProjectTaskEvent = await prisma.projectTaskEvent.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectTaskEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectTaskEventDeleteArgs>(args: SelectSubset<T, ProjectTaskEventDeleteArgs<ExtArgs>>): Prisma__ProjectTaskEventClient<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ProjectTaskEvent.
+     * @param {ProjectTaskEventUpdateArgs} args - Arguments to update one ProjectTaskEvent.
+     * @example
+     * // Update one ProjectTaskEvent
+     * const projectTaskEvent = await prisma.projectTaskEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectTaskEventUpdateArgs>(args: SelectSubset<T, ProjectTaskEventUpdateArgs<ExtArgs>>): Prisma__ProjectTaskEventClient<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ProjectTaskEvents.
+     * @param {ProjectTaskEventDeleteManyArgs} args - Arguments to filter ProjectTaskEvents to delete.
+     * @example
+     * // Delete a few ProjectTaskEvents
+     * const { count } = await prisma.projectTaskEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectTaskEventDeleteManyArgs>(args?: SelectSubset<T, ProjectTaskEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectTaskEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectTaskEvents
+     * const projectTaskEvent = await prisma.projectTaskEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectTaskEventUpdateManyArgs>(args: SelectSubset<T, ProjectTaskEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ProjectTaskEvent.
+     * @param {ProjectTaskEventUpsertArgs} args - Arguments to update or create a ProjectTaskEvent.
+     * @example
+     * // Update or create a ProjectTaskEvent
+     * const projectTaskEvent = await prisma.projectTaskEvent.upsert({
+     *   create: {
+     *     // ... data to create a ProjectTaskEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectTaskEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectTaskEventUpsertArgs>(args: SelectSubset<T, ProjectTaskEventUpsertArgs<ExtArgs>>): Prisma__ProjectTaskEventClient<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ProjectTaskEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskEventCountArgs} args - Arguments to filter ProjectTaskEvents to count.
+     * @example
+     * // Count the number of ProjectTaskEvents
+     * const count = await prisma.projectTaskEvent.count({
+     *   where: {
+     *     // ... the filter for the ProjectTaskEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectTaskEventCountArgs>(
+      args?: Subset<T, ProjectTaskEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectTaskEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectTaskEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectTaskEventAggregateArgs>(args: Subset<T, ProjectTaskEventAggregateArgs>): Prisma.PrismaPromise<GetProjectTaskEventAggregateType<T>>
+
+    /**
+     * Group by ProjectTaskEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectTaskEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectTaskEventGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectTaskEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectTaskEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectTaskEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectTaskEvent model
+   */
+  readonly fields: ProjectTaskEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectTaskEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectTaskEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    task<T extends ProjectTaskDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTaskDefaultArgs<ExtArgs>>): Prisma__ProjectTaskClient<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    project<T extends SetorClickupListDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupListDefaultArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectTaskEvent model
+   */ 
+  interface ProjectTaskEventFieldRefs {
+    readonly id: FieldRef<"ProjectTaskEvent", 'String'>
+    readonly taskId: FieldRef<"ProjectTaskEvent", 'String'>
+    readonly projectId: FieldRef<"ProjectTaskEvent", 'String'>
+    readonly type: FieldRef<"ProjectTaskEvent", 'String'>
+    readonly fromText: FieldRef<"ProjectTaskEvent", 'String'>
+    readonly toText: FieldRef<"ProjectTaskEvent", 'String'>
+    readonly authorId: FieldRef<"ProjectTaskEvent", 'String'>
+    readonly authorName: FieldRef<"ProjectTaskEvent", 'String'>
+    readonly byClient: FieldRef<"ProjectTaskEvent", 'Boolean'>
+    readonly createdAt: FieldRef<"ProjectTaskEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectTaskEvent findUnique
+   */
+  export type ProjectTaskEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskEvent to fetch.
+     */
+    where: ProjectTaskEventWhereUniqueInput
+  }
+
+  /**
+   * ProjectTaskEvent findUniqueOrThrow
+   */
+  export type ProjectTaskEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskEvent to fetch.
+     */
+    where: ProjectTaskEventWhereUniqueInput
+  }
+
+  /**
+   * ProjectTaskEvent findFirst
+   */
+  export type ProjectTaskEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskEvent to fetch.
+     */
+    where?: ProjectTaskEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTaskEvents to fetch.
+     */
+    orderBy?: ProjectTaskEventOrderByWithRelationInput | ProjectTaskEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectTaskEvents.
+     */
+    cursor?: ProjectTaskEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTaskEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTaskEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectTaskEvents.
+     */
+    distinct?: ProjectTaskEventScalarFieldEnum | ProjectTaskEventScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTaskEvent findFirstOrThrow
+   */
+  export type ProjectTaskEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskEvent to fetch.
+     */
+    where?: ProjectTaskEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTaskEvents to fetch.
+     */
+    orderBy?: ProjectTaskEventOrderByWithRelationInput | ProjectTaskEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectTaskEvents.
+     */
+    cursor?: ProjectTaskEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTaskEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTaskEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectTaskEvents.
+     */
+    distinct?: ProjectTaskEventScalarFieldEnum | ProjectTaskEventScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTaskEvent findMany
+   */
+  export type ProjectTaskEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskEvents to fetch.
+     */
+    where?: ProjectTaskEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTaskEvents to fetch.
+     */
+    orderBy?: ProjectTaskEventOrderByWithRelationInput | ProjectTaskEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectTaskEvents.
+     */
+    cursor?: ProjectTaskEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTaskEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTaskEvents.
+     */
+    skip?: number
+    distinct?: ProjectTaskEventScalarFieldEnum | ProjectTaskEventScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTaskEvent create
+   */
+  export type ProjectTaskEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectTaskEvent.
+     */
+    data: XOR<ProjectTaskEventCreateInput, ProjectTaskEventUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectTaskEvent createMany
+   */
+  export type ProjectTaskEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectTaskEvents.
+     */
+    data: ProjectTaskEventCreateManyInput | ProjectTaskEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProjectTaskEvent createManyAndReturn
+   */
+  export type ProjectTaskEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ProjectTaskEvents.
+     */
+    data: ProjectTaskEventCreateManyInput | ProjectTaskEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectTaskEvent update
+   */
+  export type ProjectTaskEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectTaskEvent.
+     */
+    data: XOR<ProjectTaskEventUpdateInput, ProjectTaskEventUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectTaskEvent to update.
+     */
+    where: ProjectTaskEventWhereUniqueInput
+  }
+
+  /**
+   * ProjectTaskEvent updateMany
+   */
+  export type ProjectTaskEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectTaskEvents.
+     */
+    data: XOR<ProjectTaskEventUpdateManyMutationInput, ProjectTaskEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectTaskEvents to update
+     */
+    where?: ProjectTaskEventWhereInput
+  }
+
+  /**
+   * ProjectTaskEvent upsert
+   */
+  export type ProjectTaskEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectTaskEvent to update in case it exists.
+     */
+    where: ProjectTaskEventWhereUniqueInput
+    /**
+     * In case the ProjectTaskEvent found by the `where` argument doesn't exist, create a new ProjectTaskEvent with this data.
+     */
+    create: XOR<ProjectTaskEventCreateInput, ProjectTaskEventUncheckedCreateInput>
+    /**
+     * In case the ProjectTaskEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectTaskEventUpdateInput, ProjectTaskEventUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectTaskEvent delete
+   */
+  export type ProjectTaskEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectTaskEvent to delete.
+     */
+    where: ProjectTaskEventWhereUniqueInput
+  }
+
+  /**
+   * ProjectTaskEvent deleteMany
+   */
+  export type ProjectTaskEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectTaskEvents to delete
+     */
+    where?: ProjectTaskEventWhereInput
+  }
+
+  /**
+   * ProjectTaskEvent without action
+   */
+  export type ProjectTaskEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskEvent
+     */
+    select?: ProjectTaskEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskEventInclude<ExtArgs> | null
   }
 
 
@@ -148353,6 +149504,22 @@ export namespace Prisma {
   export type ProjectServiceScalarFieldEnum = (typeof ProjectServiceScalarFieldEnum)[keyof typeof ProjectServiceScalarFieldEnum]
 
 
+  export const ProjectTaskEventScalarFieldEnum: {
+    id: 'id',
+    taskId: 'taskId',
+    projectId: 'projectId',
+    type: 'type',
+    fromText: 'fromText',
+    toText: 'toText',
+    authorId: 'authorId',
+    authorName: 'authorName',
+    byClient: 'byClient',
+    createdAt: 'createdAt'
+  };
+
+  export type ProjectTaskEventScalarFieldEnum = (typeof ProjectTaskEventScalarFieldEnum)[keyof typeof ProjectTaskEventScalarFieldEnum]
+
+
   export const TicketAccessUserScalarFieldEnum: {
     ticketId: 'ticketId',
     userId: 'userId'
@@ -154447,6 +155614,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     internalTasks?: ProjectTaskListRelationFilter
     accessUsers?: ProjectAccessUserListRelationFilter
+    taskEvents?: ProjectTaskEventListRelationFilter
     materials?: ProjectMaterialListRelationFilter
     serviceSteps?: ProjectServiceListRelationFilter
   }
@@ -154485,6 +155653,7 @@ export namespace Prisma {
     tickets?: TicketOrderByRelationAggregateInput
     internalTasks?: ProjectTaskOrderByRelationAggregateInput
     accessUsers?: ProjectAccessUserOrderByRelationAggregateInput
+    taskEvents?: ProjectTaskEventOrderByRelationAggregateInput
     materials?: ProjectMaterialOrderByRelationAggregateInput
     serviceSteps?: ProjectServiceOrderByRelationAggregateInput
   }
@@ -154527,6 +155696,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     internalTasks?: ProjectTaskListRelationFilter
     accessUsers?: ProjectAccessUserListRelationFilter
+    taskEvents?: ProjectTaskEventListRelationFilter
     materials?: ProjectMaterialListRelationFilter
     serviceSteps?: ProjectServiceListRelationFilter
   }, "id" | "publicToken" | "setorId_clickupListId">
@@ -154625,6 +155795,7 @@ export namespace Prisma {
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     materials?: ProjectMaterialListRelationFilter
     attachments?: StorageObjectListRelationFilter
+    events?: ProjectTaskEventListRelationFilter
   }
 
   export type ProjectTaskOrderByWithRelationInput = {
@@ -154656,6 +155827,7 @@ export namespace Prisma {
     createdBy?: UserOrderByWithRelationInput
     materials?: ProjectMaterialOrderByRelationAggregateInput
     attachments?: StorageObjectOrderByRelationAggregateInput
+    events?: ProjectTaskEventOrderByRelationAggregateInput
   }
 
   export type ProjectTaskWhereUniqueInput = Prisma.AtLeast<{
@@ -154690,6 +155862,7 @@ export namespace Prisma {
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     materials?: ProjectMaterialListRelationFilter
     attachments?: StorageObjectListRelationFilter
+    events?: ProjectTaskEventListRelationFilter
   }, "id">
 
   export type ProjectTaskOrderByWithAggregationInput = {
@@ -154819,6 +155992,89 @@ export namespace Prisma {
     order?: IntWithAggregatesFilter<"ProjectService"> | number
     visibleToClient?: BoolWithAggregatesFilter<"ProjectService"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"ProjectService"> | Date | string
+  }
+
+  export type ProjectTaskEventWhereInput = {
+    AND?: ProjectTaskEventWhereInput | ProjectTaskEventWhereInput[]
+    OR?: ProjectTaskEventWhereInput[]
+    NOT?: ProjectTaskEventWhereInput | ProjectTaskEventWhereInput[]
+    id?: StringFilter<"ProjectTaskEvent"> | string
+    taskId?: StringFilter<"ProjectTaskEvent"> | string
+    projectId?: StringFilter<"ProjectTaskEvent"> | string
+    type?: StringFilter<"ProjectTaskEvent"> | string
+    fromText?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    toText?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    authorId?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    authorName?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    byClient?: BoolFilter<"ProjectTaskEvent"> | boolean
+    createdAt?: DateTimeFilter<"ProjectTaskEvent"> | Date | string
+    task?: XOR<ProjectTaskRelationFilter, ProjectTaskWhereInput>
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+  }
+
+  export type ProjectTaskEventOrderByWithRelationInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    fromText?: SortOrderInput | SortOrder
+    toText?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrderInput | SortOrder
+    byClient?: SortOrder
+    createdAt?: SortOrder
+    task?: ProjectTaskOrderByWithRelationInput
+    project?: SetorClickupListOrderByWithRelationInput
+  }
+
+  export type ProjectTaskEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProjectTaskEventWhereInput | ProjectTaskEventWhereInput[]
+    OR?: ProjectTaskEventWhereInput[]
+    NOT?: ProjectTaskEventWhereInput | ProjectTaskEventWhereInput[]
+    taskId?: StringFilter<"ProjectTaskEvent"> | string
+    projectId?: StringFilter<"ProjectTaskEvent"> | string
+    type?: StringFilter<"ProjectTaskEvent"> | string
+    fromText?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    toText?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    authorId?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    authorName?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    byClient?: BoolFilter<"ProjectTaskEvent"> | boolean
+    createdAt?: DateTimeFilter<"ProjectTaskEvent"> | Date | string
+    task?: XOR<ProjectTaskRelationFilter, ProjectTaskWhereInput>
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+  }, "id">
+
+  export type ProjectTaskEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    fromText?: SortOrderInput | SortOrder
+    toText?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrderInput | SortOrder
+    byClient?: SortOrder
+    createdAt?: SortOrder
+    _count?: ProjectTaskEventCountOrderByAggregateInput
+    _max?: ProjectTaskEventMaxOrderByAggregateInput
+    _min?: ProjectTaskEventMinOrderByAggregateInput
+  }
+
+  export type ProjectTaskEventScalarWhereWithAggregatesInput = {
+    AND?: ProjectTaskEventScalarWhereWithAggregatesInput | ProjectTaskEventScalarWhereWithAggregatesInput[]
+    OR?: ProjectTaskEventScalarWhereWithAggregatesInput[]
+    NOT?: ProjectTaskEventScalarWhereWithAggregatesInput | ProjectTaskEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProjectTaskEvent"> | string
+    taskId?: StringWithAggregatesFilter<"ProjectTaskEvent"> | string
+    projectId?: StringWithAggregatesFilter<"ProjectTaskEvent"> | string
+    type?: StringWithAggregatesFilter<"ProjectTaskEvent"> | string
+    fromText?: StringNullableWithAggregatesFilter<"ProjectTaskEvent"> | string | null
+    toText?: StringNullableWithAggregatesFilter<"ProjectTaskEvent"> | string | null
+    authorId?: StringNullableWithAggregatesFilter<"ProjectTaskEvent"> | string | null
+    authorName?: StringNullableWithAggregatesFilter<"ProjectTaskEvent"> | string | null
+    byClient?: BoolWithAggregatesFilter<"ProjectTaskEvent"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ProjectTaskEvent"> | Date | string
   }
 
   export type TicketAccessUserWhereInput = {
@@ -167059,6 +168315,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -167094,6 +168351,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -167129,6 +168387,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -167164,6 +168423,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -167271,6 +168531,7 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskUncheckedCreateInput = {
@@ -167298,6 +168559,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskUpdateInput = {
@@ -167325,6 +168587,7 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateInput = {
@@ -167352,6 +168615,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskCreateManyInput = {
@@ -167494,6 +168758,95 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskEventCreateInput = {
+    id?: string
+    type: string
+    fromText?: string | null
+    toText?: string | null
+    authorId?: string | null
+    authorName?: string | null
+    byClient?: boolean
+    createdAt?: Date | string
+    task: ProjectTaskCreateNestedOneWithoutEventsInput
+    project: SetorClickupListCreateNestedOneWithoutTaskEventsInput
+  }
+
+  export type ProjectTaskEventUncheckedCreateInput = {
+    id?: string
+    taskId: string
+    projectId: string
+    type: string
+    fromText?: string | null
+    toText?: string | null
+    authorId?: string | null
+    authorName?: string | null
+    byClient?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ProjectTaskEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    task?: ProjectTaskUpdateOneRequiredWithoutEventsNestedInput
+    project?: SetorClickupListUpdateOneRequiredWithoutTaskEventsNestedInput
+  }
+
+  export type ProjectTaskEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskEventCreateManyInput = {
+    id?: string
+    taskId: string
+    projectId: string
+    type: string
+    fromText?: string | null
+    toText?: string | null
+    authorId?: string | null
+    authorName?: string | null
+    byClient?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ProjectTaskEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -179943,6 +181296,12 @@ export namespace Prisma {
     none?: ProjectActivityWhereInput
   }
 
+  export type ProjectTaskEventListRelationFilter = {
+    every?: ProjectTaskEventWhereInput
+    some?: ProjectTaskEventWhereInput
+    none?: ProjectTaskEventWhereInput
+  }
+
   export type ProjectMaterialListRelationFilter = {
     every?: ProjectMaterialWhereInput
     some?: ProjectMaterialWhereInput
@@ -179960,6 +181319,10 @@ export namespace Prisma {
   }
 
   export type ProjectActivityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProjectTaskEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -180200,6 +181563,50 @@ export namespace Prisma {
 
   export type ProjectServiceSumOrderByAggregateInput = {
     order?: SortOrder
+  }
+
+  export type ProjectTaskRelationFilter = {
+    is?: ProjectTaskWhereInput
+    isNot?: ProjectTaskWhereInput
+  }
+
+  export type ProjectTaskEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    fromText?: SortOrder
+    toText?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    byClient?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProjectTaskEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    fromText?: SortOrder
+    toText?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    byClient?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProjectTaskEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    fromText?: SortOrder
+    toText?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    byClient?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type TicketAccessUserTicketIdUserIdCompoundUniqueInput = {
@@ -193670,6 +195077,13 @@ export namespace Prisma {
     connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
   }
 
+  export type ProjectTaskEventCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectTaskEventCreateWithoutProjectInput, ProjectTaskEventUncheckedCreateWithoutProjectInput> | ProjectTaskEventCreateWithoutProjectInput[] | ProjectTaskEventUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTaskEventCreateOrConnectWithoutProjectInput | ProjectTaskEventCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectTaskEventCreateManyProjectInputEnvelope
+    connect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+  }
+
   export type ProjectMaterialCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectMaterialCreateWithoutProjectInput, ProjectMaterialUncheckedCreateWithoutProjectInput> | ProjectMaterialCreateWithoutProjectInput[] | ProjectMaterialUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMaterialCreateOrConnectWithoutProjectInput | ProjectMaterialCreateOrConnectWithoutProjectInput[]
@@ -193724,6 +195138,13 @@ export namespace Prisma {
     connectOrCreate?: ProjectAccessUserCreateOrConnectWithoutProjectInput | ProjectAccessUserCreateOrConnectWithoutProjectInput[]
     createMany?: ProjectAccessUserCreateManyProjectInputEnvelope
     connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+  }
+
+  export type ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectTaskEventCreateWithoutProjectInput, ProjectTaskEventUncheckedCreateWithoutProjectInput> | ProjectTaskEventCreateWithoutProjectInput[] | ProjectTaskEventUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTaskEventCreateOrConnectWithoutProjectInput | ProjectTaskEventCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectTaskEventCreateManyProjectInputEnvelope
+    connect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
   }
 
   export type ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput = {
@@ -193856,6 +195277,20 @@ export namespace Prisma {
     deleteMany?: ProjectAccessUserScalarWhereInput | ProjectAccessUserScalarWhereInput[]
   }
 
+  export type ProjectTaskEventUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectTaskEventCreateWithoutProjectInput, ProjectTaskEventUncheckedCreateWithoutProjectInput> | ProjectTaskEventCreateWithoutProjectInput[] | ProjectTaskEventUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTaskEventCreateOrConnectWithoutProjectInput | ProjectTaskEventCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectTaskEventUpsertWithWhereUniqueWithoutProjectInput | ProjectTaskEventUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectTaskEventCreateManyProjectInputEnvelope
+    set?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    disconnect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    delete?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    connect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    update?: ProjectTaskEventUpdateWithWhereUniqueWithoutProjectInput | ProjectTaskEventUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectTaskEventUpdateManyWithWhereWithoutProjectInput | ProjectTaskEventUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectTaskEventScalarWhereInput | ProjectTaskEventScalarWhereInput[]
+  }
+
   export type ProjectMaterialUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectMaterialCreateWithoutProjectInput, ProjectMaterialUncheckedCreateWithoutProjectInput> | ProjectMaterialCreateWithoutProjectInput[] | ProjectMaterialUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMaterialCreateOrConnectWithoutProjectInput | ProjectMaterialCreateOrConnectWithoutProjectInput[]
@@ -193968,6 +195403,20 @@ export namespace Prisma {
     deleteMany?: ProjectAccessUserScalarWhereInput | ProjectAccessUserScalarWhereInput[]
   }
 
+  export type ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectTaskEventCreateWithoutProjectInput, ProjectTaskEventUncheckedCreateWithoutProjectInput> | ProjectTaskEventCreateWithoutProjectInput[] | ProjectTaskEventUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTaskEventCreateOrConnectWithoutProjectInput | ProjectTaskEventCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectTaskEventUpsertWithWhereUniqueWithoutProjectInput | ProjectTaskEventUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectTaskEventCreateManyProjectInputEnvelope
+    set?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    disconnect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    delete?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    connect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    update?: ProjectTaskEventUpdateWithWhereUniqueWithoutProjectInput | ProjectTaskEventUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectTaskEventUpdateManyWithWhereWithoutProjectInput | ProjectTaskEventUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectTaskEventScalarWhereInput | ProjectTaskEventScalarWhereInput[]
+  }
+
   export type ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectMaterialCreateWithoutProjectInput, ProjectMaterialUncheckedCreateWithoutProjectInput> | ProjectMaterialCreateWithoutProjectInput[] | ProjectMaterialUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMaterialCreateOrConnectWithoutProjectInput | ProjectMaterialCreateOrConnectWithoutProjectInput[]
@@ -194034,6 +195483,13 @@ export namespace Prisma {
     connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
   }
 
+  export type ProjectTaskEventCreateNestedManyWithoutTaskInput = {
+    create?: XOR<ProjectTaskEventCreateWithoutTaskInput, ProjectTaskEventUncheckedCreateWithoutTaskInput> | ProjectTaskEventCreateWithoutTaskInput[] | ProjectTaskEventUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: ProjectTaskEventCreateOrConnectWithoutTaskInput | ProjectTaskEventCreateOrConnectWithoutTaskInput[]
+    createMany?: ProjectTaskEventCreateManyTaskInputEnvelope
+    connect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+  }
+
   export type ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput = {
     create?: XOR<ProjectMaterialCreateWithoutTaskInput, ProjectMaterialUncheckedCreateWithoutTaskInput> | ProjectMaterialCreateWithoutTaskInput[] | ProjectMaterialUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: ProjectMaterialCreateOrConnectWithoutTaskInput | ProjectMaterialCreateOrConnectWithoutTaskInput[]
@@ -194046,6 +195502,13 @@ export namespace Prisma {
     connectOrCreate?: StorageObjectCreateOrConnectWithoutProjectTaskInput | StorageObjectCreateOrConnectWithoutProjectTaskInput[]
     createMany?: StorageObjectCreateManyProjectTaskInputEnvelope
     connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+  }
+
+  export type ProjectTaskEventUncheckedCreateNestedManyWithoutTaskInput = {
+    create?: XOR<ProjectTaskEventCreateWithoutTaskInput, ProjectTaskEventUncheckedCreateWithoutTaskInput> | ProjectTaskEventCreateWithoutTaskInput[] | ProjectTaskEventUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: ProjectTaskEventCreateOrConnectWithoutTaskInput | ProjectTaskEventCreateOrConnectWithoutTaskInput[]
+    createMany?: ProjectTaskEventCreateManyTaskInputEnvelope
+    connect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
   }
 
   export type SetorClickupListUpdateOneRequiredWithoutInternalTasksNestedInput = {
@@ -194114,6 +195577,20 @@ export namespace Prisma {
     deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
   }
 
+  export type ProjectTaskEventUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<ProjectTaskEventCreateWithoutTaskInput, ProjectTaskEventUncheckedCreateWithoutTaskInput> | ProjectTaskEventCreateWithoutTaskInput[] | ProjectTaskEventUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: ProjectTaskEventCreateOrConnectWithoutTaskInput | ProjectTaskEventCreateOrConnectWithoutTaskInput[]
+    upsert?: ProjectTaskEventUpsertWithWhereUniqueWithoutTaskInput | ProjectTaskEventUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: ProjectTaskEventCreateManyTaskInputEnvelope
+    set?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    disconnect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    delete?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    connect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    update?: ProjectTaskEventUpdateWithWhereUniqueWithoutTaskInput | ProjectTaskEventUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: ProjectTaskEventUpdateManyWithWhereWithoutTaskInput | ProjectTaskEventUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: ProjectTaskEventScalarWhereInput | ProjectTaskEventScalarWhereInput[]
+  }
+
   export type ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput = {
     create?: XOR<ProjectMaterialCreateWithoutTaskInput, ProjectMaterialUncheckedCreateWithoutTaskInput> | ProjectMaterialCreateWithoutTaskInput[] | ProjectMaterialUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: ProjectMaterialCreateOrConnectWithoutTaskInput | ProjectMaterialCreateOrConnectWithoutTaskInput[]
@@ -194140,6 +195617,20 @@ export namespace Prisma {
     update?: StorageObjectUpdateWithWhereUniqueWithoutProjectTaskInput | StorageObjectUpdateWithWhereUniqueWithoutProjectTaskInput[]
     updateMany?: StorageObjectUpdateManyWithWhereWithoutProjectTaskInput | StorageObjectUpdateManyWithWhereWithoutProjectTaskInput[]
     deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+  }
+
+  export type ProjectTaskEventUncheckedUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<ProjectTaskEventCreateWithoutTaskInput, ProjectTaskEventUncheckedCreateWithoutTaskInput> | ProjectTaskEventCreateWithoutTaskInput[] | ProjectTaskEventUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: ProjectTaskEventCreateOrConnectWithoutTaskInput | ProjectTaskEventCreateOrConnectWithoutTaskInput[]
+    upsert?: ProjectTaskEventUpsertWithWhereUniqueWithoutTaskInput | ProjectTaskEventUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: ProjectTaskEventCreateManyTaskInputEnvelope
+    set?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    disconnect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    delete?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    connect?: ProjectTaskEventWhereUniqueInput | ProjectTaskEventWhereUniqueInput[]
+    update?: ProjectTaskEventUpdateWithWhereUniqueWithoutTaskInput | ProjectTaskEventUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: ProjectTaskEventUpdateManyWithWhereWithoutTaskInput | ProjectTaskEventUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: ProjectTaskEventScalarWhereInput | ProjectTaskEventScalarWhereInput[]
   }
 
   export type SetorClickupListCreateNestedOneWithoutServiceStepsInput = {
@@ -194212,6 +195703,34 @@ export namespace Prisma {
     update?: ProjectTaskUpdateWithWhereUniqueWithoutProjectServiceInput | ProjectTaskUpdateWithWhereUniqueWithoutProjectServiceInput[]
     updateMany?: ProjectTaskUpdateManyWithWhereWithoutProjectServiceInput | ProjectTaskUpdateManyWithWhereWithoutProjectServiceInput[]
     deleteMany?: ProjectTaskScalarWhereInput | ProjectTaskScalarWhereInput[]
+  }
+
+  export type ProjectTaskCreateNestedOneWithoutEventsInput = {
+    create?: XOR<ProjectTaskCreateWithoutEventsInput, ProjectTaskUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: ProjectTaskCreateOrConnectWithoutEventsInput
+    connect?: ProjectTaskWhereUniqueInput
+  }
+
+  export type SetorClickupListCreateNestedOneWithoutTaskEventsInput = {
+    create?: XOR<SetorClickupListCreateWithoutTaskEventsInput, SetorClickupListUncheckedCreateWithoutTaskEventsInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutTaskEventsInput
+    connect?: SetorClickupListWhereUniqueInput
+  }
+
+  export type ProjectTaskUpdateOneRequiredWithoutEventsNestedInput = {
+    create?: XOR<ProjectTaskCreateWithoutEventsInput, ProjectTaskUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: ProjectTaskCreateOrConnectWithoutEventsInput
+    upsert?: ProjectTaskUpsertWithoutEventsInput
+    connect?: ProjectTaskWhereUniqueInput
+    update?: XOR<XOR<ProjectTaskUpdateToOneWithWhereWithoutEventsInput, ProjectTaskUpdateWithoutEventsInput>, ProjectTaskUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type SetorClickupListUpdateOneRequiredWithoutTaskEventsNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutTaskEventsInput, SetorClickupListUncheckedCreateWithoutTaskEventsInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutTaskEventsInput
+    upsert?: SetorClickupListUpsertWithoutTaskEventsInput
+    connect?: SetorClickupListWhereUniqueInput
+    update?: XOR<XOR<SetorClickupListUpdateToOneWithWhereWithoutTaskEventsInput, SetorClickupListUpdateWithoutTaskEventsInput>, SetorClickupListUncheckedUpdateWithoutTaskEventsInput>
   }
 
   export type TicketCreateNestedOneWithoutAccessUsersInput = {
@@ -200069,6 +201588,7 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutAssigneeInput = {
@@ -200095,6 +201615,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutAssigneeInput = {
@@ -200131,6 +201652,7 @@ export namespace Prisma {
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutCreatedByInput = {
@@ -200157,6 +201679,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutCreatedByInput = {
@@ -204487,6 +206010,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -204521,6 +206045,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -226917,6 +228442,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -226951,6 +228477,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -228076,6 +229603,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -228110,6 +229638,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -228902,6 +230431,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -228936,6 +230466,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -230265,6 +231796,7 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutProjectInput = {
@@ -230291,6 +231823,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutProjectInput = {
@@ -230318,6 +231851,40 @@ export namespace Prisma {
 
   export type ProjectAccessUserCreateManyProjectInputEnvelope = {
     data: ProjectAccessUserCreateManyProjectInput | ProjectAccessUserCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectTaskEventCreateWithoutProjectInput = {
+    id?: string
+    type: string
+    fromText?: string | null
+    toText?: string | null
+    authorId?: string | null
+    authorName?: string | null
+    byClient?: boolean
+    createdAt?: Date | string
+    task: ProjectTaskCreateNestedOneWithoutEventsInput
+  }
+
+  export type ProjectTaskEventUncheckedCreateWithoutProjectInput = {
+    id?: string
+    taskId: string
+    type: string
+    fromText?: string | null
+    toText?: string | null
+    authorId?: string | null
+    authorName?: string | null
+    byClient?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ProjectTaskEventCreateOrConnectWithoutProjectInput = {
+    where: ProjectTaskEventWhereUniqueInput
+    create: XOR<ProjectTaskEventCreateWithoutProjectInput, ProjectTaskEventUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectTaskEventCreateManyProjectInputEnvelope = {
+    data: ProjectTaskEventCreateManyProjectInput | ProjectTaskEventCreateManyProjectInput[]
     skipDuplicates?: boolean
   }
 
@@ -230931,6 +232498,38 @@ export namespace Prisma {
     data: XOR<ProjectAccessUserUpdateManyMutationInput, ProjectAccessUserUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type ProjectTaskEventUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ProjectTaskEventWhereUniqueInput
+    update: XOR<ProjectTaskEventUpdateWithoutProjectInput, ProjectTaskEventUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectTaskEventCreateWithoutProjectInput, ProjectTaskEventUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectTaskEventUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ProjectTaskEventWhereUniqueInput
+    data: XOR<ProjectTaskEventUpdateWithoutProjectInput, ProjectTaskEventUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectTaskEventUpdateManyWithWhereWithoutProjectInput = {
+    where: ProjectTaskEventScalarWhereInput
+    data: XOR<ProjectTaskEventUpdateManyMutationInput, ProjectTaskEventUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ProjectTaskEventScalarWhereInput = {
+    AND?: ProjectTaskEventScalarWhereInput | ProjectTaskEventScalarWhereInput[]
+    OR?: ProjectTaskEventScalarWhereInput[]
+    NOT?: ProjectTaskEventScalarWhereInput | ProjectTaskEventScalarWhereInput[]
+    id?: StringFilter<"ProjectTaskEvent"> | string
+    taskId?: StringFilter<"ProjectTaskEvent"> | string
+    projectId?: StringFilter<"ProjectTaskEvent"> | string
+    type?: StringFilter<"ProjectTaskEvent"> | string
+    fromText?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    toText?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    authorId?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    authorName?: StringNullableFilter<"ProjectTaskEvent"> | string | null
+    byClient?: BoolFilter<"ProjectTaskEvent"> | boolean
+    createdAt?: DateTimeFilter<"ProjectTaskEvent"> | Date | string
+  }
+
   export type ProjectMaterialUpsertWithWhereUniqueWithoutProjectInput = {
     where: ProjectMaterialWhereUniqueInput
     update: XOR<ProjectMaterialUpdateWithoutProjectInput, ProjectMaterialUncheckedUpdateWithoutProjectInput>
@@ -231028,6 +232627,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -231062,6 +232662,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -231402,6 +233003,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProjectTaskEventCreateWithoutTaskInput = {
+    id?: string
+    type: string
+    fromText?: string | null
+    toText?: string | null
+    authorId?: string | null
+    authorName?: string | null
+    byClient?: boolean
+    createdAt?: Date | string
+    project: SetorClickupListCreateNestedOneWithoutTaskEventsInput
+  }
+
+  export type ProjectTaskEventUncheckedCreateWithoutTaskInput = {
+    id?: string
+    projectId: string
+    type: string
+    fromText?: string | null
+    toText?: string | null
+    authorId?: string | null
+    authorName?: string | null
+    byClient?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ProjectTaskEventCreateOrConnectWithoutTaskInput = {
+    where: ProjectTaskEventWhereUniqueInput
+    create: XOR<ProjectTaskEventCreateWithoutTaskInput, ProjectTaskEventUncheckedCreateWithoutTaskInput>
+  }
+
+  export type ProjectTaskEventCreateManyTaskInputEnvelope = {
+    data: ProjectTaskEventCreateManyTaskInput | ProjectTaskEventCreateManyTaskInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SetorClickupListUpsertWithoutInternalTasksInput = {
     update: XOR<SetorClickupListUpdateWithoutInternalTasksInput, SetorClickupListUncheckedUpdateWithoutInternalTasksInput>
     create: XOR<SetorClickupListCreateWithoutInternalTasksInput, SetorClickupListUncheckedCreateWithoutInternalTasksInput>
@@ -231443,6 +233078,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -231477,6 +233113,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -231774,6 +233411,22 @@ export namespace Prisma {
     data: XOR<StorageObjectUpdateManyMutationInput, StorageObjectUncheckedUpdateManyWithoutProjectTaskInput>
   }
 
+  export type ProjectTaskEventUpsertWithWhereUniqueWithoutTaskInput = {
+    where: ProjectTaskEventWhereUniqueInput
+    update: XOR<ProjectTaskEventUpdateWithoutTaskInput, ProjectTaskEventUncheckedUpdateWithoutTaskInput>
+    create: XOR<ProjectTaskEventCreateWithoutTaskInput, ProjectTaskEventUncheckedCreateWithoutTaskInput>
+  }
+
+  export type ProjectTaskEventUpdateWithWhereUniqueWithoutTaskInput = {
+    where: ProjectTaskEventWhereUniqueInput
+    data: XOR<ProjectTaskEventUpdateWithoutTaskInput, ProjectTaskEventUncheckedUpdateWithoutTaskInput>
+  }
+
+  export type ProjectTaskEventUpdateManyWithWhereWithoutTaskInput = {
+    where: ProjectTaskEventScalarWhereInput
+    data: XOR<ProjectTaskEventUpdateManyMutationInput, ProjectTaskEventUncheckedUpdateManyWithoutTaskInput>
+  }
+
   export type SetorClickupListCreateWithoutServiceStepsInput = {
     id?: string
     clickupListId?: string | null
@@ -231805,6 +233458,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
   }
 
@@ -231839,6 +233493,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
   }
 
@@ -231912,6 +233567,7 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutProjectServiceInput = {
@@ -231938,6 +233594,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
     attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutProjectServiceInput = {
@@ -231992,6 +233649,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
   }
 
@@ -232026,6 +233684,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
   }
 
@@ -232090,6 +233749,286 @@ export namespace Prisma {
   export type ProjectTaskUpdateManyWithWhereWithoutProjectServiceInput = {
     where: ProjectTaskScalarWhereInput
     data: XOR<ProjectTaskUpdateManyMutationInput, ProjectTaskUncheckedUpdateManyWithoutProjectServiceInput>
+  }
+
+  export type ProjectTaskCreateWithoutEventsInput = {
+    id?: string
+    title: string
+    description?: string | null
+    stage?: string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: string | null
+    status?: string
+    awaitingClient?: boolean
+    ignoredAt?: Date | string | null
+    visibleToClient?: boolean
+    done?: boolean
+    priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: SetorClickupListCreateNestedOneWithoutInternalTasksInput
+    projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
+    assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
+    createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
+    materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
+  }
+
+  export type ProjectTaskUncheckedCreateWithoutEventsInput = {
+    id?: string
+    projectId: string
+    title: string
+    description?: string | null
+    stage?: string | null
+    projectServiceId?: string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: string | null
+    status?: string
+    awaitingClient?: boolean
+    ignoredAt?: Date | string | null
+    visibleToClient?: boolean
+    done?: boolean
+    priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    assigneeId?: string | null
+    createdById?: string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
+  }
+
+  export type ProjectTaskCreateOrConnectWithoutEventsInput = {
+    where: ProjectTaskWhereUniqueInput
+    create: XOR<ProjectTaskCreateWithoutEventsInput, ProjectTaskUncheckedCreateWithoutEventsInput>
+  }
+
+  export type SetorClickupListCreateWithoutTaskEventsInput = {
+    id?: string
+    clickupListId?: string | null
+    name: string
+    description?: string | null
+    type?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    publicToken?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutClickupListsInput
+    clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+    service?: ServiceCreateNestedOneWithoutProjectsInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
+    tickets?: TicketCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListUncheckedCreateWithoutTaskEventsInput = {
+    id?: string
+    setorId: string
+    clickupListId?: string | null
+    name: string
+    description?: string | null
+    type?: string | null
+    clientCompanyId?: string | null
+    serviceId?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    publicToken?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListCreateOrConnectWithoutTaskEventsInput = {
+    where: SetorClickupListWhereUniqueInput
+    create: XOR<SetorClickupListCreateWithoutTaskEventsInput, SetorClickupListUncheckedCreateWithoutTaskEventsInput>
+  }
+
+  export type ProjectTaskUpsertWithoutEventsInput = {
+    update: XOR<ProjectTaskUpdateWithoutEventsInput, ProjectTaskUncheckedUpdateWithoutEventsInput>
+    create: XOR<ProjectTaskCreateWithoutEventsInput, ProjectTaskUncheckedCreateWithoutEventsInput>
+    where?: ProjectTaskWhereInput
+  }
+
+  export type ProjectTaskUpdateToOneWithWhereWithoutEventsInput = {
+    where?: ProjectTaskWhereInput
+    data: XOR<ProjectTaskUpdateWithoutEventsInput, ProjectTaskUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type ProjectTaskUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    done?: BoolFieldUpdateOperationsInput | boolean
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: SetorClickupListUpdateOneRequiredWithoutInternalTasksNestedInput
+    projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
+    assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
+    createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
+    materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
+  }
+
+  export type ProjectTaskUncheckedUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    done?: BoolFieldUpdateOperationsInput | boolean
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
+  }
+
+  export type SetorClickupListUpsertWithoutTaskEventsInput = {
+    update: XOR<SetorClickupListUpdateWithoutTaskEventsInput, SetorClickupListUncheckedUpdateWithoutTaskEventsInput>
+    create: XOR<SetorClickupListCreateWithoutTaskEventsInput, SetorClickupListUncheckedCreateWithoutTaskEventsInput>
+    where?: SetorClickupListWhereInput
+  }
+
+  export type SetorClickupListUpdateToOneWithWhereWithoutTaskEventsInput = {
+    where?: SetorClickupListWhereInput
+    data: XOR<SetorClickupListUpdateWithoutTaskEventsInput, SetorClickupListUncheckedUpdateWithoutTaskEventsInput>
+  }
+
+  export type SetorClickupListUpdateWithoutTaskEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+    service?: ServiceUpdateOneWithoutProjectsNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateWithoutTaskEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TicketCreateWithoutAccessUsersInput = {
@@ -232478,6 +234417,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -232512,6 +234452,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -232671,6 +234612,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -232705,6 +234647,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -232854,6 +234797,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -232888,6 +234832,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -232938,6 +234883,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -232972,6 +234918,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -233006,6 +234953,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -233040,6 +234988,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -233090,6 +235039,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -233124,6 +235074,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -233158,6 +235109,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -233192,6 +235144,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -233351,6 +235304,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -233385,6 +235339,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -233535,6 +235490,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
@@ -233569,6 +235525,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
@@ -233601,6 +235558,7 @@ export namespace Prisma {
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     attachments?: StorageObjectCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutMaterialsInput = {
@@ -233627,6 +235585,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     attachments?: StorageObjectUncheckedCreateNestedManyWithoutProjectTaskInput
+    events?: ProjectTaskEventUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutMaterialsInput = {
@@ -233676,6 +235635,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
@@ -233710,6 +235670,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
@@ -233748,6 +235709,7 @@ export namespace Prisma {
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutMaterialsInput = {
@@ -233774,6 +235736,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type SetorCreateWithoutUsersInput = {
@@ -269553,6 +271516,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
@@ -269587,6 +271551,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -280864,6 +282829,7 @@ export namespace Prisma {
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
+    events?: ProjectTaskEventCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskUncheckedCreateWithoutAttachmentsInput = {
@@ -280890,6 +282856,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
+    events?: ProjectTaskEventUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type ProjectTaskCreateOrConnectWithoutAttachmentsInput = {
@@ -281428,6 +283395,7 @@ export namespace Prisma {
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
+    events?: ProjectTaskEventUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutAttachmentsInput = {
@@ -281454,6 +283422,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
+    events?: ProjectTaskEventUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type UserUpsertWithoutUploadedFilesInput = {
@@ -282841,6 +284810,7 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutAssigneeInput = {
@@ -282867,6 +284837,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateManyWithoutAssigneeInput = {
@@ -282917,6 +284888,7 @@ export namespace Prisma {
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutCreatedByInput = {
@@ -282943,6 +284915,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateManyWithoutCreatedByInput = {
@@ -285608,6 +287581,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -285642,6 +287616,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -292346,6 +294321,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -292380,6 +294356,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -292524,6 +294501,18 @@ export namespace Prisma {
 
   export type ProjectAccessUserCreateManyProjectInput = {
     userId: string
+  }
+
+  export type ProjectTaskEventCreateManyProjectInput = {
+    id?: string
+    taskId: string
+    type: string
+    fromText?: string | null
+    toText?: string | null
+    authorId?: string | null
+    authorName?: string | null
+    byClient?: boolean
+    createdAt?: Date | string
   }
 
   export type ProjectMaterialCreateManyProjectInput = {
@@ -292752,6 +294741,7 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutProjectInput = {
@@ -292778,6 +294768,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateManyWithoutProjectInput = {
@@ -292814,6 +294805,42 @@ export namespace Prisma {
 
   export type ProjectAccessUserUncheckedUpdateManyWithoutProjectInput = {
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProjectTaskEventUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    task?: ProjectTaskUpdateOneRequiredWithoutEventsNestedInput
+  }
+
+  export type ProjectTaskEventUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskEventUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProjectMaterialUpdateWithoutProjectInput = {
@@ -292933,6 +294960,18 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ProjectTaskEventCreateManyTaskInput = {
+    id?: string
+    projectId: string
+    type: string
+    fromText?: string | null
+    toText?: string | null
+    authorId?: string | null
+    authorName?: string | null
+    byClient?: boolean
+    createdAt?: Date | string
+  }
+
   export type ProjectMaterialUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
@@ -293035,6 +295074,42 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProjectTaskEventUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: SetorClickupListUpdateOneRequiredWithoutTaskEventsNestedInput
+  }
+
+  export type ProjectTaskEventUncheckedUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskEventUncheckedUpdateManyWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fromText?: NullableStringFieldUpdateOperationsInput | string | null
+    toText?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    byClient?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProjectTaskCreateManyProjectServiceInput = {
     id?: string
     projectId: string
@@ -293083,6 +295158,7 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateWithoutProjectServiceInput = {
@@ -293109,6 +295185,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
     attachments?: StorageObjectUncheckedUpdateManyWithoutProjectTaskNestedInput
+    events?: ProjectTaskEventUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectTaskUncheckedUpdateManyWithoutProjectServiceInput = {
@@ -294869,6 +296946,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
@@ -294903,6 +296981,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -295555,6 +297634,10 @@ export namespace Prisma {
      * @deprecated Use ProjectServiceDefaultArgs instead
      */
     export type ProjectServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectServiceDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ProjectTaskEventDefaultArgs instead
+     */
+    export type ProjectTaskEventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectTaskEventDefaultArgs<ExtArgs>
     /**
      * @deprecated Use TicketAccessUserDefaultArgs instead
      */

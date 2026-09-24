@@ -126,6 +126,36 @@ export async function PATCH(
     include: { assignee: { select: { id: true, name: true } } },
   });
 
+  // ── Linha do tempo da tarefa (base do relatório mensal do cliente) ───────
+  // Só registra o que MUDOU de fato — comparar com o valor anterior evita
+  // encher o log com "salvou de novo" a cada blur do auto-save.
+  {
+    const autorId   = (session.user as any)?.id as string | undefined;
+    const autorNome = (session.user as any)?.name as string | undefined;
+    const eventos: any[] = [];
+    const push = (type: string, fromText: string | null, toText: string | null) =>
+      eventos.push({
+        taskId, projectId: id, type, fromText, toText,
+        authorId: autorId ?? null, authorName: autorNome ?? null,
+      });
+
+    if (data.status !== undefined && data.status !== res.task.status) {
+      push("STATUS", res.task.status, data.status);
+    }
+    if (data.assigneeId !== undefined && data.assigneeId !== res.task.assigneeId) {
+      const nome = task.assignee?.name ?? null;
+      push("ASSIGNEE", res.task.assigneeId ? "(anterior)" : null, nome);
+    }
+    if (data.dueDate !== undefined) {
+      const antes = res.task.dueDate ? res.task.dueDate.toISOString().slice(0, 10) : null;
+      const agora = data.dueDate instanceof Date ? data.dueDate.toISOString().slice(0, 10) : null;
+      if (antes !== agora) push("DUE", antes, agora);
+    }
+    if (eventos.length) {
+      await prisma.projectTaskEvent.createMany({ data: eventos }).catch(() => {});
+    }
+  }
+
   // Interna → ClickUp (best-effort — falha no ClickUp NÃO quebra a atualização):
   //  • título/prazo/início/descritivo: reflete no update da tarefa vinculada.
   //  • concluir no LeadHub → conclui no ClickUp (seta o status de encerramento).

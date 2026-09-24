@@ -25,7 +25,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tas
   const task = await prisma.projectTask.findUnique({
     where: { id: taskId },
     select: {
-      id: true, comments: true, clickupTaskId: true,
+      id: true, comments: true, clickupTaskId: true, projectId: true, status: true,
       project: { select: { clientCompanyId: true, setor: { select: { companyId: true } } } },
     },
   });
@@ -55,8 +55,21 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tas
     data: {
       comments:       sanitizeComments(next) ?? Prisma.DbNull,
       awaitingClient: false, // respondeu → sai do "aguardando você"
+      // Responder tira do "aguardando": a bola volta pra equipe.
+      status:         task.status === "AGUARDANDO_CLIENTE" ? "EM_PRODUCAO" : task.status,
     },
   });
+
+  // Linha do tempo: retorno do cliente é o evento que alimenta as métricas de
+  // "solicitações" e de tempo parado esperando aprovação no relatório mensal.
+  await prisma.projectTaskEvent.createMany({
+    data: [
+      { taskId, projectId: task.projectId, type: "COMMENT", toText: text.slice(0, 500), byClient: true },
+      ...(task.status === "AGUARDANDO_CLIENTE"
+        ? [{ taskId, projectId: task.projectId, type: "STATUS", fromText: "AGUARDANDO_CLIENTE", toText: "EM_PRODUCAO", byClient: true }]
+        : []),
+    ],
+  }).catch(() => {});
 
   return NextResponse.json({ ok: true });
 }

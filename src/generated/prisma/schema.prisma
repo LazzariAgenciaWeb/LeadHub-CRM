@@ -1490,6 +1490,7 @@ model SetorClickupList {
   tickets       Ticket[]            @relation("TicketProjeto")
   internalTasks ProjectTask[]
   accessUsers   ProjectAccessUser[]
+  taskEvents    ProjectTaskEvent[]
   materials     ProjectMaterial[]
   serviceSteps  ProjectService[]    @relation("ProjectServicesList") // serviços entregues neste projeto, em sequência
 
@@ -1549,6 +1550,7 @@ model ProjectTask {
 
   materials   ProjectMaterial[]
   attachments StorageObject[]
+  events      ProjectTaskEvent[]
 
   @@index([projectId, done])
   @@index([assigneeId])
@@ -1573,6 +1575,38 @@ model ProjectService {
 
   @@index([projectId])
   @@index([serviceId])
+}
+
+// Linha do tempo de uma tarefa de projeto. Grava o EVENTO CRU (o que mudou,
+// de quê pra quê, por quem) — não uma métrica pronta. Assim o relatório mensal
+// pode calcular "tempo de entrega", "rodadas de ajuste" ou qualquer recorte
+// novo sem precisar de outra migration, e sem perder histórico se a definição
+// do que conta como "alteração solicitada" mudar.
+model ProjectTaskEvent {
+  id     String      @id @default(cuid())
+  taskId String
+  task   ProjectTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  // Desnormalizado: o relatório é sempre "deste projeto, neste mês" — sem isso
+  // toda consulta mensal viraria um join caro por tarefa.
+  projectId String
+  project   SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  //  CREATED | STATUS | ASSIGNEE | DUE | COMMENT
+  type     String
+  fromText String? // valor anterior (status, responsável, data) — livre pra ler no relatório
+  toText   String?
+
+  // Quem gerou. byClient separa o que veio do painel do cliente do que veio da
+  // equipe — é o que permite contar "solicitações do cliente" sem chutar.
+  authorId   String?
+  authorName String?
+  byClient   Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([projectId, createdAt])
+  @@index([taskId, createdAt])
 }
 
 // Pessoas extras autorizadas a ver um chamado RESTRICTED (além do setor).
