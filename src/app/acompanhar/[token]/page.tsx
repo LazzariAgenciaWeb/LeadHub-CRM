@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { SYSTEM_TIMEZONE } from "@/lib/business-hours";
 
 export const dynamic = "force-dynamic";
 
@@ -14,8 +15,14 @@ const STATUS: Record<string, { label: string; color: string; hint: string }> = {
   CLOSED:      { label: "Encerrado",     color: "#94A3B8", hint: "Este chamado foi encerrado." },
 };
 
+// A página é renderizada no SERVIDOR (que roda em UTC) — sem timeZone fixo, o
+// cliente via 3h a mais. Formata sempre no fuso do sistema.
 function fmt(d: Date) {
-  return new Date(d).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  return new Date(d).toLocaleString("pt-BR", {
+    day: "2-digit", month: "2-digit", year: "numeric",
+    hour: "2-digit", minute: "2-digit",
+    timeZone: SYSTEM_TIMEZONE,
+  });
 }
 
 export default async function AcompanharChamado({ params }: { params: Promise<{ token: string }> }) {

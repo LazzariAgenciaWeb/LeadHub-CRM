@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomBytes } from "crypto";
+import { loadCompanyHours, clampDueDateToBusinessHours } from "@/lib/business-hours";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -123,6 +124,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Empresa não informada" }, { status: 400 });
   }
 
+  // Prazo sempre dentro do expediente da empresa: fora do horário ele cai no
+  // fim do expediente do dia (ou na próxima abertura, se for antes de abrir /
+  // dia fechado). Vale pra qualquer tela que crie chamado.
+  const companyHours = await loadCompanyHours(effectiveCompanyId);
+  const dueDateFinal = clampDueDateToBusinessHours(dueDateParsed, companyHours);
+
   const ticketType = (type === "INTERNAL") ? "INTERNAL" : "SUPPORT";
 
   // Resolve cliente — só se SUPPORT. INTERNAL nunca tem cliente.
@@ -174,7 +181,7 @@ export async function POST(req: NextRequest) {
       createdById: userId || null,
       isInternal: userRole === "SUPER_ADMIN" ? (isInternal ?? false) : false,
       type: ticketType,
-      dueDate: dueDateParsed,
+      dueDate: dueDateFinal,
       clientCompanyId: resolvedClientId,
       // Só gera o link quando o atendente escolheu deixar o cliente acompanhar.
       publicToken: sharePublic ? randomBytes(18).toString("base64url") : null,

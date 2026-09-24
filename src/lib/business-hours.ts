@@ -306,6 +306,36 @@ export function nextBusinessOpening(date: Date, config: CompanyHoursConfig): Dat
   return advanceToNextOpenDay(date, config);
 }
 
+/**
+ * Ajusta um PRAZO para cair dentro do expediente da empresa.
+ *  • já dentro do expediente → mantém
+ *  • depois do fim do dia (ou dentro da pausa) → fim do último bloco de trabalho
+ *    daquele dia (prazo = "até o fim do expediente")
+ *  • antes de abrir, ou em dia fechado → próxima abertura
+ * Retorna a própria data se a empresa nunca abre (config vazia/toda fechada).
+ */
+export function clampDueDateToBusinessHours(date: Date, config: CompanyHoursConfig): Date {
+  if (isWithinBusinessHoursConfig(date, config)) return date;
+  if (!config.some((d) => d.isOpen && workBlocksForDay(d).length > 0)) return date;
+
+  const p      = localParts(date);
+  const dayCfg = config[p.weekday];
+  const blocks = dayCfg ? workBlocksForDay(dayCfg) : [];
+
+  if (blocks.length > 0) {
+    const nowMin = p.minutesFromMidnight;
+    const lastEnd = blocks[blocks.length - 1][1];
+    // Passou do expediente do dia → fecha no fim do expediente desse mesmo dia
+    if (nowMin >= lastEnd) return fromLocalParts(p.year, p.month, p.day, minutesToHHMM(lastEnd));
+    // Dentro de uma pausa (almoço) → fim do bloco anterior, pra não empurrar pro dia seguinte
+    const before = [...blocks].reverse().find(([, be]) => be <= nowMin);
+    if (before) return fromLocalParts(p.year, p.month, p.day, minutesToHHMM(before[1]));
+  }
+
+  // Antes de abrir ou dia fechado → próxima abertura
+  return nextBusinessOpening(date, config) ?? date;
+}
+
 const WEEKDAY_PT      = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
 const WEEKDAY_PT_FULL = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
 
