@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Pencil, Plus, Link2, X, Check, Lock, EyeOff, RotateCcw } from "lucide-react";
@@ -1765,9 +1765,16 @@ function ProjectTasksCard({
         if (list.length === 0) {
           return <div className="p-5 text-slate-600 text-xs">Nenhuma tarefa neste filtro.</div>;
         }
-        // Sem serviços na sequência → lista plana (comportamento antigo).
+        // Sem etapas cadastradas → lista plana (comportamento antigo).
         if (serviceSteps.length === 0) {
-          return <div className="divide-y divide-[#1e2d45]">{list.map(rowOf)}</div>;
+          return (
+            <div>
+              <div className="divide-y divide-[#1e2d45]">{list.map(rowOf)}</div>
+              {!filtering && (
+                <QuickAddTask projectId={projectId} projectServiceId={null} onAdded={() => router.refresh()} />
+              )}
+            </div>
+          );
         }
         // Com serviços → agrupa as tarefas por serviço (igual o cliente vê).
         const svcIds = new Set(serviceSteps.map((s) => s.id));
@@ -1804,6 +1811,11 @@ function ProjectTasksCard({
                 {g.tasks.length === 0
                   ? <div className="px-5 py-2.5 text-[11px] text-slate-600 italic">nenhuma tarefa nesta etapa</div>
                   : <div className="divide-y divide-[#1e2d45]">{g.tasks.map(rowOf)}</div>}
+                {/* Entrada rápida — some quando há filtro/busca ativa, pra não
+                    criar tarefa que sumiria da vista logo em seguida. */}
+                {!filtering && (
+                  <QuickAddTask projectId={projectId} projectServiceId={g.id} onAdded={() => router.refresh()} />
+                )}
               </div>
             ))}
             {noSvc.length > 0 && (
@@ -1837,6 +1849,92 @@ function ProjectTasksCard({
           </div>
         );
       })()}
+    </div>
+  );
+}
+
+/**
+ * Entrada rápida de tarefa, no estilo ClickUp: uma linha discreta no fim de cada
+ * etapa. Digita + Enter salva e o campo continua aberto pra próxima — é o que
+ * torna prático cadastrar 5 tarefas seguidas sem abrir formulário.
+ * Cria sempre como tarefa INTERNA (instantâneo). Pro ClickUp / campos completos
+ * (prazo, responsável, prioridade) existe o botão "+ Nova tarefa".
+ */
+function QuickAddTask({
+  projectId, projectServiceId, onAdded,
+}: {
+  projectId: string;
+  projectServiceId: string | null;
+  onAdded: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [saving, setSaving] = useState(false);
+  // Tarefas já gravadas nesta sessão de digitação. Ficam como linhas otimistas
+  // até fechar — atualizar a página a cada Enter remontava o campo e engolia a
+  // digitação seguinte.
+  const [justAdded, setJustAdded] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function close() {
+    setTitle("");
+    setOpen(false);
+    if (justAdded.length > 0) { setJustAdded([]); onAdded(); }
+  }
+
+  async function submit() {
+    const v = title.trim();
+    if (!v) { close(); return; }
+    setSaving(true);
+    setTitle("");
+    const res = await fetch(`/api/projetos/${projectId}/tasks`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ destino: "interna", title: v, projectServiceId }),
+    }).catch(() => null);
+    setSaving(false);
+    if (res?.ok) setJustAdded((prev) => [...prev, v]);
+    else setTitle(v); // falhou: devolve o texto pra não perder o que foi digitado
+    inputRef.current?.focus();
+  }
+
+  if (!open) {
+    return (
+      <button
+        onClick={() => setOpen(true)}
+        className="w-full flex items-center gap-1.5 px-5 py-2 text-[11px] text-slate-600 hover:text-indigo-300 hover:bg-[#080b12] transition-colors text-left"
+      >
+        <Plus className="w-3 h-3" strokeWidth={2.5} /> Adicionar tarefa
+      </button>
+    );
+  }
+
+  return (
+    <div>
+      {justAdded.map((t, i) => (
+        <div key={i} className="flex items-center gap-3 px-5 py-2.5 border-t border-[#1e2d45]">
+          <span className="w-4 h-4 rounded-full border border-slate-600 flex-none" />
+          <span className="text-[13px] text-slate-100 flex-1">{t}</span>
+          <Check className="w-3.5 h-3.5 text-emerald-400 flex-none" strokeWidth={3} />
+        </div>
+      ))}
+      <div className="flex items-center gap-3 px-5 py-2.5 bg-[#080b12] border-t border-[#1e2d45]">
+        <span className="w-4 h-4 rounded-full border border-slate-700 flex-none" />
+        <input
+          ref={inputRef}
+          autoFocus
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") { e.preventDefault(); submit(); }
+            if (e.key === "Escape") { e.preventDefault(); close(); }
+          }}
+          onBlur={() => { if (!title.trim() && !saving) close(); }}
+          placeholder="Nome da tarefa — Enter salva e continua, Esc fecha"
+          className="flex-1 bg-transparent border-0 text-[13px] text-slate-100 placeholder-slate-600 focus:outline-none"
+        />
+        {saving && <span className="text-[10px] text-slate-500 flex-none">salvando…</span>}
+      </div>
     </div>
   );
 }
