@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { randomBytes } from "crypto";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -102,6 +103,8 @@ export async function POST(req: NextRequest) {
     title, description, priority, category, companyId, phone, isInternal,
     type, dueDate, assigneeId, setorId, projetoId, visibility,
     clientCompanyId, clientCompanyName, clientCompanyPhone, clientCompanyEmail,
+    // Cliente acompanha? Gera link público (sem login) em /acompanhar/[token].
+    sharePublic,
   } = body;
 
   if (!title || !description) {
@@ -173,6 +176,8 @@ export async function POST(req: NextRequest) {
       type: ticketType,
       dueDate: dueDateParsed,
       clientCompanyId: resolvedClientId,
+      // Só gera o link quando o atendente escolheu deixar o cliente acompanhar.
+      publicToken: sharePublic ? randomBytes(18).toString("base64url") : null,
       assigneeId: assigneeId || null,
       setorId: setorId || null,
       projetoId: project?.id ?? null,

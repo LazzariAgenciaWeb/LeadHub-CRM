@@ -572,7 +572,8 @@ exports.Prisma.TicketScalarFieldEnum = {
   createdById: 'createdById',
   setorId: 'setorId',
   projetoId: 'projetoId',
-  visibility: 'visibility'
+  visibility: 'visibility',
+  publicToken: 'publicToken'
 };
 
 exports.Prisma.TicketMessageScalarFieldEnum = {

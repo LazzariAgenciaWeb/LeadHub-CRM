@@ -450,6 +450,9 @@ export default function WhatsappManager({
   // Convert to ticket
   const [showTicketForm, setShowTicketForm] = useState(false);
   const [ticketForm, setTicketForm] = useState({ title: "", description: "" });
+  // Acompanhamento do cliente: gerar link público + avisar no WhatsApp
+  const [ticketShare, setTicketShare] = useState(true);
+  const [ticketNotify, setTicketNotify] = useState(true);
   const [convertingTicket, setConvertingTicket] = useState(false);
   const [ticketCreated, setTicketCreated] = useState(false);
   const [ticketError, setTicketError] = useState<string | null>(null);
@@ -2164,6 +2167,8 @@ export default function WhatsappManager({
           ? { clientCompanyId: selectedConv.companyContact.company.id }
           : {}),
         ...(currentUserId ? { assigneeId: currentUserId } : {}),
+        // Cliente acompanha → gera link público (sem login)
+        sharePublic: ticketShare,
       }),
     });
     setConvertingTicket(false);
@@ -2172,6 +2177,31 @@ export default function WhatsappManager({
       setOpenTicket({ id: newTicket.id, title: newTicket.title, status: newTicket.status });
       setTicketCreated(true);
       setShowTicketForm(false);
+      // Avisa o cliente na própria conversa (mesma instância do atendimento).
+      // Vai pelo endpoint normal de envio: entra no histórico e respeita guards.
+      if (ticketNotify && currentSendInstance) {
+        const link = newTicket.publicToken
+          ? `${window.location.origin}/acompanhar/${newTicket.publicToken}`
+          : null;
+        const aviso =
+          `🎫 Abrimos um chamado pra você: *${newTicket.title}*\n\n` +
+          (link
+            ? `Acompanhe o andamento por aqui:\n${link}`
+            : `Nossa equipe já está com ele e vai te atualizar por aqui.`);
+        const r = await fetch(`/api/whatsapp/${currentSendInstance.id}/send`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone: selectedConv.phone, text: aviso }),
+        });
+        if (r.ok) {
+          const d = await r.json().catch(() => ({}));
+          if (d.message) setConvMessages((prev) => [...prev, d.message]);
+          forceScrollRef.current = true;
+        } else {
+          const d = await r.json().catch(() => ({}));
+          setTicketError(`Chamado criado, mas não consegui avisar o cliente: ${d.error ?? "erro no envio"}`);
+        }
+      }
       router.refresh();
     } else {
       const data = await res.json().catch(() => ({}));
@@ -4387,6 +4417,31 @@ export default function WhatsappManager({
                         👤 Responsável: {userName.split(" ")[0]}
                       </span>
                     )}
+                  </div>
+                  {/* Cliente acompanha? (link público) + avisar agora no WhatsApp */}
+                  <div className="flex flex-wrap items-center gap-4 mb-3">
+                    <label className="flex items-center gap-1.5 cursor-pointer select-none" title="Gera um link sem login onde o cliente vê o status e as atualizações do chamado.">
+                      <input
+                        type="checkbox"
+                        checked={ticketShare}
+                        onChange={(e) => setTicketShare(e.target.checked)}
+                        className="w-3.5 h-3.5 rounded accent-orange-500"
+                      />
+                      <span className={`text-[11px] ${ticketShare ? "text-orange-300" : "text-slate-500"}`}>
+                        🔗 Cliente pode acompanhar (link)
+                      </span>
+                    </label>
+                    <label className="flex items-center gap-1.5 cursor-pointer select-none" title="Manda uma mensagem agora nesta conversa avisando da abertura.">
+                      <input
+                        type="checkbox"
+                        checked={ticketNotify}
+                        onChange={(e) => setTicketNotify(e.target.checked)}
+                        className="w-3.5 h-3.5 rounded accent-orange-500"
+                      />
+                      <span className={`text-[11px] ${ticketNotify ? "text-orange-300" : "text-slate-500"}`}>
+                        💬 Avisar no WhatsApp agora
+                      </span>
+                    </label>
                   </div>
                   {ticketError && (
                     <p className="text-red-400 text-xs mb-2">{ticketError}</p>

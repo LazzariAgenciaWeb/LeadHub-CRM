@@ -47796,6 +47796,7 @@ export namespace Prisma {
     setorId: string | null
     projetoId: string | null
     visibility: string | null
+    publicToken: string | null
   }
 
   export type TicketMaxAggregateOutputType = {
@@ -47820,6 +47821,7 @@ export namespace Prisma {
     setorId: string | null
     projetoId: string | null
     visibility: string | null
+    publicToken: string | null
   }
 
   export type TicketCountAggregateOutputType = {
@@ -47844,6 +47846,7 @@ export namespace Prisma {
     setorId: number
     projetoId: number
     visibility: number
+    publicToken: number
     _all: number
   }
 
@@ -47870,6 +47873,7 @@ export namespace Prisma {
     setorId?: true
     projetoId?: true
     visibility?: true
+    publicToken?: true
   }
 
   export type TicketMaxAggregateInputType = {
@@ -47894,6 +47898,7 @@ export namespace Prisma {
     setorId?: true
     projetoId?: true
     visibility?: true
+    publicToken?: true
   }
 
   export type TicketCountAggregateInputType = {
@@ -47918,6 +47923,7 @@ export namespace Prisma {
     setorId?: true
     projetoId?: true
     visibility?: true
+    publicToken?: true
     _all?: true
   }
 
@@ -48015,6 +48021,7 @@ export namespace Prisma {
     setorId: string | null
     projetoId: string | null
     visibility: string
+    publicToken: string | null
     _count: TicketCountAggregateOutputType | null
     _min: TicketMinAggregateOutputType | null
     _max: TicketMaxAggregateOutputType | null
@@ -48056,6 +48063,7 @@ export namespace Prisma {
     setorId?: boolean
     projetoId?: boolean
     visibility?: boolean
+    publicToken?: boolean
     clientCompany?: boolean | Ticket$clientCompanyArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -48092,6 +48100,7 @@ export namespace Prisma {
     setorId?: boolean
     projetoId?: boolean
     visibility?: boolean
+    publicToken?: boolean
     clientCompany?: boolean | Ticket$clientCompanyArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -48122,6 +48131,7 @@ export namespace Prisma {
     setorId?: boolean
     projetoId?: boolean
     visibility?: boolean
+    publicToken?: boolean
   }
 
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -48184,6 +48194,7 @@ export namespace Prisma {
       setorId: string | null
       projetoId: string | null
       visibility: string
+      publicToken: string | null
     }, ExtArgs["result"]["ticket"]>
     composites: {}
   }
@@ -48609,6 +48620,7 @@ export namespace Prisma {
     readonly setorId: FieldRef<"Ticket", 'String'>
     readonly projetoId: FieldRef<"Ticket", 'String'>
     readonly visibility: FieldRef<"Ticket", 'String'>
+    readonly publicToken: FieldRef<"Ticket", 'String'>
   }
     
 
@@ -148205,7 +148217,8 @@ export namespace Prisma {
     createdById: 'createdById',
     setorId: 'setorId',
     projetoId: 'projetoId',
-    visibility: 'visibility'
+    visibility: 'visibility',
+    publicToken: 'publicToken'
   };
 
   export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
@@ -153934,6 +153947,7 @@ export namespace Prisma {
     setorId?: StringNullableFilter<"Ticket"> | string | null
     projetoId?: StringNullableFilter<"Ticket"> | string | null
     visibility?: StringFilter<"Ticket"> | string
+    publicToken?: StringNullableFilter<"Ticket"> | string | null
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -153969,6 +153983,7 @@ export namespace Prisma {
     setorId?: SortOrderInput | SortOrder
     projetoId?: SortOrderInput | SortOrder
     visibility?: SortOrder
+    publicToken?: SortOrderInput | SortOrder
     clientCompany?: CompanyOrderByWithRelationInput
     assignee?: UserOrderByWithRelationInput
     company?: CompanyOrderByWithRelationInput
@@ -153984,6 +153999,7 @@ export namespace Prisma {
 
   export type TicketWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    publicToken?: string
     AND?: TicketWhereInput | TicketWhereInput[]
     OR?: TicketWhereInput[]
     NOT?: TicketWhereInput | TicketWhereInput[]
@@ -154018,7 +154034,7 @@ export namespace Prisma {
     accessUsers?: TicketAccessUserListRelationFilter
     inboxEmails?: InboxEmailListRelationFilter
     attachments?: StorageObjectListRelationFilter
-  }, "id">
+  }, "id" | "publicToken">
 
   export type TicketOrderByWithAggregationInput = {
     id?: SortOrder
@@ -154042,6 +154058,7 @@ export namespace Prisma {
     setorId?: SortOrderInput | SortOrder
     projetoId?: SortOrderInput | SortOrder
     visibility?: SortOrder
+    publicToken?: SortOrderInput | SortOrder
     _count?: TicketCountOrderByAggregateInput
     _max?: TicketMaxOrderByAggregateInput
     _min?: TicketMinOrderByAggregateInput
@@ -154072,6 +154089,7 @@ export namespace Prisma {
     setorId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     projetoId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     visibility?: StringWithAggregatesFilter<"Ticket"> | string
+    publicToken?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
   }
 
   export type TicketMessageWhereInput = {
@@ -166466,6 +166484,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -166501,6 +166520,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
@@ -166524,6 +166544,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -166559,6 +166580,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
@@ -166588,6 +166610,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
   }
 
   export type TicketUpdateManyMutationInput = {
@@ -166606,6 +166629,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketUncheckedUpdateManyInput = {
@@ -166630,6 +166654,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketMessageCreateInput = {
@@ -179634,6 +179659,7 @@ export namespace Prisma {
     setorId?: SortOrder
     projetoId?: SortOrder
     visibility?: SortOrder
+    publicToken?: SortOrder
   }
 
   export type TicketMaxOrderByAggregateInput = {
@@ -179658,6 +179684,7 @@ export namespace Prisma {
     setorId?: SortOrder
     projetoId?: SortOrder
     visibility?: SortOrder
+    publicToken?: SortOrder
   }
 
   export type TicketMinOrderByAggregateInput = {
@@ -179682,6 +179709,7 @@ export namespace Prisma {
     setorId?: SortOrder
     projetoId?: SortOrder
     visibility?: SortOrder
+    publicToken?: SortOrder
   }
 
   export type EnumTicketStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -199346,6 +199374,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -199379,6 +199408,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
@@ -199412,6 +199442,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -199445,6 +199476,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
@@ -201120,6 +201152,7 @@ export namespace Prisma {
     setorId?: StringNullableFilter<"Ticket"> | string | null
     projetoId?: StringNullableFilter<"Ticket"> | string | null
     visibility?: StringFilter<"Ticket"> | string
+    publicToken?: StringNullableFilter<"Ticket"> | string | null
   }
 
   export type TicketUpsertWithWhereUniqueWithoutAssigneeInput = {
@@ -205457,6 +205490,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -205490,6 +205524,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
@@ -205523,6 +205558,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -205556,6 +205592,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
@@ -225149,6 +225186,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -225183,6 +225221,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
@@ -225690,6 +225729,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -225724,6 +225764,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
@@ -228186,6 +228227,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -228220,6 +228262,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
@@ -228300,6 +228343,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -228334,6 +228378,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
@@ -228703,6 +228748,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -228736,6 +228782,7 @@ export namespace Prisma {
     createdById?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
@@ -230142,6 +230189,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -230175,6 +230223,7 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
@@ -232059,6 +232108,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -232093,6 +232143,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutTicketInput
@@ -232240,6 +232291,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -232274,6 +232326,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutTicketNestedInput
@@ -262369,6 +262422,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -262403,6 +262457,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
@@ -262967,6 +263022,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -263001,6 +263057,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
@@ -280703,6 +280760,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visibility?: string
+    publicToken?: string | null
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -280737,6 +280795,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
     accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
@@ -281253,6 +281312,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -281287,6 +281347,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
@@ -281531,6 +281592,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
   }
 
   export type TicketCreateManyAssigneeInput = {
@@ -281554,6 +281616,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
   }
 
   export type SetorUserCreateManyUserInput = {
@@ -282037,6 +282100,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -282070,6 +282134,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
@@ -282098,6 +282163,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketUpdateWithoutAssigneeInput = {
@@ -282116,6 +282182,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -282149,6 +282216,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
@@ -282177,6 +282245,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SetorUserUpdateWithoutUserInput = {
@@ -284080,6 +284149,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
   }
 
   export type TicketCreateManyClientCompanyInput = {
@@ -284103,6 +284173,7 @@ export namespace Prisma {
     setorId?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
   }
 
   export type ClientServiceCreateManyClientCompanyInput = {
@@ -286635,6 +286706,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -286668,6 +286740,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
@@ -286696,6 +286769,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketUpdateWithoutClientCompanyInput = {
@@ -286714,6 +286788,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -286747,6 +286822,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
@@ -286775,6 +286851,7 @@ export namespace Prisma {
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ClientServiceUpdateWithoutClientCompanyInput = {
@@ -291959,6 +292036,7 @@ export namespace Prisma {
     createdById?: string | null
     projetoId?: string | null
     visibility?: string
+    publicToken?: string | null
   }
 
   export type ConversationCreateManySetorInput = {
@@ -292083,6 +292161,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -292116,6 +292195,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
@@ -292144,6 +292224,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ConversationUpdateWithoutSetorInput = {
@@ -292414,6 +292495,7 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     visibility?: string
+    publicToken?: string | null
   }
 
   export type ProjectTaskCreateManyProjectInput = {
@@ -292580,6 +292662,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -292613,6 +292696,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
     accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
@@ -292641,6 +292725,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProjectTaskUpdateWithoutProjectInput = {

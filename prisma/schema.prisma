@@ -1299,6 +1299,11 @@ model Ticket {
   // veem. Default OPEN mantém compat com chamados antigos.
   visibility String @default("OPEN")
 
+  // Link público de acompanhamento pro cliente (sem login), servido em
+  // /acompanhar/[publicToken] — mesmo padrão do painel de projeto em /c.
+  // null = cliente NÃO acompanha. Gerado só quando o atendente marca a opção.
+  publicToken String? @unique
+
   messages    TicketMessage[]
   activities  Activity[]
   accessUsers TicketAccessUser[]
