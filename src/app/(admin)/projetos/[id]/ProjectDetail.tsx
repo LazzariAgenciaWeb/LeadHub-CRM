@@ -1517,6 +1517,8 @@ function ProjectTasksCard({
   const [bulkStage, setBulkStage] = useState("");
   const [bulkSaving, setBulkSaving] = useState(false);
   const [taskFilter, setTaskFilter] = useState<"inbox" | "all" | "doing" | "done">("all");
+  const [showDone, setShowDone] = useState(false);            // concluídas escondidas por padrão
+  const [collapsed, setCollapsed] = useState<Set<string>>(new Set()); // etapas fechadas
 
   // "A organizar": vieram do ClickUp e ainda não caíram numa etapa. Viram a
   // primeira aba — antes eram um card separado que repetia as mesmas tarefas.
@@ -1854,6 +1856,23 @@ function ProjectTasksCard({
             placeholder="Buscar tarefa…"
             className="flex-1 min-w-[140px] bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
           />
+          {/* Concluídas ficam fora da vista por padrão — elas só enchem a tela. */}
+          {taskFilter === "all" && (
+            <label className="flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-300 cursor-pointer select-none" title="Mostrar as tarefas já aprovadas">
+              <input type="checkbox" checked={showDone} onChange={(e) => setShowDone(e.target.checked)} className="w-3.5 h-3.5 rounded accent-emerald-500" />
+              Concluídas ({internalTasks.filter((t) => t.done && !t.ignored).length})
+            </label>
+          )}
+          {serviceSteps.length > 0 && (
+            <button
+              onClick={() => setCollapsed(collapsed.size > 0 ? new Set() : new Set(serviceSteps.map((s) => s.id)))}
+              className="text-[11px] text-slate-500 hover:text-slate-300 flex items-center gap-1"
+              title={collapsed.size > 0 ? "Abrir todas as etapas" : "Fechar todas as etapas"}
+            >
+              {collapsed.size > 0 ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+              {collapsed.size > 0 ? "Abrir todas" : "Fechar todas"}
+            </button>
+          )}
         </div>
       )}
 
@@ -1955,6 +1974,8 @@ function ProjectTasksCard({
           if (t.clickupTaskId && !t.projectServiceId) return false;
           if (taskFilter === "doing" && t.done) return false;
           if (taskFilter === "done" && !t.done) return false;
+          // Em "Tudo", esconde as concluídas até você pedir pra ver.
+          if (taskFilter === "all" && t.done && !showDone) return false;
           if (q && !t.title.toLowerCase().includes(q)) return false;
           return true;
         });
@@ -1981,11 +2002,13 @@ function ProjectTasksCard({
         }));
         const noSvc = list.filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId));
 
-        const GroupHead = ({ label, tasks, muted, stepId, index }: {
+        const GroupHead = ({ label, tasks, muted, stepId, index, total, isOpen, onToggle }: {
           label: string; tasks: InternalTask[]; muted?: boolean; stepId?: string; index?: number;
+          total?: number; isOpen?: boolean; onToggle?: () => void;
         }) => {
           const feitas = tasks.filter((t) => t.done).length;
-          const pct = tasks.length > 0 ? Math.round((feitas / tasks.length) * 100) : 0;
+          const base = total ?? tasks.length;
+          const pct = base > 0 ? Math.round((feitas / base) * 100) : 0;
           const tone = muted ? null : STAGE_TONES[(index ?? 0) % STAGE_TONES.length];
           return (
             <div
@@ -1999,9 +2022,21 @@ function ProjectTasksCard({
                 ) : (
                   <span className={`text-[13px] font-semibold tracking-tight ${muted ? "text-slate-400" : "text-white"}`}>{label}</span>
                 )}
-                <span className="text-[11px] text-slate-500 font-medium tabular-nums flex-none">{feitas}/{tasks.length}</span>
+                <div className="flex items-center gap-2 flex-none">
+                  <span className="text-[11px] text-slate-500 font-medium tabular-nums">{feitas}/{base}</span>
+                  {onToggle && (
+                    <button
+                      onClick={onToggle}
+                      className="text-slate-500 hover:text-white transition-colors"
+                      title={isOpen ? "Fechar etapa" : "Abrir etapa"}
+                      aria-expanded={isOpen}
+                    >
+                      {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </button>
+                  )}
+                </div>
               </div>
-              {tasks.length > 0 && (
+              {base > 0 && (
                 <div className="mt-1.5 h-[3px] rounded-full bg-black/40 overflow-hidden">
                   <div className={`h-full rounded-full ${pct === 100 ? "bg-emerald-500" : tone ? tone.bar : "bg-slate-600"}`} style={{ width: `${pct}%` }} />
                 </div>
@@ -2012,19 +2047,35 @@ function ProjectTasksCard({
 
         return (
           <div>
-            {groups.filter((g) => !filtering || g.tasks.length > 0).map((g, gi) => (
-              <div key={g.id}>
-                <GroupHead label={g.label} tasks={g.tasks} stepId={g.id} index={gi} />
-                {g.tasks.length === 0
-                  ? <div className="px-5 py-2.5 text-[11px] text-slate-600 italic">nenhuma tarefa nesta etapa</div>
-                  : <div className="divide-y divide-[#1e2d45]">{g.tasks.map(rowOf)}</div>}
-                {/* Entrada rápida — some quando há filtro/busca ativa, pra não
-                    criar tarefa que sumiria da vista logo em seguida. */}
-                {!filtering && (
-                  <QuickAddTask projectId={projectId} projectServiceId={g.id} onAdded={() => router.refresh()} />
-                )}
-              </div>
-            ))}
+            {groups.filter((g) => !filtering || g.tasks.length > 0).map((g, gi) => {
+              const aberta = !collapsed.has(g.id);
+              const toggle = () => setCollapsed((prev) => {
+                const next = new Set(prev);
+                if (next.has(g.id)) next.delete(g.id); else next.add(g.id);
+                return next;
+              });
+              return (
+                <div key={g.id}>
+                  <GroupHead
+                    label={g.label} tasks={g.tasks} stepId={g.id} index={gi}
+                    total={serviceSteps.find((s) => s.id === g.id)?.taskCount ?? g.tasks.length}
+                    isOpen={aberta} onToggle={toggle}
+                  />
+                  {aberta && (
+                    <>
+                      {g.tasks.length === 0
+                        ? <div className="px-5 py-2.5 text-[11px] text-slate-600 italic">nenhuma tarefa nesta etapa</div>
+                        : <div className="divide-y divide-[#1e2d45]">{g.tasks.map(rowOf)}</div>}
+                      {/* Entrada rápida — some quando há filtro/busca ativa, pra não
+                          criar tarefa que sumiria da vista logo em seguida. */}
+                      {!filtering && (
+                        <QuickAddTask projectId={projectId} projectServiceId={g.id} onAdded={() => router.refresh()} />
+                      )}
+                    </>
+                  )}
+                </div>
+              );
+            })}
             {noSvc.length > 0 && (
               <div>
                 <GroupHead label="Sem etapa — a organizar" tasks={noSvc} muted />
