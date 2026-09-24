@@ -132,6 +132,63 @@ interface Ticket {
   activities?: TicketActivity[];
 }
 
+// Editor inline usado pra editar corpo de mensagem (Solicitação Original,
+// notas internas, respostas). `accent` controla a cor de borda/botão pra
+// combinar com o fundo do container (indigo, amber, slate).
+function MessageEditor({
+  draft, onDraft, onCancel, onSave, saving, accent = "indigo",
+}: {
+  draft: string;
+  onDraft: (v: string) => void;
+  onCancel: () => void;
+  onSave: () => void;
+  saving: boolean;
+  accent?: "indigo" | "amber" | "slate";
+}) {
+  const border =
+    accent === "amber" ? "border-amber-500/40 focus:border-amber-500" :
+    accent === "slate" ? "border-slate-500/40 focus:border-slate-400" :
+                         "border-indigo-500/40 focus:border-indigo-500";
+  const btn =
+    accent === "amber" ? "bg-amber-600 hover:bg-amber-500" :
+    accent === "slate" ? "bg-slate-600 hover:bg-slate-500" :
+                         "bg-indigo-600 hover:bg-indigo-500";
+  return (
+    <div className="space-y-2">
+      <textarea
+        autoFocus
+        value={draft}
+        onChange={(e) => onDraft(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") { e.preventDefault(); onCancel(); }
+          if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); onSave(); }
+        }}
+        rows={Math.max(3, draft.split("\n").length + 1)}
+        className={`w-full bg-[#0a0f1a] border ${border} rounded-lg px-3 py-2 text-sm text-white focus:outline-none resize-y`}
+      />
+      <div className="flex items-center justify-end gap-2">
+        <span className="text-slate-600 text-[10px] mr-auto">Esc cancela · Ctrl+Enter salva</span>
+        <button
+          type="button"
+          onClick={onCancel}
+          disabled={saving}
+          className="px-3 py-1 rounded-lg text-slate-400 hover:text-slate-200 text-xs disabled:opacity-40"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          onClick={onSave}
+          disabled={saving || !draft.trim()}
+          className={`px-3 py-1 rounded-lg ${btn} text-white text-xs font-medium disabled:opacity-40`}
+        >
+          {saving ? "Salvando..." : "Salvar"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 const PRIORITY_CONFIG: Record<string, { label: string; color: string; icon: string }> = {
   LOW:    { label: "Baixa",   color: "text-slate-400",  icon: "🟢" },
   MEDIUM: { label: "Média",   color: "text-yellow-400", icon: "🟡" },
@@ -434,6 +491,34 @@ export default function TicketDetail({
   const [sending, setSending] = useState(false);
   const [updatingStage, setUpdatingStage] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Edição inline de mensagens (Solicitação Original + respostas). Guarda
+  // {id, draft} da que está sendo editada — só uma por vez.
+  const [editingMsg, setEditingMsg] = useState<{ id: string; draft: string } | null>(null);
+  const [savingMsg, setSavingMsg] = useState(false);
+
+  async function saveMessageEdit() {
+    if (!editingMsg || !editingMsg.draft.trim() || savingMsg) return;
+    setSavingMsg(true);
+    try {
+      const res = await fetch(`/api/tickets/${ticket.id}/messages/${editingMsg.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ body: editingMsg.draft.trim() }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error ?? "Erro ao salvar edição");
+        return;
+      }
+      const updated = await res.json();
+      setMessages((prev) => prev.map((m) => (m.id === updated.id ? { ...m, body: updated.body } : m)));
+      setEditingMsg(null);
+      startTransition(() => router.refresh());
+    } finally {
+      setSavingMsg(false);
+    }
+  }
 
   // ClickUp
   const [clickupTaskId, setClickupTaskId] = useState(ticket.clickupTaskId ?? "");
@@ -883,11 +968,32 @@ export default function TicketDetail({
                   <span className="text-slate-700 text-[10px] ml-auto font-mono">
                     {new Date(initialMsg.createdAt).toLocaleString("pt-BR")}
                   </span>
+                  {canManage && editingMsg?.id !== initialMsg.id && (
+                    <button
+                      type="button"
+                      onClick={() => setEditingMsg({ id: initialMsg.id, draft: initialMsg.body })}
+                      className="text-slate-500 hover:text-indigo-300 text-[10px] px-1.5 py-0.5 rounded hover:bg-indigo-500/10 transition-colors"
+                      title="Editar solicitação"
+                    >
+                      ✎ editar
+                    </button>
+                  )}
                 </div>
-                <RichMessageBody
-                  text={initialMsg.body}
-                  className="text-slate-200 text-sm leading-relaxed"
-                />
+                {editingMsg?.id === initialMsg.id ? (
+                  <MessageEditor
+                    draft={editingMsg.draft}
+                    onDraft={(v) => setEditingMsg({ id: initialMsg.id, draft: v })}
+                    onCancel={() => setEditingMsg(null)}
+                    onSave={() => void saveMessageEdit()}
+                    saving={savingMsg}
+                    accent="indigo"
+                  />
+                ) : (
+                  <RichMessageBody
+                    text={initialMsg.body}
+                    className="text-slate-200 text-sm leading-relaxed"
+                  />
+                )}
               </div>
             )}
 
@@ -948,12 +1054,33 @@ export default function TicketDetail({
                             <span className="text-slate-700 text-[10px] ml-auto font-mono">
                               {new Date(msg.createdAt).toLocaleString("pt-BR")}
                             </span>
+                            {canManage && editingMsg?.id !== msg.id && (
+                              <button
+                                type="button"
+                                onClick={() => setEditingMsg({ id: msg.id, draft: msg.body })}
+                                className="text-slate-500 hover:text-amber-300 text-[10px] px-1.5 py-0.5 rounded hover:bg-amber-500/10 transition-colors"
+                                title="Editar nota"
+                              >
+                                ✎
+                              </button>
+                            )}
                           </div>
-                          <RichMessageBody
-                            text={msg.body}
-                            className="text-amber-200/70 text-sm"
-                            linkClassName="text-amber-200 hover:text-amber-100 underline decoration-amber-400/40 break-all"
-                          />
+                          {editingMsg?.id === msg.id ? (
+                            <MessageEditor
+                              draft={editingMsg.draft}
+                              onDraft={(v) => setEditingMsg({ id: msg.id, draft: v })}
+                              onCancel={() => setEditingMsg(null)}
+                              onSave={() => void saveMessageEdit()}
+                              saving={savingMsg}
+                              accent="amber"
+                            />
+                          ) : (
+                            <RichMessageBody
+                              text={msg.body}
+                              className="text-amber-200/70 text-sm"
+                              linkClassName="text-amber-200 hover:text-amber-100 underline decoration-amber-400/40 break-all"
+                            />
+                          )}
                           {!!msg.attachments?.length && (
                             <div className="mt-2"><AttachmentList files={msg.attachments} compact /></div>
                           )}
@@ -973,7 +1100,29 @@ export default function TicketDetail({
                             <span className="text-slate-700 text-[10px] font-mono">
                               {new Date(msg.createdAt).toLocaleString("pt-BR")}
                             </span>
+                            {canManage && editingMsg?.id !== msg.id && (
+                              <button
+                                type="button"
+                                onClick={() => setEditingMsg({ id: msg.id, draft: msg.body })}
+                                className="text-slate-600 hover:text-indigo-300 text-[10px] px-1.5 py-0.5 rounded hover:bg-indigo-500/10 transition-colors"
+                                title="Editar mensagem"
+                              >
+                                ✎
+                              </button>
+                            )}
                           </div>
+                          {editingMsg?.id === msg.id ? (
+                            <div className="w-full max-w-[85%]">
+                              <MessageEditor
+                                draft={editingMsg.draft}
+                                onDraft={(v) => setEditingMsg({ id: msg.id, draft: v })}
+                                onCancel={() => setEditingMsg(null)}
+                                onSave={() => void saveMessageEdit()}
+                                saving={savingMsg}
+                                accent={isAdmin ? "indigo" : "slate"}
+                              />
+                            </div>
+                          ) : (
                           <div className={`rounded-xl px-4 py-2.5 text-sm max-w-[85%] ${isAdmin ? "bg-indigo-600 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"}`}>
                             {msg.hasMedia && msg.mediaType?.startsWith("image/") && (
                               <img
@@ -995,6 +1144,7 @@ export default function TicketDetail({
                               }
                             />
                           </div>
+                          )}
                           {!!msg.attachments?.length && (
                             <div className="max-w-[85%] mt-1 w-full">
                               <AttachmentList files={msg.attachments} compact />
