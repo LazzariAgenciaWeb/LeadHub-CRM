@@ -2124,17 +2124,72 @@ function ProjectTasksCard({
       {editingId && (() => {
         const t = internalTasks.find((x) => x.id === editingId);
         if (!t) return null;
+
+        // Irmãs da MESMA etapa, na ordem da lista — permite passar de tarefa em
+        // tarefa sem fechar o modal. Ignoradas ficam de fora.
+        const irmas = internalTasks.filter((x) => !x.ignored && x.projectServiceId === t.projectServiceId);
+        const idx = irmas.findIndex((x) => x.id === t.id);
+        const anterior = idx > 0 ? irmas[idx - 1] : null;
+        const proxima  = idx >= 0 && idx < irmas.length - 1 ? irmas[idx + 1] : null;
+        const etapaNome = serviceSteps.find((s) => s.id === t.projectServiceId)?.name ?? t.stage ?? "Sem etapa";
+
         return (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={closeTaskModal}>
             <div className="w-[85vw] h-[85vh] max-w-5xl bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
               {/* O título mora só dentro do editor (é editável lá) — aqui fica
-                  apenas o carimbo de atualização e o fechar. */}
-              <div className="flex items-center justify-between px-5 py-2.5 border-b border-[#1e2d45] flex-shrink-0">
-                <p className="text-slate-500 text-xs">Última atualização: {new Date(t.updatedAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" })}</p>
+                  a navegação entre tarefas da etapa, o carimbo e o fechar. */}
+              <div className="flex items-center gap-3 px-5 py-2.5 border-b border-[#1e2d45] flex-shrink-0">
+                {irmas.length > 1 && (
+                  <div className="flex items-center gap-1 flex-none">
+                    <button
+                      onClick={() => anterior && setEditingId(anterior.id)}
+                      disabled={!anterior}
+                      title={anterior ? `Anterior: ${anterior.title}` : "Já é a primeira"}
+                      className="p-1 rounded text-slate-500 hover:text-white hover:bg-[#161f30] disabled:opacity-25 disabled:cursor-not-allowed"
+                      aria-label="Tarefa anterior"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <span className="text-[11px] text-slate-500 tabular-nums select-none">{idx + 1}/{irmas.length}</span>
+                    <button
+                      onClick={() => proxima && setEditingId(proxima.id)}
+                      disabled={!proxima}
+                      title={proxima ? `Próxima: ${proxima.title}` : "Já é a última"}
+                      className="p-1 rounded text-slate-500 hover:text-white hover:bg-[#161f30] disabled:opacity-25 disabled:cursor-not-allowed"
+                      aria-label="Próxima tarefa"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Pular direto pra qualquer tarefa da etapa */}
+                {irmas.length > 1 ? (
+                  <select
+                    value={t.id}
+                    onChange={(e) => setEditingId(e.target.value)}
+                    title={`Tarefas em ${etapaNome}`}
+                    className="min-w-0 flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1 text-[11px] text-slate-300 focus:outline-none focus:border-indigo-500"
+                  >
+                    {irmas.map((x, i) => (
+                      <option key={x.id} value={x.id}>
+                        {String(i + 1).padStart(2, "0")} · {x.done ? "✓ " : ""}{x.title}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <span className="flex-1" />
+                )}
+
+                <p className="text-slate-500 text-[11px] flex-none hidden sm:block">
+                  Atualizada {new Date(t.updatedAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                </p>
                 <button onClick={closeTaskModal} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
               <div className="flex-1 min-h-0 px-6 py-5">
-                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} />
+                {/* key = id: troca de tarefa REMONTA o editor. Sem isso os campos
+                    (inicializados por useState) manteriam os valores da anterior. */}
+                <TaskEditor key={t.id} projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} />
               </div>
             </div>
           </div>
