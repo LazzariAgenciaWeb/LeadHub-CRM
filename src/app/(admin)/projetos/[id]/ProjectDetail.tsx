@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Pencil, Plus, Link2, X, Check, Lock, EyeOff, RotateCcw } from "lucide-react";
+import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Pencil, Plus, Link2, X, Check, Lock, Eye, EyeOff, RotateCcw, Clock, MessageSquare } from "lucide-react";
 import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
@@ -96,6 +96,7 @@ type InternalTask = {
   priority:     string;
   startDate:    string | null; // ISO — início
   dueDate:      string | null; // ISO — fim/prazo
+  createdAt:    string; // ISO — abertura
   updatedAt:    string; // ISO — última atualização
   clickupTaskId: string | null; // vínculo ClickUp (se importada)
   awaitingClient: boolean; // aguardando resposta do cliente
@@ -1024,6 +1025,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   const [matTitle, setMatTitle] = useState("");
   const [matUrl, setMatUrl] = useState("");
   const [matMsg, setMatMsg] = useState("");
+  const [linkOpen, setLinkOpen] = useState(false); // composer de link externo
   const [comments, setComments] = useState(task.comments);
   const [newComment, setNewComment] = useState("");
   const [commentInternal, setCommentInternal] = useState(false);
@@ -1172,189 +1174,244 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
     return (m?.id as string) ?? null;
   }
 
+  const pill = (on: boolean, tone: "amber" | "emerald") =>
+    `flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-semibold transition-colors ${
+      on
+        ? tone === "amber"
+          ? "bg-amber-500/15 border-amber-500/40 text-amber-200"
+          : "bg-emerald-500/15 border-emerald-500/40 text-emerald-200"
+        : "bg-[#0a0f1a] border-[#1e2d45] text-slate-500 hover:text-slate-300"
+    }`;
+
+  const fmt = (iso: string) =>
+    new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" });
+
   return (
-    <div className="space-y-4">
-      {/* Aguardando resposta do cliente */}
-      <button
-        type="button"
-        onClick={toggleAwaiting}
-        className={`w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-colors ${
-          awaiting ? "bg-amber-500/10 border-amber-500/40" : "bg-[#0a0f1a] border-[#1e2d45] hover:border-amber-500/30"
-        }`}
-      >
-        <div className="relative shrink-0">
-          <div className={`w-9 h-5 rounded-full transition-colors ${awaiting ? "bg-amber-500" : "bg-[#1e2d45]"}`} />
-          <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${awaiting ? "translate-x-4" : ""}`} />
-        </div>
-        <div>
-          <p className={`text-sm font-medium ${awaiting ? "text-amber-300" : "text-white"}`}>Aguardando resposta do cliente</p>
-          <p className="text-xs text-slate-500">Marca a tarefa como "Aguardando você" no painel — o cliente pode responder.</p>
-        </div>
-      </button>
-
-      {/* Mostrar pro cliente */}
-      <button
-        type="button"
-        onClick={toggleVisible}
-        className={`w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-colors ${
-          visible ? "bg-emerald-500/10 border-emerald-500/40" : "bg-[#0a0f1a] border-[#1e2d45] hover:border-emerald-500/30"
-        }`}
-      >
-        <div className="relative shrink-0">
-          <div className={`w-9 h-5 rounded-full transition-colors ${visible ? "bg-emerald-500" : "bg-[#1e2d45]"}`} />
-          <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${visible ? "translate-x-4" : ""}`} />
-        </div>
-        <div>
-          <p className={`text-sm font-medium ${visible ? "text-emerald-300" : "text-white"}`}>{visible ? "Cliente vê esta tarefa" : "Oculta do cliente"}</p>
-          <p className="text-xs text-slate-500">Quando ligado, a tarefa aparece no painel do cliente. Desligue para deixá-la só interna.</p>
-        </div>
-      </button>
-
-      {/* Vínculo com o ClickUp */}
-      {hasClickup && (
-        task.clickupTaskId ? (
-          <div className="w-full flex items-center gap-3 p-3 rounded-lg border border-[#1e2d45] bg-[#0a0f1a]">
-            <span className="text-[#7b68ee] text-sm font-medium">↻ Vinculada ao ClickUp — sincroniza nos dois sentidos</span>
-            <a href={`https://app.clickup.com/t/${task.clickupTaskId}`} target="_blank" rel="noreferrer" className="ml-auto text-xs text-slate-400 hover:text-white">Abrir no ClickUp ↗</a>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={pushToClickup}
-            disabled={pushing}
-            className="w-full flex items-center gap-3 p-3 rounded-lg border border-[#7b68ee]/40 bg-[#7b68ee]/10 hover:bg-[#7b68ee]/20 text-left transition-colors disabled:opacity-50"
-          >
-            <span className="text-[#7b68ee] text-lg shrink-0">↻</span>
-            <div>
-              <p className="text-sm font-medium text-white">{pushing ? "Enviando pro ClickUp…" : "Sincronizar com o ClickUp"}</p>
-              <p className="text-xs text-slate-500">Cria esta tarefa no ClickUp e passa a sincronizar nos dois sentidos.</p>
-            </div>
-          </button>
-        )
-      )}
-
-      <div className="grid sm:grid-cols-2 gap-3">
-        <div>
-          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Título</label>
-          <input value={title} onChange={(e) => { setTitle(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} placeholder="Título" className={inCls} />
-        </div>
-        <div>
-          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">{serviceSteps.length > 0 ? "Serviço / etapa" : "Etapa"}</label>
-          {serviceSteps.length > 0 ? (
-            <select value={svcId} onChange={(e) => { setSvcId(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls}>
-              <option value="">— sem serviço —</option>
-              {serviceSteps.map((s, i) => <option key={s.id} value={s.id}>{String(i + 1).padStart(2, "0")} · {s.name}</option>)}
-            </select>
+    <div className="flex flex-col h-full min-h-0">
+      {/* Barra de estados — compacta, uma linha só */}
+      <div className="flex items-center gap-2 flex-wrap pb-3 mb-3 border-b border-[#1e2d45] shrink-0">
+        <button type="button" onClick={toggleAwaiting} className={pill(awaiting, "amber")} title="Marca como 'Aguardando você' no painel do cliente">
+          <Clock className="w-3 h-3" /> Aguardando cliente
+        </button>
+        <button type="button" onClick={toggleVisible} className={pill(visible, "emerald")} title="Aparece no painel do cliente">
+          {visible ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+          {visible ? "Cliente vê" : "Só interna"}
+        </button>
+        {hasClickup && (
+          task.clickupTaskId ? (
+            <a
+              href={`https://app.clickup.com/t/${task.clickupTaskId}`}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#7b68ee]/40 bg-[#7b68ee]/10 text-[11px] font-semibold text-[#b9aefb] hover:bg-[#7b68ee]/20"
+              title="Sincroniza nos dois sentidos"
+            >
+              <RefreshCw className="w-3 h-3" /> ClickUp <ExternalLink className="w-2.5 h-2.5" />
+            </a>
           ) : (
-            <>
-              <input list="etapas-list" value={stage} onChange={(e) => { setStage(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} placeholder="Ex.: Diagnóstico" className={inCls} />
-              <datalist id="etapas-list">{stageSuggestions.map((s) => <option key={s} value={s} />)}</datalist>
-            </>
-          )}
-        </div>
-      </div>
-      <div>
-        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Descrição <span className="text-slate-600 normal-case">(o cliente vê · cole prints aqui)</span></label>
-        <DescricaoEditor
-          value={description}
-          onChange={(v: string) => { setDescription(v); dirtyRef.current = true; }}
-          onBlur={saveQuiet}
-          onUpload={uploadDescImage}
-          mediaUrl={descMediaUrl}
-          rows={5}
-          placeholder="O que será feito nesta tarefa… (cole um print pra ilustrar)"
-          className={`${inCls} resize-y`}
-        />
-      </div>
-      <div>
-        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Checklist / sub-passos</label>
-        <ChecklistEditor projectId={projectId} taskId={task.id} initial={task.checklist} />
-      </div>
-      <AttachmentsPanel target={{ projectTaskId: task.id }} title="Arquivos da tarefa" />
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Início</label>
-          <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls} />
-        </div>
-        <div>
-          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Fim / prazo</label>
-          <input type="date" value={dueDate} onChange={(e) => { setDueDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls} />
-        </div>
-      </div>
-      <div className="pt-1 border-t border-[#1e2d45]">
-        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1"><Link2 className="w-3 h-3" /> Links / anexos da tarefa</label>
-        {task.materials.length > 0 && (
-          <div className="space-y-1 mb-2">
-            {task.materials.map((m) => (
-              <div key={m.id} className="flex items-center gap-2 text-xs bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5">
-                <Link2 className="w-3 h-3 text-slate-500 shrink-0" />
-                {m.url ? (
-                  <a href={m.url} target="_blank" rel="noopener noreferrer" className="text-indigo-300 hover:underline truncate flex-1" title={m.url}>{m.title}</a>
-                ) : (
-                  <span className="text-slate-300 truncate flex-1">{m.title}</span>
-                )}
-                <button type="button" onClick={() => removeMaterial(m.id)} className="text-slate-600 hover:text-red-400 shrink-0" title="Remover">
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ))}
-          </div>
+            <button
+              type="button"
+              onClick={pushToClickup}
+              disabled={pushing}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#7b68ee]/40 bg-[#7b68ee]/10 hover:bg-[#7b68ee]/20 text-[11px] font-semibold text-[#b9aefb] disabled:opacity-50"
+              title="Cria no ClickUp e passa a sincronizar"
+            >
+              <RefreshCw className="w-3 h-3" /> {pushing ? "Enviando…" : "Sincronizar ClickUp"}
+            </button>
+          )
         )}
-        <div className="flex gap-1.5">
-          <input value={matTitle} onChange={(e) => setMatTitle(e.target.value)} placeholder="Título" className={inCls + " flex-1"} />
-          <input value={matUrl} onChange={(e) => setMatUrl(e.target.value)} placeholder="https://…" className={inCls + " flex-1"} />
-          <button type="button" onClick={addMaterial} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center"><Plus className="w-3.5 h-3.5" /></button>
-        </div>
-        {matMsg && <p className="text-[10px] text-slate-500 mt-1">{matMsg}</p>}
+        <span className="flex-1" />
+        <span className="text-[11px] text-slate-500 tabular-nums">
+          {autoSaving ? "salvando…" : savedAt ? "✓ salvo" : "salva ao sair do campo"}
+        </span>
       </div>
-      <div className="pt-1 border-t border-[#1e2d45]">
-        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Atualizações / comentários <span className="text-slate-600 normal-case">(o cliente vê, exceto as marcadas 🔒 interno)</span></label>
-        {comments.length > 0 && (
-          <div className="flex flex-col gap-2 mb-2">
-            {comments.map((c, i) => {
-              const fromClient = (c as any).by === "client";
-              const internal = (c as any).vis === false;
-              return (
-                <div key={i} className={`group/cm rounded-lg border px-3 py-2 ${fromClient ? "border-amber-500/30 bg-amber-500/5" : internal ? "border-slate-700 bg-[#0b0f18]" : "border-[#1e2d45] bg-[#0f1729]"}`}>
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className={`text-[11px] font-bold ${fromClient ? "text-amber-300" : internal ? "text-slate-400" : "text-indigo-300"}`}>{fromClient ? "Cliente" : "Equipe"}{internal && !fromClient ? " · 🔒 interno" : ""}</span>
-                    <div className="flex items-center gap-2">
-                      {!fromClient && (
-                        <button onClick={() => persistComments(comments.map((x, idx) => (idx === i ? { ...x, vis: internal ? true : false } : x)))} className="text-[10px] font-semibold text-slate-500 hover:text-emerald-300 opacity-0 group-hover/cm:opacity-100" title={internal ? "Mostrar pro cliente" : "Deixar só interno"}>{internal ? "mostrar" : "ocultar"}</button>
+
+      {/* Duas colunas: esquerda = a tarefa · direita = o que aconteceu */}
+      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-5">
+
+        {/* ─── ESQUERDA: descrição em destaque + dados ─── */}
+        <div className="min-h-0 overflow-y-auto pr-1 space-y-4">
+          <div>
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Título</label>
+            <input
+              value={title}
+              onChange={(e) => { setTitle(e.target.value); dirtyRef.current = true; }}
+              onBlur={saveQuiet}
+              placeholder="Título"
+              className={`${inCls} !text-base`}
+            />
+          </div>
+
+          <div>
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">
+              Descrição <span className="text-slate-600 normal-case">(o cliente vê · cole prints aqui)</span>
+            </label>
+            <DescricaoEditor
+              value={description}
+              onChange={(v: string) => { setDescription(v); dirtyRef.current = true; }}
+              onBlur={saveQuiet}
+              onUpload={uploadDescImage}
+              mediaUrl={descMediaUrl}
+              rows={10}
+              placeholder="O que será feito nesta tarefa… (cole um print pra ilustrar)"
+              className={`${inCls} resize-y`}
+            />
+          </div>
+
+          <div>
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Checklist / sub-passos</label>
+            <ChecklistEditor projectId={projectId} taskId={task.id} initial={task.checklist} />
+          </div>
+
+          <div className="pt-3 border-t border-[#1e2d45] space-y-3">
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">{serviceSteps.length > 0 ? "Serviço / etapa" : "Etapa"}</label>
+              {serviceSteps.length > 0 ? (
+                <select value={svcId} onChange={(e) => { setSvcId(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls}>
+                  <option value="">— sem serviço —</option>
+                  {serviceSteps.map((s, i) => <option key={s.id} value={s.id}>{String(i + 1).padStart(2, "0")} · {s.name}</option>)}
+                </select>
+              ) : (
+                <>
+                  <input list="etapas-list" value={stage} onChange={(e) => { setStage(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} placeholder="Ex.: Diagnóstico" className={inCls} />
+                  <datalist id="etapas-list">{stageSuggestions.map((s) => <option key={s} value={s} />)}</datalist>
+                </>
+              )}
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Início</label>
+                <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls} />
+              </div>
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Fim / prazo</label>
+                <input type="date" value={dueDate} onChange={(e) => { setDueDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── DIREITA: atividade — log, anexos, links e comentários ─── */}
+        <div className="min-h-0 flex flex-col lg:border-l lg:border-[#1e2d45] lg:pl-5">
+          <div className="flex items-center gap-2 mb-2 shrink-0">
+            <MessageSquare className="w-3.5 h-3.5 text-slate-500" />
+            <span className="text-slate-400 text-xs font-semibold uppercase tracking-wide">Atividade</span>
+          </div>
+
+          <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-3">
+            {/* Log da tarefa */}
+            <div className="text-[11px] text-slate-500 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 space-y-0.5">
+              <div>Aberta em <span className="text-slate-300 tabular-nums">{fmt(task.createdAt)}</span></div>
+              <div>Última atualização <span className="text-slate-300 tabular-nums">{fmt(task.updatedAt)}</span></div>
+            </div>
+
+            {/* Arquivos (MinIO) — aparecem aqui assim que você anexa */}
+            <AttachmentsPanel target={{ projectTaskId: task.id }} title="Arquivos" />
+
+            {/* Links externos (YouTube, docs, etc.) */}
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1">
+                <Link2 className="w-3 h-3" /> Links
+              </label>
+              {task.materials.length > 0 && (
+                <div className="space-y-1 mb-1.5">
+                  {task.materials.map((m) => (
+                    <div key={m.id} className="flex items-center gap-2 text-xs bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 group/mat">
+                      <Link2 className="w-3 h-3 text-slate-500 shrink-0" />
+                      {m.url ? (
+                        <a href={m.url} target="_blank" rel="noopener noreferrer" className="text-indigo-300 hover:underline truncate flex-1" title={m.url}>{m.title}</a>
+                      ) : (
+                        <span className="text-slate-300 truncate flex-1">{m.title}</span>
                       )}
-                      <span className="text-[10px] text-slate-500 tabular-nums">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
-                      <button onClick={() => persistComments(comments.filter((_, idx) => idx !== i))} className="text-slate-600 hover:text-red-400 opacity-0 group-hover/cm:opacity-100" title="Remover">
-                        <Trash2 className="w-3 h-3" />
+                      <button type="button" onClick={() => removeMaterial(m.id)} className="text-slate-600 hover:text-red-400 shrink-0 opacity-0 group-hover/mat:opacity-100" title="Remover">
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                  </div>
-                  <div className="text-[13px] text-slate-200 leading-relaxed whitespace-pre-wrap">{c.text}</div>
+                  ))}
                 </div>
-              );
-            })}
+              )}
+              {!linkOpen ? (
+                <button
+                  type="button"
+                  onClick={() => setLinkOpen(true)}
+                  className="flex items-center gap-1.5 text-[11px] text-slate-600 hover:text-indigo-300 transition-colors"
+                >
+                  <Plus className="w-3 h-3" /> Adicionar link
+                </button>
+              ) : (
+                <div className="space-y-1.5 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg p-2">
+                  <input autoFocus value={matTitle} onChange={(e) => setMatTitle(e.target.value)} placeholder="Título (ex.: Vídeo da reunião)" className={inCls} />
+                  <input value={matUrl} onChange={(e) => setMatUrl(e.target.value)} placeholder="https://…" className={inCls} />
+                  <div className="flex gap-1.5">
+                    <button type="button" onClick={async () => { await addMaterial(); setLinkOpen(false); }} className="flex-1 px-2 py-1 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-[11px] font-medium">Adicionar</button>
+                    <button type="button" onClick={() => { setLinkOpen(false); setMatMsg(""); }} className="px-2 py-1 text-slate-500 hover:text-white text-[11px]">Cancelar</button>
+                  </div>
+                  {matMsg && <p className="text-[10px] text-slate-500">{matMsg}</p>}
+                </div>
+              )}
+            </div>
+
+            {/* Comentários / andamento */}
+            <div className="pt-2 border-t border-[#1e2d45]">
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                Andamento <span className="text-slate-600 normal-case">(o cliente vê, exceto 🔒)</span>
+              </label>
+              {comments.length === 0 ? (
+                <p className="text-[11px] text-slate-600 mb-2">Nenhuma atualização ainda.</p>
+              ) : (
+                <div className="flex flex-col gap-2 mb-2">
+                  {comments.map((c, i) => {
+                    const fromClient = (c as any).by === "client";
+                    const internal = (c as any).vis === false;
+                    return (
+                      <div key={i} className={`group/cm rounded-lg border px-3 py-2 ${fromClient ? "border-amber-500/30 bg-amber-500/5" : internal ? "border-slate-700 bg-[#0b0f18]" : "border-[#1e2d45] bg-[#0f1729]"}`}>
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <span className={`text-[11px] font-bold ${fromClient ? "text-amber-300" : internal ? "text-slate-400" : "text-indigo-300"}`}>{fromClient ? "Cliente" : "Equipe"}{internal && !fromClient ? " · 🔒 interno" : ""}</span>
+                          <div className="flex items-center gap-2">
+                            {!fromClient && (
+                              <button onClick={() => persistComments(comments.map((x, idx) => (idx === i ? { ...x, vis: internal ? true : false } : x)))} className="text-[10px] font-semibold text-slate-500 hover:text-emerald-300 opacity-0 group-hover/cm:opacity-100" title={internal ? "Mostrar pro cliente" : "Deixar só interno"}>{internal ? "mostrar" : "ocultar"}</button>
+                            )}
+                            <span className="text-[10px] text-slate-500 tabular-nums">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
+                            <button onClick={() => persistComments(comments.filter((_, idx) => idx !== i))} className="text-slate-600 hover:text-red-400 opacity-0 group-hover/cm:opacity-100" title="Remover">
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          </div>
+                        </div>
+                        <div className="text-[13px] text-slate-200 leading-relaxed whitespace-pre-wrap">{c.text}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
-        )}
-        <div className="flex gap-1.5">
-          <input
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addComment(); } }}
-            placeholder={commentInternal ? "Nota interna (o cliente não vê)…" : "Ex.: Aguardando o Google liberar (uns 3 dias)…"}
-            className={inCls + " flex-1"}
-          />
-          <button type="button" onClick={addComment} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center"><Plus className="w-3.5 h-3.5" /></button>
+
+          {/* Composer fixo no rodapé da coluna */}
+          <div className="shrink-0 pt-2 mt-2 border-t border-[#1e2d45]">
+            <div className="flex gap-1.5">
+              <input
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addComment(); } }}
+                placeholder={commentInternal ? "Nota interna (o cliente não vê)…" : "O que avançou? Ex.: Artes enviadas pra aprovação…"}
+                className={inCls + " flex-1"}
+              />
+              <button type="button" onClick={addComment} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center" title="Publicar andamento">
+                <Plus className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            <div className="flex items-center justify-between gap-2 mt-1.5">
+              <label className="flex items-center gap-1.5 text-[11px] text-slate-500 cursor-pointer select-none">
+                <input type="checkbox" checked={commentInternal} onChange={(e) => setCommentInternal(e.target.checked)} className="accent-slate-500 w-3.5 h-3.5" />
+                🔒 Só interno
+              </label>
+              <div className="flex gap-2">
+                <button onClick={save} disabled={saving} className="px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-xs font-medium">{saving ? "Salvando…" : "Salvar e fechar"}</button>
+                <button onClick={onClose} className="px-3 py-1.5 rounded-md text-slate-400 hover:text-white text-xs">Fechar</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <label className="flex items-center gap-1.5 mt-1.5 text-[11px] text-slate-500 cursor-pointer select-none">
-          <input type="checkbox" checked={commentInternal} onChange={(e) => setCommentInternal(e.target.checked)} className="accent-slate-500 w-3.5 h-3.5" />
-          🔒 Só interno — o cliente não vê esta atualização
-        </label>
-      </div>
-      <div className="flex gap-2 pt-0.5">
-        <span className="text-[11px] text-slate-500 mr-1 tabular-nums">
-          {autoSaving ? "salvando…" : savedAt ? "✓ salvo automaticamente" : "salva sozinho ao sair do campo"}
-        </span>
-        <button onClick={save} disabled={saving} className="px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-xs font-medium">{saving ? "Salvando…" : "Salvar e fechar"}</button>
-        <button onClick={onClose} className="px-3 py-1.5 rounded-md text-slate-400 hover:text-white text-xs">Fechar</button>
       </div>
     </div>
   );
@@ -1902,7 +1959,7 @@ function ProjectTasksCard({
                 </div>
                 <button onClick={closeTaskModal} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
-              <div className="flex-1 overflow-y-auto px-6 py-5">
+              <div className="flex-1 min-h-0 px-6 py-5">
                 <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} />
               </div>
             </div>

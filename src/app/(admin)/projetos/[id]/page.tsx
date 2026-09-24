@@ -103,6 +103,7 @@ export default async function ProjectDetailPage({
     priority:     t.priority as string,
     startDate:    t.startDate ? t.startDate.toISOString() : null,
     dueDate:      t.dueDate ? t.dueDate.toISOString() : null,
+    createdAt:    t.createdAt.toISOString(),
     updatedAt:    t.updatedAt.toISOString(),
     clickupTaskId: t.clickupTaskId ?? null,
     awaitingClient: t.awaitingClient,
