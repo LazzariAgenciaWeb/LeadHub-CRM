@@ -171,7 +171,11 @@ export default async function ProjectDetailPage({
   const serviceSteps = serviceStepsRaw.map((s) => ({
     id: s.id, order: s.order, name: s.name || s.service?.name || "Serviço",
     visibleToClient: s.visibleToClient,
-    taskCount: internalTasks.filter((t) => t.projectServiceId === s.id).length,
+    // Contagens REAIS da etapa (ignoradas de fora). O cabeçalho da lista usa
+    // isto em vez do que está filtrado na tela — senão esconder as concluídas
+    // faz uma etapa 100% pronta parecer 0/10.
+    taskCount: internalTasks.filter((t) => t.projectServiceId === s.id && !t.ignored).length,
+    doneCount: internalTasks.filter((t) => t.projectServiceId === s.id && !t.ignored && t.done).length,
   }));
 
   // Materiais do projeto (documentos/links/vídeos/anexos), opcionalmente por tarefa.

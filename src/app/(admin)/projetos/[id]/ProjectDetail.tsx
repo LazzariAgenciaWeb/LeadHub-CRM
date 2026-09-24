@@ -162,7 +162,7 @@ export default function ProjectDetail({
   internalTasks: InternalTask[];
   chamados: Chamado[];
   catalogServices: { id: string; name: string }[];
-  serviceSteps: { id: string; name: string; order: number; taskCount: number; visibleToClient: boolean }[];
+  serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number; visibleToClient: boolean }[];
   currentServiceId: string | null;
   materials: { id: string; kind: string; taskId: string | null; stage: string | null; title: string; docHtml: string | null; url: string | null; ata: string | null; featured: boolean; visibleToClient: boolean }[];
   publicToken: string | null;
@@ -1021,7 +1021,7 @@ function ChecklistEditor({
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
-function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number }[]; hasClickup: boolean }) {
+function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean }) {
   const router = useRouter();
   const [title, setTitle] = useState(task.title);
   const [stage, setStage] = useState(task.stage ?? "");
@@ -1498,7 +1498,7 @@ function ProjectTasksCard({
   availableUsers: { id: string; name: string }[];
   internalTasks: InternalTask[];
   hasClickup: boolean;
-  serviceSteps: { id: string; name: string; order: number; taskCount: number }[];
+  serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[];
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -2002,11 +2002,13 @@ function ProjectTasksCard({
         }));
         const noSvc = list.filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId));
 
-        const GroupHead = ({ label, tasks, muted, stepId, index, total, isOpen, onToggle }: {
+        const GroupHead = ({ label, tasks, muted, stepId, index, total, done, isOpen, onToggle }: {
           label: string; tasks: InternalTask[]; muted?: boolean; stepId?: string; index?: number;
-          total?: number; isOpen?: boolean; onToggle?: () => void;
+          total?: number; done?: number; isOpen?: boolean; onToggle?: () => void;
         }) => {
-          const feitas = tasks.filter((t) => t.done).length;
+          // Contagem real da etapa (não a filtrada) — uma etapa 100% concluída
+          // precisa mostrar 10/10 mesmo com as concluídas escondidas.
+          const feitas = done ?? tasks.filter((t) => t.done).length;
           const base = total ?? tasks.length;
           const pct = base > 0 ? Math.round((feitas / base) * 100) : 0;
           const tone = muted ? null : STAGE_TONES[(index ?? 0) % STAGE_TONES.length];
@@ -2054,17 +2056,31 @@ function ProjectTasksCard({
                 if (next.has(g.id)) next.delete(g.id); else next.add(g.id);
                 return next;
               });
+              const step = serviceSteps.find((s) => s.id === g.id);
+              const totalReal = step?.taskCount ?? g.tasks.length;
+              const doneReal  = step?.doneCount ?? g.tasks.filter((t) => t.done).length;
+              // Etapa sem nada na tela: distingue "não tem tarefa" de "tem, mas
+              // estão escondidas" — senão parece que falta executar o que já foi feito.
+              const escondidas = totalReal - g.tasks.length;
               return (
                 <div key={g.id}>
                   <GroupHead
                     label={g.label} tasks={g.tasks} stepId={g.id} index={gi}
-                    total={serviceSteps.find((s) => s.id === g.id)?.taskCount ?? g.tasks.length}
+                    total={totalReal} done={doneReal}
                     isOpen={aberta} onToggle={toggle}
                   />
                   {aberta && (
                     <>
                       {g.tasks.length === 0
-                        ? <div className="px-5 py-2.5 text-[11px] text-slate-600 italic">nenhuma tarefa nesta etapa</div>
+                        ? (
+                          <div className="px-5 py-2.5 text-[11px] italic">
+                            {totalReal === 0
+                              ? <span className="text-slate-600">nenhuma tarefa nesta etapa</span>
+                              : doneReal === totalReal
+                                ? <span className="text-emerald-400/80">tudo concluído nesta etapa ✓</span>
+                                : <span className="text-slate-500">{escondidas} tarefa{escondidas > 1 ? "s" : ""} oculta{escondidas > 1 ? "s" : ""} pelo filtro</span>}
+                          </div>
+                        )
                         : <div className="divide-y divide-[#1e2d45]">{g.tasks.map(rowOf)}</div>}
                       {/* Entrada rápida — some quando há filtro/busca ativa, pra não
                           criar tarefa que sumiria da vista logo em seguida. */}
