@@ -53882,6 +53882,7 @@ export namespace Prisma {
     stage: string | null
     projectServiceId: string | null
     clickupTaskId: string | null
+    status: string | null
     awaitingClient: boolean | null
     ignoredAt: Date | null
     visibleToClient: boolean | null
@@ -53904,6 +53905,7 @@ export namespace Prisma {
     stage: string | null
     projectServiceId: string | null
     clickupTaskId: string | null
+    status: string | null
     awaitingClient: boolean | null
     ignoredAt: Date | null
     visibleToClient: boolean | null
@@ -53928,6 +53930,7 @@ export namespace Prisma {
     checklist: number
     comments: number
     clickupTaskId: number
+    status: number
     awaitingClient: number
     ignoredAt: number
     visibleToClient: number
@@ -53952,6 +53955,7 @@ export namespace Prisma {
     stage?: true
     projectServiceId?: true
     clickupTaskId?: true
+    status?: true
     awaitingClient?: true
     ignoredAt?: true
     visibleToClient?: true
@@ -53974,6 +53978,7 @@ export namespace Prisma {
     stage?: true
     projectServiceId?: true
     clickupTaskId?: true
+    status?: true
     awaitingClient?: true
     ignoredAt?: true
     visibleToClient?: true
@@ -53998,6 +54003,7 @@ export namespace Prisma {
     checklist?: true
     comments?: true
     clickupTaskId?: true
+    status?: true
     awaitingClient?: true
     ignoredAt?: true
     visibleToClient?: true
@@ -54095,6 +54101,7 @@ export namespace Prisma {
     checklist: JsonValue | null
     comments: JsonValue | null
     clickupTaskId: string | null
+    status: string
     awaitingClient: boolean
     ignoredAt: Date | null
     visibleToClient: boolean
@@ -54136,6 +54143,7 @@ export namespace Prisma {
     checklist?: boolean
     comments?: boolean
     clickupTaskId?: boolean
+    status?: boolean
     awaitingClient?: boolean
     ignoredAt?: boolean
     visibleToClient?: boolean
@@ -54167,6 +54175,7 @@ export namespace Prisma {
     checklist?: boolean
     comments?: boolean
     clickupTaskId?: boolean
+    status?: boolean
     awaitingClient?: boolean
     ignoredAt?: boolean
     visibleToClient?: boolean
@@ -54195,6 +54204,7 @@ export namespace Prisma {
     checklist?: boolean
     comments?: boolean
     clickupTaskId?: boolean
+    status?: boolean
     awaitingClient?: boolean
     ignoredAt?: boolean
     visibleToClient?: boolean
@@ -54245,6 +54255,7 @@ export namespace Prisma {
       checklist: Prisma.JsonValue | null
       comments: Prisma.JsonValue | null
       clickupTaskId: string | null
+      status: string
       awaitingClient: boolean
       ignoredAt: Date | null
       visibleToClient: boolean
@@ -54665,6 +54676,7 @@ export namespace Prisma {
     readonly checklist: FieldRef<"ProjectTask", 'Json'>
     readonly comments: FieldRef<"ProjectTask", 'Json'>
     readonly clickupTaskId: FieldRef<"ProjectTask", 'String'>
+    readonly status: FieldRef<"ProjectTask", 'String'>
     readonly awaitingClient: FieldRef<"ProjectTask", 'Boolean'>
     readonly ignoredAt: FieldRef<"ProjectTask", 'DateTime'>
     readonly visibleToClient: FieldRef<"ProjectTask", 'Boolean'>
@@ -148269,6 +148281,7 @@ export namespace Prisma {
     checklist: 'checklist',
     comments: 'comments',
     clickupTaskId: 'clickupTaskId',
+    status: 'status',
     awaitingClient: 'awaitingClient',
     ignoredAt: 'ignoredAt',
     visibleToClient: 'visibleToClient',
@@ -154545,6 +154558,7 @@ export namespace Prisma {
     checklist?: JsonNullableFilter<"ProjectTask">
     comments?: JsonNullableFilter<"ProjectTask">
     clickupTaskId?: StringNullableFilter<"ProjectTask"> | string | null
+    status?: StringFilter<"ProjectTask"> | string
     awaitingClient?: BoolFilter<"ProjectTask"> | boolean
     ignoredAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     visibleToClient?: BoolFilter<"ProjectTask"> | boolean
@@ -154575,6 +154589,7 @@ export namespace Prisma {
     checklist?: SortOrderInput | SortOrder
     comments?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
+    status?: SortOrder
     awaitingClient?: SortOrder
     ignoredAt?: SortOrderInput | SortOrder
     visibleToClient?: SortOrder
@@ -154608,6 +154623,7 @@ export namespace Prisma {
     checklist?: JsonNullableFilter<"ProjectTask">
     comments?: JsonNullableFilter<"ProjectTask">
     clickupTaskId?: StringNullableFilter<"ProjectTask"> | string | null
+    status?: StringFilter<"ProjectTask"> | string
     awaitingClient?: BoolFilter<"ProjectTask"> | boolean
     ignoredAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     visibleToClient?: BoolFilter<"ProjectTask"> | boolean
@@ -154638,6 +154654,7 @@ export namespace Prisma {
     checklist?: SortOrderInput | SortOrder
     comments?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
+    status?: SortOrder
     awaitingClient?: SortOrder
     ignoredAt?: SortOrderInput | SortOrder
     visibleToClient?: SortOrder
@@ -154668,6 +154685,7 @@ export namespace Prisma {
     checklist?: JsonNullableWithAggregatesFilter<"ProjectTask">
     comments?: JsonNullableWithAggregatesFilter<"ProjectTask">
     clickupTaskId?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
+    status?: StringWithAggregatesFilter<"ProjectTask"> | string
     awaitingClient?: BoolWithAggregatesFilter<"ProjectTask"> | boolean
     ignoredAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     visibleToClient?: BoolWithAggregatesFilter<"ProjectTask"> | boolean
@@ -167171,6 +167189,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -167199,6 +167218,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -167223,6 +167243,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -167251,6 +167272,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -167277,6 +167299,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -167299,6 +167322,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -167321,6 +167345,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -179996,6 +180021,7 @@ export namespace Prisma {
     checklist?: SortOrder
     comments?: SortOrder
     clickupTaskId?: SortOrder
+    status?: SortOrder
     awaitingClient?: SortOrder
     ignoredAt?: SortOrder
     visibleToClient?: SortOrder
@@ -180018,6 +180044,7 @@ export namespace Prisma {
     stage?: SortOrder
     projectServiceId?: SortOrder
     clickupTaskId?: SortOrder
+    status?: SortOrder
     awaitingClient?: SortOrder
     ignoredAt?: SortOrder
     visibleToClient?: SortOrder
@@ -180040,6 +180067,7 @@ export namespace Prisma {
     stage?: SortOrder
     projectServiceId?: SortOrder
     clickupTaskId?: SortOrder
+    status?: SortOrder
     awaitingClient?: SortOrder
     ignoredAt?: SortOrder
     visibleToClient?: SortOrder
@@ -199931,6 +199959,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -199958,6 +199987,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -199991,6 +200021,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -200018,6 +200049,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -201548,6 +201580,7 @@ export namespace Prisma {
     checklist?: JsonNullableFilter<"ProjectTask">
     comments?: JsonNullableFilter<"ProjectTask">
     clickupTaskId?: StringNullableFilter<"ProjectTask"> | string | null
+    status?: StringFilter<"ProjectTask"> | string
     awaitingClient?: BoolFilter<"ProjectTask"> | boolean
     ignoredAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     visibleToClient?: BoolFilter<"ProjectTask"> | boolean
@@ -230087,6 +230120,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -230113,6 +230147,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -231732,6 +231767,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -231758,6 +231794,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -233415,6 +233452,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -233442,6 +233480,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -233560,6 +233599,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -233587,6 +233627,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -280648,6 +280689,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -280675,6 +280717,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -281208,6 +281251,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -281235,6 +281279,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -281608,6 +281653,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -281631,6 +281677,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -282605,6 +282652,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -282632,6 +282680,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -282657,6 +282706,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -282678,6 +282728,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -282705,6 +282756,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -282730,6 +282782,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -292240,6 +292293,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -292465,6 +292519,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -292491,6 +292546,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -292516,6 +292572,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -292770,6 +292827,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
+    status?: string
     awaitingClient?: boolean
     ignoredAt?: Date | string | null
     visibleToClient?: boolean
@@ -292792,6 +292850,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -292818,6 +292877,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
@@ -292843,6 +292903,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
     ignoredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean

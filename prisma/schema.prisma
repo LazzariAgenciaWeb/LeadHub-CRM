@@ -1513,7 +1513,12 @@ model ProjectTask {
   checklist        Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
   comments         Json? // atualizações/comentários datados: [{ "text": string, "at": ISO }] — o cliente vê o andamento
   clickupTaskId    String? // vínculo com a tarefa do ClickUp (importada) — base pro sync futuro
-  awaitingClient   Boolean          @default(false) // aguardando resposta/retorno do cliente (aparece em "Precisa da sua atenção")
+  // Status da tarefa — fonte ÚNICA do andamento. Gravar aqui deriva `done`,
+  // `completedAt` e `awaitingClient` (ver PATCH da tarefa), pra não existirem
+  // duas verdades sobre a mesma tarefa.
+  //   "NOVA" | "EM_PRODUCAO" | "AGUARDANDO_CLIENTE" | "APROVADO"
+  status           String           @default("NOVA")
+  awaitingClient   Boolean          @default(false) // derivado de status=AGUARDANDO_CLIENTE (usado no painel do cliente)
   // Tarefa "ignorada": veio do ClickUp mas não interessa a este projeto. Sai da
   // Caixa de entrada sem ser apagada (some da fila, mas dá pra restaurar).
   // null = ativa. Preenchido = ignorada, com a data pra ordenar a lista.

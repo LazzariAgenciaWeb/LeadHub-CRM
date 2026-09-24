@@ -99,7 +99,8 @@ type InternalTask = {
   createdAt:    string; // ISO — abertura
   updatedAt:    string; // ISO — última atualização
   clickupTaskId: string | null; // vínculo ClickUp (se importada)
-  awaitingClient: boolean; // aguardando resposta do cliente
+  status:       string;  // NOVA | EM_PRODUCAO | AGUARDANDO_CLIENTE | APROVADO
+  awaitingClient: boolean; // derivado do status
   visibleToClient: boolean; // aparece pro cliente no painel
   ignored:      boolean; // veio do ClickUp mas foi descartada — fora da fila
   assigneeName: string | null;
@@ -132,6 +133,16 @@ const STAGE_TONES = [
   { bg: "bg-emerald-500/10", border: "border-l-emerald-500", text: "text-emerald-200", bar: "bg-emerald-500" },
   { bg: "bg-rose-500/10",    border: "border-l-rose-500",    text: "text-rose-200",    bar: "bg-rose-500"    },
 ];
+
+// Status da tarefa interna — fonte única do andamento (deriva concluída e
+// aguardando-cliente no backend).
+const TASK_STATUS: { id: string; label: string; badge: string; dot: string }[] = [
+  { id: "NOVA",               label: "Nova",               badge: "bg-slate-500/15 text-slate-300 border-slate-500/30",     dot: "bg-slate-400"   },
+  { id: "EM_PRODUCAO",        label: "Em produção",        badge: "bg-blue-500/15 text-blue-300 border-blue-500/30",        dot: "bg-blue-400"    },
+  { id: "AGUARDANDO_CLIENTE", label: "Aguardando cliente", badge: "bg-amber-500/15 text-amber-300 border-amber-500/30",     dot: "bg-amber-400"   },
+  { id: "APROVADO",           label: "Aprovado",           badge: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30", dot: "bg-emerald-400" },
+];
+const statusOf = (id: string) => TASK_STATUS.find((s) => s.id === id) ?? TASK_STATUS[0];
 
 const TICKET_STATUS_LABEL: Record<string, string> = {
   OPEN: "Aberto", IN_PROGRESS: "Em andamento", RESOLVED: "Resolvido", CLOSED: "Fechado",
@@ -1022,6 +1033,27 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   const [autoSaving, setAutoSaving] = useState(false);
   const [savedAt, setSavedAt] = useState<number | null>(null);
   const dirtyRef = useRef(false);
+  const [taskStatus, setTaskStatus] = useState(task.status);
+
+  // Aviso de "salvo" some sozinho depois de 2s — é confirmação, não estado fixo.
+  useEffect(() => {
+    if (!savedAt) return;
+    const id = setTimeout(() => setSavedAt(null), 2000);
+    return () => clearTimeout(id);
+  }, [savedAt]);
+
+  async function changeStatus(next: string) {
+    setTaskStatus(next);
+    setAutoSaving(true);
+    const res = await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ status: next }),
+    }).catch(() => null);
+    setAutoSaving(false);
+    if (res?.ok) setSavedAt(Date.now());
+    else setTaskStatus(task.status);
+  }
   const [matTitle, setMatTitle] = useState("");
   const [matUrl, setMatUrl] = useState("");
   const [matMsg, setMatMsg] = useState("");
@@ -1029,7 +1061,6 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   const [comments, setComments] = useState(task.comments);
   const [newComment, setNewComment] = useState("");
   const [commentInternal, setCommentInternal] = useState(false);
-  const [awaiting, setAwaiting] = useState(task.awaitingClient);
   const [visible, setVisible] = useState(task.visibleToClient);
   const [pushing, setPushing] = useState(false);
 
@@ -1037,17 +1068,6 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
     setPushing(true);
     await fetch(`/api/projetos/${projectId}/tasks/${task.id}/push-clickup`, { method: "POST" }).catch(() => {});
     setPushing(false);
-    router.refresh();
-  }
-
-  async function toggleAwaiting() {
-    const v = !awaiting;
-    setAwaiting(v);
-    await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
-      method:  "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ awaitingClient: v }),
-    }).catch(() => {});
     router.refresh();
   }
 
@@ -1187,12 +1207,29 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
     new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" });
 
   return (
-    <div className="flex flex-col h-full min-h-0">
+    <div className="flex flex-col h-full min-h-0 relative">
+      {/* Aviso de salvamento — flutua no canto, aparece só quando acontece algo */}
+      {(autoSaving || savedAt) && (
+        <div className={`absolute bottom-3 right-3 z-10 pointer-events-none flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-[11px] font-medium shadow-lg transition-opacity ${
+          autoSaving
+            ? "bg-[#0f1729] border-[#1e2d45] text-slate-400"
+            : "bg-emerald-500/15 border-emerald-500/40 text-emerald-200"
+        }`}>
+          {autoSaving ? "salvando…" : <><Check className="w-3 h-3" strokeWidth={3} /> salvo</>}
+        </div>
+      )}
+
       {/* Barra de estados — compacta, uma linha só */}
       <div className="flex items-center gap-2 flex-wrap pb-3 mb-3 border-b border-[#1e2d45] shrink-0">
-        <button type="button" onClick={toggleAwaiting} className={pill(awaiting, "amber")} title="Marca como 'Aguardando você' no painel do cliente">
-          <Clock className="w-3 h-3" /> Aguardando cliente
-        </button>
+        {/* Status — fonte única do andamento (deriva concluída / aguardando) */}
+        <select
+          value={taskStatus}
+          onChange={(e) => changeStatus(e.target.value)}
+          title="Status da tarefa"
+          className={`px-2.5 py-1 rounded-full border text-[11px] font-semibold cursor-pointer focus:outline-none ${statusOf(taskStatus).badge}`}
+        >
+          {TASK_STATUS.map((s) => <option key={s.id} value={s.id} className="bg-[#0f1729] text-slate-200">{s.label}</option>)}
+        </select>
         <button type="button" onClick={toggleVisible} className={pill(visible, "emerald")} title="Aparece no painel do cliente">
           {visible ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
           {visible ? "Cliente vê" : "Só interna"}
@@ -1220,10 +1257,6 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
             </button>
           )
         )}
-        <span className="flex-1" />
-        <span className="text-[11px] text-slate-500 tabular-nums">
-          {autoSaving ? "salvando…" : savedAt ? "✓ salvo" : "salva ao sair do campo"}
-        </span>
       </div>
 
       {/* Duas colunas: esquerda = a tarefa · direita = o que aconteceu */}
@@ -1546,6 +1579,15 @@ function ProjectTasksCard({
     router.refresh();
   }
 
+  async function setStatus(t: InternalTask, status: string) {
+    await fetch(`/api/projetos/${projectId}/tasks/${t.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ status }),
+    }).catch(() => {});
+    router.refresh();
+  }
+
   async function saveStage(t: InternalTask, stage: string) {
     await fetch(`/api/projetos/${projectId}/tasks/${t.id}`, {
       method:  "PATCH",
@@ -1828,6 +1870,7 @@ function ProjectTasksCard({
                 </div>
                 <div className="text-[10px] mt-1 flex items-center gap-1.5 flex-wrap text-slate-600">
                   <span className={prio.cls}>{prio.label}</span>
+                  <span>·</span>
                   {!t.projectServiceId && t.stage && <><span>·</span><span className="text-indigo-300">{t.stage}</span></>}
                   {t.assigneeName && <><span>·</span><span>{t.assigneeName}</span></>}
                   {t.checklist.length > 0 && <><span>·</span><span>{t.checklist.filter((c) => c.done).length}/{t.checklist.length} ✓</span></>}
@@ -1836,6 +1879,16 @@ function ProjectTasksCard({
               </button>
 
               <div className="flex items-center gap-2 flex-none pt-0.5">
+                {/* Status — troca sem abrir a tarefa */}
+                <select
+                  value={t.status}
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={(e) => { e.stopPropagation(); setStatus(t, e.target.value); }}
+                  title="Status da tarefa"
+                  className={`text-[10px] font-semibold rounded-full border px-1.5 py-0.5 cursor-pointer focus:outline-none appearance-none text-center ${statusOf(t.status).badge}`}
+                >
+                  {TASK_STATUS.map((s) => <option key={s.id} value={s.id} className="bg-[#0f1729] text-slate-200">{s.label}</option>)}
+                </select>
                 {(start || due) && (
                   <span className={`text-[10px] tabular-nums text-right ${overdue ? "text-red-300 font-medium" : "text-slate-500"}`}>
                     {due ? formatBrazilDate(due) : formatBrazilDate(start!)}

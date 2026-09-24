@@ -106,6 +106,7 @@ export default async function ProjectDetailPage({
     createdAt:    t.createdAt.toISOString(),
     updatedAt:    t.updatedAt.toISOString(),
     clickupTaskId: t.clickupTaskId ?? null,
+    status:       (t as any).status ?? "NOVA",
     awaitingClient: t.awaitingClient,
     visibleToClient: t.visibleToClient,
     ignored:      t.ignoredAt != null,

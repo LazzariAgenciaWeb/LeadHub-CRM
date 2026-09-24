@@ -62,7 +62,7 @@ export async function PATCH(
   if ("error" in res) return NextResponse.json({ error: res.error }, { status: res.status });
 
   const body = await req.json();
-  const { done, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, comments, awaitingClient, visibleToClient, projectServiceId, ignored } = body;
+  const { done, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, comments, awaitingClient, visibleToClient, projectServiceId, ignored, status } = body;
 
   const data: any = {};
 
@@ -84,9 +84,23 @@ export async function PATCH(
     }
   }
 
-  if (done !== undefined) {
-    data.done = !!done;
-    data.completedAt = done ? new Date() : null;
+  // ── Status é a fonte única do andamento ─────────────────────────────────
+  // Gravar status deriva done/completedAt/awaitingClient. E o caminho inverso
+  // também vale: concluir pelo círculo ou ligar "aguardando" move o status,
+  // pra nunca existirem duas verdades sobre a mesma tarefa.
+  const STATUSES = ["NOVA", "EM_PRODUCAO", "AGUARDANDO_CLIENTE", "APROVADO"];
+  if (status !== undefined && STATUSES.includes(status)) {
+    data.status         = status;
+    data.done           = status === "APROVADO";
+    data.completedAt    = status === "APROVADO" ? new Date() : null;
+    data.awaitingClient = status === "AGUARDANDO_CLIENTE";
+  } else {
+    if (done !== undefined) {
+      data.done        = !!done;
+      data.completedAt = done ? new Date() : null;
+      data.status      = done ? "APROVADO" : "EM_PRODUCAO";
+      if (done) data.awaitingClient = false;
+    }
   }
   if (title !== undefined && String(title).trim()) data.title = String(title).trim();
   if (description !== undefined) data.description = description ? String(description) : null;
@@ -97,7 +111,11 @@ export async function PATCH(
   if (stage !== undefined) data.stage = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
   if (checklist !== undefined) data.checklist = sanitizeChecklist(checklist) ?? Prisma.DbNull;
   if (comments !== undefined) data.comments = sanitizeComments(comments) ?? Prisma.DbNull;
-  if (awaitingClient !== undefined) data.awaitingClient = !!awaitingClient;
+  if (awaitingClient !== undefined && data.status === undefined) {
+    data.awaitingClient = !!awaitingClient;
+    data.status = awaitingClient ? "AGUARDANDO_CLIENTE" : "EM_PRODUCAO";
+    if (awaitingClient) { data.done = false; data.completedAt = null; }
+  }
   // Ignorar: sai da Caixa de entrada sem apagar. Restaurar = ignored:false.
   if (ignored !== undefined) data.ignoredAt = ignored ? new Date() : null;
   if (visibleToClient !== undefined) data.visibleToClient = !!visibleToClient;
