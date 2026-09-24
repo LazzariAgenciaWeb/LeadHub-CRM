@@ -121,6 +121,17 @@ const PRIORITY_PILL: Record<string, { label: string; cls: string }> = {
   URGENT: { label: "🔴 Urgente", cls: "text-red-300"     },
 };
 
+// Cores das etapas — cada uma ganha a linha inteira tingida, pra separar os
+// blocos de relance. Cicla quando passa de 6 etapas.
+const STAGE_TONES = [
+  { bg: "bg-indigo-500/10",  border: "border-l-indigo-500",  text: "text-indigo-200",  bar: "bg-indigo-500"  },
+  { bg: "bg-cyan-500/10",    border: "border-l-cyan-500",    text: "text-cyan-200",    bar: "bg-cyan-500"    },
+  { bg: "bg-fuchsia-500/10", border: "border-l-fuchsia-500", text: "text-fuchsia-200", bar: "bg-fuchsia-500" },
+  { bg: "bg-amber-500/10",   border: "border-l-amber-500",   text: "text-amber-200",   bar: "bg-amber-500"   },
+  { bg: "bg-emerald-500/10", border: "border-l-emerald-500", text: "text-emerald-200", bar: "bg-emerald-500" },
+  { bg: "bg-rose-500/10",    border: "border-l-rose-500",    text: "text-rose-200",    bar: "bg-rose-500"    },
+];
+
 const TICKET_STATUS_LABEL: Record<string, string> = {
   OPEN: "Aberto", IN_PROGRESS: "Em andamento", RESOLVED: "Resolvido", CLOSED: "Fechado",
 };
@@ -1007,6 +1018,9 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   const [startDate, setStartDate] = useState(task.startDate ? task.startDate.slice(0, 10) : "");
   const [dueDate, setDueDate] = useState(task.dueDate ? task.dueDate.slice(0, 10) : "");
   const [saving, setSaving] = useState(false);
+  const [autoSaving, setAutoSaving] = useState(false);
+  const [savedAt, setSavedAt] = useState<number | null>(null);
+  const dirtyRef = useRef(false);
   const [matTitle, setMatTitle] = useState("");
   const [matUrl, setMatUrl] = useState("");
   const [matMsg, setMatMsg] = useState("");
@@ -1077,20 +1091,44 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
     router.refresh();
   }
 
+  function payload() {
+    return {
+      title:       title.trim(),
+      ...(serviceSteps.length > 0 ? { projectServiceId: svcId || null } : { stage: stage.trim() || null }),
+      description: description.trim() || null,
+      startDate:   startDate ? new Date(startDate).toISOString() : null,
+      dueDate:     dueDate ? new Date(dueDate).toISOString() : null,
+    };
+  }
+
+  async function persist() {
+    if (!title.trim()) return false;
+    const res = await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify(payload()),
+    }).catch(() => null);
+    return !!res?.ok;
+  }
+
+  // Auto-save ao sair do campo — evita ter que clicar em Salvar o tempo todo.
+  // Não fecha o modal nem dá refresh (refresh remontaria o formulário no meio
+  // da edição); a lista se atualiza quando o modal fecha.
+  async function saveQuiet() {
+    if (!title.trim()) return;
+    setAutoSaving(true);
+    const ok = await persist();
+    setAutoSaving(false);
+    if (ok) {
+      setSavedAt(Date.now());
+      dirtyRef.current = false;
+    }
+  }
+
   async function save() {
     if (!title.trim()) return;
     setSaving(true);
-    await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
-      method:  "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title:       title.trim(),
-        ...(serviceSteps.length > 0 ? { projectServiceId: svcId || null } : { stage: stage.trim() || null }),
-        description: description.trim() || null,
-        startDate:   startDate ? new Date(startDate).toISOString() : null,
-        dueDate:     dueDate ? new Date(dueDate).toISOString() : null,
-      }),
-    }).catch(() => {});
+    await persist();
     setSaving(false);
     onClose();
     router.refresh();
@@ -1198,18 +1236,18 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
           <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Título</label>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título" className={inCls} />
+          <input value={title} onChange={(e) => { setTitle(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} placeholder="Título" className={inCls} />
         </div>
         <div>
           <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">{serviceSteps.length > 0 ? "Serviço / etapa" : "Etapa"}</label>
           {serviceSteps.length > 0 ? (
-            <select value={svcId} onChange={(e) => setSvcId(e.target.value)} className={inCls}>
+            <select value={svcId} onChange={(e) => { setSvcId(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls}>
               <option value="">— sem serviço —</option>
               {serviceSteps.map((s, i) => <option key={s.id} value={s.id}>{String(i + 1).padStart(2, "0")} · {s.name}</option>)}
             </select>
           ) : (
             <>
-              <input list="etapas-list" value={stage} onChange={(e) => setStage(e.target.value)} placeholder="Ex.: Diagnóstico" className={inCls} />
+              <input list="etapas-list" value={stage} onChange={(e) => { setStage(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} placeholder="Ex.: Diagnóstico" className={inCls} />
               <datalist id="etapas-list">{stageSuggestions.map((s) => <option key={s} value={s} />)}</datalist>
             </>
           )}
@@ -1219,7 +1257,8 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
         <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Descrição <span className="text-slate-600 normal-case">(o cliente vê · cole prints aqui)</span></label>
         <DescricaoEditor
           value={description}
-          onChange={setDescription}
+          onChange={(v: string) => { setDescription(v); dirtyRef.current = true; }}
+          onBlur={saveQuiet}
           onUpload={uploadDescImage}
           mediaUrl={descMediaUrl}
           rows={5}
@@ -1235,11 +1274,11 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Início</label>
-          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className={inCls} />
+          <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls} />
         </div>
         <div>
           <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Fim / prazo</label>
-          <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className={inCls} />
+          <input type="date" value={dueDate} onChange={(e) => { setDueDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet} className={inCls} />
         </div>
       </div>
       <div className="pt-1 border-t border-[#1e2d45]">
@@ -1311,7 +1350,10 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
         </label>
       </div>
       <div className="flex gap-2 pt-0.5">
-        <button onClick={save} disabled={saving} className="px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-xs font-medium">{saving ? "Salvando…" : "Salvar"}</button>
+        <span className="text-[11px] text-slate-500 mr-1 tabular-nums">
+          {autoSaving ? "salvando…" : savedAt ? "✓ salvo automaticamente" : "salva sozinho ao sair do campo"}
+        </span>
+        <button onClick={save} disabled={saving} className="px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-xs font-medium">{saving ? "Salvando…" : "Salvar e fechar"}</button>
         <button onClick={onClose} className="px-3 py-1.5 rounded-md text-slate-400 hover:text-white text-xs">Fechar</button>
       </div>
     </div>
@@ -1389,9 +1431,16 @@ function ProjectTasksCard({
     if (res.ok) { exitSelectMode(); router.refresh(); }
   }
 
+  // Fecha o modal e atualiza a lista. Como os campos salvam sozinhos no blur,
+  // fechar pelo X/Esc/fundo também precisa refletir as mudanças na lista.
+  function closeTaskModal() {
+    setEditingId(null);
+    router.refresh();
+  }
+
   useEffect(() => {
     if (!editingId) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setEditingId(null); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeTaskModal(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [editingId]);
@@ -1785,18 +1834,29 @@ function ProjectTasksCard({
         }));
         const noSvc = list.filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId));
 
-        const GroupHead = ({ label, tasks, muted }: { label: string; tasks: InternalTask[]; muted?: boolean }) => {
+        const GroupHead = ({ label, tasks, muted, stepId, index }: {
+          label: string; tasks: InternalTask[]; muted?: boolean; stepId?: string; index?: number;
+        }) => {
           const feitas = tasks.filter((t) => t.done).length;
           const pct = tasks.length > 0 ? Math.round((feitas / tasks.length) * 100) : 0;
+          const tone = muted ? null : STAGE_TONES[(index ?? 0) % STAGE_TONES.length];
           return (
-            <div className={`px-5 pt-3.5 pb-2 bg-[#0b111c] border-t border-b border-[#1e2d45] ${muted ? "" : ""}`}>
-              <div className="flex items-baseline justify-between gap-3">
-                <span className={`text-[13px] font-semibold tracking-tight ${muted ? "text-slate-400" : "text-white"}`}>{label}</span>
+            <div
+              className={`px-5 pt-3 pb-2.5 border-t border-b border-l-[3px] ${
+                tone ? `${tone.bg} ${tone.border}` : "bg-[#0b111c] border-[#1e2d45] border-l-slate-700"
+              } ${tone ? "border-t-[#1e2d45] border-b-[#1e2d45]" : ""}`}
+            >
+              <div className="flex items-center justify-between gap-3">
+                {stepId ? (
+                  <StageRename projectId={projectId} stepId={stepId} label={label} tone={tone?.text ?? "text-white"} onDone={() => router.refresh()} />
+                ) : (
+                  <span className={`text-[13px] font-semibold tracking-tight ${muted ? "text-slate-400" : "text-white"}`}>{label}</span>
+                )}
                 <span className="text-[11px] text-slate-500 font-medium tabular-nums flex-none">{feitas}/{tasks.length}</span>
               </div>
               {tasks.length > 0 && (
-                <div className="mt-1.5 h-[3px] rounded-full bg-[#080b12] overflow-hidden">
-                  <div className={`h-full rounded-full ${pct === 100 ? "bg-emerald-500" : muted ? "bg-slate-600" : "bg-indigo-500"}`} style={{ width: `${pct}%` }} />
+                <div className="mt-1.5 h-[3px] rounded-full bg-black/40 overflow-hidden">
+                  <div className={`h-full rounded-full ${pct === 100 ? "bg-emerald-500" : tone ? tone.bar : "bg-slate-600"}`} style={{ width: `${pct}%` }} />
                 </div>
               )}
             </div>
@@ -1805,9 +1865,9 @@ function ProjectTasksCard({
 
         return (
           <div>
-            {groups.filter((g) => !filtering || g.tasks.length > 0).map((g) => (
+            {groups.filter((g) => !filtering || g.tasks.length > 0).map((g, gi) => (
               <div key={g.id}>
-                <GroupHead label={g.label} tasks={g.tasks} />
+                <GroupHead label={g.label} tasks={g.tasks} stepId={g.id} index={gi} />
                 {g.tasks.length === 0
                   ? <div className="px-5 py-2.5 text-[11px] text-slate-600 italic">nenhuma tarefa nesta etapa</div>
                   : <div className="divide-y divide-[#1e2d45]">{g.tasks.map(rowOf)}</div>}
@@ -1833,14 +1893,14 @@ function ProjectTasksCard({
         const t = internalTasks.find((x) => x.id === editingId);
         if (!t) return null;
         return (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setEditingId(null)}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={closeTaskModal}>
             <div className="w-[85vw] h-[85vh] max-w-5xl bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e2d45] flex-shrink-0">
                 <div className="min-w-0">
                   <h3 className="text-white text-base font-semibold truncate">{t.title}</h3>
                   <p className="text-slate-500 text-xs">Última atualização: {new Date(t.updatedAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" })}</p>
                 </div>
-                <button onClick={() => setEditingId(null)} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
+                <button onClick={closeTaskModal} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
               <div className="flex-1 overflow-y-auto px-6 py-5">
                 <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} />
@@ -1849,6 +1909,79 @@ function ProjectTasksCard({
           </div>
         );
       })()}
+    </div>
+  );
+}
+
+/**
+ * Nome da etapa editável direto no cabeçalho do grupo. Clica, edita, e salva
+ * sozinho ao sair do campo (blur) ou no Enter — sem botão de gravar. Esc
+ * descarta. Antes só dava pra renomear pelo ⚙ Configurar projeto.
+ */
+function StageRename({
+  projectId, stepId, label, tone, onDone,
+}: {
+  projectId: string;
+  stepId: string;
+  label: string;   // "01 · Nome da etapa"
+  tone: string;
+  onDone: () => void;
+}) {
+  // O rótulo vem prefixado com a ordem ("01 · X"); só o nome é editável.
+  const sep = label.indexOf("·");
+  const prefix = sep >= 0 ? label.slice(0, sep + 1) : "";
+  const nameOnly = sep >= 0 ? label.slice(sep + 1).trim() : label;
+
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(nameOnly);
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    const v = value.trim();
+    setEditing(false);
+    if (!v || v === nameOnly) { setValue(nameOnly); return; }
+    setSaving(true);
+    const res = await fetch(`/api/projetos/${projectId}/servicos/${stepId}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ name: v }),
+    }).catch(() => null);
+    setSaving(false);
+    if (res?.ok) onDone();
+    else setValue(nameOnly); // falhou: volta o nome antigo
+  }
+
+  if (!editing) {
+    return (
+      <button
+        onClick={() => { setValue(nameOnly); setEditing(true); }}
+        title="Clique pra renomear a etapa"
+        className="min-w-0 flex items-center gap-1.5 text-left group/stage"
+      >
+        <span className={`text-[13px] font-semibold tracking-tight truncate ${tone}`}>
+          {prefix} {saving ? "salvando…" : nameOnly}
+        </span>
+        <Pencil className="w-3 h-3 text-slate-600 opacity-0 group-hover/stage:opacity-100 transition-opacity flex-none" />
+      </button>
+    );
+  }
+
+  return (
+    <div className="min-w-0 flex items-center gap-1.5 flex-1">
+      <span className={`text-[13px] font-semibold tracking-tight flex-none ${tone}`}>{prefix}</span>
+      <input
+        autoFocus
+        value={value}
+        // Seleciona tudo ao abrir — clica e já digita por cima, sem apagar na mão.
+        onFocus={(e) => e.currentTarget.select()}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={save}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") { e.preventDefault(); (e.target as HTMLInputElement).blur(); }
+          if (e.key === "Escape") { e.preventDefault(); setValue(nameOnly); setEditing(false); }
+        }}
+        className={`flex-1 min-w-0 bg-black/30 border border-white/15 rounded px-1.5 py-0.5 text-[13px] font-semibold tracking-tight ${tone} focus:outline-none focus:border-white/40`}
+      />
     </div>
   );
 }

@@ -64,6 +64,7 @@ export function DescricaoView({
 export function DescricaoEditor({
   value,
   onChange,
+  onBlur,
   onUpload,
   mediaUrl,
   placeholder,
@@ -72,6 +73,8 @@ export function DescricaoEditor({
 }: {
   value: string;
   onChange: (next: string) => void;
+  /** Chamado ao sair do campo — usado pra auto-salvar sem botão. */
+  onBlur?: () => void;
   /** Faz upload da imagem e devolve o materialId (ou null em falha). */
   onUpload: (file: File) => Promise<string | null>;
   mediaUrl: (materialId: string) => string;
@@ -120,6 +123,7 @@ export function DescricaoEditor({
         ref={ref}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
         onPaste={handlePaste}
         rows={rows}
         placeholder={placeholder}
