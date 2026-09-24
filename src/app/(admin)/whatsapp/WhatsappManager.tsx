@@ -2157,6 +2157,13 @@ export default function WhatsappManager({
         priority: "MEDIUM",
         phone: selectedConv.phone,
         dueDate: due.toISOString(),
+        // Cliente da conversa (contato 1:1 ou empresa atribuída ao grupo) já
+        // vinculado, e quem está abrindo entra como responsável — antes o
+        // chamado nascia sem cliente e sem ninguém.
+        ...(selectedConv.companyContact?.company?.id
+          ? { clientCompanyId: selectedConv.companyContact.company.id }
+          : {}),
+        ...(currentUserId ? { assigneeId: currentUserId } : {}),
       }),
     });
     setConvertingTicket(false);
@@ -4358,7 +4365,29 @@ export default function WhatsappManager({
               {/* Form: Abrir Chamado */}
               {showTicketForm && (
                 <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-orange-500/5 flex-shrink-0">
-                  <p className="text-orange-400 text-xs font-semibold mb-3">🎫 Abrir Chamado de Suporte</p>
+                  <p className="text-orange-400 text-xs font-semibold mb-2">🎫 Abrir Chamado de Suporte</p>
+                  {/* O que já vai preenchido: cliente da conversa + quem abre */}
+                  <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                    {selectedConv.companyContact?.company?.name ? (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-300">
+                        🏢 Cliente: {selectedConv.companyContact.company.name}
+                      </span>
+                    ) : (
+                      <span
+                        className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-[#1e2d45] text-slate-500"
+                        title={selectedConv.phone.includes("@g.us")
+                          ? "Este grupo não está atribuído a uma empresa. Use +Ações → Atribuir empresa."
+                          : "Este contato não está vinculado a uma empresa cliente."}
+                      >
+                        🏢 Sem cliente vinculado
+                      </span>
+                    )}
+                    {userName && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-300">
+                        👤 Responsável: {userName.split(" ")[0]}
+                      </span>
+                    )}
+                  </div>
                   {ticketError && (
                     <p className="text-red-400 text-xs mb-2">{ticketError}</p>
                   )}
