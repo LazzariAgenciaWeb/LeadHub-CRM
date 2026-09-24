@@ -130,6 +130,8 @@ interface Ticket {
   company: { id: string; name: string };
   messages: TicketMessage[];
   activities?: TicketActivity[];
+  // Link público de acompanhamento (sem login). null = cliente não acompanha.
+  publicToken?: string | null;
 }
 
 // Editor inline usado pra editar corpo de mensagem (Solicitação Original,
@@ -496,6 +498,48 @@ export default function TicketDetail({
   // {id, draft} da que está sendo editada — só uma por vez.
   const [editingMsg, setEditingMsg] = useState<{ id: string; draft: string } | null>(null);
   const [savingMsg, setSavingMsg] = useState(false);
+
+  // Link público (cliente acompanha sem login). Vem do banco; UI permite
+  // gerar/copiar/revogar. Reflete Ticket.publicToken em tempo real depois
+  // de gerar sem esperar router.refresh() completar.
+  const [publicToken, setPublicToken] = useState<string | null>(ticket.publicToken ?? null);
+  const [togglingShare, setTogglingShare] = useState(false);
+  const [copiedShare, setCopiedShare] = useState(false);
+
+  const publicUrl = publicToken
+    ? (typeof window !== "undefined" ? `${window.location.origin}/acompanhar/${publicToken}` : `/acompanhar/${publicToken}`)
+    : null;
+
+  async function toggleShareLink(next: boolean) {
+    if (togglingShare) return;
+    setTogglingShare(true);
+    try {
+      const res = await fetch(`/api/tickets/${ticket.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sharePublic: next }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error ?? "Erro ao alterar link público");
+        return;
+      }
+      const updated = await res.json();
+      setPublicToken(updated.publicToken ?? null);
+      startTransition(() => router.refresh());
+    } finally {
+      setTogglingShare(false);
+    }
+  }
+
+  async function copyPublicLink() {
+    if (!publicUrl) return;
+    try {
+      await navigator.clipboard.writeText(publicUrl);
+      setCopiedShare(true);
+      setTimeout(() => setCopiedShare(false), 1500);
+    } catch { /* clipboard bloqueado */ }
+  }
 
   async function saveMessageEdit() {
     if (!editingMsg || !editingMsg.draft.trim() || savingMsg) return;
@@ -958,6 +1002,64 @@ export default function TicketDetail({
             )}
           </div>
           <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
+            {/* Link público de acompanhamento — visível pra gestores. Se já existe,
+                mostra a URL + botões abrir/copiar/revogar. Se não, um botão pra
+                gerar. Sempre visível (nas abas Informações e Todas) — em outras
+                abas fica escondido pra não poluir. */}
+            {canManage && (feedTab === "info" || feedTab === "all") && (
+              publicToken ? (
+                <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3 flex items-center gap-2">
+                  <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wide flex-shrink-0">🔗 Link do cliente</span>
+                  <input
+                    readOnly
+                    value={publicUrl ?? ""}
+                    onClick={(e) => (e.target as HTMLInputElement).select()}
+                    className="flex-1 min-w-0 bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1 text-[11px] text-slate-300 font-mono focus:outline-none focus:border-emerald-500/50"
+                  />
+                  <button
+                    type="button"
+                    onClick={copyPublicLink}
+                    title="Copiar URL"
+                    className="text-[10px] px-2 py-1 rounded bg-[#0a0f1a] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-emerald-500/40 transition-colors whitespace-nowrap"
+                  >
+                    {copiedShare ? "✓ Copiado" : "⧉ Copiar"}
+                  </button>
+                  <a
+                    href={publicUrl ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Abrir em nova aba"
+                    className="text-[10px] px-2 py-1 rounded bg-[#0a0f1a] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-emerald-500/40 transition-colors whitespace-nowrap"
+                  >
+                    ↗ Abrir
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (confirm("Revogar o link? O cliente vai perder o acesso.")) void toggleShareLink(false);
+                    }}
+                    disabled={togglingShare}
+                    title="Revogar link (cliente perde acesso)"
+                    className="text-[10px] px-2 py-1 rounded text-slate-500 hover:text-red-400 transition-colors whitespace-nowrap disabled:opacity-40"
+                  >
+                    {togglingShare ? "..." : "Revogar"}
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-slate-500/5 border border-dashed border-slate-500/30 rounded-xl px-3 py-2 flex items-center gap-2 text-[11px]">
+                  <span className="text-slate-500 flex-1">Sem link público — o cliente não acompanha este chamado.</span>
+                  <button
+                    type="button"
+                    onClick={() => void toggleShareLink(true)}
+                    disabled={togglingShare}
+                    className="text-[10px] px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium disabled:opacity-40 transition-colors whitespace-nowrap"
+                  >
+                    {togglingShare ? "Gerando..." : "🔗 Gerar link"}
+                  </button>
+                </div>
+              )
+            )}
+
             {/* Original request card — aparece nas abas Informações, Todas e Mensagens.
                 Faz sentido omitir em Notas internas/Sistema (não é nota nem evento). */}
             {initialMsg && (feedTab === "info" || feedTab === "all" || feedTab === "messages") && (

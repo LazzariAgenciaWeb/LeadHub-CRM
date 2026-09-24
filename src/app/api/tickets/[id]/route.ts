@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { randomBytes } from "crypto";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -87,6 +88,9 @@ export async function PATCH(
     status, priority, category, title, clickupTaskId, ticketStage, companyId,
     dueDate, assigneeId, setorId, clientCompanyId, projetoId,
     visibility, accessUserIds, phone,
+    // sharePublic: "on" gera novo publicToken se não existir; "off" remove.
+    // Passado só quando o atendente clica em gerar/revogar o link na UI.
+    sharePublic,
   } = body;
 
   const userId   = (session.user as any).id as string | undefined;
@@ -103,6 +107,7 @@ export async function PATCH(
       assigneeId: true, setorId: true, clientCompanyId: true,
       dueDate: true, companyId: true, createdAt: true, projetoId: true,
       description: true, visibility: true, createdById: true,
+      publicToken: true,
       assignee:      { select: { id: true, name: true } },
       setor:         { select: { id: true, name: true } },
       clientCompany: { select: { id: true, name: true } },
@@ -146,6 +151,12 @@ export async function PATCH(
       ...(projetoId !== undefined && { projetoId: projetoId ?? null }),
       ...(phone !== undefined && { phone: phone ? String(phone) : null }),
       ...(visibility !== undefined && { visibility: visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN" }),
+      // sharePublic true → gera token se não tem (mantém o atual se já existe);
+      // false → revoga (link fica 404). Undefined não toca.
+      ...(sharePublic === true && !existing.publicToken
+        ? { publicToken: randomBytes(18).toString("base64url") }
+        : {}),
+      ...(sharePublic === false ? { publicToken: null } : {}),
     },
     include: {
       company:       { select: { id: true, name: true } },
