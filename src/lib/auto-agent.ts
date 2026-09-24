@@ -10,7 +10,7 @@ import {
 } from "./scheduling";
 import {
   loadCompanyHours, isWithinBusinessHoursConfig, nextBusinessOpening,
-  formatLocalDateTime, describeCompanyHours,
+  formatLocalDateTime, describeCompanyHours, type CompanyHoursConfig,
 } from "./business-hours";
 
 /**
@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v19-gatilho-ativacao";
+export const AUTO_AGENT_REV = "v20-resgate";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -91,6 +91,135 @@ function normalizeWord(s: string): string {
 // 0 = desligada). Cooldown é fixo.
 const COURTESY_COOLDOWN_MS = 60 * 60_000; // máx 1 aviso por conversa por hora
 const COURTESY_DEFAULT_TEXT = "Recebemos sua mensagem! 😊 Já já alguém do nosso time te responde por aqui.";
+
+// ─── Resgate de conversa parada ──────────────────────────────────────────────
+// Espelho da sentinela: lá o CONTATO está esperando resposta; aqui fomos NÓS
+// que falamos por último e ele sumiu no meio. Sai UMA mensagem de retomada por
+// episódio de silêncio — se ele responder e sumir de novo, cabe outra.
+// Varredura por cron (não timer): sobrevive a restart e alcança conversa que
+// parou antes da configuração existir.
+const REVIVAL_DEFAULT_TEXT =
+  "Oi{nome}! Passando pra saber se você ainda tem interesse 😊 se quiser seguir de onde paramos, é só me chamar por aqui.";
+// Conversa parada há muito tempo não é resgate, é importunação — e evita que
+// ligar a opção dispare mensagem pra base inteira de uma vez.
+const REVIVAL_MAX_AGE_MS = 7 * 24 * 60 * 60_000;
+const REVIVAL_MAX_PER_RUN = 40;
+
+/**
+ * Varre as conversas paradas e manda a retomada. Chamada pelo cron
+ * /api/cron/agent-revival. Nunca lança — devolve o que fez pra telemetria.
+ */
+export async function runRevivalSweep(): Promise<{ checked: number; sent: number }> {
+  let checked = 0;
+  let sent = 0;
+
+  const assistants = await prisma.assistant.findMany({
+    where: {
+      isActive: true,
+      autoRespond: true,
+      instanceId: { not: null },
+      revivalDelayMin: { gt: 0 },
+    } as any,
+    include: { instance: { select: { id: true, instanceName: true, instanceToken: true, phone: true } } },
+  });
+
+  const hoursCache = new Map<string, CompanyHoursConfig>();
+
+  for (const a of assistants) {
+    if (sent >= REVIVAL_MAX_PER_RUN) break;
+    const inst = (a as any).instance as
+      | { id: string; instanceName: string; instanceToken: string | null; phone: string | null }
+      | null;
+    if (!inst) continue;
+
+    // Retomada fora do horário de atendimento acorda cliente de madrugada.
+    // Fora da janela, a rodada seguinte pega a mesma conversa.
+    let hours = hoursCache.get(a.companyId);
+    if (!hours) {
+      hours = await loadCompanyHours(a.companyId);
+      hoursCache.set(a.companyId, hours);
+    }
+    if (!isWithinBusinessHoursConfig(new Date(), hours)) continue;
+
+    const delayMs = (((a as any).revivalDelayMin as number) || 0) * 60_000;
+    if (delayMs <= 0) continue;
+    const now = Date.now();
+
+    const convs = await prisma.conversation.findMany({
+      where: {
+        companyId: a.companyId,
+        instanceId: inst.id,
+        isGroup: false,
+        status: { not: "CLOSED" },
+        aiMode: { not: "OFF" }, // desligar o robô na conversa também desliga o resgate
+        lastMessageDirection: "OUTBOUND", // nós falamos por último
+        scheduledReturnAt: null, // já tem retorno agendado pelo time: não atropela
+        lastMessageAt: {
+          lte: new Date(now - delayMs),
+          gte: new Date(now - delayMs - REVIVAL_MAX_AGE_MS),
+        },
+      },
+      select: { id: true, phone: true },
+      orderBy: { lastMessageAt: "asc" },
+      take: 30,
+    });
+
+    for (const conv of convs) {
+      if (sent >= REVIVAL_MAX_PER_RUN) break;
+      checked++;
+      try {
+        // Uma retomada por episódio de silêncio: se já mandamos depois da
+        // última fala do contato, não insiste (senão vira cobrança semanal).
+        const lastIn = await prisma.message.findFirst({
+          where: { conversationId: conv.id, direction: "INBOUND" },
+          orderBy: { receivedAt: "desc" },
+          select: { receivedAt: true },
+        });
+        const already = await prisma.message.findFirst({
+          where: {
+            conversationId: conv.id,
+            direction: "OUTBOUND",
+            rawPayload: { path: ["revival"], equals: true },
+            ...(lastIn ? { receivedAt: { gt: lastIn.receivedAt } } : {}),
+          },
+          select: { id: true },
+        });
+        if (already) continue;
+
+        const word = ((a as any).reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
+        const waLink = inst.phone
+          ? `https://wa.me/${inst.phone}?text=${encodeURIComponent(word)}`
+          : null;
+        const nome = await getContactFirstName(a.companyId, conv.phone).catch(() => null);
+        const raw = ((a as any).revivalText as string | null)?.trim() || REVIVAL_DEFAULT_TEXT;
+        const text = resolvePlaceholders(pickVariation(raw), { word, waLink, nome });
+
+        const ok = await sendBotText(
+          {
+            instanceName: inst.instanceName,
+            instanceId: inst.id,
+            instanceToken: inst.instanceToken ?? null,
+            companyId: a.companyId,
+            phone: conv.phone,
+            assistantId: a.id,
+            conversationId: conv.id,
+          },
+          text,
+          { revival: true },
+        );
+        if (ok) {
+          sent++;
+          recordRun({ conv: conv.id, resgate: "enviado" });
+        }
+      } catch (err) {
+        console.error(`[AutoAgent] falha no resgate conv=${conv.id}:`, err);
+      }
+    }
+  }
+
+  if (sent > 0) console.log(`[AutoAgent] resgate: ${sent} conversa(s) retomada(s) de ${checked} verificada(s)`);
+  return { checked, sent };
+}
 
 /**
  * Texto configurável pode trazer VARIAÇÕES (uma por linha) — sorteia uma pra
@@ -1203,7 +1332,7 @@ interface BotSender {
  * Envia UMA mensagem de texto do bot e persiste (Conversation + Message).
  * Retorna false em falha (nunca lança).
  */
-async function sendBotText(s: BotSender, text: string): Promise<boolean> {
+async function sendBotText(s: BotSender, text: string, meta?: Record<string, unknown>): Promise<boolean> {
   try {
     const sendResult = await evolutionSendText(s.instanceName, s.phone, text, s.instanceToken);
     // Prefixo "out-" no fallback: o webhook fromMe (eco do envio) reconhece
@@ -1243,7 +1372,7 @@ async function sendBotText(s: BotSender, text: string): Promise<boolean> {
         ack: 1,
         sentByAI: true,
         // Marca de origem: mensagem gerada pelo agente autônomo.
-        rawPayload: { autoAgent: true, assistantId: s.assistantId } as any,
+        rawPayload: { autoAgent: true, assistantId: s.assistantId, ...(meta ?? {}) } as any,
       },
     });
     return true;

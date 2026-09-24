@@ -136,6 +136,22 @@ echo "📅 Cron Mensagens Agendadas habilitado — rodará a cada ${SCHEDULED_MS
   done
 ) &
 
+# Cron: Resgate de conversas paradas (agente de IA)
+# Frequência: a cada 5 minutos (config: REVIVAL_INTERVAL_SECONDS)
+REVIVAL_INTERVAL_SECONDS="${REVIVAL_INTERVAL_SECONDS:-300}"
+echo "🎣 Cron Resgate de conversas habilitado — rodará a cada ${REVIVAL_INTERVAL_SECONDS}s"
+(
+  sleep 90
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/agent-revival" --max-time 120 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron Resgate] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep "$REVIVAL_INTERVAL_SECONDS"
+  done
+) &
+
 # Cron: Sync de instâncias — busca status real na Evolution e atualiza no banco
 # Frequência: a cada 5 minutos (config: SYNC_INSTANCES_INTERVAL_SECONDS)
 SYNC_INSTANCES_INTERVAL_SECONDS="${SYNC_INSTANCES_INTERVAL_SECONDS:-300}"

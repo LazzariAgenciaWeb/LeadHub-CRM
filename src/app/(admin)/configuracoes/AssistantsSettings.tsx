@@ -68,6 +68,8 @@ interface Assistant {
   courtesyDelayMin: number;
   groupFirstAidDelayMin: number;
   courtesyText: string | null;
+  revivalDelayMin?: number;
+  revivalText?: string | null;
   reactivationWord: string | null;
   sendPauseNotice: boolean;
   pauseNoticeText: string | null;
@@ -143,6 +145,8 @@ export default function AssistantsSettings({
   const [fCourtesyDelay, setFCourtesyDelay] = useState(5);
   const [fGroupDelay, setFGroupDelay] = useState(0);
   const [fCourtesyText, setFCourtesyText] = useState("");
+  const [fRevivalDelay, setFRevivalDelay] = useState(0);
+  const [fRevivalText, setFRevivalText] = useState("");
   const [fReactivationWord, setFReactivationWord] = useState("");
   const [fSendPauseNotice, setFSendPauseNotice] = useState(true);
   const [fPauseNoticeText, setFPauseNoticeText] = useState("");
@@ -170,6 +174,7 @@ export default function AssistantsSettings({
     setFActivation("ALWAYS"); setFTriggers("");
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
+    setFRevivalDelay(0); setFRevivalText("");
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
     setFRoutes([
@@ -194,6 +199,8 @@ export default function AssistantsSettings({
     setFCourtesyDelay(a.courtesyDelayMin ?? 5);
     setFGroupDelay(a.groupFirstAidDelayMin ?? 0);
     setFCourtesyText(a.courtesyText ?? "");
+    setFRevivalDelay(a.revivalDelayMin ?? 0);
+    setFRevivalText(a.revivalText ?? "");
     setFReactivationWord(a.reactivationWord ?? "");
     setFSendPauseNotice(a.sendPauseNotice !== false);
     setFPauseNoticeText(a.pauseNoticeText ?? "");
@@ -250,6 +257,8 @@ export default function AssistantsSettings({
       courtesyDelayMin: fCourtesyDelay,
       groupFirstAidDelayMin: fGroupDelay,
       courtesyText: fCourtesyText,
+      revivalDelayMin: fRevivalDelay,
+      revivalText: fRevivalText,
       reactivationWord: fReactivationWord,
       sendPauseNotice: fSendPauseNotice,
       pauseNoticeText: fPauseNoticeText,
@@ -670,6 +679,42 @@ export default function AssistantsSettings({
                     <p className="text-slate-600 text-[11px] mt-1.5">
                       Máximo 1 aviso por conversa por hora; a conversa continua pendente pro time.
                       Escreva <strong className="text-slate-400">uma variação por linha</strong> — o sistema sorteia uma a cada envio (não repete sempre a mesma frase).
+                    </p>
+                  </div>
+
+                  {/* Resgate — a conversa parou no meio e o contato sumiu */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      🎣 Resgate <span className="text-slate-600 normal-case">— quando o contato some no meio da conversa</span>
+                    </label>
+                    <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap">
+                      Tentar retomar após
+                      <select
+                        value={fRevivalDelay}
+                        onChange={(e) => setFRevivalDelay(parseInt(e.target.value, 10))}
+                        className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                      >
+                        <option value={0}>desligado</option>
+                        <option value={60}>1 hora</option>
+                        <option value={180}>3 horas</option>
+                        <option value={360}>6 horas</option>
+                        <option value={1440}>1 dia</option>
+                        <option value={2880}>2 dias</option>
+                        <option value={4320}>3 dias</option>
+                      </select>
+                      de silêncio
+                    </label>
+                    <textarea
+                      value={fRevivalText}
+                      onChange={(e) => setFRevivalText(e.target.value)}
+                      rows={3}
+                      placeholder={"Oi {nome}! 👋 Vi que nossa conversa parou por aqui — ainda faz sentido pra você?\n(uma variação por linha — o sistema sorteia uma a cada envio)"}
+                      className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
+                    />
+                    <p className="text-slate-600 text-[11px] mt-1.5">
+                      Vale pra conversa que parou com <strong className="text-slate-400">a gente falando por último</strong> (a pessoa mandou a 1ª mensagem e sumiu, ou desistiu no meio).
+                      Sai <strong className="text-slate-400">uma única mensagem</strong> por sumiço, sempre dentro do horário de atendimento, e só até 7 dias de silêncio.
+                      Não mexe em conversa concluída, pausada de vez ou com retorno já agendado.
                     </p>
                   </div>
 

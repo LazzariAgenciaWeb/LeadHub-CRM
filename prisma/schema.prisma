@@ -3709,6 +3709,12 @@ model Assistant {
   courtesyDelayMin Int     @default(5)
   courtesyText     String? @db.Text // null = texto padrão do sistema
 
+  // RESGATE (espelho da sentinela): a conversa parou com NÓS falando por
+  // último e o contato sumiu — depois de N minutos sai UMA mensagem de
+  // retomada. 0 = desligado.
+  revivalDelayMin Int     @default(0)
+  revivalText     String? @db.Text
+
   // SENTINELA DE GRUPO (primeiro-socorro): em grupos de clientes, se o cliente
   // falou e ninguém do time respondeu em N minutos, o agente entra, acolhe,
   // coleta o básico e abre chamado. 0 = desligada (default — grupos ficam fora).
