@@ -14,6 +14,7 @@ import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
 import { DescricaoEditor } from "@/components/DescricaoRich";
+import { RichMessageBody } from "@/components/RichMessageBody";
 
 type Project = {
   id:                  string;
@@ -1464,7 +1465,17 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                             </button>
                           </div>
                         </div>
-                        <div className="text-[13px] text-slate-200 leading-relaxed whitespace-pre-wrap">{c.text}</div>
+                        <RichMessageBody
+                          text={c.text}
+                          className="text-[13px] text-slate-200 leading-relaxed"
+                          linkClassName={
+                            fromClient
+                              ? "text-amber-200 hover:text-amber-100 underline decoration-amber-400/40 break-all"
+                              : internal
+                                ? "text-slate-300 hover:text-white underline decoration-slate-500 break-all"
+                                : "text-indigo-300 hover:text-indigo-200 underline decoration-indigo-400/40 break-all"
+                          }
+                        />
                       </div>
                     );
                   })}
@@ -1476,22 +1487,32 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
           {/* Composer fixo no rodapé da coluna */}
           <div className="shrink-0 pt-2 mt-2 border-t border-[#1e2d45]">
             <div className="flex gap-1.5">
-              <input
+              <textarea
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addComment(); } }}
+                onKeyDown={(e) => {
+                  // Enter envia; Shift+Enter quebra linha (padrão WhatsApp/Slack).
+                  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); addComment(); }
+                }}
+                rows={2}
                 placeholder={commentInternal ? "Nota interna (o cliente não vê)…" : "O que avançou? Ex.: Artes enviadas pra aprovação…"}
-                className={inCls + " flex-1"}
+                className={inCls + " flex-1 resize-y min-h-[2.25rem]"}
               />
-              <button type="button" onClick={addComment} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center" title="Publicar andamento">
+              <button type="button" onClick={addComment} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center self-stretch" title="Publicar andamento (Enter)">
                 <Plus className="w-3.5 h-3.5" />
               </button>
             </div>
-            <div className="flex items-center justify-between gap-2 mt-1.5">
+            <div className="flex items-center justify-between gap-2 mt-1.5 flex-wrap">
               <label className="flex items-center gap-1.5 text-[11px] text-slate-500 cursor-pointer select-none">
                 <input type="checkbox" checked={commentInternal} onChange={(e) => setCommentInternal(e.target.checked)} className="accent-slate-500 w-3.5 h-3.5" />
                 🔒 Só interno
               </label>
+              <span
+                className="text-slate-700 text-[10px] hidden md:inline"
+                title="Formatação estilo WhatsApp — renderiza ao publicar. Shift+Enter quebra linha."
+              >
+                Shift+Enter quebra linha · <span className="font-semibold text-slate-500">**negrito**</span> · <span className="text-slate-500">* item</span> · <span className="text-slate-500">1. lista</span>
+              </span>
               <div className="flex gap-2">
                 <button onClick={save} disabled={saving} className="px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-xs font-medium">{saving ? "Salvando…" : "Salvar e fechar"}</button>
                 <button onClick={onClose} className="px-3 py-1.5 rounded-md text-slate-400 hover:text-white text-xs">Fechar</button>
