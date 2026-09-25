@@ -1241,89 +1241,90 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
         onChange={(e) => { setTitle(e.target.value); dirtyRef.current = true; }}
         onBlur={saveQuiet}
         placeholder="Título da tarefa"
-        className="shrink-0 w-full bg-transparent border-0 text-white text-lg font-semibold tracking-tight px-1 -mx-1 mb-3 rounded focus:outline-none focus:bg-[#0a0f1a] placeholder-slate-600"
+        className="shrink-0 w-full bg-transparent border-0 text-white text-lg font-semibold tracking-tight px-1 -mx-1 mb-2 rounded focus:outline-none focus:bg-[#0a0f1a] placeholder-slate-600"
       />
 
-      {/* Trilha de andamento + prazo */}
-      <div className="shrink-0 mb-3 space-y-2">
-        <div className="flex items-center gap-1">
-          {TASK_STATUS.map((s, i) => {
-            const cur = TASK_STATUS.findIndex((x) => x.id === taskStatus);
-            const isCur = s.id === taskStatus;
-            const passed = i < cur;
-            return (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => changeStatus(s.id)}
-                title={`Marcar como ${s.label}`}
-                className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-md border text-[11px] font-semibold transition-colors ${
-                  isCur ? s.badge : passed
-                    ? "bg-[#0f1729] border-[#1e2d45] text-slate-400"
-                    : "bg-[#0a0f1a] border-[#1e2d45] text-slate-600 hover:text-slate-300"
-                }`}
-              >
-                <span className={`w-1.5 h-1.5 rounded-full ${isCur || passed ? s.dot : "bg-slate-700"}`} />
-                {s.label}
-              </button>
-            );
-          })}
-        </div>
+      {/* Trilha de status (uma linha inteira) — ação principal */}
+      <div className="shrink-0 mb-2 flex items-center gap-1">
+        {TASK_STATUS.map((s, i) => {
+          const cur = TASK_STATUS.findIndex((x) => x.id === taskStatus);
+          const isCur = s.id === taskStatus;
+          const passed = i < cur;
+          return (
+            <button
+              key={s.id}
+              type="button"
+              onClick={() => changeStatus(s.id)}
+              title={`Marcar como ${s.label}`}
+              className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-md border text-[11px] font-semibold transition-colors ${
+                isCur ? s.badge : passed
+                  ? "bg-[#0f1729] border-[#1e2d45] text-slate-400"
+                  : "bg-[#0a0f1a] border-[#1e2d45] text-slate-600 hover:text-slate-300"
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${isCur || passed ? s.dot : "bg-slate-700"}`} />
+              {s.label}
+            </button>
+          );
+        })}
+      </div>
 
-        <div className="flex items-center gap-3 flex-wrap text-[11px]">
-          <label className="flex items-center gap-1.5 text-slate-500">
-            Início
-            <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet}
-              className="bg-[#0a0f1a] border border-[#1e2d45] rounded px-1.5 py-0.5 text-slate-200 focus:outline-none focus:border-indigo-500" />
-          </label>
-          <label className="flex items-center gap-1.5 text-slate-500">
-            Prazo
-            <input type="date" value={dueDate} onChange={(e) => { setDueDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet}
-              className={`bg-[#0a0f1a] border rounded px-1.5 py-0.5 text-slate-200 focus:outline-none focus:border-indigo-500 ${prazo.late ? "border-red-500/50" : "border-[#1e2d45]"}`} />
-          </label>
-          {prazo.msg && (
-            <span className={`font-semibold ${prazo.late ? "text-red-300" : prazo.soon ? "text-amber-300" : "text-emerald-300"}`}>
-              {prazo.msg}
-            </span>
+      {/* Linha única de metadados: datas + prazo + toggles (Cliente vê / ClickUp).
+          Antes eram 2 linhas separadas com border — agora tudo num strip compacto. */}
+      <div className="shrink-0 flex items-center gap-3 flex-wrap text-[11px] pb-2 mb-3 border-b border-[#1e2d45]">
+        <label className="flex items-center gap-1.5 text-slate-500">
+          Início
+          <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet}
+            className="bg-[#0a0f1a] border border-[#1e2d45] rounded px-1.5 py-0.5 text-slate-200 focus:outline-none focus:border-indigo-500" />
+        </label>
+        <label className="flex items-center gap-1.5 text-slate-500">
+          Prazo
+          <input type="date" value={dueDate} onChange={(e) => { setDueDate(e.target.value); dirtyRef.current = true; }} onBlur={saveQuiet}
+            className={`bg-[#0a0f1a] border rounded px-1.5 py-0.5 text-slate-200 focus:outline-none focus:border-indigo-500 ${prazo.late ? "border-red-500/50" : "border-[#1e2d45]"}`} />
+        </label>
+        {prazo.msg && (
+          <span className={`font-semibold ${prazo.late ? "text-red-300" : prazo.soon ? "text-amber-300" : "text-emerald-300"}`}>
+            {prazo.msg}
+          </span>
+        )}
+        <div className="flex items-center gap-2 flex-wrap ml-auto">
+          <button type="button" onClick={toggleVisible} className={pill(visible, "emerald")} title="Aparece no painel do cliente">
+            {visible ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+            {visible ? "Cliente vê" : "Só interna"}
+          </button>
+          {hasClickup && (
+            task.clickupTaskId ? (
+              <a
+                href={`https://app.clickup.com/t/${task.clickupTaskId}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#7b68ee]/40 bg-[#7b68ee]/10 text-[11px] font-semibold text-[#b9aefb] hover:bg-[#7b68ee]/20"
+                title="Sincroniza nos dois sentidos"
+              >
+                <RefreshCw className="w-3 h-3" /> ClickUp <ExternalLink className="w-2.5 h-2.5" />
+              </a>
+            ) : (
+              <button
+                type="button"
+                onClick={pushToClickup}
+                disabled={pushing}
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#7b68ee]/40 bg-[#7b68ee]/10 hover:bg-[#7b68ee]/20 text-[11px] font-semibold text-[#b9aefb] disabled:opacity-50"
+                title="Cria no ClickUp e passa a sincronizar"
+              >
+                <RefreshCw className="w-3 h-3" /> {pushing ? "Enviando…" : "Sincronizar ClickUp"}
+              </button>
+            )
           )}
         </div>
       </div>
 
-      {/* Barra de estados — compacta, uma linha só */}
-      <div className="flex items-center gap-2 flex-wrap pb-3 mb-3 border-b border-[#1e2d45] shrink-0">
-        <button type="button" onClick={toggleVisible} className={pill(visible, "emerald")} title="Aparece no painel do cliente">
-          {visible ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-          {visible ? "Cliente vê" : "Só interna"}
-        </button>
-        {hasClickup && (
-          task.clickupTaskId ? (
-            <a
-              href={`https://app.clickup.com/t/${task.clickupTaskId}`}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#7b68ee]/40 bg-[#7b68ee]/10 text-[11px] font-semibold text-[#b9aefb] hover:bg-[#7b68ee]/20"
-              title="Sincroniza nos dois sentidos"
-            >
-              <RefreshCw className="w-3 h-3" /> ClickUp <ExternalLink className="w-2.5 h-2.5" />
-            </a>
-          ) : (
-            <button
-              type="button"
-              onClick={pushToClickup}
-              disabled={pushing}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#7b68ee]/40 bg-[#7b68ee]/10 hover:bg-[#7b68ee]/20 text-[11px] font-semibold text-[#b9aefb] disabled:opacity-50"
-              title="Cria no ClickUp e passa a sincronizar"
-            >
-              <RefreshCw className="w-3 h-3" /> {pushing ? "Enviando…" : "Sincronizar ClickUp"}
-            </button>
-          )
-        )}
-      </div>
+      {/* Duas colunas: esquerda = a tarefa (descrição + anexos + links + campos)
+          direita = andamento (log + comentários + composer). Anexos/Links são
+          complemento da descrição, então moram com ela — a direita fica focada
+          no que muda: mensagens novas. */}
+      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-5">
 
-      {/* Duas colunas: esquerda = a tarefa · direita = o que aconteceu */}
-      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-5">
-
-        {/* ─── ESQUERDA: descrição em destaque + dados ─── */}
+        {/* ─── ESQUERDA: descrição + complementos (anexos, links) + campos ─── */}
         <div className="min-h-0 overflow-y-auto pr-1 space-y-4">
           <div>
             <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">
@@ -1339,6 +1340,51 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
               placeholder="O que será feito nesta tarefa… (cole um print pra ilustrar)"
               className={`${inCls} resize-y`}
             />
+          </div>
+
+          {/* Complementos da descrição: arquivos + links (antes moravam à direita) */}
+          <AttachmentsPanel target={{ projectTaskId: task.id }} title="Arquivos" />
+
+          <div>
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1">
+              <Link2 className="w-3 h-3" /> Links
+            </label>
+            {task.materials.length > 0 && (
+              <div className="space-y-1 mb-1.5">
+                {task.materials.map((m) => (
+                  <div key={m.id} className="flex items-center gap-2 text-xs bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 group/mat">
+                    <Link2 className="w-3 h-3 text-slate-500 shrink-0" />
+                    {m.url ? (
+                      <a href={m.url} target="_blank" rel="noopener noreferrer" className="text-indigo-300 hover:underline truncate flex-1" title={m.url}>{m.title}</a>
+                    ) : (
+                      <span className="text-slate-300 truncate flex-1">{m.title}</span>
+                    )}
+                    <button type="button" onClick={() => removeMaterial(m.id)} className="text-slate-600 hover:text-red-400 shrink-0 opacity-0 group-hover/mat:opacity-100" title="Remover">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            {!linkOpen ? (
+              <button
+                type="button"
+                onClick={() => setLinkOpen(true)}
+                className="flex items-center gap-1.5 text-[11px] text-slate-600 hover:text-indigo-300 transition-colors"
+              >
+                <Plus className="w-3 h-3" /> Adicionar link
+              </button>
+            ) : (
+              <div className="space-y-1.5 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg p-2">
+                <input autoFocus value={matTitle} onChange={(e) => setMatTitle(e.target.value)} placeholder="Título (ex.: Vídeo da reunião)" className={inCls} />
+                <input value={matUrl} onChange={(e) => setMatUrl(e.target.value)} placeholder="https://…" className={inCls} />
+                <div className="flex gap-1.5">
+                  <button type="button" onClick={async () => { await addMaterial(); setLinkOpen(false); }} className="flex-1 px-2 py-1 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-[11px] font-medium">Adicionar</button>
+                  <button type="button" onClick={() => { setLinkOpen(false); setMatMsg(""); }} className="px-2 py-1 text-slate-500 hover:text-white text-[11px]">Cancelar</button>
+                </div>
+                {matMsg && <p className="text-[10px] text-slate-500">{matMsg}</p>}
+              </div>
+            )}
           </div>
 
           <div>
@@ -1379,71 +1425,24 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
           </div>
         </div>
 
-        {/* ─── DIREITA: atividade — log, anexos, links e comentários ─── */}
+        {/* ─── DIREITA: andamento — log + comentários + composer ─── */}
         <div className="min-h-0 flex flex-col lg:border-l lg:border-[#1e2d45] lg:pl-5">
           <div className="flex items-center gap-2 mb-2 shrink-0">
             <MessageSquare className="w-3.5 h-3.5 text-slate-500" />
-            <span className="text-slate-400 text-xs font-semibold uppercase tracking-wide">Atividade</span>
+            <span className="text-slate-400 text-xs font-semibold uppercase tracking-wide">
+              Andamento <span className="text-slate-600 normal-case">(o cliente vê, exceto 🔒)</span>
+            </span>
           </div>
 
           <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-3">
-            {/* Log da tarefa */}
+            {/* Log da tarefa — compacto */}
             <div className="text-[11px] text-slate-500 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 space-y-0.5">
               <div>Aberta em <span className="text-slate-300 tabular-nums">{fmt(task.createdAt)}</span></div>
               <div>Última atualização <span className="text-slate-300 tabular-nums">{fmt(task.updatedAt)}</span></div>
             </div>
 
-            {/* Arquivos (MinIO) — aparecem aqui assim que você anexa */}
-            <AttachmentsPanel target={{ projectTaskId: task.id }} title="Arquivos" />
-
-            {/* Links externos (YouTube, docs, etc.) */}
+            {/* Comentários */}
             <div>
-              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1">
-                <Link2 className="w-3 h-3" /> Links
-              </label>
-              {task.materials.length > 0 && (
-                <div className="space-y-1 mb-1.5">
-                  {task.materials.map((m) => (
-                    <div key={m.id} className="flex items-center gap-2 text-xs bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 group/mat">
-                      <Link2 className="w-3 h-3 text-slate-500 shrink-0" />
-                      {m.url ? (
-                        <a href={m.url} target="_blank" rel="noopener noreferrer" className="text-indigo-300 hover:underline truncate flex-1" title={m.url}>{m.title}</a>
-                      ) : (
-                        <span className="text-slate-300 truncate flex-1">{m.title}</span>
-                      )}
-                      <button type="button" onClick={() => removeMaterial(m.id)} className="text-slate-600 hover:text-red-400 shrink-0 opacity-0 group-hover/mat:opacity-100" title="Remover">
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {!linkOpen ? (
-                <button
-                  type="button"
-                  onClick={() => setLinkOpen(true)}
-                  className="flex items-center gap-1.5 text-[11px] text-slate-600 hover:text-indigo-300 transition-colors"
-                >
-                  <Plus className="w-3 h-3" /> Adicionar link
-                </button>
-              ) : (
-                <div className="space-y-1.5 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg p-2">
-                  <input autoFocus value={matTitle} onChange={(e) => setMatTitle(e.target.value)} placeholder="Título (ex.: Vídeo da reunião)" className={inCls} />
-                  <input value={matUrl} onChange={(e) => setMatUrl(e.target.value)} placeholder="https://…" className={inCls} />
-                  <div className="flex gap-1.5">
-                    <button type="button" onClick={async () => { await addMaterial(); setLinkOpen(false); }} className="flex-1 px-2 py-1 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-[11px] font-medium">Adicionar</button>
-                    <button type="button" onClick={() => { setLinkOpen(false); setMatMsg(""); }} className="px-2 py-1 text-slate-500 hover:text-white text-[11px]">Cancelar</button>
-                  </div>
-                  {matMsg && <p className="text-[10px] text-slate-500">{matMsg}</p>}
-                </div>
-              )}
-            </div>
-
-            {/* Comentários / andamento */}
-            <div className="pt-2 border-t border-[#1e2d45]">
-              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                Andamento <span className="text-slate-600 normal-case">(o cliente vê, exceto 🔒)</span>
-              </label>
               {comments.length === 0 ? (
                 <p className="text-[11px] text-slate-600 mb-2">Nenhuma atualização ainda.</p>
               ) : (
@@ -2135,7 +2134,7 @@ function ProjectTasksCard({
 
         return (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={closeTaskModal}>
-            <div className="w-[85vw] h-[85vh] max-w-5xl bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className="w-[92vw] h-[88vh] max-w-7xl bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
               {/* O título mora só dentro do editor (é editável lá) — aqui fica
                   a navegação entre tarefas da etapa, o carimbo e o fechar. */}
               <div className="flex items-center gap-3 px-5 py-2.5 border-b border-[#1e2d45] flex-shrink-0">
