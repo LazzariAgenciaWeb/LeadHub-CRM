@@ -53,7 +53,13 @@ export async function POST(
 
   const body = await req.json().catch(() => ({}));
   const text = String(body?.text ?? "").trim();
-  if (!text) return NextResponse.json({ error: "Escreva o comentário." }, { status: 400 });
+  const attachments = Array.isArray(body?.attachments) ? body.attachments : [];
+  const links       = Array.isArray(body?.links)       ? body.links       : [];
+  // Permite comentário sem texto se tiver anexo ou link (ex.: só "aqui vai a
+  // nova arte"). sanitizeComments valida o shape depois.
+  if (!text && attachments.length === 0 && links.length === 0) {
+    return NextResponse.json({ error: "Escreva o comentário ou anexe algo." }, { status: 400 });
+  }
   const internal = body?.vis === false;
 
   // Empurra pro ClickUp (best-effort). Guarda o cid pra dedup no sync/webhook.
@@ -71,6 +77,8 @@ export async function POST(
   const c: TaskComment = { text, at: new Date().toISOString() };
   if (internal) c.vis = false;
   if (cid) c.cid = cid;
+  if (attachments.length) c.attachments = attachments;
+  if (links.length) c.links = links;
 
   const next = [...readComments(task.comments), c];
   await prisma.projectTask.update({

@@ -13,6 +13,8 @@ import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
+import AttachmentList from "@/components/attachments/AttachmentList";
+import { uploadFile, type StoredFile } from "@/components/attachments/upload";
 import { DescricaoEditor } from "@/components/DescricaoRich";
 import { RichMessageBody } from "@/components/RichMessageBody";
 
@@ -92,7 +94,18 @@ type InternalTask = {
   stage:        string | null; // etapa/fase (rótulo)
   projectServiceId: string | null; // serviço da sequência ao qual pertence
   checklist:    ChecklistItem[]; // sub-passos
-  comments:     { text: string; at: string; by?: "client"; vis?: boolean }[]; // atualizações datadas (vis:false = interno)
+  // Atualizações datadas (vis:false = interno). attachments/links opcionais são
+  // anexos "presos" ao comentário — resolvem o problema de rastrear "essa imagem
+  // veio nesta alteração pedida pelo cliente" em vez de aparecerem soltas na
+  // aba de arquivos gerais.
+  comments:     {
+    text: string;
+    at: string;
+    by?: "client";
+    vis?: boolean;
+    attachments?: { id: string; fileName: string; mimeType: string; size?: number }[];
+    links?: { url: string; title?: string }[];
+  }[];
   done:         boolean;
   priority:     string;
   startDate:    string | null; // ISO — início
@@ -1064,6 +1077,44 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   const [comments, setComments] = useState(task.comments);
   const [newComment, setNewComment] = useState("");
   const [commentInternal, setCommentInternal] = useState(false);
+  // Anexos/links "presos" ao PRÓXIMO comentário — publicados junto no addComment.
+  // O upload já vai pro MinIO como DRAFT (marcado em StorageObject) e vira
+  // definitivo quando o comentário é publicado.
+  const [draftAttachments, setDraftAttachments] = useState<StoredFile[]>([]);
+  const [draftLinks, setDraftLinks] = useState<{ url: string; title: string }[]>([]);
+  const [uploadingDraft, setUploadingDraft] = useState<{ key: string; name: string; pct: number; error?: string }[]>([]);
+  const [linkFormOpen, setLinkFormOpen] = useState(false);
+  const [linkFormUrl, setLinkFormUrl] = useState("");
+  const [linkFormTitle, setLinkFormTitle] = useState("");
+  const commentFileInputRef = useRef<HTMLInputElement>(null);
+  const [attachRefreshKey, setAttachRefreshKey] = useState(0);
+
+  async function pickCommentFiles(list: FileList | null) {
+    if (!list?.length) return;
+    for (const file of Array.from(list)) {
+      const key = `${Date.now()}-${Math.random()}`;
+      setUploadingDraft((u) => [...u, { key, name: file.name, pct: 0 }]);
+      try {
+        const saved = await uploadFile(file, { projectTaskId: task.id }, {
+          onProgress: (pct) => setUploadingDraft((u) => u.map((x) => (x.key === key ? { ...x, pct } : x))),
+        });
+        setDraftAttachments((prev) => [...prev, saved]);
+        setUploadingDraft((u) => u.filter((x) => x.key !== key));
+      } catch (e: any) {
+        setUploadingDraft((u) => u.map((x) => (x.key === key ? { ...x, error: e?.message ?? "Erro" } : x)));
+      }
+    }
+  }
+
+  function addDraftLink() {
+    const url = linkFormUrl.trim();
+    if (!url) return;
+    const title = linkFormTitle.trim();
+    setDraftLinks((prev) => [...prev, title ? { url, title } : { url, title: "" }]);
+    setLinkFormUrl("");
+    setLinkFormTitle("");
+    setLinkFormOpen(false);
+  }
   const [visible, setVisible] = useState(task.visibleToClient);
   const [pushing, setPushing] = useState(false);
 
@@ -1098,21 +1149,41 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   }
   async function addComment() {
     const text = newComment.trim();
-    if (!text) return;
+    const attaches = draftAttachments;
+    const links = draftLinks;
+    if (!text && attaches.length === 0 && links.length === 0) return;
     const internal = commentInternal;
     setNewComment("");
     setCommentInternal(false);
+    setDraftAttachments([]);
+    setDraftLinks([]);
+    // Snapshot metadata mínimo dos anexos — o binário mora no MinIO.
+    const attSnapshot = attaches.map((a) => ({
+      id: a.id, fileName: a.fileName, mimeType: a.mimeType, size: a.size,
+    }));
     // Otimista + sobe pro ClickUp (se a tarefa for vinculada) via endpoint dedicado.
-    setComments((prev) => [...prev, internal ? { text, at: new Date().toISOString(), vis: false } : { text, at: new Date().toISOString() }]);
+    const baseC: any = { text, at: new Date().toISOString() };
+    if (internal) baseC.vis = false;
+    if (attSnapshot.length) baseC.attachments = attSnapshot;
+    if (links.length) baseC.links = links;
+    setComments((prev) => [...prev, baseC]);
     const res = await fetch(`/api/projetos/${projectId}/tasks/${task.id}/comment`, {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify(internal ? { text, vis: false } : { text }),
+      body:    JSON.stringify({
+        text,
+        ...(internal ? { vis: false } : {}),
+        ...(attSnapshot.length ? { attachments: attSnapshot } : {}),
+        ...(links.length ? { links } : {}),
+      }),
     }).catch(() => null);
     if (res && res.ok) {
       const data = await res.json().catch(() => null);
       if (data?.comments) setComments(data.comments);
     }
+    // Força o painel geral de Arquivos refetch — os anexos do comentário
+    // também aparecem lá (mesma tarefa).
+    setAttachRefreshKey((k) => k + 1);
     router.refresh();
   }
 
@@ -1344,7 +1415,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
           </div>
 
           {/* Complementos da descrição: arquivos + links (antes moravam à direita) */}
-          <AttachmentsPanel target={{ projectTaskId: task.id }} title="Arquivos" />
+          <AttachmentsPanel target={{ projectTaskId: task.id }} title="Arquivos" refreshKey={attachRefreshKey} />
 
           <div>
             <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1">
@@ -1465,17 +1536,49 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                             </button>
                           </div>
                         </div>
-                        <RichMessageBody
-                          text={c.text}
-                          className="text-[13px] text-slate-200 leading-relaxed"
-                          linkClassName={
-                            fromClient
-                              ? "text-amber-200 hover:text-amber-100 underline decoration-amber-400/40 break-all"
-                              : internal
-                                ? "text-slate-300 hover:text-white underline decoration-slate-500 break-all"
-                                : "text-indigo-300 hover:text-indigo-200 underline decoration-indigo-400/40 break-all"
-                          }
-                        />
+                        {c.text && (
+                          <RichMessageBody
+                            text={c.text}
+                            className="text-[13px] text-slate-200 leading-relaxed"
+                            linkClassName={
+                              fromClient
+                                ? "text-amber-200 hover:text-amber-100 underline decoration-amber-400/40 break-all"
+                                : internal
+                                  ? "text-slate-300 hover:text-white underline decoration-slate-500 break-all"
+                                  : "text-indigo-300 hover:text-indigo-200 underline decoration-indigo-400/40 break-all"
+                            }
+                          />
+                        )}
+                        {/* Anexos do comentário (snapshot no JSON — binário no MinIO) */}
+                        {!!(c as any).attachments?.length && (
+                          <div className={c.text ? "mt-2" : ""}>
+                            <AttachmentList
+                              files={((c as any).attachments as any[]).map((a) => ({
+                                id: a.id, fileName: a.fileName, mimeType: a.mimeType, size: a.size ?? 0,
+                              }))}
+                              compact
+                            />
+                          </div>
+                        )}
+                        {/* Links do comentário — mesma UI dos Links da tarefa */}
+                        {!!(c as any).links?.length && (
+                          <div className={`space-y-1 ${c.text || (c as any).attachments?.length ? "mt-2" : ""}`}>
+                            {((c as any).links as { url: string; title?: string }[]).map((l, li) => (
+                              <div key={li} className="flex items-center gap-2 text-xs bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5">
+                                <Link2 className="w-3 h-3 text-slate-500 shrink-0" />
+                                <a
+                                  href={l.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-indigo-300 hover:underline truncate flex-1"
+                                  title={l.url}
+                                >
+                                  {l.title || l.url}
+                                </a>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -1486,6 +1589,78 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
 
           {/* Composer fixo no rodapé da coluna */}
           <div className="shrink-0 pt-2 mt-2 border-t border-[#1e2d45]">
+            {/* Preview do que vai junto no comentário (anexos + links) — some ao publicar */}
+            {(draftAttachments.length > 0 || draftLinks.length > 0 || uploadingDraft.length > 0) && (
+              <div className="mb-1.5 space-y-1">
+                {uploadingDraft.map((u) => (
+                  <div key={u.key} className="flex items-center gap-2 text-[11px] bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1">
+                    <span className={`truncate flex-1 ${u.error ? "text-red-400" : "text-slate-400"}`}>📎 {u.name}</span>
+                    {u.error ? (
+                      <button type="button" onClick={() => setUploadingDraft((l) => l.filter((x) => x.key !== u.key))} className="text-slate-500 hover:text-slate-300">×</button>
+                    ) : (
+                      <span className="text-slate-600">{u.pct}%</span>
+                    )}
+                  </div>
+                ))}
+                {draftAttachments.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {draftAttachments.map((a) => (
+                      <div key={a.id} className="flex items-center gap-1.5 bg-indigo-500/10 border border-indigo-500/30 rounded px-2 py-1 text-[11px] text-indigo-200 max-w-full">
+                        <span className="text-[10px]">📎</span>
+                        <span className="truncate max-w-[180px]" title={a.fileName}>{a.fileName}</span>
+                        <button
+                          type="button"
+                          onClick={() => setDraftAttachments((prev) => prev.filter((x) => x.id !== a.id))}
+                          className="text-indigo-300 hover:text-red-400 leading-none"
+                          title="Remover"
+                        >×</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {draftLinks.length > 0 && (
+                  <div className="space-y-1">
+                    {draftLinks.map((l, i) => (
+                      <div key={i} className="flex items-center gap-1.5 bg-indigo-500/10 border border-indigo-500/30 rounded px-2 py-1 text-[11px] text-indigo-200">
+                        <Link2 className="w-3 h-3 shrink-0" />
+                        <span className="truncate flex-1" title={l.url}>{l.title || l.url}</span>
+                        <button
+                          type="button"
+                          onClick={() => setDraftLinks((prev) => prev.filter((_, idx) => idx !== i))}
+                          className="text-indigo-300 hover:text-red-400 leading-none"
+                          title="Remover"
+                        >×</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Mini-form pra adicionar link — só aparece quando clica no 🔗 */}
+            {linkFormOpen && (
+              <div className="mb-1.5 space-y-1 bg-[#0a0f1a] border border-indigo-500/30 rounded p-2">
+                <input
+                  autoFocus
+                  value={linkFormUrl}
+                  onChange={(e) => setLinkFormUrl(e.target.value)}
+                  placeholder="https://…"
+                  className={inCls + " !py-1 !text-[12px]"}
+                />
+                <input
+                  value={linkFormTitle}
+                  onChange={(e) => setLinkFormTitle(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addDraftLink(); } }}
+                  placeholder="Título (opcional)"
+                  className={inCls + " !py-1 !text-[12px]"}
+                />
+                <div className="flex gap-1.5">
+                  <button type="button" onClick={addDraftLink} className="flex-1 px-2 py-1 rounded bg-indigo-600/80 hover:bg-indigo-500 text-white text-[11px] font-medium">Adicionar</button>
+                  <button type="button" onClick={() => { setLinkFormOpen(false); setLinkFormUrl(""); setLinkFormTitle(""); }} className="px-2 py-1 text-slate-500 hover:text-white text-[11px]">Cancelar</button>
+                </div>
+              </div>
+            )}
+
             <div className="flex gap-1.5">
               <textarea
                 value={newComment}
@@ -1498,9 +1673,34 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                 placeholder={commentInternal ? "Nota interna (o cliente não vê)…" : "O que avançou? Ex.: Artes enviadas pra aprovação…"}
                 className={inCls + " flex-1 resize-y min-h-[2.25rem]"}
               />
+              <div className="flex flex-col gap-1 self-stretch">
+                <button
+                  type="button"
+                  onClick={() => commentFileInputRef.current?.click()}
+                  className="flex-1 px-2 rounded-md bg-[#0a0f1a] border border-[#1e2d45] text-slate-400 hover:text-indigo-300 hover:border-indigo-500/40 text-xs flex items-center justify-center transition-colors"
+                  title="Anexar arquivo a este andamento"
+                >
+                  📎
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLinkFormOpen(true)}
+                  className="flex-1 px-2 rounded-md bg-[#0a0f1a] border border-[#1e2d45] text-slate-400 hover:text-indigo-300 hover:border-indigo-500/40 text-xs flex items-center justify-center transition-colors"
+                  title="Anexar link a este andamento"
+                >
+                  <Link2 className="w-3 h-3" />
+                </button>
+              </div>
               <button type="button" onClick={addComment} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center self-stretch" title="Publicar andamento (Enter)">
                 <Plus className="w-3.5 h-3.5" />
               </button>
+              <input
+                ref={commentFileInputRef}
+                type="file"
+                multiple
+                className="hidden"
+                onChange={(e) => { void pickCommentFiles(e.target.files); e.target.value = ""; }}
+              />
             </div>
             <div className="flex items-center justify-between gap-2 mt-1.5 flex-wrap">
               <label className="flex items-center gap-1.5 text-[11px] text-slate-500 cursor-pointer select-none">

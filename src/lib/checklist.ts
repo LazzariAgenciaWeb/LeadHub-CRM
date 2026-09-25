@@ -46,10 +46,25 @@ export function readChecklist(raw: unknown): ChecklistItem[] {
 // (by:"client") é sempre visível pra ele.
 // `cid` = id do comentário no ClickUp (quando o comentário foi empurrado pra lá
 // ou veio de lá). Serve pra dedup e evitar eco no sync/webhook.
-export type TaskComment = { text: string; at: string; by?: "client"; vis?: boolean; cid?: string };
+export type TaskCommentAttachment = { id: string; fileName: string; mimeType: string; size?: number };
+export type TaskCommentLink = { url: string; title?: string };
+export type TaskComment = {
+  text: string;
+  at: string;
+  by?: "client";
+  vis?: boolean;
+  cid?: string;
+  // Anexos/links atrelados a este comentário — resolvem o rastro de "essa
+  // imagem veio nesta alteração pedida em X data". Os anexos são snapshots
+  // de StoredFile (o binário mora no MinIO, servido via /api/storage/[id]).
+  attachments?: TaskCommentAttachment[];
+  links?: TaskCommentLink[];
+};
 
 const MAX_COMMENTS = 100;
 const MAX_COMMENT_TEXT = 2000;
+const MAX_ATTACHMENTS = 20;
+const MAX_LINKS = 20;
 
 export function sanitizeComments(raw: unknown): TaskComment[] | null {
   if (!Array.isArray(raw)) return null;
@@ -57,7 +72,11 @@ export function sanitizeComments(raw: unknown): TaskComment[] | null {
   for (const it of raw) {
     if (!it || typeof it !== "object") continue;
     const text = String((it as any).text ?? "").trim().slice(0, MAX_COMMENT_TEXT);
-    if (!text) continue;
+    // Permite comentário SEM texto se tiver ao menos 1 anexo ou 1 link (ex.: só
+    // "aqui está o arquivo novo"). Antes ficava fora e o cliente não via nada.
+    const hasAttach = Array.isArray((it as any).attachments) && (it as any).attachments.length > 0;
+    const hasLinks  = Array.isArray((it as any).links)       && (it as any).links.length > 0;
+    if (!text && !hasAttach && !hasLinks) continue;
     const rawAt = (it as any).at;
     const d = rawAt ? new Date(rawAt) : null;
     const at = d && !Number.isNaN(d.getTime()) ? d.toISOString() : new Date().toISOString();
@@ -65,6 +84,32 @@ export function sanitizeComments(raw: unknown): TaskComment[] | null {
     if ((it as any).by === "client") c.by = "client"; // resposta do cliente
     if ((it as any).vis === false) c.vis = false; // marcado como interno
     if (typeof (it as any).cid === "string" && (it as any).cid) c.cid = (it as any).cid; // id no ClickUp
+    if (hasAttach) {
+      const atts: TaskCommentAttachment[] = [];
+      for (const a of (it as any).attachments as unknown[]) {
+        if (!a || typeof a !== "object") continue;
+        const id = String((a as any).id ?? "").trim();
+        const fileName = String((a as any).fileName ?? "").trim();
+        const mimeType = String((a as any).mimeType ?? "application/octet-stream").trim();
+        if (!id || !fileName) continue;
+        const size = typeof (a as any).size === "number" ? (a as any).size : undefined;
+        atts.push({ id, fileName, mimeType, size });
+        if (atts.length >= MAX_ATTACHMENTS) break;
+      }
+      if (atts.length) c.attachments = atts;
+    }
+    if (hasLinks) {
+      const links: TaskCommentLink[] = [];
+      for (const l of (it as any).links as unknown[]) {
+        if (!l || typeof l !== "object") continue;
+        const url = String((l as any).url ?? "").trim().slice(0, 2000);
+        if (!url) continue;
+        const title = String((l as any).title ?? "").trim().slice(0, 200);
+        links.push(title ? { url, title } : { url });
+        if (links.length >= MAX_LINKS) break;
+      }
+      if (links.length) c.links = links;
+    }
     out.push(c);
     if (out.length >= MAX_COMMENTS) break;
   }
