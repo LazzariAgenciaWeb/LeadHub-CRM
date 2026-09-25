@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { readChecklist, clientComments } from "@/lib/checklist";
+import { looseClientFiles } from "@/lib/client-task-files";
 import ClientProjectPanel from "@/components/client-panel/ClientProjectPanel";
 
 export const dynamic = "force-dynamic";
@@ -38,9 +39,11 @@ export default async function ClientePage({ params }: { params: Promise<{ token:
     );
   }
 
+  const looseFiles = await looseClientFiles(project.internalTasks);
   const tasks = project.internalTasks.map((t) => ({
     id: t.id, title: t.title, description: t.description, stage: t.stage, projectServiceId: t.projectServiceId,
     checklist: readChecklist(t.checklist), comments: clientComments(t.comments), done: t.done, startDate: t.startDate, dueDate: t.dueDate, updatedAt: t.updatedAt, awaitingClient: t.awaitingClient,
+    files: looseFiles[t.id] ?? [],
   }));
   const serviceSteps = project.serviceSteps.map((s) => ({ id: s.id, name: s.name || s.service?.name || "Serviço", order: s.order }));
 

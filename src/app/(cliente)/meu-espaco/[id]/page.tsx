@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { readChecklist, clientComments } from "@/lib/checklist";
+import { looseClientFiles } from "@/lib/client-task-files";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import ClientProjectPanel from "@/components/client-panel/ClientProjectPanel";
@@ -42,9 +43,11 @@ export default async function MeuEspacoProjetoPage({ params, searchParams }: { p
   // Escopo de segurança: só o próprio cliente (dono) vê o projeto.
   if (!project || project.clientCompanyId !== companyId) notFound();
 
+  const looseFiles = await looseClientFiles(project.internalTasks);
   const tasks = project.internalTasks.map((t) => ({
     id: t.id, title: t.title, description: t.description, stage: t.stage, projectServiceId: t.projectServiceId,
     checklist: readChecklist(t.checklist), comments: clientComments(t.comments), done: t.done, startDate: t.startDate, dueDate: t.dueDate, updatedAt: t.updatedAt, awaitingClient: t.awaitingClient,
+    files: looseFiles[t.id] ?? [],
   }));
   const serviceSteps = project.serviceSteps.map((s) => ({ id: s.id, name: s.name || s.service?.name || "Serviço", order: s.order }));
 

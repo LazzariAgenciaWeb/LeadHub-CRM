@@ -11,9 +11,16 @@ import ServiceGantt from "./ServiceGantt";
 export type PanelTask = {
   id: string; title: string; description: string | null; stage: string | null;
   projectServiceId: string | null;
-  checklist: ChecklistItem[]; comments: { text: string; at: string; by?: "client" }[];
+  checklist: ChecklistItem[];
+  comments: {
+    text: string; at: string; by?: "client";
+    attachments?: { id: string; fileName: string; mimeType: string; status?: string; note?: string }[];
+    links?: { url: string; title?: string }[];
+  }[];
   done: boolean; startDate: Date | null; dueDate: Date | null; updatedAt: Date | null;
   awaitingClient: boolean;
+  // Arquivos da tarefa que não estão presos a nenhum andamento.
+  files?: { id: string; fileName: string; mimeType: string }[];
 };
 export type PanelStep = { id: string; name: string; order: number };
 export type PanelMat = {
@@ -152,6 +159,26 @@ const STYLE = `
 .tkupd li.byclient .fauthor{color:var(--warn)}
 .tkupd .fdate{font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums;flex:none}
 .tkupd .ftext{font-size:13.5px;color:var(--ink2);line-height:1.55;white-space:pre-wrap}
+.cfiles{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.cfile{display:flex;gap:10px;align-items:flex-start;padding:8px;border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.18)}
+.cfile img,.cfile .cfic{width:84px;height:84px;border-radius:8px;object-fit:cover;flex:none;border:1px solid var(--line)}
+.cfile .cfic{display:grid;place-items:center;font-size:26px;background:rgba(255,255,255,.04)}
+.cfile .cfb{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.cfile .cfn{font-size:12.5px;color:var(--accent);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cfile .cfn:hover{text-decoration:underline}
+.cfile .cfnote{font-size:12px;color:var(--ink2);font-style:italic;line-height:1.45;white-space:pre-wrap}
+.cfile .cfdl{font-size:11px;color:var(--ink3);text-decoration:none}
+.cfile .cfdl:hover{color:var(--ink)}
+.cst{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid}
+.cst i{width:6px;height:6px;border-radius:50%;background:currentColor}
+.cst.nova{color:#AFB6C6;border-color:rgba(175,182,198,.3)}
+.cst.aguardando{color:#F5B564;border-color:rgba(245,181,100,.35)}
+.cst.alteracao{color:#FB923C;border-color:rgba(251,146,60,.35)}
+.cst.aprovada{color:#4FD1A0;border-color:rgba(79,209,160,.35)}
+.cst.reprovada{color:#F87171;border-color:rgba(248,113,113,.35)}
+.clinks{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.clinks a{font-size:12.5px;color:var(--accent);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:7px 10px;border:1px solid var(--line);border-radius:9px}
+.clinks a:hover{border-color:var(--line2)}
 .tkmats{margin-top:12px;display:flex;flex-direction:column;gap:8px}
 .tkmat{display:flex;align-items:center;gap:11px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;
   background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));transition:border-color .15s,transform .15s}

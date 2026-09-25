@@ -54,9 +54,54 @@ function statusOf(t: PanelTask, now: number): keyof typeof STATUS_LABEL {
 
 type Group = { key: string; label: string; tasks: PanelTask[] };
 
+// Andamento é gravado em UTC — formata no fuso de Brasília.
+const fmtDataHora = (iso: string) =>
+  new Date(iso).toLocaleString("pt-BR", {
+    day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit",
+    timeZone: "America/Sao_Paulo",
+  });
+
+const ATTACH_LABEL: Record<string, string> = {
+  nova: "Nova", aguardando: "Aguardando sua aprovação", alteracao: "Em alteração", aprovada: "Aprovada", reprovada: "Reprovada",
+};
+
+// Arte/arquivo no painel do cliente: miniatura, status de aprovação e a
+// descrição que a equipe escreveu.
+function ClientFileCard({ a, url, dl }: {
+  a: { id: string; fileName: string; mimeType: string; status?: string; note?: string };
+  url: string;
+  dl: string;
+}) {
+  const isImage = /^image\/(png|jpe?g|gif|webp|avif)$/i.test(a.mimeType);
+  const st = a.status && ATTACH_LABEL[a.status] ? a.status : null;
+  return (
+    <div className="cfile">
+      <a href={url} target="_blank" rel="noopener noreferrer" title={a.fileName}>
+        {isImage
+          ? <img src={url} alt={a.fileName} loading="lazy" />
+          : <span className="cfic">📄</span>}
+      </a>
+      <div className="cfb">
+        <a className="cfn" href={url} target="_blank" rel="noopener noreferrer" title={a.fileName}>{a.fileName}</a>
+        {st && <span className={`cst ${st}`}><i />{ATTACH_LABEL[st]}</span>}
+        {a.note && <span className="cfnote">“{a.note}”</span>}
+        <a className="cfdl" href={dl}>⬇ Baixar</a>
+      </div>
+    </div>
+  );
+}
+
 export default function ServiceGantt({ tasks, materials, serviceSteps = [], projectId = "", token = "" }: { tasks: PanelTask[]; materials: PanelMat[]; serviceSteps?: PanelStep[]; projectId?: string; token?: string }) {
   // URL da imagem inline do descritivo — pública via ?t=token (painel do cliente).
   const descMediaUrl = (mid: string) => `/api/projetos/${projectId}/materiais/${mid}/media?t=${encodeURIComponent(token)}`;
+  // Arquivo de tarefa (MinIO) — rota própria do painel do cliente.
+  const fileUrl = (fid: string, download = false) => {
+    const q = new URLSearchParams();
+    if (token) q.set("t", token);
+    if (download) q.set("download", "1");
+    const qs = q.toString();
+    return `/api/projetos/${projectId}/arquivos/${fid}${qs ? `?${qs}` : ""}`;
+  };
   const [openId, setOpenId] = useState<string | null>(null);
   const [view, setView] = useState<"lista" | "cronograma">("lista");
   const now = Date.now();
@@ -363,13 +408,33 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [], proj
                         <div className="fbubble">
                           <div className="fhead">
                             <b className="fauthor">{c.by === "client" ? "Você" : "Equipe Azz"}</b>
-                            <span className="fdate">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
+                            <span className="fdate">{fmtDataHora(c.at)}</span>
                           </div>
-                          <div className="ftext">{c.text}</div>
+                          {c.text && <div className="ftext">{c.text}</div>}
+                          {!!c.attachments?.length && (
+                            <div className="cfiles">
+                              {c.attachments.map((a) => <ClientFileCard key={a.id} a={a} url={fileUrl(a.id)} dl={fileUrl(a.id, true)} />)}
+                            </div>
+                          )}
+                          {!!c.links?.length && (
+                            <div className="clinks">
+                              {c.links.map((l, li) => (
+                                <a key={li} href={l.url} target="_blank" rel="noopener noreferrer" title={l.url}>🔗 {l.title || l.url}</a>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+              {!!openTask.files?.length && (
+                <div className="gms">
+                  <h4>Arquivos</h4>
+                  <div className="cfiles">
+                    {openTask.files.map((f) => <ClientFileCard key={f.id} a={f} url={fileUrl(f.id)} dl={fileUrl(f.id, true)} />)}
+                  </div>
                 </div>
               )}
               {mats.length > 0 && (
