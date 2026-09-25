@@ -58,5 +58,22 @@ export async function DELETE(
 
   await deleteObject(r.obj.key);
   await prisma.storageObject.delete({ where: { id } });
+
+  if (r.obj.projectTaskId) {
+    const task = await prisma.projectTask.findUnique({
+      where: { id: r.obj.projectTaskId },
+      select: { projectId: true },
+    });
+    if (task) {
+      await prisma.projectTaskEvent.create({
+        data: {
+          taskId: r.obj.projectTaskId, projectId: task.projectId, type: "FILE_REMOVED",
+          toText: r.obj.fileName,
+          authorId: userId ?? null,
+          authorName: (session.user as any)?.name ?? null,
+        },
+      }).catch(() => {});
+    }
+  }
   return NextResponse.json({ ok: true });
 }

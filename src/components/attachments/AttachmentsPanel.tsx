@@ -14,6 +14,8 @@ export default function AttachmentsPanel({
   canManage = false,
   title = "Arquivos",
   refreshKey,
+  onUploaded,
+  onDeleted,
 }: {
   target: UploadTarget;
   currentUserId?: string;
@@ -21,6 +23,8 @@ export default function AttachmentsPanel({
   title?: string;
   /** muda quando algo externo (ex.: mensagem com anexo) adicionou arquivo */
   refreshKey?: unknown;
+  onUploaded?: (f: StoredFile) => void;
+  onDeleted?: (f: StoredFile) => void;
 }) {
   const [files, setFiles] = useState<StoredFile[] | null>(null);
   const [enabled, setEnabled] = useState(true);
@@ -52,6 +56,7 @@ export default function AttachmentsPanel({
         });
         setFiles((f) => [saved, ...(f ?? [])]);
         setUploading((u) => u.filter((x) => x.key !== key));
+        onUploaded?.(saved);
       } catch (e: any) {
         setUploading((u) => u.map((x) => (x.key === key ? { ...x, error: e?.message ?? "Erro" } : x)));
       }
@@ -61,7 +66,10 @@ export default function AttachmentsPanel({
   async function handleDelete(f: StoredFile) {
     if (!confirm(`Excluir "${f.fileName}"?`)) return;
     const res = await fetch(`/api/storage/${f.id}`, { method: "DELETE" });
-    if (res.ok) setFiles((list) => (list ?? []).filter((x) => x.id !== f.id));
+    if (res.ok) {
+      setFiles((list) => (list ?? []).filter((x) => x.id !== f.id));
+      onDeleted?.(f);
+    }
     else alert((await res.json().catch(() => ({}))).error ?? "Não foi possível excluir");
   }
 

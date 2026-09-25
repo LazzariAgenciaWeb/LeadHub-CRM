@@ -169,6 +169,50 @@ const ATTACH_STATUS_META: Record<AttachStatus, { label: string; cls: string; dot
   reprovada:  { label: "Reprovada",   cls: "bg-red-500/15 text-red-300 border-red-500/30",             dot: "bg-red-400"     },
 };
 
+type TaskEvent = {
+  id: string;
+  type: string;
+  fromText: string | null;
+  toText: string | null;
+  authorName: string | null;
+  byClient: boolean;
+  createdAt: string;
+};
+
+const fmtDia = (iso: string | null) =>
+  iso ? new Date(`${iso.slice(0, 10)}T12:00:00`).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }) : "";
+
+// Frase de cada ação no feed. null = não mostra (ex.: comentário do cliente,
+// que já aparece como card próprio).
+function describeEvent(e: TaskEvent): { icon: string; text: string; dot?: string } | null {
+  switch (e.type) {
+    case "CREATED":
+      return { icon: "✨", text: "criou a tarefa" };
+    case "STATUS":
+      return { icon: "🔄", text: `mudou o status: ${statusOf(e.fromText ?? "").label} → ${statusOf(e.toText ?? "").label}`, dot: statusOf(e.toText ?? "").dot };
+    case "ASSIGNEE":
+      return { icon: "👤", text: e.toText ? `atribuiu a ${e.toText}` : "removeu o responsável" };
+    case "DUE":
+      if (!e.toText) return { icon: "📅", text: "removeu o prazo" };
+      return { icon: "📅", text: e.fromText ? `mudou o prazo: ${fmtDia(e.fromText)} → ${fmtDia(e.toText)}` : `definiu o prazo pra ${fmtDia(e.toText)}` };
+    case "FILE":
+      return { icon: "📎", text: `anexou ${e.toText ?? "arquivo"}` };
+    case "FILE_REMOVED":
+      return { icon: "🗑", text: `excluiu ${e.toText ?? "arquivo"}` };
+    case "ATTACH_STATUS": {
+      const [st, ...nome] = (e.toText ?? "").split("|");
+      const meta = ATTACH_STATUS_META[st as AttachStatus] ?? ATTACH_STATUS_META.nova;
+      return { icon: "🎨", text: `marcou ${nome.join("|") || "a arte"} como ${meta.label}`, dot: meta.dot };
+    }
+    case "ATTACH_NOTE":
+      return { icon: "✎", text: `descreveu ${e.fromText ?? "a arte"}: “${e.toText ?? ""}”` };
+    case "COMMENT":
+      return null;
+    default:
+      return { icon: "•", text: e.type.toLowerCase() };
+  }
+}
+
 const TICKET_STATUS_LABEL: Record<string, string> = {
   OPEN: "Aberto", IN_PROGRESS: "Em andamento", RESOLVED: "Resolvido", CLOSED: "Fechado",
 };
@@ -1164,10 +1208,10 @@ function CommentAttachmentCard({
               <button
                 type="button"
                 onClick={() => setNoteOpen(true)}
-                className="text-[10px] text-slate-500 hover:text-indigo-300"
-                title={a.note ? "Editar nota" : "Adicionar nota"}
+                className="text-[10px] font-semibold text-indigo-300 hover:text-indigo-200"
+                title={a.note ? "Editar descrição" : "Descrever esta arte"}
               >
-                {a.note ? "✎ nota" : "+ nota"}
+                {a.note ? "✎ editar descrição" : "+ descrição"}
               </button>
             )}
           </div>
@@ -1238,9 +1282,20 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
       body:    JSON.stringify({ status: next }),
     }).catch(() => null);
     setAutoSaving(false);
-    if (res?.ok) setSavedAt(Date.now());
+    if (res?.ok) { setSavedAt(Date.now()); void loadEvents(); }
     else setTaskStatus(task.status);
   }
+
+  // Feed de ações (ProjectTaskEvent): status, responsável, prazo, arquivos,
+  // aprovação de arte. Intercalado com os comentários na coluna da direita.
+  const [events, setEvents] = useState<TaskEvent[]>([]);
+  async function loadEvents() {
+    const res = await fetch(`/api/projetos/${projectId}/tasks/${task.id}`).catch(() => null);
+    if (!res?.ok) return;
+    const data = await res.json().catch(() => null);
+    if (Array.isArray(data?.events)) setEvents(data.events);
+  }
+  useEffect(() => { void loadEvents(); }, [task.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const [matTitle, setMatTitle] = useState("");
   const [matUrl, setMatUrl] = useState("");
   const [matMsg, setMatMsg] = useState("");
@@ -1316,7 +1371,42 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
       headers: { "Content-Type": "application/json" },
       body:    JSON.stringify({ comments: next }),
     }).catch(() => {});
+    void loadEvents();
     router.refresh();
+  }
+
+  // Arquivo subido pelo painel "Arquivos" também vira um item no andamento —
+  // assim fica datado no feed e ganha status/descrição como os do 📎.
+  async function logPanelUpload(f: StoredFile) {
+    const snap = { id: f.id, fileName: f.fileName, mimeType: f.mimeType, size: f.size };
+    setComments((prev) => [...prev, { text: "", at: new Date().toISOString(), attachments: [snap] } as any]);
+    const res = await fetch(`/api/projetos/${projectId}/tasks/${task.id}/comment`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ text: "", attachments: [snap] }),
+    }).catch(() => null);
+    if (res?.ok) {
+      const data = await res.json().catch(() => null);
+      if (data?.comments) setComments(data.comments);
+    }
+    void loadEvents();
+  }
+
+  // Arquivo excluído do storage: tira ele dos andamentos (senão fica miniatura
+  // quebrada) e descarta andamento que ficou vazio.
+  function dropDeletedFile(f: StoredFile) {
+    const next = comments
+      .map((c: any) => {
+        if (!c.attachments?.some((a: any) => a.id === f.id)) return c;
+        const rest = c.attachments.filter((a: any) => a.id !== f.id);
+        return { ...c, attachments: rest.length ? rest : undefined };
+      })
+      .filter((c: any) => c.text?.trim() || c.attachments?.length || c.links?.length);
+    if (next.length !== comments.length || next.some((c, i) => c !== comments[i])) {
+      void persistComments(next);
+    } else {
+      void loadEvents();
+    }
   }
 
   // Muta um anexo dentro de um comentário (status/note) sem reescrever texto.
@@ -1379,6 +1469,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
     // Força o painel geral de Arquivos refetch — os anexos do comentário
     // também aparecem lá (mesma tarefa).
     setAttachRefreshKey((k) => k + 1);
+    void loadEvents();
     router.refresh();
   }
 
@@ -1414,6 +1505,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
     if (ok) {
       setSavedAt(Date.now());
       dirtyRef.current = false;
+      void loadEvents();
     }
   }
 
@@ -1610,7 +1702,13 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
           </div>
 
           {/* Complementos da descrição: arquivos + links (antes moravam à direita) */}
-          <AttachmentsPanel target={{ projectTaskId: task.id }} title="Arquivos" refreshKey={attachRefreshKey} />
+          <AttachmentsPanel
+            target={{ projectTaskId: task.id }}
+            title="Arquivos"
+            refreshKey={attachRefreshKey}
+            onUploaded={(f) => void logPanelUpload(f)}
+            onDeleted={dropDeletedFile}
+          />
 
           <div>
             <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1">
@@ -1708,13 +1806,46 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
               <div>Última atualização <span className="text-slate-300 tabular-nums">{fmt(task.updatedAt)}</span></div>
             </div>
 
-            {/* Comentários */}
-            <div>
-              {comments.length === 0 ? (
-                <p className="text-[11px] text-slate-600 mb-2">Nenhuma atualização ainda.</p>
-              ) : (
+            {/* Feed: comentários + ações (status, prazo, arquivos, aprovação),
+                em ordem cronológica. */}
+            {(() => {
+              const idsEmComentario = new Set(
+                comments.flatMap((c: any) => (c.attachments ?? []).map((a: any) => a.id)),
+              );
+              type Item =
+                | { kind: "c"; at: string; i: number }
+                | { kind: "e"; at: string; e: TaskEvent; d: { icon: string; text: string; dot?: string } };
+              const itens: Item[] = [
+                ...comments.map((c, i) => ({ kind: "c" as const, at: c.at, i })),
+                ...events.flatMap((e) => {
+                  // Arquivo que já aparece como card no andamento não repete como linha.
+                  if (e.type === "FILE" && e.fromText && idsEmComentario.has(e.fromText)) return [];
+                  const d = describeEvent(e);
+                  return d ? [{ kind: "e" as const, at: e.createdAt, e, d }] : [];
+                }),
+              ].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
+
+              if (itens.length === 0) {
+                return <p className="text-[11px] text-slate-600 mb-2">Nenhuma atualização ainda.</p>;
+              }
+              return (
                 <div className="flex flex-col gap-2 mb-2">
-                  {comments.map((c, i) => {
+                  {itens.map((it) => {
+                    if (it.kind === "e") {
+                      return (
+                        <div key={`e-${it.e.id}`} className="flex items-start gap-2 px-1 text-[11px] text-slate-500 leading-snug">
+                          <span className="w-4 text-center shrink-0">{it.d.icon}</span>
+                          <span className="flex-1 min-w-0">
+                            <span className="text-slate-300 font-medium">{it.e.byClient ? "Cliente" : it.e.authorName ?? "Sistema"}</span>{" "}
+                            {it.d.dot && <span className={`inline-block w-1.5 h-1.5 rounded-full mr-1 align-middle ${it.d.dot}`} />}
+                            <span className="break-words">{it.d.text}</span>
+                          </span>
+                          <span className="text-[10px] text-slate-600 tabular-nums shrink-0">{formatBrazilDateTime(it.e.createdAt)}</span>
+                        </div>
+                      );
+                    }
+                    const i = it.i;
+                    const c = comments[i];
                     const fromClient = (c as any).by === "client";
                     const internal = (c as any).vis === false;
                     return (
@@ -1725,7 +1856,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                             {!fromClient && (
                               <button onClick={() => persistComments(comments.map((x, idx) => (idx === i ? { ...x, vis: internal ? true : false } : x)))} className="text-[10px] font-semibold text-slate-500 hover:text-emerald-300 opacity-0 group-hover/cm:opacity-100" title={internal ? "Mostrar pro cliente" : "Deixar só interno"}>{internal ? "mostrar" : "ocultar"}</button>
                             )}
-                            <span className="text-[10px] text-slate-500 tabular-nums">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
+                            <span className="text-[10px] text-slate-500 tabular-nums">{formatBrazilDateTime(c.at)}</span>
                             <button onClick={() => persistComments(comments.filter((_, idx) => idx !== i))} className="text-slate-600 hover:text-red-400 opacity-0 group-hover/cm:opacity-100" title="Remover">
                               <Trash2 className="w-3 h-3" />
                             </button>
@@ -1783,8 +1914,8 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                     );
                   })}
                 </div>
-              )}
-            </div>
+              );
+            })()}
           </div>
 
           {/* Composer fixo no rodapé da coluna */}

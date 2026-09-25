@@ -64,7 +64,8 @@ export async function POST(
 
   // Empurra pro ClickUp (best-effort). Guarda o cid pra dedup no sync/webhook.
   let cid: string | undefined;
-  if (task.clickupTaskId) {
+  // Andamento só com anexo (sem texto) não vai pro ClickUp — lá não teria o arquivo.
+  if (task.clickupTaskId && text) {
     try {
       const settings = await getClickupSettings(task.project.setor.companyId);
       if (settings?.apiToken) {

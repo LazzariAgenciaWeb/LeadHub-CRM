@@ -38,5 +38,24 @@ export async function POST(
       ticketMessageId: true, uploadedById: true, uploadedBy: { select: { name: true } },
     },
   });
+
+  // Feed de ações da tarefa: "X anexou arquivo.png". fromText guarda o id do
+  // arquivo pra UI mostrar a miniatura.
+  if (obj.projectTaskId) {
+    const task = await prisma.projectTask.findUnique({
+      where: { id: obj.projectTaskId },
+      select: { projectId: true },
+    });
+    if (task) {
+      await prisma.projectTaskEvent.create({
+        data: {
+          taskId: obj.projectTaskId, projectId: task.projectId, type: "FILE",
+          fromText: file.id, toText: file.fileName,
+          authorId: (session.user as any)?.id ?? null,
+          authorName: (session.user as any)?.name ?? null,
+        },
+      }).catch(() => {});
+    }
+  }
   return NextResponse.json(file);
 }

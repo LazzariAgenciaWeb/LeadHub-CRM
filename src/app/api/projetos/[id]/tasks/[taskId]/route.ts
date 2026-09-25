@@ -3,7 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
-import { sanitizeChecklist, sanitizeComments } from "@/lib/checklist";
+import { sanitizeChecklist, sanitizeComments, readComments } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
 import { getClickupSettings, updateClickupTask, markClickupTaskDone, reopenClickupTask } from "@/lib/clickup";
 
@@ -43,6 +43,30 @@ async function loadAndAuthorize(
     return { error: "Sem permissão", status: 403 as const };
   }
   return { task };
+}
+
+// GET /api/projetos/[id]/tasks/[taskId]
+// Feed de ações da tarefa (ProjectTaskEvent), mais antigo primeiro.
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string; taskId: string }> },
+) {
+  const session = await getEffectiveSession();
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  const gate = await assertModule(session, "projetos");
+  if (!gate.ok) return gate.response;
+
+  const { id, taskId } = await params;
+  const res = await loadAndAuthorize(session, id, taskId);
+  if ("error" in res) return NextResponse.json({ error: res.error }, { status: res.status });
+
+  const events = await prisma.projectTaskEvent.findMany({
+    where:   { taskId },
+    orderBy: { createdAt: "asc" },
+    take:    300,
+    select:  { id: true, type: true, fromText: true, toText: true, authorName: true, byClient: true, createdAt: true },
+  });
+  return NextResponse.json({ events });
 }
 
 // PATCH /api/projetos/[id]/tasks/[taskId]
@@ -150,6 +174,27 @@ export async function PATCH(
       const antes = res.task.dueDate ? res.task.dueDate.toISOString().slice(0, 10) : null;
       const agora = data.dueDate instanceof Date ? data.dueDate.toISOString().slice(0, 10) : null;
       if (antes !== agora) push("DUE", antes, agora);
+    }
+    // Status/descrição de cada arte anexada ao andamento. Compara por id do
+    // arquivo — o PATCH manda o array de comentários inteiro.
+    if (comments !== undefined) {
+      const mapa = (raw: unknown) => {
+        const m = new Map<string, { fileName: string; status: string; note: string }>();
+        for (const c of readComments(raw)) {
+          for (const a of c.attachments ?? []) {
+            m.set(a.id, { fileName: a.fileName, status: a.status ?? "nova", note: a.note ?? "" });
+          }
+        }
+        return m;
+      };
+      const antes = mapa(res.task.comments);
+      const depois = mapa(data.comments === Prisma.DbNull ? null : data.comments);
+      for (const [fid, novo] of depois) {
+        const velho = antes.get(fid);
+        if (!velho) continue;
+        if (velho.status !== novo.status) push("ATTACH_STATUS", velho.status, `${novo.status}|${novo.fileName}`);
+        if (velho.note !== novo.note && novo.note) push("ATTACH_NOTE", novo.fileName, novo.note.slice(0, 500));
+      }
     }
     if (eventos.length) {
       await prisma.projectTaskEvent.createMany({ data: eventos }).catch(() => {});
