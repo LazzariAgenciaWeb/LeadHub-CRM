@@ -13,8 +13,8 @@ import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
-import AttachmentList from "@/components/attachments/AttachmentList";
 import { uploadFile, type StoredFile } from "@/components/attachments/upload";
+import { ATTACH_STATUSES, type AttachStatus } from "@/lib/checklist";
 import { DescricaoEditor } from "@/components/DescricaoRich";
 import { RichMessageBody } from "@/components/RichMessageBody";
 
@@ -158,6 +158,16 @@ const TASK_STATUS: { id: string; label: string; badge: string; dot: string }[] =
   { id: "APROVADO",           label: "Aprovado",           badge: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30", dot: "bg-emerald-400" },
 ];
 const statusOf = (id: string) => TASK_STATUS.find((s) => s.id === id) ?? TASK_STATUS[0];
+
+// Status de aprovação de arte/anexo dentro de um comentário. IDs vêm de
+// ATTACH_STATUSES (src/lib/checklist.ts) — mantido em sync com o sanitize.
+const ATTACH_STATUS_META: Record<AttachStatus, { label: string; cls: string; dot: string }> = {
+  nova:       { label: "Nova",        cls: "bg-slate-500/15 text-slate-300 border-slate-500/30",       dot: "bg-slate-400"   },
+  aguardando: { label: "Aguardando",  cls: "bg-amber-500/15 text-amber-300 border-amber-500/30",       dot: "bg-amber-400"   },
+  alteracao:  { label: "Alteração",   cls: "bg-orange-500/15 text-orange-300 border-orange-500/30",    dot: "bg-orange-400"  },
+  aprovada:   { label: "Aprovada",    cls: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30", dot: "bg-emerald-400" },
+  reprovada:  { label: "Reprovada",   cls: "bg-red-500/15 text-red-300 border-red-500/30",             dot: "bg-red-400"     },
+};
 
 const TICKET_STATUS_LABEL: Record<string, string> = {
   OPEN: "Aberto", IN_PROGRESS: "Em andamento", RESOLVED: "Resolvido", CLOSED: "Fechado",
@@ -1033,6 +1043,167 @@ function ChecklistEditor({
 }
 
 /**
+ * Card de um anexo dentro de um comentário. Mostra miniatura (se imagem) ou
+ * linha compacta, status de aprovação (Nova/Aguardando/Alteração/Aprovada/
+ * Reprovada) clicável e uma nota opcional. Todas as edições sobem via
+ * onUpdate — o TaskEditor traduz pra persistComments.
+ */
+function CommentAttachmentCard({
+  a,
+  onUpdate,
+  onRemove,
+  editable = true,
+}: {
+  a: { id: string; fileName: string; mimeType: string; size?: number; status?: AttachStatus; note?: string };
+  onUpdate: (patch: { status?: AttachStatus; note?: string }) => void;
+  onRemove?: () => void;
+  editable?: boolean;
+}) {
+  const isImage = /^image\//i.test(a.mimeType);
+  const status = (a.status && ATTACH_STATUSES.includes(a.status) ? a.status : "nova") as AttachStatus;
+  const meta = ATTACH_STATUS_META[status];
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [noteOpen, setNoteOpen] = useState(false);
+  const [noteDraft, setNoteDraft] = useState(a.note ?? "");
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { setNoteDraft(a.note ?? ""); }, [a.note]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onDoc = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [menuOpen]);
+
+  function saveNote() {
+    const v = noteDraft.trim();
+    setNoteOpen(false);
+    if (v === (a.note ?? "")) return;
+    onUpdate({ note: v });
+  }
+
+  return (
+    <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg p-2 space-y-1.5">
+      <div className="flex items-start gap-2">
+        {isImage ? (
+          <a href={`/api/storage/${a.id}`} target="_blank" rel="noopener noreferrer" className="shrink-0" title={a.fileName}>
+            <img
+              src={`/api/storage/${a.id}`}
+              alt={a.fileName}
+              loading="lazy"
+              className="w-20 h-20 object-cover rounded border border-[#1e2d45] hover:opacity-90 transition"
+            />
+          </a>
+        ) : (
+          <div className="w-20 h-20 rounded border border-[#1e2d45] bg-[#0f1729] flex items-center justify-center text-xl shrink-0">📄</div>
+        )}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+            <a
+              href={`/api/storage/${a.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] text-indigo-300 hover:underline truncate"
+              title={a.fileName}
+            >
+              {a.fileName}
+            </a>
+            <a
+              href={`/api/storage/${a.id}?download=1`}
+              className="text-[10px] text-slate-500 hover:text-indigo-300 shrink-0"
+              title="Baixar"
+            >⬇</a>
+            {onRemove && editable && (
+              <button
+                type="button"
+                onClick={onRemove}
+                className="text-[10px] text-slate-600 hover:text-red-400 shrink-0"
+                title="Remover deste andamento"
+              >×</button>
+            )}
+          </div>
+
+          {/* Pill de status + botão de nota */}
+          <div className="flex items-center gap-1.5 flex-wrap relative">
+            <div className="relative" ref={menuRef}>
+              <button
+                type="button"
+                onClick={() => editable && setMenuOpen((v) => !v)}
+                disabled={!editable}
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-semibold ${meta.cls} ${editable ? "hover:brightness-125 cursor-pointer" : "cursor-default"}`}
+                title={editable ? "Mudar status" : ""}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${meta.dot}`} />
+                {meta.label}
+                {editable && <span className="opacity-60 text-[9px]">▾</span>}
+              </button>
+              {menuOpen && (
+                <div className="absolute z-30 mt-1 left-0 min-w-[130px] bg-[#0f1729] border border-[#1e2d45] rounded-lg shadow-xl py-1">
+                  {ATTACH_STATUSES.map((s) => {
+                    const m = ATTACH_STATUS_META[s];
+                    const cur = s === status;
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => { onUpdate({ status: s }); setMenuOpen(false); }}
+                        className={`w-full flex items-center gap-1.5 px-2.5 py-1 text-[11px] text-left hover:bg-[#1e2d45] ${cur ? "text-white font-semibold" : "text-slate-300"}`}
+                      >
+                        <span className={`w-1.5 h-1.5 rounded-full ${m.dot}`} />
+                        {m.label}
+                        {cur && <span className="ml-auto text-[9px] text-slate-500">atual</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            {editable && !noteOpen && (
+              <button
+                type="button"
+                onClick={() => setNoteOpen(true)}
+                className="text-[10px] text-slate-500 hover:text-indigo-300"
+                title={a.note ? "Editar nota" : "Adicionar nota"}
+              >
+                {a.note ? "✎ nota" : "+ nota"}
+              </button>
+            )}
+          </div>
+
+          {/* Nota existente OU editor da nota */}
+          {noteOpen ? (
+            <div className="mt-1 space-y-1">
+              <textarea
+                autoFocus
+                value={noteDraft}
+                onChange={(e) => setNoteDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") { e.preventDefault(); setNoteOpen(false); setNoteDraft(a.note ?? ""); }
+                  if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); saveNote(); }
+                }}
+                rows={2}
+                placeholder="Ex.: cliente pediu pra mudar a cor do botão"
+                className="w-full bg-[#0f1729] border border-indigo-500/40 rounded px-2 py-1 text-[11px] text-slate-100 focus:outline-none focus:border-indigo-500 resize-y"
+              />
+              <div className="flex justify-end gap-1.5">
+                <button type="button" onClick={() => { setNoteOpen(false); setNoteDraft(a.note ?? ""); }} className="text-[10px] text-slate-500 hover:text-white">Cancelar</button>
+                <button type="button" onClick={saveNote} className="text-[10px] px-2 py-0.5 rounded bg-indigo-600/80 hover:bg-indigo-500 text-white font-medium">Salvar</button>
+              </div>
+            </div>
+          ) : a.note ? (
+            <p className="mt-1 text-[11px] text-slate-400 italic leading-snug whitespace-pre-wrap">
+              &ldquo;{a.note}&rdquo;
+            </p>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
@@ -1138,7 +1309,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
 
   const inCls = "w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
 
-  async function persistComments(next: { text: string; at: string; by?: "client"; vis?: boolean }[]) {
+  async function persistComments(next: any[]) {
     setComments(next);
     await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
       method:  "PATCH",
@@ -1146,6 +1317,30 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
       body:    JSON.stringify({ comments: next }),
     }).catch(() => {});
     router.refresh();
+  }
+
+  // Muta um anexo dentro de um comentário (status/note) sem reescrever texto.
+  function updateAttachment(commentIdx: number, attachId: string, patch: { status?: AttachStatus; note?: string }) {
+    const next = comments.map((c, i) => {
+      if (i !== commentIdx) return c;
+      const atts = ((c as any).attachments ?? []).map((a: any) =>
+        a.id === attachId ? { ...a, ...patch, ...(patch.note === "" ? { note: undefined } : {}) } : a
+      );
+      return { ...c, attachments: atts };
+    });
+    void persistComments(next);
+  }
+
+  function removeAttachmentFromComment(commentIdx: number, attachId: string) {
+    const c = comments[commentIdx] as any;
+    if (!c) return;
+    const remaining = (c.attachments ?? []).filter((a: any) => a.id !== attachId);
+    // Se o comentário fica sem texto, sem anexos E sem links, remove ele todo.
+    const hasContent = (c.text?.trim() || (c.links?.length ?? 0) > 0 || remaining.length > 0);
+    const next = hasContent
+      ? comments.map((x, i) => (i === commentIdx ? { ...x, attachments: remaining.length ? remaining : undefined } : x))
+      : comments.filter((_, i) => i !== commentIdx);
+    void persistComments(next);
   }
   async function addComment() {
     const text = newComment.trim();
@@ -1549,15 +1744,20 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                             }
                           />
                         )}
-                        {/* Anexos do comentário (snapshot no JSON — binário no MinIO) */}
+                        {/* Anexos do comentário (snapshot no JSON — binário no MinIO).
+                            Cada um tem status (nova/aguardando/alteração/aprovada/reprovada)
+                            + nota opcional. Só editável se o autor foi a equipe. */}
                         {!!(c as any).attachments?.length && (
-                          <div className={c.text ? "mt-2" : ""}>
-                            <AttachmentList
-                              files={((c as any).attachments as any[]).map((a) => ({
-                                id: a.id, fileName: a.fileName, mimeType: a.mimeType, size: a.size ?? 0,
-                              }))}
-                              compact
-                            />
+                          <div className={`space-y-1.5 ${c.text ? "mt-2" : ""}`}>
+                            {((c as any).attachments as any[]).map((a) => (
+                              <CommentAttachmentCard
+                                key={a.id}
+                                a={a}
+                                editable={!fromClient}
+                                onUpdate={(patch) => updateAttachment(i, a.id, patch)}
+                                onRemove={() => removeAttachmentFromComment(i, a.id)}
+                              />
+                            ))}
                           </div>
                         )}
                         {/* Links do comentário — mesma UI dos Links da tarefa */}

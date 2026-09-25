@@ -46,7 +46,21 @@ export function readChecklist(raw: unknown): ChecklistItem[] {
 // (by:"client") é sempre visível pra ele.
 // `cid` = id do comentário no ClickUp (quando o comentário foi empurrado pra lá
 // ou veio de lá). Serve pra dedup e evitar eco no sync/webhook.
-export type TaskCommentAttachment = { id: string; fileName: string; mimeType: string; size?: number };
+// Status de aprovação da arte/arquivo — usado pra rastrear o ciclo de
+// aprovação de peças (nova → aguardando cliente → aprovada/alteração/reprovada)
+// dentro do próprio andamento. Ausente = "nova" (default).
+export const ATTACH_STATUSES = ["nova", "aguardando", "alteracao", "aprovada", "reprovada"] as const;
+export type AttachStatus = (typeof ATTACH_STATUSES)[number];
+export type TaskCommentAttachment = {
+  id: string;
+  fileName: string;
+  mimeType: string;
+  size?: number;
+  status?: AttachStatus;
+  // Comentário curto amarrado ao próprio anexo (ex.: "cliente pediu pra
+  // mudar a cor do botão"). Fica visível junto da miniatura.
+  note?: string;
+};
 export type TaskCommentLink = { url: string; title?: string };
 export type TaskComment = {
   text: string;
@@ -93,7 +107,14 @@ export function sanitizeComments(raw: unknown): TaskComment[] | null {
         const mimeType = String((a as any).mimeType ?? "application/octet-stream").trim();
         if (!id || !fileName) continue;
         const size = typeof (a as any).size === "number" ? (a as any).size : undefined;
-        atts.push({ id, fileName, mimeType, size });
+        const item: TaskCommentAttachment = { id, fileName, mimeType, size };
+        const rawStatus = String((a as any).status ?? "").trim();
+        if ((ATTACH_STATUSES as readonly string[]).includes(rawStatus)) {
+          item.status = rawStatus as AttachStatus;
+        }
+        const rawNote = String((a as any).note ?? "").trim().slice(0, 500);
+        if (rawNote) item.note = rawNote;
+        atts.push(item);
         if (atts.length >= MAX_ATTACHMENTS) break;
       }
       if (atts.length) c.attachments = atts;
