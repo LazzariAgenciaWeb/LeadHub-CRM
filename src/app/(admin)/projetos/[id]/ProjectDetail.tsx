@@ -14,6 +14,7 @@ import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
 import { uploadFile, type StoredFile } from "@/components/attachments/upload";
+import SaveToLibraryButton from "@/components/attachments/SaveToLibraryButton";
 import { ATTACH_STATUSES, type AttachStatus } from "@/lib/checklist";
 import { DescricaoEditor } from "@/components/DescricaoRich";
 import { RichMessageBody } from "@/components/RichMessageBody";
@@ -516,6 +517,7 @@ export default function ProjectDetail({
             internalTasks={internalTasks}
             hasClickup={!!project.clickupListId}
             serviceSteps={serviceSteps}
+            clientId={project.clientCompany?.id ?? null}
           />
 
           {/* Materiais, anexos, links & link do cliente */}
@@ -1097,11 +1099,13 @@ function CommentAttachmentCard({
   onUpdate,
   onRemove,
   editable = true,
+  libraryClientId = null,
 }: {
   a: { id: string; fileName: string; mimeType: string; size?: number; status?: AttachStatus; note?: string };
   onUpdate: (patch: { status?: AttachStatus; note?: string }) => void;
   onRemove?: () => void;
   editable?: boolean;
+  libraryClientId?: string | null;
 }) {
   const isImage = /^image\//i.test(a.mimeType);
   const status = (a.status && ATTACH_STATUSES.includes(a.status) ? a.status : "nova") as AttachStatus;
@@ -1159,6 +1163,9 @@ function CommentAttachmentCard({
               className="text-[10px] text-slate-500 hover:text-indigo-300 shrink-0"
               title="Baixar"
             >⬇</a>
+            {libraryClientId && editable && (
+              <SaveToLibraryButton clientId={libraryClientId} storageObjectId={a.id} fileName={a.fileName} />
+            )}
             {onRemove && editable && (
               <button
                 type="button"
@@ -1251,7 +1258,7 @@ function CommentAttachmentCard({
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
-function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup, availableUsers }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean; availableUsers: { id: string; name: string }[] }) {
+function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup, availableUsers, clientId = null }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean; availableUsers: { id: string; name: string }[]; clientId?: string | null }) {
   const router = useRouter();
   const [title, setTitle] = useState(task.title);
   const [stage, setStage] = useState(task.stage ?? "");
@@ -1708,6 +1715,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
             refreshKey={attachRefreshKey}
             onUploaded={(f) => void logPanelUpload(f)}
             onDeleted={dropDeletedFile}
+            libraryClientId={clientId}
           />
 
           <div>
@@ -1885,6 +1893,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                                 key={a.id}
                                 a={a}
                                 editable={!fromClient}
+                                libraryClientId={clientId}
                                 onUpdate={(patch) => updateAttachment(i, a.id, patch)}
                                 onRemove={() => removeAttachmentFromComment(i, a.id)}
                               />
@@ -2061,9 +2070,11 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
  * criar uma nova — interna (LeadHub) ou direto no ClickUp (lista do projeto).
  */
 function ProjectTasksCard({
-  projectId, availableUsers, internalTasks, hasClickup, serviceSteps,
+  projectId, availableUsers, internalTasks, hasClickup, serviceSteps, clientId = null,
 }: {
   projectId: string;
+  /** Cliente do projeto — habilita "Guardar em Arquivos" nos anexos das tarefas. */
+  clientId?: string | null;
   availableUsers: { id: string; name: string }[];
   internalTasks: InternalTask[];
   hasClickup: boolean;
@@ -2740,7 +2751,7 @@ function ProjectTasksCard({
               <div className="flex-1 min-h-0 px-6 py-5">
                 {/* key = id: troca de tarefa REMONTA o editor. Sem isso os campos
                     (inicializados por useState) manteriam os valores da anterior. */}
-                <TaskEditor key={t.id} projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} />
+                <TaskEditor key={t.id} projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} clientId={clientId} />
               </div>
             </div>
           </div>

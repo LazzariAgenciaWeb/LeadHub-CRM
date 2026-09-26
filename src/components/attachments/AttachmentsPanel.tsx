@@ -16,6 +16,7 @@ export default function AttachmentsPanel({
   refreshKey,
   onUploaded,
   onDeleted,
+  libraryClientId,
 }: {
   target: Exclude<UploadTarget, { libraryCompanyId: string }>;
   currentUserId?: string;
@@ -25,6 +26,8 @@ export default function AttachmentsPanel({
   refreshKey?: unknown;
   onUploaded?: (f: StoredFile) => void;
   onDeleted?: (f: StoredFile) => void;
+  /** Cliente dono — habilita "Guardar em Arquivos" (biblioteca do Meu Espaço). */
+  libraryClientId?: string | null;
 }) {
   const [files, setFiles] = useState<StoredFile[] | null>(null);
   const [enabled, setEnabled] = useState(true);
@@ -136,7 +139,7 @@ export default function AttachmentsPanel({
           {enabled ? "Nenhum arquivo. Arraste aqui ou clique em Anexar." : "Armazenamento de arquivos não configurado."}
         </p>
       ) : (
-        <AttachmentList files={files} compact canDelete={canDelete} onDelete={handleDelete} />
+        <AttachmentList files={files} compact canDelete={canDelete} onDelete={handleDelete} libraryClientId={libraryClientId} />
       )}
     </div>
   );

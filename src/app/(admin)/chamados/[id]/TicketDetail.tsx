@@ -1184,7 +1184,7 @@ export default function TicketDetail({
                             />
                           )}
                           {!!msg.attachments?.length && (
-                            <div className="mt-2"><AttachmentList files={msg.attachments} compact /></div>
+                            <div className="mt-2"><AttachmentList files={msg.attachments} compact libraryClientId={canManage ? clientId : null} /></div>
                           )}
                         </div>
                       );
@@ -1249,7 +1249,7 @@ export default function TicketDetail({
                           )}
                           {!!msg.attachments?.length && (
                             <div className="max-w-[85%] mt-1 w-full">
-                              <AttachmentList files={msg.attachments} compact />
+                              <AttachmentList files={msg.attachments} compact libraryClientId={canManage ? clientId : null} />
                             </div>
                           )}
                         </div>
@@ -1572,6 +1572,7 @@ export default function TicketDetail({
               currentUserId={currentUserId}
               canManage={canManage}
               refreshKey={messages.length}
+              libraryClientId={canManage ? clientId : null}
             />
           )}
 

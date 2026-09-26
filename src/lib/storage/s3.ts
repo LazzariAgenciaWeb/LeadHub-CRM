@@ -1,4 +1,4 @@
-import { S3Client, HeadObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, HeadObjectCommand, DeleteObjectCommand, GetObjectCommand, CopyObjectCommand } from "@aws-sdk/client-s3";
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -94,4 +94,10 @@ export async function headObjectSize(key: string): Promise<number | null> {
 
 export async function deleteObject(key: string) {
   await internal().send(new DeleteObjectCommand({ Bucket: S3_BUCKET, Key: key }));
+}
+
+/** Copia um objeto dentro do bucket (ex.: anexo de chamado → biblioteca do cliente). */
+export async function copyObject(fromKey: string, toKey: string) {
+  const source = `${S3_BUCKET}/${fromKey.split("/").map(encodeURIComponent).join("/")}`;
+  await internal().send(new CopyObjectCommand({ Bucket: S3_BUCKET, Key: toKey, CopySource: source }));
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { type StoredFile, formatBytes, fileIcon } from "./upload";
+import SaveToLibraryButton from "./SaveToLibraryButton";
 
 // Lista de arquivos do MinIO. Imagem vira miniatura; o resto, linha com ícone.
 // Abrir/baixar passa por /api/storage/[id] (checa acesso e redireciona pra URL
@@ -10,11 +11,14 @@ export default function AttachmentList({
   compact = false,
   canDelete,
   onDelete,
+  libraryClientId,
 }: {
   files: StoredFile[];
   compact?: boolean;
   canDelete?: (f: StoredFile) => boolean;
   onDelete?: (f: StoredFile) => void;
+  /** Cliente do chamado/projeto — mostra "Guardar em Arquivos" em cada anexo. */
+  libraryClientId?: string | null;
 }) {
   if (!files.length) return null;
   const images = files.filter((f) => /^image\/(png|jpe?g|gif|webp|avif)$/i.test(f.mimeType));
@@ -34,6 +38,11 @@ export default function AttachmentList({
                   className={`${compact ? "w-16 h-16" : "w-20 h-20"} object-cover rounded-lg border border-[#1e2d45] hover:opacity-90 transition`}
                 />
               </a>
+              {libraryClientId && (
+                <div className="absolute -bottom-1.5 -left-1.5">
+                  <SaveToLibraryButton clientId={libraryClientId} storageObjectId={f.id} fileName={f.fileName} variant="icon" />
+                </div>
+              )}
               {onDelete && canDelete?.(f) && (
                 <button
                   type="button"
@@ -61,6 +70,9 @@ export default function AttachmentList({
           >
             {f.fileName}
           </a>
+          {libraryClientId && (
+            <SaveToLibraryButton clientId={libraryClientId} storageObjectId={f.id} fileName={f.fileName} variant="icon" />
+          )}
           <span className="text-[10px] text-slate-600 flex-shrink-0">{formatBytes(f.size)}</span>
           <a
             href={`/api/storage/${f.id}?download=1`}
