@@ -31,6 +31,7 @@ export default function ClientShell({
         <nav className="cshnav">
           <Link href="/meu-espaco" className="cshlink">Meu espaço</Link>
           <Link href="/meu-espaco/financeiro" className="cshlink">Financeiro</Link>
+          <Link href="/meu-espaco/arquivos" className="cshlink">Arquivos</Link>
           {showMarketing && (
             <Link href="/meu-espaco/marketing" className="cshlink">Marketing</Link>
           )}

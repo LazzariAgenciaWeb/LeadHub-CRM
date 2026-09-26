@@ -628,6 +628,11 @@ export type TimesheetSignature = $Result.DefaultSelection<Prisma.$TimesheetSigna
  * 
  */
 export type StorageObject = $Result.DefaultSelection<Prisma.$StorageObjectPayload>
+/**
+ * Model ClientLibraryItem
+ * 
+ */
+export type ClientLibraryItem = $Result.DefaultSelection<Prisma.$ClientLibraryItemPayload>
 
 /**
  * Enums
@@ -2795,6 +2800,16 @@ export class PrismaClient<
     * ```
     */
   get storageObject(): Prisma.StorageObjectDelegate<ExtArgs>;
+
+  /**
+   * `prisma.clientLibraryItem`: Exposes CRUD operations for the **ClientLibraryItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ClientLibraryItems
+    * const clientLibraryItems = await prisma.clientLibraryItem.findMany()
+    * ```
+    */
+  get clientLibraryItem(): Prisma.ClientLibraryItemDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -3358,7 +3373,8 @@ export namespace Prisma {
     TimeOffEntry: 'TimeOffEntry',
     PunchAdjustRequest: 'PunchAdjustRequest',
     TimesheetSignature: 'TimesheetSignature',
-    StorageObject: 'StorageObject'
+    StorageObject: 'StorageObject',
+    ClientLibraryItem: 'ClientLibraryItem'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3374,7 +3390,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject"
+      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -11988,6 +12004,76 @@ export namespace Prisma {
           }
         }
       }
+      ClientLibraryItem: {
+        payload: Prisma.$ClientLibraryItemPayload<ExtArgs>
+        fields: Prisma.ClientLibraryItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClientLibraryItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClientLibraryItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload>
+          }
+          findFirst: {
+            args: Prisma.ClientLibraryItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClientLibraryItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload>
+          }
+          findMany: {
+            args: Prisma.ClientLibraryItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload>[]
+          }
+          create: {
+            args: Prisma.ClientLibraryItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload>
+          }
+          createMany: {
+            args: Prisma.ClientLibraryItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClientLibraryItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload>[]
+          }
+          delete: {
+            args: Prisma.ClientLibraryItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload>
+          }
+          update: {
+            args: Prisma.ClientLibraryItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.ClientLibraryItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClientLibraryItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ClientLibraryItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientLibraryItemPayload>
+          }
+          aggregate: {
+            args: Prisma.ClientLibraryItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClientLibraryItem>
+          }
+          groupBy: {
+            args: Prisma.ClientLibraryItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClientLibraryItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClientLibraryItemCountArgs<ExtArgs>
+            result: $Utils.Optional<ClientLibraryItemCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -12561,6 +12647,7 @@ export namespace Prisma {
     punchAdjustRequests: number
     timesheetSignatures: number
     storageObjects: number
+    libraryItems: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12648,6 +12735,7 @@ export namespace Prisma {
     punchAdjustRequests?: boolean | CompanyCountOutputTypeCountPunchAdjustRequestsArgs
     timesheetSignatures?: boolean | CompanyCountOutputTypeCountTimesheetSignaturesArgs
     storageObjects?: boolean | CompanyCountOutputTypeCountStorageObjectsArgs
+    libraryItems?: boolean | CompanyCountOutputTypeCountLibraryItemsArgs
   }
 
   // Custom InputTypes
@@ -13247,6 +13335,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountStorageObjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StorageObjectWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountLibraryItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientLibraryItemWhereInput
   }
 
 
@@ -21279,6 +21374,7 @@ export namespace Prisma {
     timesheetSignatures?: boolean | Company$timesheetSignaturesArgs<ExtArgs>
     blingIntegration?: boolean | Company$blingIntegrationArgs<ExtArgs>
     storageObjects?: boolean | Company$storageObjectsArgs<ExtArgs>
+    libraryItems?: boolean | Company$libraryItemsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -21467,6 +21563,7 @@ export namespace Prisma {
     timesheetSignatures?: boolean | Company$timesheetSignaturesArgs<ExtArgs>
     blingIntegration?: boolean | Company$blingIntegrationArgs<ExtArgs>
     storageObjects?: boolean | Company$storageObjectsArgs<ExtArgs>
+    libraryItems?: boolean | Company$libraryItemsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21565,6 +21662,7 @@ export namespace Prisma {
       timesheetSignatures: Prisma.$TimesheetSignaturePayload<ExtArgs>[]
       blingIntegration: Prisma.$BlingIntegrationPayload<ExtArgs> | null
       storageObjects: Prisma.$StorageObjectPayload<ExtArgs>[]
+      libraryItems: Prisma.$ClientLibraryItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -22064,6 +22162,7 @@ export namespace Prisma {
     timesheetSignatures<T extends Company$timesheetSignaturesArgs<ExtArgs> = {}>(args?: Subset<T, Company$timesheetSignaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetSignaturePayload<ExtArgs>, T, "findMany"> | Null>
     blingIntegration<T extends Company$blingIntegrationArgs<ExtArgs> = {}>(args?: Subset<T, Company$blingIntegrationArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     storageObjects<T extends Company$storageObjectsArgs<ExtArgs> = {}>(args?: Subset<T, Company$storageObjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany"> | Null>
+    libraryItems<T extends Company$libraryItemsArgs<ExtArgs> = {}>(args?: Subset<T, Company$libraryItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -24207,6 +24306,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StorageObjectScalarFieldEnum | StorageObjectScalarFieldEnum[]
+  }
+
+  /**
+   * Company.libraryItems
+   */
+  export type Company$libraryItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    where?: ClientLibraryItemWhereInput
+    orderBy?: ClientLibraryItemOrderByWithRelationInput | ClientLibraryItemOrderByWithRelationInput[]
+    cursor?: ClientLibraryItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClientLibraryItemScalarFieldEnum | ClientLibraryItemScalarFieldEnum[]
   }
 
   /**
@@ -147693,6 +147812,7 @@ export namespace Prisma {
     ticketId: string | null
     ticketMessageId: string | null
     projectTaskId: string | null
+    libraryCompanyId: string | null
     uploadedById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -147710,6 +147830,7 @@ export namespace Prisma {
     ticketId: string | null
     ticketMessageId: string | null
     projectTaskId: string | null
+    libraryCompanyId: string | null
     uploadedById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -147727,6 +147848,7 @@ export namespace Prisma {
     ticketId: number
     ticketMessageId: number
     projectTaskId: number
+    libraryCompanyId: number
     uploadedById: number
     createdAt: number
     updatedAt: number
@@ -147754,6 +147876,7 @@ export namespace Prisma {
     ticketId?: true
     ticketMessageId?: true
     projectTaskId?: true
+    libraryCompanyId?: true
     uploadedById?: true
     createdAt?: true
     updatedAt?: true
@@ -147771,6 +147894,7 @@ export namespace Prisma {
     ticketId?: true
     ticketMessageId?: true
     projectTaskId?: true
+    libraryCompanyId?: true
     uploadedById?: true
     createdAt?: true
     updatedAt?: true
@@ -147788,6 +147912,7 @@ export namespace Prisma {
     ticketId?: true
     ticketMessageId?: true
     projectTaskId?: true
+    libraryCompanyId?: true
     uploadedById?: true
     createdAt?: true
     updatedAt?: true
@@ -147892,6 +148017,7 @@ export namespace Prisma {
     ticketId: string | null
     ticketMessageId: string | null
     projectTaskId: string | null
+    libraryCompanyId: string | null
     uploadedById: string | null
     createdAt: Date
     updatedAt: Date
@@ -147928,6 +148054,7 @@ export namespace Prisma {
     ticketId?: boolean
     ticketMessageId?: boolean
     projectTaskId?: boolean
+    libraryCompanyId?: boolean
     uploadedById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -147935,6 +148062,7 @@ export namespace Prisma {
     ticket?: boolean | StorageObject$ticketArgs<ExtArgs>
     ticketMessage?: boolean | StorageObject$ticketMessageArgs<ExtArgs>
     projectTask?: boolean | StorageObject$projectTaskArgs<ExtArgs>
+    libraryItem?: boolean | StorageObject$libraryItemArgs<ExtArgs>
     uploadedBy?: boolean | StorageObject$uploadedByArgs<ExtArgs>
   }, ExtArgs["result"]["storageObject"]>
 
@@ -147950,6 +148078,7 @@ export namespace Prisma {
     ticketId?: boolean
     ticketMessageId?: boolean
     projectTaskId?: boolean
+    libraryCompanyId?: boolean
     uploadedById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -147972,6 +148101,7 @@ export namespace Prisma {
     ticketId?: boolean
     ticketMessageId?: boolean
     projectTaskId?: boolean
+    libraryCompanyId?: boolean
     uploadedById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -147982,6 +148112,7 @@ export namespace Prisma {
     ticket?: boolean | StorageObject$ticketArgs<ExtArgs>
     ticketMessage?: boolean | StorageObject$ticketMessageArgs<ExtArgs>
     projectTask?: boolean | StorageObject$projectTaskArgs<ExtArgs>
+    libraryItem?: boolean | StorageObject$libraryItemArgs<ExtArgs>
     uploadedBy?: boolean | StorageObject$uploadedByArgs<ExtArgs>
   }
   export type StorageObjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -147999,6 +148130,7 @@ export namespace Prisma {
       ticket: Prisma.$TicketPayload<ExtArgs> | null
       ticketMessage: Prisma.$TicketMessagePayload<ExtArgs> | null
       projectTask: Prisma.$ProjectTaskPayload<ExtArgs> | null
+      libraryItem: Prisma.$ClientLibraryItemPayload<ExtArgs> | null
       uploadedBy: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -148013,6 +148145,7 @@ export namespace Prisma {
       ticketId: string | null
       ticketMessageId: string | null
       projectTaskId: string | null
+      libraryCompanyId: string | null
       uploadedById: string | null
       createdAt: Date
       updatedAt: Date
@@ -148384,6 +148517,7 @@ export namespace Prisma {
     ticket<T extends StorageObject$ticketArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$ticketArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     ticketMessage<T extends StorageObject$ticketMessageArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$ticketMessageArgs<ExtArgs>>): Prisma__TicketMessageClient<$Result.GetResult<Prisma.$TicketMessagePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     projectTask<T extends StorageObject$projectTaskArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$projectTaskArgs<ExtArgs>>): Prisma__ProjectTaskClient<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    libraryItem<T extends StorageObject$libraryItemArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$libraryItemArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     uploadedBy<T extends StorageObject$uploadedByArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$uploadedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -148425,6 +148559,7 @@ export namespace Prisma {
     readonly ticketId: FieldRef<"StorageObject", 'String'>
     readonly ticketMessageId: FieldRef<"StorageObject", 'String'>
     readonly projectTaskId: FieldRef<"StorageObject", 'String'>
+    readonly libraryCompanyId: FieldRef<"StorageObject", 'String'>
     readonly uploadedById: FieldRef<"StorageObject", 'String'>
     readonly createdAt: FieldRef<"StorageObject", 'DateTime'>
     readonly updatedAt: FieldRef<"StorageObject", 'DateTime'>
@@ -148791,6 +148926,21 @@ export namespace Prisma {
   }
 
   /**
+   * StorageObject.libraryItem
+   */
+  export type StorageObject$libraryItemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    where?: ClientLibraryItemWhereInput
+  }
+
+  /**
    * StorageObject.uploadedBy
    */
   export type StorageObject$uploadedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -148817,6 +148967,1056 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: StorageObjectInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ClientLibraryItem
+   */
+
+  export type AggregateClientLibraryItem = {
+    _count: ClientLibraryItemCountAggregateOutputType | null
+    _min: ClientLibraryItemMinAggregateOutputType | null
+    _max: ClientLibraryItemMaxAggregateOutputType | null
+  }
+
+  export type ClientLibraryItemMinAggregateOutputType = {
+    id: string | null
+    clientCompanyId: string | null
+    folder: string | null
+    kind: string | null
+    title: string | null
+    description: string | null
+    url: string | null
+    storageObjectId: string | null
+    visibleToClient: boolean | null
+    createdById: string | null
+    createdByName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClientLibraryItemMaxAggregateOutputType = {
+    id: string | null
+    clientCompanyId: string | null
+    folder: string | null
+    kind: string | null
+    title: string | null
+    description: string | null
+    url: string | null
+    storageObjectId: string | null
+    visibleToClient: boolean | null
+    createdById: string | null
+    createdByName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClientLibraryItemCountAggregateOutputType = {
+    id: number
+    clientCompanyId: number
+    folder: number
+    kind: number
+    title: number
+    description: number
+    url: number
+    storageObjectId: number
+    visibleToClient: number
+    createdById: number
+    createdByName: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ClientLibraryItemMinAggregateInputType = {
+    id?: true
+    clientCompanyId?: true
+    folder?: true
+    kind?: true
+    title?: true
+    description?: true
+    url?: true
+    storageObjectId?: true
+    visibleToClient?: true
+    createdById?: true
+    createdByName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClientLibraryItemMaxAggregateInputType = {
+    id?: true
+    clientCompanyId?: true
+    folder?: true
+    kind?: true
+    title?: true
+    description?: true
+    url?: true
+    storageObjectId?: true
+    visibleToClient?: true
+    createdById?: true
+    createdByName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClientLibraryItemCountAggregateInputType = {
+    id?: true
+    clientCompanyId?: true
+    folder?: true
+    kind?: true
+    title?: true
+    description?: true
+    url?: true
+    storageObjectId?: true
+    visibleToClient?: true
+    createdById?: true
+    createdByName?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ClientLibraryItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClientLibraryItem to aggregate.
+     */
+    where?: ClientLibraryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientLibraryItems to fetch.
+     */
+    orderBy?: ClientLibraryItemOrderByWithRelationInput | ClientLibraryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClientLibraryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientLibraryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientLibraryItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ClientLibraryItems
+    **/
+    _count?: true | ClientLibraryItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClientLibraryItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClientLibraryItemMaxAggregateInputType
+  }
+
+  export type GetClientLibraryItemAggregateType<T extends ClientLibraryItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateClientLibraryItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClientLibraryItem[P]>
+      : GetScalarType<T[P], AggregateClientLibraryItem[P]>
+  }
+
+
+
+
+  export type ClientLibraryItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientLibraryItemWhereInput
+    orderBy?: ClientLibraryItemOrderByWithAggregationInput | ClientLibraryItemOrderByWithAggregationInput[]
+    by: ClientLibraryItemScalarFieldEnum[] | ClientLibraryItemScalarFieldEnum
+    having?: ClientLibraryItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClientLibraryItemCountAggregateInputType | true
+    _min?: ClientLibraryItemMinAggregateInputType
+    _max?: ClientLibraryItemMaxAggregateInputType
+  }
+
+  export type ClientLibraryItemGroupByOutputType = {
+    id: string
+    clientCompanyId: string
+    folder: string
+    kind: string
+    title: string
+    description: string | null
+    url: string | null
+    storageObjectId: string | null
+    visibleToClient: boolean
+    createdById: string | null
+    createdByName: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ClientLibraryItemCountAggregateOutputType | null
+    _min: ClientLibraryItemMinAggregateOutputType | null
+    _max: ClientLibraryItemMaxAggregateOutputType | null
+  }
+
+  type GetClientLibraryItemGroupByPayload<T extends ClientLibraryItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClientLibraryItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClientLibraryItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClientLibraryItemGroupByOutputType[P]>
+            : GetScalarType<T[P], ClientLibraryItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClientLibraryItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    clientCompanyId?: boolean
+    folder?: boolean
+    kind?: boolean
+    title?: boolean
+    description?: boolean
+    url?: boolean
+    storageObjectId?: boolean
+    visibleToClient?: boolean
+    createdById?: boolean
+    createdByName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    storageObject?: boolean | ClientLibraryItem$storageObjectArgs<ExtArgs>
+  }, ExtArgs["result"]["clientLibraryItem"]>
+
+  export type ClientLibraryItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    clientCompanyId?: boolean
+    folder?: boolean
+    kind?: boolean
+    title?: boolean
+    description?: boolean
+    url?: boolean
+    storageObjectId?: boolean
+    visibleToClient?: boolean
+    createdById?: boolean
+    createdByName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    storageObject?: boolean | ClientLibraryItem$storageObjectArgs<ExtArgs>
+  }, ExtArgs["result"]["clientLibraryItem"]>
+
+  export type ClientLibraryItemSelectScalar = {
+    id?: boolean
+    clientCompanyId?: boolean
+    folder?: boolean
+    kind?: boolean
+    title?: boolean
+    description?: boolean
+    url?: boolean
+    storageObjectId?: boolean
+    visibleToClient?: boolean
+    createdById?: boolean
+    createdByName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ClientLibraryItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    storageObject?: boolean | ClientLibraryItem$storageObjectArgs<ExtArgs>
+  }
+  export type ClientLibraryItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    storageObject?: boolean | ClientLibraryItem$storageObjectArgs<ExtArgs>
+  }
+
+  export type $ClientLibraryItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ClientLibraryItem"
+    objects: {
+      clientCompany: Prisma.$CompanyPayload<ExtArgs>
+      storageObject: Prisma.$StorageObjectPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      clientCompanyId: string
+      folder: string
+      kind: string
+      title: string
+      description: string | null
+      url: string | null
+      storageObjectId: string | null
+      visibleToClient: boolean
+      createdById: string | null
+      createdByName: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["clientLibraryItem"]>
+    composites: {}
+  }
+
+  type ClientLibraryItemGetPayload<S extends boolean | null | undefined | ClientLibraryItemDefaultArgs> = $Result.GetResult<Prisma.$ClientLibraryItemPayload, S>
+
+  type ClientLibraryItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ClientLibraryItemFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ClientLibraryItemCountAggregateInputType | true
+    }
+
+  export interface ClientLibraryItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ClientLibraryItem'], meta: { name: 'ClientLibraryItem' } }
+    /**
+     * Find zero or one ClientLibraryItem that matches the filter.
+     * @param {ClientLibraryItemFindUniqueArgs} args - Arguments to find a ClientLibraryItem
+     * @example
+     * // Get one ClientLibraryItem
+     * const clientLibraryItem = await prisma.clientLibraryItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClientLibraryItemFindUniqueArgs>(args: SelectSubset<T, ClientLibraryItemFindUniqueArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ClientLibraryItem that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ClientLibraryItemFindUniqueOrThrowArgs} args - Arguments to find a ClientLibraryItem
+     * @example
+     * // Get one ClientLibraryItem
+     * const clientLibraryItem = await prisma.clientLibraryItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClientLibraryItemFindUniqueOrThrowArgs>(args: SelectSubset<T, ClientLibraryItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ClientLibraryItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientLibraryItemFindFirstArgs} args - Arguments to find a ClientLibraryItem
+     * @example
+     * // Get one ClientLibraryItem
+     * const clientLibraryItem = await prisma.clientLibraryItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClientLibraryItemFindFirstArgs>(args?: SelectSubset<T, ClientLibraryItemFindFirstArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ClientLibraryItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientLibraryItemFindFirstOrThrowArgs} args - Arguments to find a ClientLibraryItem
+     * @example
+     * // Get one ClientLibraryItem
+     * const clientLibraryItem = await prisma.clientLibraryItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClientLibraryItemFindFirstOrThrowArgs>(args?: SelectSubset<T, ClientLibraryItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ClientLibraryItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientLibraryItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ClientLibraryItems
+     * const clientLibraryItems = await prisma.clientLibraryItem.findMany()
+     * 
+     * // Get first 10 ClientLibraryItems
+     * const clientLibraryItems = await prisma.clientLibraryItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const clientLibraryItemWithIdOnly = await prisma.clientLibraryItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClientLibraryItemFindManyArgs>(args?: SelectSubset<T, ClientLibraryItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ClientLibraryItem.
+     * @param {ClientLibraryItemCreateArgs} args - Arguments to create a ClientLibraryItem.
+     * @example
+     * // Create one ClientLibraryItem
+     * const ClientLibraryItem = await prisma.clientLibraryItem.create({
+     *   data: {
+     *     // ... data to create a ClientLibraryItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClientLibraryItemCreateArgs>(args: SelectSubset<T, ClientLibraryItemCreateArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ClientLibraryItems.
+     * @param {ClientLibraryItemCreateManyArgs} args - Arguments to create many ClientLibraryItems.
+     * @example
+     * // Create many ClientLibraryItems
+     * const clientLibraryItem = await prisma.clientLibraryItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClientLibraryItemCreateManyArgs>(args?: SelectSubset<T, ClientLibraryItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ClientLibraryItems and returns the data saved in the database.
+     * @param {ClientLibraryItemCreateManyAndReturnArgs} args - Arguments to create many ClientLibraryItems.
+     * @example
+     * // Create many ClientLibraryItems
+     * const clientLibraryItem = await prisma.clientLibraryItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ClientLibraryItems and only return the `id`
+     * const clientLibraryItemWithIdOnly = await prisma.clientLibraryItem.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClientLibraryItemCreateManyAndReturnArgs>(args?: SelectSubset<T, ClientLibraryItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ClientLibraryItem.
+     * @param {ClientLibraryItemDeleteArgs} args - Arguments to delete one ClientLibraryItem.
+     * @example
+     * // Delete one ClientLibraryItem
+     * const ClientLibraryItem = await prisma.clientLibraryItem.delete({
+     *   where: {
+     *     // ... filter to delete one ClientLibraryItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClientLibraryItemDeleteArgs>(args: SelectSubset<T, ClientLibraryItemDeleteArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ClientLibraryItem.
+     * @param {ClientLibraryItemUpdateArgs} args - Arguments to update one ClientLibraryItem.
+     * @example
+     * // Update one ClientLibraryItem
+     * const clientLibraryItem = await prisma.clientLibraryItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClientLibraryItemUpdateArgs>(args: SelectSubset<T, ClientLibraryItemUpdateArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ClientLibraryItems.
+     * @param {ClientLibraryItemDeleteManyArgs} args - Arguments to filter ClientLibraryItems to delete.
+     * @example
+     * // Delete a few ClientLibraryItems
+     * const { count } = await prisma.clientLibraryItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClientLibraryItemDeleteManyArgs>(args?: SelectSubset<T, ClientLibraryItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClientLibraryItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientLibraryItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ClientLibraryItems
+     * const clientLibraryItem = await prisma.clientLibraryItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClientLibraryItemUpdateManyArgs>(args: SelectSubset<T, ClientLibraryItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ClientLibraryItem.
+     * @param {ClientLibraryItemUpsertArgs} args - Arguments to update or create a ClientLibraryItem.
+     * @example
+     * // Update or create a ClientLibraryItem
+     * const clientLibraryItem = await prisma.clientLibraryItem.upsert({
+     *   create: {
+     *     // ... data to create a ClientLibraryItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ClientLibraryItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClientLibraryItemUpsertArgs>(args: SelectSubset<T, ClientLibraryItemUpsertArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ClientLibraryItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientLibraryItemCountArgs} args - Arguments to filter ClientLibraryItems to count.
+     * @example
+     * // Count the number of ClientLibraryItems
+     * const count = await prisma.clientLibraryItem.count({
+     *   where: {
+     *     // ... the filter for the ClientLibraryItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClientLibraryItemCountArgs>(
+      args?: Subset<T, ClientLibraryItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClientLibraryItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ClientLibraryItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientLibraryItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClientLibraryItemAggregateArgs>(args: Subset<T, ClientLibraryItemAggregateArgs>): Prisma.PrismaPromise<GetClientLibraryItemAggregateType<T>>
+
+    /**
+     * Group by ClientLibraryItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientLibraryItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClientLibraryItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClientLibraryItemGroupByArgs['orderBy'] }
+        : { orderBy?: ClientLibraryItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClientLibraryItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClientLibraryItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ClientLibraryItem model
+   */
+  readonly fields: ClientLibraryItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ClientLibraryItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClientLibraryItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    clientCompany<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    storageObject<T extends ClientLibraryItem$storageObjectArgs<ExtArgs> = {}>(args?: Subset<T, ClientLibraryItem$storageObjectArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ClientLibraryItem model
+   */ 
+  interface ClientLibraryItemFieldRefs {
+    readonly id: FieldRef<"ClientLibraryItem", 'String'>
+    readonly clientCompanyId: FieldRef<"ClientLibraryItem", 'String'>
+    readonly folder: FieldRef<"ClientLibraryItem", 'String'>
+    readonly kind: FieldRef<"ClientLibraryItem", 'String'>
+    readonly title: FieldRef<"ClientLibraryItem", 'String'>
+    readonly description: FieldRef<"ClientLibraryItem", 'String'>
+    readonly url: FieldRef<"ClientLibraryItem", 'String'>
+    readonly storageObjectId: FieldRef<"ClientLibraryItem", 'String'>
+    readonly visibleToClient: FieldRef<"ClientLibraryItem", 'Boolean'>
+    readonly createdById: FieldRef<"ClientLibraryItem", 'String'>
+    readonly createdByName: FieldRef<"ClientLibraryItem", 'String'>
+    readonly createdAt: FieldRef<"ClientLibraryItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"ClientLibraryItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ClientLibraryItem findUnique
+   */
+  export type ClientLibraryItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientLibraryItem to fetch.
+     */
+    where: ClientLibraryItemWhereUniqueInput
+  }
+
+  /**
+   * ClientLibraryItem findUniqueOrThrow
+   */
+  export type ClientLibraryItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientLibraryItem to fetch.
+     */
+    where: ClientLibraryItemWhereUniqueInput
+  }
+
+  /**
+   * ClientLibraryItem findFirst
+   */
+  export type ClientLibraryItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientLibraryItem to fetch.
+     */
+    where?: ClientLibraryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientLibraryItems to fetch.
+     */
+    orderBy?: ClientLibraryItemOrderByWithRelationInput | ClientLibraryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClientLibraryItems.
+     */
+    cursor?: ClientLibraryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientLibraryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientLibraryItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClientLibraryItems.
+     */
+    distinct?: ClientLibraryItemScalarFieldEnum | ClientLibraryItemScalarFieldEnum[]
+  }
+
+  /**
+   * ClientLibraryItem findFirstOrThrow
+   */
+  export type ClientLibraryItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientLibraryItem to fetch.
+     */
+    where?: ClientLibraryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientLibraryItems to fetch.
+     */
+    orderBy?: ClientLibraryItemOrderByWithRelationInput | ClientLibraryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClientLibraryItems.
+     */
+    cursor?: ClientLibraryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientLibraryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientLibraryItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClientLibraryItems.
+     */
+    distinct?: ClientLibraryItemScalarFieldEnum | ClientLibraryItemScalarFieldEnum[]
+  }
+
+  /**
+   * ClientLibraryItem findMany
+   */
+  export type ClientLibraryItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientLibraryItems to fetch.
+     */
+    where?: ClientLibraryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientLibraryItems to fetch.
+     */
+    orderBy?: ClientLibraryItemOrderByWithRelationInput | ClientLibraryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ClientLibraryItems.
+     */
+    cursor?: ClientLibraryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientLibraryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientLibraryItems.
+     */
+    skip?: number
+    distinct?: ClientLibraryItemScalarFieldEnum | ClientLibraryItemScalarFieldEnum[]
+  }
+
+  /**
+   * ClientLibraryItem create
+   */
+  export type ClientLibraryItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ClientLibraryItem.
+     */
+    data: XOR<ClientLibraryItemCreateInput, ClientLibraryItemUncheckedCreateInput>
+  }
+
+  /**
+   * ClientLibraryItem createMany
+   */
+  export type ClientLibraryItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ClientLibraryItems.
+     */
+    data: ClientLibraryItemCreateManyInput | ClientLibraryItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClientLibraryItem createManyAndReturn
+   */
+  export type ClientLibraryItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ClientLibraryItems.
+     */
+    data: ClientLibraryItemCreateManyInput | ClientLibraryItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClientLibraryItem update
+   */
+  export type ClientLibraryItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ClientLibraryItem.
+     */
+    data: XOR<ClientLibraryItemUpdateInput, ClientLibraryItemUncheckedUpdateInput>
+    /**
+     * Choose, which ClientLibraryItem to update.
+     */
+    where: ClientLibraryItemWhereUniqueInput
+  }
+
+  /**
+   * ClientLibraryItem updateMany
+   */
+  export type ClientLibraryItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ClientLibraryItems.
+     */
+    data: XOR<ClientLibraryItemUpdateManyMutationInput, ClientLibraryItemUncheckedUpdateManyInput>
+    /**
+     * Filter which ClientLibraryItems to update
+     */
+    where?: ClientLibraryItemWhereInput
+  }
+
+  /**
+   * ClientLibraryItem upsert
+   */
+  export type ClientLibraryItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ClientLibraryItem to update in case it exists.
+     */
+    where: ClientLibraryItemWhereUniqueInput
+    /**
+     * In case the ClientLibraryItem found by the `where` argument doesn't exist, create a new ClientLibraryItem with this data.
+     */
+    create: XOR<ClientLibraryItemCreateInput, ClientLibraryItemUncheckedCreateInput>
+    /**
+     * In case the ClientLibraryItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClientLibraryItemUpdateInput, ClientLibraryItemUncheckedUpdateInput>
+  }
+
+  /**
+   * ClientLibraryItem delete
+   */
+  export type ClientLibraryItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
+    /**
+     * Filter which ClientLibraryItem to delete.
+     */
+    where: ClientLibraryItemWhereUniqueInput
+  }
+
+  /**
+   * ClientLibraryItem deleteMany
+   */
+  export type ClientLibraryItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClientLibraryItems to delete
+     */
+    where?: ClientLibraryItemWhereInput
+  }
+
+  /**
+   * ClientLibraryItem.storageObject
+   */
+  export type ClientLibraryItem$storageObjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    where?: StorageObjectWhereInput
+  }
+
+  /**
+   * ClientLibraryItem without action
+   */
+  export type ClientLibraryItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientLibraryItem
+     */
+    select?: ClientLibraryItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientLibraryItemInclude<ExtArgs> | null
   }
 
 
@@ -151053,12 +152253,32 @@ export namespace Prisma {
     ticketId: 'ticketId',
     ticketMessageId: 'ticketMessageId',
     projectTaskId: 'projectTaskId',
+    libraryCompanyId: 'libraryCompanyId',
     uploadedById: 'uploadedById',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type StorageObjectScalarFieldEnum = (typeof StorageObjectScalarFieldEnum)[keyof typeof StorageObjectScalarFieldEnum]
+
+
+  export const ClientLibraryItemScalarFieldEnum: {
+    id: 'id',
+    clientCompanyId: 'clientCompanyId',
+    folder: 'folder',
+    kind: 'kind',
+    title: 'title',
+    description: 'description',
+    url: 'url',
+    storageObjectId: 'storageObjectId',
+    visibleToClient: 'visibleToClient',
+    createdById: 'createdById',
+    createdByName: 'createdByName',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ClientLibraryItemScalarFieldEnum = (typeof ClientLibraryItemScalarFieldEnum)[keyof typeof ClientLibraryItemScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -152605,6 +153825,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     blingIntegration?: XOR<BlingIntegrationNullableRelationFilter, BlingIntegrationWhereInput> | null
     storageObjects?: StorageObjectListRelationFilter
+    libraryItems?: ClientLibraryItemListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -152741,6 +153962,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureOrderByRelationAggregateInput
     blingIntegration?: BlingIntegrationOrderByWithRelationInput
     storageObjects?: StorageObjectOrderByRelationAggregateInput
+    libraryItems?: ClientLibraryItemOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -152880,6 +154102,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     blingIntegration?: XOR<BlingIntegrationNullableRelationFilter, BlingIntegrationWhereInput> | null
     storageObjects?: StorageObjectListRelationFilter
+    libraryItems?: ClientLibraryItemListRelationFilter
   }, "id" | "slug" | "webhookToken" | "blingContactId">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -164066,6 +165289,7 @@ export namespace Prisma {
     ticketId?: StringNullableFilter<"StorageObject"> | string | null
     ticketMessageId?: StringNullableFilter<"StorageObject"> | string | null
     projectTaskId?: StringNullableFilter<"StorageObject"> | string | null
+    libraryCompanyId?: StringNullableFilter<"StorageObject"> | string | null
     uploadedById?: StringNullableFilter<"StorageObject"> | string | null
     createdAt?: DateTimeFilter<"StorageObject"> | Date | string
     updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
@@ -164073,6 +165297,7 @@ export namespace Prisma {
     ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
     ticketMessage?: XOR<TicketMessageNullableRelationFilter, TicketMessageWhereInput> | null
     projectTask?: XOR<ProjectTaskNullableRelationFilter, ProjectTaskWhereInput> | null
+    libraryItem?: XOR<ClientLibraryItemNullableRelationFilter, ClientLibraryItemWhereInput> | null
     uploadedBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }
 
@@ -164088,6 +165313,7 @@ export namespace Prisma {
     ticketId?: SortOrderInput | SortOrder
     ticketMessageId?: SortOrderInput | SortOrder
     projectTaskId?: SortOrderInput | SortOrder
+    libraryCompanyId?: SortOrderInput | SortOrder
     uploadedById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -164095,6 +165321,7 @@ export namespace Prisma {
     ticket?: TicketOrderByWithRelationInput
     ticketMessage?: TicketMessageOrderByWithRelationInput
     projectTask?: ProjectTaskOrderByWithRelationInput
+    libraryItem?: ClientLibraryItemOrderByWithRelationInput
     uploadedBy?: UserOrderByWithRelationInput
   }
 
@@ -164113,6 +165340,7 @@ export namespace Prisma {
     ticketId?: StringNullableFilter<"StorageObject"> | string | null
     ticketMessageId?: StringNullableFilter<"StorageObject"> | string | null
     projectTaskId?: StringNullableFilter<"StorageObject"> | string | null
+    libraryCompanyId?: StringNullableFilter<"StorageObject"> | string | null
     uploadedById?: StringNullableFilter<"StorageObject"> | string | null
     createdAt?: DateTimeFilter<"StorageObject"> | Date | string
     updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
@@ -164120,6 +165348,7 @@ export namespace Prisma {
     ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
     ticketMessage?: XOR<TicketMessageNullableRelationFilter, TicketMessageWhereInput> | null
     projectTask?: XOR<ProjectTaskNullableRelationFilter, ProjectTaskWhereInput> | null
+    libraryItem?: XOR<ClientLibraryItemNullableRelationFilter, ClientLibraryItemWhereInput> | null
     uploadedBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }, "id" | "key">
 
@@ -164135,6 +165364,7 @@ export namespace Prisma {
     ticketId?: SortOrderInput | SortOrder
     ticketMessageId?: SortOrderInput | SortOrder
     projectTaskId?: SortOrderInput | SortOrder
+    libraryCompanyId?: SortOrderInput | SortOrder
     uploadedById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -164160,9 +165390,108 @@ export namespace Prisma {
     ticketId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
     ticketMessageId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
     projectTaskId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
+    libraryCompanyId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
     uploadedById?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"StorageObject"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"StorageObject"> | Date | string
+  }
+
+  export type ClientLibraryItemWhereInput = {
+    AND?: ClientLibraryItemWhereInput | ClientLibraryItemWhereInput[]
+    OR?: ClientLibraryItemWhereInput[]
+    NOT?: ClientLibraryItemWhereInput | ClientLibraryItemWhereInput[]
+    id?: StringFilter<"ClientLibraryItem"> | string
+    clientCompanyId?: StringFilter<"ClientLibraryItem"> | string
+    folder?: StringFilter<"ClientLibraryItem"> | string
+    kind?: StringFilter<"ClientLibraryItem"> | string
+    title?: StringFilter<"ClientLibraryItem"> | string
+    description?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    url?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    storageObjectId?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    visibleToClient?: BoolFilter<"ClientLibraryItem"> | boolean
+    createdById?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    createdByName?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    createdAt?: DateTimeFilter<"ClientLibraryItem"> | Date | string
+    updatedAt?: DateTimeFilter<"ClientLibraryItem"> | Date | string
+    clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    storageObject?: XOR<StorageObjectNullableRelationFilter, StorageObjectWhereInput> | null
+  }
+
+  export type ClientLibraryItemOrderByWithRelationInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    folder?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    storageObjectId?: SortOrderInput | SortOrder
+    visibleToClient?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdByName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    clientCompany?: CompanyOrderByWithRelationInput
+    storageObject?: StorageObjectOrderByWithRelationInput
+  }
+
+  export type ClientLibraryItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    storageObjectId?: string
+    AND?: ClientLibraryItemWhereInput | ClientLibraryItemWhereInput[]
+    OR?: ClientLibraryItemWhereInput[]
+    NOT?: ClientLibraryItemWhereInput | ClientLibraryItemWhereInput[]
+    clientCompanyId?: StringFilter<"ClientLibraryItem"> | string
+    folder?: StringFilter<"ClientLibraryItem"> | string
+    kind?: StringFilter<"ClientLibraryItem"> | string
+    title?: StringFilter<"ClientLibraryItem"> | string
+    description?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    url?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    visibleToClient?: BoolFilter<"ClientLibraryItem"> | boolean
+    createdById?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    createdByName?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    createdAt?: DateTimeFilter<"ClientLibraryItem"> | Date | string
+    updatedAt?: DateTimeFilter<"ClientLibraryItem"> | Date | string
+    clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    storageObject?: XOR<StorageObjectNullableRelationFilter, StorageObjectWhereInput> | null
+  }, "id" | "storageObjectId">
+
+  export type ClientLibraryItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    folder?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    storageObjectId?: SortOrderInput | SortOrder
+    visibleToClient?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdByName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ClientLibraryItemCountOrderByAggregateInput
+    _max?: ClientLibraryItemMaxOrderByAggregateInput
+    _min?: ClientLibraryItemMinOrderByAggregateInput
+  }
+
+  export type ClientLibraryItemScalarWhereWithAggregatesInput = {
+    AND?: ClientLibraryItemScalarWhereWithAggregatesInput | ClientLibraryItemScalarWhereWithAggregatesInput[]
+    OR?: ClientLibraryItemScalarWhereWithAggregatesInput[]
+    NOT?: ClientLibraryItemScalarWhereWithAggregatesInput | ClientLibraryItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ClientLibraryItem"> | string
+    clientCompanyId?: StringWithAggregatesFilter<"ClientLibraryItem"> | string
+    folder?: StringWithAggregatesFilter<"ClientLibraryItem"> | string
+    kind?: StringWithAggregatesFilter<"ClientLibraryItem"> | string
+    title?: StringWithAggregatesFilter<"ClientLibraryItem"> | string
+    description?: StringNullableWithAggregatesFilter<"ClientLibraryItem"> | string | null
+    url?: StringNullableWithAggregatesFilter<"ClientLibraryItem"> | string | null
+    storageObjectId?: StringNullableWithAggregatesFilter<"ClientLibraryItem"> | string | null
+    visibleToClient?: BoolWithAggregatesFilter<"ClientLibraryItem"> | boolean
+    createdById?: StringNullableWithAggregatesFilter<"ClientLibraryItem"> | string | null
+    createdByName?: StringNullableWithAggregatesFilter<"ClientLibraryItem"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ClientLibraryItem"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ClientLibraryItem"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -164884,6 +166213,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -165019,6 +166349,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -165154,6 +166485,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -165289,6 +166621,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -177704,12 +179037,14 @@ export namespace Prisma {
     mimeType: string
     size?: number
     status?: string
+    libraryCompanyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
     ticket?: TicketCreateNestedOneWithoutAttachmentsInput
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -177725,9 +179060,11 @@ export namespace Prisma {
     ticketId?: string | null
     ticketMessageId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectUpdateInput = {
@@ -177738,12 +179075,14 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
     ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -177759,9 +179098,11 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectCreateManyInput = {
@@ -177776,6 +179117,7 @@ export namespace Prisma {
     ticketId?: string | null
     ticketMessageId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -177789,6 +179131,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -177805,7 +179148,118 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientLibraryItemCreateInput = {
+    id?: string
+    folder?: string
+    kind: string
+    title: string
+    description?: string | null
+    url?: string | null
+    visibleToClient?: boolean
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutLibraryItemsInput
+    storageObject?: StorageObjectCreateNestedOneWithoutLibraryItemInput
+  }
+
+  export type ClientLibraryItemUncheckedCreateInput = {
+    id?: string
+    clientCompanyId: string
+    folder?: string
+    kind: string
+    title: string
+    description?: string | null
+    url?: string | null
+    storageObjectId?: string | null
+    visibleToClient?: boolean
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientLibraryItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    folder?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutLibraryItemsNestedInput
+    storageObject?: StorageObjectUpdateOneWithoutLibraryItemNestedInput
+  }
+
+  export type ClientLibraryItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    folder?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientLibraryItemCreateManyInput = {
+    id?: string
+    clientCompanyId: string
+    folder?: string
+    kind: string
+    title: string
+    description?: string | null
+    url?: string | null
+    storageObjectId?: string | null
+    visibleToClient?: boolean
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientLibraryItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    folder?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientLibraryItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    folder?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -178946,6 +180400,12 @@ export namespace Prisma {
     isNot?: BlingIntegrationWhereInput | null
   }
 
+  export type ClientLibraryItemListRelationFilter = {
+    every?: ClientLibraryItemWhereInput
+    some?: ClientLibraryItemWhereInput
+    none?: ClientLibraryItemWhereInput
+  }
+
   export type CompanyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -179195,6 +180655,10 @@ export namespace Prisma {
   }
 
   export type VideoCategoryReleaseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ClientLibraryItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -187027,6 +188491,11 @@ export namespace Prisma {
     isNot?: TicketMessageWhereInput | null
   }
 
+  export type ClientLibraryItemNullableRelationFilter = {
+    is?: ClientLibraryItemWhereInput | null
+    isNot?: ClientLibraryItemWhereInput | null
+  }
+
   export type StorageObjectCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
@@ -187039,6 +188508,7 @@ export namespace Prisma {
     ticketId?: SortOrder
     ticketMessageId?: SortOrder
     projectTaskId?: SortOrder
+    libraryCompanyId?: SortOrder
     uploadedById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -187060,6 +188530,7 @@ export namespace Prisma {
     ticketId?: SortOrder
     ticketMessageId?: SortOrder
     projectTaskId?: SortOrder
+    libraryCompanyId?: SortOrder
     uploadedById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -187077,6 +188548,7 @@ export namespace Prisma {
     ticketId?: SortOrder
     ticketMessageId?: SortOrder
     projectTaskId?: SortOrder
+    libraryCompanyId?: SortOrder
     uploadedById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -187084,6 +188556,59 @@ export namespace Prisma {
 
   export type StorageObjectSumOrderByAggregateInput = {
     size?: SortOrder
+  }
+
+  export type StorageObjectNullableRelationFilter = {
+    is?: StorageObjectWhereInput | null
+    isNot?: StorageObjectWhereInput | null
+  }
+
+  export type ClientLibraryItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    folder?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    storageObjectId?: SortOrder
+    visibleToClient?: SortOrder
+    createdById?: SortOrder
+    createdByName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClientLibraryItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    folder?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    storageObjectId?: SortOrder
+    visibleToClient?: SortOrder
+    createdById?: SortOrder
+    createdByName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClientLibraryItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    folder?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    storageObjectId?: SortOrder
+    visibleToClient?: SortOrder
+    createdById?: SortOrder
+    createdByName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -189329,6 +190854,13 @@ export namespace Prisma {
     connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
   }
 
+  export type ClientLibraryItemCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<ClientLibraryItemCreateWithoutClientCompanyInput, ClientLibraryItemUncheckedCreateWithoutClientCompanyInput> | ClientLibraryItemCreateWithoutClientCompanyInput[] | ClientLibraryItemUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutClientCompanyInput | ClientLibraryItemCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: ClientLibraryItemCreateManyClientCompanyInputEnvelope
+    connect?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -189939,6 +191471,13 @@ export namespace Prisma {
     connectOrCreate?: StorageObjectCreateOrConnectWithoutCompanyInput | StorageObjectCreateOrConnectWithoutCompanyInput[]
     createMany?: StorageObjectCreateManyCompanyInputEnvelope
     connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+  }
+
+  export type ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<ClientLibraryItemCreateWithoutClientCompanyInput, ClientLibraryItemUncheckedCreateWithoutClientCompanyInput> | ClientLibraryItemCreateWithoutClientCompanyInput[] | ClientLibraryItemUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutClientCompanyInput | ClientLibraryItemCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: ClientLibraryItemCreateManyClientCompanyInputEnvelope
+    connect?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -191175,6 +192714,20 @@ export namespace Prisma {
     deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
   }
 
+  export type ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<ClientLibraryItemCreateWithoutClientCompanyInput, ClientLibraryItemUncheckedCreateWithoutClientCompanyInput> | ClientLibraryItemCreateWithoutClientCompanyInput[] | ClientLibraryItemUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutClientCompanyInput | ClientLibraryItemCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: ClientLibraryItemUpsertWithWhereUniqueWithoutClientCompanyInput | ClientLibraryItemUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: ClientLibraryItemCreateManyClientCompanyInputEnvelope
+    set?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+    disconnect?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+    delete?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+    connect?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+    update?: ClientLibraryItemUpdateWithWhereUniqueWithoutClientCompanyInput | ClientLibraryItemUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: ClientLibraryItemUpdateManyWithWhereWithoutClientCompanyInput | ClientLibraryItemUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: ClientLibraryItemScalarWhereInput | ClientLibraryItemScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -192389,6 +193942,20 @@ export namespace Prisma {
     update?: StorageObjectUpdateWithWhereUniqueWithoutCompanyInput | StorageObjectUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: StorageObjectUpdateManyWithWhereWithoutCompanyInput | StorageObjectUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+  }
+
+  export type ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<ClientLibraryItemCreateWithoutClientCompanyInput, ClientLibraryItemUncheckedCreateWithoutClientCompanyInput> | ClientLibraryItemCreateWithoutClientCompanyInput[] | ClientLibraryItemUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutClientCompanyInput | ClientLibraryItemCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: ClientLibraryItemUpsertWithWhereUniqueWithoutClientCompanyInput | ClientLibraryItemUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: ClientLibraryItemCreateManyClientCompanyInputEnvelope
+    set?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+    disconnect?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+    delete?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+    connect?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+    update?: ClientLibraryItemUpdateWithWhereUniqueWithoutClientCompanyInput | ClientLibraryItemUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: ClientLibraryItemUpdateManyWithWhereWithoutClientCompanyInput | ClientLibraryItemUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: ClientLibraryItemScalarWhereInput | ClientLibraryItemScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -199254,10 +200821,22 @@ export namespace Prisma {
     connect?: ProjectTaskWhereUniqueInput
   }
 
+  export type ClientLibraryItemCreateNestedOneWithoutStorageObjectInput = {
+    create?: XOR<ClientLibraryItemCreateWithoutStorageObjectInput, ClientLibraryItemUncheckedCreateWithoutStorageObjectInput>
+    connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutStorageObjectInput
+    connect?: ClientLibraryItemWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutUploadedFilesInput = {
     create?: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
     connectOrCreate?: UserCreateOrConnectWithoutUploadedFilesInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput = {
+    create?: XOR<ClientLibraryItemCreateWithoutStorageObjectInput, ClientLibraryItemUncheckedCreateWithoutStorageObjectInput>
+    connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutStorageObjectInput
+    connect?: ClientLibraryItemWhereUniqueInput
   }
 
   export type CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput = {
@@ -199298,6 +200877,16 @@ export namespace Prisma {
     update?: XOR<XOR<ProjectTaskUpdateToOneWithWhereWithoutAttachmentsInput, ProjectTaskUpdateWithoutAttachmentsInput>, ProjectTaskUncheckedUpdateWithoutAttachmentsInput>
   }
 
+  export type ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput = {
+    create?: XOR<ClientLibraryItemCreateWithoutStorageObjectInput, ClientLibraryItemUncheckedCreateWithoutStorageObjectInput>
+    connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutStorageObjectInput
+    upsert?: ClientLibraryItemUpsertWithoutStorageObjectInput
+    disconnect?: ClientLibraryItemWhereInput | boolean
+    delete?: ClientLibraryItemWhereInput | boolean
+    connect?: ClientLibraryItemWhereUniqueInput
+    update?: XOR<XOR<ClientLibraryItemUpdateToOneWithWhereWithoutStorageObjectInput, ClientLibraryItemUpdateWithoutStorageObjectInput>, ClientLibraryItemUncheckedUpdateWithoutStorageObjectInput>
+  }
+
   export type UserUpdateOneWithoutUploadedFilesNestedInput = {
     create?: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
     connectOrCreate?: UserCreateOrConnectWithoutUploadedFilesInput
@@ -199306,6 +200895,46 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUploadedFilesInput, UserUpdateWithoutUploadedFilesInput>, UserUncheckedUpdateWithoutUploadedFilesInput>
+  }
+
+  export type ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput = {
+    create?: XOR<ClientLibraryItemCreateWithoutStorageObjectInput, ClientLibraryItemUncheckedCreateWithoutStorageObjectInput>
+    connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutStorageObjectInput
+    upsert?: ClientLibraryItemUpsertWithoutStorageObjectInput
+    disconnect?: ClientLibraryItemWhereInput | boolean
+    delete?: ClientLibraryItemWhereInput | boolean
+    connect?: ClientLibraryItemWhereUniqueInput
+    update?: XOR<XOR<ClientLibraryItemUpdateToOneWithWhereWithoutStorageObjectInput, ClientLibraryItemUpdateWithoutStorageObjectInput>, ClientLibraryItemUncheckedUpdateWithoutStorageObjectInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutLibraryItemsInput = {
+    create?: XOR<CompanyCreateWithoutLibraryItemsInput, CompanyUncheckedCreateWithoutLibraryItemsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutLibraryItemsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type StorageObjectCreateNestedOneWithoutLibraryItemInput = {
+    create?: XOR<StorageObjectCreateWithoutLibraryItemInput, StorageObjectUncheckedCreateWithoutLibraryItemInput>
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutLibraryItemInput
+    connect?: StorageObjectWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutLibraryItemsNestedInput = {
+    create?: XOR<CompanyCreateWithoutLibraryItemsInput, CompanyUncheckedCreateWithoutLibraryItemsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutLibraryItemsInput
+    upsert?: CompanyUpsertWithoutLibraryItemsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutLibraryItemsInput, CompanyUpdateWithoutLibraryItemsInput>, CompanyUncheckedUpdateWithoutLibraryItemsInput>
+  }
+
+  export type StorageObjectUpdateOneWithoutLibraryItemNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutLibraryItemInput, StorageObjectUncheckedCreateWithoutLibraryItemInput>
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutLibraryItemInput
+    upsert?: StorageObjectUpsertWithoutLibraryItemInput
+    disconnect?: StorageObjectWhereInput | boolean
+    delete?: StorageObjectWhereInput | boolean
+    connect?: StorageObjectWhereUniqueInput
+    update?: XOR<XOR<StorageObjectUpdateToOneWithWhereWithoutLibraryItemInput, StorageObjectUpdateWithoutLibraryItemInput>, StorageObjectUncheckedUpdateWithoutLibraryItemInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -200736,6 +202365,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -200870,6 +202500,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -202321,12 +203952,14 @@ export namespace Prisma {
     mimeType: string
     size?: number
     status?: string
+    libraryCompanyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
     ticket?: TicketCreateNestedOneWithoutAttachmentsInput
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectUncheckedCreateWithoutUploadedByInput = {
@@ -202341,8 +203974,10 @@ export namespace Prisma {
     ticketId?: string | null
     ticketMessageId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutUploadedByInput = {
@@ -202498,6 +204133,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -202632,6 +204268,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -203740,6 +205377,7 @@ export namespace Prisma {
     ticketId?: StringNullableFilter<"StorageObject"> | string | null
     ticketMessageId?: StringNullableFilter<"StorageObject"> | string | null
     projectTaskId?: StringNullableFilter<"StorageObject"> | string | null
+    libraryCompanyId?: StringNullableFilter<"StorageObject"> | string | null
     uploadedById?: StringNullableFilter<"StorageObject"> | string | null
     createdAt?: DateTimeFilter<"StorageObject"> | Date | string
     updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
@@ -203877,6 +205515,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutQuickRepliesInput = {
@@ -204011,6 +205650,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutQuickRepliesInput = {
@@ -204270,6 +205910,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutQuickRepliesInput = {
@@ -204404,6 +206045,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutQuickRepliesInput = {
@@ -205325,6 +206967,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -205459,6 +207102,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -205598,6 +207242,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -205732,6 +207377,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -209530,11 +211176,13 @@ export namespace Prisma {
     mimeType: string
     size?: number
     status?: string
+    libraryCompanyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ticket?: TicketCreateNestedOneWithoutAttachmentsInput
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -209549,9 +211197,11 @@ export namespace Prisma {
     ticketId?: string | null
     ticketMessageId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutCompanyInput = {
@@ -209561,6 +211211,46 @@ export namespace Prisma {
 
   export type StorageObjectCreateManyCompanyInputEnvelope = {
     data: StorageObjectCreateManyCompanyInput | StorageObjectCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClientLibraryItemCreateWithoutClientCompanyInput = {
+    id?: string
+    folder?: string
+    kind: string
+    title: string
+    description?: string | null
+    url?: string | null
+    visibleToClient?: boolean
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    storageObject?: StorageObjectCreateNestedOneWithoutLibraryItemInput
+  }
+
+  export type ClientLibraryItemUncheckedCreateWithoutClientCompanyInput = {
+    id?: string
+    folder?: string
+    kind: string
+    title: string
+    description?: string | null
+    url?: string | null
+    storageObjectId?: string | null
+    visibleToClient?: boolean
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientLibraryItemCreateOrConnectWithoutClientCompanyInput = {
+    where: ClientLibraryItemWhereUniqueInput
+    create: XOR<ClientLibraryItemCreateWithoutClientCompanyInput, ClientLibraryItemUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type ClientLibraryItemCreateManyClientCompanyInputEnvelope = {
+    data: ClientLibraryItemCreateManyClientCompanyInput | ClientLibraryItemCreateManyClientCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -209707,6 +211397,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -209841,6 +211532,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -212603,6 +214295,41 @@ export namespace Prisma {
     data: XOR<StorageObjectUpdateManyMutationInput, StorageObjectUncheckedUpdateManyWithoutCompanyInput>
   }
 
+  export type ClientLibraryItemUpsertWithWhereUniqueWithoutClientCompanyInput = {
+    where: ClientLibraryItemWhereUniqueInput
+    update: XOR<ClientLibraryItemUpdateWithoutClientCompanyInput, ClientLibraryItemUncheckedUpdateWithoutClientCompanyInput>
+    create: XOR<ClientLibraryItemCreateWithoutClientCompanyInput, ClientLibraryItemUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type ClientLibraryItemUpdateWithWhereUniqueWithoutClientCompanyInput = {
+    where: ClientLibraryItemWhereUniqueInput
+    data: XOR<ClientLibraryItemUpdateWithoutClientCompanyInput, ClientLibraryItemUncheckedUpdateWithoutClientCompanyInput>
+  }
+
+  export type ClientLibraryItemUpdateManyWithWhereWithoutClientCompanyInput = {
+    where: ClientLibraryItemScalarWhereInput
+    data: XOR<ClientLibraryItemUpdateManyMutationInput, ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyInput>
+  }
+
+  export type ClientLibraryItemScalarWhereInput = {
+    AND?: ClientLibraryItemScalarWhereInput | ClientLibraryItemScalarWhereInput[]
+    OR?: ClientLibraryItemScalarWhereInput[]
+    NOT?: ClientLibraryItemScalarWhereInput | ClientLibraryItemScalarWhereInput[]
+    id?: StringFilter<"ClientLibraryItem"> | string
+    clientCompanyId?: StringFilter<"ClientLibraryItem"> | string
+    folder?: StringFilter<"ClientLibraryItem"> | string
+    kind?: StringFilter<"ClientLibraryItem"> | string
+    title?: StringFilter<"ClientLibraryItem"> | string
+    description?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    url?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    storageObjectId?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    visibleToClient?: BoolFilter<"ClientLibraryItem"> | boolean
+    createdById?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    createdByName?: StringNullableFilter<"ClientLibraryItem"> | string | null
+    createdAt?: DateTimeFilter<"ClientLibraryItem"> | Date | string
+    updatedAt?: DateTimeFilter<"ClientLibraryItem"> | Date | string
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -212735,6 +214462,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -212869,6 +214597,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -213281,6 +215010,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -213415,6 +215145,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -213654,6 +215385,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -213788,6 +215520,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -214133,6 +215866,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -214267,6 +216001,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -214529,6 +216264,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -214663,6 +216399,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -215462,6 +217199,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -215596,6 +217334,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -216224,6 +217963,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTagsInput = {
@@ -216358,6 +218098,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTagsInput = {
@@ -216528,6 +218269,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTagsInput = {
@@ -216662,6 +218404,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type LeadTagUpsertWithWhereUniqueWithoutTagInput = {
@@ -217108,6 +218851,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -217242,6 +218986,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -217418,6 +219163,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -217552,6 +219298,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -218010,6 +219757,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyFieldDefsInput = {
@@ -218144,6 +219892,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyFieldDefsInput = {
@@ -218320,6 +220069,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyFieldDefsInput = {
@@ -218454,6 +220204,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -218604,6 +220355,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyCustomValuesInput = {
@@ -218738,6 +220490,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyCustomValuesInput = {
@@ -218917,6 +220670,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyCustomValuesInput = {
@@ -219051,6 +220805,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCustomFieldDefUpsertWithoutValuesInput = {
@@ -219337,6 +221092,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -219471,6 +221227,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -219962,6 +221719,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -220096,6 +221854,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksAssignedInput = {
@@ -220700,6 +222459,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -220834,6 +222594,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -220984,6 +222745,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -221118,6 +222880,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -221252,6 +223015,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -221386,6 +223150,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -221645,6 +223410,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -221779,6 +223545,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -222137,6 +223904,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -222271,6 +224039,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -222814,6 +224583,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -222948,6 +224718,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -223170,6 +224941,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -223304,6 +225076,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -223833,6 +225606,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -223967,6 +225741,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -224510,6 +226285,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -224644,6 +226420,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -224835,6 +226612,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -224969,6 +226747,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -225377,6 +227156,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutConversationsInput = {
@@ -225511,6 +227291,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutConversationsInput = {
@@ -226158,6 +227939,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutConversationsInput = {
@@ -226292,6 +228074,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -226890,6 +228673,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutActivitiesInput = {
@@ -227024,6 +228808,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutActivitiesInput = {
@@ -227439,6 +229224,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutActivitiesInput = {
@@ -227573,6 +229359,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutTicketsAsClientInput = {
@@ -227707,6 +229494,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsAsClientInput = {
@@ -227841,6 +229629,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsAsClientInput = {
@@ -228089,6 +229878,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -228223,6 +230013,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -228661,11 +230452,13 @@ export namespace Prisma {
     mimeType: string
     size?: number
     status?: string
+    libraryCompanyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -228680,9 +230473,11 @@ export namespace Prisma {
     status?: string
     ticketMessageId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutTicketInput = {
@@ -228838,6 +230633,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsAsClientInput = {
@@ -228972,6 +230768,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsAssignedInput = {
@@ -229232,6 +231029,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -229366,6 +231164,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -229811,11 +231610,13 @@ export namespace Prisma {
     mimeType: string
     size?: number
     status?: string
+    libraryCompanyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
     ticket?: TicketCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -229830,9 +231631,11 @@ export namespace Prisma {
     status?: string
     ticketId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutTicketMessageInput = {
@@ -230062,6 +231865,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetoresInput = {
@@ -230196,6 +232000,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetoresInput = {
@@ -230656,6 +232461,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
@@ -230790,6 +232596,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
@@ -231430,6 +233237,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput = {
@@ -231564,6 +233372,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetorClickupListsAsClientInput = {
@@ -232186,6 +233995,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput = {
@@ -232320,6 +234130,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutProjectsInput = {
@@ -232969,11 +234780,13 @@ export namespace Prisma {
     mimeType: string
     size?: number
     status?: string
+    libraryCompanyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
     ticket?: TicketCreateNestedOneWithoutAttachmentsInput
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
+    libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -232988,9 +234801,11 @@ export namespace Prisma {
     status?: string
     ticketId?: string | null
     ticketMessageId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutProjectTaskInput = {
@@ -236495,6 +238310,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -236629,6 +238445,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -236829,6 +238646,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -236963,6 +238781,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput = {
@@ -237319,6 +239138,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCredentialAccessLogsInput = {
@@ -237453,6 +239273,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCredentialAccessLogsInput = {
@@ -237654,6 +239475,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCredentialAccessLogsInput = {
@@ -237788,6 +239610,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSecureNotesInput = {
@@ -237922,6 +239745,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNotesInput = {
@@ -238056,6 +239880,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNotesInput = {
@@ -238240,6 +240065,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNotesInput = {
@@ -238374,6 +240200,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput = {
@@ -238555,6 +240382,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput = {
@@ -238689,6 +240517,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNoteAccessLogsInput = {
@@ -238876,6 +240705,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput = {
@@ -239010,6 +240840,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingIntegrationsInput = {
@@ -239144,6 +240975,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingIntegrationsInput = {
@@ -239278,6 +241110,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingIntegrationsInput = {
@@ -239428,6 +241261,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingIntegrationsInput = {
@@ -239562,6 +241396,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBlingIntegrationInput = {
@@ -239696,6 +241531,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBlingIntegrationInput = {
@@ -239830,6 +241666,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBlingIntegrationInput = {
@@ -239980,6 +241817,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBlingIntegrationInput = {
@@ -240114,6 +241952,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMetaConversionConfigInput = {
@@ -240248,6 +242087,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionConfigInput = {
@@ -240382,6 +242222,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionConfigInput = {
@@ -240532,6 +242373,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionConfigInput = {
@@ -240666,6 +242508,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMetaConversionLogsInput = {
@@ -240800,6 +242643,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionLogsInput = {
@@ -240934,6 +242778,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionLogsInput = {
@@ -241084,6 +242929,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionLogsInput = {
@@ -241218,6 +243064,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutInstagramAccountsInput = {
@@ -241352,6 +243199,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInstagramAccountsInput = {
@@ -241486,6 +243334,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInstagramAccountsInput = {
@@ -241864,6 +243713,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInstagramAccountsInput = {
@@ -241998,6 +243848,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type IgAutomationUpsertWithWhereUniqueWithoutAccountInput = {
@@ -242196,6 +244047,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationsInput = {
@@ -242330,6 +244182,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationsInput = {
@@ -242571,6 +244424,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationsInput = {
@@ -242705,6 +244559,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutAutomationsInput = {
@@ -242908,6 +244763,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationRunsInput = {
@@ -243042,6 +244898,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationRunsInput = {
@@ -243290,6 +245147,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationRunsInput = {
@@ -243424,6 +245282,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutRunsInput = {
@@ -243668,6 +245527,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgConversationsInput = {
@@ -243802,6 +245662,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgConversationsInput = {
@@ -244146,6 +246007,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgConversationsInput = {
@@ -244280,6 +246142,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutConversationsInput = {
@@ -244712,6 +246575,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutFacebookPagesInput = {
@@ -244846,6 +246710,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutFacebookPagesInput = {
@@ -244996,6 +246861,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutFacebookPagesInput = {
@@ -245130,6 +246996,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
@@ -245264,6 +247131,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput = {
@@ -245398,6 +247266,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput = {
@@ -245548,6 +247417,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput = {
@@ -245682,6 +247552,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTopPagesInput = {
@@ -245816,6 +247687,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTopPagesInput = {
@@ -245950,6 +247822,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTopPagesInput = {
@@ -246100,6 +247973,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput = {
@@ -246234,6 +248108,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -246368,6 +248243,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -246502,6 +248378,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTrafficSourcesInput = {
@@ -246652,6 +248529,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput = {
@@ -246786,6 +248664,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsGeoDataInput = {
@@ -246920,6 +248799,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsGeoDataInput = {
@@ -247054,6 +248934,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsGeoDataInput = {
@@ -247204,6 +249085,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput = {
@@ -247338,6 +249220,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsEventDailyInput = {
@@ -247472,6 +249355,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsEventDailyInput = {
@@ -247606,6 +249490,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsEventDailyInput = {
@@ -247756,6 +249641,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsEventDailyInput = {
@@ -247890,6 +249776,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsEventParamDailyInput = {
@@ -248024,6 +249911,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsEventParamDailyInput = {
@@ -248158,6 +250046,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsEventParamDailyInput = {
@@ -248308,6 +250197,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsEventParamDailyInput = {
@@ -248442,6 +250332,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingEventConfigInput = {
@@ -248576,6 +250467,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingEventConfigInput = {
@@ -248710,6 +250602,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingEventConfigInput = {
@@ -248860,6 +250753,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingEventConfigInput = {
@@ -248994,6 +250888,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSearchConsoleQueriesInput = {
@@ -249128,6 +251023,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSearchConsoleQueriesInput = {
@@ -249262,6 +251158,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSearchConsoleQueriesInput = {
@@ -249412,6 +251309,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput = {
@@ -249546,6 +251444,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpInsightsInput = {
@@ -249680,6 +251579,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpInsightsInput = {
@@ -249814,6 +251714,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpInsightsInput = {
@@ -249964,6 +251865,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpInsightsInput = {
@@ -250098,6 +252000,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpReviewsInput = {
@@ -250232,6 +252135,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpReviewsInput = {
@@ -250366,6 +252270,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpReviewsInput = {
@@ -250516,6 +252421,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpReviewsInput = {
@@ -250650,6 +252556,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpSearchKeywordsInput = {
@@ -250784,6 +252691,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpSearchKeywordsInput = {
@@ -250918,6 +252826,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpSearchKeywordsInput = {
@@ -251068,6 +252977,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput = {
@@ -251202,6 +253112,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpProfileSnapshotsInput = {
@@ -251336,6 +253247,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput = {
@@ -251470,6 +253382,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpProfileSnapshotsInput = {
@@ -251620,6 +253533,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput = {
@@ -251754,6 +253668,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCampaignDailiesInput = {
@@ -251888,6 +253803,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCampaignDailiesInput = {
@@ -252022,6 +253938,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCampaignDailiesInput = {
@@ -252172,6 +254089,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCampaignDailiesInput = {
@@ -252306,6 +254224,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdSearchTermDailiesInput = {
@@ -252440,6 +254359,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdSearchTermDailiesInput = {
@@ -252574,6 +254494,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdSearchTermDailiesInput = {
@@ -252724,6 +254645,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdSearchTermDailiesInput = {
@@ -252858,6 +254780,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativesInput = {
@@ -252992,6 +254915,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativesInput = {
@@ -253126,6 +255050,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativesInput = {
@@ -253276,6 +255201,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativesInput = {
@@ -253410,6 +255336,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativeDailiesInput = {
@@ -253544,6 +255471,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativeDailiesInput = {
@@ -253678,6 +255606,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativeDailiesInput = {
@@ -253828,6 +255757,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativeDailiesInput = {
@@ -253962,6 +255892,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSubscriptionInput = {
@@ -254096,6 +256027,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubscriptionInput = {
@@ -254230,6 +256162,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubscriptionInput = {
@@ -254380,6 +256313,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubscriptionInput = {
@@ -254514,6 +256448,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBusinessHoursInput = {
@@ -254648,6 +256583,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBusinessHoursInput = {
@@ -254782,6 +256718,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBusinessHoursInput = {
@@ -254956,6 +256893,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBusinessHoursInput = {
@@ -255090,6 +257028,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput = {
@@ -255311,6 +257250,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardsInput = {
@@ -255445,6 +257385,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardsInput = {
@@ -255631,6 +257572,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardsInput = {
@@ -255765,6 +257707,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput = {
@@ -256024,6 +257967,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -256158,6 +258102,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -256454,6 +258399,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -256588,6 +258534,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type RewardUpsertWithoutRedemptionsInput = {
@@ -256868,6 +258815,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserScoresInput = {
@@ -257002,6 +258950,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserScoresInput = {
@@ -257267,6 +259216,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserScoresInput = {
@@ -257401,6 +259351,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserCreateWithoutUserBadgesInput = {
@@ -257644,6 +259595,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserBadgesInput = {
@@ -257778,6 +259730,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserBadgesInput = {
@@ -258043,6 +259996,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserBadgesInput = {
@@ -258177,6 +260131,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserCreateWithoutScoreEventsInput = {
@@ -258420,6 +260375,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreEventsInput = {
@@ -258554,6 +260510,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreEventsInput = {
@@ -258819,6 +260776,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreEventsInput = {
@@ -258953,6 +260911,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutScoreRuleConfigsInput = {
@@ -259087,6 +261046,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreRuleConfigsInput = {
@@ -259221,6 +261181,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreRuleConfigsInput = {
@@ -259371,6 +261332,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreRuleConfigsInput = {
@@ -259505,6 +261467,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserCreateWithoutPushSubscriptionsInput = {
@@ -260087,6 +262050,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailConfigInput = {
@@ -260221,6 +262185,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailConfigInput = {
@@ -260371,6 +262336,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailConfigInput = {
@@ -260505,6 +262471,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailTemplatesInput = {
@@ -260639,6 +262606,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailTemplatesInput = {
@@ -260773,6 +262741,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailTemplatesInput = {
@@ -260985,6 +262954,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
@@ -261119,6 +263089,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type EmailCampaignUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -261296,6 +263267,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailCampaignsInput = {
@@ -261430,6 +263402,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailCampaignsInput = {
@@ -261890,6 +263863,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailCampaignsInput = {
@@ -262024,6 +263998,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutEmailCampaignsCreatedInput = {
@@ -262810,6 +264785,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailUnsubscribesInput = {
@@ -262944,6 +264920,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailUnsubscribesInput = {
@@ -263094,6 +265071,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailUnsubscribesInput = {
@@ -263228,6 +265206,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailAccountsInput = {
@@ -263362,6 +265341,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailAccountsInput = {
@@ -263496,6 +265476,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailAccountsInput = {
@@ -263742,6 +265723,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailAccountsInput = {
@@ -263876,6 +265858,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type InboxEmailUpsertWithWhereUniqueWithoutAccountInput = {
@@ -264042,6 +266025,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxEmailsInput = {
@@ -264176,6 +266160,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxEmailsInput = {
@@ -264624,6 +266609,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxEmailsInput = {
@@ -264758,6 +266744,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type EmailAccountUpsertWithoutEmailsInput = {
@@ -265204,6 +267191,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxSenderRulesInput = {
@@ -265338,6 +267326,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxSenderRulesInput = {
@@ -265488,6 +267477,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxSenderRulesInput = {
@@ -265622,6 +267612,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type InboxEmailCreateWithoutAttachmentsInput = {
@@ -265900,6 +267891,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxEmailTagsInput = {
@@ -266034,6 +268026,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxEmailTagsInput = {
@@ -266253,6 +268246,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxEmailTagsInput = {
@@ -266387,6 +268381,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type InboxEmailUpsertWithWhereUniqueWithoutTagsInput = {
@@ -266537,6 +268532,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBillingEventsInput = {
@@ -266671,6 +268667,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBillingEventsInput = {
@@ -266821,6 +268818,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBillingEventsInput = {
@@ -266955,6 +268953,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAddonsInput = {
@@ -267089,6 +269088,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAddonsInput = {
@@ -267223,6 +269223,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAddonsInput = {
@@ -267373,6 +269374,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAddonsInput = {
@@ -267507,6 +269509,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CouponRedemptionCreateWithoutCouponInput = {
@@ -267724,6 +269727,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCouponRedemptionsInput = {
@@ -267858,6 +269862,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCouponRedemptionsInput = {
@@ -268055,6 +270060,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCouponRedemptionsInput = {
@@ -268189,6 +270195,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAssistantsInput = {
@@ -268323,6 +270330,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssistantsInput = {
@@ -268457,6 +270465,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssistantsInput = {
@@ -268983,6 +270992,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssistantsInput = {
@@ -269117,6 +271127,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutAssistantCalendarsInput = {
@@ -269617,6 +271628,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScheduledMessagesInput = {
@@ -269751,6 +271763,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScheduledMessagesInput = {
@@ -269946,6 +271959,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScheduledMessagesInput = {
@@ -270080,6 +272094,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutScheduledMessagesInput = {
@@ -270573,6 +272588,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAiUsageLogsInput = {
@@ -270707,6 +272723,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAiUsageLogsInput = {
@@ -270932,6 +272949,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAiUsageLogsInput = {
@@ -271066,6 +273084,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type AssistantUpsertWithoutUsageLogsInput = {
@@ -271281,6 +273300,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutServicesInput = {
@@ -271415,6 +273435,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutServicesInput = {
@@ -271739,6 +273760,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutServicesInput = {
@@ -271873,6 +273895,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithWhereUniqueWithoutServiceInput = {
@@ -272055,6 +274078,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientServicesInput = {
@@ -272189,6 +274213,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientServicesInput = {
@@ -272494,6 +274519,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientServicesInput = {
@@ -272628,6 +274654,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutClientInstancesInput = {
@@ -272993,6 +275020,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientInvoicesInput = {
@@ -273127,6 +275155,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientInvoicesInput = {
@@ -273397,6 +275426,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientInvoicesInput = {
@@ -273531,6 +275561,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithoutInvoicesInput = {
@@ -273797,6 +275828,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSalesAsAgencyInput = {
@@ -273931,6 +275963,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSalesAsAgencyInput = {
@@ -274187,6 +276220,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSalesAsClientInput = {
@@ -274321,6 +276355,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSalesAsClientInput = {
@@ -274554,6 +276589,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSalesAsAgencyInput = {
@@ -274688,6 +276724,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type LeadUpsertWithoutSaleInput = {
@@ -274956,6 +276993,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSalesAsClientInput = {
@@ -275090,6 +277128,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type BonusUpsertWithWhereUniqueWithoutSaleInput = {
@@ -275289,6 +277328,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBonusesInput = {
@@ -275423,6 +277463,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBonusesInput = {
@@ -275802,6 +277843,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBonusesInput = {
@@ -275936,6 +277978,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type SaleUpsertWithoutBonusesInput = {
@@ -276317,6 +278360,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMonthlyTargetsInput = {
@@ -276451,6 +278495,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMonthlyTargetsInput = {
@@ -276601,6 +278646,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMonthlyTargetsInput = {
@@ -276735,6 +278781,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyCreateWithoutVideoCategoriesInput = {
@@ -276869,6 +278916,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVideoCategoriesInput = {
@@ -277003,6 +279051,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVideoCategoriesInput = {
@@ -277211,6 +279260,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVideoCategoriesInput = {
@@ -277345,6 +279395,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type VideoUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -277565,6 +279616,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVideoReleasesInput = {
@@ -277699,6 +279751,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVideoReleasesInput = {
@@ -277892,6 +279945,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVideoReleasesInput = {
@@ -278026,6 +280080,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type VideoCategoryCreateWithoutVideosInput = {
@@ -278240,6 +280295,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTimePunchesInput = {
@@ -278374,6 +280430,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTimePunchesInput = {
@@ -278633,6 +280690,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTimePunchesInput = {
@@ -278767,6 +280825,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutTimePunchesInput = {
@@ -279016,6 +281075,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWorkScheduleDaysInput = {
@@ -279150,6 +281210,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWorkScheduleDaysInput = {
@@ -279409,6 +281470,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWorkScheduleDaysInput = {
@@ -279543,6 +281605,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutWorkScheduleDaysInput = {
@@ -279792,6 +281855,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTimeOffEntriesInput = {
@@ -279926,6 +281990,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTimeOffEntriesInput = {
@@ -280294,6 +282359,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTimeOffEntriesInput = {
@@ -280428,6 +282494,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutTimeOffEntriesInput = {
@@ -280792,6 +282859,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPunchAdjustRequestsInput = {
@@ -280926,6 +282994,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPunchAdjustRequestsInput = {
@@ -281294,6 +283363,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPunchAdjustRequestsInput = {
@@ -281428,6 +283498,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutPunchAdjustRequestsInput = {
@@ -281792,6 +283863,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTimesheetSignaturesInput = {
@@ -281926,6 +283998,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTimesheetSignaturesInput = {
@@ -282185,6 +284258,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTimesheetSignaturesInput = {
@@ -282319,6 +284393,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type UserUpsertWithoutTimesheetSignaturesInput = {
@@ -282568,6 +284643,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutStorageObjectsInput = {
@@ -282702,6 +284778,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutStorageObjectsInput = {
@@ -282862,6 +284939,41 @@ export namespace Prisma {
   export type ProjectTaskCreateOrConnectWithoutAttachmentsInput = {
     where: ProjectTaskWhereUniqueInput
     create: XOR<ProjectTaskCreateWithoutAttachmentsInput, ProjectTaskUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type ClientLibraryItemCreateWithoutStorageObjectInput = {
+    id?: string
+    folder?: string
+    kind: string
+    title: string
+    description?: string | null
+    url?: string | null
+    visibleToClient?: boolean
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutLibraryItemsInput
+  }
+
+  export type ClientLibraryItemUncheckedCreateWithoutStorageObjectInput = {
+    id?: string
+    clientCompanyId: string
+    folder?: string
+    kind: string
+    title: string
+    description?: string | null
+    url?: string | null
+    visibleToClient?: boolean
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientLibraryItemCreateOrConnectWithoutStorageObjectInput = {
+    where: ClientLibraryItemWhereUniqueInput
+    create: XOR<ClientLibraryItemCreateWithoutStorageObjectInput, ClientLibraryItemUncheckedCreateWithoutStorageObjectInput>
   }
 
   export type UserCreateWithoutUploadedFilesInput = {
@@ -283116,6 +285228,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutStorageObjectsInput = {
@@ -283250,6 +285363,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type TicketUpsertWithoutAttachmentsInput = {
@@ -283425,6 +285539,47 @@ export namespace Prisma {
     events?: ProjectTaskEventUncheckedUpdateManyWithoutTaskNestedInput
   }
 
+  export type ClientLibraryItemUpsertWithoutStorageObjectInput = {
+    update: XOR<ClientLibraryItemUpdateWithoutStorageObjectInput, ClientLibraryItemUncheckedUpdateWithoutStorageObjectInput>
+    create: XOR<ClientLibraryItemCreateWithoutStorageObjectInput, ClientLibraryItemUncheckedCreateWithoutStorageObjectInput>
+    where?: ClientLibraryItemWhereInput
+  }
+
+  export type ClientLibraryItemUpdateToOneWithWhereWithoutStorageObjectInput = {
+    where?: ClientLibraryItemWhereInput
+    data: XOR<ClientLibraryItemUpdateWithoutStorageObjectInput, ClientLibraryItemUncheckedUpdateWithoutStorageObjectInput>
+  }
+
+  export type ClientLibraryItemUpdateWithoutStorageObjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    folder?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutLibraryItemsNestedInput
+  }
+
+  export type ClientLibraryItemUncheckedUpdateWithoutStorageObjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    folder?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserUpsertWithoutUploadedFilesInput = {
     update: XOR<UserUpdateWithoutUploadedFilesInput, UserUncheckedUpdateWithoutUploadedFilesInput>
     create: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
@@ -283538,6 +285693,650 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type CompanyCreateWithoutLibraryItemsInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutLibraryItemsInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutLibraryItemsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutLibraryItemsInput, CompanyUncheckedCreateWithoutLibraryItemsInput>
+  }
+
+  export type StorageObjectCreateWithoutLibraryItemInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    libraryCompanyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStorageObjectsInput
+    ticket?: TicketCreateNestedOneWithoutAttachmentsInput
+    ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
+    projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type StorageObjectUncheckedCreateWithoutLibraryItemInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    libraryCompanyId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageObjectCreateOrConnectWithoutLibraryItemInput = {
+    where: StorageObjectWhereUniqueInput
+    create: XOR<StorageObjectCreateWithoutLibraryItemInput, StorageObjectUncheckedCreateWithoutLibraryItemInput>
+  }
+
+  export type CompanyUpsertWithoutLibraryItemsInput = {
+    update: XOR<CompanyUpdateWithoutLibraryItemsInput, CompanyUncheckedUpdateWithoutLibraryItemsInput>
+    create: XOR<CompanyCreateWithoutLibraryItemsInput, CompanyUncheckedCreateWithoutLibraryItemsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutLibraryItemsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutLibraryItemsInput, CompanyUncheckedUpdateWithoutLibraryItemsInput>
+  }
+
+  export type CompanyUpdateWithoutLibraryItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutLibraryItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type StorageObjectUpsertWithoutLibraryItemInput = {
+    update: XOR<StorageObjectUpdateWithoutLibraryItemInput, StorageObjectUncheckedUpdateWithoutLibraryItemInput>
+    create: XOR<StorageObjectCreateWithoutLibraryItemInput, StorageObjectUncheckedCreateWithoutLibraryItemInput>
+    where?: StorageObjectWhereInput
+  }
+
+  export type StorageObjectUpdateToOneWithWhereWithoutLibraryItemInput = {
+    where?: StorageObjectWhereInput
+    data: XOR<StorageObjectUpdateWithoutLibraryItemInput, StorageObjectUncheckedUpdateWithoutLibraryItemInput>
+  }
+
+  export type StorageObjectUpdateWithoutLibraryItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
+    ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
+    ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
+    projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type StorageObjectUncheckedUpdateWithoutLibraryItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TicketCreateManyCreatedByInput = {
@@ -284049,6 +286848,7 @@ export namespace Prisma {
     ticketId?: string | null
     ticketMessageId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -285614,12 +288414,14 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
     ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateWithoutUploadedByInput = {
@@ -285634,8 +288436,10 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutUploadedByInput = {
@@ -285650,6 +288454,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -286989,7 +289794,23 @@ export namespace Prisma {
     ticketId?: string | null
     ticketMessageId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientLibraryItemCreateManyClientCompanyInput = {
+    id?: string
+    folder?: string
+    kind: string
+    title: string
+    description?: string | null
+    url?: string | null
+    storageObjectId?: string | null
+    visibleToClient?: boolean
+    createdById?: string | null
+    createdByName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -287126,6 +289947,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -287260,6 +290082,7 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -291394,11 +294217,13 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -291413,9 +294238,11 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutCompanyInput = {
@@ -291429,7 +294256,53 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientLibraryItemUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    folder?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storageObject?: StorageObjectUpdateOneWithoutLibraryItemNestedInput
+  }
+
+  export type ClientLibraryItemUncheckedUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    folder?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    folder?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -293673,6 +296546,7 @@ export namespace Prisma {
     status?: string
     ticketMessageId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -293872,11 +296746,13 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -293891,9 +296767,11 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutTicketInput = {
@@ -293907,6 +296785,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -293923,6 +296802,7 @@ export namespace Prisma {
     status?: string
     ticketId?: string | null
     projectTaskId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -293936,11 +296816,13 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
     ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -293955,9 +296837,11 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutTicketMessageInput = {
@@ -293971,6 +296855,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -294955,6 +297840,7 @@ export namespace Prisma {
     status?: string
     ticketId?: string | null
     ticketMessageId?: string | null
+    libraryCompanyId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -295034,11 +297920,13 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
     ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
+    libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -295053,9 +297941,11 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutProjectTaskInput = {
@@ -295069,6 +297959,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -297986,6 +300877,10 @@ export namespace Prisma {
      * @deprecated Use StorageObjectDefaultArgs instead
      */
     export type StorageObjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = StorageObjectDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ClientLibraryItemDefaultArgs instead
+     */
+    export type ClientLibraryItemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientLibraryItemDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

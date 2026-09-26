@@ -1975,7 +1975,24 @@ exports.Prisma.StorageObjectScalarFieldEnum = {
   ticketId: 'ticketId',
   ticketMessageId: 'ticketMessageId',
   projectTaskId: 'projectTaskId',
+  libraryCompanyId: 'libraryCompanyId',
   uploadedById: 'uploadedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ClientLibraryItemScalarFieldEnum = {
+  id: 'id',
+  clientCompanyId: 'clientCompanyId',
+  folder: 'folder',
+  kind: 'kind',
+  title: 'title',
+  description: 'description',
+  url: 'url',
+  storageObjectId: 'storageObjectId',
+  visibleToClient: 'visibleToClient',
+  createdById: 'createdById',
+  createdByName: 'createdByName',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -2570,7 +2587,8 @@ exports.Prisma.ModelName = {
   TimeOffEntry: 'TimeOffEntry',
   PunchAdjustRequest: 'PunchAdjustRequest',
   TimesheetSignature: 'TimesheetSignature',
-  StorageObject: 'StorageObject'
+  StorageObject: 'StorageObject',
+  ClientLibraryItem: 'ClientLibraryItem'
 };
 
 /**

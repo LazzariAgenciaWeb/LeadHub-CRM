@@ -8,23 +8,51 @@ import { getViewer, canSeeTicket, canSeeProject } from "@/lib/visibility";
 
 export type StorageTarget =
   | { kind: "ticket"; ticketId: string }
-  | { kind: "projectTask"; projectTaskId: string };
+  | { kind: "projectTask"; projectTaskId: string }
+  | { kind: "library"; libraryCompanyId: string };
 
-type Ok = { ok: true; companyId: string; target: StorageTarget };
+// asClient = quem acessa é o próprio cliente (só leitura, e só o que estiver
+// liberado pra ele) — hoje só acontece na biblioteca.
+type Ok = { ok: true; companyId: string; target: StorageTarget; asClient?: boolean };
 type Fail = { ok: false; status: 400 | 403 | 404; error: string };
 
-export function parseTarget(input: { ticketId?: unknown; projectTaskId?: unknown }): StorageTarget | null {
+export function parseTarget(input: { ticketId?: unknown; projectTaskId?: unknown; libraryCompanyId?: unknown }): StorageTarget | null {
   if (typeof input.ticketId === "string" && input.ticketId) return { kind: "ticket", ticketId: input.ticketId };
+  if (typeof input.libraryCompanyId === "string" && input.libraryCompanyId) {
+    return { kind: "library", libraryCompanyId: input.libraryCompanyId };
+  }
   if (typeof input.projectTaskId === "string" && input.projectTaskId) {
     return { kind: "projectTask", projectTaskId: input.projectTaskId };
   }
   return null;
 }
 
-/** Confere se a sessão enxerga o alvo. Devolve a empresa dona (consome a cota). */
-export async function authorizeTarget(session: any, target: StorageTarget): Promise<Ok | Fail> {
+/** Confere se a sessão enxerga o alvo. Devolve a empresa dona (consome a cota).
+ *  write=true: subir arquivo — o cliente nunca grava na biblioteca. */
+export async function authorizeTarget(
+  session: any,
+  target: StorageTarget,
+  opts: { write?: boolean } = {},
+): Promise<Ok | Fail> {
   const role = session?.user?.role as string | undefined;
   const userCompanyId = session?.user?.companyId as string | undefined;
+
+  if (target.kind === "library") {
+    const client = await prisma.company.findUnique({
+      where: { id: target.libraryCompanyId },
+      select: { id: true, parentCompanyId: true },
+    });
+    if (!client?.parentCompanyId) return { ok: false, status: 404, error: "Cliente não encontrado" };
+    // Arquivo conta na agência (dona do trabalho), não no cliente.
+    const agencyId = client.parentCompanyId;
+    if (role === "SUPER_ADMIN" || userCompanyId === agencyId) {
+      return { ok: true, companyId: agencyId, target };
+    }
+    if (userCompanyId === client.id && !opts.write) {
+      return { ok: true, companyId: agencyId, target, asClient: true };
+    }
+    return { ok: false, status: 403, error: "Sem permissão" };
+  }
 
   if (target.kind === "ticket") {
     const ticket = await prisma.ticket.findUnique({
@@ -75,8 +103,9 @@ export async function authorizeTarget(session: any, target: StorageTarget): Prom
 }
 
 /** Alvo de um arquivo já gravado. */
-export function targetOf(obj: { ticketId: string | null; projectTaskId: string | null }): StorageTarget | null {
+export function targetOf(obj: { ticketId: string | null; projectTaskId: string | null; libraryCompanyId?: string | null }): StorageTarget | null {
   if (obj.ticketId) return { kind: "ticket", ticketId: obj.ticketId };
+  if (obj.libraryCompanyId) return { kind: "library", libraryCompanyId: obj.libraryCompanyId };
   if (obj.projectTaskId) return { kind: "projectTask", projectTaskId: obj.projectTaskId };
   return null;
 }

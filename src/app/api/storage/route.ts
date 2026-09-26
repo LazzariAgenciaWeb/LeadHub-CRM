@@ -18,11 +18,15 @@ export async function GET(req: NextRequest) {
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const sp = req.nextUrl.searchParams;
-  const target = parseTarget({ ticketId: sp.get("ticketId"), projectTaskId: sp.get("projectTaskId") });
+  const target = parseTarget({
+    ticketId: sp.get("ticketId"), projectTaskId: sp.get("projectTaskId"), libraryCompanyId: sp.get("libraryCompanyId"),
+  });
   if (!target) return NextResponse.json({ error: "Informe ticketId ou projectTaskId" }, { status: 400 });
 
   const auth = await authorizeTarget(session, target);
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
+  // Biblioteca é listada por /api/biblioteca (respeita "cliente vê").
+  if (target.kind === "library") return NextResponse.json({ error: "Use /api/biblioteca" }, { status: 400 });
 
   const files = await prisma.storageObject.findMany({
     where: {
@@ -70,11 +74,14 @@ export async function POST(req: NextRequest) {
   // Rascunho (composer da conversa) só faz sentido em chamado.
   const draft = !!body.draft && target.kind === "ticket";
 
-  const auth = await authorizeTarget(session, target);
+  const auth = await authorizeTarget(session, target, { write: true });
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
 
   const id = randomUUID();
-  const folder = target.kind === "ticket" ? `tickets/${target.ticketId}` : `project-tasks/${target.projectTaskId}`;
+  const folder =
+    target.kind === "ticket" ? `tickets/${target.ticketId}`
+    : target.kind === "library" ? `library/${target.libraryCompanyId}`
+    : `project-tasks/${target.projectTaskId}`;
   const key = `companies/${auth.companyId}/${folder}/${id}/${safeKeyName(fileName)}`;
 
   const obj = await prisma.storageObject.create({
@@ -88,6 +95,7 @@ export async function POST(req: NextRequest) {
       status: "PENDING",
       ticketId: target.kind === "ticket" ? target.ticketId : null,
       projectTaskId: target.kind === "projectTask" ? target.projectTaskId : null,
+      libraryCompanyId: target.kind === "library" ? target.libraryCompanyId : null,
       uploadedById: (session.user as any)?.id ?? null,
     },
     select: { id: true },

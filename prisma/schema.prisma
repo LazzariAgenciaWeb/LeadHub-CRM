@@ -392,6 +392,7 @@ model Company {
 
   // Arquivos no MinIO (anexos de chamados/tarefas) — base do consumo de espaço.
   storageObjects StorageObject[]
+  libraryItems   ClientLibraryItem[] @relation("ClientLibrary")
 
   @@unique([blingContactId])
   @@index([parentCompanyId])
@@ -4471,6 +4472,11 @@ model StorageObject {
   ticketMessage   TicketMessage? @relation(fields: [ticketMessageId], references: [id], onDelete: SetNull)
   projectTaskId   String?
   projectTask     ProjectTask?   @relation(fields: [projectTaskId], references: [id], onDelete: Cascade)
+  // Biblioteca de arquivos do cliente (Meu Espaço → Arquivos): id da
+  // empresa-cliente dona do arquivo. Sem FK de propósito — o vínculo real é
+  // ClientLibraryItem.storageObjectId (Cascade apaga o item junto).
+  libraryCompanyId String?
+  libraryItem      ClientLibraryItem?
 
   uploadedById String?
   uploadedBy   User?   @relation("StorageObjectUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
@@ -4482,4 +4488,33 @@ model StorageObject {
   @@index([ticketId])
   @@index([ticketMessageId])
   @@index([projectTaskId])
+  @@index([libraryCompanyId])
+}
+
+// Biblioteca de arquivos do cliente — o que a agência produziu/enviou pra ele
+// (logos, artes, links do Drive, vídeos, materiais). Aparece em Meu Espaço →
+// Arquivos, organizado em pastas e pesquisável. Gerida na empresa-cliente
+// (Empresas → [cliente] → aba Arquivos).
+model ClientLibraryItem {
+  id              String  @id @default(cuid())
+  clientCompanyId String
+  clientCompany   Company @relation("ClientLibrary", fields: [clientCompanyId], references: [id], onDelete: Cascade)
+
+  folder      String  @default("Geral")
+  kind        String // "LINK" | "FILE"
+  title       String
+  description String? @db.Text
+  url         String? // LINK: Drive, YouTube, Vimeo, site…
+
+  // FILE: binário no MinIO. Apagar o arquivo apaga o item.
+  storageObjectId String?        @unique
+  storageObject   StorageObject? @relation(fields: [storageObjectId], references: [id], onDelete: Cascade)
+
+  visibleToClient Boolean @default(true)
+  createdById     String?
+  createdByName   String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([clientCompanyId, folder])
 }

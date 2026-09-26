@@ -443,6 +443,7 @@ export default async function EmpresaDetailPage({
           recentChamados={recentChamados as any}
           contacts={contactsWithUsers as any}
           isSuperAdmin={isSuperAdmin}
+          isClientCompany={!!company.parentCompanyId}
           contracted={contracted}
           catalog={catalogRaw}
           invoices={invoices}

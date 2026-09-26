@@ -12,7 +12,7 @@ export type StoredFile = {
   uploadedBy?: { name: string | null } | null;
 };
 
-export type UploadTarget = { ticketId: string } | { projectTaskId: string };
+export type UploadTarget = { ticketId: string } | { projectTaskId: string } | { libraryCompanyId: string };
 
 export async function uploadFile(
   file: File,

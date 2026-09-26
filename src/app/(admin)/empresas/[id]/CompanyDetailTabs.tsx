@@ -5,6 +5,7 @@ import Link from "next/link";
 import CompanyContacts from "./CompanyContacts";
 import AddSystemUser from "./AddSystemUser";
 import CompanyVault from "./CompanyVault";
+import CompanyArquivos from "./CompanyArquivos";
 import CompanyIntegrations from "./CompanyIntegrations";
 import CompanyMarketing from "./CompanyMarketing";
 import CompanySubscription from "./CompanySubscription";
@@ -66,6 +67,8 @@ interface Contact {
 
 interface Props {
   companyId: string;
+  /** empresa-cliente (tem parentCompanyId) — libera a aba Arquivos */
+  isClientCompany?: boolean;
   campaigns: Campaign[];
   recentLeads: Lead[];
   leadsCount: number;
@@ -91,7 +94,8 @@ const SOURCE_ICON: Record<string, string> = {
 
 type TabId =
   | "servicos" | "cobrancas" | "historico"
-  | "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano" | "conquistas";
+  | "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano" | "conquistas"
+  | "arquivos";
 
 const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean }[] = [
   { id: "servicos",     label: "Serviços contratados", icon: "📦" },
@@ -105,6 +109,7 @@ const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean }
   { id: "contatos",     label: "Contatos WA",  icon: "📱" },
   { id: "conquistas",   label: "Conquistas",   icon: "🏆", superAdminOnly: true },
   { id: "cofre",        label: "Cofre",        icon: "🔐" },
+  { id: "arquivos",     label: "Arquivos",     icon: "🗂" },
   { id: "integracoes",  label: "Integrações",  icon: "🔌" },
   { id: "plano",        label: "Plano",        icon: "💳", superAdminOnly: true },
 ];
@@ -120,6 +125,7 @@ const GROUPS: { id: string; label: string; icon: string; tabIds: TabId[] }[] = [
   { id: "crm",         label: "CRM",                icon: "📊", tabIds: ["marketing", "integracoes", "campanhas", "leads", "oportunidades", "chamados", "conquistas"] },
   { id: "acessos",     label: "Acessos & usuários", icon: "👥", tabIds: ["contatos"] },
   { id: "cofre",       label: "Cofre",              icon: "🔐", tabIds: ["cofre"] },
+  { id: "arquivos",    label: "Arquivos",           icon: "🗂", tabIds: ["arquivos"] },
   { id: "plano",       label: "Plano & cobrança",   icon: "💳", tabIds: ["plano"] },
 ];
 
@@ -139,6 +145,7 @@ export default function CompanyDetailTabs({
   invoices,
   financeLogs,
   billingNotes,
+  isClientCompany = false,
 }: Props) {
   // Counts for tab labels
   const counts: Record<TabId, number> = {
@@ -157,10 +164,13 @@ export default function CompanyDetailTabs({
     marketing:     0, // count carregado dinamicamente dentro do componente
     plano:         0, // sem contagem
     conquistas:    0, // count carregado dinamicamente dentro do componente
+    arquivos:      0,
   };
 
   // Abas visíveis (respeita superAdminOnly), agrupadas em 5 grupos de 1º nível.
-  const isTabVisible = (id: TabId) => !TAB_BY_ID[id].superAdminOnly || isSuperAdmin;
+  // Arquivos = biblioteca do Meu Espaço — só existe pra empresa-cliente.
+  const isTabVisible = (id: TabId) =>
+    (!TAB_BY_ID[id].superAdminOnly || isSuperAdmin) && (id !== "arquivos" || isClientCompany);
   const visibleGroups = GROUPS
     .map((g) => ({ ...g, tabs: g.tabIds.filter(isTabVisible) }))
     .filter((g) => g.tabs.length > 0);
@@ -177,6 +187,7 @@ export default function CompanyDetailTabs({
       "#servicos": "servicos",
       "#historico": "historico",
       "#cofre": "cofre",
+      "#arquivos": "arquivos",
     };
     const alvo = porAncora[window.location.hash];
     if (alvo) {
@@ -489,6 +500,12 @@ export default function CompanyDetailTabs({
         )}
 
         {/* ── Cofre ── */}
+        {activeTab === "arquivos" && (
+          <div className="p-5">
+            <CompanyArquivos clientId={companyId} />
+          </div>
+        )}
+
         {activeTab === "cofre" && (
           <CompanyVault companyId={companyId} />
         )}

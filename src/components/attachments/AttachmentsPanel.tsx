@@ -17,7 +17,7 @@ export default function AttachmentsPanel({
   onUploaded,
   onDeleted,
 }: {
-  target: UploadTarget;
+  target: Exclude<UploadTarget, { libraryCompanyId: string }>;
   currentUserId?: string;
   canManage?: boolean;
   title?: string;

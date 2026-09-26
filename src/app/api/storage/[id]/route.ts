@@ -15,7 +15,15 @@ async function load(session: any, id: string) {
   if (!target) return { error: "Arquivo sem vínculo", status: 404 as const };
   const auth = await authorizeTarget(session, target);
   if (!auth.ok) return { error: auth.error, status: auth.status };
-  return { obj };
+  // Cliente na biblioteca: só abre o que a agência liberou pra ele.
+  if (auth.asClient) {
+    const item = await prisma.clientLibraryItem.findUnique({
+      where: { storageObjectId: obj.id },
+      select: { visibleToClient: true },
+    });
+    if (!item?.visibleToClient) return { error: "Arquivo não encontrado", status: 404 as const };
+  }
+  return { obj, asClient: !!auth.asClient };
 }
 
 // GET /api/storage/[id]            → abre (preview quando seguro)
@@ -52,6 +60,7 @@ export async function DELETE(
   if ("error" in r) return NextResponse.json({ error: r.error }, { status: r.status });
 
   const userId = (session.user as any)?.id as string | undefined;
+  if (r.asClient) return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   if (!isManager(session) && r.obj.uploadedById !== userId) {
     return NextResponse.json({ error: "Só quem enviou ou um gestor pode excluir" }, { status: 403 });
   }
