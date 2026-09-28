@@ -108,7 +108,8 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
   // Nome do contato: lead → contato da empresa → telefone formatado.
   const contactNames = await resolveContactNames(cal.unansweredConvs.map((c) => ({ companyId: c.companyId, phone: c.phone })));
   const esperandoPorMim: FilaItem[] = [];
-  for (const c of cal.unansweredConvs.slice(0, 10)) {
+  // Grupos ficam de fora: raramente é "alguém esperando VOCÊ", só barulho.
+  for (const c of cal.unansweredConvs.filter((c) => !c.isGroup).slice(0, 10)) {
     const name = (c as any).leads?.[0]?.name ?? contactNames[`${c.companyId}|${c.phone}`] ?? fmtPhone(c.phone);
     esperandoPorMim.push({ id: c.id, kind: "whatsapp", title: `${name} está esperando resposta`, sub: (c as any).lastMessageBody?.slice(0, 60), when: (c as any).lastMessageAt, link: convHref(c.phone) });
   }

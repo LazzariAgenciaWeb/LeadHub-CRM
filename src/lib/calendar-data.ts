@@ -207,6 +207,7 @@ export async function getCalendarData(input: CalendarDataInput) {
       where: {
         ...cf,
         scheduledReturnAt: { not: null, lte: nextWeek },
+        syncBlocked: false,
         ...convScopeFilter,
       },
       select: {
@@ -228,6 +229,8 @@ export async function getCalendarData(input: CalendarDataInput) {
         ...cf,
         status: { in: ["OPEN", "PENDING", "IN_PROGRESS"] },
         lastMessageDirection: "INBOUND",
+        // Conversa ocultada/bloqueada some da inbox — aqui também.
+        syncBlocked: false,
         ...convScopeFilter,
       },
       select: {
@@ -251,6 +254,7 @@ export async function getCalendarData(input: CalendarDataInput) {
         ...cf,
         status: "IN_PROGRESS",
         lastMessageDirection: "OUTBOUND",
+        syncBlocked: false,
         assigneeId: userId, // só as minhas — sem responsável vai pra "não atendida"
       },
       select: {
