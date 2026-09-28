@@ -10,7 +10,11 @@ interface ChatMsg { role: "user" | "assistant"; content: string; actions?: Execu
 interface Pending { id: string; summary: string }
 interface FilaItem { id: string; kind: string; title: string; sub?: string; when?: string | null; overdue?: boolean; link?: string }
 interface Fila { esperandoPorMim: FilaItem[]; hoje: FilaItem[]; followUps: FilaItem[]; semProximaAcao: FilaItem[]; financeiro: FilaItem[]; bloquinho: FilaItem[]; generatedAt: string }
-interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; createdAt: string; tags: string[] }
+interface NoteEvent { id: string; type: "CREATED" | "EDITED" | "DONE" | "REOPENED" | string; detail: string | null; source: string; createdAt: string }
+interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[] }
+
+const EVENT_LABEL: Record<string, string> = { CREATED: "criado", EDITED: "editado", DONE: "concluído", REOPENED: "reaberto" };
+const SOURCE_LABEL: Record<string, string> = { APP: "no app", WHATSAPP: "pelo WhatsApp", MCP: "pelo Claude" };
 
 const KIND_ICON: Record<string, string> = { IDEA: "💡", NOTE: "📝", REMINDER: "⏰", TASK: "☑️" };
 const KIND_LABEL: Record<string, string> = { IDEA: "Ideia", NOTE: "Nota", REMINDER: "Lembrete", TASK: "Tarefa" };
@@ -160,8 +164,8 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
     const r = await fetch("/api/assistente/notas", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     if (r.ok) { setNoteInput(""); setNoteDue(""); setNoteTags(""); loadNotes(); loadFila(); }
   }
-  async function toggleNote(n: Note) {
-    await fetch(`/api/assistente/notas/${n.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ done: !n.done }) });
+  async function toggleNote(n: Note, doneNote?: string) {
+    await fetch(`/api/assistente/notas/${n.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ done: !n.done, ...(doneNote ? { doneNote } : {}) }) });
     loadNotes(); loadFila();
   }
   async function deleteNote(n: Note) {
@@ -371,7 +375,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                     note={n}
                     open={openNote === n.id}
                     onToggleOpen={() => setOpenNote(openNote === n.id ? null : n.id)}
-                    onToggleDone={() => toggleNote(n)}
+                    onToggleDone={(doneNote) => toggleNote(n, doneNote)}
                     onDelete={() => { if (confirm("Excluir este item?")) deleteNote(n); }}
                     onSave={(patch) => saveNote(n.id, patch)}
                   />
@@ -387,10 +391,12 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
 
 /** Item do bloquinho: fechado mostra resumo; aberto mostra tudo e permite editar. */
 function NoteItem({ note, open, onToggleOpen, onToggleDone, onDelete, onSave }: {
-  note: Note; open: boolean; onToggleOpen: () => void; onToggleDone: () => void; onDelete: () => void;
+  note: Note; open: boolean; onToggleOpen: () => void; onToggleDone: (doneNote?: string) => void; onDelete: () => void;
   onSave: (patch: Partial<Pick<Note, "title" | "body" | "dueAt" | "kind" | "tags">>) => Promise<boolean>;
 }) {
   const [editing, setEditing] = useState(false);
+  const [concluding, setConcluding] = useState(false);
+  const [doneNote, setDoneNote] = useState("");
   const [tags, setTags] = useState((note.tags ?? []).join(", "));
   const [title, setTitle] = useState(note.title);
   const [body, setBody] = useState(note.body ?? "");
@@ -398,7 +404,7 @@ function NoteItem({ note, open, onToggleOpen, onToggleDone, onDelete, onSave }: 
   const [due, setDue] = useState(note.dueAt ? toLocalInput(note.dueAt) : "");
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => { setTitle(note.title); setBody(note.body ?? ""); setKind(note.kind); setTags((note.tags ?? []).join(", ")); setDue(note.dueAt ? toLocalInput(note.dueAt) : ""); setEditing(false); }, [note]);
+  useEffect(() => { setTitle(note.title); setBody(note.body ?? ""); setKind(note.kind); setTags((note.tags ?? []).join(", ")); setDue(note.dueAt ? toLocalInput(note.dueAt) : ""); setEditing(false); setConcluding(false); setDoneNote(""); }, [note]);
 
   async function save() {
     setSaving(true);
@@ -410,10 +416,10 @@ function NoteItem({ note, open, onToggleOpen, onToggleDone, onDelete, onSave }: 
   return (
     <div className={`rounded-lg border transition-colors ${open ? "bg-[#131c2c] border-fuchsia-500/30" : "bg-[#131c2c] border-transparent hover:border-[#253449]"} ${note.done ? "opacity-60" : ""}`}>
       <div className="flex items-start gap-2 px-2.5 py-2">
-        <button onClick={onToggleDone} title={note.done ? "Reabrir" : "Concluir"} className="text-sm leading-none mt-0.5 flex-shrink-0">{note.done ? "✅" : KIND_ICON[note.kind] ?? "•"}</button>
+        <button onClick={() => { if (note.done) onToggleDone(); else { if (!open) onToggleOpen(); setConcluding(true); } }} title={note.done ? "Reabrir" : "Concluir"} className="text-sm leading-none mt-0.5 flex-shrink-0">{note.done ? "✅" : KIND_ICON[note.kind] ?? "•"}</button>
         <button onClick={onToggleOpen} className="flex-1 min-w-0 text-left">
           <div className={`text-xs ${note.done ? "line-through text-slate-500" : "text-slate-200"} ${open ? "" : "truncate"}`}>{note.title}</div>
-          {!open && (note.body || note.dueAt || note.tags?.length) && <div className="text-[10px] text-slate-500 truncate">{KIND_LABEL[note.kind]}{note.dueAt ? ` · ${fmtWhen(note.dueAt)}` : ""}{note.tags?.length ? ` · ${note.tags.map((t) => `#${t}`).join(" ")}` : ""}{note.body ? ` · ${note.body}` : ""}</div>}
+          {!open && !!(note.body || note.dueAt || note.tags?.length) && <div className="text-[10px] text-slate-500 truncate">{KIND_LABEL[note.kind]}{note.dueAt ? ` · ${fmtWhen(note.dueAt)}` : ""}{note.tags?.length ? ` · ${note.tags.map((t) => `#${t}`).join(" ")}` : ""}{note.body ? ` · ${note.body}` : ""}</div>}
         </button>
         <button onClick={onDelete} className="text-slate-600 hover:text-red-400 text-xs flex-shrink-0" title="Excluir">✕</button>
       </div>
@@ -425,10 +431,45 @@ function NoteItem({ note, open, onToggleOpen, onToggleDone, onDelete, onSave }: 
             {(note.tags ?? []).map((t) => <span key={t} className="px-1.5 py-0.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/25 text-fuchsia-200">#{t}</span>)}
           </div>
           {note.body && <div className="text-xs text-slate-300 whitespace-pre-wrap break-words bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2">{note.body}</div>}
-          <div className="flex gap-2">
-            <button onClick={() => setEditing(true)} className="text-[11px] px-2.5 py-1 rounded-lg bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">✏️ Editar</button>
-            <button onClick={onToggleDone} className="text-[11px] px-2.5 py-1 rounded-lg bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">{note.done ? "↩ Reabrir" : "✅ Concluir"}</button>
-          </div>
+          {note.done && note.doneNote && (
+            <div className="text-xs text-emerald-200 whitespace-pre-wrap break-words bg-emerald-500/10 border border-emerald-500/25 rounded-lg px-3 py-2">
+              <span className="text-[10px] uppercase tracking-wide text-emerald-400/80 block mb-0.5">O que foi feito</span>{note.doneNote}
+            </div>
+          )}
+
+          {concluding ? (
+            <div className="space-y-1.5 bg-[#0f1623] border border-emerald-500/30 rounded-lg px-3 py-2">
+              <div className="text-[10px] uppercase tracking-wide text-emerald-400/80">Concluir — o que foi feito? (opcional)</div>
+              <textarea value={doneNote} onChange={(e) => setDoneNote(e.target.value)} rows={2} autoFocus placeholder="Ex.: liguei, ele aprovou a arte e pediu a versão pro Instagram" className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-slate-200 resize-y focus:outline-none focus:border-emerald-500/50" />
+              <div className="flex gap-2">
+                <button onClick={() => { onToggleDone(doneNote.trim() || undefined); setConcluding(false); }} className="text-[11px] px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white">✅ Concluir</button>
+                <button onClick={() => setConcluding(false)} className="text-[11px] px-3 py-1.5 rounded-lg border border-[#1e2d45] text-slate-400 hover:text-white">Cancelar</button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <button onClick={() => setEditing(true)} className="text-[11px] px-2.5 py-1 rounded-lg bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">✏️ Editar</button>
+              <button onClick={() => (note.done ? onToggleDone() : setConcluding(true))} className="text-[11px] px-2.5 py-1 rounded-lg bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">{note.done ? "↩ Reabrir" : "✅ Concluir"}</button>
+            </div>
+          )}
+
+          {(note.events?.length ?? 0) > 0 && (
+            <div className="border-t border-[#1e2d45] pt-2">
+              <div className="text-[10px] uppercase tracking-wide text-slate-500 mb-1">Histórico</div>
+              <ul className="space-y-0.5">
+                {note.events!.map((ev) => (
+                  <li key={ev.id} className="text-[11px] text-slate-400 flex gap-2">
+                    <span className="text-slate-600 tabular-nums flex-shrink-0">{fmtWhen(ev.createdAt)}</span>
+                    <span>
+                      <span className={ev.type === "DONE" ? "text-emerald-300" : ev.type === "REOPENED" ? "text-amber-300" : "text-slate-300"}>{EVENT_LABEL[ev.type] ?? ev.type.toLowerCase()}</span>
+                      {" "}{SOURCE_LABEL[ev.source] ?? ev.source}
+                      {ev.detail && <span className="text-slate-500"> — {ev.detail}</span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 

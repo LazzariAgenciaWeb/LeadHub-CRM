@@ -158,8 +158,18 @@ exports.Prisma.AssistantNoteScalarFieldEnum = {
   source: 'source',
   clientCompanyId: 'clientCompanyId',
   tags: 'tags',
+  doneNote: 'doneNote',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssistantNoteEventScalarFieldEnum = {
+  id: 'id',
+  noteId: 'noteId',
+  type: 'type',
+  detail: 'detail',
+  source: 'source',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AssistantTurnScalarFieldEnum = {
@@ -2512,6 +2522,7 @@ exports.PunchAdjustStatus = exports.$Enums.PunchAdjustStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   AssistantNote: 'AssistantNote',
+  AssistantNoteEvent: 'AssistantNoteEvent',
   AssistantTurn: 'AssistantTurn',
   AssistantPendingAction: 'AssistantPendingAction',
   QuickReply: 'QuickReply',

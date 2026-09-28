@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type AssistantNote = $Result.DefaultSelection<Prisma.$AssistantNotePayload>
 /**
+ * Model AssistantNoteEvent
+ * 
+ */
+export type AssistantNoteEvent = $Result.DefaultSelection<Prisma.$AssistantNoteEventPayload>
+/**
  * Model AssistantTurn
  * 
  */
@@ -1605,6 +1610,16 @@ export class PrismaClient<
     * ```
     */
   get assistantNote(): Prisma.AssistantNoteDelegate<ExtArgs>;
+
+  /**
+   * `prisma.assistantNoteEvent`: Exposes CRUD operations for the **AssistantNoteEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssistantNoteEvents
+    * const assistantNoteEvents = await prisma.assistantNoteEvent.findMany()
+    * ```
+    */
+  get assistantNoteEvent(): Prisma.AssistantNoteEventDelegate<ExtArgs>;
 
   /**
    * `prisma.assistantTurn`: Exposes CRUD operations for the **AssistantTurn** model.
@@ -3298,6 +3313,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     AssistantNote: 'AssistantNote',
+    AssistantNoteEvent: 'AssistantNoteEvent',
     AssistantTurn: 'AssistantTurn',
     AssistantPendingAction: 'AssistantPendingAction',
     QuickReply: 'QuickReply',
@@ -3438,7 +3454,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem"
+      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3579,6 +3595,76 @@ export namespace Prisma {
           count: {
             args: Prisma.AssistantNoteCountArgs<ExtArgs>
             result: $Utils.Optional<AssistantNoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      AssistantNoteEvent: {
+        payload: Prisma.$AssistantNoteEventPayload<ExtArgs>
+        fields: Prisma.AssistantNoteEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssistantNoteEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssistantNoteEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload>
+          }
+          findFirst: {
+            args: Prisma.AssistantNoteEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssistantNoteEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload>
+          }
+          findMany: {
+            args: Prisma.AssistantNoteEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload>[]
+          }
+          create: {
+            args: Prisma.AssistantNoteEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload>
+          }
+          createMany: {
+            args: Prisma.AssistantNoteEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssistantNoteEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload>[]
+          }
+          delete: {
+            args: Prisma.AssistantNoteEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload>
+          }
+          update: {
+            args: Prisma.AssistantNoteEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssistantNoteEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssistantNoteEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssistantNoteEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNoteEventPayload>
+          }
+          aggregate: {
+            args: Prisma.AssistantNoteEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssistantNoteEvent>
+          }
+          groupBy: {
+            args: Prisma.AssistantNoteEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssistantNoteEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssistantNoteEventCountArgs<ExtArgs>
+            result: $Utils.Optional<AssistantNoteEventCountAggregateOutputType> | number
           }
         }
       }
@@ -12844,6 +12930,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type AssistantNoteCountOutputType
+   */
+
+  export type AssistantNoteCountOutputType = {
+    events: number
+  }
+
+  export type AssistantNoteCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    events?: boolean | AssistantNoteCountOutputTypeCountEventsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AssistantNoteCountOutputType without action
+   */
+  export type AssistantNoteCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteCountOutputType
+     */
+    select?: AssistantNoteCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AssistantNoteCountOutputType without action
+   */
+  export type AssistantNoteCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantNoteEventWhereInput
+  }
+
+
+  /**
    * Count Type CompanyCountOutputType
    */
 
@@ -17214,6 +17331,7 @@ export namespace Prisma {
     remindedAt: Date | null
     source: string | null
     clientCompanyId: string | null
+    doneNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17231,6 +17349,7 @@ export namespace Prisma {
     remindedAt: Date | null
     source: string | null
     clientCompanyId: string | null
+    doneNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17249,6 +17368,7 @@ export namespace Prisma {
     source: number
     clientCompanyId: number
     tags: number
+    doneNote: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -17268,6 +17388,7 @@ export namespace Prisma {
     remindedAt?: true
     source?: true
     clientCompanyId?: true
+    doneNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -17285,6 +17406,7 @@ export namespace Prisma {
     remindedAt?: true
     source?: true
     clientCompanyId?: true
+    doneNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -17303,6 +17425,7 @@ export namespace Prisma {
     source?: true
     clientCompanyId?: true
     tags?: true
+    doneNote?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -17394,6 +17517,7 @@ export namespace Prisma {
     source: string
     clientCompanyId: string | null
     tags: string[]
+    doneNote: string | null
     createdAt: Date
     updatedAt: Date
     _count: AssistantNoteCountAggregateOutputType | null
@@ -17429,9 +17553,12 @@ export namespace Prisma {
     source?: boolean
     clientCompanyId?: boolean
     tags?: boolean
+    doneNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    events?: boolean | AssistantNote$eventsArgs<ExtArgs>
+    _count?: boolean | AssistantNoteCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assistantNote"]>
 
   export type AssistantNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -17448,6 +17575,7 @@ export namespace Prisma {
     source?: boolean
     clientCompanyId?: boolean
     tags?: boolean
+    doneNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -17467,12 +17595,15 @@ export namespace Prisma {
     source?: boolean
     clientCompanyId?: boolean
     tags?: boolean
+    doneNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
   export type AssistantNoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    events?: boolean | AssistantNote$eventsArgs<ExtArgs>
+    _count?: boolean | AssistantNoteCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AssistantNoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -17482,6 +17613,7 @@ export namespace Prisma {
     name: "AssistantNote"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      events: Prisma.$AssistantNoteEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17497,6 +17629,7 @@ export namespace Prisma {
       source: string
       clientCompanyId: string | null
       tags: string[]
+      doneNote: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["assistantNote"]>
@@ -17864,6 +17997,7 @@ export namespace Prisma {
   export interface Prisma__AssistantNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    events<T extends AssistantNote$eventsArgs<ExtArgs> = {}>(args?: Subset<T, AssistantNote$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17906,6 +18040,7 @@ export namespace Prisma {
     readonly source: FieldRef<"AssistantNote", 'String'>
     readonly clientCompanyId: FieldRef<"AssistantNote", 'String'>
     readonly tags: FieldRef<"AssistantNote", 'String[]'>
+    readonly doneNote: FieldRef<"AssistantNote", 'String'>
     readonly createdAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly updatedAt: FieldRef<"AssistantNote", 'DateTime'>
   }
@@ -18226,6 +18361,26 @@ export namespace Prisma {
   }
 
   /**
+   * AssistantNote.events
+   */
+  export type AssistantNote$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    where?: AssistantNoteEventWhereInput
+    orderBy?: AssistantNoteEventOrderByWithRelationInput | AssistantNoteEventOrderByWithRelationInput[]
+    cursor?: AssistantNoteEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantNoteEventScalarFieldEnum | AssistantNoteEventScalarFieldEnum[]
+  }
+
+  /**
    * AssistantNote without action
    */
   export type AssistantNoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18237,6 +18392,951 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AssistantNoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssistantNoteEvent
+   */
+
+  export type AggregateAssistantNoteEvent = {
+    _count: AssistantNoteEventCountAggregateOutputType | null
+    _min: AssistantNoteEventMinAggregateOutputType | null
+    _max: AssistantNoteEventMaxAggregateOutputType | null
+  }
+
+  export type AssistantNoteEventMinAggregateOutputType = {
+    id: string | null
+    noteId: string | null
+    type: string | null
+    detail: string | null
+    source: string | null
+    createdAt: Date | null
+  }
+
+  export type AssistantNoteEventMaxAggregateOutputType = {
+    id: string | null
+    noteId: string | null
+    type: string | null
+    detail: string | null
+    source: string | null
+    createdAt: Date | null
+  }
+
+  export type AssistantNoteEventCountAggregateOutputType = {
+    id: number
+    noteId: number
+    type: number
+    detail: number
+    source: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AssistantNoteEventMinAggregateInputType = {
+    id?: true
+    noteId?: true
+    type?: true
+    detail?: true
+    source?: true
+    createdAt?: true
+  }
+
+  export type AssistantNoteEventMaxAggregateInputType = {
+    id?: true
+    noteId?: true
+    type?: true
+    detail?: true
+    source?: true
+    createdAt?: true
+  }
+
+  export type AssistantNoteEventCountAggregateInputType = {
+    id?: true
+    noteId?: true
+    type?: true
+    detail?: true
+    source?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AssistantNoteEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantNoteEvent to aggregate.
+     */
+    where?: AssistantNoteEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantNoteEvents to fetch.
+     */
+    orderBy?: AssistantNoteEventOrderByWithRelationInput | AssistantNoteEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssistantNoteEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantNoteEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantNoteEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssistantNoteEvents
+    **/
+    _count?: true | AssistantNoteEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssistantNoteEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssistantNoteEventMaxAggregateInputType
+  }
+
+  export type GetAssistantNoteEventAggregateType<T extends AssistantNoteEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssistantNoteEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssistantNoteEvent[P]>
+      : GetScalarType<T[P], AggregateAssistantNoteEvent[P]>
+  }
+
+
+
+
+  export type AssistantNoteEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantNoteEventWhereInput
+    orderBy?: AssistantNoteEventOrderByWithAggregationInput | AssistantNoteEventOrderByWithAggregationInput[]
+    by: AssistantNoteEventScalarFieldEnum[] | AssistantNoteEventScalarFieldEnum
+    having?: AssistantNoteEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssistantNoteEventCountAggregateInputType | true
+    _min?: AssistantNoteEventMinAggregateInputType
+    _max?: AssistantNoteEventMaxAggregateInputType
+  }
+
+  export type AssistantNoteEventGroupByOutputType = {
+    id: string
+    noteId: string
+    type: string
+    detail: string | null
+    source: string
+    createdAt: Date
+    _count: AssistantNoteEventCountAggregateOutputType | null
+    _min: AssistantNoteEventMinAggregateOutputType | null
+    _max: AssistantNoteEventMaxAggregateOutputType | null
+  }
+
+  type GetAssistantNoteEventGroupByPayload<T extends AssistantNoteEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssistantNoteEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssistantNoteEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssistantNoteEventGroupByOutputType[P]>
+            : GetScalarType<T[P], AssistantNoteEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssistantNoteEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    noteId?: boolean
+    type?: boolean
+    detail?: boolean
+    source?: boolean
+    createdAt?: boolean
+    note?: boolean | AssistantNoteDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantNoteEvent"]>
+
+  export type AssistantNoteEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    noteId?: boolean
+    type?: boolean
+    detail?: boolean
+    source?: boolean
+    createdAt?: boolean
+    note?: boolean | AssistantNoteDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantNoteEvent"]>
+
+  export type AssistantNoteEventSelectScalar = {
+    id?: boolean
+    noteId?: boolean
+    type?: boolean
+    detail?: boolean
+    source?: boolean
+    createdAt?: boolean
+  }
+
+  export type AssistantNoteEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    note?: boolean | AssistantNoteDefaultArgs<ExtArgs>
+  }
+  export type AssistantNoteEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    note?: boolean | AssistantNoteDefaultArgs<ExtArgs>
+  }
+
+  export type $AssistantNoteEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssistantNoteEvent"
+    objects: {
+      note: Prisma.$AssistantNotePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      noteId: string
+      type: string
+      detail: string | null
+      source: string
+      createdAt: Date
+    }, ExtArgs["result"]["assistantNoteEvent"]>
+    composites: {}
+  }
+
+  type AssistantNoteEventGetPayload<S extends boolean | null | undefined | AssistantNoteEventDefaultArgs> = $Result.GetResult<Prisma.$AssistantNoteEventPayload, S>
+
+  type AssistantNoteEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssistantNoteEventFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssistantNoteEventCountAggregateInputType | true
+    }
+
+  export interface AssistantNoteEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssistantNoteEvent'], meta: { name: 'AssistantNoteEvent' } }
+    /**
+     * Find zero or one AssistantNoteEvent that matches the filter.
+     * @param {AssistantNoteEventFindUniqueArgs} args - Arguments to find a AssistantNoteEvent
+     * @example
+     * // Get one AssistantNoteEvent
+     * const assistantNoteEvent = await prisma.assistantNoteEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssistantNoteEventFindUniqueArgs>(args: SelectSubset<T, AssistantNoteEventFindUniqueArgs<ExtArgs>>): Prisma__AssistantNoteEventClient<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AssistantNoteEvent that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssistantNoteEventFindUniqueOrThrowArgs} args - Arguments to find a AssistantNoteEvent
+     * @example
+     * // Get one AssistantNoteEvent
+     * const assistantNoteEvent = await prisma.assistantNoteEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssistantNoteEventFindUniqueOrThrowArgs>(args: SelectSubset<T, AssistantNoteEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssistantNoteEventClient<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AssistantNoteEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteEventFindFirstArgs} args - Arguments to find a AssistantNoteEvent
+     * @example
+     * // Get one AssistantNoteEvent
+     * const assistantNoteEvent = await prisma.assistantNoteEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssistantNoteEventFindFirstArgs>(args?: SelectSubset<T, AssistantNoteEventFindFirstArgs<ExtArgs>>): Prisma__AssistantNoteEventClient<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AssistantNoteEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteEventFindFirstOrThrowArgs} args - Arguments to find a AssistantNoteEvent
+     * @example
+     * // Get one AssistantNoteEvent
+     * const assistantNoteEvent = await prisma.assistantNoteEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssistantNoteEventFindFirstOrThrowArgs>(args?: SelectSubset<T, AssistantNoteEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssistantNoteEventClient<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AssistantNoteEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssistantNoteEvents
+     * const assistantNoteEvents = await prisma.assistantNoteEvent.findMany()
+     * 
+     * // Get first 10 AssistantNoteEvents
+     * const assistantNoteEvents = await prisma.assistantNoteEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assistantNoteEventWithIdOnly = await prisma.assistantNoteEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssistantNoteEventFindManyArgs>(args?: SelectSubset<T, AssistantNoteEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AssistantNoteEvent.
+     * @param {AssistantNoteEventCreateArgs} args - Arguments to create a AssistantNoteEvent.
+     * @example
+     * // Create one AssistantNoteEvent
+     * const AssistantNoteEvent = await prisma.assistantNoteEvent.create({
+     *   data: {
+     *     // ... data to create a AssistantNoteEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssistantNoteEventCreateArgs>(args: SelectSubset<T, AssistantNoteEventCreateArgs<ExtArgs>>): Prisma__AssistantNoteEventClient<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AssistantNoteEvents.
+     * @param {AssistantNoteEventCreateManyArgs} args - Arguments to create many AssistantNoteEvents.
+     * @example
+     * // Create many AssistantNoteEvents
+     * const assistantNoteEvent = await prisma.assistantNoteEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssistantNoteEventCreateManyArgs>(args?: SelectSubset<T, AssistantNoteEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssistantNoteEvents and returns the data saved in the database.
+     * @param {AssistantNoteEventCreateManyAndReturnArgs} args - Arguments to create many AssistantNoteEvents.
+     * @example
+     * // Create many AssistantNoteEvents
+     * const assistantNoteEvent = await prisma.assistantNoteEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssistantNoteEvents and only return the `id`
+     * const assistantNoteEventWithIdOnly = await prisma.assistantNoteEvent.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssistantNoteEventCreateManyAndReturnArgs>(args?: SelectSubset<T, AssistantNoteEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AssistantNoteEvent.
+     * @param {AssistantNoteEventDeleteArgs} args - Arguments to delete one AssistantNoteEvent.
+     * @example
+     * // Delete one AssistantNoteEvent
+     * const AssistantNoteEvent = await prisma.assistantNoteEvent.delete({
+     *   where: {
+     *     // ... filter to delete one AssistantNoteEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssistantNoteEventDeleteArgs>(args: SelectSubset<T, AssistantNoteEventDeleteArgs<ExtArgs>>): Prisma__AssistantNoteEventClient<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AssistantNoteEvent.
+     * @param {AssistantNoteEventUpdateArgs} args - Arguments to update one AssistantNoteEvent.
+     * @example
+     * // Update one AssistantNoteEvent
+     * const assistantNoteEvent = await prisma.assistantNoteEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssistantNoteEventUpdateArgs>(args: SelectSubset<T, AssistantNoteEventUpdateArgs<ExtArgs>>): Prisma__AssistantNoteEventClient<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AssistantNoteEvents.
+     * @param {AssistantNoteEventDeleteManyArgs} args - Arguments to filter AssistantNoteEvents to delete.
+     * @example
+     * // Delete a few AssistantNoteEvents
+     * const { count } = await prisma.assistantNoteEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssistantNoteEventDeleteManyArgs>(args?: SelectSubset<T, AssistantNoteEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssistantNoteEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssistantNoteEvents
+     * const assistantNoteEvent = await prisma.assistantNoteEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssistantNoteEventUpdateManyArgs>(args: SelectSubset<T, AssistantNoteEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AssistantNoteEvent.
+     * @param {AssistantNoteEventUpsertArgs} args - Arguments to update or create a AssistantNoteEvent.
+     * @example
+     * // Update or create a AssistantNoteEvent
+     * const assistantNoteEvent = await prisma.assistantNoteEvent.upsert({
+     *   create: {
+     *     // ... data to create a AssistantNoteEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssistantNoteEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssistantNoteEventUpsertArgs>(args: SelectSubset<T, AssistantNoteEventUpsertArgs<ExtArgs>>): Prisma__AssistantNoteEventClient<$Result.GetResult<Prisma.$AssistantNoteEventPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AssistantNoteEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteEventCountArgs} args - Arguments to filter AssistantNoteEvents to count.
+     * @example
+     * // Count the number of AssistantNoteEvents
+     * const count = await prisma.assistantNoteEvent.count({
+     *   where: {
+     *     // ... the filter for the AssistantNoteEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssistantNoteEventCountArgs>(
+      args?: Subset<T, AssistantNoteEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssistantNoteEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssistantNoteEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssistantNoteEventAggregateArgs>(args: Subset<T, AssistantNoteEventAggregateArgs>): Prisma.PrismaPromise<GetAssistantNoteEventAggregateType<T>>
+
+    /**
+     * Group by AssistantNoteEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssistantNoteEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssistantNoteEventGroupByArgs['orderBy'] }
+        : { orderBy?: AssistantNoteEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssistantNoteEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssistantNoteEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssistantNoteEvent model
+   */
+  readonly fields: AssistantNoteEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssistantNoteEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssistantNoteEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    note<T extends AssistantNoteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AssistantNoteDefaultArgs<ExtArgs>>): Prisma__AssistantNoteClient<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssistantNoteEvent model
+   */ 
+  interface AssistantNoteEventFieldRefs {
+    readonly id: FieldRef<"AssistantNoteEvent", 'String'>
+    readonly noteId: FieldRef<"AssistantNoteEvent", 'String'>
+    readonly type: FieldRef<"AssistantNoteEvent", 'String'>
+    readonly detail: FieldRef<"AssistantNoteEvent", 'String'>
+    readonly source: FieldRef<"AssistantNoteEvent", 'String'>
+    readonly createdAt: FieldRef<"AssistantNoteEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssistantNoteEvent findUnique
+   */
+  export type AssistantNoteEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNoteEvent to fetch.
+     */
+    where: AssistantNoteEventWhereUniqueInput
+  }
+
+  /**
+   * AssistantNoteEvent findUniqueOrThrow
+   */
+  export type AssistantNoteEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNoteEvent to fetch.
+     */
+    where: AssistantNoteEventWhereUniqueInput
+  }
+
+  /**
+   * AssistantNoteEvent findFirst
+   */
+  export type AssistantNoteEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNoteEvent to fetch.
+     */
+    where?: AssistantNoteEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantNoteEvents to fetch.
+     */
+    orderBy?: AssistantNoteEventOrderByWithRelationInput | AssistantNoteEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantNoteEvents.
+     */
+    cursor?: AssistantNoteEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantNoteEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantNoteEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantNoteEvents.
+     */
+    distinct?: AssistantNoteEventScalarFieldEnum | AssistantNoteEventScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantNoteEvent findFirstOrThrow
+   */
+  export type AssistantNoteEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNoteEvent to fetch.
+     */
+    where?: AssistantNoteEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantNoteEvents to fetch.
+     */
+    orderBy?: AssistantNoteEventOrderByWithRelationInput | AssistantNoteEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantNoteEvents.
+     */
+    cursor?: AssistantNoteEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantNoteEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantNoteEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantNoteEvents.
+     */
+    distinct?: AssistantNoteEventScalarFieldEnum | AssistantNoteEventScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantNoteEvent findMany
+   */
+  export type AssistantNoteEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNoteEvents to fetch.
+     */
+    where?: AssistantNoteEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantNoteEvents to fetch.
+     */
+    orderBy?: AssistantNoteEventOrderByWithRelationInput | AssistantNoteEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssistantNoteEvents.
+     */
+    cursor?: AssistantNoteEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantNoteEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantNoteEvents.
+     */
+    skip?: number
+    distinct?: AssistantNoteEventScalarFieldEnum | AssistantNoteEventScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantNoteEvent create
+   */
+  export type AssistantNoteEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssistantNoteEvent.
+     */
+    data: XOR<AssistantNoteEventCreateInput, AssistantNoteEventUncheckedCreateInput>
+  }
+
+  /**
+   * AssistantNoteEvent createMany
+   */
+  export type AssistantNoteEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssistantNoteEvents.
+     */
+    data: AssistantNoteEventCreateManyInput | AssistantNoteEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssistantNoteEvent createManyAndReturn
+   */
+  export type AssistantNoteEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AssistantNoteEvents.
+     */
+    data: AssistantNoteEventCreateManyInput | AssistantNoteEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssistantNoteEvent update
+   */
+  export type AssistantNoteEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssistantNoteEvent.
+     */
+    data: XOR<AssistantNoteEventUpdateInput, AssistantNoteEventUncheckedUpdateInput>
+    /**
+     * Choose, which AssistantNoteEvent to update.
+     */
+    where: AssistantNoteEventWhereUniqueInput
+  }
+
+  /**
+   * AssistantNoteEvent updateMany
+   */
+  export type AssistantNoteEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssistantNoteEvents.
+     */
+    data: XOR<AssistantNoteEventUpdateManyMutationInput, AssistantNoteEventUncheckedUpdateManyInput>
+    /**
+     * Filter which AssistantNoteEvents to update
+     */
+    where?: AssistantNoteEventWhereInput
+  }
+
+  /**
+   * AssistantNoteEvent upsert
+   */
+  export type AssistantNoteEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssistantNoteEvent to update in case it exists.
+     */
+    where: AssistantNoteEventWhereUniqueInput
+    /**
+     * In case the AssistantNoteEvent found by the `where` argument doesn't exist, create a new AssistantNoteEvent with this data.
+     */
+    create: XOR<AssistantNoteEventCreateInput, AssistantNoteEventUncheckedCreateInput>
+    /**
+     * In case the AssistantNoteEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssistantNoteEventUpdateInput, AssistantNoteEventUncheckedUpdateInput>
+  }
+
+  /**
+   * AssistantNoteEvent delete
+   */
+  export type AssistantNoteEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
+    /**
+     * Filter which AssistantNoteEvent to delete.
+     */
+    where: AssistantNoteEventWhereUniqueInput
+  }
+
+  /**
+   * AssistantNoteEvent deleteMany
+   */
+  export type AssistantNoteEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantNoteEvents to delete
+     */
+    where?: AssistantNoteEventWhereInput
+  }
+
+  /**
+   * AssistantNoteEvent without action
+   */
+  export type AssistantNoteEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNoteEvent
+     */
+    select?: AssistantNoteEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteEventInclude<ExtArgs> | null
   }
 
 
@@ -153473,11 +154573,24 @@ export namespace Prisma {
     source: 'source',
     clientCompanyId: 'clientCompanyId',
     tags: 'tags',
+    doneNote: 'doneNote',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type AssistantNoteScalarFieldEnum = (typeof AssistantNoteScalarFieldEnum)[keyof typeof AssistantNoteScalarFieldEnum]
+
+
+  export const AssistantNoteEventScalarFieldEnum: {
+    id: 'id',
+    noteId: 'noteId',
+    type: 'type',
+    detail: 'detail',
+    source: 'source',
+    createdAt: 'createdAt'
+  };
+
+  export type AssistantNoteEventScalarFieldEnum = (typeof AssistantNoteEventScalarFieldEnum)[keyof typeof AssistantNoteEventScalarFieldEnum]
 
 
   export const AssistantTurnScalarFieldEnum: {
@@ -156890,9 +158003,11 @@ export namespace Prisma {
     source?: StringFilter<"AssistantNote"> | string
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
+    doneNote?: StringNullableFilter<"AssistantNote"> | string | null
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
+    events?: AssistantNoteEventListRelationFilter
   }
 
   export type AssistantNoteOrderByWithRelationInput = {
@@ -156909,9 +158024,11 @@ export namespace Prisma {
     source?: SortOrder
     clientCompanyId?: SortOrderInput | SortOrder
     tags?: SortOrder
+    doneNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    events?: AssistantNoteEventOrderByRelationAggregateInput
   }
 
   export type AssistantNoteWhereUniqueInput = Prisma.AtLeast<{
@@ -156931,9 +158048,11 @@ export namespace Prisma {
     source?: StringFilter<"AssistantNote"> | string
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
+    doneNote?: StringNullableFilter<"AssistantNote"> | string | null
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
+    events?: AssistantNoteEventListRelationFilter
   }, "id">
 
   export type AssistantNoteOrderByWithAggregationInput = {
@@ -156950,6 +158069,7 @@ export namespace Prisma {
     source?: SortOrder
     clientCompanyId?: SortOrderInput | SortOrder
     tags?: SortOrder
+    doneNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AssistantNoteCountOrderByAggregateInput
@@ -156974,8 +158094,69 @@ export namespace Prisma {
     source?: StringWithAggregatesFilter<"AssistantNote"> | string
     clientCompanyId?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
+    doneNote?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
+  }
+
+  export type AssistantNoteEventWhereInput = {
+    AND?: AssistantNoteEventWhereInput | AssistantNoteEventWhereInput[]
+    OR?: AssistantNoteEventWhereInput[]
+    NOT?: AssistantNoteEventWhereInput | AssistantNoteEventWhereInput[]
+    id?: StringFilter<"AssistantNoteEvent"> | string
+    noteId?: StringFilter<"AssistantNoteEvent"> | string
+    type?: StringFilter<"AssistantNoteEvent"> | string
+    detail?: StringNullableFilter<"AssistantNoteEvent"> | string | null
+    source?: StringFilter<"AssistantNoteEvent"> | string
+    createdAt?: DateTimeFilter<"AssistantNoteEvent"> | Date | string
+    note?: XOR<AssistantNoteRelationFilter, AssistantNoteWhereInput>
+  }
+
+  export type AssistantNoteEventOrderByWithRelationInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    type?: SortOrder
+    detail?: SortOrderInput | SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
+    note?: AssistantNoteOrderByWithRelationInput
+  }
+
+  export type AssistantNoteEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AssistantNoteEventWhereInput | AssistantNoteEventWhereInput[]
+    OR?: AssistantNoteEventWhereInput[]
+    NOT?: AssistantNoteEventWhereInput | AssistantNoteEventWhereInput[]
+    noteId?: StringFilter<"AssistantNoteEvent"> | string
+    type?: StringFilter<"AssistantNoteEvent"> | string
+    detail?: StringNullableFilter<"AssistantNoteEvent"> | string | null
+    source?: StringFilter<"AssistantNoteEvent"> | string
+    createdAt?: DateTimeFilter<"AssistantNoteEvent"> | Date | string
+    note?: XOR<AssistantNoteRelationFilter, AssistantNoteWhereInput>
+  }, "id">
+
+  export type AssistantNoteEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    type?: SortOrder
+    detail?: SortOrderInput | SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
+    _count?: AssistantNoteEventCountOrderByAggregateInput
+    _max?: AssistantNoteEventMaxOrderByAggregateInput
+    _min?: AssistantNoteEventMinOrderByAggregateInput
+  }
+
+  export type AssistantNoteEventScalarWhereWithAggregatesInput = {
+    AND?: AssistantNoteEventScalarWhereWithAggregatesInput | AssistantNoteEventScalarWhereWithAggregatesInput[]
+    OR?: AssistantNoteEventScalarWhereWithAggregatesInput[]
+    NOT?: AssistantNoteEventScalarWhereWithAggregatesInput | AssistantNoteEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AssistantNoteEvent"> | string
+    noteId?: StringWithAggregatesFilter<"AssistantNoteEvent"> | string
+    type?: StringWithAggregatesFilter<"AssistantNoteEvent"> | string
+    detail?: StringNullableWithAggregatesFilter<"AssistantNoteEvent"> | string | null
+    source?: StringWithAggregatesFilter<"AssistantNoteEvent"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AssistantNoteEvent"> | Date | string
   }
 
   export type AssistantTurnWhereInput = {
@@ -169549,9 +170730,11 @@ export namespace Prisma {
     source?: string
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
+    doneNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAssistantNotesInput
+    events?: AssistantNoteEventCreateNestedManyWithoutNoteInput
   }
 
   export type AssistantNoteUncheckedCreateInput = {
@@ -169568,8 +170751,10 @@ export namespace Prisma {
     source?: string
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
+    doneNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    events?: AssistantNoteEventUncheckedCreateNestedManyWithoutNoteInput
   }
 
   export type AssistantNoteUpdateInput = {
@@ -169585,9 +170770,11 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
+    doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAssistantNotesNestedInput
+    events?: AssistantNoteEventUpdateManyWithoutNoteNestedInput
   }
 
   export type AssistantNoteUncheckedUpdateInput = {
@@ -169604,8 +170791,10 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
+    doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: AssistantNoteEventUncheckedUpdateManyWithoutNoteNestedInput
   }
 
   export type AssistantNoteCreateManyInput = {
@@ -169622,6 +170811,7 @@ export namespace Prisma {
     source?: string
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
+    doneNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -169639,6 +170829,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
+    doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -169657,8 +170848,71 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
+    doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantNoteEventCreateInput = {
+    id?: string
+    type: string
+    detail?: string | null
+    source?: string
+    createdAt?: Date | string
+    note: AssistantNoteCreateNestedOneWithoutEventsInput
+  }
+
+  export type AssistantNoteEventUncheckedCreateInput = {
+    id?: string
+    noteId: string
+    type: string
+    detail?: string | null
+    source?: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantNoteEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    note?: AssistantNoteUpdateOneRequiredWithoutEventsNestedInput
+  }
+
+  export type AssistantNoteEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    noteId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantNoteEventCreateManyInput = {
+    id?: string
+    noteId: string
+    type: string
+    detail?: string | null
+    source?: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantNoteEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantNoteEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    noteId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AssistantTurnCreateInput = {
@@ -183893,6 +185147,16 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type AssistantNoteEventListRelationFilter = {
+    every?: AssistantNoteEventWhereInput
+    some?: AssistantNoteEventWhereInput
+    none?: AssistantNoteEventWhereInput
+  }
+
+  export type AssistantNoteEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type AssistantNoteCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -183907,6 +185171,7 @@ export namespace Prisma {
     source?: SortOrder
     clientCompanyId?: SortOrder
     tags?: SortOrder
+    doneNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -183924,6 +185189,7 @@ export namespace Prisma {
     remindedAt?: SortOrder
     source?: SortOrder
     clientCompanyId?: SortOrder
+    doneNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -183941,8 +185207,41 @@ export namespace Prisma {
     remindedAt?: SortOrder
     source?: SortOrder
     clientCompanyId?: SortOrder
+    doneNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type AssistantNoteRelationFilter = {
+    is?: AssistantNoteWhereInput
+    isNot?: AssistantNoteWhereInput
+  }
+
+  export type AssistantNoteEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    type?: SortOrder
+    detail?: SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AssistantNoteEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    type?: SortOrder
+    detail?: SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AssistantNoteEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    type?: SortOrder
+    detail?: SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type AssistantTurnCountOrderByAggregateInput = {
@@ -194501,6 +195800,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type AssistantNoteEventCreateNestedManyWithoutNoteInput = {
+    create?: XOR<AssistantNoteEventCreateWithoutNoteInput, AssistantNoteEventUncheckedCreateWithoutNoteInput> | AssistantNoteEventCreateWithoutNoteInput[] | AssistantNoteEventUncheckedCreateWithoutNoteInput[]
+    connectOrCreate?: AssistantNoteEventCreateOrConnectWithoutNoteInput | AssistantNoteEventCreateOrConnectWithoutNoteInput[]
+    createMany?: AssistantNoteEventCreateManyNoteInputEnvelope
+    connect?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+  }
+
+  export type AssistantNoteEventUncheckedCreateNestedManyWithoutNoteInput = {
+    create?: XOR<AssistantNoteEventCreateWithoutNoteInput, AssistantNoteEventUncheckedCreateWithoutNoteInput> | AssistantNoteEventCreateWithoutNoteInput[] | AssistantNoteEventUncheckedCreateWithoutNoteInput[]
+    connectOrCreate?: AssistantNoteEventCreateOrConnectWithoutNoteInput | AssistantNoteEventCreateOrConnectWithoutNoteInput[]
+    createMany?: AssistantNoteEventCreateManyNoteInputEnvelope
+    connect?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+  }
+
   export type AssistantNoteUpdatetagsInput = {
     set?: string[]
     push?: string | string[]
@@ -194512,6 +195825,48 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAssistantNotesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssistantNotesInput, UserUpdateWithoutAssistantNotesInput>, UserUncheckedUpdateWithoutAssistantNotesInput>
+  }
+
+  export type AssistantNoteEventUpdateManyWithoutNoteNestedInput = {
+    create?: XOR<AssistantNoteEventCreateWithoutNoteInput, AssistantNoteEventUncheckedCreateWithoutNoteInput> | AssistantNoteEventCreateWithoutNoteInput[] | AssistantNoteEventUncheckedCreateWithoutNoteInput[]
+    connectOrCreate?: AssistantNoteEventCreateOrConnectWithoutNoteInput | AssistantNoteEventCreateOrConnectWithoutNoteInput[]
+    upsert?: AssistantNoteEventUpsertWithWhereUniqueWithoutNoteInput | AssistantNoteEventUpsertWithWhereUniqueWithoutNoteInput[]
+    createMany?: AssistantNoteEventCreateManyNoteInputEnvelope
+    set?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+    disconnect?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+    delete?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+    connect?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+    update?: AssistantNoteEventUpdateWithWhereUniqueWithoutNoteInput | AssistantNoteEventUpdateWithWhereUniqueWithoutNoteInput[]
+    updateMany?: AssistantNoteEventUpdateManyWithWhereWithoutNoteInput | AssistantNoteEventUpdateManyWithWhereWithoutNoteInput[]
+    deleteMany?: AssistantNoteEventScalarWhereInput | AssistantNoteEventScalarWhereInput[]
+  }
+
+  export type AssistantNoteEventUncheckedUpdateManyWithoutNoteNestedInput = {
+    create?: XOR<AssistantNoteEventCreateWithoutNoteInput, AssistantNoteEventUncheckedCreateWithoutNoteInput> | AssistantNoteEventCreateWithoutNoteInput[] | AssistantNoteEventUncheckedCreateWithoutNoteInput[]
+    connectOrCreate?: AssistantNoteEventCreateOrConnectWithoutNoteInput | AssistantNoteEventCreateOrConnectWithoutNoteInput[]
+    upsert?: AssistantNoteEventUpsertWithWhereUniqueWithoutNoteInput | AssistantNoteEventUpsertWithWhereUniqueWithoutNoteInput[]
+    createMany?: AssistantNoteEventCreateManyNoteInputEnvelope
+    set?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+    disconnect?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+    delete?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+    connect?: AssistantNoteEventWhereUniqueInput | AssistantNoteEventWhereUniqueInput[]
+    update?: AssistantNoteEventUpdateWithWhereUniqueWithoutNoteInput | AssistantNoteEventUpdateWithWhereUniqueWithoutNoteInput[]
+    updateMany?: AssistantNoteEventUpdateManyWithWhereWithoutNoteInput | AssistantNoteEventUpdateManyWithWhereWithoutNoteInput[]
+    deleteMany?: AssistantNoteEventScalarWhereInput | AssistantNoteEventScalarWhereInput[]
+  }
+
+  export type AssistantNoteCreateNestedOneWithoutEventsInput = {
+    create?: XOR<AssistantNoteCreateWithoutEventsInput, AssistantNoteUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: AssistantNoteCreateOrConnectWithoutEventsInput
+    connect?: AssistantNoteWhereUniqueInput
+  }
+
+  export type AssistantNoteUpdateOneRequiredWithoutEventsNestedInput = {
+    create?: XOR<AssistantNoteCreateWithoutEventsInput, AssistantNoteUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: AssistantNoteCreateOrConnectWithoutEventsInput
+    upsert?: AssistantNoteUpsertWithoutEventsInput
+    connect?: AssistantNoteWhereUniqueInput
+    update?: XOR<XOR<AssistantNoteUpdateToOneWithWhereWithoutEventsInput, AssistantNoteUpdateWithoutEventsInput>, AssistantNoteUncheckedUpdateWithoutEventsInput>
   }
 
   export type UserCreateNestedOneWithoutAssistantTurnsInput = {
@@ -208398,8 +209753,10 @@ export namespace Prisma {
     source?: string
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
+    doneNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    events?: AssistantNoteEventCreateNestedManyWithoutNoteInput
   }
 
   export type AssistantNoteUncheckedCreateWithoutUserInput = {
@@ -208415,8 +209772,10 @@ export namespace Prisma {
     source?: string
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
+    doneNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    events?: AssistantNoteEventUncheckedCreateNestedManyWithoutNoteInput
   }
 
   export type AssistantNoteCreateOrConnectWithoutUserInput = {
@@ -209915,6 +211274,7 @@ export namespace Prisma {
     source?: StringFilter<"AssistantNote"> | string
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
+    doneNote?: StringNullableFilter<"AssistantNote"> | string | null
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
   }
@@ -210104,6 +211464,32 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutAssistantNotesInput, UserUncheckedCreateWithoutAssistantNotesInput>
   }
 
+  export type AssistantNoteEventCreateWithoutNoteInput = {
+    id?: string
+    type: string
+    detail?: string | null
+    source?: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantNoteEventUncheckedCreateWithoutNoteInput = {
+    id?: string
+    type: string
+    detail?: string | null
+    source?: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantNoteEventCreateOrConnectWithoutNoteInput = {
+    where: AssistantNoteEventWhereUniqueInput
+    create: XOR<AssistantNoteEventCreateWithoutNoteInput, AssistantNoteEventUncheckedCreateWithoutNoteInput>
+  }
+
+  export type AssistantNoteEventCreateManyNoteInputEnvelope = {
+    data: AssistantNoteEventCreateManyNoteInput | AssistantNoteEventCreateManyNoteInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutAssistantNotesInput = {
     update: XOR<UserUpdateWithoutAssistantNotesInput, UserUncheckedUpdateWithoutAssistantNotesInput>
     create: XOR<UserCreateWithoutAssistantNotesInput, UserUncheckedCreateWithoutAssistantNotesInput>
@@ -210233,6 +211619,126 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AssistantNoteEventUpsertWithWhereUniqueWithoutNoteInput = {
+    where: AssistantNoteEventWhereUniqueInput
+    update: XOR<AssistantNoteEventUpdateWithoutNoteInput, AssistantNoteEventUncheckedUpdateWithoutNoteInput>
+    create: XOR<AssistantNoteEventCreateWithoutNoteInput, AssistantNoteEventUncheckedCreateWithoutNoteInput>
+  }
+
+  export type AssistantNoteEventUpdateWithWhereUniqueWithoutNoteInput = {
+    where: AssistantNoteEventWhereUniqueInput
+    data: XOR<AssistantNoteEventUpdateWithoutNoteInput, AssistantNoteEventUncheckedUpdateWithoutNoteInput>
+  }
+
+  export type AssistantNoteEventUpdateManyWithWhereWithoutNoteInput = {
+    where: AssistantNoteEventScalarWhereInput
+    data: XOR<AssistantNoteEventUpdateManyMutationInput, AssistantNoteEventUncheckedUpdateManyWithoutNoteInput>
+  }
+
+  export type AssistantNoteEventScalarWhereInput = {
+    AND?: AssistantNoteEventScalarWhereInput | AssistantNoteEventScalarWhereInput[]
+    OR?: AssistantNoteEventScalarWhereInput[]
+    NOT?: AssistantNoteEventScalarWhereInput | AssistantNoteEventScalarWhereInput[]
+    id?: StringFilter<"AssistantNoteEvent"> | string
+    noteId?: StringFilter<"AssistantNoteEvent"> | string
+    type?: StringFilter<"AssistantNoteEvent"> | string
+    detail?: StringNullableFilter<"AssistantNoteEvent"> | string | null
+    source?: StringFilter<"AssistantNoteEvent"> | string
+    createdAt?: DateTimeFilter<"AssistantNoteEvent"> | Date | string
+  }
+
+  export type AssistantNoteCreateWithoutEventsInput = {
+    id?: string
+    companyId?: string | null
+    kind: string
+    title: string
+    body?: string | null
+    dueAt?: Date | string | null
+    done?: boolean
+    doneAt?: Date | string | null
+    remindedAt?: Date | string | null
+    source?: string
+    clientCompanyId?: string | null
+    tags?: AssistantNoteCreatetagsInput | string[]
+    doneNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAssistantNotesInput
+  }
+
+  export type AssistantNoteUncheckedCreateWithoutEventsInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    kind: string
+    title: string
+    body?: string | null
+    dueAt?: Date | string | null
+    done?: boolean
+    doneAt?: Date | string | null
+    remindedAt?: Date | string | null
+    source?: string
+    clientCompanyId?: string | null
+    tags?: AssistantNoteCreatetagsInput | string[]
+    doneNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantNoteCreateOrConnectWithoutEventsInput = {
+    where: AssistantNoteWhereUniqueInput
+    create: XOR<AssistantNoteCreateWithoutEventsInput, AssistantNoteUncheckedCreateWithoutEventsInput>
+  }
+
+  export type AssistantNoteUpsertWithoutEventsInput = {
+    update: XOR<AssistantNoteUpdateWithoutEventsInput, AssistantNoteUncheckedUpdateWithoutEventsInput>
+    create: XOR<AssistantNoteCreateWithoutEventsInput, AssistantNoteUncheckedCreateWithoutEventsInput>
+    where?: AssistantNoteWhereInput
+  }
+
+  export type AssistantNoteUpdateToOneWithWhereWithoutEventsInput = {
+    where?: AssistantNoteWhereInput
+    data: XOR<AssistantNoteUpdateWithoutEventsInput, AssistantNoteUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type AssistantNoteUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: AssistantNoteUpdatetagsInput | string[]
+    doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAssistantNotesNestedInput
+  }
+
+  export type AssistantNoteUncheckedUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: AssistantNoteUpdatetagsInput | string[]
+    doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateWithoutAssistantTurnsInput = {
@@ -293403,6 +294909,7 @@ export namespace Prisma {
     source?: string
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
+    doneNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -295046,8 +296553,10 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
+    doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: AssistantNoteEventUpdateManyWithoutNoteNestedInput
   }
 
   export type AssistantNoteUncheckedUpdateWithoutUserInput = {
@@ -295063,8 +296572,10 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
+    doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: AssistantNoteEventUncheckedUpdateManyWithoutNoteNestedInput
   }
 
   export type AssistantNoteUncheckedUpdateManyWithoutUserInput = {
@@ -295080,6 +296591,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
+    doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -295142,6 +296654,38 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantNoteEventCreateManyNoteInput = {
+    id?: string
+    type: string
+    detail?: string | null
+    source?: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantNoteEventUpdateWithoutNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantNoteEventUncheckedUpdateWithoutNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantNoteEventUncheckedUpdateManyWithoutNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompanyCreateManyParentCompanyInput = {
@@ -306957,6 +308501,10 @@ export namespace Prisma {
      */
     export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use AssistantNoteCountOutputTypeDefaultArgs instead
+     */
+    export type AssistantNoteCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantNoteCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use CompanyCountOutputTypeDefaultArgs instead
      */
     export type CompanyCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyCountOutputTypeDefaultArgs<ExtArgs>
@@ -307104,6 +308652,10 @@ export namespace Prisma {
      * @deprecated Use AssistantNoteDefaultArgs instead
      */
     export type AssistantNoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantNoteDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssistantNoteEventDefaultArgs instead
+     */
+    export type AssistantNoteEventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantNoteEventDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AssistantTurnDefaultArgs instead
      */

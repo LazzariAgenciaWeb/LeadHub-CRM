@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { type ToolDef, ok, fail, parseDate, fmtDateTime, appUrl } from "./types";
+import { logNoteEvent, describeEdit } from "@/lib/personal-assistant/note-events";
 
 /**
  * O "bloquinho": ideias, notas, lembretes e tarefas pessoais (AssistantNote).
@@ -59,6 +60,7 @@ export const criarLembrete: ToolDef<{ title: string; dueAt: string; body?: strin
       data: { userId: ctx.userId, companyId: ctx.companyId, kind: "REMINDER", title: input.title.trim(), body: input.body?.trim() || null, dueAt: due, source: ctx.channel, tags: cleanTags(input.tags) },
       select: { id: true },
     });
+    await logNoteEvent(n.id, "CREATED", ctx.channel);
     return ok(`⏰ Lembrete criado: "${input.title.trim()}" em ${fmtDateTime(due)}`, { data: { id: n.id } });
   },
 };
@@ -80,6 +82,7 @@ export const criarTarefaPessoal: ToolDef<{ title: string; dueAt?: string; body?:
       data: { userId: ctx.userId, companyId: ctx.companyId, kind: "TASK", title: input.title.trim(), body: input.body?.trim() || null, dueAt: due, source: ctx.channel, clientCompanyId: input.clientCompanyId ?? null, tags: cleanTags(input.tags) },
       select: { id: true },
     });
+    await logNoteEvent(n.id, "CREATED", ctx.channel);
     return ok(`☑️ Tarefa pessoal criada: "${input.title.trim()}"${due ? ` · ${fmtDateTime(due)}` : ""}`, { data: { id: n.id } });
   },
 };
@@ -108,11 +111,11 @@ export const listarAnotacoes: ToolDef<{ kind?: Kind; incluirConcluidas?: boolean
       },
       orderBy: [{ done: "asc" }, { dueAt: "asc" }, { createdAt: "desc" }],
       take: 30,
-      select: { id: true, kind: true, title: true, body: true, dueAt: true, done: true, createdAt: true, tags: true },
+      select: { id: true, kind: true, title: true, body: true, dueAt: true, done: true, createdAt: true, tags: true, doneNote: true },
     });
     if (rows.length === 0) return ok("Bloquinho vazio (nada pendente).", { data: [] });
     const lines = rows.map((r) =>
-      `- ${KIND_LABEL[r.kind as Kind] ?? r.kind} ${r.done ? "✅ " : ""}"${r.title}"${r.dueAt ? ` · ${fmtDateTime(r.dueAt)}` : ""}${r.body ? ` — ${r.body.slice(0, 80)}` : ""}${r.tags.length ? ` [${r.tags.join(", ")}]` : ""} · id=${r.id}`
+      `- ${KIND_LABEL[r.kind as Kind] ?? r.kind} ${r.done ? "✅ " : ""}"${r.title}"${r.dueAt ? ` · ${fmtDateTime(r.dueAt)}` : ""}${r.body ? ` — ${r.body.slice(0, 80)}` : ""}${r.tags.length ? ` [${r.tags.join(", ")}]` : ""}${r.done && r.doneNote ? ` (feito: ${r.doneNote.slice(0, 60)})` : ""} · id=${r.id}`
     );
     return ok(lines.join("\n"), { data: rows });
   },
@@ -138,20 +141,37 @@ export const editarItem: ToolDef<{ id: string; title?: string; body?: string; du
     if (input.dueAt === null) data.dueAt = null;
     else if (typeof input.dueAt === "string") { const d = parseDate(input.dueAt); if (!d) return fail("dueAt inválido."); data.dueAt = d; data.remindedAt = null; }
     const u = await prisma.assistantNote.update({ where: { id: n.id }, data, select: { title: true, tags: true } });
+    await logNoteEvent(n.id, "EDITED", ctx.channel, describeEdit(data));
     return ok(`✏️ Atualizado: "${u.title}"${u.tags.length ? ` [${u.tags.join(", ")}]` : ""}`);
   },
 };
 
-export const concluirItem: ToolDef<{ id: string }> = {
+export const concluirItem: ToolDef<{ id: string; resultado?: string }> = {
   name: "concluir_item",
-  description: "Marca como concluído um item do bloquinho (tarefa pessoal, lembrete, nota ou ideia) pelo id.",
+  description: "Marca como concluído um item do bloquinho pelo id. Se o usuário disser o que foi feito ('feito, liguei e ele aprovou'), passe em `resultado` — fica registrado no histórico do item.",
+  input_schema: { type: "object", properties: { id: { type: "string" }, resultado: { type: "string", description: "O que foi feito / como foi resolvido (opcional)" } }, required: ["id"] },
+  mutating: true,
+  run: async ({ id, resultado }, ctx) => {
+    const n = await prisma.assistantNote.findFirst({ where: { id, userId: ctx.userId }, select: { id: true, title: true } });
+    if (!n) return fail("Item não encontrado.");
+    const doneNote = resultado?.trim() || null;
+    await prisma.assistantNote.update({ where: { id }, data: { done: true, doneAt: ctx.now, ...(doneNote ? { doneNote } : {}) } });
+    await logNoteEvent(id, "DONE", ctx.channel, doneNote);
+    return ok(`✅ Concluído: "${n.title}"${doneNote ? ` — ${doneNote}` : ""}`);
+  },
+};
+
+export const reabrirItem: ToolDef<{ id: string }> = {
+  name: "reabrir_item",
+  description: "Reabre um item do bloquinho já concluído (volta pra pendente).",
   input_schema: { type: "object", properties: { id: { type: "string" } }, required: ["id"] },
   mutating: true,
   run: async ({ id }, ctx) => {
     const n = await prisma.assistantNote.findFirst({ where: { id, userId: ctx.userId }, select: { id: true, title: true } });
     if (!n) return fail("Item não encontrado.");
-    await prisma.assistantNote.update({ where: { id }, data: { done: true, doneAt: ctx.now } });
-    return ok(`✅ Concluído: "${n.title}"`);
+    await prisma.assistantNote.update({ where: { id }, data: { done: false, doneAt: null } });
+    await logNoteEvent(id, "REOPENED", ctx.channel);
+    return ok(`↩ Reaberto: "${n.title}"`);
   },
 };
 
@@ -168,4 +188,4 @@ export const excluirItem: ToolDef<{ id: string }> = {
   },
 };
 
-export const notasTools: ToolDef[] = [anotar, criarLembrete, criarTarefaPessoal, listarAnotacoes, editarItem, concluirItem, excluirItem];
+export const notasTools: ToolDef[] = [anotar, criarLembrete, criarTarefaPessoal, listarAnotacoes, editarItem, concluirItem, reabrirItem, excluirItem];

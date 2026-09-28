@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAssistantUser } from "@/lib/personal-assistant/session";
 import { parseTags } from "@/lib/personal-assistant/tags";
+import { logNoteEvent } from "@/lib/personal-assistant/note-events";
 
 /**
  * GET  /api/assistente/notas?kind=&done=1  → bloquinho do usuário
@@ -19,6 +20,7 @@ export async function GET(req: NextRequest) {
     where: { userId: auth.userId, ...(kind && KINDS.has(kind) ? { kind } : {}), ...(includeDone ? {} : { done: false }), ...(tag ? { tags: { has: tag } } : {}) },
     orderBy: [{ done: "asc" }, { dueAt: "asc" }, { createdAt: "desc" }],
     take: 200,
+    include: { events: { orderBy: { createdAt: "asc" }, select: { id: true, type: true, detail: true, source: true, createdAt: true } } },
   });
   return NextResponse.json(rows);
 }
@@ -37,5 +39,6 @@ export async function POST(req: NextRequest) {
   const row = await prisma.assistantNote.create({
     data: { userId: auth.userId, companyId: me?.companyId ?? null, kind, title, body: typeof body?.body === "string" ? body.body.trim() || null : null, dueAt, source: "APP", tags: parseTags(body?.tags) },
   });
+  await logNoteEvent(row.id, "CREATED", "APP");
   return NextResponse.json(row, { status: 201 });
 }

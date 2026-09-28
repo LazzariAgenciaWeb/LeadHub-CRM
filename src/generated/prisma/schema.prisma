@@ -100,25 +100,41 @@ model User {
 // capturadas por texto/áudio (app, WhatsApp ou Claude via MCP). Não é chamado
 // nem tarefa de projeto — é o que antes ficava só na cabeça.
 model AssistantNote {
-  id              String    @id @default(cuid())
+  id              String               @id @default(cuid())
   userId          String
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   companyId       String?
   kind            String // IDEA | NOTE | REMINDER | TASK
   title           String
-  body            String?   @db.Text
+  body            String?              @db.Text
   dueAt           DateTime? // lembrete/tarefa: quando avisar / prazo
-  done            Boolean   @default(false)
+  done            Boolean              @default(false)
   doneAt          DateTime?
   remindedAt      DateTime? // lembrete já disparado (WhatsApp/push)
-  source          String    @default("APP") // APP | WHATSAPP | MCP
+  source          String               @default("APP") // APP | WHATSAPP | MCP
   clientCompanyId String? // opcional: sobre qual cliente é
-  tags            String[]  @default([]) // etiquetas livres: pessoal, financeiro, cliente…
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  tags            String[]             @default([]) // etiquetas livres: pessoal, financeiro, cliente…
+  doneNote        String?              @db.Text // o que foi feito na conclusão (opcional)
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  events          AssistantNoteEvent[]
 
   @@index([userId, kind, done])
   @@index([kind, done, dueAt])
+}
+
+// Histórico do item do bloquinho: quando foi criado, editado, concluído ou
+// reaberto, por qual canal, e o que foi feito na conclusão.
+model AssistantNoteEvent {
+  id        String        @id @default(cuid())
+  noteId    String
+  note      AssistantNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  type      String // CREATED | EDITED | DONE | REOPENED
+  detail    String?       @db.Text
+  source    String        @default("APP") // APP | WHATSAPP | MCP
+  createdAt DateTime      @default(now())
+
+  @@index([noteId, createdAt])
 }
 
 // Histórico da conversa com o assistente pessoal (por canal), pra manter
