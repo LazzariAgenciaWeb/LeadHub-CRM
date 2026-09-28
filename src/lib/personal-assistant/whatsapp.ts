@@ -75,7 +75,13 @@ async function tryPair(text: string, instanceName: string, groupJid: string): Pr
     await safeSend(instanceName, groupJid, `${ASSISTANT_MARK} Essa instância não pertence à sua empresa. Use uma instância da ${user.companyId ? "sua empresa" : "empresa"}.`, inst.instanceToken);
     return true;
   }
-  await prisma.user.update({ where: { id: user.id }, data: { assistantGroupJid: groupJid, assistantInstanceId: inst.id } });
+  // Um grupo pertence a UM usuário: parear de novo com outro login (ex.:
+  // SUPER_ADMIN antes, admin da empresa depois) desfaz o vínculo anterior —
+  // senão o findFirst do dispatcher continua caindo no usuário antigo.
+  await prisma.$transaction([
+    prisma.user.updateMany({ where: { assistantGroupJid: groupJid, id: { not: user.id } }, data: { assistantGroupJid: null, assistantInstanceId: null } }),
+    prisma.user.update({ where: { id: user.id }, data: { assistantGroupJid: groupJid, assistantInstanceId: inst.id } }),
+  ]);
   await safeSend(instanceName, groupJid,
     `${ASSISTANT_MARK} Pronto, ${user.name.split(" ")[0]}! Este grupo agora é o seu assistente pessoal do GoHub.\n\nPode mandar texto ou áudio:\n• "anota: ideia de campanha pro cliente X"\n• "me lembra amanhã 9h de ligar pro Fulano"\n• "abre chamado pra Padaria: revisar banner, quinta 15h"\n• "o que tenho pra hoje?"`,
     inst.instanceToken);
