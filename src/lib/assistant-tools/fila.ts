@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { getCalendarData } from "@/lib/calendar-data";
+import { getCalendarData, resolveContactNames } from "@/lib/calendar-data";
 import { endOfTodayInSystemTZ } from "@/lib/datetime";
 import { type ToolDef, ok, appUrl, fmtDateTime, fmtDate } from "./types";
 
@@ -31,6 +31,22 @@ export interface FilaDoDia {
 
 const STALE_PROJECT_DAYS = 7;
 
+// Links seguem as convenções do resto do app: inbox abre por telefone
+// (`?abrir=`), lead abre na página do SEU pipeline (`?lead=`).
+const PIPELINE_HREF: Record<string, string> = { PROSPECCAO: "/crm/prospeccao", LEADS: "/crm/leads", OPORTUNIDADES: "/crm/oportunidades" };
+function leadHref(l: { id: string; pipeline?: string | null }): string {
+  return appUrl(`${PIPELINE_HREF[l.pipeline ?? ""] ?? "/crm/leads"}?lead=${l.id}`);
+}
+function convHref(phone: string): string {
+  return appUrl(`/whatsapp?abrir=${encodeURIComponent(phone)}`);
+}
+function fmtPhone(p: string): string {
+  const d = p.replace(/\D/g, "");
+  if (d.length === 13 && d.startsWith("55")) return `(${d.slice(2, 4)}) ${d.slice(4, 9)}-${d.slice(9)}`;
+  if (d.length === 12 && d.startsWith("55")) return `(${d.slice(2, 4)}) ${d.slice(4, 8)}-${d.slice(8)}`;
+  return p.includes("@g.us") ? "Grupo" : p;
+}
+
 export async function buildFilaDoDia(params: { userId: string; companyId: string; isManager: boolean }): Promise<FilaDoDia> {
   const { userId, companyId, isManager } = params;
   const now = new Date();
@@ -45,7 +61,7 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
     getCalendarData({ companyId, userId, isManager, userSetorIds }),
     prisma.task.findMany({
       where: { companyId, done: false, dueAt: { lte: todayEnd }, OR: [{ assigneeId: userId }, { assigneeId: null }] },
-      select: { id: true, title: true, dueAt: true, lead: { select: { id: true, name: true, phone: true } } },
+      select: { id: true, title: true, dueAt: true, lead: { select: { id: true, name: true, phone: true, pipeline: true } } },
       orderBy: { dueAt: "asc" }, take: 20,
     }),
     prisma.projectTask.findMany({
@@ -89,17 +105,19 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
     isManager ? prisma.billingSkip.findMany({ where: { month }, select: { clientServiceId: true } }) : Promise.resolve([]),
   ]);
 
+  // Nome do contato: lead → contato da empresa → telefone formatado.
+  const contactNames = await resolveContactNames(cal.unansweredConvs.map((c) => ({ companyId: c.companyId, phone: c.phone })));
   const esperandoPorMim: FilaItem[] = [];
   for (const c of cal.unansweredConvs.slice(0, 10)) {
-    const name = (c as any).leads?.[0]?.name ?? c.phone;
-    esperandoPorMim.push({ id: c.id, kind: "whatsapp", title: `${name} está esperando resposta`, sub: (c as any).lastMessageBody?.slice(0, 60), when: (c as any).lastMessageAt, link: appUrl(`/whatsapp?c=${c.id}`) });
+    const name = (c as any).leads?.[0]?.name ?? contactNames[`${c.companyId}|${c.phone}`] ?? fmtPhone(c.phone);
+    esperandoPorMim.push({ id: c.id, kind: "whatsapp", title: `${name} está esperando resposta`, sub: (c as any).lastMessageBody?.slice(0, 60), when: (c as any).lastMessageAt, link: convHref(c.phone) });
   }
   for (const t of cal.myTickets) {
     esperandoPorMim.push({ id: t.id, kind: "chamado", title: t.title, sub: t.clientCompany?.name ?? (t.type === "INTERNAL" ? "interno" : undefined), when: t.dueDate, overdue: !!t.dueDate && t.dueDate < now, link: appUrl(`/chamados/${t.id}`) });
   }
 
   const hoje: FilaItem[] = [];
-  for (const t of leadTasks) hoje.push({ id: t.id, kind: "tarefa", title: t.title, sub: `Lead ${t.lead.name ?? t.lead.phone}`, when: t.dueAt, overdue: t.dueAt < now, link: appUrl(`/crm/leads?lead=${t.lead.id}`) });
+  for (const t of leadTasks) hoje.push({ id: t.id, kind: "tarefa", title: t.title, sub: `Lead ${t.lead.name ?? fmtPhone(t.lead.phone)}`, when: t.dueAt, overdue: t.dueAt < now, link: leadHref(t.lead) });
   for (const t of projTasks) hoje.push({ id: t.id, kind: "tarefa", title: t.title, sub: `Projeto ${t.project.name}`, when: t.dueDate, overdue: !!t.dueDate && t.dueDate < now, link: appUrl(`/projetos/${t.project.id}`) });
   for (const n of notes) {
     if (!n.dueAt || n.dueAt > todayEnd) continue;
@@ -108,8 +126,8 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
   hoje.sort((a, b) => (a.when?.getTime() ?? 0) - (b.when?.getTime() ?? 0));
 
   const followUps: FilaItem[] = [];
-  for (const l of cal.leadsFollowUp.slice(0, 10)) followUps.push({ id: l.id, kind: "followup", title: `Retornar para ${l.name ?? l.phone}`, when: (l as any).expectedReturnAt, overdue: true, link: appUrl(`/crm/leads?lead=${l.id}`) });
-  for (const l of cal.staleLeads.slice(0, 5)) followUps.push({ id: l.id, kind: "followup", title: `${l.name ?? l.phone} esfriando (sem contato há dias)`, link: appUrl(`/crm/leads?lead=${l.id}`) });
+  for (const l of cal.leadsFollowUp.slice(0, 10)) followUps.push({ id: l.id, kind: "followup", title: `Retornar para ${l.name ?? fmtPhone(l.phone)}`, when: (l as any).expectedReturnAt, overdue: true, link: leadHref(l) });
+  for (const l of cal.staleLeads.slice(0, 5)) followUps.push({ id: l.id, kind: "followup", title: `${l.name ?? fmtPhone(l.phone)} esfriando (sem contato há dias)`, link: leadHref(l) });
 
   const semProximaAcao: FilaItem[] = staleProjects.map((p) => ({
     id: p.id, kind: "projeto_parado", title: p.name, sub: `${p.clientCompany?.name ?? "sem cliente"} · sem tarefa aberta desde ${fmtDate(p.updatedAt)}`, when: p.updatedAt, link: appUrl(`/projetos/${p.id}`),

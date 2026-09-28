@@ -27,10 +27,16 @@ function fmtWhen(iso?: string | null) {
 
 /** Render leve: quebra de linha + links clicáveis + **negrito**. */
 function RichText({ text }: { text: string }) {
-  const parts = text.split(/(https?:\/\/[^\s)]+|\*\*[^*]+\*\*)/g);
+  // [texto](url) · URL solta · **negrito**
+  const parts = text.split(/(\[[^\]]+\]\((?:https?:\/\/|\/)[^)\s]+\)|https?:\/\/[^\s)]+|\*\*[^*]+\*\*)/g);
   return (
     <span className="whitespace-pre-wrap break-words">
       {parts.map((p, i) => {
+        const md = p.match(/^\[([^\]]+)\]\(((?:https?:\/\/|\/)[^)\s]+)\)$/);
+        if (md) {
+          let href = md[2]; try { if (/^https?:/.test(href)) { const u = new URL(href); href = u.pathname + u.search; } } catch {}
+          return <a key={i} href={href} className="text-indigo-300 underline hover:text-indigo-200">{md[1]}</a>;
+        }
         if (/^https?:\/\//.test(p)) {
           let href = p; try { const u = new URL(p); href = u.pathname + u.search; } catch {}
           return <a key={i} href={href} className="text-indigo-300 underline hover:text-indigo-200">{p.replace(/^https?:\/\/[^/]+/, "")}</a>;
