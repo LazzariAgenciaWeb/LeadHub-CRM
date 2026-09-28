@@ -32,11 +32,15 @@ const ALL_MODELS = MODELS.flatMap((g) => g.items);
 export default function OpenAISettings({
   settings,
   spend,
+  canEdit = true,
 }: {
   settings: Record<string, string>;
   spend?: AiSpend;
+  /** Chaves e motor são globais da plataforma: só SUPER_ADMIN grava. */
+  canEdit?: boolean;
 }) {
   const router = useRouter();
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const [apiKey, setApiKey]   = useState(settings.openai_api_key ?? "");
   const [model, setModel]     = useState(settings.openai_model ?? "gpt-4o-mini");
@@ -53,7 +57,8 @@ export default function OpenAISettings({
     e.preventDefault();
     setSaving(true);
     setTestResult(null);
-    await fetch("/api/settings", {
+    setSaveError(null);
+    const res = await fetch("/api/settings", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify([
@@ -66,6 +71,11 @@ export default function OpenAISettings({
       ]),
     });
     setSaving(false);
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setSaveError(res.status === 403 ? "Sem permissão: essas configurações são da plataforma e só o Super Admin altera." : (body.error ?? `Erro ${res.status} ao salvar`));
+      return;
+    }
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
     router.refresh();
@@ -121,6 +131,12 @@ export default function OpenAISettings({
         </div>
 
         <form onSubmit={handleSave} className="p-5 space-y-5">
+          {!canEdit && (
+            <div className="text-xs px-3 py-2 rounded-lg border text-amber-200 bg-amber-500/10 border-amber-500/25">
+              🔒 Somente leitura: chaves e motor de IA são configurações da plataforma. Só o Super Admin (Lazzari) altera.
+            </div>
+          )}
+          <fieldset disabled={!canEdit} className="space-y-5 disabled:opacity-70">
           {/* API Key */}
           <div>
             <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
@@ -254,11 +270,15 @@ export default function OpenAISettings({
 
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || !canEdit}
             className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors"
           >
             {saved ? "✓ Salvo!" : saving ? "Salvando..." : "Salvar configurações"}
           </button>
+          {saveError && (
+            <div className="text-xs px-3 py-2 rounded-lg border text-red-400 bg-red-500/10 border-red-500/20">❌ {saveError}</div>
+          )}
+          </fieldset>
         </form>
       </section>
 

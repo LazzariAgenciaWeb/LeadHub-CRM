@@ -349,7 +349,7 @@ export default async function ConfiguracoesPage({
 
     // Consumo: SUPER_ADMIN vê o global (todas as empresas); ADMIN vê o da sua.
     const spend = await getAiSpend(isSuperAdmin ? null : (userCompanyId ?? null));
-    content = <OpenAISettings settings={settings} spend={spend} />;
+    content = <OpenAISettings settings={settings} spend={spend} canEdit={isSuperAdmin} />;
   } else if (secao === "integracoes-meta") {
     // Meta Conversions API (CAPI) — config por empresa (Pixel + token cifrado).
     const targetCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
