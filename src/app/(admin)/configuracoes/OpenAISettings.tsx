@@ -36,6 +36,8 @@ export default function OpenAISettings({
 
   const [apiKey, setApiKey]   = useState(settings.openai_api_key ?? "");
   const [model, setModel]     = useState(settings.openai_model ?? "gpt-4o-mini");
+  const [anthropicKey, setAnthropicKey]     = useState(settings.anthropic_api_key ?? "");
+  const [anthropicModel, setAnthropicModel] = useState(settings.anthropic_model ?? "claude-opus-5");
   const [saving, setSaving]   = useState(false);
   const [saved, setSaved]     = useState(false);
   const [testing, setTesting] = useState(false);
@@ -51,6 +53,8 @@ export default function OpenAISettings({
       body: JSON.stringify([
         { key: "openai_api_key", value: apiKey },
         { key: "openai_model",   value: model  },
+        { key: "anthropic_api_key", value: anthropicKey },
+        { key: "anthropic_model",   value: anthropicModel },
       ]),
     });
     setSaving(false);
@@ -162,6 +166,40 @@ export default function OpenAISettings({
             {selectedModel && (
               <p className="text-slate-600 text-[10px] mt-1">{selectedModel.desc}</p>
             )}
+          </div>
+
+          {/* Anthropic (Claude) — motor do Assistente pessoal (tool use) */}
+          <div className="pt-4 border-t border-[#1e2d45] space-y-4">
+            <div>
+              <h3 className="text-white font-bold text-sm">✨ Anthropic (Claude) — Assistente pessoal</h3>
+              <p className="text-slate-500 text-xs mt-0.5">
+                O assistente pessoal (chat, grupo do WhatsApp e MCP) usa o Claude pra executar ações no sistema. Chave em{" "}
+                <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">console.anthropic.com</a>.
+                O Whisper (transcrição de áudio) continua usando a chave da OpenAI acima.
+              </p>
+            </div>
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">API Key Anthropic</label>
+              <input
+                type="password"
+                value={anthropicKey}
+                onChange={(e) => setAnthropicKey(e.target.value)}
+                placeholder="sk-ant-••••••••••••••••••••••••••••••••"
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+              />
+            </div>
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Modelo do assistente</label>
+              <select
+                value={anthropicModel}
+                onChange={(e) => setAnthropicModel(e.target.value)}
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 appearance-none cursor-pointer"
+              >
+                <option value="claude-opus-5">Claude Opus 5 — recomendado</option>
+                <option value="claude-sonnet-5">Claude Sonnet 5 — mais barato</option>
+                <option value="claude-haiku-4-5">Claude Haiku 4.5 — mais rápido</option>
+              </select>
+            </div>
           </div>
 
           <button

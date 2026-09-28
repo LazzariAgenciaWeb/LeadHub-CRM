@@ -77,7 +77,80 @@ model User {
   ownedInstances       WhatsappInstance[]   @relation("InstanceOwner")
   uploadedFiles        StorageObject[]      @relation("StorageObjectUploader")
 
+  // ── Assistente pessoal (IA) ──────────────────────────────────────────────
+  // Grupo do WhatsApp (JID @g.us) onde só o usuário está e conversa com o
+  // assistente. Vinculado por código de pareamento enviado no próprio grupo.
+  assistantGroupJid   String?
+  assistantInstanceId String?
+  // Token pessoal pra conectar o Claude (MCP). Guardamos só o hash sha256 —
+  // o token em texto puro é exibido uma única vez ao gerar.
+  mcpTokenHash        String?                  @unique
+  mcpTokenCreatedAt   DateTime?
+  mcpTokenLastUsedAt  DateTime?
+  assistantNotes      AssistantNote[]
+  assistantTurns      AssistantTurn[]
+  assistantPending    AssistantPendingAction[]
+
   @@index([companyId])
+  @@index([assistantGroupJid])
+}
+
+// ── Assistente pessoal ───────────────────────────────────────────────────────
+// "Bloquinho" do usuário: ideias, notas, lembretes e tarefas pessoais rápidas
+// capturadas por texto/áudio (app, WhatsApp ou Claude via MCP). Não é chamado
+// nem tarefa de projeto — é o que antes ficava só na cabeça.
+model AssistantNote {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId       String?
+  kind            String // IDEA | NOTE | REMINDER | TASK
+  title           String
+  body            String?   @db.Text
+  dueAt           DateTime? // lembrete/tarefa: quando avisar / prazo
+  done            Boolean   @default(false)
+  doneAt          DateTime?
+  remindedAt      DateTime? // lembrete já disparado (WhatsApp/push)
+  source          String    @default("APP") // APP | WHATSAPP | MCP
+  clientCompanyId String? // opcional: sobre qual cliente é
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([userId, kind, done])
+  @@index([kind, done, dueAt])
+}
+
+// Histórico da conversa com o assistente pessoal (por canal), pra manter
+// contexto entre mensagens. Só texto — tool calls não são persistidos.
+model AssistantTurn {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channel   String // APP | WHATSAPP | MCP
+  role      String // user | assistant
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([userId, channel, createdAt])
+}
+
+// Ação que exige confirmação explícita (ex.: lançar cobrança). O assistente
+// guarda a intenção aqui e só executa quando o usuário confirma ("sim" no
+// WhatsApp ou botão no app).
+model AssistantPendingAction {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channel    String
+  tool       String
+  input      Json
+  summary    String
+  status     String    @default("PENDING") // PENDING | CONFIRMED | CANCELED | EXPIRED
+  expiresAt  DateTime
+  createdAt  DateTime  @default(now())
+  resolvedAt DateTime?
+
+  @@index([userId, status])
 }
 
 // Respostas rápidas (atalhos de mensagem padrão) do WhatsApp — estilo

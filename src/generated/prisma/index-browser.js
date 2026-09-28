@@ -136,7 +136,51 @@ exports.Prisma.UserScalarFieldEnum = {
   whatsappSignatureDefault: 'whatsappSignatureDefault',
   companyId: 'companyId',
   rankingCategory: 'rankingCategory',
-  lastBadgeSeenAt: 'lastBadgeSeenAt'
+  lastBadgeSeenAt: 'lastBadgeSeenAt',
+  assistantGroupJid: 'assistantGroupJid',
+  assistantInstanceId: 'assistantInstanceId',
+  mcpTokenHash: 'mcpTokenHash',
+  mcpTokenCreatedAt: 'mcpTokenCreatedAt',
+  mcpTokenLastUsedAt: 'mcpTokenLastUsedAt'
+};
+
+exports.Prisma.AssistantNoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  kind: 'kind',
+  title: 'title',
+  body: 'body',
+  dueAt: 'dueAt',
+  done: 'done',
+  doneAt: 'doneAt',
+  remindedAt: 'remindedAt',
+  source: 'source',
+  clientCompanyId: 'clientCompanyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssistantTurnScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  channel: 'channel',
+  role: 'role',
+  content: 'content',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AssistantPendingActionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  channel: 'channel',
+  tool: 'tool',
+  input: 'input',
+  summary: 'summary',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  resolvedAt: 'resolvedAt'
 };
 
 exports.Prisma.QuickReplyScalarFieldEnum = {
@@ -2002,12 +2046,12 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -2466,6 +2510,9 @@ exports.PunchAdjustStatus = exports.$Enums.PunchAdjustStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  AssistantNote: 'AssistantNote',
+  AssistantTurn: 'AssistantTurn',
+  AssistantPendingAction: 'AssistantPendingAction',
   QuickReply: 'QuickReply',
   VaultEmailChallenge: 'VaultEmailChallenge',
   VaultTrustedSession: 'VaultTrustedSession',

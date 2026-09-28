@@ -201,7 +201,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
         { href: "/instagram/inbox", Icon: Camera,        label: "Inbox Social", grad: "marketing", lockModule: "instagram", perm: _isAdmin },
         { href: "/emails",          Icon: Mail,          label: "E-mail",       grad: "email",     lockModule: "emailInbox", perm: can(session, "canViewEmail") },
         { href: "/chamados",        Icon: LifeBuoy,      label: "Chamados",     grad: "chamados",  lockModule: "tickets",   perm: can(session, "canViewTickets") },
-        { href: "/assistente",      Icon: Sparkles,      label: "Assistente IA", grad: "ai",       lockModule: "ai",        perm: can(session, "canUseAI") },
+        { href: "/assistente/atendimento", Icon: Sparkles, label: "Análise IA",  grad: "ai",       lockModule: "ai",        perm: can(session, "canUseAI") },
       ],
     },
     {
@@ -330,6 +330,24 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
           >
             <Home className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke("dashboard")} />
             Visão Geral
+          </Link>
+        )}
+
+        {/* Assistente pessoal — link fixo, transversal como a Visão Geral:
+            a Visão Geral mostra o que está acontecendo; o Assistente diz o
+            que fazer (e faz). Gate: módulo IA + canUseAI (SUPER_ADMIN sempre). */}
+        {(_isSuperAdmin || (hasModule(session, "ai") && can(session, "canUseAI"))) && (
+          <Link
+            href="/assistente"
+            className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${
+              isActive("/assistente") && !isActive("/assistente/atendimento")
+                ? "bg-fuchsia-500/15 text-white border-l-2 border-fuchsia-500"
+                : "text-slate-400 hover:bg-[#161f30] hover:text-white"
+            }`}
+          >
+            <Sparkles className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke("ai")} />
+            Assistente
+            <span className="ml-auto text-[9px] font-bold uppercase tracking-wider text-fuchsia-300/80 bg-fuchsia-500/10 border border-fuchsia-500/20 rounded px-1.5 py-0.5">IA</span>
           </Link>
         )}
 

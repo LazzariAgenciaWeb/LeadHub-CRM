@@ -19,6 +19,21 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model AssistantNote
+ * 
+ */
+export type AssistantNote = $Result.DefaultSelection<Prisma.$AssistantNotePayload>
+/**
+ * Model AssistantTurn
+ * 
+ */
+export type AssistantTurn = $Result.DefaultSelection<Prisma.$AssistantTurnPayload>
+/**
+ * Model AssistantPendingAction
+ * 
+ */
+export type AssistantPendingAction = $Result.DefaultSelection<Prisma.$AssistantPendingActionPayload>
+/**
  * Model QuickReply
  * 
  */
@@ -1580,6 +1595,36 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs>;
+
+  /**
+   * `prisma.assistantNote`: Exposes CRUD operations for the **AssistantNote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssistantNotes
+    * const assistantNotes = await prisma.assistantNote.findMany()
+    * ```
+    */
+  get assistantNote(): Prisma.AssistantNoteDelegate<ExtArgs>;
+
+  /**
+   * `prisma.assistantTurn`: Exposes CRUD operations for the **AssistantTurn** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssistantTurns
+    * const assistantTurns = await prisma.assistantTurn.findMany()
+    * ```
+    */
+  get assistantTurn(): Prisma.AssistantTurnDelegate<ExtArgs>;
+
+  /**
+   * `prisma.assistantPendingAction`: Exposes CRUD operations for the **AssistantPendingAction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssistantPendingActions
+    * const assistantPendingActions = await prisma.assistantPendingAction.findMany()
+    * ```
+    */
+  get assistantPendingAction(): Prisma.AssistantPendingActionDelegate<ExtArgs>;
 
   /**
    * `prisma.quickReply`: Exposes CRUD operations for the **QuickReply** model.
@@ -3252,6 +3297,9 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    AssistantNote: 'AssistantNote',
+    AssistantTurn: 'AssistantTurn',
+    AssistantPendingAction: 'AssistantPendingAction',
     QuickReply: 'QuickReply',
     VaultEmailChallenge: 'VaultEmailChallenge',
     VaultTrustedSession: 'VaultTrustedSession',
@@ -3390,7 +3438,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem"
+      modelProps: "user" | "assistantNote" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3461,6 +3509,216 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      AssistantNote: {
+        payload: Prisma.$AssistantNotePayload<ExtArgs>
+        fields: Prisma.AssistantNoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssistantNoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssistantNoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload>
+          }
+          findFirst: {
+            args: Prisma.AssistantNoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssistantNoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload>
+          }
+          findMany: {
+            args: Prisma.AssistantNoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload>[]
+          }
+          create: {
+            args: Prisma.AssistantNoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload>
+          }
+          createMany: {
+            args: Prisma.AssistantNoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssistantNoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload>[]
+          }
+          delete: {
+            args: Prisma.AssistantNoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload>
+          }
+          update: {
+            args: Prisma.AssistantNoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload>
+          }
+          deleteMany: {
+            args: Prisma.AssistantNoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssistantNoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssistantNoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantNotePayload>
+          }
+          aggregate: {
+            args: Prisma.AssistantNoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssistantNote>
+          }
+          groupBy: {
+            args: Prisma.AssistantNoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssistantNoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssistantNoteCountArgs<ExtArgs>
+            result: $Utils.Optional<AssistantNoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      AssistantTurn: {
+        payload: Prisma.$AssistantTurnPayload<ExtArgs>
+        fields: Prisma.AssistantTurnFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssistantTurnFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssistantTurnFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload>
+          }
+          findFirst: {
+            args: Prisma.AssistantTurnFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssistantTurnFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload>
+          }
+          findMany: {
+            args: Prisma.AssistantTurnFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload>[]
+          }
+          create: {
+            args: Prisma.AssistantTurnCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload>
+          }
+          createMany: {
+            args: Prisma.AssistantTurnCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssistantTurnCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload>[]
+          }
+          delete: {
+            args: Prisma.AssistantTurnDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload>
+          }
+          update: {
+            args: Prisma.AssistantTurnUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssistantTurnDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssistantTurnUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssistantTurnUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantTurnPayload>
+          }
+          aggregate: {
+            args: Prisma.AssistantTurnAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssistantTurn>
+          }
+          groupBy: {
+            args: Prisma.AssistantTurnGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssistantTurnGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssistantTurnCountArgs<ExtArgs>
+            result: $Utils.Optional<AssistantTurnCountAggregateOutputType> | number
+          }
+        }
+      }
+      AssistantPendingAction: {
+        payload: Prisma.$AssistantPendingActionPayload<ExtArgs>
+        fields: Prisma.AssistantPendingActionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssistantPendingActionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssistantPendingActionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload>
+          }
+          findFirst: {
+            args: Prisma.AssistantPendingActionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssistantPendingActionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload>
+          }
+          findMany: {
+            args: Prisma.AssistantPendingActionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload>[]
+          }
+          create: {
+            args: Prisma.AssistantPendingActionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload>
+          }
+          createMany: {
+            args: Prisma.AssistantPendingActionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssistantPendingActionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload>[]
+          }
+          delete: {
+            args: Prisma.AssistantPendingActionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload>
+          }
+          update: {
+            args: Prisma.AssistantPendingActionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssistantPendingActionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssistantPendingActionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssistantPendingActionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPendingActionPayload>
+          }
+          aggregate: {
+            args: Prisma.AssistantPendingActionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssistantPendingAction>
+          }
+          groupBy: {
+            args: Prisma.AssistantPendingActionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssistantPendingActionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssistantPendingActionCountArgs<ExtArgs>
+            result: $Utils.Optional<AssistantPendingActionCountAggregateOutputType> | number
           }
         }
       }
@@ -12269,6 +12527,9 @@ export namespace Prisma {
     timesheetSignatures: number
     ownedInstances: number
     uploadedFiles: number
+    assistantNotes: number
+    assistantTurns: number
+    assistantPending: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12306,6 +12567,9 @@ export namespace Prisma {
     timesheetSignatures?: boolean | UserCountOutputTypeCountTimesheetSignaturesArgs
     ownedInstances?: boolean | UserCountOutputTypeCountOwnedInstancesArgs
     uploadedFiles?: boolean | UserCountOutputTypeCountUploadedFilesArgs
+    assistantNotes?: boolean | UserCountOutputTypeCountAssistantNotesArgs
+    assistantTurns?: boolean | UserCountOutputTypeCountAssistantTurnsArgs
+    assistantPending?: boolean | UserCountOutputTypeCountAssistantPendingArgs
   }
 
   // Custom InputTypes
@@ -12555,6 +12819,27 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountUploadedFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StorageObjectWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAssistantNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantNoteWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAssistantTurnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantTurnWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAssistantPendingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantPendingActionWhereInput
   }
 
 
@@ -14887,6 +15172,11 @@ export namespace Prisma {
     companyId: string | null
     rankingCategory: $Enums.RankingCategory | null
     lastBadgeSeenAt: Date | null
+    assistantGroupJid: string | null
+    assistantInstanceId: string | null
+    mcpTokenHash: string | null
+    mcpTokenCreatedAt: Date | null
+    mcpTokenLastUsedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -14904,6 +15194,11 @@ export namespace Prisma {
     companyId: string | null
     rankingCategory: $Enums.RankingCategory | null
     lastBadgeSeenAt: Date | null
+    assistantGroupJid: string | null
+    assistantInstanceId: string | null
+    mcpTokenHash: string | null
+    mcpTokenCreatedAt: Date | null
+    mcpTokenLastUsedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -14921,6 +15216,11 @@ export namespace Prisma {
     companyId: number
     rankingCategory: number
     lastBadgeSeenAt: number
+    assistantGroupJid: number
+    assistantInstanceId: number
+    mcpTokenHash: number
+    mcpTokenCreatedAt: number
+    mcpTokenLastUsedAt: number
     _all: number
   }
 
@@ -14940,6 +15240,11 @@ export namespace Prisma {
     companyId?: true
     rankingCategory?: true
     lastBadgeSeenAt?: true
+    assistantGroupJid?: true
+    assistantInstanceId?: true
+    mcpTokenHash?: true
+    mcpTokenCreatedAt?: true
+    mcpTokenLastUsedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -14957,6 +15262,11 @@ export namespace Prisma {
     companyId?: true
     rankingCategory?: true
     lastBadgeSeenAt?: true
+    assistantGroupJid?: true
+    assistantInstanceId?: true
+    mcpTokenHash?: true
+    mcpTokenCreatedAt?: true
+    mcpTokenLastUsedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -14974,6 +15284,11 @@ export namespace Prisma {
     companyId?: true
     rankingCategory?: true
     lastBadgeSeenAt?: true
+    assistantGroupJid?: true
+    assistantInstanceId?: true
+    mcpTokenHash?: true
+    mcpTokenCreatedAt?: true
+    mcpTokenLastUsedAt?: true
     _all?: true
   }
 
@@ -15064,6 +15379,11 @@ export namespace Prisma {
     companyId: string | null
     rankingCategory: $Enums.RankingCategory
     lastBadgeSeenAt: Date | null
+    assistantGroupJid: string | null
+    assistantInstanceId: string | null
+    mcpTokenHash: string | null
+    mcpTokenCreatedAt: Date | null
+    mcpTokenLastUsedAt: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -15098,6 +15418,11 @@ export namespace Prisma {
     companyId?: boolean
     rankingCategory?: boolean
     lastBadgeSeenAt?: boolean
+    assistantGroupJid?: boolean
+    assistantInstanceId?: boolean
+    mcpTokenHash?: boolean
+    mcpTokenCreatedAt?: boolean
+    mcpTokenLastUsedAt?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
     ticketsAssigned?: boolean | User$ticketsAssignedArgs<ExtArgs>
@@ -15135,6 +15460,9 @@ export namespace Prisma {
     timesheetSignatures?: boolean | User$timesheetSignaturesArgs<ExtArgs>
     ownedInstances?: boolean | User$ownedInstancesArgs<ExtArgs>
     uploadedFiles?: boolean | User$uploadedFilesArgs<ExtArgs>
+    assistantNotes?: boolean | User$assistantNotesArgs<ExtArgs>
+    assistantTurns?: boolean | User$assistantTurnsArgs<ExtArgs>
+    assistantPending?: boolean | User$assistantPendingArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -15153,6 +15481,11 @@ export namespace Prisma {
     companyId?: boolean
     rankingCategory?: boolean
     lastBadgeSeenAt?: boolean
+    assistantGroupJid?: boolean
+    assistantInstanceId?: boolean
+    mcpTokenHash?: boolean
+    mcpTokenCreatedAt?: boolean
+    mcpTokenLastUsedAt?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -15171,6 +15504,11 @@ export namespace Prisma {
     companyId?: boolean
     rankingCategory?: boolean
     lastBadgeSeenAt?: boolean
+    assistantGroupJid?: boolean
+    assistantInstanceId?: boolean
+    mcpTokenHash?: boolean
+    mcpTokenCreatedAt?: boolean
+    mcpTokenLastUsedAt?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15211,6 +15549,9 @@ export namespace Prisma {
     timesheetSignatures?: boolean | User$timesheetSignaturesArgs<ExtArgs>
     ownedInstances?: boolean | User$ownedInstancesArgs<ExtArgs>
     uploadedFiles?: boolean | User$uploadedFilesArgs<ExtArgs>
+    assistantNotes?: boolean | User$assistantNotesArgs<ExtArgs>
+    assistantTurns?: boolean | User$assistantTurnsArgs<ExtArgs>
+    assistantPending?: boolean | User$assistantPendingArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15257,6 +15598,9 @@ export namespace Prisma {
       timesheetSignatures: Prisma.$TimesheetSignaturePayload<ExtArgs>[]
       ownedInstances: Prisma.$WhatsappInstancePayload<ExtArgs>[]
       uploadedFiles: Prisma.$StorageObjectPayload<ExtArgs>[]
+      assistantNotes: Prisma.$AssistantNotePayload<ExtArgs>[]
+      assistantTurns: Prisma.$AssistantTurnPayload<ExtArgs>[]
+      assistantPending: Prisma.$AssistantPendingActionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15273,6 +15617,11 @@ export namespace Prisma {
       companyId: string | null
       rankingCategory: $Enums.RankingCategory
       lastBadgeSeenAt: Date | null
+      assistantGroupJid: string | null
+      assistantInstanceId: string | null
+      mcpTokenHash: string | null
+      mcpTokenCreatedAt: Date | null
+      mcpTokenLastUsedAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -15674,6 +16023,9 @@ export namespace Prisma {
     timesheetSignatures<T extends User$timesheetSignaturesArgs<ExtArgs> = {}>(args?: Subset<T, User$timesheetSignaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetSignaturePayload<ExtArgs>, T, "findMany"> | Null>
     ownedInstances<T extends User$ownedInstancesArgs<ExtArgs> = {}>(args?: Subset<T, User$ownedInstancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findMany"> | Null>
     uploadedFiles<T extends User$uploadedFilesArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedFilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany"> | Null>
+    assistantNotes<T extends User$assistantNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "findMany"> | Null>
+    assistantTurns<T extends User$assistantTurnsArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantTurnsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "findMany"> | Null>
+    assistantPending<T extends User$assistantPendingArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantPendingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15717,6 +16069,11 @@ export namespace Prisma {
     readonly companyId: FieldRef<"User", 'String'>
     readonly rankingCategory: FieldRef<"User", 'RankingCategory'>
     readonly lastBadgeSeenAt: FieldRef<"User", 'DateTime'>
+    readonly assistantGroupJid: FieldRef<"User", 'String'>
+    readonly assistantInstanceId: FieldRef<"User", 'String'>
+    readonly mcpTokenHash: FieldRef<"User", 'String'>
+    readonly mcpTokenCreatedAt: FieldRef<"User", 'DateTime'>
+    readonly mcpTokenLastUsedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -16760,6 +17117,66 @@ export namespace Prisma {
   }
 
   /**
+   * User.assistantNotes
+   */
+  export type User$assistantNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    where?: AssistantNoteWhereInput
+    orderBy?: AssistantNoteOrderByWithRelationInput | AssistantNoteOrderByWithRelationInput[]
+    cursor?: AssistantNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantNoteScalarFieldEnum | AssistantNoteScalarFieldEnum[]
+  }
+
+  /**
+   * User.assistantTurns
+   */
+  export type User$assistantTurnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    where?: AssistantTurnWhereInput
+    orderBy?: AssistantTurnOrderByWithRelationInput | AssistantTurnOrderByWithRelationInput[]
+    cursor?: AssistantTurnWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantTurnScalarFieldEnum | AssistantTurnScalarFieldEnum[]
+  }
+
+  /**
+   * User.assistantPending
+   */
+  export type User$assistantPendingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    where?: AssistantPendingActionWhereInput
+    orderBy?: AssistantPendingActionOrderByWithRelationInput | AssistantPendingActionOrderByWithRelationInput[]
+    cursor?: AssistantPendingActionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantPendingActionScalarFieldEnum | AssistantPendingActionScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16771,6 +17188,2981 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssistantNote
+   */
+
+  export type AggregateAssistantNote = {
+    _count: AssistantNoteCountAggregateOutputType | null
+    _min: AssistantNoteMinAggregateOutputType | null
+    _max: AssistantNoteMaxAggregateOutputType | null
+  }
+
+  export type AssistantNoteMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    kind: string | null
+    title: string | null
+    body: string | null
+    dueAt: Date | null
+    done: boolean | null
+    doneAt: Date | null
+    remindedAt: Date | null
+    source: string | null
+    clientCompanyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssistantNoteMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    kind: string | null
+    title: string | null
+    body: string | null
+    dueAt: Date | null
+    done: boolean | null
+    doneAt: Date | null
+    remindedAt: Date | null
+    source: string | null
+    clientCompanyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssistantNoteCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    kind: number
+    title: number
+    body: number
+    dueAt: number
+    done: number
+    doneAt: number
+    remindedAt: number
+    source: number
+    clientCompanyId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AssistantNoteMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    kind?: true
+    title?: true
+    body?: true
+    dueAt?: true
+    done?: true
+    doneAt?: true
+    remindedAt?: true
+    source?: true
+    clientCompanyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssistantNoteMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    kind?: true
+    title?: true
+    body?: true
+    dueAt?: true
+    done?: true
+    doneAt?: true
+    remindedAt?: true
+    source?: true
+    clientCompanyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssistantNoteCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    kind?: true
+    title?: true
+    body?: true
+    dueAt?: true
+    done?: true
+    doneAt?: true
+    remindedAt?: true
+    source?: true
+    clientCompanyId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AssistantNoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantNote to aggregate.
+     */
+    where?: AssistantNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantNotes to fetch.
+     */
+    orderBy?: AssistantNoteOrderByWithRelationInput | AssistantNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssistantNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssistantNotes
+    **/
+    _count?: true | AssistantNoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssistantNoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssistantNoteMaxAggregateInputType
+  }
+
+  export type GetAssistantNoteAggregateType<T extends AssistantNoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssistantNote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssistantNote[P]>
+      : GetScalarType<T[P], AggregateAssistantNote[P]>
+  }
+
+
+
+
+  export type AssistantNoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantNoteWhereInput
+    orderBy?: AssistantNoteOrderByWithAggregationInput | AssistantNoteOrderByWithAggregationInput[]
+    by: AssistantNoteScalarFieldEnum[] | AssistantNoteScalarFieldEnum
+    having?: AssistantNoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssistantNoteCountAggregateInputType | true
+    _min?: AssistantNoteMinAggregateInputType
+    _max?: AssistantNoteMaxAggregateInputType
+  }
+
+  export type AssistantNoteGroupByOutputType = {
+    id: string
+    userId: string
+    companyId: string | null
+    kind: string
+    title: string
+    body: string | null
+    dueAt: Date | null
+    done: boolean
+    doneAt: Date | null
+    remindedAt: Date | null
+    source: string
+    clientCompanyId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AssistantNoteCountAggregateOutputType | null
+    _min: AssistantNoteMinAggregateOutputType | null
+    _max: AssistantNoteMaxAggregateOutputType | null
+  }
+
+  type GetAssistantNoteGroupByPayload<T extends AssistantNoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssistantNoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssistantNoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssistantNoteGroupByOutputType[P]>
+            : GetScalarType<T[P], AssistantNoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssistantNoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    kind?: boolean
+    title?: boolean
+    body?: boolean
+    dueAt?: boolean
+    done?: boolean
+    doneAt?: boolean
+    remindedAt?: boolean
+    source?: boolean
+    clientCompanyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantNote"]>
+
+  export type AssistantNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    kind?: boolean
+    title?: boolean
+    body?: boolean
+    dueAt?: boolean
+    done?: boolean
+    doneAt?: boolean
+    remindedAt?: boolean
+    source?: boolean
+    clientCompanyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantNote"]>
+
+  export type AssistantNoteSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    kind?: boolean
+    title?: boolean
+    body?: boolean
+    dueAt?: boolean
+    done?: boolean
+    doneAt?: boolean
+    remindedAt?: boolean
+    source?: boolean
+    clientCompanyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AssistantNoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AssistantNoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AssistantNotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssistantNote"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      companyId: string | null
+      kind: string
+      title: string
+      body: string | null
+      dueAt: Date | null
+      done: boolean
+      doneAt: Date | null
+      remindedAt: Date | null
+      source: string
+      clientCompanyId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["assistantNote"]>
+    composites: {}
+  }
+
+  type AssistantNoteGetPayload<S extends boolean | null | undefined | AssistantNoteDefaultArgs> = $Result.GetResult<Prisma.$AssistantNotePayload, S>
+
+  type AssistantNoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssistantNoteFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssistantNoteCountAggregateInputType | true
+    }
+
+  export interface AssistantNoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssistantNote'], meta: { name: 'AssistantNote' } }
+    /**
+     * Find zero or one AssistantNote that matches the filter.
+     * @param {AssistantNoteFindUniqueArgs} args - Arguments to find a AssistantNote
+     * @example
+     * // Get one AssistantNote
+     * const assistantNote = await prisma.assistantNote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssistantNoteFindUniqueArgs>(args: SelectSubset<T, AssistantNoteFindUniqueArgs<ExtArgs>>): Prisma__AssistantNoteClient<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AssistantNote that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssistantNoteFindUniqueOrThrowArgs} args - Arguments to find a AssistantNote
+     * @example
+     * // Get one AssistantNote
+     * const assistantNote = await prisma.assistantNote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssistantNoteFindUniqueOrThrowArgs>(args: SelectSubset<T, AssistantNoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssistantNoteClient<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AssistantNote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteFindFirstArgs} args - Arguments to find a AssistantNote
+     * @example
+     * // Get one AssistantNote
+     * const assistantNote = await prisma.assistantNote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssistantNoteFindFirstArgs>(args?: SelectSubset<T, AssistantNoteFindFirstArgs<ExtArgs>>): Prisma__AssistantNoteClient<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AssistantNote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteFindFirstOrThrowArgs} args - Arguments to find a AssistantNote
+     * @example
+     * // Get one AssistantNote
+     * const assistantNote = await prisma.assistantNote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssistantNoteFindFirstOrThrowArgs>(args?: SelectSubset<T, AssistantNoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssistantNoteClient<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AssistantNotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssistantNotes
+     * const assistantNotes = await prisma.assistantNote.findMany()
+     * 
+     * // Get first 10 AssistantNotes
+     * const assistantNotes = await prisma.assistantNote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assistantNoteWithIdOnly = await prisma.assistantNote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssistantNoteFindManyArgs>(args?: SelectSubset<T, AssistantNoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AssistantNote.
+     * @param {AssistantNoteCreateArgs} args - Arguments to create a AssistantNote.
+     * @example
+     * // Create one AssistantNote
+     * const AssistantNote = await prisma.assistantNote.create({
+     *   data: {
+     *     // ... data to create a AssistantNote
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssistantNoteCreateArgs>(args: SelectSubset<T, AssistantNoteCreateArgs<ExtArgs>>): Prisma__AssistantNoteClient<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AssistantNotes.
+     * @param {AssistantNoteCreateManyArgs} args - Arguments to create many AssistantNotes.
+     * @example
+     * // Create many AssistantNotes
+     * const assistantNote = await prisma.assistantNote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssistantNoteCreateManyArgs>(args?: SelectSubset<T, AssistantNoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssistantNotes and returns the data saved in the database.
+     * @param {AssistantNoteCreateManyAndReturnArgs} args - Arguments to create many AssistantNotes.
+     * @example
+     * // Create many AssistantNotes
+     * const assistantNote = await prisma.assistantNote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssistantNotes and only return the `id`
+     * const assistantNoteWithIdOnly = await prisma.assistantNote.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssistantNoteCreateManyAndReturnArgs>(args?: SelectSubset<T, AssistantNoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AssistantNote.
+     * @param {AssistantNoteDeleteArgs} args - Arguments to delete one AssistantNote.
+     * @example
+     * // Delete one AssistantNote
+     * const AssistantNote = await prisma.assistantNote.delete({
+     *   where: {
+     *     // ... filter to delete one AssistantNote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssistantNoteDeleteArgs>(args: SelectSubset<T, AssistantNoteDeleteArgs<ExtArgs>>): Prisma__AssistantNoteClient<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AssistantNote.
+     * @param {AssistantNoteUpdateArgs} args - Arguments to update one AssistantNote.
+     * @example
+     * // Update one AssistantNote
+     * const assistantNote = await prisma.assistantNote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssistantNoteUpdateArgs>(args: SelectSubset<T, AssistantNoteUpdateArgs<ExtArgs>>): Prisma__AssistantNoteClient<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AssistantNotes.
+     * @param {AssistantNoteDeleteManyArgs} args - Arguments to filter AssistantNotes to delete.
+     * @example
+     * // Delete a few AssistantNotes
+     * const { count } = await prisma.assistantNote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssistantNoteDeleteManyArgs>(args?: SelectSubset<T, AssistantNoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssistantNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssistantNotes
+     * const assistantNote = await prisma.assistantNote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssistantNoteUpdateManyArgs>(args: SelectSubset<T, AssistantNoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AssistantNote.
+     * @param {AssistantNoteUpsertArgs} args - Arguments to update or create a AssistantNote.
+     * @example
+     * // Update or create a AssistantNote
+     * const assistantNote = await prisma.assistantNote.upsert({
+     *   create: {
+     *     // ... data to create a AssistantNote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssistantNote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssistantNoteUpsertArgs>(args: SelectSubset<T, AssistantNoteUpsertArgs<ExtArgs>>): Prisma__AssistantNoteClient<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AssistantNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteCountArgs} args - Arguments to filter AssistantNotes to count.
+     * @example
+     * // Count the number of AssistantNotes
+     * const count = await prisma.assistantNote.count({
+     *   where: {
+     *     // ... the filter for the AssistantNotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssistantNoteCountArgs>(
+      args?: Subset<T, AssistantNoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssistantNoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssistantNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssistantNoteAggregateArgs>(args: Subset<T, AssistantNoteAggregateArgs>): Prisma.PrismaPromise<GetAssistantNoteAggregateType<T>>
+
+    /**
+     * Group by AssistantNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantNoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssistantNoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssistantNoteGroupByArgs['orderBy'] }
+        : { orderBy?: AssistantNoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssistantNoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssistantNoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssistantNote model
+   */
+  readonly fields: AssistantNoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssistantNote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssistantNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssistantNote model
+   */ 
+  interface AssistantNoteFieldRefs {
+    readonly id: FieldRef<"AssistantNote", 'String'>
+    readonly userId: FieldRef<"AssistantNote", 'String'>
+    readonly companyId: FieldRef<"AssistantNote", 'String'>
+    readonly kind: FieldRef<"AssistantNote", 'String'>
+    readonly title: FieldRef<"AssistantNote", 'String'>
+    readonly body: FieldRef<"AssistantNote", 'String'>
+    readonly dueAt: FieldRef<"AssistantNote", 'DateTime'>
+    readonly done: FieldRef<"AssistantNote", 'Boolean'>
+    readonly doneAt: FieldRef<"AssistantNote", 'DateTime'>
+    readonly remindedAt: FieldRef<"AssistantNote", 'DateTime'>
+    readonly source: FieldRef<"AssistantNote", 'String'>
+    readonly clientCompanyId: FieldRef<"AssistantNote", 'String'>
+    readonly createdAt: FieldRef<"AssistantNote", 'DateTime'>
+    readonly updatedAt: FieldRef<"AssistantNote", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssistantNote findUnique
+   */
+  export type AssistantNoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNote to fetch.
+     */
+    where: AssistantNoteWhereUniqueInput
+  }
+
+  /**
+   * AssistantNote findUniqueOrThrow
+   */
+  export type AssistantNoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNote to fetch.
+     */
+    where: AssistantNoteWhereUniqueInput
+  }
+
+  /**
+   * AssistantNote findFirst
+   */
+  export type AssistantNoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNote to fetch.
+     */
+    where?: AssistantNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantNotes to fetch.
+     */
+    orderBy?: AssistantNoteOrderByWithRelationInput | AssistantNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantNotes.
+     */
+    cursor?: AssistantNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantNotes.
+     */
+    distinct?: AssistantNoteScalarFieldEnum | AssistantNoteScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantNote findFirstOrThrow
+   */
+  export type AssistantNoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNote to fetch.
+     */
+    where?: AssistantNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantNotes to fetch.
+     */
+    orderBy?: AssistantNoteOrderByWithRelationInput | AssistantNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantNotes.
+     */
+    cursor?: AssistantNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantNotes.
+     */
+    distinct?: AssistantNoteScalarFieldEnum | AssistantNoteScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantNote findMany
+   */
+  export type AssistantNoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantNotes to fetch.
+     */
+    where?: AssistantNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantNotes to fetch.
+     */
+    orderBy?: AssistantNoteOrderByWithRelationInput | AssistantNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssistantNotes.
+     */
+    cursor?: AssistantNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantNotes.
+     */
+    skip?: number
+    distinct?: AssistantNoteScalarFieldEnum | AssistantNoteScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantNote create
+   */
+  export type AssistantNoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssistantNote.
+     */
+    data: XOR<AssistantNoteCreateInput, AssistantNoteUncheckedCreateInput>
+  }
+
+  /**
+   * AssistantNote createMany
+   */
+  export type AssistantNoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssistantNotes.
+     */
+    data: AssistantNoteCreateManyInput | AssistantNoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssistantNote createManyAndReturn
+   */
+  export type AssistantNoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AssistantNotes.
+     */
+    data: AssistantNoteCreateManyInput | AssistantNoteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssistantNote update
+   */
+  export type AssistantNoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssistantNote.
+     */
+    data: XOR<AssistantNoteUpdateInput, AssistantNoteUncheckedUpdateInput>
+    /**
+     * Choose, which AssistantNote to update.
+     */
+    where: AssistantNoteWhereUniqueInput
+  }
+
+  /**
+   * AssistantNote updateMany
+   */
+  export type AssistantNoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssistantNotes.
+     */
+    data: XOR<AssistantNoteUpdateManyMutationInput, AssistantNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which AssistantNotes to update
+     */
+    where?: AssistantNoteWhereInput
+  }
+
+  /**
+   * AssistantNote upsert
+   */
+  export type AssistantNoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssistantNote to update in case it exists.
+     */
+    where: AssistantNoteWhereUniqueInput
+    /**
+     * In case the AssistantNote found by the `where` argument doesn't exist, create a new AssistantNote with this data.
+     */
+    create: XOR<AssistantNoteCreateInput, AssistantNoteUncheckedCreateInput>
+    /**
+     * In case the AssistantNote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssistantNoteUpdateInput, AssistantNoteUncheckedUpdateInput>
+  }
+
+  /**
+   * AssistantNote delete
+   */
+  export type AssistantNoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+    /**
+     * Filter which AssistantNote to delete.
+     */
+    where: AssistantNoteWhereUniqueInput
+  }
+
+  /**
+   * AssistantNote deleteMany
+   */
+  export type AssistantNoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantNotes to delete
+     */
+    where?: AssistantNoteWhereInput
+  }
+
+  /**
+   * AssistantNote without action
+   */
+  export type AssistantNoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantNote
+     */
+    select?: AssistantNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantNoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssistantTurn
+   */
+
+  export type AggregateAssistantTurn = {
+    _count: AssistantTurnCountAggregateOutputType | null
+    _min: AssistantTurnMinAggregateOutputType | null
+    _max: AssistantTurnMaxAggregateOutputType | null
+  }
+
+  export type AssistantTurnMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    channel: string | null
+    role: string | null
+    content: string | null
+    createdAt: Date | null
+  }
+
+  export type AssistantTurnMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    channel: string | null
+    role: string | null
+    content: string | null
+    createdAt: Date | null
+  }
+
+  export type AssistantTurnCountAggregateOutputType = {
+    id: number
+    userId: number
+    channel: number
+    role: number
+    content: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AssistantTurnMinAggregateInputType = {
+    id?: true
+    userId?: true
+    channel?: true
+    role?: true
+    content?: true
+    createdAt?: true
+  }
+
+  export type AssistantTurnMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    channel?: true
+    role?: true
+    content?: true
+    createdAt?: true
+  }
+
+  export type AssistantTurnCountAggregateInputType = {
+    id?: true
+    userId?: true
+    channel?: true
+    role?: true
+    content?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AssistantTurnAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantTurn to aggregate.
+     */
+    where?: AssistantTurnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantTurns to fetch.
+     */
+    orderBy?: AssistantTurnOrderByWithRelationInput | AssistantTurnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssistantTurnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantTurns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantTurns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssistantTurns
+    **/
+    _count?: true | AssistantTurnCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssistantTurnMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssistantTurnMaxAggregateInputType
+  }
+
+  export type GetAssistantTurnAggregateType<T extends AssistantTurnAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssistantTurn]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssistantTurn[P]>
+      : GetScalarType<T[P], AggregateAssistantTurn[P]>
+  }
+
+
+
+
+  export type AssistantTurnGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantTurnWhereInput
+    orderBy?: AssistantTurnOrderByWithAggregationInput | AssistantTurnOrderByWithAggregationInput[]
+    by: AssistantTurnScalarFieldEnum[] | AssistantTurnScalarFieldEnum
+    having?: AssistantTurnScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssistantTurnCountAggregateInputType | true
+    _min?: AssistantTurnMinAggregateInputType
+    _max?: AssistantTurnMaxAggregateInputType
+  }
+
+  export type AssistantTurnGroupByOutputType = {
+    id: string
+    userId: string
+    channel: string
+    role: string
+    content: string
+    createdAt: Date
+    _count: AssistantTurnCountAggregateOutputType | null
+    _min: AssistantTurnMinAggregateOutputType | null
+    _max: AssistantTurnMaxAggregateOutputType | null
+  }
+
+  type GetAssistantTurnGroupByPayload<T extends AssistantTurnGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssistantTurnGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssistantTurnGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssistantTurnGroupByOutputType[P]>
+            : GetScalarType<T[P], AssistantTurnGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssistantTurnSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    channel?: boolean
+    role?: boolean
+    content?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantTurn"]>
+
+  export type AssistantTurnSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    channel?: boolean
+    role?: boolean
+    content?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantTurn"]>
+
+  export type AssistantTurnSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    channel?: boolean
+    role?: boolean
+    content?: boolean
+    createdAt?: boolean
+  }
+
+  export type AssistantTurnInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AssistantTurnIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AssistantTurnPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssistantTurn"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      channel: string
+      role: string
+      content: string
+      createdAt: Date
+    }, ExtArgs["result"]["assistantTurn"]>
+    composites: {}
+  }
+
+  type AssistantTurnGetPayload<S extends boolean | null | undefined | AssistantTurnDefaultArgs> = $Result.GetResult<Prisma.$AssistantTurnPayload, S>
+
+  type AssistantTurnCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssistantTurnFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssistantTurnCountAggregateInputType | true
+    }
+
+  export interface AssistantTurnDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssistantTurn'], meta: { name: 'AssistantTurn' } }
+    /**
+     * Find zero or one AssistantTurn that matches the filter.
+     * @param {AssistantTurnFindUniqueArgs} args - Arguments to find a AssistantTurn
+     * @example
+     * // Get one AssistantTurn
+     * const assistantTurn = await prisma.assistantTurn.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssistantTurnFindUniqueArgs>(args: SelectSubset<T, AssistantTurnFindUniqueArgs<ExtArgs>>): Prisma__AssistantTurnClient<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AssistantTurn that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssistantTurnFindUniqueOrThrowArgs} args - Arguments to find a AssistantTurn
+     * @example
+     * // Get one AssistantTurn
+     * const assistantTurn = await prisma.assistantTurn.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssistantTurnFindUniqueOrThrowArgs>(args: SelectSubset<T, AssistantTurnFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssistantTurnClient<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AssistantTurn that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantTurnFindFirstArgs} args - Arguments to find a AssistantTurn
+     * @example
+     * // Get one AssistantTurn
+     * const assistantTurn = await prisma.assistantTurn.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssistantTurnFindFirstArgs>(args?: SelectSubset<T, AssistantTurnFindFirstArgs<ExtArgs>>): Prisma__AssistantTurnClient<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AssistantTurn that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantTurnFindFirstOrThrowArgs} args - Arguments to find a AssistantTurn
+     * @example
+     * // Get one AssistantTurn
+     * const assistantTurn = await prisma.assistantTurn.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssistantTurnFindFirstOrThrowArgs>(args?: SelectSubset<T, AssistantTurnFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssistantTurnClient<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AssistantTurns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantTurnFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssistantTurns
+     * const assistantTurns = await prisma.assistantTurn.findMany()
+     * 
+     * // Get first 10 AssistantTurns
+     * const assistantTurns = await prisma.assistantTurn.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assistantTurnWithIdOnly = await prisma.assistantTurn.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssistantTurnFindManyArgs>(args?: SelectSubset<T, AssistantTurnFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AssistantTurn.
+     * @param {AssistantTurnCreateArgs} args - Arguments to create a AssistantTurn.
+     * @example
+     * // Create one AssistantTurn
+     * const AssistantTurn = await prisma.assistantTurn.create({
+     *   data: {
+     *     // ... data to create a AssistantTurn
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssistantTurnCreateArgs>(args: SelectSubset<T, AssistantTurnCreateArgs<ExtArgs>>): Prisma__AssistantTurnClient<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AssistantTurns.
+     * @param {AssistantTurnCreateManyArgs} args - Arguments to create many AssistantTurns.
+     * @example
+     * // Create many AssistantTurns
+     * const assistantTurn = await prisma.assistantTurn.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssistantTurnCreateManyArgs>(args?: SelectSubset<T, AssistantTurnCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssistantTurns and returns the data saved in the database.
+     * @param {AssistantTurnCreateManyAndReturnArgs} args - Arguments to create many AssistantTurns.
+     * @example
+     * // Create many AssistantTurns
+     * const assistantTurn = await prisma.assistantTurn.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssistantTurns and only return the `id`
+     * const assistantTurnWithIdOnly = await prisma.assistantTurn.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssistantTurnCreateManyAndReturnArgs>(args?: SelectSubset<T, AssistantTurnCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AssistantTurn.
+     * @param {AssistantTurnDeleteArgs} args - Arguments to delete one AssistantTurn.
+     * @example
+     * // Delete one AssistantTurn
+     * const AssistantTurn = await prisma.assistantTurn.delete({
+     *   where: {
+     *     // ... filter to delete one AssistantTurn
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssistantTurnDeleteArgs>(args: SelectSubset<T, AssistantTurnDeleteArgs<ExtArgs>>): Prisma__AssistantTurnClient<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AssistantTurn.
+     * @param {AssistantTurnUpdateArgs} args - Arguments to update one AssistantTurn.
+     * @example
+     * // Update one AssistantTurn
+     * const assistantTurn = await prisma.assistantTurn.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssistantTurnUpdateArgs>(args: SelectSubset<T, AssistantTurnUpdateArgs<ExtArgs>>): Prisma__AssistantTurnClient<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AssistantTurns.
+     * @param {AssistantTurnDeleteManyArgs} args - Arguments to filter AssistantTurns to delete.
+     * @example
+     * // Delete a few AssistantTurns
+     * const { count } = await prisma.assistantTurn.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssistantTurnDeleteManyArgs>(args?: SelectSubset<T, AssistantTurnDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssistantTurns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantTurnUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssistantTurns
+     * const assistantTurn = await prisma.assistantTurn.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssistantTurnUpdateManyArgs>(args: SelectSubset<T, AssistantTurnUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AssistantTurn.
+     * @param {AssistantTurnUpsertArgs} args - Arguments to update or create a AssistantTurn.
+     * @example
+     * // Update or create a AssistantTurn
+     * const assistantTurn = await prisma.assistantTurn.upsert({
+     *   create: {
+     *     // ... data to create a AssistantTurn
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssistantTurn we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssistantTurnUpsertArgs>(args: SelectSubset<T, AssistantTurnUpsertArgs<ExtArgs>>): Prisma__AssistantTurnClient<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AssistantTurns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantTurnCountArgs} args - Arguments to filter AssistantTurns to count.
+     * @example
+     * // Count the number of AssistantTurns
+     * const count = await prisma.assistantTurn.count({
+     *   where: {
+     *     // ... the filter for the AssistantTurns we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssistantTurnCountArgs>(
+      args?: Subset<T, AssistantTurnCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssistantTurnCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssistantTurn.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantTurnAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssistantTurnAggregateArgs>(args: Subset<T, AssistantTurnAggregateArgs>): Prisma.PrismaPromise<GetAssistantTurnAggregateType<T>>
+
+    /**
+     * Group by AssistantTurn.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantTurnGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssistantTurnGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssistantTurnGroupByArgs['orderBy'] }
+        : { orderBy?: AssistantTurnGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssistantTurnGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssistantTurnGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssistantTurn model
+   */
+  readonly fields: AssistantTurnFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssistantTurn.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssistantTurnClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssistantTurn model
+   */ 
+  interface AssistantTurnFieldRefs {
+    readonly id: FieldRef<"AssistantTurn", 'String'>
+    readonly userId: FieldRef<"AssistantTurn", 'String'>
+    readonly channel: FieldRef<"AssistantTurn", 'String'>
+    readonly role: FieldRef<"AssistantTurn", 'String'>
+    readonly content: FieldRef<"AssistantTurn", 'String'>
+    readonly createdAt: FieldRef<"AssistantTurn", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssistantTurn findUnique
+   */
+  export type AssistantTurnFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantTurn to fetch.
+     */
+    where: AssistantTurnWhereUniqueInput
+  }
+
+  /**
+   * AssistantTurn findUniqueOrThrow
+   */
+  export type AssistantTurnFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantTurn to fetch.
+     */
+    where: AssistantTurnWhereUniqueInput
+  }
+
+  /**
+   * AssistantTurn findFirst
+   */
+  export type AssistantTurnFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantTurn to fetch.
+     */
+    where?: AssistantTurnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantTurns to fetch.
+     */
+    orderBy?: AssistantTurnOrderByWithRelationInput | AssistantTurnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantTurns.
+     */
+    cursor?: AssistantTurnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantTurns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantTurns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantTurns.
+     */
+    distinct?: AssistantTurnScalarFieldEnum | AssistantTurnScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantTurn findFirstOrThrow
+   */
+  export type AssistantTurnFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantTurn to fetch.
+     */
+    where?: AssistantTurnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantTurns to fetch.
+     */
+    orderBy?: AssistantTurnOrderByWithRelationInput | AssistantTurnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantTurns.
+     */
+    cursor?: AssistantTurnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantTurns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantTurns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantTurns.
+     */
+    distinct?: AssistantTurnScalarFieldEnum | AssistantTurnScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantTurn findMany
+   */
+  export type AssistantTurnFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantTurns to fetch.
+     */
+    where?: AssistantTurnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantTurns to fetch.
+     */
+    orderBy?: AssistantTurnOrderByWithRelationInput | AssistantTurnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssistantTurns.
+     */
+    cursor?: AssistantTurnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantTurns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantTurns.
+     */
+    skip?: number
+    distinct?: AssistantTurnScalarFieldEnum | AssistantTurnScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantTurn create
+   */
+  export type AssistantTurnCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssistantTurn.
+     */
+    data: XOR<AssistantTurnCreateInput, AssistantTurnUncheckedCreateInput>
+  }
+
+  /**
+   * AssistantTurn createMany
+   */
+  export type AssistantTurnCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssistantTurns.
+     */
+    data: AssistantTurnCreateManyInput | AssistantTurnCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssistantTurn createManyAndReturn
+   */
+  export type AssistantTurnCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AssistantTurns.
+     */
+    data: AssistantTurnCreateManyInput | AssistantTurnCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssistantTurn update
+   */
+  export type AssistantTurnUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssistantTurn.
+     */
+    data: XOR<AssistantTurnUpdateInput, AssistantTurnUncheckedUpdateInput>
+    /**
+     * Choose, which AssistantTurn to update.
+     */
+    where: AssistantTurnWhereUniqueInput
+  }
+
+  /**
+   * AssistantTurn updateMany
+   */
+  export type AssistantTurnUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssistantTurns.
+     */
+    data: XOR<AssistantTurnUpdateManyMutationInput, AssistantTurnUncheckedUpdateManyInput>
+    /**
+     * Filter which AssistantTurns to update
+     */
+    where?: AssistantTurnWhereInput
+  }
+
+  /**
+   * AssistantTurn upsert
+   */
+  export type AssistantTurnUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssistantTurn to update in case it exists.
+     */
+    where: AssistantTurnWhereUniqueInput
+    /**
+     * In case the AssistantTurn found by the `where` argument doesn't exist, create a new AssistantTurn with this data.
+     */
+    create: XOR<AssistantTurnCreateInput, AssistantTurnUncheckedCreateInput>
+    /**
+     * In case the AssistantTurn was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssistantTurnUpdateInput, AssistantTurnUncheckedUpdateInput>
+  }
+
+  /**
+   * AssistantTurn delete
+   */
+  export type AssistantTurnDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+    /**
+     * Filter which AssistantTurn to delete.
+     */
+    where: AssistantTurnWhereUniqueInput
+  }
+
+  /**
+   * AssistantTurn deleteMany
+   */
+  export type AssistantTurnDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantTurns to delete
+     */
+    where?: AssistantTurnWhereInput
+  }
+
+  /**
+   * AssistantTurn without action
+   */
+  export type AssistantTurnDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantTurn
+     */
+    select?: AssistantTurnSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantTurnInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssistantPendingAction
+   */
+
+  export type AggregateAssistantPendingAction = {
+    _count: AssistantPendingActionCountAggregateOutputType | null
+    _min: AssistantPendingActionMinAggregateOutputType | null
+    _max: AssistantPendingActionMaxAggregateOutputType | null
+  }
+
+  export type AssistantPendingActionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    channel: string | null
+    tool: string | null
+    summary: string | null
+    status: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    resolvedAt: Date | null
+  }
+
+  export type AssistantPendingActionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    channel: string | null
+    tool: string | null
+    summary: string | null
+    status: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    resolvedAt: Date | null
+  }
+
+  export type AssistantPendingActionCountAggregateOutputType = {
+    id: number
+    userId: number
+    channel: number
+    tool: number
+    input: number
+    summary: number
+    status: number
+    expiresAt: number
+    createdAt: number
+    resolvedAt: number
+    _all: number
+  }
+
+
+  export type AssistantPendingActionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    channel?: true
+    tool?: true
+    summary?: true
+    status?: true
+    expiresAt?: true
+    createdAt?: true
+    resolvedAt?: true
+  }
+
+  export type AssistantPendingActionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    channel?: true
+    tool?: true
+    summary?: true
+    status?: true
+    expiresAt?: true
+    createdAt?: true
+    resolvedAt?: true
+  }
+
+  export type AssistantPendingActionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    channel?: true
+    tool?: true
+    input?: true
+    summary?: true
+    status?: true
+    expiresAt?: true
+    createdAt?: true
+    resolvedAt?: true
+    _all?: true
+  }
+
+  export type AssistantPendingActionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantPendingAction to aggregate.
+     */
+    where?: AssistantPendingActionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantPendingActions to fetch.
+     */
+    orderBy?: AssistantPendingActionOrderByWithRelationInput | AssistantPendingActionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssistantPendingActionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantPendingActions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantPendingActions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssistantPendingActions
+    **/
+    _count?: true | AssistantPendingActionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssistantPendingActionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssistantPendingActionMaxAggregateInputType
+  }
+
+  export type GetAssistantPendingActionAggregateType<T extends AssistantPendingActionAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssistantPendingAction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssistantPendingAction[P]>
+      : GetScalarType<T[P], AggregateAssistantPendingAction[P]>
+  }
+
+
+
+
+  export type AssistantPendingActionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantPendingActionWhereInput
+    orderBy?: AssistantPendingActionOrderByWithAggregationInput | AssistantPendingActionOrderByWithAggregationInput[]
+    by: AssistantPendingActionScalarFieldEnum[] | AssistantPendingActionScalarFieldEnum
+    having?: AssistantPendingActionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssistantPendingActionCountAggregateInputType | true
+    _min?: AssistantPendingActionMinAggregateInputType
+    _max?: AssistantPendingActionMaxAggregateInputType
+  }
+
+  export type AssistantPendingActionGroupByOutputType = {
+    id: string
+    userId: string
+    channel: string
+    tool: string
+    input: JsonValue
+    summary: string
+    status: string
+    expiresAt: Date
+    createdAt: Date
+    resolvedAt: Date | null
+    _count: AssistantPendingActionCountAggregateOutputType | null
+    _min: AssistantPendingActionMinAggregateOutputType | null
+    _max: AssistantPendingActionMaxAggregateOutputType | null
+  }
+
+  type GetAssistantPendingActionGroupByPayload<T extends AssistantPendingActionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssistantPendingActionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssistantPendingActionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssistantPendingActionGroupByOutputType[P]>
+            : GetScalarType<T[P], AssistantPendingActionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssistantPendingActionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    channel?: boolean
+    tool?: boolean
+    input?: boolean
+    summary?: boolean
+    status?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    resolvedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantPendingAction"]>
+
+  export type AssistantPendingActionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    channel?: boolean
+    tool?: boolean
+    input?: boolean
+    summary?: boolean
+    status?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    resolvedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantPendingAction"]>
+
+  export type AssistantPendingActionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    channel?: boolean
+    tool?: boolean
+    input?: boolean
+    summary?: boolean
+    status?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    resolvedAt?: boolean
+  }
+
+  export type AssistantPendingActionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AssistantPendingActionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AssistantPendingActionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssistantPendingAction"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      channel: string
+      tool: string
+      input: Prisma.JsonValue
+      summary: string
+      status: string
+      expiresAt: Date
+      createdAt: Date
+      resolvedAt: Date | null
+    }, ExtArgs["result"]["assistantPendingAction"]>
+    composites: {}
+  }
+
+  type AssistantPendingActionGetPayload<S extends boolean | null | undefined | AssistantPendingActionDefaultArgs> = $Result.GetResult<Prisma.$AssistantPendingActionPayload, S>
+
+  type AssistantPendingActionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssistantPendingActionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssistantPendingActionCountAggregateInputType | true
+    }
+
+  export interface AssistantPendingActionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssistantPendingAction'], meta: { name: 'AssistantPendingAction' } }
+    /**
+     * Find zero or one AssistantPendingAction that matches the filter.
+     * @param {AssistantPendingActionFindUniqueArgs} args - Arguments to find a AssistantPendingAction
+     * @example
+     * // Get one AssistantPendingAction
+     * const assistantPendingAction = await prisma.assistantPendingAction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssistantPendingActionFindUniqueArgs>(args: SelectSubset<T, AssistantPendingActionFindUniqueArgs<ExtArgs>>): Prisma__AssistantPendingActionClient<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AssistantPendingAction that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssistantPendingActionFindUniqueOrThrowArgs} args - Arguments to find a AssistantPendingAction
+     * @example
+     * // Get one AssistantPendingAction
+     * const assistantPendingAction = await prisma.assistantPendingAction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssistantPendingActionFindUniqueOrThrowArgs>(args: SelectSubset<T, AssistantPendingActionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssistantPendingActionClient<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AssistantPendingAction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantPendingActionFindFirstArgs} args - Arguments to find a AssistantPendingAction
+     * @example
+     * // Get one AssistantPendingAction
+     * const assistantPendingAction = await prisma.assistantPendingAction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssistantPendingActionFindFirstArgs>(args?: SelectSubset<T, AssistantPendingActionFindFirstArgs<ExtArgs>>): Prisma__AssistantPendingActionClient<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AssistantPendingAction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantPendingActionFindFirstOrThrowArgs} args - Arguments to find a AssistantPendingAction
+     * @example
+     * // Get one AssistantPendingAction
+     * const assistantPendingAction = await prisma.assistantPendingAction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssistantPendingActionFindFirstOrThrowArgs>(args?: SelectSubset<T, AssistantPendingActionFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssistantPendingActionClient<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AssistantPendingActions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantPendingActionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssistantPendingActions
+     * const assistantPendingActions = await prisma.assistantPendingAction.findMany()
+     * 
+     * // Get first 10 AssistantPendingActions
+     * const assistantPendingActions = await prisma.assistantPendingAction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assistantPendingActionWithIdOnly = await prisma.assistantPendingAction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssistantPendingActionFindManyArgs>(args?: SelectSubset<T, AssistantPendingActionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AssistantPendingAction.
+     * @param {AssistantPendingActionCreateArgs} args - Arguments to create a AssistantPendingAction.
+     * @example
+     * // Create one AssistantPendingAction
+     * const AssistantPendingAction = await prisma.assistantPendingAction.create({
+     *   data: {
+     *     // ... data to create a AssistantPendingAction
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssistantPendingActionCreateArgs>(args: SelectSubset<T, AssistantPendingActionCreateArgs<ExtArgs>>): Prisma__AssistantPendingActionClient<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AssistantPendingActions.
+     * @param {AssistantPendingActionCreateManyArgs} args - Arguments to create many AssistantPendingActions.
+     * @example
+     * // Create many AssistantPendingActions
+     * const assistantPendingAction = await prisma.assistantPendingAction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssistantPendingActionCreateManyArgs>(args?: SelectSubset<T, AssistantPendingActionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssistantPendingActions and returns the data saved in the database.
+     * @param {AssistantPendingActionCreateManyAndReturnArgs} args - Arguments to create many AssistantPendingActions.
+     * @example
+     * // Create many AssistantPendingActions
+     * const assistantPendingAction = await prisma.assistantPendingAction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssistantPendingActions and only return the `id`
+     * const assistantPendingActionWithIdOnly = await prisma.assistantPendingAction.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssistantPendingActionCreateManyAndReturnArgs>(args?: SelectSubset<T, AssistantPendingActionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AssistantPendingAction.
+     * @param {AssistantPendingActionDeleteArgs} args - Arguments to delete one AssistantPendingAction.
+     * @example
+     * // Delete one AssistantPendingAction
+     * const AssistantPendingAction = await prisma.assistantPendingAction.delete({
+     *   where: {
+     *     // ... filter to delete one AssistantPendingAction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssistantPendingActionDeleteArgs>(args: SelectSubset<T, AssistantPendingActionDeleteArgs<ExtArgs>>): Prisma__AssistantPendingActionClient<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AssistantPendingAction.
+     * @param {AssistantPendingActionUpdateArgs} args - Arguments to update one AssistantPendingAction.
+     * @example
+     * // Update one AssistantPendingAction
+     * const assistantPendingAction = await prisma.assistantPendingAction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssistantPendingActionUpdateArgs>(args: SelectSubset<T, AssistantPendingActionUpdateArgs<ExtArgs>>): Prisma__AssistantPendingActionClient<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AssistantPendingActions.
+     * @param {AssistantPendingActionDeleteManyArgs} args - Arguments to filter AssistantPendingActions to delete.
+     * @example
+     * // Delete a few AssistantPendingActions
+     * const { count } = await prisma.assistantPendingAction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssistantPendingActionDeleteManyArgs>(args?: SelectSubset<T, AssistantPendingActionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssistantPendingActions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantPendingActionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssistantPendingActions
+     * const assistantPendingAction = await prisma.assistantPendingAction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssistantPendingActionUpdateManyArgs>(args: SelectSubset<T, AssistantPendingActionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AssistantPendingAction.
+     * @param {AssistantPendingActionUpsertArgs} args - Arguments to update or create a AssistantPendingAction.
+     * @example
+     * // Update or create a AssistantPendingAction
+     * const assistantPendingAction = await prisma.assistantPendingAction.upsert({
+     *   create: {
+     *     // ... data to create a AssistantPendingAction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssistantPendingAction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssistantPendingActionUpsertArgs>(args: SelectSubset<T, AssistantPendingActionUpsertArgs<ExtArgs>>): Prisma__AssistantPendingActionClient<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AssistantPendingActions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantPendingActionCountArgs} args - Arguments to filter AssistantPendingActions to count.
+     * @example
+     * // Count the number of AssistantPendingActions
+     * const count = await prisma.assistantPendingAction.count({
+     *   where: {
+     *     // ... the filter for the AssistantPendingActions we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssistantPendingActionCountArgs>(
+      args?: Subset<T, AssistantPendingActionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssistantPendingActionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssistantPendingAction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantPendingActionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssistantPendingActionAggregateArgs>(args: Subset<T, AssistantPendingActionAggregateArgs>): Prisma.PrismaPromise<GetAssistantPendingActionAggregateType<T>>
+
+    /**
+     * Group by AssistantPendingAction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantPendingActionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssistantPendingActionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssistantPendingActionGroupByArgs['orderBy'] }
+        : { orderBy?: AssistantPendingActionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssistantPendingActionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssistantPendingActionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssistantPendingAction model
+   */
+  readonly fields: AssistantPendingActionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssistantPendingAction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssistantPendingActionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssistantPendingAction model
+   */ 
+  interface AssistantPendingActionFieldRefs {
+    readonly id: FieldRef<"AssistantPendingAction", 'String'>
+    readonly userId: FieldRef<"AssistantPendingAction", 'String'>
+    readonly channel: FieldRef<"AssistantPendingAction", 'String'>
+    readonly tool: FieldRef<"AssistantPendingAction", 'String'>
+    readonly input: FieldRef<"AssistantPendingAction", 'Json'>
+    readonly summary: FieldRef<"AssistantPendingAction", 'String'>
+    readonly status: FieldRef<"AssistantPendingAction", 'String'>
+    readonly expiresAt: FieldRef<"AssistantPendingAction", 'DateTime'>
+    readonly createdAt: FieldRef<"AssistantPendingAction", 'DateTime'>
+    readonly resolvedAt: FieldRef<"AssistantPendingAction", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssistantPendingAction findUnique
+   */
+  export type AssistantPendingActionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantPendingAction to fetch.
+     */
+    where: AssistantPendingActionWhereUniqueInput
+  }
+
+  /**
+   * AssistantPendingAction findUniqueOrThrow
+   */
+  export type AssistantPendingActionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantPendingAction to fetch.
+     */
+    where: AssistantPendingActionWhereUniqueInput
+  }
+
+  /**
+   * AssistantPendingAction findFirst
+   */
+  export type AssistantPendingActionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantPendingAction to fetch.
+     */
+    where?: AssistantPendingActionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantPendingActions to fetch.
+     */
+    orderBy?: AssistantPendingActionOrderByWithRelationInput | AssistantPendingActionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantPendingActions.
+     */
+    cursor?: AssistantPendingActionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantPendingActions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantPendingActions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantPendingActions.
+     */
+    distinct?: AssistantPendingActionScalarFieldEnum | AssistantPendingActionScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantPendingAction findFirstOrThrow
+   */
+  export type AssistantPendingActionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantPendingAction to fetch.
+     */
+    where?: AssistantPendingActionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantPendingActions to fetch.
+     */
+    orderBy?: AssistantPendingActionOrderByWithRelationInput | AssistantPendingActionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantPendingActions.
+     */
+    cursor?: AssistantPendingActionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantPendingActions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantPendingActions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantPendingActions.
+     */
+    distinct?: AssistantPendingActionScalarFieldEnum | AssistantPendingActionScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantPendingAction findMany
+   */
+  export type AssistantPendingActionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantPendingActions to fetch.
+     */
+    where?: AssistantPendingActionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantPendingActions to fetch.
+     */
+    orderBy?: AssistantPendingActionOrderByWithRelationInput | AssistantPendingActionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssistantPendingActions.
+     */
+    cursor?: AssistantPendingActionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantPendingActions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantPendingActions.
+     */
+    skip?: number
+    distinct?: AssistantPendingActionScalarFieldEnum | AssistantPendingActionScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantPendingAction create
+   */
+  export type AssistantPendingActionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssistantPendingAction.
+     */
+    data: XOR<AssistantPendingActionCreateInput, AssistantPendingActionUncheckedCreateInput>
+  }
+
+  /**
+   * AssistantPendingAction createMany
+   */
+  export type AssistantPendingActionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssistantPendingActions.
+     */
+    data: AssistantPendingActionCreateManyInput | AssistantPendingActionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssistantPendingAction createManyAndReturn
+   */
+  export type AssistantPendingActionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AssistantPendingActions.
+     */
+    data: AssistantPendingActionCreateManyInput | AssistantPendingActionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssistantPendingAction update
+   */
+  export type AssistantPendingActionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssistantPendingAction.
+     */
+    data: XOR<AssistantPendingActionUpdateInput, AssistantPendingActionUncheckedUpdateInput>
+    /**
+     * Choose, which AssistantPendingAction to update.
+     */
+    where: AssistantPendingActionWhereUniqueInput
+  }
+
+  /**
+   * AssistantPendingAction updateMany
+   */
+  export type AssistantPendingActionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssistantPendingActions.
+     */
+    data: XOR<AssistantPendingActionUpdateManyMutationInput, AssistantPendingActionUncheckedUpdateManyInput>
+    /**
+     * Filter which AssistantPendingActions to update
+     */
+    where?: AssistantPendingActionWhereInput
+  }
+
+  /**
+   * AssistantPendingAction upsert
+   */
+  export type AssistantPendingActionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssistantPendingAction to update in case it exists.
+     */
+    where: AssistantPendingActionWhereUniqueInput
+    /**
+     * In case the AssistantPendingAction found by the `where` argument doesn't exist, create a new AssistantPendingAction with this data.
+     */
+    create: XOR<AssistantPendingActionCreateInput, AssistantPendingActionUncheckedCreateInput>
+    /**
+     * In case the AssistantPendingAction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssistantPendingActionUpdateInput, AssistantPendingActionUncheckedUpdateInput>
+  }
+
+  /**
+   * AssistantPendingAction delete
+   */
+  export type AssistantPendingActionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
+    /**
+     * Filter which AssistantPendingAction to delete.
+     */
+    where: AssistantPendingActionWhereUniqueInput
+  }
+
+  /**
+   * AssistantPendingAction deleteMany
+   */
+  export type AssistantPendingActionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantPendingActions to delete
+     */
+    where?: AssistantPendingActionWhereInput
+  }
+
+  /**
+   * AssistantPendingAction without action
+   */
+  export type AssistantPendingActionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantPendingAction
+     */
+    select?: AssistantPendingActionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantPendingActionInclude<ExtArgs> | null
   }
 
 
@@ -150048,10 +153440,63 @@ export namespace Prisma {
     whatsappSignatureDefault: 'whatsappSignatureDefault',
     companyId: 'companyId',
     rankingCategory: 'rankingCategory',
-    lastBadgeSeenAt: 'lastBadgeSeenAt'
+    lastBadgeSeenAt: 'lastBadgeSeenAt',
+    assistantGroupJid: 'assistantGroupJid',
+    assistantInstanceId: 'assistantInstanceId',
+    mcpTokenHash: 'mcpTokenHash',
+    mcpTokenCreatedAt: 'mcpTokenCreatedAt',
+    mcpTokenLastUsedAt: 'mcpTokenLastUsedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const AssistantNoteScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    kind: 'kind',
+    title: 'title',
+    body: 'body',
+    dueAt: 'dueAt',
+    done: 'done',
+    doneAt: 'doneAt',
+    remindedAt: 'remindedAt',
+    source: 'source',
+    clientCompanyId: 'clientCompanyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AssistantNoteScalarFieldEnum = (typeof AssistantNoteScalarFieldEnum)[keyof typeof AssistantNoteScalarFieldEnum]
+
+
+  export const AssistantTurnScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    channel: 'channel',
+    role: 'role',
+    content: 'content',
+    createdAt: 'createdAt'
+  };
+
+  export type AssistantTurnScalarFieldEnum = (typeof AssistantTurnScalarFieldEnum)[keyof typeof AssistantTurnScalarFieldEnum]
+
+
+  export const AssistantPendingActionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    channel: 'channel',
+    tool: 'tool',
+    input: 'input',
+    summary: 'summary',
+    status: 'status',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt',
+    resolvedAt: 'resolvedAt'
+  };
+
+  export type AssistantPendingActionScalarFieldEnum = (typeof AssistantPendingActionScalarFieldEnum)[keyof typeof AssistantPendingActionScalarFieldEnum]
 
 
   export const QuickReplyScalarFieldEnum: {
@@ -152289,19 +155734,19 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
   export const NullableJsonNullValueInput: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-  export const JsonNullValueInput: {
-    JsonNull: typeof JsonNull
-  };
-
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -152394,6 +155839,13 @@ export namespace Prisma {
    * Reference to a field of type 'RankingCategory[]'
    */
   export type ListEnumRankingCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RankingCategory[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
@@ -152506,13 +155958,6 @@ export namespace Prisma {
    * Reference to a field of type 'LeadStatus[]'
    */
   export type ListEnumLeadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeadStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
@@ -153195,6 +156640,11 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"User"> | string | null
     rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
     lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    assistantGroupJid?: StringNullableFilter<"User"> | string | null
+    assistantInstanceId?: StringNullableFilter<"User"> | string | null
+    mcpTokenHash?: StringNullableFilter<"User"> | string | null
+    mcpTokenCreatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    mcpTokenLastUsedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
     ticketsAssigned?: TicketListRelationFilter
@@ -153232,6 +156682,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     ownedInstances?: WhatsappInstanceListRelationFilter
     uploadedFiles?: StorageObjectListRelationFilter
+    assistantNotes?: AssistantNoteListRelationFilter
+    assistantTurns?: AssistantTurnListRelationFilter
+    assistantPending?: AssistantPendingActionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -153249,6 +156702,11 @@ export namespace Prisma {
     companyId?: SortOrderInput | SortOrder
     rankingCategory?: SortOrder
     lastBadgeSeenAt?: SortOrderInput | SortOrder
+    assistantGroupJid?: SortOrderInput | SortOrder
+    assistantInstanceId?: SortOrderInput | SortOrder
+    mcpTokenHash?: SortOrderInput | SortOrder
+    mcpTokenCreatedAt?: SortOrderInput | SortOrder
+    mcpTokenLastUsedAt?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     ticketsCreated?: TicketOrderByRelationAggregateInput
     ticketsAssigned?: TicketOrderByRelationAggregateInput
@@ -153286,12 +156744,16 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureOrderByRelationAggregateInput
     ownedInstances?: WhatsappInstanceOrderByRelationAggregateInput
     uploadedFiles?: StorageObjectOrderByRelationAggregateInput
+    assistantNotes?: AssistantNoteOrderByRelationAggregateInput
+    assistantTurns?: AssistantTurnOrderByRelationAggregateInput
+    assistantPending?: AssistantPendingActionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
     passwordResetToken?: string
+    mcpTokenHash?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -153306,6 +156768,10 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"User"> | string | null
     rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
     lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    assistantGroupJid?: StringNullableFilter<"User"> | string | null
+    assistantInstanceId?: StringNullableFilter<"User"> | string | null
+    mcpTokenCreatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    mcpTokenLastUsedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
     ticketsAssigned?: TicketListRelationFilter
@@ -153343,7 +156809,10 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     ownedInstances?: WhatsappInstanceListRelationFilter
     uploadedFiles?: StorageObjectListRelationFilter
-  }, "id" | "email" | "passwordResetToken">
+    assistantNotes?: AssistantNoteListRelationFilter
+    assistantTurns?: AssistantTurnListRelationFilter
+    assistantPending?: AssistantPendingActionListRelationFilter
+  }, "id" | "email" | "passwordResetToken" | "mcpTokenHash">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -153360,6 +156829,11 @@ export namespace Prisma {
     companyId?: SortOrderInput | SortOrder
     rankingCategory?: SortOrder
     lastBadgeSeenAt?: SortOrderInput | SortOrder
+    assistantGroupJid?: SortOrderInput | SortOrder
+    assistantInstanceId?: SortOrderInput | SortOrder
+    mcpTokenHash?: SortOrderInput | SortOrder
+    mcpTokenCreatedAt?: SortOrderInput | SortOrder
+    mcpTokenLastUsedAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -153383,6 +156857,251 @@ export namespace Prisma {
     companyId?: StringNullableWithAggregatesFilter<"User"> | string | null
     rankingCategory?: EnumRankingCategoryWithAggregatesFilter<"User"> | $Enums.RankingCategory
     lastBadgeSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    assistantGroupJid?: StringNullableWithAggregatesFilter<"User"> | string | null
+    assistantInstanceId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    mcpTokenHash?: StringNullableWithAggregatesFilter<"User"> | string | null
+    mcpTokenCreatedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    mcpTokenLastUsedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  }
+
+  export type AssistantNoteWhereInput = {
+    AND?: AssistantNoteWhereInput | AssistantNoteWhereInput[]
+    OR?: AssistantNoteWhereInput[]
+    NOT?: AssistantNoteWhereInput | AssistantNoteWhereInput[]
+    id?: StringFilter<"AssistantNote"> | string
+    userId?: StringFilter<"AssistantNote"> | string
+    companyId?: StringNullableFilter<"AssistantNote"> | string | null
+    kind?: StringFilter<"AssistantNote"> | string
+    title?: StringFilter<"AssistantNote"> | string
+    body?: StringNullableFilter<"AssistantNote"> | string | null
+    dueAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    done?: BoolFilter<"AssistantNote"> | boolean
+    doneAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    remindedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    source?: StringFilter<"AssistantNote"> | string
+    clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
+    createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
+    updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type AssistantNoteOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    body?: SortOrderInput | SortOrder
+    dueAt?: SortOrderInput | SortOrder
+    done?: SortOrder
+    doneAt?: SortOrderInput | SortOrder
+    remindedAt?: SortOrderInput | SortOrder
+    source?: SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AssistantNoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AssistantNoteWhereInput | AssistantNoteWhereInput[]
+    OR?: AssistantNoteWhereInput[]
+    NOT?: AssistantNoteWhereInput | AssistantNoteWhereInput[]
+    userId?: StringFilter<"AssistantNote"> | string
+    companyId?: StringNullableFilter<"AssistantNote"> | string | null
+    kind?: StringFilter<"AssistantNote"> | string
+    title?: StringFilter<"AssistantNote"> | string
+    body?: StringNullableFilter<"AssistantNote"> | string | null
+    dueAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    done?: BoolFilter<"AssistantNote"> | boolean
+    doneAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    remindedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    source?: StringFilter<"AssistantNote"> | string
+    clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
+    createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
+    updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AssistantNoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    body?: SortOrderInput | SortOrder
+    dueAt?: SortOrderInput | SortOrder
+    done?: SortOrder
+    doneAt?: SortOrderInput | SortOrder
+    remindedAt?: SortOrderInput | SortOrder
+    source?: SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AssistantNoteCountOrderByAggregateInput
+    _max?: AssistantNoteMaxOrderByAggregateInput
+    _min?: AssistantNoteMinOrderByAggregateInput
+  }
+
+  export type AssistantNoteScalarWhereWithAggregatesInput = {
+    AND?: AssistantNoteScalarWhereWithAggregatesInput | AssistantNoteScalarWhereWithAggregatesInput[]
+    OR?: AssistantNoteScalarWhereWithAggregatesInput[]
+    NOT?: AssistantNoteScalarWhereWithAggregatesInput | AssistantNoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AssistantNote"> | string
+    userId?: StringWithAggregatesFilter<"AssistantNote"> | string
+    companyId?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
+    kind?: StringWithAggregatesFilter<"AssistantNote"> | string
+    title?: StringWithAggregatesFilter<"AssistantNote"> | string
+    body?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
+    dueAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
+    done?: BoolWithAggregatesFilter<"AssistantNote"> | boolean
+    doneAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
+    remindedAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
+    source?: StringWithAggregatesFilter<"AssistantNote"> | string
+    clientCompanyId?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
+  }
+
+  export type AssistantTurnWhereInput = {
+    AND?: AssistantTurnWhereInput | AssistantTurnWhereInput[]
+    OR?: AssistantTurnWhereInput[]
+    NOT?: AssistantTurnWhereInput | AssistantTurnWhereInput[]
+    id?: StringFilter<"AssistantTurn"> | string
+    userId?: StringFilter<"AssistantTurn"> | string
+    channel?: StringFilter<"AssistantTurn"> | string
+    role?: StringFilter<"AssistantTurn"> | string
+    content?: StringFilter<"AssistantTurn"> | string
+    createdAt?: DateTimeFilter<"AssistantTurn"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type AssistantTurnOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    role?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AssistantTurnWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AssistantTurnWhereInput | AssistantTurnWhereInput[]
+    OR?: AssistantTurnWhereInput[]
+    NOT?: AssistantTurnWhereInput | AssistantTurnWhereInput[]
+    userId?: StringFilter<"AssistantTurn"> | string
+    channel?: StringFilter<"AssistantTurn"> | string
+    role?: StringFilter<"AssistantTurn"> | string
+    content?: StringFilter<"AssistantTurn"> | string
+    createdAt?: DateTimeFilter<"AssistantTurn"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AssistantTurnOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    role?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    _count?: AssistantTurnCountOrderByAggregateInput
+    _max?: AssistantTurnMaxOrderByAggregateInput
+    _min?: AssistantTurnMinOrderByAggregateInput
+  }
+
+  export type AssistantTurnScalarWhereWithAggregatesInput = {
+    AND?: AssistantTurnScalarWhereWithAggregatesInput | AssistantTurnScalarWhereWithAggregatesInput[]
+    OR?: AssistantTurnScalarWhereWithAggregatesInput[]
+    NOT?: AssistantTurnScalarWhereWithAggregatesInput | AssistantTurnScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AssistantTurn"> | string
+    userId?: StringWithAggregatesFilter<"AssistantTurn"> | string
+    channel?: StringWithAggregatesFilter<"AssistantTurn"> | string
+    role?: StringWithAggregatesFilter<"AssistantTurn"> | string
+    content?: StringWithAggregatesFilter<"AssistantTurn"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AssistantTurn"> | Date | string
+  }
+
+  export type AssistantPendingActionWhereInput = {
+    AND?: AssistantPendingActionWhereInput | AssistantPendingActionWhereInput[]
+    OR?: AssistantPendingActionWhereInput[]
+    NOT?: AssistantPendingActionWhereInput | AssistantPendingActionWhereInput[]
+    id?: StringFilter<"AssistantPendingAction"> | string
+    userId?: StringFilter<"AssistantPendingAction"> | string
+    channel?: StringFilter<"AssistantPendingAction"> | string
+    tool?: StringFilter<"AssistantPendingAction"> | string
+    input?: JsonFilter<"AssistantPendingAction">
+    summary?: StringFilter<"AssistantPendingAction"> | string
+    status?: StringFilter<"AssistantPendingAction"> | string
+    expiresAt?: DateTimeFilter<"AssistantPendingAction"> | Date | string
+    createdAt?: DateTimeFilter<"AssistantPendingAction"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"AssistantPendingAction"> | Date | string | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type AssistantPendingActionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    tool?: SortOrder
+    input?: SortOrder
+    summary?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AssistantPendingActionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AssistantPendingActionWhereInput | AssistantPendingActionWhereInput[]
+    OR?: AssistantPendingActionWhereInput[]
+    NOT?: AssistantPendingActionWhereInput | AssistantPendingActionWhereInput[]
+    userId?: StringFilter<"AssistantPendingAction"> | string
+    channel?: StringFilter<"AssistantPendingAction"> | string
+    tool?: StringFilter<"AssistantPendingAction"> | string
+    input?: JsonFilter<"AssistantPendingAction">
+    summary?: StringFilter<"AssistantPendingAction"> | string
+    status?: StringFilter<"AssistantPendingAction"> | string
+    expiresAt?: DateTimeFilter<"AssistantPendingAction"> | Date | string
+    createdAt?: DateTimeFilter<"AssistantPendingAction"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"AssistantPendingAction"> | Date | string | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AssistantPendingActionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    tool?: SortOrder
+    input?: SortOrder
+    summary?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    _count?: AssistantPendingActionCountOrderByAggregateInput
+    _max?: AssistantPendingActionMaxOrderByAggregateInput
+    _min?: AssistantPendingActionMinOrderByAggregateInput
+  }
+
+  export type AssistantPendingActionScalarWhereWithAggregatesInput = {
+    AND?: AssistantPendingActionScalarWhereWithAggregatesInput | AssistantPendingActionScalarWhereWithAggregatesInput[]
+    OR?: AssistantPendingActionScalarWhereWithAggregatesInput[]
+    NOT?: AssistantPendingActionScalarWhereWithAggregatesInput | AssistantPendingActionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AssistantPendingAction"> | string
+    userId?: StringWithAggregatesFilter<"AssistantPendingAction"> | string
+    channel?: StringWithAggregatesFilter<"AssistantPendingAction"> | string
+    tool?: StringWithAggregatesFilter<"AssistantPendingAction"> | string
+    input?: JsonWithAggregatesFilter<"AssistantPendingAction">
+    summary?: StringWithAggregatesFilter<"AssistantPendingAction"> | string
+    status?: StringWithAggregatesFilter<"AssistantPendingAction"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"AssistantPendingAction"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"AssistantPendingAction"> | Date | string
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"AssistantPendingAction"> | Date | string | null
   }
 
   export type QuickReplyWhereInput = {
@@ -165508,6 +169227,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -165545,6 +169269,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -165562,6 +169289,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -165598,6 +169330,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -165614,6 +169349,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -165651,6 +169391,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -165668,6 +169411,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -165704,6 +169452,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -165721,6 +169472,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -165737,6 +169493,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -165754,6 +169515,281 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantNoteCreateInput = {
+    id?: string
+    companyId?: string | null
+    kind: string
+    title: string
+    body?: string | null
+    dueAt?: Date | string | null
+    done?: boolean
+    doneAt?: Date | string | null
+    remindedAt?: Date | string | null
+    source?: string
+    clientCompanyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAssistantNotesInput
+  }
+
+  export type AssistantNoteUncheckedCreateInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    kind: string
+    title: string
+    body?: string | null
+    dueAt?: Date | string | null
+    done?: boolean
+    doneAt?: Date | string | null
+    remindedAt?: Date | string | null
+    source?: string
+    clientCompanyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantNoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAssistantNotesNestedInput
+  }
+
+  export type AssistantNoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantNoteCreateManyInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    kind: string
+    title: string
+    body?: string | null
+    dueAt?: Date | string | null
+    done?: boolean
+    doneAt?: Date | string | null
+    remindedAt?: Date | string | null
+    source?: string
+    clientCompanyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantNoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantNoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantTurnCreateInput = {
+    id?: string
+    channel: string
+    role: string
+    content: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAssistantTurnsInput
+  }
+
+  export type AssistantTurnUncheckedCreateInput = {
+    id?: string
+    userId: string
+    channel: string
+    role: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantTurnUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAssistantTurnsNestedInput
+  }
+
+  export type AssistantTurnUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantTurnCreateManyInput = {
+    id?: string
+    userId: string
+    channel: string
+    role: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantTurnUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantTurnUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantPendingActionCreateInput = {
+    id?: string
+    channel: string
+    tool: string
+    input: JsonNullValueInput | InputJsonValue
+    summary: string
+    status?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    resolvedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutAssistantPendingInput
+  }
+
+  export type AssistantPendingActionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    channel: string
+    tool: string
+    input: JsonNullValueInput | InputJsonValue
+    summary: string
+    status?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type AssistantPendingActionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    tool?: StringFieldUpdateOperationsInput | string
+    input?: JsonNullValueInput | InputJsonValue
+    summary?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutAssistantPendingNestedInput
+  }
+
+  export type AssistantPendingActionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    tool?: StringFieldUpdateOperationsInput | string
+    input?: JsonNullValueInput | InputJsonValue
+    summary?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantPendingActionCreateManyInput = {
+    id?: string
+    userId: string
+    channel: string
+    tool: string
+    input: JsonNullValueInput | InputJsonValue
+    summary: string
+    status?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type AssistantPendingActionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    tool?: StringFieldUpdateOperationsInput | string
+    input?: JsonNullValueInput | InputJsonValue
+    summary?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantPendingActionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    tool?: StringFieldUpdateOperationsInput | string
+    input?: JsonNullValueInput | InputJsonValue
+    summary?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type QuickReplyCreateInput = {
@@ -179518,6 +183554,24 @@ export namespace Prisma {
     none?: StorageObjectWhereInput
   }
 
+  export type AssistantNoteListRelationFilter = {
+    every?: AssistantNoteWhereInput
+    some?: AssistantNoteWhereInput
+    none?: AssistantNoteWhereInput
+  }
+
+  export type AssistantTurnListRelationFilter = {
+    every?: AssistantTurnWhereInput
+    some?: AssistantTurnWhereInput
+    none?: AssistantTurnWhereInput
+  }
+
+  export type AssistantPendingActionListRelationFilter = {
+    every?: AssistantPendingActionWhereInput
+    some?: AssistantPendingActionWhereInput
+    none?: AssistantPendingActionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -179635,6 +183689,18 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type AssistantNoteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssistantTurnOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssistantPendingActionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -179650,6 +183716,11 @@ export namespace Prisma {
     companyId?: SortOrder
     rankingCategory?: SortOrder
     lastBadgeSeenAt?: SortOrder
+    assistantGroupJid?: SortOrder
+    assistantInstanceId?: SortOrder
+    mcpTokenHash?: SortOrder
+    mcpTokenCreatedAt?: SortOrder
+    mcpTokenLastUsedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -179667,6 +183738,11 @@ export namespace Prisma {
     companyId?: SortOrder
     rankingCategory?: SortOrder
     lastBadgeSeenAt?: SortOrder
+    assistantGroupJid?: SortOrder
+    assistantInstanceId?: SortOrder
+    mcpTokenHash?: SortOrder
+    mcpTokenCreatedAt?: SortOrder
+    mcpTokenLastUsedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -179684,6 +183760,11 @@ export namespace Prisma {
     companyId?: SortOrder
     rankingCategory?: SortOrder
     lastBadgeSeenAt?: SortOrder
+    assistantGroupJid?: SortOrder
+    assistantInstanceId?: SortOrder
+    mcpTokenHash?: SortOrder
+    mcpTokenCreatedAt?: SortOrder
+    mcpTokenLastUsedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -179778,6 +183859,173 @@ export namespace Prisma {
     _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
   }
 
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type AssistantNoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    dueAt?: SortOrder
+    done?: SortOrder
+    doneAt?: SortOrder
+    remindedAt?: SortOrder
+    source?: SortOrder
+    clientCompanyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssistantNoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    dueAt?: SortOrder
+    done?: SortOrder
+    doneAt?: SortOrder
+    remindedAt?: SortOrder
+    source?: SortOrder
+    clientCompanyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssistantNoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    dueAt?: SortOrder
+    done?: SortOrder
+    doneAt?: SortOrder
+    remindedAt?: SortOrder
+    source?: SortOrder
+    clientCompanyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssistantTurnCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    role?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AssistantTurnMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    role?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AssistantTurnMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    role?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+  }
+  export type JsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type AssistantPendingActionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    tool?: SortOrder
+    input?: SortOrder
+    summary?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    resolvedAt?: SortOrder
+  }
+
+  export type AssistantPendingActionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    tool?: SortOrder
+    summary?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    resolvedAt?: SortOrder
+  }
+
+  export type AssistantPendingActionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    channel?: SortOrder
+    tool?: SortOrder
+    summary?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    resolvedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -179857,11 +184105,6 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type UserRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type VaultEmailChallengeCountOrderByAggregateInput = {
@@ -186256,28 +190499,6 @@ export namespace Prisma {
     notIn?: $Enums.EmailCampaignStatus[] | ListEnumEmailCampaignStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumEmailCampaignStatusFilter<$PrismaModel> | $Enums.EmailCampaignStatus
   }
-  export type JsonFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type EmailTemplateRelationFilter = {
     is?: EmailTemplateWhereInput
@@ -186385,31 +190606,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumEmailCampaignStatusFilter<$PrismaModel>
     _max?: NestedEnumEmailCampaignStatusFilter<$PrismaModel>
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type EnumEmailRecipientStatusFilter<$PrismaModel = never> = {
@@ -188867,6 +193063,27 @@ export namespace Prisma {
     connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
   }
 
+  export type AssistantNoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<AssistantNoteCreateWithoutUserInput, AssistantNoteUncheckedCreateWithoutUserInput> | AssistantNoteCreateWithoutUserInput[] | AssistantNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantNoteCreateOrConnectWithoutUserInput | AssistantNoteCreateOrConnectWithoutUserInput[]
+    createMany?: AssistantNoteCreateManyUserInputEnvelope
+    connect?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+  }
+
+  export type AssistantTurnCreateNestedManyWithoutUserInput = {
+    create?: XOR<AssistantTurnCreateWithoutUserInput, AssistantTurnUncheckedCreateWithoutUserInput> | AssistantTurnCreateWithoutUserInput[] | AssistantTurnUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantTurnCreateOrConnectWithoutUserInput | AssistantTurnCreateOrConnectWithoutUserInput[]
+    createMany?: AssistantTurnCreateManyUserInputEnvelope
+    connect?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+  }
+
+  export type AssistantPendingActionCreateNestedManyWithoutUserInput = {
+    create?: XOR<AssistantPendingActionCreateWithoutUserInput, AssistantPendingActionUncheckedCreateWithoutUserInput> | AssistantPendingActionCreateWithoutUserInput[] | AssistantPendingActionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantPendingActionCreateOrConnectWithoutUserInput | AssistantPendingActionCreateOrConnectWithoutUserInput[]
+    createMany?: AssistantPendingActionCreateManyUserInputEnvelope
+    connect?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -189115,6 +193332,27 @@ export namespace Prisma {
     connectOrCreate?: StorageObjectCreateOrConnectWithoutUploadedByInput | StorageObjectCreateOrConnectWithoutUploadedByInput[]
     createMany?: StorageObjectCreateManyUploadedByInputEnvelope
     connect?: StorageObjectWhereUniqueInput | StorageObjectWhereUniqueInput[]
+  }
+
+  export type AssistantNoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AssistantNoteCreateWithoutUserInput, AssistantNoteUncheckedCreateWithoutUserInput> | AssistantNoteCreateWithoutUserInput[] | AssistantNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantNoteCreateOrConnectWithoutUserInput | AssistantNoteCreateOrConnectWithoutUserInput[]
+    createMany?: AssistantNoteCreateManyUserInputEnvelope
+    connect?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+  }
+
+  export type AssistantTurnUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AssistantTurnCreateWithoutUserInput, AssistantTurnUncheckedCreateWithoutUserInput> | AssistantTurnCreateWithoutUserInput[] | AssistantTurnUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantTurnCreateOrConnectWithoutUserInput | AssistantTurnCreateOrConnectWithoutUserInput[]
+    createMany?: AssistantTurnCreateManyUserInputEnvelope
+    connect?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+  }
+
+  export type AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AssistantPendingActionCreateWithoutUserInput, AssistantPendingActionUncheckedCreateWithoutUserInput> | AssistantPendingActionCreateWithoutUserInput[] | AssistantPendingActionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantPendingActionCreateOrConnectWithoutUserInput | AssistantPendingActionCreateOrConnectWithoutUserInput[]
+    createMany?: AssistantPendingActionCreateManyUserInputEnvelope
+    connect?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -189651,6 +193889,48 @@ export namespace Prisma {
     deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
   }
 
+  export type AssistantNoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AssistantNoteCreateWithoutUserInput, AssistantNoteUncheckedCreateWithoutUserInput> | AssistantNoteCreateWithoutUserInput[] | AssistantNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantNoteCreateOrConnectWithoutUserInput | AssistantNoteCreateOrConnectWithoutUserInput[]
+    upsert?: AssistantNoteUpsertWithWhereUniqueWithoutUserInput | AssistantNoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AssistantNoteCreateManyUserInputEnvelope
+    set?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+    disconnect?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+    delete?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+    connect?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+    update?: AssistantNoteUpdateWithWhereUniqueWithoutUserInput | AssistantNoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AssistantNoteUpdateManyWithWhereWithoutUserInput | AssistantNoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AssistantNoteScalarWhereInput | AssistantNoteScalarWhereInput[]
+  }
+
+  export type AssistantTurnUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AssistantTurnCreateWithoutUserInput, AssistantTurnUncheckedCreateWithoutUserInput> | AssistantTurnCreateWithoutUserInput[] | AssistantTurnUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantTurnCreateOrConnectWithoutUserInput | AssistantTurnCreateOrConnectWithoutUserInput[]
+    upsert?: AssistantTurnUpsertWithWhereUniqueWithoutUserInput | AssistantTurnUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AssistantTurnCreateManyUserInputEnvelope
+    set?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+    disconnect?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+    delete?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+    connect?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+    update?: AssistantTurnUpdateWithWhereUniqueWithoutUserInput | AssistantTurnUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AssistantTurnUpdateManyWithWhereWithoutUserInput | AssistantTurnUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AssistantTurnScalarWhereInput | AssistantTurnScalarWhereInput[]
+  }
+
+  export type AssistantPendingActionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AssistantPendingActionCreateWithoutUserInput, AssistantPendingActionUncheckedCreateWithoutUserInput> | AssistantPendingActionCreateWithoutUserInput[] | AssistantPendingActionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantPendingActionCreateOrConnectWithoutUserInput | AssistantPendingActionCreateOrConnectWithoutUserInput[]
+    upsert?: AssistantPendingActionUpsertWithWhereUniqueWithoutUserInput | AssistantPendingActionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AssistantPendingActionCreateManyUserInputEnvelope
+    set?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+    disconnect?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+    delete?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+    connect?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+    update?: AssistantPendingActionUpdateWithWhereUniqueWithoutUserInput | AssistantPendingActionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AssistantPendingActionUpdateManyWithWhereWithoutUserInput | AssistantPendingActionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AssistantPendingActionScalarWhereInput | AssistantPendingActionScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -190145,6 +194425,90 @@ export namespace Prisma {
     update?: StorageObjectUpdateWithWhereUniqueWithoutUploadedByInput | StorageObjectUpdateWithWhereUniqueWithoutUploadedByInput[]
     updateMany?: StorageObjectUpdateManyWithWhereWithoutUploadedByInput | StorageObjectUpdateManyWithWhereWithoutUploadedByInput[]
     deleteMany?: StorageObjectScalarWhereInput | StorageObjectScalarWhereInput[]
+  }
+
+  export type AssistantNoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AssistantNoteCreateWithoutUserInput, AssistantNoteUncheckedCreateWithoutUserInput> | AssistantNoteCreateWithoutUserInput[] | AssistantNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantNoteCreateOrConnectWithoutUserInput | AssistantNoteCreateOrConnectWithoutUserInput[]
+    upsert?: AssistantNoteUpsertWithWhereUniqueWithoutUserInput | AssistantNoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AssistantNoteCreateManyUserInputEnvelope
+    set?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+    disconnect?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+    delete?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+    connect?: AssistantNoteWhereUniqueInput | AssistantNoteWhereUniqueInput[]
+    update?: AssistantNoteUpdateWithWhereUniqueWithoutUserInput | AssistantNoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AssistantNoteUpdateManyWithWhereWithoutUserInput | AssistantNoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AssistantNoteScalarWhereInput | AssistantNoteScalarWhereInput[]
+  }
+
+  export type AssistantTurnUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AssistantTurnCreateWithoutUserInput, AssistantTurnUncheckedCreateWithoutUserInput> | AssistantTurnCreateWithoutUserInput[] | AssistantTurnUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantTurnCreateOrConnectWithoutUserInput | AssistantTurnCreateOrConnectWithoutUserInput[]
+    upsert?: AssistantTurnUpsertWithWhereUniqueWithoutUserInput | AssistantTurnUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AssistantTurnCreateManyUserInputEnvelope
+    set?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+    disconnect?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+    delete?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+    connect?: AssistantTurnWhereUniqueInput | AssistantTurnWhereUniqueInput[]
+    update?: AssistantTurnUpdateWithWhereUniqueWithoutUserInput | AssistantTurnUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AssistantTurnUpdateManyWithWhereWithoutUserInput | AssistantTurnUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AssistantTurnScalarWhereInput | AssistantTurnScalarWhereInput[]
+  }
+
+  export type AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AssistantPendingActionCreateWithoutUserInput, AssistantPendingActionUncheckedCreateWithoutUserInput> | AssistantPendingActionCreateWithoutUserInput[] | AssistantPendingActionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantPendingActionCreateOrConnectWithoutUserInput | AssistantPendingActionCreateOrConnectWithoutUserInput[]
+    upsert?: AssistantPendingActionUpsertWithWhereUniqueWithoutUserInput | AssistantPendingActionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AssistantPendingActionCreateManyUserInputEnvelope
+    set?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+    disconnect?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+    delete?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+    connect?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+    update?: AssistantPendingActionUpdateWithWhereUniqueWithoutUserInput | AssistantPendingActionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AssistantPendingActionUpdateManyWithWhereWithoutUserInput | AssistantPendingActionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AssistantPendingActionScalarWhereInput | AssistantPendingActionScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutAssistantNotesInput = {
+    create?: XOR<UserCreateWithoutAssistantNotesInput, UserUncheckedCreateWithoutAssistantNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantNotesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutAssistantNotesNestedInput = {
+    create?: XOR<UserCreateWithoutAssistantNotesInput, UserUncheckedCreateWithoutAssistantNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantNotesInput
+    upsert?: UserUpsertWithoutAssistantNotesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssistantNotesInput, UserUpdateWithoutAssistantNotesInput>, UserUncheckedUpdateWithoutAssistantNotesInput>
+  }
+
+  export type UserCreateNestedOneWithoutAssistantTurnsInput = {
+    create?: XOR<UserCreateWithoutAssistantTurnsInput, UserUncheckedCreateWithoutAssistantTurnsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantTurnsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutAssistantTurnsNestedInput = {
+    create?: XOR<UserCreateWithoutAssistantTurnsInput, UserUncheckedCreateWithoutAssistantTurnsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantTurnsInput
+    upsert?: UserUpsertWithoutAssistantTurnsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssistantTurnsInput, UserUpdateWithoutAssistantTurnsInput>, UserUncheckedUpdateWithoutAssistantTurnsInput>
+  }
+
+  export type UserCreateNestedOneWithoutAssistantPendingInput = {
+    create?: XOR<UserCreateWithoutAssistantPendingInput, UserUncheckedCreateWithoutAssistantPendingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantPendingInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutAssistantPendingNestedInput = {
+    create?: XOR<UserCreateWithoutAssistantPendingInput, UserUncheckedCreateWithoutAssistantPendingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantPendingInput
+    upsert?: UserUpsertWithoutAssistantPendingInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssistantPendingInput, UserUpdateWithoutAssistantPendingInput>, UserUncheckedUpdateWithoutAssistantPendingInput>
   }
 
   export type CompanyCreateNestedOneWithoutQuickRepliesInput = {
@@ -201117,6 +205481,28 @@ export namespace Prisma {
     _min?: NestedEnumRankingCategoryFilter<$PrismaModel>
     _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
@@ -201954,28 +206340,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumEmailCampaignStatusFilter<$PrismaModel>
     _max?: NestedEnumEmailCampaignStatusFilter<$PrismaModel>
-  }
-  export type NestedJsonFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumEmailRecipientStatusFilter<$PrismaModel = never> = {
@@ -203990,6 +208354,108 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AssistantNoteCreateWithoutUserInput = {
+    id?: string
+    companyId?: string | null
+    kind: string
+    title: string
+    body?: string | null
+    dueAt?: Date | string | null
+    done?: boolean
+    doneAt?: Date | string | null
+    remindedAt?: Date | string | null
+    source?: string
+    clientCompanyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantNoteUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId?: string | null
+    kind: string
+    title: string
+    body?: string | null
+    dueAt?: Date | string | null
+    done?: boolean
+    doneAt?: Date | string | null
+    remindedAt?: Date | string | null
+    source?: string
+    clientCompanyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantNoteCreateOrConnectWithoutUserInput = {
+    where: AssistantNoteWhereUniqueInput
+    create: XOR<AssistantNoteCreateWithoutUserInput, AssistantNoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssistantNoteCreateManyUserInputEnvelope = {
+    data: AssistantNoteCreateManyUserInput | AssistantNoteCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssistantTurnCreateWithoutUserInput = {
+    id?: string
+    channel: string
+    role: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantTurnUncheckedCreateWithoutUserInput = {
+    id?: string
+    channel: string
+    role: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantTurnCreateOrConnectWithoutUserInput = {
+    where: AssistantTurnWhereUniqueInput
+    create: XOR<AssistantTurnCreateWithoutUserInput, AssistantTurnUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssistantTurnCreateManyUserInputEnvelope = {
+    data: AssistantTurnCreateManyUserInput | AssistantTurnCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssistantPendingActionCreateWithoutUserInput = {
+    id?: string
+    channel: string
+    tool: string
+    input: JsonNullValueInput | InputJsonValue
+    summary: string
+    status?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type AssistantPendingActionUncheckedCreateWithoutUserInput = {
+    id?: string
+    channel: string
+    tool: string
+    input: JsonNullValueInput | InputJsonValue
+    summary: string
+    status?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type AssistantPendingActionCreateOrConnectWithoutUserInput = {
+    where: AssistantPendingActionWhereUniqueInput
+    create: XOR<AssistantPendingActionCreateWithoutUserInput, AssistantPendingActionUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssistantPendingActionCreateManyUserInputEnvelope = {
+    data: AssistantPendingActionCreateManyUserInput | AssistantPendingActionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -205383,6 +209849,870 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
   }
 
+  export type AssistantNoteUpsertWithWhereUniqueWithoutUserInput = {
+    where: AssistantNoteWhereUniqueInput
+    update: XOR<AssistantNoteUpdateWithoutUserInput, AssistantNoteUncheckedUpdateWithoutUserInput>
+    create: XOR<AssistantNoteCreateWithoutUserInput, AssistantNoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssistantNoteUpdateWithWhereUniqueWithoutUserInput = {
+    where: AssistantNoteWhereUniqueInput
+    data: XOR<AssistantNoteUpdateWithoutUserInput, AssistantNoteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AssistantNoteUpdateManyWithWhereWithoutUserInput = {
+    where: AssistantNoteScalarWhereInput
+    data: XOR<AssistantNoteUpdateManyMutationInput, AssistantNoteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AssistantNoteScalarWhereInput = {
+    AND?: AssistantNoteScalarWhereInput | AssistantNoteScalarWhereInput[]
+    OR?: AssistantNoteScalarWhereInput[]
+    NOT?: AssistantNoteScalarWhereInput | AssistantNoteScalarWhereInput[]
+    id?: StringFilter<"AssistantNote"> | string
+    userId?: StringFilter<"AssistantNote"> | string
+    companyId?: StringNullableFilter<"AssistantNote"> | string | null
+    kind?: StringFilter<"AssistantNote"> | string
+    title?: StringFilter<"AssistantNote"> | string
+    body?: StringNullableFilter<"AssistantNote"> | string | null
+    dueAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    done?: BoolFilter<"AssistantNote"> | boolean
+    doneAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    remindedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    source?: StringFilter<"AssistantNote"> | string
+    clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
+    createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
+    updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
+  }
+
+  export type AssistantTurnUpsertWithWhereUniqueWithoutUserInput = {
+    where: AssistantTurnWhereUniqueInput
+    update: XOR<AssistantTurnUpdateWithoutUserInput, AssistantTurnUncheckedUpdateWithoutUserInput>
+    create: XOR<AssistantTurnCreateWithoutUserInput, AssistantTurnUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssistantTurnUpdateWithWhereUniqueWithoutUserInput = {
+    where: AssistantTurnWhereUniqueInput
+    data: XOR<AssistantTurnUpdateWithoutUserInput, AssistantTurnUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AssistantTurnUpdateManyWithWhereWithoutUserInput = {
+    where: AssistantTurnScalarWhereInput
+    data: XOR<AssistantTurnUpdateManyMutationInput, AssistantTurnUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AssistantTurnScalarWhereInput = {
+    AND?: AssistantTurnScalarWhereInput | AssistantTurnScalarWhereInput[]
+    OR?: AssistantTurnScalarWhereInput[]
+    NOT?: AssistantTurnScalarWhereInput | AssistantTurnScalarWhereInput[]
+    id?: StringFilter<"AssistantTurn"> | string
+    userId?: StringFilter<"AssistantTurn"> | string
+    channel?: StringFilter<"AssistantTurn"> | string
+    role?: StringFilter<"AssistantTurn"> | string
+    content?: StringFilter<"AssistantTurn"> | string
+    createdAt?: DateTimeFilter<"AssistantTurn"> | Date | string
+  }
+
+  export type AssistantPendingActionUpsertWithWhereUniqueWithoutUserInput = {
+    where: AssistantPendingActionWhereUniqueInput
+    update: XOR<AssistantPendingActionUpdateWithoutUserInput, AssistantPendingActionUncheckedUpdateWithoutUserInput>
+    create: XOR<AssistantPendingActionCreateWithoutUserInput, AssistantPendingActionUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssistantPendingActionUpdateWithWhereUniqueWithoutUserInput = {
+    where: AssistantPendingActionWhereUniqueInput
+    data: XOR<AssistantPendingActionUpdateWithoutUserInput, AssistantPendingActionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AssistantPendingActionUpdateManyWithWhereWithoutUserInput = {
+    where: AssistantPendingActionScalarWhereInput
+    data: XOR<AssistantPendingActionUpdateManyMutationInput, AssistantPendingActionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AssistantPendingActionScalarWhereInput = {
+    AND?: AssistantPendingActionScalarWhereInput | AssistantPendingActionScalarWhereInput[]
+    OR?: AssistantPendingActionScalarWhereInput[]
+    NOT?: AssistantPendingActionScalarWhereInput | AssistantPendingActionScalarWhereInput[]
+    id?: StringFilter<"AssistantPendingAction"> | string
+    userId?: StringFilter<"AssistantPendingAction"> | string
+    channel?: StringFilter<"AssistantPendingAction"> | string
+    tool?: StringFilter<"AssistantPendingAction"> | string
+    input?: JsonFilter<"AssistantPendingAction">
+    summary?: StringFilter<"AssistantPendingAction"> | string
+    status?: StringFilter<"AssistantPendingAction"> | string
+    expiresAt?: DateTimeFilter<"AssistantPendingAction"> | Date | string
+    createdAt?: DateTimeFilter<"AssistantPendingAction"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"AssistantPendingAction"> | Date | string | null
+  }
+
+  export type UserCreateWithoutAssistantNotesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAssistantNotesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAssistantNotesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssistantNotesInput, UserUncheckedCreateWithoutAssistantNotesInput>
+  }
+
+  export type UserUpsertWithoutAssistantNotesInput = {
+    update: XOR<UserUpdateWithoutAssistantNotesInput, UserUncheckedUpdateWithoutAssistantNotesInput>
+    create: XOR<UserCreateWithoutAssistantNotesInput, UserUncheckedCreateWithoutAssistantNotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssistantNotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssistantNotesInput, UserUncheckedUpdateWithoutAssistantNotesInput>
+  }
+
+  export type UserUpdateWithoutAssistantNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssistantNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutAssistantTurnsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAssistantTurnsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAssistantTurnsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssistantTurnsInput, UserUncheckedCreateWithoutAssistantTurnsInput>
+  }
+
+  export type UserUpsertWithoutAssistantTurnsInput = {
+    update: XOR<UserUpdateWithoutAssistantTurnsInput, UserUncheckedUpdateWithoutAssistantTurnsInput>
+    create: XOR<UserCreateWithoutAssistantTurnsInput, UserUncheckedCreateWithoutAssistantTurnsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssistantTurnsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssistantTurnsInput, UserUncheckedUpdateWithoutAssistantTurnsInput>
+  }
+
+  export type UserUpdateWithoutAssistantTurnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssistantTurnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutAssistantPendingInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAssistantPendingInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAssistantPendingInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssistantPendingInput, UserUncheckedCreateWithoutAssistantPendingInput>
+  }
+
+  export type UserUpsertWithoutAssistantPendingInput = {
+    update: XOR<UserUpdateWithoutAssistantPendingInput, UserUncheckedUpdateWithoutAssistantPendingInput>
+    create: XOR<UserCreateWithoutAssistantPendingInput, UserUncheckedCreateWithoutAssistantPendingInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssistantPendingInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssistantPendingInput, UserUncheckedUpdateWithoutAssistantPendingInput>
+  }
+
+  export type UserUpdateWithoutAssistantPendingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssistantPendingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type CompanyCreateWithoutQuickRepliesInput = {
     id?: string
     name: string
@@ -205672,6 +211002,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -205708,6 +211043,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutQuickRepliesInput = {
@@ -205725,6 +211063,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -205760,6 +211103,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutQuickRepliesInput = {
@@ -206073,6 +211419,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -206109,6 +211460,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuickRepliesInput = {
@@ -206126,6 +211480,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -206161,6 +211520,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutVaultChallengesInput = {
@@ -206177,6 +211539,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -206213,6 +211580,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -206230,6 +211600,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -206265,6 +211640,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -206297,6 +211675,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -206333,6 +211716,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -206350,6 +211736,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -206385,6 +211776,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -206401,6 +211795,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -206437,6 +211836,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -206454,6 +211856,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -206489,6 +211896,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -206521,6 +211931,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -206557,6 +211972,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -206574,6 +211992,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -206609,6 +212032,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -206625,6 +212051,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -206661,6 +212092,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -206678,6 +212112,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -206713,6 +212152,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -206745,6 +212187,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -206781,6 +212228,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -206798,6 +212248,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -206833,6 +212288,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -207404,6 +212862,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
@@ -207440,6 +212903,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -207456,6 +212922,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -207492,6 +212963,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -211635,6 +217109,11 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"User"> | string | null
     rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
     lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    assistantGroupJid?: StringNullableFilter<"User"> | string | null
+    assistantInstanceId?: StringNullableFilter<"User"> | string | null
+    mcpTokenHash?: StringNullableFilter<"User"> | string | null
+    mcpTokenCreatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    mcpTokenLastUsedAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
 
   export type UserScoreUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -221249,6 +226728,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -221285,6 +226769,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksAssignedInput = {
@@ -221302,6 +226789,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -221337,6 +226829,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksAssignedInput = {
@@ -221358,6 +226853,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -221394,6 +226894,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksCreatedInput = {
@@ -221411,6 +226914,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -221446,6 +226954,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksCreatedInput = {
@@ -221882,6 +227393,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -221918,6 +227434,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksAssignedInput = {
@@ -221935,6 +227454,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -221970,6 +227494,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutTasksCreatedInput = {
@@ -221997,6 +227524,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -222033,6 +227565,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksCreatedInput = {
@@ -222050,6 +227585,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -222085,6 +227625,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LeadCreateWithoutCommentsInput = {
@@ -223172,6 +228715,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -223208,6 +228756,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -223225,6 +228776,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
@@ -223260,6 +228816,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -223573,6 +229132,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -223609,6 +229173,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -223626,6 +229193,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
@@ -223661,6 +229233,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutOwnedInstancesInput = {
@@ -223677,6 +229252,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -223713,6 +229293,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOwnedInstancesInput = {
@@ -223730,6 +229313,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -223765,6 +229353,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOwnedInstancesInput = {
@@ -224350,6 +229941,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -224386,6 +229982,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedInstancesInput = {
@@ -224403,6 +230002,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -224438,6 +230042,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutWhatsappInstancesInput = {
@@ -225368,6 +230975,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -225404,6 +231016,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -225421,6 +231036,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -225456,6 +231076,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -226063,6 +231686,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -226099,6 +231727,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -226116,6 +231747,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -226151,6 +231787,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -226811,6 +232450,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -226847,6 +232491,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -226864,6 +232511,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -226899,6 +232551,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -227576,6 +233231,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -227612,6 +233272,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -227629,6 +233292,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -227664,6 +233332,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -229651,6 +235322,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
@@ -229687,6 +235363,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -229704,6 +235383,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
@@ -229739,6 +235423,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -230035,6 +235722,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
@@ -230071,6 +235763,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -230088,6 +235783,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
@@ -230123,6 +235823,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -230796,6 +236499,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
@@ -230832,6 +236540,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -230849,6 +236560,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
@@ -230884,6 +236600,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -231192,6 +236911,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
@@ -231228,6 +236952,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -231245,6 +236972,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
@@ -231280,6 +237012,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -234522,6 +240257,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -234558,6 +240298,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksAssignedInput = {
@@ -234575,6 +240318,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -234610,6 +240358,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksAssignedInput = {
@@ -234631,6 +240382,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -234667,6 +240423,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksCreatedInput = {
@@ -234684,6 +240443,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -234719,6 +240483,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksCreatedInput = {
@@ -234989,6 +240756,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -235025,6 +240797,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksAssignedInput = {
@@ -235042,6 +240817,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -235077,6 +240857,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutProjectTasksCreatedInput = {
@@ -235104,6 +240887,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -235140,6 +240928,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksCreatedInput = {
@@ -235157,6 +240948,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -235192,6 +240988,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectMaterialUpsertWithWhereUniqueWithoutTaskInput = {
@@ -235923,6 +241722,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -235959,6 +241763,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketAccessInput = {
@@ -235976,6 +241783,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -236011,6 +241823,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketAccessInput = {
@@ -236112,6 +241927,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -236148,6 +241968,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketAccessInput = {
@@ -236165,6 +241988,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -236200,6 +242028,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutAccessUsersInput = {
@@ -236291,6 +242122,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -236327,6 +242163,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectAccessInput = {
@@ -236344,6 +242183,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -236379,6 +242223,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectAccessInput = {
@@ -236492,6 +242339,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -236528,6 +242380,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectAccessInput = {
@@ -236545,6 +242400,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -236580,6 +242440,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutTaskStatesInput = {
@@ -236983,6 +242846,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -237019,6 +242887,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -237036,6 +242907,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -237071,6 +242947,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -237184,6 +243063,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -237220,6 +243104,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -237237,6 +243124,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -237272,6 +243164,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutMaterialsInput = {
@@ -237641,6 +243536,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -237677,6 +243577,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -237694,6 +243597,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -237729,6 +243637,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -237840,6 +243751,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -237876,6 +243792,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -237893,6 +243812,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -237928,6 +243852,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -257740,6 +263667,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -257776,6 +263708,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -257793,6 +263728,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -257828,6 +263768,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -258166,6 +264109,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -258202,6 +264150,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -258219,6 +264170,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -258254,6 +264210,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutRewardRedemptionsInput = {
@@ -258588,6 +264547,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -258624,6 +264588,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -258641,6 +264608,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -258676,6 +264648,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -258983,6 +264958,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -259019,6 +264999,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -259036,6 +265019,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -259071,6 +265059,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -259368,6 +265359,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -259404,6 +265400,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -259421,6 +265420,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -259456,6 +265460,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -259763,6 +265770,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -259799,6 +265811,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -259816,6 +265831,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -259851,6 +265871,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -260148,6 +266171,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -260184,6 +266212,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -260201,6 +266232,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -260236,6 +266272,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -260543,6 +266582,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -260579,6 +266623,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -260596,6 +266643,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -260631,6 +266683,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -261484,6 +267539,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -261520,6 +267580,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -261537,6 +267600,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -261572,6 +267640,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -261604,6 +267675,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -261640,6 +267716,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -261657,6 +267736,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -261692,6 +267776,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotifPreferencesInput = {
@@ -261708,6 +267795,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -261744,6 +267836,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotifPreferencesInput = {
@@ -261761,6 +267856,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -261796,6 +267896,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotifPreferencesInput = {
@@ -261828,6 +267931,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -261864,6 +267972,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotifPreferencesInput = {
@@ -261881,6 +267992,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -261916,6 +268032,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutEmailConfigInput = {
@@ -263424,6 +269543,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -263460,6 +269584,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEmailCampaignsCreatedInput = {
@@ -263477,6 +269604,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -263512,6 +269644,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEmailCampaignsCreatedInput = {
@@ -264026,6 +270161,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -264062,6 +270202,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailCampaignsCreatedInput = {
@@ -264079,6 +270222,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -264114,6 +270262,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmailRecipientUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -270487,6 +276638,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -270523,6 +276679,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantCalendarsInput = {
@@ -270540,6 +276699,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -270575,6 +276739,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantCalendarsInput = {
@@ -270754,6 +276921,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -270790,6 +276962,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantsCreatedInput = {
@@ -270807,6 +276982,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -270842,6 +277022,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantsCreatedInput = {
@@ -271155,6 +277338,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -271191,6 +277379,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantCalendarsInput = {
@@ -271208,6 +277399,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -271243,6 +277439,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutAssistantsInput = {
@@ -271406,6 +277605,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -271442,6 +277646,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantsCreatedInput = {
@@ -271459,6 +277666,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -271494,6 +277706,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutScheduledMessagesInput = {
@@ -277605,6 +283820,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -277641,6 +283861,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBonusesInput = {
@@ -277658,6 +283881,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -277693,6 +283921,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBonusesInput = {
@@ -278138,6 +284369,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -278174,6 +284410,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBonusesInput = {
@@ -278191,6 +284430,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -278226,6 +284470,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutMonthlyTargetsInput = {
@@ -280452,6 +286699,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -280488,6 +286740,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimePunchesInput = {
@@ -280505,6 +286760,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -280540,6 +286800,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimePunchesInput = {
@@ -280853,6 +287116,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -280889,6 +287157,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimePunchesInput = {
@@ -280906,6 +287177,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -280941,6 +287217,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutWorkScheduleDaysInput = {
@@ -281232,6 +287511,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -281268,6 +287552,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWorkScheduleDaysInput = {
@@ -281285,6 +287572,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -281320,6 +287612,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWorkScheduleDaysInput = {
@@ -281633,6 +287928,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -281669,6 +287969,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkScheduleDaysInput = {
@@ -281686,6 +287989,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -281721,6 +288029,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutTimeOffEntriesInput = {
@@ -282012,6 +288323,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -282048,6 +288364,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimeOffEntriesInput = {
@@ -282065,6 +288384,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -282100,6 +288424,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimeOffEntriesInput = {
@@ -282121,6 +288448,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -282157,6 +288489,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimeOffsCreatedInput = {
@@ -282174,6 +288509,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -282209,6 +288549,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimeOffsCreatedInput = {
@@ -282522,6 +288865,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -282558,6 +288906,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeOffEntriesInput = {
@@ -282575,6 +288926,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -282610,6 +288966,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutTimeOffsCreatedInput = {
@@ -282637,6 +288996,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -282673,6 +289037,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeOffsCreatedInput = {
@@ -282690,6 +289057,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -282725,6 +289097,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutPunchAdjustRequestsInput = {
@@ -283016,6 +289391,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -283052,6 +289432,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPunchAdjustRequestsInput = {
@@ -283069,6 +289452,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -283104,6 +289492,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPunchAdjustRequestsInput = {
@@ -283125,6 +289516,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -283161,6 +289557,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPunchAdjustsReviewedInput = {
@@ -283178,6 +289577,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -283213,6 +289617,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPunchAdjustsReviewedInput = {
@@ -283526,6 +289933,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -283562,6 +289974,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPunchAdjustRequestsInput = {
@@ -283579,6 +289994,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -283614,6 +290034,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutPunchAdjustsReviewedInput = {
@@ -283641,6 +290064,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -283677,6 +290105,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPunchAdjustsReviewedInput = {
@@ -283694,6 +290125,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -283729,6 +290165,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutTimesheetSignaturesInput = {
@@ -284020,6 +290459,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -284056,6 +290500,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimesheetSignaturesInput = {
@@ -284073,6 +290520,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -284108,6 +290560,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimesheetSignaturesInput = {
@@ -284421,6 +290876,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -284457,6 +290917,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimesheetSignaturesInput = {
@@ -284474,6 +290937,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -284509,6 +290977,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutStorageObjectsInput = {
@@ -284990,6 +291461,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -285026,6 +291502,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUploadedFilesInput = {
@@ -285043,6 +291522,11 @@ export namespace Prisma {
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -285078,6 +291562,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
     ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUploadedFilesInput = {
@@ -285605,6 +292092,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -285641,6 +292133,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUploadedFilesInput = {
@@ -285658,6 +292153,11 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -285693,6 +292193,9 @@ export namespace Prisma {
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutLibraryItemsInput = {
@@ -286851,6 +293354,42 @@ export namespace Prisma {
     libraryCompanyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type AssistantNoteCreateManyUserInput = {
+    id?: string
+    companyId?: string | null
+    kind: string
+    title: string
+    body?: string | null
+    dueAt?: Date | string | null
+    done?: boolean
+    doneAt?: Date | string | null
+    remindedAt?: Date | string | null
+    source?: string
+    clientCompanyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantTurnCreateManyUserInput = {
+    id?: string
+    channel: string
+    role: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type AssistantPendingActionCreateManyUserInput = {
+    id?: string
+    channel: string
+    tool: string
+    input: JsonNullValueInput | InputJsonValue
+    summary: string
+    status?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    resolvedAt?: Date | string | null
   }
 
   export type TicketUpdateWithoutCreatedByInput = {
@@ -288459,6 +294998,114 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssistantNoteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantNoteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantNoteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantTurnUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantTurnUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantTurnUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantPendingActionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    tool?: StringFieldUpdateOperationsInput | string
+    input?: JsonNullValueInput | InputJsonValue
+    summary?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantPendingActionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    tool?: StringFieldUpdateOperationsInput | string
+    input?: JsonNullValueInput | InputJsonValue
+    summary?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantPendingActionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    tool?: StringFieldUpdateOperationsInput | string
+    input?: JsonNullValueInput | InputJsonValue
+    summary?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
@@ -288519,6 +295166,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: boolean
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
   }
 
   export type UserScoreCreateManyCompanyInput = {
@@ -290145,6 +296797,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
@@ -290181,6 +296838,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -290197,6 +296857,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -290233,6 +296898,9 @@ export namespace Prisma {
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
     ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -290249,6 +296917,11 @@ export namespace Prisma {
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserScoreUpdateWithoutCompanyInput = {
@@ -300389,6 +307062,18 @@ export namespace Prisma {
      * @deprecated Use UserDefaultArgs instead
      */
     export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssistantNoteDefaultArgs instead
+     */
+    export type AssistantNoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantNoteDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssistantTurnDefaultArgs instead
+     */
+    export type AssistantTurnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantTurnDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssistantPendingActionDefaultArgs instead
+     */
+    export type AssistantPendingActionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantPendingActionDefaultArgs<ExtArgs>
     /**
      * @deprecated Use QuickReplyDefaultArgs instead
      */

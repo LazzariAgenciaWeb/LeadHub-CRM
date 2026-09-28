@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import PushNotificationsToggle from "@/components/PushNotificationsToggle";
+import AssistentePessoalSettings from "./AssistentePessoalSettings";
 
 const MAX_SIGNATURE = 120;
 
@@ -13,6 +14,8 @@ const ROLE_LABEL: Record<string, string> = {
 
 export default function MeuPerfilSettings({
   initialUser,
+  assistantInstance,
+  instances,
 }: {
   initialUser: {
     id: string;
@@ -21,7 +24,11 @@ export default function MeuPerfilSettings({
     role: string;
     whatsappSignature: string | null;
     whatsappSignatureDefault: boolean;
+    assistantGroupJid?: string | null;
+    mcpTokenCreatedAt?: Date | null;
   };
+  assistantInstance?: { label: string | null; instanceName: string; phone: string | null } | null;
+  instances?: { id: string; label: string | null; instanceName: string; phone: string | null; status: string; acceptGroups: boolean }[];
 }) {
   const [signature, setSignature]   = useState(initialUser.whatsappSignature ?? "");
   const [defaultOn, setDefaultOn]   = useState(initialUser.whatsappSignatureDefault);
@@ -77,6 +84,15 @@ export default function MeuPerfilSettings({
 
       {/* Push notifications */}
       <PushNotificationsToggle />
+
+      {/* Assistente pessoal: grupo do WhatsApp + token MCP */}
+      <AssistentePessoalSettings
+        initialLinked={!!initialUser.assistantGroupJid}
+        assistantInstance={assistantInstance ?? null}
+        instances={instances ?? []}
+        hasMcpToken={!!initialUser.mcpTokenCreatedAt}
+        mcpTokenCreatedAt={initialUser.mcpTokenCreatedAt ? new Date(initialUser.mcpTokenCreatedAt).toISOString() : null}
+      />
 
       {/* Dados básicos (read-only) */}
       <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">

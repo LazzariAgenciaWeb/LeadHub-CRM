@@ -85,6 +85,50 @@ export async function chatCompletionDetailed(
 }
 
 /**
+ * Transcreve um áudio (base64) via Whisper. Usado pelo assistente pessoal
+ * (áudio no WhatsApp ou microfone no app). Retorna null em erro.
+ */
+export async function transcribeAudio(
+  config: OpenAIConfig,
+  base64: string,
+  mimeType: string | null,
+  options?: { language?: string; prompt?: string }
+): Promise<string | null> {
+  try {
+    const mime = (mimeType ?? "audio/ogg").split(";")[0].trim();
+    const ext =
+      mime.includes("ogg") ? "ogg" :
+      mime.includes("mpeg") || mime.includes("mp3") ? "mp3" :
+      mime.includes("mp4") || mime.includes("m4a") ? "m4a" :
+      mime.includes("webm") ? "webm" :
+      mime.includes("wav") ? "wav" : "ogg";
+
+    const bytes = Buffer.from(base64, "base64");
+    const form = new FormData();
+    form.append("file", new Blob([bytes], { type: mime }), `audio.${ext}`);
+    form.append("model", "whisper-1");
+    form.append("language", options?.language ?? "pt");
+    if (options?.prompt) form.append("prompt", options.prompt);
+
+    const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${config.apiKey}` },
+      body: form,
+    });
+    if (!res.ok) {
+      console.error("[OpenAI] transcribeAudio error:", res.status, await res.text());
+      return null;
+    }
+    const data = await res.json();
+    const text = typeof data?.text === "string" ? data.text.trim() : "";
+    return text || null;
+  } catch (err) {
+    console.error("[OpenAI] transcribeAudio exception:", err);
+    return null;
+  }
+}
+
+/**
  * Faz uma chamada ao endpoint /chat/completions da OpenAI.
  * Retorna o texto gerado ou null em caso de erro.
  *

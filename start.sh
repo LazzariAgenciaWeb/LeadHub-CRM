@@ -136,6 +136,33 @@ echo "📅 Cron Mensagens Agendadas habilitado — rodará a cada ${SCHEDULED_MS
   done
 ) &
 
+# Cron: Assistente pessoal — lembretes (a cada 60s) e resumo diário (a cada 5min,
+# a rota só envia 1x/dia a partir das 8h). Config: ASSISTANT_INTERVAL_SECONDS
+ASSISTANT_INTERVAL_SECONDS="${ASSISTANT_INTERVAL_SECONDS:-60}"
+echo "🤖 Cron Assistente pessoal habilitado — lembretes a cada ${ASSISTANT_INTERVAL_SECONDS}s, resumo diário checado a cada 300s"
+(
+  sleep 50
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/assistente" --max-time 120 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron Assistente] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep "$ASSISTANT_INTERVAL_SECONDS"
+  done
+) &
+(
+  sleep 90
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/assistente?mode=daily" --max-time 300 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron Assistente diário] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep 300
+  done
+) &
+
 # Cron: Resgate de conversas paradas (agente de IA)
 # Frequência: a cada 5 minutos (config: REVIVAL_INTERVAL_SECONDS)
 REVIVAL_INTERVAL_SECONDS="${REVIVAL_INTERVAL_SECONDS:-300}"

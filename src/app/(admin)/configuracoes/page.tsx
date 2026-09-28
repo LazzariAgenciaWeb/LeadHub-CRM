@@ -60,12 +60,23 @@ export default async function ConfiguracoesPage({
     } else {
       const me = await prisma.user.findUnique({
         where: { id: userId },
-        select: { id: true, name: true, email: true, role: true, whatsappSignature: true, whatsappSignatureDefault: true },
+        select: {
+          id: true, name: true, email: true, role: true, whatsappSignature: true, whatsappSignatureDefault: true,
+          assistantGroupJid: true, assistantInstanceId: true, mcpTokenCreatedAt: true, companyId: true,
+        },
       });
       if (!me) {
         content = <div className="p-6 text-slate-500 text-sm">Usuário não encontrado.</div>;
       } else {
-        content = <MeuPerfilSettings initialUser={me} />;
+        const assistantInstance = me.assistantInstanceId
+          ? await prisma.whatsappInstance.findUnique({ where: { id: me.assistantInstanceId }, select: { label: true, instanceName: true, phone: true } })
+          : null;
+        const instances = await prisma.whatsappInstance.findMany({
+          where: me.role === "SUPER_ADMIN" ? {} : { companyId: me.companyId ?? "" },
+          select: { id: true, label: true, instanceName: true, phone: true, status: true, acceptGroups: true },
+          orderBy: { label: "asc" },
+        });
+        content = <MeuPerfilSettings initialUser={me} assistantInstance={assistantInstance} instances={instances} />;
       }
     }
   } else if (secao === "instancias") {
@@ -330,7 +341,7 @@ export default async function ConfiguracoesPage({
     }
   } else if (secao === "integracoes-openai") {
     const settingsRaw = await prisma.setting.findMany({
-      where: { key: { in: ["openai_api_key", "openai_model"] } },
+      where: { key: { in: ["openai_api_key", "openai_model", "anthropic_api_key", "anthropic_model"] } },
     });
     const settings: Record<string, string> = {};
     for (const s of settingsRaw) settings[s.key] = s.value;

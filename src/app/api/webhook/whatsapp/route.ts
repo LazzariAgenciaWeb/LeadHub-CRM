@@ -530,6 +530,28 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Webhook WA] mediaBase64=${mediaBase64 ? `present(${mediaBase64.length} chars)` : "null(on-demand)"} mediaType=${mediaType} messageType=${messageType}`);
 
+    // Assistente pessoal: grupo solo do usuário vinculado por pareamento. Tem
+    // que vir ANTES do desvio fromMe — num grupo só com o dono, toda mensagem
+    // (inclusive a resposta do bot) chega como fromMe e nunca passaria pelo
+    // processInboundMessage. Mensagens desse grupo não entram no inbox.
+    if (isGroup) {
+      try {
+        const { handlePersonalAssistantWebhook } = await import("@/lib/personal-assistant/whatsapp");
+        const handled = await handlePersonalAssistantWebhook({
+          instanceName: instance,
+          groupJid: rawPhone,
+          messageId: key?.id ?? null,
+          text: body_text,
+          isAudio: isAudioMsg,
+          fromMe,
+          rawData: data,
+        });
+        if (handled) return NextResponse.json({ ok: true, saved: "personal-assistant" });
+      } catch (e) {
+        console.error("[Webhook WA] assistente pessoal falhou:", e);
+      }
+    }
+
     // Mensagem enviada pelo celular da instância (fromMe=true) → salvar como OUTBOUND
     if (fromMe) {
       const { prisma } = await import("@/lib/prisma");

@@ -34,6 +34,8 @@ export async function PUT(req: NextRequest) {
     "evolution_api_key",
     "openai_api_key",
     "openai_model",
+    "anthropic_api_key",
+    "anthropic_model",
     "onboarding_video_url",
   ];
 
