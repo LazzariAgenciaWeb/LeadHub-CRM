@@ -39,6 +39,16 @@ export interface LancamentosData {
     faturado: boolean; pago: boolean; marcadoSemCobranca: boolean;
   }[];
   pontualAFaturarCents: number;
+  /** Contratos devidos em competências ANTERIORES que nunca foram faturados. */
+  atrasados: {
+    id: string; label: string; cliente: string; clienteId: string;
+    amountCents: number; billingDay: number | null; competencia: string;
+  }[];
+  /** Vendas fechadas antes desta competência e ainda sem cobrança. */
+  vendasAtrasadas: {
+    id: string; title: string; cliente: string | null;
+    amountCents: number; kind: string; closedAt: string; marcadoSemCobranca: boolean;
+  }[];
 }
 
 const card = "bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5";
@@ -51,6 +61,8 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
   const vendasFaturadasCents = data.vendasDoMes
     .filter((s) => s.faturado)
     .reduce((n, s) => n + s.amountCents, 0);
+  const atrasadosCents = data.atrasados.reduce((n, a) => n + a.amountCents, 0);
+  const vendasAtrasadasCents = data.vendasAtrasadas.reduce((n, s) => n + s.amountCents, 0);
 
   // Lançamento das cobranças recorrentes da competência. Antes só dava pra
   // criar uma a uma abrindo cada empresa — inviável com dezenas de contratos.
@@ -142,14 +154,23 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
   const todosMarcados =
     pendentesVisiveis.length > 0 && pendentesVisiveis.every((p) => selecionados.has(p.id));
 
-  async function faturar(serviceIds?: string[]) {
+  /**
+   * `competencia` permite lançar numa competência ANTERIOR — é assim que se
+   * quita o atraso: a cobrança nasce no mês a que ela pertence, não no mês em
+   * que a pessoa lembrou de faturar.
+   */
+  async function faturar(serviceIds?: string[], competencia?: string) {
     setFaturando(true);
     setFaturarErr("");
     try {
       const res = await fetch("/api/financeiro/faturar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ month: data.month, dueDay: Number(dueDay) || 10, serviceIds }),
+        body: JSON.stringify({
+          month: competencia ?? data.month,
+          dueDay: Number(dueDay) || 10,
+          serviceIds,
+        }),
       });
       if (!res.ok) {
         const e = await res.json().catch(() => ({}));
@@ -214,6 +235,103 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
           </div>
         </div>
       </div>
+
+      {/* Atrasados — o que ficou pra trás continua visível em QUALQUER mês que
+          você abrir, até virar cobrança. Sem isto, contrato esquecido some da
+          tela na virada do mês e nunca mais é cobrado. */}
+      {(atrasadosCents > 0 || data.vendasAtrasadas.length > 0) && (
+        <div className="bg-[#0f1623] border border-red-500/30 rounded-xl p-5">
+          <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
+            <h2 className="text-white font-semibold text-sm flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-red-400" />
+              Ficou pra trás — meses anteriores
+            </h2>
+            <span className="text-xs text-red-300">
+              {data.atrasados.length + data.vendasAtrasadas.length} pendência(s) ·{" "}
+              <b>{brlFromCents(atrasadosCents + vendasAtrasadasCents)}</b>
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 mb-3">
+            Não depende do mês que você está vendo: fica aqui até ser faturado ou ignorado com motivo.
+          </p>
+
+          <div className="space-y-1.5 max-h-[360px] overflow-y-auto">
+            {/* Contratos recorrentes de competências passadas */}
+            {data.atrasados.map((a) => (
+              <div
+                key={`${a.id}:${a.competencia}`}
+                className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-red-500/[0.04] border border-transparent hover:border-red-500/20 transition-colors group"
+              >
+                <Link href={`/empresas/${a.clienteId}#financeiro`} className="min-w-0 flex-1">
+                  <div className="text-sm text-white truncate">
+                    {a.cliente}
+                    <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-red-500/15 text-red-300">
+                      {monthLabel(a.competencia)}
+                    </span>
+                  </div>
+                  <div className="text-xs text-slate-500 truncate">{a.label}</div>
+                </Link>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="text-sm text-red-300 font-medium">{brlFromCents(a.amountCents)}</span>
+                  {/* Lança na competência a que a cobrança pertence, não na atual. */}
+                  <button
+                    onClick={() => faturar([a.id], a.competencia)}
+                    disabled={faturando}
+                    title={`Lançar a cobrança de ${monthLabel(a.competencia)}`}
+                    className="px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 text-slate-400 hover:bg-amber-500/15 hover:text-amber-300 disabled:opacity-40 transition-colors"
+                  >
+                    Faturar
+                  </button>
+                  <Link
+                    href={`/financeiro/lancamentos?mes=${a.competencia}`}
+                    title="Abrir essa competência"
+                    className="text-slate-700 group-hover:text-indigo-400 transition-colors"
+                  >
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+
+            {/* Vendas pontuais antigas sem cobrança — viram fatura pela esteira,
+                que é onde se define o vencimento e se confere o cliente. */}
+            {data.vendasAtrasadas.map((s) => (
+              <div
+                key={s.id}
+                className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-red-500/[0.04] border border-transparent hover:border-red-500/20 transition-colors group"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm text-white truncate">
+                    {s.title}
+                    <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-slate-500/15 text-slate-400">
+                      venda {s.kind === "RECORRENTE" ? "recorrente" : "pontual"}
+                    </span>
+                  </div>
+                  <div className="text-xs text-slate-500 truncate">
+                    {s.cliente ?? <span className="text-amber-500">sem cliente vinculado</span>}
+                    {" · fechada em "}
+                    {new Date(s.closedAt).toLocaleDateString("pt-BR")}
+                    {s.marcadoSemCobranca && (
+                      <span className="text-amber-400" title="Marcada como faturada na esteira, mas sem cobrança gerada">
+                        {" · ⚠ marcada sem cobrança"}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="text-sm text-red-300 font-medium">{brlFromCents(s.amountCents)}</span>
+                  <Link
+                    href="/financeiro/esteira"
+                    className="px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 text-slate-400 hover:bg-indigo-500/15 hover:text-indigo-300 transition-colors"
+                  >
+                    Abrir na esteira
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Fila de faturamento */}
       <div className={card}>
