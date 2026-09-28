@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import AiSpendCard from "@/components/AiSpendCard";
+import type { AiSpend } from "@/lib/ai-costs-format";
 
 const MODELS = [
   {
@@ -29,8 +31,10 @@ const ALL_MODELS = MODELS.flatMap((g) => g.items);
 
 export default function OpenAISettings({
   settings,
+  spend,
 }: {
   settings: Record<string, string>;
+  spend?: AiSpend;
 }) {
   const router = useRouter();
 
@@ -103,6 +107,8 @@ export default function OpenAISettings({
           </p>
         </div>
       </div>
+
+      {spend && <AiSpendCard spend={spend} />}
 
       {/* Formulário principal */}
       <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">

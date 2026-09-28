@@ -42,9 +42,11 @@ function RichText({ text }: { text: string }) {
   );
 }
 
-export default function AssistantHome({ userName, whatsappLinked, aiConfigured, canConfigureAi, hasCompany }: {
+export default function AssistantHome({ userName, whatsappLinked, aiConfigured, canConfigureAi, hasCompany, spend }: {
   userName: string; whatsappLinked: boolean; aiConfigured: boolean; canConfigureAi: boolean; hasCompany: boolean;
+  spend?: { todayUSD: number; monthUSD: number; todayCalls: number; model: string | null } | null;
 }) {
+  const usd = (v: number) => `US$ ${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: v < 0.1 ? 4 : 2 })}`;
   const search = useSearchParams();
   const [tab, setTab] = useState<"fila" | "bloquinho">(search.get("aba") === "bloquinho" ? "bloquinho" : "fila");
 
@@ -195,6 +197,11 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
             : <Link href="/configuracoes?secao=meu-perfil" className="px-2.5 py-1 rounded-full bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white">📱 Vincular grupo do WhatsApp →</Link>}
           <Link href="/configuracoes?secao=meu-perfil" className="px-2.5 py-1 rounded-full bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white">🔌 Claude (MCP)</Link>
           <Link href="/assistente/atendimento" className="px-2.5 py-1 rounded-full bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white">Análise de atendimento →</Link>
+          {spend && (
+            <Link href={canConfigureAi ? "/configuracoes?secao=integracoes-openai" : "#"} title={`Gasto estimado do assistente · ${spend.todayCalls} chamada(s) hoje${spend.model ? ` · modelo ${spend.model}` : ""}`} className="px-2.5 py-1 rounded-full bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white tabular-nums">
+              💸 hoje {usd(spend.todayUSD)} · mês {usd(spend.monthUSD)}
+            </Link>
+          )}
         </div>
       </div>
 

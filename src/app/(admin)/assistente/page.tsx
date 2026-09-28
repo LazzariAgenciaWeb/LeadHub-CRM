@@ -7,6 +7,7 @@ import { hasModule, can, isSuperAdmin } from "@/lib/permissions";
 import { getAnthropicConfig } from "@/lib/anthropic";
 import { getOpenAIConfig } from "@/lib/openai";
 import { getAssistantProvider } from "@/lib/personal-assistant/engine";
+import { getAiSpend } from "@/lib/ai-costs";
 import AssistantHome from "./AssistantHome";
 
 /**
@@ -27,12 +28,15 @@ export default async function AssistentePage() {
   ]);
   if (!me) redirect("/login");
   const aiConfigured = provider.name === "openai" ? !!(await getOpenAIConfig()) : !!(await getAnthropicConfig());
+  // Gasto só do assistente pessoal (endpoints assistente-*), da empresa do usuário.
+  const spend = me.companyId ? await getAiSpend(me.companyId, { endpointPrefix: "assistente-" }) : null;
 
   return (
     <AssistantHome
       userName={me.name}
       whatsappLinked={!!me.assistantGroupJid}
       aiConfigured={aiConfigured}
+      spend={spend ? { todayUSD: spend.todayUSD, monthUSD: spend.monthUSD, todayCalls: spend.todayCalls, model: provider.name === "openai" ? provider.model : (await getAnthropicConfig())?.model ?? null } : null}
       canConfigureAi={isSuperAdmin(real)}
       hasCompany={!!me.companyId}
     />

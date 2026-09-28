@@ -26,6 +26,7 @@ import IntegracoesMetaSection from "./IntegracoesMetaSection";
 import BillingActions from "./BillingActions";
 import BlingSettings from "./BlingSettings";
 import { isBlingConfigured, BLING_REDIRECT_URI } from "@/lib/bling";
+import { getAiSpend } from "@/lib/ai-costs";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
 import CompanySubscription from "../empresas/[id]/CompanySubscription";
 
@@ -346,7 +347,9 @@ export default async function ConfiguracoesPage({
     const settings: Record<string, string> = {};
     for (const s of settingsRaw) settings[s.key] = s.value;
 
-    content = <OpenAISettings settings={settings} />;
+    // Consumo: SUPER_ADMIN vê o global (todas as empresas); ADMIN vê o da sua.
+    const spend = await getAiSpend(isSuperAdmin ? null : (userCompanyId ?? null));
+    content = <OpenAISettings settings={settings} spend={spend} />;
   } else if (secao === "integracoes-meta") {
     // Meta Conversions API (CAPI) — config por empresa (Pixel + token cifrado).
     const targetCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
