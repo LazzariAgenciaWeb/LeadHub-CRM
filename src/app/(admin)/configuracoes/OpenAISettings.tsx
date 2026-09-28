@@ -105,7 +105,8 @@ export default function OpenAISettings({
         <div className="px-5 py-4 border-b border-[#1e2d45]">
           <h2 className="text-white font-bold text-sm">🔑 OpenAI</h2>
           <p className="text-slate-500 text-xs mt-0.5">
-            Encontre em: <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">platform.openai.com/api-keys</a>
+            Chave em <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">platform.openai.com/api-keys</a>
+            {" · "}Saldo em <a href="https://platform.openai.com/settings/organization/billing/overview" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">Billing da OpenAI</a>
           </p>
         </div>
 
@@ -174,8 +175,9 @@ export default function OpenAISettings({
               <h3 className="text-white font-bold text-sm">✨ Anthropic (Claude) — Assistente pessoal</h3>
               <p className="text-slate-500 text-xs mt-0.5">
                 O assistente pessoal (chat, grupo do WhatsApp e MCP) usa o Claude pra executar ações no sistema. Chave em{" "}
-                <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">console.anthropic.com</a>.
-                O Whisper (transcrição de áudio) continua usando a chave da OpenAI acima.
+                <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">console.anthropic.com/settings/keys</a>
+                {" · "}Saldo em <a href="https://console.anthropic.com/settings/billing" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">Billing da Anthropic</a>.
+                A conta de API precisa ter crédito, senão as chamadas falham. O Whisper (transcrição de áudio) continua usando a chave da OpenAI acima.
               </p>
             </div>
             <div>
