@@ -143,9 +143,11 @@ export const authOptions: NextAuthOptions = {
         let pipelineOportunidades = false;
         let cofreEnabled = false;
         let caixaEmailFeat = false;
+        let assistentePessoalFeat = false;
         if (user.companyId) {
           try {
             const ctx = await getCompanyPlan(user.companyId);
+            assistentePessoalFeat = ctx.effectiveFeatures.assistentePessoal;
             pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
             pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
             pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
@@ -182,6 +184,7 @@ export const authOptions: NextAuthOptions = {
             espacoCliente: (user.company as any)?.moduleEspacoCliente ?? false,
             videos:      (user.company as any)?.moduleVideos ?? false,
             cofre:       cofreEnabled,
+            assistentePessoal: assistentePessoalFeat,
             crmPipelineProspeccao:    pipelineProspeccao,
             crmPipelineLeads:         pipelineLeads,
             crmPipelineOportunidades: pipelineOportunidades,

@@ -336,7 +336,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
         {/* Assistente pessoal — link fixo, transversal como a Visão Geral:
             a Visão Geral mostra o que está acontecendo; o Assistente diz o
             que fazer (e faz). Gate: módulo IA + canUseAI (SUPER_ADMIN sempre). */}
-        {(_isSuperAdmin || (hasModule(session, "ai") && can(session, "canUseAI"))) && (
+        {(_isSuperAdmin || (hasModule(session, "assistentePessoal") && can(session, "canUseAI"))) && (
           <Link
             href="/assistente"
             className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${

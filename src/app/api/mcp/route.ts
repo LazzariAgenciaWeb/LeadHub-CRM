@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { mcpToolDefs } from "@/lib/assistant-tools/registry";
 import { runToolDirect } from "@/lib/personal-assistant/engine";
+import { userCanUseAssistant } from "@/lib/personal-assistant/access";
 
 /**
  * Servidor MCP do GoHub (Streamable HTTP, JSON-RPC 2.0, sem SSE).
@@ -91,6 +92,9 @@ export async function POST(req: NextRequest) {
       status: 401,
       headers: { "WWW-Authenticate": 'Bearer realm="gohub-mcp"' },
     });
+  }
+  if (!(await userCanUseAssistant(auth.userId))) {
+    return NextResponse.json(rpcError(null, -32003, "Assistente pessoal não liberado para a sua empresa"), { status: 403 });
   }
   let body: any;
   try { body = await req.json(); } catch { return NextResponse.json(rpcError(null, -32700, "JSON inválido"), { status: 400 }); }

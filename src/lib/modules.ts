@@ -159,6 +159,9 @@ export const MODULES: ModuleDef[] = [
     description: "Chat e resumos com IA.",
     companyField: "moduleAI",
     primary: "assistenteIA",
+    advanced: [
+      { key: "assistentePessoal", label: "Assistente pessoal", description: "Grupo do WhatsApp + chat com ações + Claude (MCP). Só por exceção — não vem em nenhum plano." },
+    ],
   },
   {
     id: "gamificacao",

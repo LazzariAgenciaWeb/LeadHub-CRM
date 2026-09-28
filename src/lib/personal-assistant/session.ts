@@ -18,8 +18,8 @@ export async function requireAssistantUser(): Promise<
   const real = await getServerSession(authOptions);
   if (!real) return { ok: false, response: NextResponse.json({ error: "Não autorizado" }, { status: 401 }) };
   const eff = (await getEffectiveSession()) ?? real;
-  const allowed = isSuperAdmin(real) || (hasModule(eff, "ai") && can(eff, "canUseAI"));
-  if (!allowed) return { ok: false, response: NextResponse.json({ error: "Módulo IA não habilitado para o seu usuário" }, { status: 403 }) };
+  const allowed = isSuperAdmin(real) || (hasModule(eff, "assistentePessoal") && can(eff, "canUseAI"));
+  if (!allowed) return { ok: false, response: NextResponse.json({ error: "Assistente pessoal não liberado para a sua empresa" }, { status: 403 }) };
   const userId = (real.user as any)?.id as string | undefined;
   if (!userId) return { ok: false, response: NextResponse.json({ error: "Sessão inválida" }, { status: 401 }) };
   return { ok: true, userId, userName: real.user?.name ?? "Usuário" };

@@ -3,6 +3,7 @@ import { sendPushToUser } from "@/lib/push";
 import { buildFilaDoDia, formatFila } from "@/lib/assistant-tools/registry";
 import { fmtDateTime, appUrl } from "@/lib/assistant-tools/types";
 import { sendAssistantMessage } from "./whatsapp";
+import { userCanUseAssistant } from "./access";
 
 /**
  * Lembretes e resumo diário do assistente pessoal.
@@ -50,6 +51,7 @@ export async function sendDailySummaries(force = false): Promise<{ sent: number;
   });
   let sent = 0, skipped = 0;
   for (const u of users) {
+    if (!(await userCanUseAssistant(u.id))) { skipped++; continue; }
     const key = `assistant_daily_sent:${u.id}`;
     const last = await prisma.setting.findUnique({ where: { key } });
     if (!force && last?.value === today) { skipped++; continue; }

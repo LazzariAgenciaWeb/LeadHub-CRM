@@ -16,7 +16,7 @@ export default async function AssistentePage() {
   const real = await getServerSession(authOptions);
   if (!real) redirect("/login");
   const eff = (await getEffectiveSession()) ?? real;
-  if (!isSuperAdmin(real) && !(hasModule(eff, "ai") && can(eff, "canUseAI"))) redirect("/dashboard");
+  if (!isSuperAdmin(real) && !(hasModule(eff, "assistentePessoal") && can(eff, "canUseAI"))) redirect("/dashboard");
 
   const userId = (real.user as any).id as string;
   const [me, anthropic] = await Promise.all([

@@ -54,9 +54,11 @@ export async function getEffectiveSession() {
   let pipelineLeads = true;
   let pipelineOportunidades = false;
   let caixaEmailFeat = false;
+  let assistentePessoalFeat = false;
   try {
     const ctx = await getCompanyPlan(companyId);
     cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
+    assistentePessoalFeat = ctx.effectiveFeatures.assistentePessoal;
     pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
     pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
     pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
@@ -94,6 +96,7 @@ export async function getEffectiveSession() {
         espacoCliente: (company as any).moduleEspacoCliente ?? false,
         videos:      (company as any).moduleVideos ?? false,
         cofre:       cofreEnabled,
+        assistentePessoal: assistentePessoalFeat,
         crmPipelineProspeccao:    pipelineProspeccao,
         crmPipelineLeads:         pipelineLeads,
         crmPipelineOportunidades: pipelineOportunidades,

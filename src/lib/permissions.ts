@@ -56,6 +56,8 @@ export interface UserModules {
   // Cofre é gateado por PlanFeatures.cofreCredenciais (não tem flag em Company).
   // Populado no session callback a partir do plano efetivo da empresa.
   cofre: boolean;
+  // Assistente pessoal — PlanFeatures.assistentePessoal (só por exceção).
+  assistentePessoal: boolean;
   // Sub-pipelines do CRM (granularidade por pipeline). Vêm de PlanFeatures
   // efetivas (plan + customFeatures), populadas no session callback do auth.
   crmPipelineProspeccao: boolean;
@@ -118,6 +120,7 @@ const ALL_MODULES: UserModules = {
   campanhas: true, links: true, instagram: true, emailInbox: true, espacoCliente: true,
   videos: true,
   cofre: true,
+  assistentePessoal: true,
   crmPipelineProspeccao: true, crmPipelineLeads: true, crmPipelineOportunidades: true,
 };
 
@@ -127,6 +130,7 @@ const DEFAULT_MODULES: UserModules = {
   campanhas: false, links: false, instagram: false, emailInbox: false, espacoCliente: false,
   videos: false,
   cofre: false,
+  assistentePessoal: false,
   crmPipelineProspeccao: false, crmPipelineLeads: true, crmPipelineOportunidades: false,
 };
 

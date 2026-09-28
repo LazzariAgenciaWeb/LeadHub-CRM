@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { evolutionSendText, evolutionGetMediaBase64 } from "@/lib/evolution";
 import { getOpenAIConfig, transcribeAudio } from "@/lib/openai";
 import { runPersonalAssistant } from "./engine";
+import { userCanUseAssistant } from "./access";
 
 /**
  * Porta WhatsApp do assistente pessoal.
@@ -59,6 +60,10 @@ async function tryPair(text: string, instanceName: string, groupJid: string): Pr
   if (!inst) return false;
   const user = await prisma.user.findUnique({ where: { id: parsed.userId }, select: { id: true, name: true, companyId: true, role: true } });
   if (!user) return false;
+  if (!(await userCanUseAssistant(user.id))) {
+    await safeSend(instanceName, groupJid, `${ASSISTANT_MARK} O assistente pessoal não está liberado para a sua empresa.`, inst.instanceToken);
+    return true;
+  }
   // Instância precisa ser da empresa do usuário (SUPER_ADMIN pode qualquer).
   if (user.role !== "SUPER_ADMIN" && user.companyId !== inst.companyId) {
     await safeSend(instanceName, groupJid, `${ASSISTANT_MARK} Essa instância não pertence à sua empresa. Use uma instância da ${user.companyId ? "sua empresa" : "empresa"}.`, inst.instanceToken);
@@ -130,6 +135,8 @@ export async function handlePersonalAssistantWebhook(args: {
   // Só o dono fala com o assistente. No grupo solo é sempre fromMe; se alguém
   // mais entrar no grupo, a mensagem dessa pessoa é ignorada.
   if (!fromMe) return true;
+  // Exceção revogada depois do pareamento: silencia sem quebrar o webhook.
+  if (!(await userCanUseAssistant(user.id))) return true;
 
   const job = async () => {
     let content: string | null = text;

@@ -79,6 +79,12 @@ export interface PlanFeatures {
   gamificacao: boolean;
   /** Assistente IA (chat + resumos). */
   assistenteIA: boolean;
+  /**
+   * Assistente PESSOAL (grupo do WhatsApp, chat com ações, MCP/Claude).
+   * Nunca vem no plano — liberado só por exceção (customFeatures) pra empresas
+   * escolhidas a dedo. Decisão 2026-09-28: não abrir pra qualquer cliente.
+   */
+  assistentePessoal: boolean;
 
   // ── 📣 Marketing & Captação ──
   /** Módulo Campanhas (cria/gerencia campanhas, vincula a leads + UTMs). */
@@ -169,6 +175,7 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     calendario: false,
     gamificacao: false,
     assistenteIA: false,
+    assistentePessoal: false,
     campanhas: false,
     links: false,
     videos: false,
