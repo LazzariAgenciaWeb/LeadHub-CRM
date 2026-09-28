@@ -341,7 +341,7 @@ export default async function ConfiguracoesPage({
     }
   } else if (secao === "integracoes-openai") {
     const settingsRaw = await prisma.setting.findMany({
-      where: { key: { in: ["openai_api_key", "openai_model", "anthropic_api_key", "anthropic_model"] } },
+      where: { key: { in: ["openai_api_key", "openai_model", "anthropic_api_key", "anthropic_model", "assistant_provider", "assistant_openai_model"] } },
     });
     const settings: Record<string, string> = {};
     for (const s of settingsRaw) settings[s.key] = s.value;

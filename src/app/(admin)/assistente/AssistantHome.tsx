@@ -200,7 +200,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
 
       {!aiConfigured && (
         <div className="px-4 py-3 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-200 text-sm">
-          ⚠️ A chave da Anthropic (Claude) ainda não foi configurada — o chat não vai responder.
+          ⚠️ A chave do provedor de IA do assistente ainda não foi configurada — o chat não vai responder.
           {canConfigureAi ? <> Configure em <Link href="/configuracoes?secao=integracoes-openai" className="underline">Configurações → Integrações → OpenAI / Anthropic</Link>.</> : " Peça ao administrador da plataforma."}
         </div>
       )}

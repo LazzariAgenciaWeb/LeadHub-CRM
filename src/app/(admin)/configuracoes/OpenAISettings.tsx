@@ -38,6 +38,8 @@ export default function OpenAISettings({
   const [model, setModel]     = useState(settings.openai_model ?? "gpt-4o-mini");
   const [anthropicKey, setAnthropicKey]     = useState(settings.anthropic_api_key ?? "");
   const [anthropicModel, setAnthropicModel] = useState(settings.anthropic_model ?? "claude-opus-5");
+  const [assistantProvider, setAssistantProvider] = useState(settings.assistant_provider === "openai" ? "openai" : "anthropic");
+  const [assistantOpenAIModel, setAssistantOpenAIModel] = useState(settings.assistant_openai_model ?? "gpt-4o-mini");
   const [saving, setSaving]   = useState(false);
   const [saved, setSaved]     = useState(false);
   const [testing, setTesting] = useState(false);
@@ -55,6 +57,8 @@ export default function OpenAISettings({
         { key: "openai_model",   value: model  },
         { key: "anthropic_api_key", value: anthropicKey },
         { key: "anthropic_model",   value: anthropicModel },
+        { key: "assistant_provider",     value: assistantProvider },
+        { key: "assistant_openai_model", value: assistantOpenAIModel },
       ]),
     });
     setSaving(false);
@@ -197,11 +201,49 @@ export default function OpenAISettings({
                 onChange={(e) => setAnthropicModel(e.target.value)}
                 className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 appearance-none cursor-pointer"
               >
-                <option value="claude-opus-5">Claude Opus 5 — recomendado</option>
-                <option value="claude-sonnet-5">Claude Sonnet 5 — mais barato</option>
-                <option value="claude-haiku-4-5">Claude Haiku 4.5 — mais rápido</option>
+                <option value="claude-opus-5">Claude Opus 5 — melhor, mais caro (US$ 5 / 25 por 1M tokens)</option>
+                <option value="claude-sonnet-5">Claude Sonnet 5 — ótimo custo-benefício (US$ 2 / 10)</option>
+                <option value="claude-haiku-4-5">Claude Haiku 4.5 — mais barato e rápido (US$ 1 / 5)</option>
               </select>
             </div>
+          </div>
+
+          {/* Motor do assistente pessoal: qual conta paga a conversa */}
+          <div className="pt-4 border-t border-[#1e2d45] space-y-4">
+            <div>
+              <h3 className="text-white font-bold text-sm">⚙️ Motor do assistente pessoal</h3>
+              <p className="text-slate-500 text-xs mt-0.5">
+                Escolha qual conta processa o assistente (chat, WhatsApp e MCP). Cada mensagem envia as ferramentas + instruções (~5 mil tokens), então o preço do modelo pesa. Vale trocar e comparar.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Provedor</label>
+                <select
+                  value={assistantProvider}
+                  onChange={(e) => setAssistantProvider(e.target.value)}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 appearance-none cursor-pointer"
+                >
+                  <option value="anthropic">Claude (Anthropic) — usa o modelo acima</option>
+                  <option value="openai">OpenAI — mais barato</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Modelo OpenAI do assistente</label>
+                <select
+                  value={assistantOpenAIModel}
+                  onChange={(e) => setAssistantOpenAIModel(e.target.value)}
+                  disabled={assistantProvider !== "openai"}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 appearance-none cursor-pointer disabled:opacity-40"
+                >
+                  <option value="gpt-4o-mini">GPT-4o mini — muito barato (US$ 0,15 / 0,60)</option>
+                  <option value="gpt-4.1-mini">GPT-4.1 mini — barato, melhor com ferramentas (US$ 0,40 / 1,60)</option>
+                  <option value="gpt-4.1">GPT-4.1 — completo (US$ 2 / 8)</option>
+                  <option value="gpt-4o">GPT-4o (US$ 2,50 / 10)</option>
+                </select>
+              </div>
+            </div>
+            <p className="text-slate-600 text-[10px]">Preços por 1M tokens (entrada / saída), referência. A transcrição de áudio usa sempre a OpenAI (Whisper).</p>
           </div>
 
           <button

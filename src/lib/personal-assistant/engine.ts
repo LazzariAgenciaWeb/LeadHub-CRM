@@ -1,6 +1,7 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/prisma";
 import { getAnthropicConfig, anthropicClient } from "@/lib/anthropic";
+import { getOpenAIConfig } from "@/lib/openai";
 import { getAiUsage } from "@/lib/assistant";
 import { ALL_TOOLS, anthropicToolDefs, getTool, type ToolChannel, type ToolContext, type ToolResult } from "@/lib/assistant-tools/registry";
 
@@ -156,94 +157,74 @@ export async function runPersonalAssistant(params: {
   if (usage.quota <= 0 || usage.remaining <= 0) {
     return { ok: false, reply: "", actions: [], error: "Cota mensal de IA esgotada ou não liberada para a empresa." };
   }
-  const config = await getAnthropicConfig();
-  if (!config) {
+  // Motor: Claude (Anthropic) ou OpenAI — escolhido em Configurações → IA.
+  // Mesmas ferramentas, mesmo prompt; só muda o formato da chamada.
+  const provider = await getAssistantProvider();
+  const anthropic = provider.name === "anthropic" ? await getAnthropicConfig() : null;
+  const openai = provider.name === "openai" ? await getOpenAIConfig() : null;
+  if (provider.name === "anthropic" && !anthropic) {
     return { ok: false, reply: "", actions: [], error: "Chave da Anthropic (Claude) não configurada. Configurações → Integrações → IA." };
   }
+  if (provider.name === "openai" && !openai) {
+    return { ok: false, reply: "", actions: [], error: "Chave da OpenAI não configurada. Configurações → Integrações → IA." };
+  }
+  const modelUsed = provider.name === "openai" ? provider.model || openai!.model : anthropic!.model;
 
   const company = await prisma.company.findUnique({ where: { id: ctx.companyId }, select: { name: true } });
   const pending = await loadPending(userId);
   const system = buildSystemPrompt(ctx, company?.name ?? "empresa", pending ? { summary: pending.summary } : null);
   const history = await loadHistory(userId, channel);
-  const messages: Anthropic.MessageParam[] = [...history, { role: "user", content: text }];
   const tools: Anthropic.Tool[] = [...anthropicToolDefs(), ...extraToolDefs()];
 
-  const client = anthropicClient(config);
   const actions: ExecutedAction[] = [];
   let newPending: { id: string; summary: string } | null = null;
   let finalText = "";
   let tokensIn = 0, tokensOut = 0;
 
-  try {
-    for (let i = 0; i < MAX_ITERATIONS; i++) {
-      const res = await client.messages.create({
-        model: config.model,
-        max_tokens: 4096,
-        system: [{ type: "text", text: system, cache_control: { type: "ephemeral" } }],
-        tools,
-        messages,
-      });
-      tokensIn += res.usage.input_tokens; tokensOut += res.usage.output_tokens;
-
-      const textParts = res.content.filter((b): b is Anthropic.TextBlock => b.type === "text").map((b) => b.text.trim()).filter(Boolean);
-      const toolUses = res.content.filter((b): b is Anthropic.ToolUseBlock => b.type === "tool_use");
-
-      if (res.stop_reason === "refusal") { finalText = "Não consegui processar esse pedido."; break; }
-      if (toolUses.length === 0 || res.stop_reason === "end_turn") {
-        finalText = textParts.join("\n").trim();
-        if (toolUses.length === 0) break;
-      }
-
-      messages.push({ role: "assistant", content: res.content });
-      const results: Anthropic.ToolResultBlockParam[] = [];
-      for (const tu of toolUses) {
-        const input = (tu.input ?? {}) as Record<string, unknown>;
-        let r: ToolResult;
-        try {
-          if (tu.name === CONFIRM_TOOL) {
-            r = await confirmPending(userId, ctx, actions);
-          } else if (tu.name === CANCEL_TOOL) {
-            r = await cancelPending(userId);
-          } else {
-            const def = getTool(tu.name);
-            if (!def) r = { ok: false, error: `Ferramenta desconhecida: ${tu.name}` };
-            else if (def.confirm) {
-              // Guarda a intenção; só executa após confirmação explícita.
-              await prisma.assistantPendingAction.updateMany({ where: { userId, status: "PENDING" }, data: { status: "CANCELED", resolvedAt: new Date() } });
-              const summary = def.summarize ? def.summarize(input) : `${def.name} ${JSON.stringify(input)}`;
-              const p = await prisma.assistantPendingAction.create({
-                data: { userId, channel, tool: def.name, input: input as any, summary, expiresAt: new Date(Date.now() + PENDING_TTL_MIN * 60_000) },
-                select: { id: true },
-              });
-              newPending = { id: p.id, summary };
-              r = { ok: true, message: `PENDENTE_CONFIRMACAO: ${summary}. Pergunte ao usuário se confirma.` };
-            } else {
-              r = await def.run(input, ctx);
-              if (def.mutating) actions.push({ tool: def.name, ok: r.ok, message: r.ok ? r.message : r.error, link: r.ok ? r.link : undefined, data: r.ok ? r.data : undefined });
-            }
-          }
-        } catch (e: any) {
-          console.error(`[assistente] tool ${tu.name} falhou:`, e);
-          r = { ok: false, error: e?.message ?? "erro interno" };
+  /** Executa uma ferramenta pedida pelo modelo (qualquer provedor). */
+  const executeTool = async (name: string, input: Record<string, unknown>): Promise<{ content: string; isError: boolean }> => {
+    let r: ToolResult;
+    try {
+      if (name === CONFIRM_TOOL) {
+        r = await confirmPending(userId, ctx, actions);
+      } else if (name === CANCEL_TOOL) {
+        r = await cancelPending(userId);
+      } else {
+        const def = getTool(name);
+        if (!def) r = { ok: false, error: `Ferramenta desconhecida: ${name}` };
+        else if (def.confirm) {
+          // Guarda a intenção; só executa após confirmação explícita.
+          await prisma.assistantPendingAction.updateMany({ where: { userId, status: "PENDING" }, data: { status: "CANCELED", resolvedAt: new Date() } });
+          const summary = def.summarize ? def.summarize(input) : `${def.name} ${JSON.stringify(input)}`;
+          const p = await prisma.assistantPendingAction.create({
+            data: { userId, channel, tool: def.name, input: input as any, summary, expiresAt: new Date(Date.now() + PENDING_TTL_MIN * 60_000) },
+            select: { id: true },
+          });
+          newPending = { id: p.id, summary };
+          r = { ok: true, message: `PENDENTE_CONFIRMACAO: ${summary}. Pergunte ao usuário se confirma.` };
+        } else {
+          r = await def.run(input, ctx);
+          if (def.mutating) actions.push({ tool: def.name, ok: r.ok, message: r.ok ? r.message : r.error, link: r.ok ? r.link : undefined, data: r.ok ? r.data : undefined });
         }
-        results.push({
-          type: "tool_result",
-          tool_use_id: tu.id,
-          content: r.ok ? `${r.message}${r.link ? `\nLink: ${r.link}` : ""}` : `ERRO: ${r.error}`,
-          is_error: !r.ok,
-        });
       }
-      messages.push({ role: "user", content: results });
-      if (res.stop_reason === "end_turn") break;
+    } catch (e: any) {
+      console.error(`[assistente] tool ${name} falhou:`, e);
+      r = { ok: false, error: e?.message ?? "erro interno" };
     }
-    if (!finalText) {
-      // Estourou iterações no meio de tools: pede o fechamento em texto.
-      const res = await client.messages.create({ model: config.model, max_tokens: 1024, system, messages: [...messages, { role: "user", content: "Resuma em uma frase o que foi feito." }] });
-      finalText = res.content.filter((b): b is Anthropic.TextBlock => b.type === "text").map((b) => b.text).join("\n").trim() || "Feito.";
+    return { content: r.ok ? `${r.message}${r.link ? `\nLink: ${r.link}` : ""}` : `ERRO: ${r.error}`, isError: !r.ok };
+  };
+
+  try {
+    if (provider.name === "openai") {
+      const out = await runOpenAILoop({ apiKey: openai!.apiKey, model: modelUsed, system, history, text, tools, executeTool });
+      finalText = out.text; tokensIn = out.tokensIn; tokensOut = out.tokensOut;
+    } else {
+      const out = await runAnthropicLoop({ config: anthropic!, system, history, text, tools, executeTool });
+      finalText = out.text; tokensIn = out.tokensIn; tokensOut = out.tokensOut;
     }
   } catch (e: any) {
-    console.error("[assistente] erro na chamada Claude:", e?.status, e?.message);
-    return { ok: false, reply: "", actions, error: e?.status === 401 ? "Chave da Anthropic inválida." : `Erro na IA: ${e?.message ?? "desconhecido"}` };
+    console.error(`[assistente] erro na chamada ${provider.name}:`, e?.status, e?.message);
+    return { ok: false, reply: "", actions, error: e?.status === 401 ? `Chave da ${provider.name === "openai" ? "OpenAI" : "Anthropic"} inválida.` : `Erro na IA: ${e?.message ?? "desconhecido"}` };
   }
 
   // Histórico + consumo (1 interação, tokens reais).
@@ -256,12 +237,118 @@ export async function runPersonalAssistant(params: {
     }).catch(() => {});
   }
   await prisma.$transaction([
-    prisma.aiUsageLog.create({ data: { companyId: ctx.companyId, endpoint: `assistente-${channel.toLowerCase()}`, model: config.model, tokensPrompt: tokensIn, tokensCompletion: tokensOut, tokensTotal: tokensIn + tokensOut, userId } }),
+    prisma.aiUsageLog.create({ data: { companyId: ctx.companyId, endpoint: `assistente-${channel.toLowerCase()}`, model: modelUsed, tokensPrompt: tokensIn, tokensCompletion: tokensOut, tokensTotal: tokensIn + tokensOut, userId } }),
     prisma.company.update({ where: { id: ctx.companyId }, data: { aiUsedThisMonth: { increment: 1 } } }),
   ]).catch((e) => console.error("[assistente] usage log:", e));
 
   const pendingNow = newPending ?? (await loadPending(userId).then((p) => (p ? { id: p.id, summary: p.summary } : null)));
   return { ok: true, reply: finalText, actions, pending: pendingNow };
+}
+
+// ── Provedor ─────────────────────────────────────────────────────────────────
+
+export type AssistantProvider = { name: "anthropic" | "openai"; model: string | null };
+export const ASSISTANT_OPENAI_DEFAULT_MODEL = "gpt-4o-mini";
+
+/** Setting `assistant_provider` (anthropic|openai) + `assistant_openai_model`. */
+export async function getAssistantProvider(): Promise<AssistantProvider> {
+  const rows = await prisma.setting.findMany({ where: { key: { in: ["assistant_provider", "assistant_openai_model"] } } });
+  const map: Record<string, string> = {};
+  for (const r of rows) map[r.key] = r.value;
+  const name = map.assistant_provider?.trim() === "openai" ? "openai" : "anthropic";
+  return { name, model: name === "openai" ? (map.assistant_openai_model?.trim() || ASSISTANT_OPENAI_DEFAULT_MODEL) : null };
+}
+
+type LoopIO = {
+  system: string;
+  history: Anthropic.MessageParam[];
+  text: string;
+  tools: Anthropic.Tool[];
+  executeTool: (name: string, input: Record<string, unknown>) => Promise<{ content: string; isError: boolean }>;
+};
+type LoopOut = { text: string; tokensIn: number; tokensOut: number };
+
+async function runAnthropicLoop(p: LoopIO & { config: { apiKey: string; model: string } }): Promise<LoopOut> {
+  const client = anthropicClient(p.config);
+  const messages: Anthropic.MessageParam[] = [...p.history, { role: "user", content: p.text }];
+  let finalText = "", tokensIn = 0, tokensOut = 0;
+
+  for (let i = 0; i < MAX_ITERATIONS; i++) {
+    const res = await client.messages.create({
+      model: p.config.model,
+      max_tokens: 4096,
+      system: [{ type: "text", text: p.system, cache_control: { type: "ephemeral" } }],
+      tools: p.tools,
+      messages,
+    });
+    tokensIn += res.usage.input_tokens; tokensOut += res.usage.output_tokens;
+
+    const textParts = res.content.filter((b): b is Anthropic.TextBlock => b.type === "text").map((b) => b.text.trim()).filter(Boolean);
+    const toolUses = res.content.filter((b): b is Anthropic.ToolUseBlock => b.type === "tool_use");
+
+    if (res.stop_reason === "refusal") { finalText = "Não consegui processar esse pedido."; break; }
+    if (toolUses.length === 0 || res.stop_reason === "end_turn") {
+      finalText = textParts.join("\n").trim();
+      if (toolUses.length === 0) break;
+    }
+
+    messages.push({ role: "assistant", content: res.content });
+    const results: Anthropic.ToolResultBlockParam[] = [];
+    for (const tu of toolUses) {
+      const r = await p.executeTool(tu.name, (tu.input ?? {}) as Record<string, unknown>);
+      results.push({ type: "tool_result", tool_use_id: tu.id, content: r.content, is_error: r.isError });
+    }
+    messages.push({ role: "user", content: results });
+    if (res.stop_reason === "end_turn") break;
+  }
+  if (!finalText) {
+    // Estourou iterações no meio de tools: pede o fechamento em texto.
+    const res = await client.messages.create({ model: p.config.model, max_tokens: 1024, system: p.system, messages: [...messages, { role: "user", content: "Resuma em uma frase o que foi feito." }] });
+    finalText = res.content.filter((b): b is Anthropic.TextBlock => b.type === "text").map((b) => b.text).join("\n").trim() || "Feito.";
+  }
+  return { text: finalText, tokensIn, tokensOut };
+}
+
+/**
+ * Loop equivalente na OpenAI (chat completions + function calling). Sem SDK:
+ * o projeto já fala com a OpenAI por fetch (lib/openai.ts).
+ */
+async function runOpenAILoop(p: LoopIO & { apiKey: string; model: string }): Promise<LoopOut> {
+  type Msg = { role: "system" | "user" | "assistant" | "tool"; content: string | null; tool_calls?: any[]; tool_call_id?: string };
+  const messages: Msg[] = [{ role: "system", content: p.system }];
+  for (const h of p.history) messages.push({ role: h.role, content: typeof h.content === "string" ? h.content : "" });
+  messages.push({ role: "user", content: p.text });
+  const tools = p.tools.map((t) => ({ type: "function", function: { name: t.name, description: t.description, parameters: t.input_schema } }));
+
+  let finalText = "", tokensIn = 0, tokensOut = 0;
+  for (let i = 0; i < MAX_ITERATIONS + 1; i++) {
+    const last = i === MAX_ITERATIONS;
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${p.apiKey}` },
+      body: JSON.stringify({ model: p.model, messages, tools, tool_choice: last ? "none" : "auto", max_tokens: 2048, temperature: 0.3 }),
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      const err: any = new Error(`OpenAI ${res.status}: ${body.slice(0, 200)}`);
+      err.status = res.status;
+      throw err;
+    }
+    const data = await res.json();
+    tokensIn += data.usage?.prompt_tokens ?? 0; tokensOut += data.usage?.completion_tokens ?? 0;
+    const msg = data.choices?.[0]?.message ?? {};
+    const calls: any[] = Array.isArray(msg.tool_calls) ? msg.tool_calls : [];
+    if (calls.length === 0) { finalText = (msg.content ?? "").trim(); break; }
+
+    messages.push({ role: "assistant", content: msg.content ?? null, tool_calls: calls });
+    for (const c of calls) {
+      let input: Record<string, unknown> = {};
+      try { input = JSON.parse(c.function?.arguments || "{}"); } catch { input = {}; }
+      const r = await p.executeTool(c.function?.name ?? "", input);
+      messages.push({ role: "tool", tool_call_id: c.id, content: r.content });
+    }
+  }
+  return { text: finalText || "Feito.", tokensIn, tokensOut };
 }
 
 /** Executa a ação pendente (chamada pelo modelo via tool, ou pelo botão no app). */
