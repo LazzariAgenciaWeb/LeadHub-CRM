@@ -60,6 +60,12 @@ async function tryPair(text: string, instanceName: string, groupJid: string): Pr
   if (!inst) return false;
   const user = await prisma.user.findUnique({ where: { id: parsed.userId }, select: { id: true, name: true, companyId: true, role: true } });
   if (!user) return false;
+  // SUPER_ADMIN (Lazzari) não pertence a empresa nenhuma — o assistente não
+  // teria onde agir. Quem opera é o usuário ADMIN da empresa-cliente.
+  if (!user.companyId) {
+    await safeSend(instanceName, groupJid, `${ASSISTANT_MARK} Esse usuário (${user.name}) não está vinculado a nenhuma empresa, então não tenho onde agir. Gere o código logado com o usuário da sua empresa (ex.: o admin da agência) e mande aqui de novo.`, inst.instanceToken);
+    return true;
+  }
   if (!(await userCanUseAssistant(user.id))) {
     await safeSend(instanceName, groupJid, `${ASSISTANT_MARK} O assistente pessoal não está liberado para a sua empresa.`, inst.instanceToken);
     return true;
