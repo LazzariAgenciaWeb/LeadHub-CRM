@@ -10,7 +10,7 @@ interface ChatMsg { role: "user" | "assistant"; content: string; actions?: Execu
 interface Pending { id: string; summary: string }
 interface FilaItem { id: string; kind: string; title: string; sub?: string; when?: string | null; overdue?: boolean; link?: string }
 interface Fila { esperandoPorMim: FilaItem[]; hoje: FilaItem[]; followUps: FilaItem[]; semProximaAcao: FilaItem[]; financeiro: FilaItem[]; bloquinho: FilaItem[]; generatedAt: string }
-interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; createdAt: string }
+interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; createdAt: string; tags: string[] }
 
 const KIND_ICON: Record<string, string> = { IDEA: "💡", NOTE: "📝", REMINDER: "⏰", TASK: "☑️" };
 const KIND_LABEL: Record<string, string> = { IDEA: "Ideia", NOTE: "Nota", REMINDER: "Lembrete", TASK: "Tarefa" };
@@ -66,14 +66,25 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   const [noteInput, setNoteInput] = useState("");
   const [noteKind, setNoteKind] = useState<"TASK" | "IDEA" | "NOTE" | "REMINDER">("TASK");
   const [noteDue, setNoteDue] = useState("");
+  const [showDone, setShowDone] = useState(false);
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [noteTags, setNoteTags] = useState("");
+  const [openNote, setOpenNote] = useState<string | null>(null);
 
   const loadFila = useCallback(async () => {
     setFilaLoading(true);
     try { const r = await fetch("/api/assistente/fila"); if (r.ok) setFila(await r.json()); } finally { setFilaLoading(false); }
   }, []);
   const loadNotes = useCallback(async () => {
-    const r = await fetch("/api/assistente/notas"); if (r.ok) setNotes(await r.json());
-  }, []);
+    const r = await fetch(`/api/assistente/notas${showDone ? "?done=1" : ""}`); if (r.ok) setNotes(await r.json());
+  }, [showDone]);
+  useEffect(() => { loadNotes(); }, [loadNotes]);
+
+  async function saveNote(id: string, patch: Partial<Pick<Note, "title" | "body" | "dueAt" | "kind" | "tags">>) {
+    const r = await fetch(`/api/assistente/notas/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) });
+    if (r.ok) { loadNotes(); loadFila(); }
+    return r.ok;
+  }
 
   useEffect(() => {
     fetch("/api/assistente/chat").then(async (r) => {
@@ -144,10 +155,10 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
 
   async function addNote() {
     const title = noteInput.trim(); if (!title) return;
-    const body: any = { kind: noteKind, title };
+    const body: any = { kind: noteKind, title, tags: noteTags };
     if (noteDue && (noteKind === "REMINDER" || noteKind === "TASK")) body.dueAt = new Date(noteDue).toISOString();
     const r = await fetch("/api/assistente/notas", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    if (r.ok) { setNoteInput(""); setNoteDue(""); loadNotes(); loadFila(); }
+    if (r.ok) { setNoteInput(""); setNoteDue(""); setNoteTags(""); loadNotes(); loadFila(); }
   }
   async function toggleNote(n: Note) {
     await fetch(`/api/assistente/notas/${n.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ done: !n.done }) });
@@ -159,6 +170,8 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   }
 
   const firstName = userName.split(" ")[0];
+  const allTags = [...new Set(notes.flatMap((n) => n.tags ?? []))].sort();
+  const visibleNotes = tagFilter ? notes.filter((n) => (n.tags ?? []).includes(tagFilter)) : notes;
   const totalFila = fila ? fila.esperandoPorMim.length + fila.hoje.length + fila.followUps.length + fila.semProximaAcao.length + fila.financeiro.length : 0;
 
   return (
@@ -329,21 +342,39 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                   <input value={noteInput} onChange={(e) => setNoteInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") addNote(); }} placeholder="Anotar rápido…" className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-fuchsia-500/50" />
                   <button onClick={addNote} disabled={!noteInput.trim()} className="px-3 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white text-xs disabled:opacity-40">+</button>
                 </div>
-                {(noteKind === "REMINDER" || noteKind === "TASK") && (
-                  <input type="datetime-local" value={noteDue} onChange={(e) => setNoteDue(e.target.value)} className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-slate-300" />
-                )}
+                <div className="flex gap-2">
+                  {(noteKind === "REMINDER" || noteKind === "TASK") && (
+                    <input type="datetime-local" value={noteDue} onChange={(e) => setNoteDue(e.target.value)} className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-slate-300" />
+                  )}
+                  <input value={noteTags} onChange={(e) => setNoteTags(e.target.value)} placeholder="etiquetas: pessoal, financeiro…" className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-slate-300 placeholder-slate-600" />
+                </div>
               </div>
-              <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-3 space-y-1 max-h-[520px] overflow-y-auto">
-                {notes.length === 0 && <div className="text-xs text-slate-500 px-1 py-2">Bloquinho vazio. Mande "anota: …" no chat ou no WhatsApp.</div>}
-                {notes.map((n) => (
-                  <div key={n.id} className={`flex items-start gap-2 px-2.5 py-2 rounded-lg ${n.done ? "opacity-50" : "bg-[#131c2c]"}`}>
-                    <button onClick={() => toggleNote(n)} title={n.done ? "Reabrir" : "Concluir"} className="text-sm leading-none mt-0.5">{n.done ? "✅" : KIND_ICON[n.kind] ?? "•"}</button>
-                    <div className="flex-1 min-w-0">
-                      <div className={`text-xs ${n.done ? "line-through text-slate-500" : "text-slate-200"}`}>{n.title}</div>
-                      {(n.body || n.dueAt) && <div className="text-[10px] text-slate-500 truncate">{KIND_LABEL[n.kind]}{n.dueAt ? ` · ${fmtWhen(n.dueAt)}` : ""}{n.body ? ` · ${n.body}` : ""}</div>}
-                    </div>
-                    <button onClick={() => deleteNote(n)} className="text-slate-600 hover:text-red-400 text-xs" title="Excluir">✕</button>
-                  </div>
+              <div className="flex items-center justify-between px-1">
+                <span className="text-[11px] text-slate-500">Clique num item pra ler tudo e editar.</span>
+                <label className="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer">
+                  <input type="checkbox" checked={showDone} onChange={(e) => setShowDone(e.target.checked)} className="accent-fuchsia-500" /> mostrar concluídas
+                </label>
+              </div>
+              {allTags.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 px-1">
+                  <button onClick={() => setTagFilter(null)} className={`text-[10px] px-2 py-0.5 rounded-full border ${!tagFilter ? "bg-fuchsia-600/25 border-fuchsia-500/40 text-white" : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>todas</button>
+                  {allTags.map((t) => (
+                    <button key={t} onClick={() => setTagFilter(tagFilter === t ? null : t)} className={`text-[10px] px-2 py-0.5 rounded-full border ${tagFilter === t ? "bg-fuchsia-600/25 border-fuchsia-500/40 text-white" : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>#{t}</button>
+                  ))}
+                </div>
+              )}
+              <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-2 space-y-1 max-h-[560px] overflow-y-auto">
+                {visibleNotes.length === 0 && <div className="text-xs text-slate-500 px-2 py-3">{tagFilter ? "Nada com essa etiqueta." : "Bloquinho vazio. Mande \"anota: …\" no chat ou no WhatsApp."}</div>}
+                {visibleNotes.map((n) => (
+                  <NoteItem
+                    key={n.id}
+                    note={n}
+                    open={openNote === n.id}
+                    onToggleOpen={() => setOpenNote(openNote === n.id ? null : n.id)}
+                    onToggleDone={() => toggleNote(n)}
+                    onDelete={() => { if (confirm("Excluir este item?")) deleteNote(n); }}
+                    onSave={(patch) => saveNote(n.id, patch)}
+                  />
                 ))}
               </div>
             </div>
@@ -352,4 +383,78 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
       </div>
     </div>
   );
+}
+
+/** Item do bloquinho: fechado mostra resumo; aberto mostra tudo e permite editar. */
+function NoteItem({ note, open, onToggleOpen, onToggleDone, onDelete, onSave }: {
+  note: Note; open: boolean; onToggleOpen: () => void; onToggleDone: () => void; onDelete: () => void;
+  onSave: (patch: Partial<Pick<Note, "title" | "body" | "dueAt" | "kind" | "tags">>) => Promise<boolean>;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [tags, setTags] = useState((note.tags ?? []).join(", "));
+  const [title, setTitle] = useState(note.title);
+  const [body, setBody] = useState(note.body ?? "");
+  const [kind, setKind] = useState(note.kind);
+  const [due, setDue] = useState(note.dueAt ? toLocalInput(note.dueAt) : "");
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => { setTitle(note.title); setBody(note.body ?? ""); setKind(note.kind); setTags((note.tags ?? []).join(", ")); setDue(note.dueAt ? toLocalInput(note.dueAt) : ""); setEditing(false); }, [note]);
+
+  async function save() {
+    setSaving(true);
+    const ok = await onSave({ title: title.trim(), body: body.trim() || null, kind, dueAt: due ? new Date(due).toISOString() : null, tags: tags.split(/[,;]/).map((t) => t.trim().toLowerCase().replace(/^#/, "")).filter(Boolean) });
+    setSaving(false);
+    if (ok) setEditing(false);
+  }
+
+  return (
+    <div className={`rounded-lg border transition-colors ${open ? "bg-[#131c2c] border-fuchsia-500/30" : "bg-[#131c2c] border-transparent hover:border-[#253449]"} ${note.done ? "opacity-60" : ""}`}>
+      <div className="flex items-start gap-2 px-2.5 py-2">
+        <button onClick={onToggleDone} title={note.done ? "Reabrir" : "Concluir"} className="text-sm leading-none mt-0.5 flex-shrink-0">{note.done ? "✅" : KIND_ICON[note.kind] ?? "•"}</button>
+        <button onClick={onToggleOpen} className="flex-1 min-w-0 text-left">
+          <div className={`text-xs ${note.done ? "line-through text-slate-500" : "text-slate-200"} ${open ? "" : "truncate"}`}>{note.title}</div>
+          {!open && (note.body || note.dueAt || note.tags?.length) && <div className="text-[10px] text-slate-500 truncate">{KIND_LABEL[note.kind]}{note.dueAt ? ` · ${fmtWhen(note.dueAt)}` : ""}{note.tags?.length ? ` · ${note.tags.map((t) => `#${t}`).join(" ")}` : ""}{note.body ? ` · ${note.body}` : ""}</div>}
+        </button>
+        <button onClick={onDelete} className="text-slate-600 hover:text-red-400 text-xs flex-shrink-0" title="Excluir">✕</button>
+      </div>
+
+      {open && !editing && (
+        <div className="px-2.5 pb-2.5 space-y-2">
+          <div className="text-[10px] text-slate-500 flex flex-wrap items-center gap-1">
+            <span>{KIND_LABEL[note.kind]}{note.dueAt ? ` · ${fmtWhen(note.dueAt)}` : ""} · criado {fmtWhen(note.createdAt)}</span>
+            {(note.tags ?? []).map((t) => <span key={t} className="px-1.5 py-0.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/25 text-fuchsia-200">#{t}</span>)}
+          </div>
+          {note.body && <div className="text-xs text-slate-300 whitespace-pre-wrap break-words bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2">{note.body}</div>}
+          <div className="flex gap-2">
+            <button onClick={() => setEditing(true)} className="text-[11px] px-2.5 py-1 rounded-lg bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">✏️ Editar</button>
+            <button onClick={onToggleDone} className="text-[11px] px-2.5 py-1 rounded-lg bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">{note.done ? "↩ Reabrir" : "✅ Concluir"}</button>
+          </div>
+        </div>
+      )}
+
+      {open && editing && (
+        <div className="px-2.5 pb-2.5 space-y-2">
+          <div className="flex gap-2">
+            <select value={kind} onChange={(e) => setKind(e.target.value)} className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white">
+              <option value="TASK">☑️ Tarefa</option><option value="IDEA">💡 Ideia</option><option value="NOTE">📝 Nota</option><option value="REMINDER">⏰ Lembrete</option>
+            </select>
+            <input type="datetime-local" value={due} onChange={(e) => setDue(e.target.value)} className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-slate-300" />
+          </div>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-fuchsia-500/50" />
+          <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="etiquetas separadas por vírgula: pessoal, financeiro, cliente" className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-slate-300 placeholder-slate-600" />
+          <textarea value={body} onChange={(e) => setBody(e.target.value)} rows={5} placeholder="Detalhes…" className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-slate-200 resize-y focus:outline-none focus:border-fuchsia-500/50" />
+          <div className="flex gap-2">
+            <button onClick={save} disabled={saving || !title.trim()} className="text-[11px] px-3 py-1.5 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white disabled:opacity-40">{saving ? "Salvando…" : "Salvar"}</button>
+            <button onClick={() => setEditing(false)} className="text-[11px] px-3 py-1.5 rounded-lg border border-[#1e2d45] text-slate-400 hover:text-white">Cancelar</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function toLocalInput(iso: string): string {
+  const d = new Date(iso);
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
 }

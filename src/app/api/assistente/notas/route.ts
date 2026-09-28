@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAssistantUser } from "@/lib/personal-assistant/session";
+import { parseTags } from "@/lib/personal-assistant/tags";
 
 /**
  * GET  /api/assistente/notas?kind=&done=1  → bloquinho do usuário
@@ -13,8 +14,9 @@ export async function GET(req: NextRequest) {
   if (!auth.ok) return auth.response;
   const kind = req.nextUrl.searchParams.get("kind");
   const includeDone = req.nextUrl.searchParams.get("done") === "1";
+  const tag = req.nextUrl.searchParams.get("tag")?.trim().toLowerCase();
   const rows = await prisma.assistantNote.findMany({
-    where: { userId: auth.userId, ...(kind && KINDS.has(kind) ? { kind } : {}), ...(includeDone ? {} : { done: false }) },
+    where: { userId: auth.userId, ...(kind && KINDS.has(kind) ? { kind } : {}), ...(includeDone ? {} : { done: false }), ...(tag ? { tags: { has: tag } } : {}) },
     orderBy: [{ done: "asc" }, { dueAt: "asc" }, { createdAt: "desc" }],
     take: 200,
   });
@@ -33,7 +35,7 @@ export async function POST(req: NextRequest) {
   if (dueAt && Number.isNaN(dueAt.getTime())) return NextResponse.json({ error: "dueAt inválido" }, { status: 400 });
   const me = await prisma.user.findUnique({ where: { id: auth.userId }, select: { companyId: true } });
   const row = await prisma.assistantNote.create({
-    data: { userId: auth.userId, companyId: me?.companyId ?? null, kind, title, body: typeof body?.body === "string" ? body.body.trim() || null : null, dueAt, source: "APP" },
+    data: { userId: auth.userId, companyId: me?.companyId ?? null, kind, title, body: typeof body?.body === "string" ? body.body.trim() || null : null, dueAt, source: "APP", tags: parseTags(body?.tags) },
   });
   return NextResponse.json(row, { status: 201 });
 }

@@ -113,6 +113,7 @@ model AssistantNote {
   remindedAt      DateTime? // lembrete já disparado (WhatsApp/push)
   source          String    @default("APP") // APP | WHATSAPP | MCP
   clientCompanyId String? // opcional: sobre qual cliente é
+  tags            String[]  @default([]) // etiquetas livres: pessoal, financeiro, cliente…
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 

@@ -17248,6 +17248,7 @@ export namespace Prisma {
     remindedAt: number
     source: number
     clientCompanyId: number
+    tags: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -17301,6 +17302,7 @@ export namespace Prisma {
     remindedAt?: true
     source?: true
     clientCompanyId?: true
+    tags?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -17391,6 +17393,7 @@ export namespace Prisma {
     remindedAt: Date | null
     source: string
     clientCompanyId: string | null
+    tags: string[]
     createdAt: Date
     updatedAt: Date
     _count: AssistantNoteCountAggregateOutputType | null
@@ -17425,6 +17428,7 @@ export namespace Prisma {
     remindedAt?: boolean
     source?: boolean
     clientCompanyId?: boolean
+    tags?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -17443,6 +17447,7 @@ export namespace Prisma {
     remindedAt?: boolean
     source?: boolean
     clientCompanyId?: boolean
+    tags?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -17461,6 +17466,7 @@ export namespace Prisma {
     remindedAt?: boolean
     source?: boolean
     clientCompanyId?: boolean
+    tags?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -17490,6 +17496,7 @@ export namespace Prisma {
       remindedAt: Date | null
       source: string
       clientCompanyId: string | null
+      tags: string[]
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["assistantNote"]>
@@ -17898,6 +17905,7 @@ export namespace Prisma {
     readonly remindedAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly source: FieldRef<"AssistantNote", 'String'>
     readonly clientCompanyId: FieldRef<"AssistantNote", 'String'>
+    readonly tags: FieldRef<"AssistantNote", 'String[]'>
     readonly createdAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly updatedAt: FieldRef<"AssistantNote", 'DateTime'>
   }
@@ -153464,6 +153472,7 @@ export namespace Prisma {
     remindedAt: 'remindedAt',
     source: 'source',
     clientCompanyId: 'clientCompanyId',
+    tags: 'tags',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -156880,6 +156889,7 @@ export namespace Prisma {
     remindedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     source?: StringFilter<"AssistantNote"> | string
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
+    tags?: StringNullableListFilter<"AssistantNote">
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -156898,6 +156908,7 @@ export namespace Prisma {
     remindedAt?: SortOrderInput | SortOrder
     source?: SortOrder
     clientCompanyId?: SortOrderInput | SortOrder
+    tags?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -156919,6 +156930,7 @@ export namespace Prisma {
     remindedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     source?: StringFilter<"AssistantNote"> | string
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
+    tags?: StringNullableListFilter<"AssistantNote">
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -156937,6 +156949,7 @@ export namespace Prisma {
     remindedAt?: SortOrderInput | SortOrder
     source?: SortOrder
     clientCompanyId?: SortOrderInput | SortOrder
+    tags?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AssistantNoteCountOrderByAggregateInput
@@ -156960,6 +156973,7 @@ export namespace Prisma {
     remindedAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
     source?: StringWithAggregatesFilter<"AssistantNote"> | string
     clientCompanyId?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
+    tags?: StringNullableListFilter<"AssistantNote">
     createdAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
   }
@@ -169534,6 +169548,7 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     clientCompanyId?: string | null
+    tags?: AssistantNoteCreatetagsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAssistantNotesInput
@@ -169552,6 +169567,7 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     clientCompanyId?: string | null
+    tags?: AssistantNoteCreatetagsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -169568,6 +169584,7 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: AssistantNoteUpdatetagsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAssistantNotesNestedInput
@@ -169586,6 +169603,7 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: AssistantNoteUpdatetagsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -169603,6 +169621,7 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     clientCompanyId?: string | null
+    tags?: AssistantNoteCreatetagsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -169619,6 +169638,7 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: AssistantNoteUpdatetagsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -169636,6 +169656,7 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: AssistantNoteUpdatetagsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -183859,6 +183880,14 @@ export namespace Prisma {
     _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type UserRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -183877,6 +183906,7 @@ export namespace Prisma {
     remindedAt?: SortOrder
     source?: SortOrder
     clientCompanyId?: SortOrder
+    tags?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -184167,14 +184197,6 @@ export namespace Prisma {
     userId?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
   }
 
   export type UserGoogleConnectionUserIdServiceCompoundUniqueInput = {
@@ -194469,10 +194491,19 @@ export namespace Prisma {
     deleteMany?: AssistantPendingActionScalarWhereInput | AssistantPendingActionScalarWhereInput[]
   }
 
+  export type AssistantNoteCreatetagsInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutAssistantNotesInput = {
     create?: XOR<UserCreateWithoutAssistantNotesInput, UserUncheckedCreateWithoutAssistantNotesInput>
     connectOrCreate?: UserCreateOrConnectWithoutAssistantNotesInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type AssistantNoteUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type UserUpdateOneRequiredWithoutAssistantNotesNestedInput = {
@@ -208366,6 +208397,7 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     clientCompanyId?: string | null
+    tags?: AssistantNoteCreatetagsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -208382,6 +208414,7 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     clientCompanyId?: string | null
+    tags?: AssistantNoteCreatetagsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -209881,6 +209914,7 @@ export namespace Prisma {
     remindedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     source?: StringFilter<"AssistantNote"> | string
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
+    tags?: StringNullableListFilter<"AssistantNote">
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
   }
@@ -293368,6 +293402,7 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     clientCompanyId?: string | null
+    tags?: AssistantNoteCreatetagsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -295010,6 +295045,7 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: AssistantNoteUpdatetagsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -295026,6 +295062,7 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: AssistantNoteUpdatetagsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -295042,6 +295079,7 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: AssistantNoteUpdatetagsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

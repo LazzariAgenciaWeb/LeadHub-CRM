@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAssistantUser } from "@/lib/personal-assistant/session";
+import { parseTags } from "@/lib/personal-assistant/tags";
 
 /** PATCH { done?, title?, body?, dueAt? } · DELETE — item do bloquinho. */
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -14,6 +15,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const data: any = {};
   if (typeof body?.done === "boolean") { data.done = body.done; data.doneAt = body.done ? new Date() : null; }
   if (typeof body?.title === "string" && body.title.trim()) data.title = body.title.trim();
+  if (typeof body?.kind === "string" && ["IDEA", "NOTE", "REMINDER", "TASK"].includes(body.kind)) data.kind = body.kind;
+  if (body?.tags !== undefined) data.tags = parseTags(body.tags);
   if (body?.body !== undefined) data.body = typeof body.body === "string" ? body.body.trim() || null : null;
   if (body?.dueAt !== undefined) {
     if (body.dueAt === null || body.dueAt === "") data.dueAt = null;
