@@ -52,7 +52,7 @@ const SECTIONS: SectionItem[] = [
       { key: "integracoes-google",    Icon: Globe,      grad: "google",    label: "Google",          desc: "Analytics, Search Console, Meu Negócio" },
       { key: "integracoes-evolution", Icon: Zap,        grad: "evolution", label: "Evolution API",   desc: "WhatsApp gateway" },
       { key: "integracoes-clickup",   Icon: CheckSquare,grad: "clickup",   label: "ClickUp",         desc: "Tarefas e projetos" },
-      { key: "integracoes-openai",    Icon: Sparkles,   grad: "openai",    label: "OpenAI",          desc: "IA e automação" },
+      { key: "integracoes-openai",    Icon: Sparkles,   grad: "openai",    label: "Inteligência Artificial", desc: "OpenAI e Claude (Anthropic)" },
       { key: "integracoes-prospeccao",Icon: Search,     grad: "pipeline",  label: "Prospecta IA · SerpAPI", desc: "Busca de prospects no Google Maps" },
       { key: "integracoes-webhook",   Icon: Webhook,    grad: "webhook",   label: "Webhook de Leads",desc: "Receba leads de qualquer fonte" },
       { key: "integracoes-meta",      Icon: Target,     grad: "pipeline",  label: "Meta", desc: "Facebook, Instagram, Pixel e Meta Ads" },

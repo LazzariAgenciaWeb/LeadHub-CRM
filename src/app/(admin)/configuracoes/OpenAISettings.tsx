@@ -93,9 +93,9 @@ export default function OpenAISettings({
       <div className="flex items-center gap-3 mb-2">
         <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-xl">🤖</div>
         <div>
-          <h1 className="text-white font-bold text-base">OpenAI</h1>
+          <h1 className="text-white font-bold text-base">Inteligência Artificial</h1>
           <p className="text-slate-500 text-xs mt-0.5">
-            Conecte a IA da OpenAI para resumos, sugestões de resposta, classificação de leads e muito mais.
+            OpenAI: resumos, sugestões de resposta, classificação de leads e transcrição de áudio. Claude (Anthropic): assistente pessoal.
           </p>
         </div>
       </div>
@@ -103,7 +103,7 @@ export default function OpenAISettings({
       {/* Formulário principal */}
       <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-[#1e2d45]">
-          <h2 className="text-white font-bold text-sm">🔑 Credenciais</h2>
+          <h2 className="text-white font-bold text-sm">🔑 OpenAI</h2>
           <p className="text-slate-500 text-xs mt-0.5">
             Encontre em: <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">platform.openai.com/api-keys</a>
           </p>
