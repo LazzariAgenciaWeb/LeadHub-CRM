@@ -15195,10 +15195,12 @@ export namespace Prisma {
 
   export type SaleCountOutputType = {
     bonuses: number
+    invoices: number
   }
 
   export type SaleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bonuses?: boolean | SaleCountOutputTypeCountBonusesArgs
+    invoices?: boolean | SaleCountOutputTypeCountInvoicesArgs
   }
 
   // Custom InputTypes
@@ -15217,6 +15219,13 @@ export namespace Prisma {
    */
   export type SaleCountOutputTypeCountBonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BonusWhereInput
+  }
+
+  /**
+   * SaleCountOutputType without action
+   */
+  export type SaleCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientInvoiceWhereInput
   }
 
 
@@ -139580,10 +139589,14 @@ export namespace Prisma {
 
   export type ClientInvoiceAvgAggregateOutputType = {
     amountCents: number | null
+    installment: number | null
+    installments: number | null
   }
 
   export type ClientInvoiceSumAggregateOutputType = {
     amountCents: number | null
+    installment: number | null
+    installments: number | null
   }
 
   export type ClientInvoiceMinAggregateOutputType = {
@@ -139602,6 +139615,8 @@ export namespace Prisma {
     externalId: string | null
     provider: string | null
     saleId: string | null
+    installment: number | null
+    installments: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -139622,6 +139637,8 @@ export namespace Prisma {
     externalId: string | null
     provider: string | null
     saleId: string | null
+    installment: number | null
+    installments: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -139642,6 +139659,8 @@ export namespace Prisma {
     externalId: number
     provider: number
     saleId: number
+    installment: number
+    installments: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -139650,10 +139669,14 @@ export namespace Prisma {
 
   export type ClientInvoiceAvgAggregateInputType = {
     amountCents?: true
+    installment?: true
+    installments?: true
   }
 
   export type ClientInvoiceSumAggregateInputType = {
     amountCents?: true
+    installment?: true
+    installments?: true
   }
 
   export type ClientInvoiceMinAggregateInputType = {
@@ -139672,6 +139695,8 @@ export namespace Prisma {
     externalId?: true
     provider?: true
     saleId?: true
+    installment?: true
+    installments?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -139692,6 +139717,8 @@ export namespace Prisma {
     externalId?: true
     provider?: true
     saleId?: true
+    installment?: true
+    installments?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -139712,6 +139739,8 @@ export namespace Prisma {
     externalId?: true
     provider?: true
     saleId?: true
+    installment?: true
+    installments?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -139819,6 +139848,8 @@ export namespace Prisma {
     externalId: string | null
     provider: string | null
     saleId: string | null
+    installment: number | null
+    installments: number | null
     createdAt: Date
     updatedAt: Date
     _count: ClientInvoiceCountAggregateOutputType | null
@@ -139858,6 +139889,8 @@ export namespace Prisma {
     externalId?: boolean
     provider?: boolean
     saleId?: boolean
+    installment?: boolean
+    installments?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -139881,6 +139914,8 @@ export namespace Prisma {
     externalId?: boolean
     provider?: boolean
     saleId?: boolean
+    installment?: boolean
+    installments?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -139904,6 +139939,8 @@ export namespace Prisma {
     externalId?: boolean
     provider?: boolean
     saleId?: boolean
+    installment?: boolean
+    installments?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -139942,6 +139979,8 @@ export namespace Prisma {
       externalId: string | null
       provider: string | null
       saleId: string | null
+      installment: number | null
+      installments: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["clientInvoice"]>
@@ -140355,6 +140394,8 @@ export namespace Prisma {
     readonly externalId: FieldRef<"ClientInvoice", 'String'>
     readonly provider: FieldRef<"ClientInvoice", 'String'>
     readonly saleId: FieldRef<"ClientInvoice", 'String'>
+    readonly installment: FieldRef<"ClientInvoice", 'Int'>
+    readonly installments: FieldRef<"ClientInvoice", 'Int'>
     readonly createdAt: FieldRef<"ClientInvoice", 'DateTime'>
     readonly updatedAt: FieldRef<"ClientInvoice", 'DateTime'>
   }
@@ -141073,7 +141114,7 @@ export namespace Prisma {
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
     bonuses?: boolean | Sale$bonusesArgs<ExtArgs>
-    invoice?: boolean | Sale$invoiceArgs<ExtArgs>
+    invoices?: boolean | Sale$invoicesArgs<ExtArgs>
     _count?: boolean | SaleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sale"]>
 
@@ -141139,7 +141180,7 @@ export namespace Prisma {
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
     bonuses?: boolean | Sale$bonusesArgs<ExtArgs>
-    invoice?: boolean | Sale$invoiceArgs<ExtArgs>
+    invoices?: boolean | Sale$invoicesArgs<ExtArgs>
     _count?: boolean | SaleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SaleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -141155,7 +141196,7 @@ export namespace Prisma {
       lead: Prisma.$LeadPayload<ExtArgs> | null
       clientCompany: Prisma.$CompanyPayload<ExtArgs> | null
       bonuses: Prisma.$BonusPayload<ExtArgs>[]
-      invoice: Prisma.$ClientInvoicePayload<ExtArgs> | null
+      invoices: Prisma.$ClientInvoicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -141550,7 +141591,7 @@ export namespace Prisma {
     lead<T extends Sale$leadArgs<ExtArgs> = {}>(args?: Subset<T, Sale$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     clientCompany<T extends Sale$clientCompanyArgs<ExtArgs> = {}>(args?: Subset<T, Sale$clientCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     bonuses<T extends Sale$bonusesArgs<ExtArgs> = {}>(args?: Subset<T, Sale$bonusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany"> | Null>
-    invoice<T extends Sale$invoiceArgs<ExtArgs> = {}>(args?: Subset<T, Sale$invoiceArgs<ExtArgs>>): Prisma__ClientInvoiceClient<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    invoices<T extends Sale$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Sale$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -141972,9 +142013,9 @@ export namespace Prisma {
   }
 
   /**
-   * Sale.invoice
+   * Sale.invoices
    */
-  export type Sale$invoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Sale$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ClientInvoice
      */
@@ -141984,6 +142025,11 @@ export namespace Prisma {
      */
     include?: ClientInvoiceInclude<ExtArgs> | null
     where?: ClientInvoiceWhereInput
+    orderBy?: ClientInvoiceOrderByWithRelationInput | ClientInvoiceOrderByWithRelationInput[]
+    cursor?: ClientInvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClientInvoiceScalarFieldEnum | ClientInvoiceScalarFieldEnum[]
   }
 
   /**
@@ -156618,6 +156664,8 @@ export namespace Prisma {
     externalId: 'externalId',
     provider: 'provider',
     saleId: 'saleId',
+    installment: 'installment',
+    installments: 'installments',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -169100,6 +169148,8 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"ClientInvoice"> | string | null
     provider?: StringNullableFilter<"ClientInvoice"> | string | null
     saleId?: StringNullableFilter<"ClientInvoice"> | string | null
+    installment?: IntNullableFilter<"ClientInvoice"> | number | null
+    installments?: IntNullableFilter<"ClientInvoice"> | number | null
     createdAt?: DateTimeFilter<"ClientInvoice"> | Date | string
     updatedAt?: DateTimeFilter<"ClientInvoice"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -169123,6 +169173,8 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
     saleId?: SortOrderInput | SortOrder
+    installment?: SortOrderInput | SortOrder
+    installments?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     clientCompany?: CompanyOrderByWithRelationInput
@@ -169132,7 +169184,6 @@ export namespace Prisma {
 
   export type ClientInvoiceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    saleId?: string
     AND?: ClientInvoiceWhereInput | ClientInvoiceWhereInput[]
     OR?: ClientInvoiceWhereInput[]
     NOT?: ClientInvoiceWhereInput | ClientInvoiceWhereInput[]
@@ -169149,12 +169200,15 @@ export namespace Prisma {
     notes?: StringNullableFilter<"ClientInvoice"> | string | null
     externalId?: StringNullableFilter<"ClientInvoice"> | string | null
     provider?: StringNullableFilter<"ClientInvoice"> | string | null
+    saleId?: StringNullableFilter<"ClientInvoice"> | string | null
+    installment?: IntNullableFilter<"ClientInvoice"> | number | null
+    installments?: IntNullableFilter<"ClientInvoice"> | number | null
     createdAt?: DateTimeFilter<"ClientInvoice"> | Date | string
     updatedAt?: DateTimeFilter<"ClientInvoice"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
     clientService?: XOR<ClientServiceNullableRelationFilter, ClientServiceWhereInput> | null
     sale?: XOR<SaleNullableRelationFilter, SaleWhereInput> | null
-  }, "id" | "saleId">
+  }, "id">
 
   export type ClientInvoiceOrderByWithAggregationInput = {
     id?: SortOrder
@@ -169172,6 +169226,8 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
     saleId?: SortOrderInput | SortOrder
+    installment?: SortOrderInput | SortOrder
+    installments?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClientInvoiceCountOrderByAggregateInput
@@ -169200,6 +169256,8 @@ export namespace Prisma {
     externalId?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
     provider?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
     saleId?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    installment?: IntNullableWithAggregatesFilter<"ClientInvoice"> | number | null
+    installments?: IntNullableWithAggregatesFilter<"ClientInvoice"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"ClientInvoice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ClientInvoice"> | Date | string
   }
@@ -169236,7 +169294,7 @@ export namespace Prisma {
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     bonuses?: BonusListRelationFilter
-    invoice?: XOR<ClientInvoiceNullableRelationFilter, ClientInvoiceWhereInput> | null
+    invoices?: ClientInvoiceListRelationFilter
   }
 
   export type SaleOrderByWithRelationInput = {
@@ -169268,7 +169326,7 @@ export namespace Prisma {
     lead?: LeadOrderByWithRelationInput
     clientCompany?: CompanyOrderByWithRelationInput
     bonuses?: BonusOrderByRelationAggregateInput
-    invoice?: ClientInvoiceOrderByWithRelationInput
+    invoices?: ClientInvoiceOrderByRelationAggregateInput
   }
 
   export type SaleWhereUniqueInput = Prisma.AtLeast<{
@@ -169303,7 +169361,7 @@ export namespace Prisma {
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     bonuses?: BonusListRelationFilter
-    invoice?: XOR<ClientInvoiceNullableRelationFilter, ClientInvoiceWhereInput> | null
+    invoices?: ClientInvoiceListRelationFilter
   }, "id" | "leadId">
 
   export type SaleOrderByWithAggregationInput = {
@@ -183174,11 +183232,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientInvoicesInput
     clientService?: ClientServiceCreateNestedOneWithoutInvoicesInput
-    sale?: SaleCreateNestedOneWithoutInvoiceInput
+    sale?: SaleCreateNestedOneWithoutInvoicesInput
   }
 
   export type ClientInvoiceUncheckedCreateInput = {
@@ -183197,6 +183257,8 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     saleId?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -183214,11 +183276,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientInvoicesNestedInput
     clientService?: ClientServiceUpdateOneWithoutInvoicesNestedInput
-    sale?: SaleUpdateOneWithoutInvoiceNestedInput
+    sale?: SaleUpdateOneWithoutInvoicesNestedInput
   }
 
   export type ClientInvoiceUncheckedUpdateInput = {
@@ -183237,6 +183301,8 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -183257,6 +183323,8 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     saleId?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -183274,6 +183342,8 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -183294,6 +183364,8 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -183324,7 +183396,7 @@ export namespace Prisma {
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
-    invoice?: ClientInvoiceCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateInput = {
@@ -183353,7 +183425,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
-    invoice?: ClientInvoiceUncheckedCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUpdateInput = {
@@ -183382,7 +183454,7 @@ export namespace Prisma {
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
-    invoice?: ClientInvoiceUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateInput = {
@@ -183411,7 +183483,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
-    invoice?: ClientInvoiceUncheckedUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleCreateManyInput = {
@@ -193298,12 +193370,16 @@ export namespace Prisma {
     externalId?: SortOrder
     provider?: SortOrder
     saleId?: SortOrder
+    installment?: SortOrder
+    installments?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ClientInvoiceAvgOrderByAggregateInput = {
     amountCents?: SortOrder
+    installment?: SortOrder
+    installments?: SortOrder
   }
 
   export type ClientInvoiceMaxOrderByAggregateInput = {
@@ -193322,6 +193398,8 @@ export namespace Prisma {
     externalId?: SortOrder
     provider?: SortOrder
     saleId?: SortOrder
+    installment?: SortOrder
+    installments?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -193342,17 +193420,16 @@ export namespace Prisma {
     externalId?: SortOrder
     provider?: SortOrder
     saleId?: SortOrder
+    installment?: SortOrder
+    installments?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ClientInvoiceSumOrderByAggregateInput = {
     amountCents?: SortOrder
-  }
-
-  export type ClientInvoiceNullableRelationFilter = {
-    is?: ClientInvoiceWhereInput | null
-    isNot?: ClientInvoiceWhereInput | null
+    installment?: SortOrder
+    installments?: SortOrder
   }
 
   export type SaleCountOrderByAggregateInput = {
@@ -205977,9 +206054,9 @@ export namespace Prisma {
     connect?: ClientServiceWhereUniqueInput
   }
 
-  export type SaleCreateNestedOneWithoutInvoiceInput = {
-    create?: XOR<SaleCreateWithoutInvoiceInput, SaleUncheckedCreateWithoutInvoiceInput>
-    connectOrCreate?: SaleCreateOrConnectWithoutInvoiceInput
+  export type SaleCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<SaleCreateWithoutInvoicesInput, SaleUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: SaleCreateOrConnectWithoutInvoicesInput
     connect?: SaleWhereUniqueInput
   }
 
@@ -206001,14 +206078,14 @@ export namespace Prisma {
     update?: XOR<XOR<ClientServiceUpdateToOneWithWhereWithoutInvoicesInput, ClientServiceUpdateWithoutInvoicesInput>, ClientServiceUncheckedUpdateWithoutInvoicesInput>
   }
 
-  export type SaleUpdateOneWithoutInvoiceNestedInput = {
-    create?: XOR<SaleCreateWithoutInvoiceInput, SaleUncheckedCreateWithoutInvoiceInput>
-    connectOrCreate?: SaleCreateOrConnectWithoutInvoiceInput
-    upsert?: SaleUpsertWithoutInvoiceInput
+  export type SaleUpdateOneWithoutInvoicesNestedInput = {
+    create?: XOR<SaleCreateWithoutInvoicesInput, SaleUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: SaleCreateOrConnectWithoutInvoicesInput
+    upsert?: SaleUpsertWithoutInvoicesInput
     disconnect?: SaleWhereInput | boolean
     delete?: SaleWhereInput | boolean
     connect?: SaleWhereUniqueInput
-    update?: XOR<XOR<SaleUpdateToOneWithWhereWithoutInvoiceInput, SaleUpdateWithoutInvoiceInput>, SaleUncheckedUpdateWithoutInvoiceInput>
+    update?: XOR<XOR<SaleUpdateToOneWithWhereWithoutInvoicesInput, SaleUpdateWithoutInvoicesInput>, SaleUncheckedUpdateWithoutInvoicesInput>
   }
 
   export type CompanyCreateNestedOneWithoutSalesAsAgencyInput = {
@@ -206036,10 +206113,11 @@ export namespace Prisma {
     connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
   }
 
-  export type ClientInvoiceCreateNestedOneWithoutSaleInput = {
-    create?: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput>
-    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutSaleInput
-    connect?: ClientInvoiceWhereUniqueInput
+  export type ClientInvoiceCreateNestedManyWithoutSaleInput = {
+    create?: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput> | ClientInvoiceCreateWithoutSaleInput[] | ClientInvoiceUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutSaleInput | ClientInvoiceCreateOrConnectWithoutSaleInput[]
+    createMany?: ClientInvoiceCreateManySaleInputEnvelope
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
   }
 
   export type BonusUncheckedCreateNestedManyWithoutSaleInput = {
@@ -206049,10 +206127,11 @@ export namespace Prisma {
     connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
   }
 
-  export type ClientInvoiceUncheckedCreateNestedOneWithoutSaleInput = {
-    create?: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput>
-    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutSaleInput
-    connect?: ClientInvoiceWhereUniqueInput
+  export type ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput = {
+    create?: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput> | ClientInvoiceCreateWithoutSaleInput[] | ClientInvoiceUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutSaleInput | ClientInvoiceCreateOrConnectWithoutSaleInput[]
+    createMany?: ClientInvoiceCreateManySaleInputEnvelope
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
   }
 
   export type CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput = {
@@ -206097,14 +206176,18 @@ export namespace Prisma {
     deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
   }
 
-  export type ClientInvoiceUpdateOneWithoutSaleNestedInput = {
-    create?: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput>
-    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutSaleInput
-    upsert?: ClientInvoiceUpsertWithoutSaleInput
-    disconnect?: ClientInvoiceWhereInput | boolean
-    delete?: ClientInvoiceWhereInput | boolean
-    connect?: ClientInvoiceWhereUniqueInput
-    update?: XOR<XOR<ClientInvoiceUpdateToOneWithWhereWithoutSaleInput, ClientInvoiceUpdateWithoutSaleInput>, ClientInvoiceUncheckedUpdateWithoutSaleInput>
+  export type ClientInvoiceUpdateManyWithoutSaleNestedInput = {
+    create?: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput> | ClientInvoiceCreateWithoutSaleInput[] | ClientInvoiceUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutSaleInput | ClientInvoiceCreateOrConnectWithoutSaleInput[]
+    upsert?: ClientInvoiceUpsertWithWhereUniqueWithoutSaleInput | ClientInvoiceUpsertWithWhereUniqueWithoutSaleInput[]
+    createMany?: ClientInvoiceCreateManySaleInputEnvelope
+    set?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    disconnect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    delete?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    update?: ClientInvoiceUpdateWithWhereUniqueWithoutSaleInput | ClientInvoiceUpdateWithWhereUniqueWithoutSaleInput[]
+    updateMany?: ClientInvoiceUpdateManyWithWhereWithoutSaleInput | ClientInvoiceUpdateManyWithWhereWithoutSaleInput[]
+    deleteMany?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
   }
 
   export type BonusUncheckedUpdateManyWithoutSaleNestedInput = {
@@ -206121,14 +206204,18 @@ export namespace Prisma {
     deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
   }
 
-  export type ClientInvoiceUncheckedUpdateOneWithoutSaleNestedInput = {
-    create?: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput>
-    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutSaleInput
-    upsert?: ClientInvoiceUpsertWithoutSaleInput
-    disconnect?: ClientInvoiceWhereInput | boolean
-    delete?: ClientInvoiceWhereInput | boolean
-    connect?: ClientInvoiceWhereUniqueInput
-    update?: XOR<XOR<ClientInvoiceUpdateToOneWithWhereWithoutSaleInput, ClientInvoiceUpdateWithoutSaleInput>, ClientInvoiceUncheckedUpdateWithoutSaleInput>
+  export type ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput = {
+    create?: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput> | ClientInvoiceCreateWithoutSaleInput[] | ClientInvoiceUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutSaleInput | ClientInvoiceCreateOrConnectWithoutSaleInput[]
+    upsert?: ClientInvoiceUpsertWithWhereUniqueWithoutSaleInput | ClientInvoiceUpsertWithWhereUniqueWithoutSaleInput[]
+    createMany?: ClientInvoiceCreateManySaleInputEnvelope
+    set?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    disconnect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    delete?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    update?: ClientInvoiceUpdateWithWhereUniqueWithoutSaleInput | ClientInvoiceUpdateWithWhereUniqueWithoutSaleInput[]
+    updateMany?: ClientInvoiceUpdateManyWithWhereWithoutSaleInput | ClientInvoiceUpdateManyWithWhereWithoutSaleInput[]
+    deleteMany?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutBonusesInput = {
@@ -215872,10 +215959,12 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientService?: ClientServiceCreateNestedOneWithoutInvoicesInput
-    sale?: SaleCreateNestedOneWithoutInvoiceInput
+    sale?: SaleCreateNestedOneWithoutInvoicesInput
   }
 
   export type ClientInvoiceUncheckedCreateWithoutClientCompanyInput = {
@@ -215893,6 +215982,8 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     saleId?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -216002,7 +216093,7 @@ export namespace Prisma {
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
-    invoice?: ClientInvoiceCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateWithoutCompanyInput = {
@@ -216030,7 +216121,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
-    invoice?: ClientInvoiceUncheckedCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleCreateOrConnectWithoutCompanyInput = {
@@ -216068,7 +216159,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     lead?: LeadCreateNestedOneWithoutSaleInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
-    invoice?: ClientInvoiceCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateWithoutClientCompanyInput = {
@@ -216096,7 +216187,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
-    invoice?: ClientInvoiceUncheckedCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleCreateOrConnectWithoutClientCompanyInput = {
@@ -219538,6 +219629,8 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"ClientInvoice"> | string | null
     provider?: StringNullableFilter<"ClientInvoice"> | string | null
     saleId?: StringNullableFilter<"ClientInvoice"> | string | null
+    installment?: IntNullableFilter<"ClientInvoice"> | number | null
+    installments?: IntNullableFilter<"ClientInvoice"> | number | null
     createdAt?: DateTimeFilter<"ClientInvoice"> | Date | string
     updatedAt?: DateTimeFilter<"ClientInvoice"> | Date | string
   }
@@ -223703,7 +223796,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
-    invoice?: ClientInvoiceCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateWithoutLeadInput = {
@@ -223731,7 +223824,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
-    invoice?: ClientInvoiceUncheckedCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleCreateOrConnectWithoutLeadInput = {
@@ -224636,7 +224729,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
-    invoice?: ClientInvoiceUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutLeadInput = {
@@ -224664,7 +224757,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
-    invoice?: ClientInvoiceUncheckedUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutLeadInput = {
@@ -282030,10 +282123,12 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientInvoicesInput
-    sale?: SaleCreateNestedOneWithoutInvoiceInput
+    sale?: SaleCreateNestedOneWithoutInvoicesInput
   }
 
   export type ClientInvoiceUncheckedCreateWithoutClientServiceInput = {
@@ -282051,6 +282146,8 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     saleId?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -282977,7 +283074,7 @@ export namespace Prisma {
     create: XOR<ClientServiceCreateWithoutInvoicesInput, ClientServiceUncheckedCreateWithoutInvoicesInput>
   }
 
-  export type SaleCreateWithoutInvoiceInput = {
+  export type SaleCreateWithoutInvoicesInput = {
     id?: string
     title: string
     valueCents?: number
@@ -283005,7 +283102,7 @@ export namespace Prisma {
     bonuses?: BonusCreateNestedManyWithoutSaleInput
   }
 
-  export type SaleUncheckedCreateWithoutInvoiceInput = {
+  export type SaleUncheckedCreateWithoutInvoicesInput = {
     id?: string
     companyId: string
     leadId?: string | null
@@ -283033,9 +283130,9 @@ export namespace Prisma {
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
   }
 
-  export type SaleCreateOrConnectWithoutInvoiceInput = {
+  export type SaleCreateOrConnectWithoutInvoicesInput = {
     where: SaleWhereUniqueInput
-    create: XOR<SaleCreateWithoutInvoiceInput, SaleUncheckedCreateWithoutInvoiceInput>
+    create: XOR<SaleCreateWithoutInvoicesInput, SaleUncheckedCreateWithoutInvoicesInput>
   }
 
   export type CompanyUpsertWithoutClientInvoicesInput = {
@@ -283384,18 +283481,18 @@ export namespace Prisma {
     billingSkips?: BillingSkipUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
-  export type SaleUpsertWithoutInvoiceInput = {
-    update: XOR<SaleUpdateWithoutInvoiceInput, SaleUncheckedUpdateWithoutInvoiceInput>
-    create: XOR<SaleCreateWithoutInvoiceInput, SaleUncheckedCreateWithoutInvoiceInput>
+  export type SaleUpsertWithoutInvoicesInput = {
+    update: XOR<SaleUpdateWithoutInvoicesInput, SaleUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<SaleCreateWithoutInvoicesInput, SaleUncheckedCreateWithoutInvoicesInput>
     where?: SaleWhereInput
   }
 
-  export type SaleUpdateToOneWithWhereWithoutInvoiceInput = {
+  export type SaleUpdateToOneWithWhereWithoutInvoicesInput = {
     where?: SaleWhereInput
-    data: XOR<SaleUpdateWithoutInvoiceInput, SaleUncheckedUpdateWithoutInvoiceInput>
+    data: XOR<SaleUpdateWithoutInvoicesInput, SaleUncheckedUpdateWithoutInvoicesInput>
   }
 
-  export type SaleUpdateWithoutInvoiceInput = {
+  export type SaleUpdateWithoutInvoicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     valueCents?: IntFieldUpdateOperationsInput | number
@@ -283423,7 +283520,7 @@ export namespace Prisma {
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
   }
 
-  export type SaleUncheckedUpdateWithoutInvoiceInput = {
+  export type SaleUncheckedUpdateWithoutInvoicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -284171,6 +284268,8 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientInvoicesInput
@@ -284192,6 +284291,8 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -284199,6 +284300,11 @@ export namespace Prisma {
   export type ClientInvoiceCreateOrConnectWithoutSaleInput = {
     where: ClientInvoiceWhereUniqueInput
     create: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput>
+  }
+
+  export type ClientInvoiceCreateManySaleInputEnvelope = {
+    data: ClientInvoiceCreateManySaleInput | ClientInvoiceCreateManySaleInput[]
+    skipDuplicates?: boolean
   }
 
   export type CompanyUpsertWithoutSalesAsAgencyInput = {
@@ -284902,53 +285008,20 @@ export namespace Prisma {
     data: XOR<BonusUpdateManyMutationInput, BonusUncheckedUpdateManyWithoutSaleInput>
   }
 
-  export type ClientInvoiceUpsertWithoutSaleInput = {
+  export type ClientInvoiceUpsertWithWhereUniqueWithoutSaleInput = {
+    where: ClientInvoiceWhereUniqueInput
     update: XOR<ClientInvoiceUpdateWithoutSaleInput, ClientInvoiceUncheckedUpdateWithoutSaleInput>
     create: XOR<ClientInvoiceCreateWithoutSaleInput, ClientInvoiceUncheckedCreateWithoutSaleInput>
-    where?: ClientInvoiceWhereInput
   }
 
-  export type ClientInvoiceUpdateToOneWithWhereWithoutSaleInput = {
-    where?: ClientInvoiceWhereInput
+  export type ClientInvoiceUpdateWithWhereUniqueWithoutSaleInput = {
+    where: ClientInvoiceWhereUniqueInput
     data: XOR<ClientInvoiceUpdateWithoutSaleInput, ClientInvoiceUncheckedUpdateWithoutSaleInput>
   }
 
-  export type ClientInvoiceUpdateWithoutSaleInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
-    amountCents?: IntFieldUpdateOperationsInput | number
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    externalId?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    clientCompany?: CompanyUpdateOneRequiredWithoutClientInvoicesNestedInput
-    clientService?: ClientServiceUpdateOneWithoutInvoicesNestedInput
-  }
-
-  export type ClientInvoiceUncheckedUpdateWithoutSaleInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    clientCompanyId?: StringFieldUpdateOperationsInput | string
-    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: StringFieldUpdateOperationsInput | string
-    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
-    amountCents?: IntFieldUpdateOperationsInput | number
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    externalId?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type ClientInvoiceUpdateManyWithWhereWithoutSaleInput = {
+    where: ClientInvoiceScalarWhereInput
+    data: XOR<ClientInvoiceUpdateManyMutationInput, ClientInvoiceUncheckedUpdateManyWithoutSaleInput>
   }
 
   export type CompanyCreateWithoutBonusesInput = {
@@ -285251,7 +285324,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
-    invoice?: ClientInvoiceCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateWithoutBonusesInput = {
@@ -285279,7 +285352,7 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    invoice?: ClientInvoiceUncheckedCreateNestedOneWithoutSaleInput
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleCreateOrConnectWithoutBonusesInput = {
@@ -285788,7 +285861,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
-    invoice?: ClientInvoiceUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutBonusesInput = {
@@ -285816,7 +285889,7 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invoice?: ClientInvoiceUncheckedUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type ClientServiceUpsertWithoutBonusesInput = {
@@ -297227,6 +297300,8 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     saleId?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -299998,10 +300073,12 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientService?: ClientServiceUpdateOneWithoutInvoicesNestedInput
-    sale?: SaleUpdateOneWithoutInvoiceNestedInput
+    sale?: SaleUpdateOneWithoutInvoicesNestedInput
   }
 
   export type ClientInvoiceUncheckedUpdateWithoutClientCompanyInput = {
@@ -300019,6 +300096,8 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -300038,6 +300117,8 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -300142,7 +300223,7 @@ export namespace Prisma {
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
-    invoice?: ClientInvoiceUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutCompanyInput = {
@@ -300170,7 +300251,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
-    invoice?: ClientInvoiceUncheckedUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateManyWithoutCompanyInput = {
@@ -300224,7 +300305,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     lead?: LeadUpdateOneWithoutSaleNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
-    invoice?: ClientInvoiceUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutClientCompanyInput = {
@@ -300252,7 +300333,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
-    invoice?: ClientInvoiceUncheckedUpdateOneWithoutSaleNestedInput
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -308202,6 +308283,8 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     saleId?: string | null
+    installment?: number | null
+    installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -308242,10 +308325,12 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientInvoicesNestedInput
-    sale?: SaleUpdateOneWithoutInvoiceNestedInput
+    sale?: SaleUpdateOneWithoutInvoicesNestedInput
   }
 
   export type ClientInvoiceUncheckedUpdateWithoutClientServiceInput = {
@@ -308263,6 +308348,8 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -308282,6 +308369,8 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -308370,6 +308459,27 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ClientInvoiceCreateManySaleInput = {
+    id?: string
+    clientCompanyId: string
+    clientServiceId?: string | null
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    installment?: number | null
+    installments?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BonusUpdateWithoutSaleInput = {
     id?: StringFieldUpdateOperationsInput | string
     month?: StringFieldUpdateOperationsInput | string
@@ -308411,6 +308521,69 @@ export namespace Prisma {
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceUpdateWithoutSaleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientInvoicesNestedInput
+    clientService?: ClientServiceUpdateOneWithoutInvoicesNestedInput
+  }
+
+  export type ClientInvoiceUncheckedUpdateWithoutSaleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceUncheckedUpdateManyWithoutSaleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    installment?: NullableIntFieldUpdateOperationsInput | number | null
+    installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

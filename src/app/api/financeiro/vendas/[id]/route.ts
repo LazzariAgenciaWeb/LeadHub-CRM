@@ -190,9 +190,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   // pontual ficava invisível no financeiro por mais que estivesse faturada.
   //
   // Recorrente continua vindo do contrato (clientServiceId) — aqui é só o
-  // avulso da esteira. O vínculo é 1:1 via saleId (unique), então remarcar
-  // "Faturado" não duplica.
-  let invoice = null;
+  // avulso da esteira. Venda parcelada gera uma cobrança por parcela; a trava
+  // contra duplicar é criar só quando a venda ainda não tem cobrança nenhuma.
+  let invoices: { id: string; amountCents: number; dueDate: Date; status: string; installment: number | null }[] = [];
 
   // Desfazer: marcou faturado por engano e voltou atrás. Remove a cobrança
   // gerada — mas só se ainda estiver ABERTO. Cobrança já paga permanece:
@@ -229,46 +229,72 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       });
     }
 
-    const existing = await prisma.clientInvoice.findUnique({ where: { saleId: id } });
-    if (!existing) {
-      // Vencimento: o que veio no corpo, ou +7 dias como default de trabalho.
+    const jaTem = await prisma.clientInvoice.count({ where: { saleId: id } });
+    if (jaTem === 0) {
+      // Vencimento da 1ª parcela: o que veio no corpo, ou +7 dias como default.
       const due = body?.dueDate ? new Date(String(body.dueDate)) : null;
-      const dueDate = due && !isNaN(due.getTime())
+      const primeiroVenc = due && !isNaN(due.getTime())
         ? due
         : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-      // Competência = mês do fechamento da venda, não o de hoje. Venda de
-      // julho faturada em agosto pertence a julho nos relatórios.
-      const ref = updated.closedAt;
-      const referenceMonth = `${ref.getFullYear()}-${String(ref.getMonth() + 1).padStart(2, "0")}`;
+      const n = Math.min(Math.max(parseInt(String(body?.parcelas ?? 1), 10) || 1, 1), 60);
 
-      invoice = await prisma.clientInvoice.create({
-        data: {
+      // Divisão sem perder centavo: as parcelas recebem o piso e a PRIMEIRA
+      // absorve a sobra. R$ 2.850 em 2x = 1.425 + 1.425; R$ 1.000 em 3x =
+      // 333,34 + 333,33 + 333,33 — a soma continua batendo com a venda.
+      const base = Math.floor(updated.valueCents / n);
+      const sobra = updated.valueCents - base * n;
+
+      const parcelas = Array.from({ length: n }, (_, i) => {
+        // Vencimento mensal a partir do primeiro. Dia 31 em mês curto cai no
+        // último dia do mês, em vez de vazar pro mês seguinte.
+        const venc = new Date(primeiroVenc);
+        const diaAlvo = primeiroVenc.getDate();
+        venc.setDate(1);
+        venc.setMonth(venc.getMonth() + i);
+        const ultimoDia = new Date(venc.getFullYear(), venc.getMonth() + 1, 0).getDate();
+        venc.setDate(Math.min(diaAlvo, ultimoDia));
+
+        return {
           clientCompanyId: clientId,
           saleId: id,
-          description: updated.title,
-          amountCents: updated.valueCents,
-          dueDate,
-          referenceMonth,
+          description: n > 1 ? `${updated.title} (${i + 1}/${n})` : updated.title,
+          amountCents: base + (i === 0 ? sobra : 0),
+          dueDate: venc,
+          // Competência de CADA parcela = o mês em que ela vence. Jogar as 12
+          // no mês do fechamento faria setembro mostrar R$ 18 mil faturados e
+          // os outros 11 meses vazios — o oposto da leitura de caixa.
+          referenceMonth: `${venc.getFullYear()}-${String(venc.getMonth() + 1).padStart(2, "0")}`,
           status: "ABERTO",
           provider: "manual",
-        },
-        select: { id: true, amountCents: true, dueDate: true, status: true },
+          installment: n > 1 ? i + 1 : null,
+          installments: n > 1 ? n : null,
+        };
       });
+
+      await prisma.clientInvoice.createMany({ data: parcelas });
+      invoices = await prisma.clientInvoice.findMany({
+        where: { saleId: id },
+        orderBy: { dueDate: "asc" },
+        select: { id: true, amountCents: true, dueDate: true, status: true, installment: true },
+      });
+
       await logFinance({
         companyId: sale.companyId,
         clientCompanyId: clientId,
         entity: "COBRANCA",
-        entityId: invoice.id,
+        entityId: invoices[0]?.id ?? null,
         action: "FATURADO",
-        description: "Venda marcada como Faturado na esteira",
-        meta: { venda: updated.title, competencia: referenceMonth, valorCents: updated.valueCents },
+        description: n > 1
+          ? `Venda faturada na esteira em ${n} parcelas`
+          : "Venda marcada como Faturado na esteira",
+        meta: { venda: updated.title, valorCents: updated.valueCents, parcelas: n },
         session,
       });
     }
   }
 
-  return NextResponse.json({ ...updated, invoice, bonificacao });
+  return NextResponse.json({ ...updated, invoices, bonificacao });
 }
 
 // DELETE /api/financeiro/vendas/[id]

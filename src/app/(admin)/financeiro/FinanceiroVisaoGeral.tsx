@@ -43,6 +43,8 @@ export interface VisaoGeralData {
   ativos: {
     id: string; label: string; tipo: string; cliente: string; clienteId: string;
     amountCents: number; mensalCents: number; cycle: string; billingDay: number | null;
+    /** Site/domínio do cliente — entra na busca e vira link. */
+    site: string | null;
   }[];
 }
 
@@ -160,8 +162,12 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
   const ativosVisiveis = data.ativos.filter(
     (a) =>
       (!tipoAtivos || a.tipo === tipoAtivos) &&
+      // O domínio entra na busca: quem não lembra a razão social nem a
+      // fantasia costuma lembrar o site.
       (!buscaAtivos.trim() ||
-        `${a.cliente} ${a.label}`.toLowerCase().includes(buscaAtivos.trim().toLowerCase())),
+        `${a.cliente} ${a.label} ${a.site ?? ""}`
+          .toLowerCase()
+          .includes(buscaAtivos.trim().toLowerCase())),
   );
 
   return (
@@ -424,6 +430,11 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
                                 <span className="text-slate-600"> · {CYCLE_LABEL[(a.cycle as Cycle)] ?? a.cycle}</span>
                                 {a.billingDay && <span className="text-slate-600"> · vence dia {a.billingDay}</span>}
                               </div>
+                              {a.site && (
+                                <div className="text-[11px] text-indigo-400/70 truncate">
+                                  {a.site.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                                </div>
+                              )}
                             </div>
                             <div className="flex items-center gap-2 flex-shrink-0">
                               <span className="text-sm text-slate-300 font-medium">{brlFromCents(a.amountCents)}</span>

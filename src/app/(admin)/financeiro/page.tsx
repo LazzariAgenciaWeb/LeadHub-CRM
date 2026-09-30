@@ -36,12 +36,15 @@ export default async function FinanceiroPage({
   // todos os clientes cadastrados (visão global da plataforma).
   const clients = await prisma.company.findMany({
     where: isGlobal ? { parentCompanyId: { not: null } } : { parentCompanyId: agencyId },
-    select: { id: true, name: true, tradeName: true },
+    select: { id: true, name: true, tradeName: true, website: true },
     orderBy: { name: "asc" },
   });
   const clientIds = clients.map((c) => c.id);
   // Fantasia na frente, razão social entre parênteses — ver `nomeCliente`.
   const clientName = new Map(clients.map((c) => [c.id, nomeCliente(c)] as const));
+  // Domínio do cliente: às vezes é a única coisa que se lembra da conta —
+  // razão social, fantasia e site raramente têm o mesmo nome.
+  const clientSite = new Map(clients.map((c) => [c.id, c.website] as const));
 
   // Escopo dos leads é OUTRO: lead pertence à agência, não ao cliente dela.
   const leadWhere = isGlobal ? {} : { companyId: agencyId ?? "__none__" };
@@ -199,6 +202,7 @@ export default async function FinanceiroPage({
         mensalCents: monthlyEquivalentCents(c),
         cycle: c.billingCycle ?? "MENSAL",
         billingDay: c.billingDay ?? null,
+        site: clientSite.get(c.clientCompanyId) ?? null,
       }))
       .sort((a, b) => a.cliente.localeCompare(b.cliente)),
     comercial: {

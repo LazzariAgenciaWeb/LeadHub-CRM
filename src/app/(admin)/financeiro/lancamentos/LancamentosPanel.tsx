@@ -26,6 +26,8 @@ export interface LancamentosData {
     /** Telefone (só dígitos) do contato financeiro — atalho pro WhatsApp. */
     whatsapp: string | null;
     contato: string | null;
+    /** Site/domínio do cliente — entra na busca. */
+    site: string | null;
   }[];
   /** Contratos ignorados NESTA competência, com motivo — decisão de não faturar. */
   ignorados: {
@@ -143,7 +145,11 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
   const pendentesVisiveis = data.pendentes.filter(
     (p) =>
       !busca.trim() ||
-      `${p.cliente} ${p.label}`.toLowerCase().includes(busca.trim().toLowerCase()),
+      // Domínio entra na busca: quem não lembra razão social nem fantasia
+      // costuma lembrar o site.
+      `${p.cliente} ${p.label} ${p.site ?? ""}`
+        .toLowerCase()
+        .includes(busca.trim().toLowerCase()),
   );
   const todosMarcados =
     pendentesVisiveis.length > 0 && pendentesVisiveis.every((p) => selecionados.has(p.id));
@@ -408,6 +414,11 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
                       {" · vence dia "}{p.billingDay ?? (dueDay || "10")}
                       {!p.billingDay && " (padrão)"}
                     </span>
+                    {p.site && (
+                      <span className="text-indigo-400/60">
+                        {" · "}{p.site.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                      </span>
+                    )}
                   </div>
                   {/* Particularidade combinada com o cliente: aparece inteira,
                       sem truncar — instrução cortada pela metade é pior que

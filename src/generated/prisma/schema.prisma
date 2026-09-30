@@ -4149,18 +4149,28 @@ model ClientInvoice {
   externalId String? // nosso número / id do boleto no sistema/banco (id do Bling quando provider="bling")
   provider   String? // origem (ex.: "manual", "bling")
 
-  // Cobrança gerada a partir de uma venda pontual da esteira. Recorrente
-  // continua vindo por clientServiceId — os dois são mutuamente exclusivos na
-  // prática. Unique porque marcar "Faturado" duas vezes não pode duplicar
-  // cobrança; o PATCH da venda checa este vínculo antes de criar.
+  // Cobrança gerada a partir de uma venda da esteira. Recorrente continua
+  // vindo por clientServiceId — os dois são mutuamente exclusivos na prática.
+  //
+  // NÃO é unique: venda parcelada gera uma cobrança POR PARCELA (projeto de
+  // R$ 18 mil em 12x = 12 linhas, cada uma com seu vencimento e sua baixa).
+  // A trava contra faturar duas vezes é o PATCH da venda, que só cria quando
+  // ainda não existe cobrança nenhuma pra ela.
   sale   Sale?   @relation(fields: [saleId], references: [id], onDelete: SetNull)
-  saleId String? @unique
+  saleId String?
+
+  // Posição da parcela (1..N) e o total combinado. Nulos = cobrança única.
+  // Guardados em coluna, e não só no texto da descrição, porque a ordem e o
+  // "faltam 9 de 12" precisam ser calculáveis.
+  installment  Int?
+  installments Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([clientCompanyId, status])
   @@index([clientServiceId])
+  @@index([saleId])
   // Lookup/dedup do sync Bling: casa a fatura importada por (provider, externalId).
   // Um índice UNIQUE parcial (só provider='bling') é criado na migration SQL —
   // não dá pra expressar índice parcial no schema Prisma.
@@ -4231,9 +4241,10 @@ model Sale {
 
   notes String? @db.Text
 
-  bonuses Bonus[]
-  // Cobrança gerada quando a venda é marcada como faturada na esteira.
-  invoice ClientInvoice?
+  bonuses  Bonus[]
+  // Cobranças geradas quando a venda é marcada como faturada na esteira —
+  // uma por parcela (venda à vista gera uma só).
+  invoices ClientInvoice[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

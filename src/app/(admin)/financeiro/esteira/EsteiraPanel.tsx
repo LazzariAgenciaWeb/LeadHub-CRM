@@ -25,7 +25,13 @@ export interface EsteiraSale {
   /** Data da entrega — decide a competência da bonificação do pontual. */
   deliveredAt: string | null;
   /** Cobrança gerada ao faturar. null = ainda não faturada (ou sem cliente). */
-  invoice: { id: string; dueDate: string; status: string; amountCents: number } | null;
+  /** Anotação livre sobre o andamento desta venda. */
+  notes: string | null;
+  /** Cobranças geradas — uma por parcela; vazio = ainda não faturada. */
+  invoices: {
+    id: string; dueDate: string; status: string; amountCents: number;
+    installment: number | null; installments: number | null;
+  }[];
 }
 
 export interface EsteiraData {
@@ -110,6 +116,12 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
   // de dado errado que ninguém volta pra corrigir.
   const [billingFor, setBillingFor] = useState<string | null>(null);
   const [dueDate, setDueDate] = useState("");
+  // Parcelamento da venda: 1 = à vista (o caso comum).
+  const [parcelas, setParcelas] = useState("1");
+  const nParcelas = Math.min(Math.max(parseInt(parcelas, 10) || 1, 1), 60);
+  // Anotação de andamento — qual venda está com o campo aberto e o texto.
+  const [notasFor, setNotasFor] = useState<string | null>(null);
+  const [notasTexto, setNotasTexto] = useState("");
   // Venda manual: o trabalho que já estava em aberto ANTES do sistema não tem
   // lead — sem esta entrada, a migração ficava fora da esteira pra sempre.
   const [novaAberta, setNovaAberta] = useState(false);
@@ -158,7 +170,8 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
         billingStatus: criada.billingStatus,
         productionStatus: criada.productionStatus,
         deliveredAt: criada.deliveredAt ?? null,
-        invoice: null,
+        notes: criada.notes ?? null,
+        invoices: [],
       },
       ...prev,
     ]);
@@ -217,19 +230,24 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
               responsibleId: updated.responsibleId ?? null,
               responsibleName: updated.responsibleName ?? null,
               client: updated.clientCompany ?? null,
-              // invoice vem preenchida quando acabou de ser criada; some quando
-              // o faturamento é desfeito. `undefined` = a request não mexeu nela.
-              invoice:
-                updated.invoice !== undefined && updated.invoice !== null
-                  ? {
-                      id: updated.invoice.id,
-                      dueDate: updated.invoice.dueDate,
-                      status: updated.invoice.status,
-                      amountCents: updated.invoice.amountCents,
-                    }
+              notes: updated.notes ?? null,
+              // `invoices` vem preenchida quando as parcelas acabaram de ser
+              // criadas. Vazia numa request que não mexeu em cobrança: aí
+              // mantemos o que já estava, a menos que o faturamento tenha sido
+              // desfeito — nesse caso as cobranças em aberto sumiram.
+              invoices:
+                Array.isArray(updated.invoices) && updated.invoices.length > 0
+                  ? updated.invoices.map((i: any) => ({
+                      id: i.id,
+                      dueDate: i.dueDate,
+                      status: i.status,
+                      amountCents: i.amountCents,
+                      installment: i.installment ?? null,
+                      installments: i.installments ?? null,
+                    }))
                   : updated.billingStatus === "FATURADO"
-                    ? s.invoice
-                    : null,
+                    ? s.invoices
+                    : [],
             }
           : s
       )
@@ -239,6 +257,9 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
     setPicked("");
     setBillingFor(null);
     setDueDate("");
+    setParcelas("1");
+    setNotasFor(null);
+    setNotasTexto("");
     router.refresh();
   }
 
@@ -587,7 +608,7 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                           // Faturar não é só mudar um status: gera cobrança, e
                           // cobrança precisa de vencimento. Os outros
                           // checkpoints salvam direto.
-                          if (cp.key === "billingStatus" && e.target.value === "FATURADO" && !s.invoice) {
+                          if (cp.key === "billingStatus" && e.target.value === "FATURADO" && s.invoices.length === 0) {
                             startBilling(s);
                             return;
                           }
@@ -677,7 +698,9 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
               {billingFor === s.id && (
                 <div className="mt-3 pt-3 border-t border-[#1e2d45] flex flex-wrap items-end gap-2">
                   <label className="flex flex-col gap-1">
-                    <span className="text-xs text-slate-500">Vencimento da cobrança</span>
+                    <span className="text-xs text-slate-500">
+                      {nParcelas > 1 ? "Vencimento da 1ª parcela" : "Vencimento da cobrança"}
+                    </span>
                     <input
                       type="date"
                       value={dueDate}
@@ -685,44 +708,133 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                       className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
                     />
                   </label>
+                  {/* Parcelamento: projeto de R$ 18 mil em 12x vira 12
+                      cobranças, cada uma com vencimento e baixa próprios. */}
+                  <label className="flex flex-col gap-1">
+                    <span className="text-xs text-slate-500">Parcelas</span>
+                    <input
+                      type="number"
+                      min={1}
+                      max={60}
+                      value={parcelas}
+                      onChange={(e) => setParcelas(e.target.value)}
+                      className="w-20 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                    />
+                  </label>
                   <button
                     disabled={!dueDate || busy === s.id}
-                    onClick={() => patch(s.id, { billingStatus: "FATURADO", dueDate })}
+                    onClick={() => patch(s.id, { billingStatus: "FATURADO", dueDate, parcelas: nParcelas })}
                     className="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white text-sm flex items-center gap-1.5"
                   >
                     <Check className="w-3.5 h-3.5" />
-                    Faturar {brlFromCents(s.valueCents)}
+                    {nParcelas > 1
+                      ? `Faturar ${nParcelas}x de ${brlFromCents(Math.floor(s.valueCents / nParcelas))}`
+                      : `Faturar ${brlFromCents(s.valueCents)}`}
                   </button>
                   <button
-                    onClick={() => { setBillingFor(null); setDueDate(""); }}
+                    onClick={() => { setBillingFor(null); setDueDate(""); setParcelas("1"); }}
                     className="px-2 py-2 text-slate-500 hover:text-white text-sm"
                   >
                     Cancelar
                   </button>
                   <span className="text-[11px] text-slate-600 basis-full">
-                    Gera a cobrança de {s.client?.name ?? "—"} na competência do fechamento da venda.
+                    {nParcelas > 1
+                      ? `Gera ${nParcelas} cobranças de ${s.client?.name ?? "—"}, uma por mês a partir do vencimento escolhido. Cada parcela entra na competência do mês em que vence.`
+                      : `Gera a cobrança de ${s.client?.name ?? "—"} na competência do fechamento da venda.`}
                   </span>
                 </div>
               )}
 
-              {/* Cobrança já emitida */}
-              {s.invoice && (
-                <div className="mt-2 flex items-center gap-2 text-[11px]">
-                  <span className={
-                    s.invoice.status === "PAGO"
-                      ? "text-emerald-400"
-                      : new Date(s.invoice.dueDate) < new Date()
-                        ? "text-red-400"
-                        : "text-slate-400"
-                  }>
-                    {s.invoice.status === "PAGO" ? "✓ Cobrança paga" : "Cobrança emitida"}
-                    {" · "}
-                    {brlFromCents(s.invoice.amountCents)}
-                    {" · vence "}
-                    {new Date(s.invoice.dueDate).toLocaleDateString("pt-BR")}
-                  </span>
-                </div>
-              )}
+              {/* Cobranças emitidas. Uma linha quando é à vista; parcelado
+                  mostra o andamento (quantas pagas) e a próxima a vencer, que
+                  é o que se quer saber de relance. */}
+              {s.invoices.length > 0 && (() => {
+                const pagas = s.invoices.filter((i) => i.status === "PAGO");
+                const abertas = s.invoices.filter((i) => i.status !== "PAGO");
+                const proxima = abertas[0];
+                const vencida = proxima && new Date(proxima.dueDate) < new Date();
+                const totalPago = pagas.reduce((n, i) => n + i.amountCents, 0);
+                const parcelado = s.invoices.length > 1;
+
+                return (
+                  <div className="mt-2 flex items-center gap-2 text-[11px] flex-wrap">
+                    <span className={
+                      !proxima ? "text-emerald-400" : vencida ? "text-red-400" : "text-slate-400"
+                    }>
+                      {!proxima
+                        ? parcelado ? `✓ ${s.invoices.length} parcelas pagas` : "✓ Cobrança paga"
+                        : parcelado
+                          ? `${s.invoices.length}x de ${brlFromCents(s.invoices[0].amountCents)} · ${pagas.length}/${s.invoices.length} pagas`
+                          : "Cobrança emitida"}
+                      {proxima && (
+                        <>
+                          {" · próxima "}
+                          {brlFromCents(proxima.amountCents)}
+                          {" vence "}
+                          {new Date(proxima.dueDate).toLocaleDateString("pt-BR")}
+                        </>
+                      )}
+                    </span>
+                    {parcelado && totalPago > 0 && (
+                      <span className="text-emerald-400/80">
+                        {brlFromCents(totalPago)} recebido de {brlFromCents(s.valueCents)}
+                      </span>
+                    )}
+                    {s.client && (
+                      <Link
+                        href={`/empresas/${s.client.id}#financeiro`}
+                        className="text-indigo-400/80 hover:text-indigo-300"
+                      >
+                        ver cobranças
+                      </Link>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Anotação livre: o que está acontecendo com esta venda —
+                  "cliente pediu pra adiar", "falta o material do cliente". */}
+              <div className="mt-2">
+                {notasFor === s.id ? (
+                  <div className="flex items-end gap-2 flex-wrap">
+                    <textarea
+                      value={notasTexto}
+                      onChange={(e) => setNotasTexto(e.target.value)}
+                      rows={2}
+                      autoFocus
+                      placeholder="Ex.: cliente pediu pra emitir só depois do dia 10."
+                      className="flex-1 min-w-[260px] bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                    />
+                    <button
+                      onClick={() => patch(s.id, { notes: notasTexto })}
+                      disabled={busy === s.id}
+                      className="px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-xs flex items-center gap-1"
+                    >
+                      <Check className="w-3 h-3" /> Salvar
+                    </button>
+                    <button
+                      onClick={() => { setNotasFor(null); setNotasTexto(""); }}
+                      className="text-slate-500 hover:text-white text-xs pb-1.5"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                ) : s.notes ? (
+                  <button
+                    onClick={() => { setNotasFor(s.id); setNotasTexto(s.notes ?? ""); }}
+                    className="text-left w-full rounded-md bg-amber-500/[0.07] border border-amber-500/20 px-2.5 py-1.5 hover:border-amber-500/40 transition-colors"
+                  >
+                    <span className="text-[11px] text-amber-200/90 whitespace-pre-wrap">{s.notes}</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => { setNotasFor(s.id); setNotasTexto(""); }}
+                    className="text-[11px] text-slate-600 hover:text-slate-300 flex items-center gap-1"
+                  >
+                    <Plus className="w-3 h-3" /> anotação
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>

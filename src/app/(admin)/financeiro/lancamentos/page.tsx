@@ -35,12 +35,14 @@ export default async function LancamentosPage({
 
   const clients = await prisma.company.findMany({
     where: isGlobal ? { parentCompanyId: { not: null } } : { parentCompanyId: agencyId },
-    select: { id: true, name: true, tradeName: true, billingNotes: true },
+    select: { id: true, name: true, tradeName: true, billingNotes: true, website: true },
   });
   const clientIds = clients.map((c) => c.id);
   // Particularidades da cobrança — aparecem na linha da fila, no momento em
   // que a pessoa vai lançar.
   const clientNotes = new Map(clients.map((c) => [c.id, c.billingNotes] as const));
+  // Domínio: às vezes é a única coisa que se lembra da conta.
+  const clientSite = new Map(clients.map((c) => [c.id, c.website] as const));
 
   // Telefone pra falar com o cliente na hora de cobrar. Preferimos o contato
   // marcado como Financeiro; sem ele, o decisor; sem ele, qualquer contato
@@ -88,7 +90,7 @@ export default async function LancamentosPage({
       select: {
         id: true, title: true, valueCents: true, kind: true, billingStatus: true,
         clientCompany: { select: { name: true, tradeName: true } },
-        invoice: { select: { status: true } },
+        invoices: { select: { status: true, amountCents: true } },
       },
     }),
     // Venda fechada antes desta competência e ainda sem cobrança — a TECNURBE
@@ -103,7 +105,7 @@ export default async function LancamentosPage({
       where: {
         ...(isGlobal ? {} : { companyId: agencyId ?? "__none__" }),
         closedAt: { lt: from },
-        invoice: { is: null },
+        invoices: { none: {} },
         billingStatus: { not: "DISPENSADO" },
       },
       orderBy: { closedAt: "asc" },
@@ -148,6 +150,7 @@ export default async function LancamentosPage({
         cycle: c.billingCycle ?? "MENSAL",
         billingDay: c.billingDay ?? null,
         obs: clientNotes.get(c.clientCompanyId) ?? null,
+        site: clientSite.get(c.clientCompanyId) ?? null,
         whatsapp: clientPhone.get(c.clientCompanyId)?.phone.replace(/\D/g, "") ?? null,
         contato: clientPhone.get(c.clientCompanyId)?.nome ?? null,
       }))
@@ -167,12 +170,14 @@ export default async function LancamentosPage({
       cliente: s.clientCompany ? nomeCliente(s.clientCompany) : null,
       amountCents: s.valueCents,
       kind: s.kind,
-      faturado: !!s.invoice,
-      pago: s.invoice?.status === "PAGO",
-      marcadoSemCobranca: s.billingStatus === "FATURADO" && !s.invoice,
+      faturado: s.invoices.length > 0,
+      // Parcelada só conta como paga quando TODAS as parcelas foram pagas —
+      // 3 de 12 não é "pago", é andamento.
+      pago: s.invoices.length > 0 && s.invoices.every((i) => i.status === "PAGO"),
+      marcadoSemCobranca: s.billingStatus === "FATURADO" && s.invoices.length === 0,
     })),
     pontualAFaturarCents: vendasDoMes
-      .filter((s) => !s.invoice)
+      .filter((s) => s.invoices.length === 0)
       .reduce((n, s) => n + s.valueCents, 0),
     vendasAtrasadas: vendasAtrasadas
       .map((s) => ({
