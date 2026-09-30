@@ -3,6 +3,7 @@ import { evolutionSendText, evolutionGetMediaBase64 } from "@/lib/evolution";
 import { getOpenAIConfig, transcribeAudio } from "@/lib/openai";
 import { runPersonalAssistant } from "./engine";
 import { userCanUseAssistant } from "./access";
+import { syncGroupsIgnore } from "./groups";
 
 /**
  * Porta WhatsApp do assistente pessoal.
@@ -82,6 +83,9 @@ async function tryPair(text: string, instanceName: string, groupJid: string): Pr
     prisma.user.updateMany({ where: { assistantGroupJid: groupJid, id: { not: user.id } }, data: { assistantGroupJid: null, assistantInstanceId: null } }),
     prisma.user.update({ where: { id: user.id }, data: { assistantGroupJid: groupJid, assistantInstanceId: inst.id } }),
   ]);
+  // Garante que a Evolution siga entregando grupos nesta instância mesmo se o
+  // toggle "Grupos" for desligado depois (o webhook filtra os demais).
+  void syncGroupsIgnore(inst.id);
   await safeSend(instanceName, groupJid,
     `${ASSISTANT_MARK} Pronto, ${user.name.split(" ")[0]}! Este grupo agora é o seu assistente pessoal do GoHub.\n\nPode mandar texto ou áudio:\n• "anota: ideia de campanha pro cliente X"\n• "me lembra amanhã 9h de ligar pro Fulano"\n• "abre chamado pra Padaria: revisar banner, quinta 15h"\n• "o que tenho pra hoje?"`,
     inst.instanceToken);

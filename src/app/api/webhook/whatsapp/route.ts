@@ -550,6 +550,17 @@ export async function POST(request: NextRequest) {
       } catch (e) {
         console.error("[Webhook WA] assistente pessoal falhou:", e);
       }
+
+      // "Grupos OFF" na instância: com grupo de assistente vinculado a Evolution
+      // continua entregando grupos (senão o assistente pararia); quem descarta
+      // os demais é este filtro — nada de grupo entra na inbox.
+      try {
+        const { prisma } = await import("@/lib/prisma");
+        const inst = await prisma.whatsappInstance.findFirst({ where: { instanceName: instance }, select: { acceptGroups: true } });
+        if (inst && !inst.acceptGroups) return NextResponse.json({ ok: true, skipped: "groups_off" });
+      } catch (e) {
+        console.error("[Webhook WA] checagem de grupos falhou:", e);
+      }
     }
 
     // Mensagem enviada pelo celular da instância (fromMe=true) → salvar como OUTBOUND

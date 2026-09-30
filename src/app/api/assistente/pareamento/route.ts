@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAssistantUser } from "@/lib/personal-assistant/session";
 import { createPairingCode } from "@/lib/personal-assistant/whatsapp";
+import { syncGroupsIgnore } from "@/lib/personal-assistant/groups";
 
 /**
  * POST   /api/assistente/pareamento → gera código GOHUB-XXXXX (15 min). O
@@ -29,6 +30,9 @@ export async function GET() {
 export async function DELETE() {
   const auth = await requireAssistantUser();
   if (!auth.ok) return auth.response;
+  const before = await prisma.user.findUnique({ where: { id: auth.userId }, select: { assistantInstanceId: true } });
   await prisma.user.update({ where: { id: auth.userId }, data: { assistantGroupJid: null, assistantInstanceId: null } });
+  // Sem assistente, "Grupos OFF" volta a ignorar grupos na própria Evolution.
+  if (before?.assistantInstanceId) await syncGroupsIgnore(before.assistantInstanceId);
   return NextResponse.json({ ok: true });
 }

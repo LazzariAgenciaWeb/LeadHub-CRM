@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { evolutionDeleteInstance, evolutionSetSettings, evolutionSetWebhookEvents } from "@/lib/evolution";
 import { buildWhatsappWebhookUrl } from "@/lib/webhook-auth";
 import { assertModule } from "@/lib/billing";
+import { effectiveGroupsIgnore } from "@/lib/personal-assistant/groups";
 
 // PATCH /api/whatsapp/[id]
 export async function PATCH(
@@ -116,9 +117,11 @@ export async function PATCH(
   // "Reconfigurar webhooks" — devolvemos um warning na resposta.
   if (acceptGroups !== undefined && !!acceptGroups !== (existing as any).acceptGroups) {
     try {
+      // Com grupo de assistente pessoal vinculado, a Evolution segue entregando
+      // grupos mesmo com o toggle OFF — o webhook do LeadHub descarta os demais.
       await evolutionSetSettings(
         existing.instanceName,
-        { groupsIgnore: !acceptGroups },
+        { groupsIgnore: await effectiveGroupsIgnore({ id: existing.id, acceptGroups: !!acceptGroups }) },
         (existing as any).instanceToken ?? null,
       );
     } catch (err: any) {

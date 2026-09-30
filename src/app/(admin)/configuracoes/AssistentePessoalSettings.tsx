@@ -105,7 +105,7 @@ export default function AssistentePessoalSettings({
               </ol>
               {noGroupInstances.length > 0 && (
                 <div className="text-[11px] text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">
-                  ⚠️ Instância(s) com grupos desligados: {noGroupInstances.map((i) => i.label ?? i.instanceName).join(", ")}. Ative "Aceitar grupos" em Configurações → Instâncias, senão a mensagem do grupo nem chega.
+                  ⚠️ Instância(s) com grupos desligados: {noGroupInstances.map((i) => i.label ?? i.instanceName).join(", ")}. Pra parear, ligue "Grupos ON" em Configurações → Instâncias (senão o código nem chega). Depois de vinculado pode desligar de novo: só o grupo do assistente continua chegando, os outros grupos ficam fora da inbox.
                 </div>
               )}
               {code ? (

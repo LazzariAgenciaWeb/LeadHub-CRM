@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionSetWebhookEvents, evolutionSetSettings } from "@/lib/evolution";
 import { buildWhatsappWebhookUrl } from "@/lib/webhook-auth";
+import { effectiveGroupsIgnore } from "@/lib/personal-assistant/groups";
 
 /**
  * POST /api/admin/update-webhooks
@@ -44,7 +45,9 @@ export async function POST(req: NextRequest) {
       // Espelha o toggle do banco no setting da Evolution. Default acceptGroups=true → groupsIgnore=false.
       await evolutionSetSettings(
         inst.instanceName,
-        { groupsIgnore: !inst.acceptGroups },
+        // Instância com grupo de assistente pessoal segue recebendo grupos
+        // (o webhook filtra); sem assistente, espelha o toggle.
+        { groupsIgnore: await effectiveGroupsIgnore({ id: inst.id, acceptGroups: inst.acceptGroups }) },
         inst.instanceToken ?? null,
       );
       results.push({ instanceName: inst.instanceName, ok: true });
