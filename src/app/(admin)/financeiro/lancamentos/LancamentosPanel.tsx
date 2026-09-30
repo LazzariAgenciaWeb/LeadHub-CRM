@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Receipt, Repeat, FileText, AlertTriangle, TrendingUp,
-  ChevronLeft, ChevronRight, Check, ArrowRight, Info,
+  ChevronLeft, ChevronRight, Check, ArrowRight, Info, Wallet,
 } from "lucide-react";
 import FinanceiroTabs from "../FinanceiroTabs";
 import { brlFromCents, CYCLE_LABEL, monthLabel, type Cycle } from "../lib";
@@ -41,6 +41,12 @@ export interface LancamentosData {
     faturado: boolean; pago: boolean; marcadoSemCobranca: boolean;
   }[];
   pontualAFaturarCents: number;
+  /** Cobranças em aberto que vencem nesta competência (+ vencidas de antes). */
+  aReceber: {
+    id: string; clienteId: string; cliente: string; descricao: string;
+    amountCents: number; dueDate: string; parcela: string | null;
+    origem: "venda" | "contrato" | "avulsa"; whatsapp: string | null; vencida: boolean;
+  }[];
   /** Vendas fechadas antes desta competência e ainda sem cobrança. */
   vendasAtrasadas: {
     id: string; title: string; cliente: string | null;
@@ -59,6 +65,8 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
     .filter((s) => s.faturado)
     .reduce((n, s) => n + s.amountCents, 0);
   const vendasAtrasadasCents = data.vendasAtrasadas.reduce((n, s) => n + s.amountCents, 0);
+  const aReceberCents = data.aReceber.reduce((n, i) => n + i.amountCents, 0);
+  const vencidasCents = data.aReceber.filter((i) => i.vencida).reduce((n, i) => n + i.amountCents, 0);
 
   // Lançamento das cobranças recorrentes da competência. Antes só dava pra
   // criar uma a uma abrindo cada empresa — inviável com dezenas de contratos.
@@ -92,6 +100,26 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
         next.delete(serviceId);
         return next;
       });
+      router.refresh();
+    } finally {
+      setFaturando(false);
+    }
+  }
+
+  /** Baixa da cobrança direto na conferência — sem abrir o cliente. */
+  async function darBaixa(clienteId: string, invoiceId: string) {
+    setFaturando(true);
+    setFaturarErr("");
+    try {
+      const res = await fetch(`/api/empresas/${clienteId}/financeiro/${invoiceId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "PAGO" }),
+      });
+      if (!res.ok) {
+        setFaturarErr("Não foi possível dar baixa na cobrança.");
+        return;
+      }
       router.refresh();
     } finally {
       setFaturando(false);
@@ -289,6 +317,83 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
                   >
                     Abrir na esteira
                   </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* A receber no mês — inclui a parcela 2/12 de uma venda já faturada,
+          que sai da fila de faturamento e sem esta lista não apareceria mais
+          em lugar nenhum até vencer. */}
+      {data.aReceber.length > 0 && (
+        <div className={card}>
+          <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
+            <h2 className="text-white font-semibold text-sm flex items-center gap-2">
+              <Wallet className="w-4 h-4 text-emerald-400" />
+              A receber neste mês
+            </h2>
+            <span className="text-xs text-slate-500">
+              {data.aReceber.length} cobrança(s) · <b className="text-white">{brlFromCents(aReceberCents)}</b>
+              {vencidasCents > 0 && (
+                <> · <span className="text-red-400">{brlFromCents(vencidasCents)} vencido</span></>
+              )}
+            </span>
+          </div>
+          <p className="text-xs text-slate-600 mb-3">
+            Cobranças em aberto que vencem na competência, mais as vencidas de meses anteriores.
+            Parcela de venda aparece aqui no mês dela — é o lembrete de cobrar.
+          </p>
+
+          <div className="space-y-1.5 max-h-[380px] overflow-y-auto">
+            {data.aReceber.map((i) => (
+              <div
+                key={i.id}
+                className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg border transition-colors ${
+                  i.vencida
+                    ? "bg-red-500/[0.05] border-red-500/20"
+                    : "bg-white/[0.02] border-transparent hover:border-[#1e2d45]"
+                }`}
+              >
+                <Link href={`/empresas/${i.clienteId}#financeiro`} className="min-w-0 flex-1">
+                  <div className="text-sm text-white truncate">
+                    {i.cliente}
+                    {i.parcela && (
+                      <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300">
+                        parcela {i.parcela}
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-slate-500 truncate">
+                    {i.descricao}
+                    <span className={i.vencida ? "text-red-400" : "text-slate-600"}>
+                      {i.vencida ? " · venceu " : " · vence "}
+                      {new Date(i.dueDate).toLocaleDateString("pt-BR")}
+                    </span>
+                  </div>
+                </Link>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className={`text-sm font-medium ${i.vencida ? "text-red-300" : "text-slate-300"}`}>
+                    {brlFromCents(i.amountCents)}
+                  </span>
+                  {i.whatsapp && (
+                    <Link
+                      href={`/whatsapp?abrir=${i.whatsapp}`}
+                      title="Cobrar pelo inbox"
+                      className="px-2 py-1 rounded-md text-[11px] font-medium text-green-400 bg-green-500/10 hover:bg-green-500/20 transition-colors"
+                    >
+                      💬
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => darBaixa(i.clienteId, i.id)}
+                    disabled={faturando}
+                    title="Marcar como paga"
+                    className="px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 text-slate-400 hover:bg-emerald-500/15 hover:text-emerald-300 disabled:opacity-40 transition-colors"
+                  >
+                    Recebi
+                  </button>
                 </div>
               </div>
             ))}

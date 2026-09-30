@@ -61,7 +61,7 @@ export default async function LancamentosPage({
   // Fantasia na frente, razão social entre parênteses — ver `nomeCliente`.
   const clientName = new Map(clients.map((c) => [c.id, nomeCliente(c)] as const));
 
-  const [contracts, invoicesOfMonth, skips, vendasDoMes, vendasAtrasadas] = await Promise.all([
+  const [contracts, invoicesOfMonth, skips, vendasDoMes, aReceber, vendasAtrasadas] = await Promise.all([
     prisma.clientService.findMany({
       where: { clientCompanyId: { in: clientIds }, isRecurring: true, status: "ATIVO" },
       select: {
@@ -91,6 +91,24 @@ export default async function LancamentosPage({
         id: true, title: true, valueCents: true, kind: true, billingStatus: true,
         clientCompany: { select: { name: true, tradeName: true } },
         invoices: { select: { status: true, amountCents: true } },
+      },
+    }),
+    // Cobranças em aberto que vencem nesta competência, MAIS as vencidas de
+    // antes. É o que responde "o que eu tenho pra receber/cobrar este mês" —
+    // inclusive a parcela 2/12 de uma venda já marcada como faturada, que sai
+    // da fila de faturamento e não aparecia em lugar nenhum depois disso.
+    prisma.clientInvoice.findMany({
+      where: {
+        clientCompanyId: { in: clientIds },
+        status: "ABERTO",
+        dueDate: { lt: to },
+      },
+      orderBy: { dueDate: "asc" },
+      select: {
+        id: true, description: true, amountCents: true, dueDate: true,
+        installment: true, installments: true, clientCompanyId: true,
+        sale: { select: { id: true, title: true } },
+        clientService: { select: { label: true } },
       },
     }),
     // Venda fechada antes desta competência e ainda sem cobrança — a TECNURBE
@@ -179,6 +197,20 @@ export default async function LancamentosPage({
     pontualAFaturarCents: vendasDoMes
       .filter((s) => s.invoices.length === 0)
       .reduce((n, s) => n + s.valueCents, 0),
+    aReceber: aReceber.map((i) => ({
+      id: i.id,
+      clienteId: i.clientCompanyId,
+      cliente: clientName.get(i.clientCompanyId) ?? "—",
+      descricao: i.description,
+      amountCents: i.amountCents,
+      dueDate: i.dueDate.toISOString(),
+      // "2/12" dito de forma explícita: é o que faz lembrar que existem 10
+      // parcelas depois desta.
+      parcela: i.installment && i.installments ? `${i.installment}/${i.installments}` : null,
+      origem: i.sale ? ("venda" as const) : i.clientService ? ("contrato" as const) : ("avulsa" as const),
+      whatsapp: clientPhone.get(i.clientCompanyId)?.phone.replace(/\D/g, "") ?? null,
+      vencida: i.dueDate < from,
+    })),
     vendasAtrasadas: vendasAtrasadas
       .map((s) => ({
         id: s.id,
