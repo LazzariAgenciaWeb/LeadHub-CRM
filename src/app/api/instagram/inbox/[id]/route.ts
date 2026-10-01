@@ -49,7 +49,18 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     select: { id: true, direction: true, source: true, text: true, createdAt: true },
   });
 
-  return NextResponse.json({ conversation: convo, messages });
+  // Follow-gate: último estado conhecido deste contato. Fica visível na
+  // conversa porque "liberei o link sem conseguir confirmar o follow" é
+  // justamente o caso que não aparecia em lugar nenhum.
+  const gate = convo.accountId
+    ? await prisma.igAutomationRun.findFirst({
+        where: { accountId: convo.accountId, igCommenterId: convo.participantId },
+        orderBy: { updatedAt: "desc" },
+        select: { status: true, followState: true, updatedAt: true },
+      })
+    : null;
+
+  return NextResponse.json({ conversation: convo, messages, followGate: gate });
 }
 
 // PATCH /api/instagram/inbox/[id] { aiMode } → liga/pausa/desliga o agente IA

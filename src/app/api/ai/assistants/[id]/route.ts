@@ -91,6 +91,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.revivalDelayMin = Math.min(20160, Math.max(0, parseInt(body.revivalDelayMin, 10) || 0));
   }
   if ("revivalText" in body) data.revivalText = (body.revivalText ?? "").trim() || null;
+  if ("followAskText" in body) data.followAskText = (body.followAskText ?? "").trim() || null;
   if ("groupFirstAidDelayMin" in body) {
     data.groupFirstAidDelayMin = Math.min(240, Math.max(0, parseInt(body.groupFirstAidDelayMin, 10) || 0));
   }

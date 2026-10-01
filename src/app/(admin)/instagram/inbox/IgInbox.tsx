@@ -23,6 +23,7 @@ type Msg = {
 };
 
 type AiMode = "ACTIVE" | "PAUSED_HUMAN" | "OFF";
+type FollowGate = { status: string; followState: string; updatedAt: string } | null;
 type ConvoLead = { id: string; name: string | null; pipeline: string | null };
 
 // Deep-link pro lead na tela certa do CRM conforme o pipeline atual.
@@ -33,6 +34,14 @@ function leadUrl(l: ConvoLead): string {
 
 const SOURCE_LABEL: Record<string, string> = { AUTOMATION: "automação", AGENT: "atendente", EXTERNAL: "fora do LeadHub", AI: "agente IA", ORGANIC: "" };
 const AI_MODE_LABEL: Record<AiMode, string> = { ACTIVE: "IA ativa", PAUSED_HUMAN: "IA pausada (humano assumiu)", OFF: "IA desligada" };
+// Follow-gate: "não deu pra verificar" é um estado de verdade — a Meta às vezes
+// não responde e o sistema libera no benefício da dúvida. Mostrar isso evita a
+// leitura errada de que todo mundo que recebeu o link seguiu o perfil.
+const FOLLOW_BADGE: Record<string, { label: string; cls: string; hint: string }> = {
+  FOLLOWING: { label: "✅ segue", cls: "border-emerald-400/30 bg-emerald-500/10 text-emerald-300", hint: "Confirmado pela Meta: segue o perfil que recebe este DM." },
+  NOT_FOLLOWING: { label: "❌ não segue", cls: "border-red-400/30 bg-red-500/10 text-red-300", hint: "A Meta respondeu que não segue o perfil que recebe este DM." },
+  UNKNOWN: { label: "⚠️ não verificado", cls: "border-amber-400/30 bg-amber-500/10 text-amber-300", hint: "A Meta não respondeu se segue — o sistema liberou no benefício da dúvida." },
+};
 const CHANNEL: Record<string, { label: string; cls: string }> = {
   INSTAGRAM: { label: "Instagram", cls: "bg-pink-500/20 text-pink-300" },
   MESSENGER: { label: "Messenger", cls: "bg-blue-500/20 text-blue-300" },
@@ -53,6 +62,7 @@ export default function IgInbox() {
   const [aiMode, setAiMode] = useState<AiMode | null>(null);
   const [aiSaving, setAiSaving] = useState(false);
   const [convoLead, setConvoLead] = useState<ConvoLead | null>(null);
+  const [followGate, setFollowGate] = useState<FollowGate>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -91,6 +101,7 @@ export default function IgInbox() {
       setMsgs(res.messages || []);
       setAiMode(res.conversation?.aiMode ?? null);
       setConvoLead(res.conversation?.lead ?? null);
+      setFollowGate(res.followGate ?? null);
     } finally {
       setThreadLoading(false);
     }
@@ -189,6 +200,19 @@ export default function IgInbox() {
                     >
                       🎯 {convoLead.name || "Lead"} · {convoLead.pipeline === "OPORTUNIDADES" ? "Oportunidade" : convoLead.pipeline === "LEADS" ? "Lead" : "Prospecção"}
                     </a>
+                  )}
+                  {selected.channel === "INSTAGRAM" && followGate && FOLLOW_BADGE[followGate.followState] && (
+                    <span
+                      className={`text-[10px] px-2 py-1 rounded-lg border ${FOLLOW_BADGE[followGate.followState].cls}`}
+                      title={
+                        followGate.status === "AWAITING_FOLLOW"
+                          ? "Pedimos o follow e ainda não confirmamos."
+                          : FOLLOW_BADGE[followGate.followState].hint
+                      }
+                    >
+                      {FOLLOW_BADGE[followGate.followState].label}
+                      {followGate.status === "AWAITING_FOLLOW" ? " · aguardando" : ""}
+                    </span>
                   )}
                   {selected.channel === "INSTAGRAM" && aiMode && (
                     <button

@@ -26,7 +26,7 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v6-limites";
+export const IG_AUTO_AGENT_REV = "v7-follow-texto-proprio";
 
 const DEBOUNCE_MS = 12_000;
 const HISTORY_LIMIT = 30;

@@ -62,6 +62,7 @@ interface Assistant {
   qualificationChecklist: string | null;
   instanceId: string | null;
   igAccountId: string | null;
+  followAskText?: string | null;
   schedulingLink: string | null;
   calendarUserId: string | null;
   meetingDurationMin: number;
@@ -147,6 +148,7 @@ export default function AssistantsSettings({
   const [fCourtesyText, setFCourtesyText] = useState("");
   const [fRevivalDelay, setFRevivalDelay] = useState(0);
   const [fRevivalText, setFRevivalText] = useState("");
+  const [fFollowAsk, setFFollowAsk] = useState("");
   const [fReactivationWord, setFReactivationWord] = useState("");
   const [fSendPauseNotice, setFSendPauseNotice] = useState(true);
   const [fPauseNoticeText, setFPauseNoticeText] = useState("");
@@ -174,7 +176,7 @@ export default function AssistantsSettings({
     setFActivation("ALWAYS"); setFTriggers("");
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
-    setFRevivalDelay(0); setFRevivalText("");
+    setFRevivalDelay(0); setFRevivalText(""); setFFollowAsk("");
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
     setFRoutes([
@@ -201,6 +203,7 @@ export default function AssistantsSettings({
     setFCourtesyText(a.courtesyText ?? "");
     setFRevivalDelay(a.revivalDelayMin ?? 0);
     setFRevivalText(a.revivalText ?? "");
+    setFFollowAsk(a.followAskText ?? "");
     setFReactivationWord(a.reactivationWord ?? "");
     setFSendPauseNotice(a.sendPauseNotice !== false);
     setFPauseNoticeText(a.pauseNoticeText ?? "");
@@ -259,6 +262,7 @@ export default function AssistantsSettings({
       courtesyText: fCourtesyText,
       revivalDelayMin: fRevivalDelay,
       revivalText: fRevivalText,
+      followAskText: fFollowAsk,
       reactivationWord: fReactivationWord,
       sendPauseNotice: fSendPauseNotice,
       pauseNoticeText: fPauseNoticeText,
@@ -302,6 +306,22 @@ export default function AssistantsSettings({
     setSavingQuota(false);
     router.refresh();
   }
+
+  // Pedir follow de um @ diferente do que recebe o DM é inverificável: a Meta
+  // só responde "essa pessoa segue A CONTA QUE RECEBE ESTA MENSAGEM?". Erro
+  // fácil de cometer (perfil pessoal x perfil da agência) e invisível depois.
+  const followAskWarning = (() => {
+    if (!fIgAccount || !fFollowAsk.trim()) return null;
+    const account = igAccounts.find((a) => a.id === fIgAccount);
+    const accountUser = (account?.username ?? "").toLowerCase().replace(/^@/, "");
+    if (!accountUser) return null;
+    const asked = fFollowAsk.match(/@([a-z0-9._]{2,30})/i)?.[1];
+    if (!asked) return null;
+    const a = asked.toLowerCase();
+    // "@azzagencia" x "azzagencia.com.br": prefixo conta como o mesmo perfil.
+    if (a === accountUser || accountUser.startsWith(a) || a.startsWith(accountUser)) return null;
+    return { asked, account: accountUser };
+  })();
 
   return (
     <div className="p-6 max-w-3xl space-y-6">
@@ -845,6 +865,30 @@ export default function AssistantsSettings({
                 </select>
                 <p className="text-slate-500 text-xs mt-1.5">
                   Com o modo autônomo ligado, o agente responde sozinho as DMs orgânicas dessa conta — respeitando automações de palavra-chave em andamento e pausando quando um atendente assume a conversa.
+                </p>
+              </div>
+            )}
+
+            {fIgAccount && (
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                  🔒 Pedido de follow <span className="text-slate-600 normal-case">— texto do "me segue antes de eu liberar"</span>
+                </label>
+                <textarea
+                  value={fFollowAsk}
+                  onChange={(e) => setFFollowAsk(e.target.value)}
+                  rows={2}
+                  placeholder={'Pra liberar o link, é só me seguir e me avisar aqui 🚀 (o link do perfil é anexado sozinho)'}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-y leading-relaxed"
+                />
+                {followAskWarning && (
+                  <p className="text-amber-300 text-[11px] mt-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg px-2 py-1.5">
+                    ⚠️ Você está pedindo follow de <strong>@{followAskWarning.asked}</strong>, mas quem recebe o DM é <strong>@{followAskWarning.account}</strong>. O Instagram só informa se a pessoa segue <strong>a conta que recebe a mensagem</strong> — follow de outro perfil é impossível de verificar, e o agente nunca vai confirmar.
+                  </p>
+                )}
+                <p className="text-slate-600 text-[11px] mt-1.5">
+                  Usado quando o agente vai entregar algo e exige o follow. Vazio = usa o texto da automação de post (como era antes).
+                  O link do perfil que recebe o DM é anexado automaticamente — não precisa escrever.
                 </p>
               </div>
             )}

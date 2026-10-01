@@ -1730,6 +1730,7 @@ exports.Prisma.AssistantScalarFieldEnum = {
   courtesyText: 'courtesyText',
   revivalDelayMin: 'revivalDelayMin',
   revivalText: 'revivalText',
+  followAskText: 'followAskText',
   groupFirstAidDelayMin: 'groupFirstAidDelayMin',
   reactivationWord: 'reactivationWord',
   sendPauseNotice: 'sendPauseNotice',

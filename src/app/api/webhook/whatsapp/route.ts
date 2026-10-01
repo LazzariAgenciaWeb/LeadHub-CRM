@@ -711,10 +711,14 @@ export async function POST(request: NextRequest) {
 // Também retorna os últimos payloads recebidos para diagnóstico
 export async function GET() {
   const { AUTO_AGENT_REV, getRecentAutoAgentRuns } = await import("@/lib/auto-agent");
+  // A rev do agente do Instagram sai aqui também: é o único ponto público que
+  // dá pra conferir, depois de um deploy, qual versão está realmente no ar.
+  const { IG_AUTO_AGENT_REV } = await import("@/lib/ig-auto-agent");
   return NextResponse.json({
     ok: true,
     service: "LeadHub Webhook",
     autoAgentRev: AUTO_AGENT_REV,
+    igAutoAgentRev: IG_AUTO_AGENT_REV,
     recentAutoAgentRuns: getRecentAutoAgentRuns(),
     recentPayloads,
     recentAckPayloads,

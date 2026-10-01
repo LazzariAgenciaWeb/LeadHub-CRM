@@ -716,8 +716,22 @@ function outAuto(account: ResolvedAccount, participantId: string, text: string, 
 // com o diagnóstico personalizado, não um texto fixo.
 const DIRECT_GATE_KEY = "direct";
 
-/** Texto de "me segue" configurado nas automações da conta (reusa o do post). */
+/**
+ * Texto de "me segue" do gate do DIRECT.
+ *
+ * Primeiro o texto do próprio agente (Assistant.followAskText). Só se ele não
+ * tiver é que cai no texto da automação de post — era de onde vinha antes, e
+ * manter a herança evita mudar o comportamento de quem já configurou lá.
+ */
 async function askFollowText(account: ResolvedAccount): Promise<string> {
+  const agent = await prisma.assistant.findFirst({
+    where: { igAccountId: account.id, isActive: true, followAskText: { not: null } } as any,
+    orderBy: { updatedAt: "desc" },
+    select: { followAskText: true } as any,
+  });
+  const own = ((agent as any)?.followAskText as string | null)?.trim();
+  if (own) return withProfileLink(own, account.username);
+
   const a = await prisma.igAutomation.findFirst({
     where: { accountId: account.id, enabled: true, requireFollow: true, notFollowingText: { not: null } },
     orderBy: { updatedAt: "desc" },

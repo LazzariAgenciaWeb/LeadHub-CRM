@@ -3848,6 +3848,12 @@ model Assistant {
   revivalDelayMin Int     @default(0)
   revivalText     String? @db.Text
 
+  // Texto do "me segue antes" quando o gate nasce no DIRECT (agente de IA).
+  // Antes isso era emprestado da primeira automação de POST com follow-gate —
+  // editar uma automação mudava o agente sem querer. null = cai no texto da
+  // automação (compatibilidade) e, não havendo, no padrão do sistema.
+  followAskText String? @db.Text
+
   // SENTINELA DE GRUPO (primeiro-socorro): em grupos de clientes, se o cliente
   // falou e ninguém do time respondeu em N minutos, o agente entra, acolhe,
   // coleta o básico e abre chamado. 0 = desligada (default — grupos ficam fora).
