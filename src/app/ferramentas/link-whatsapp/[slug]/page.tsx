@@ -13,7 +13,16 @@ async function loadCompany(slug: string) {
   if (!slug) return null;
   return prisma.company.findFirst({
     where: { slug, status: "ACTIVE" },
-    select: { name: true, tradeName: true, logoUrl: true, website: true },
+    select: {
+      name: true, tradeName: true, logoUrl: true, website: true,
+      // @ da conta conectada no Inbox Social → CTA "siga no Instagram"
+      instagramAccounts: {
+        where: { status: "ACTIVE", username: { not: null } },
+        orderBy: { createdAt: "asc" },
+        take: 1,
+        select: { username: true },
+      },
+    },
   });
 }
 
@@ -49,6 +58,7 @@ export default async function LinkWhatsappPage({
       ownerName={company.tradeName ?? company.name}
       ownerLogoUrl={company.logoUrl}
       ownerWebsite={company.website}
+      ownerInstagram={company.instagramAccounts[0]?.username ?? null}
     />
   );
 }

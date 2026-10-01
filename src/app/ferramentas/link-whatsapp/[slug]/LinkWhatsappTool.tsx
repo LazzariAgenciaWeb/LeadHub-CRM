@@ -2,6 +2,17 @@
 
 import { useMemo, useState } from "react";
 import { MessageCircle, Copy, Check, ExternalLink, Link2 } from "lucide-react";
+
+// lucide-react não traz mais ícones de marca; SVG inline do Instagram.
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+    </svg>
+  );
+}
 import {
   WA_TOOL_MAX_MESSAGE,
   buildWaLink,
@@ -14,9 +25,12 @@ interface Props {
   ownerName: string;
   ownerLogoUrl: string | null;
   ownerWebsite: string | null;
+  /** @ sem arroba. Sem ele o CTA de seguir não aparece. */
+  ownerInstagram: string | null;
 }
 
-export default function LinkWhatsappTool({ slug, ownerName, ownerLogoUrl, ownerWebsite }: Props) {
+export default function LinkWhatsappTool({ slug, ownerName, ownerLogoUrl, ownerWebsite, ownerInstagram }: Props) {
+  const igHandle = ownerInstagram?.replace(/^@/, "") ?? null;
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("Olá! Vim pelo Instagram e quero saber mais.");
   const [copied, setCopied] = useState(false);
@@ -199,6 +213,30 @@ export default function LinkWhatsappTool({ slug, ownerName, ownerLogoUrl, ownerW
               </p>
             </div>
           </div>
+
+          {igHandle && (
+            <a
+              href={`https://www.instagram.com/${igHandle}/`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 flex items-center gap-4 rounded-2xl border border-pink-500/30 bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-orange-500/10 p-4 hover:border-pink-400/60 transition-colors group"
+            >
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-pink-500 via-purple-500 to-orange-400 flex items-center justify-center flex-shrink-0">
+                <InstagramIcon className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-white font-semibold text-sm">
+                  Gostou? Siga <span className="text-pink-300">@{igHandle}</span> no Instagram
+                </p>
+                <p className="text-slate-400 text-xs">
+                  Dicas de WhatsApp, anúncios e vendas pra quem atende cliente todo dia.
+                </p>
+              </div>
+              <span className="flex-shrink-0 text-xs font-semibold text-white bg-pink-600 group-hover:bg-pink-500 rounded-lg px-3 py-2 transition-colors">
+                Seguir
+              </span>
+            </a>
+          )}
 
           <div className="mt-8 grid sm:grid-cols-3 gap-3 text-sm">
             {[
