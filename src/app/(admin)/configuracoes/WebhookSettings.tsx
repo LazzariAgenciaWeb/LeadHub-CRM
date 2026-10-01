@@ -5,6 +5,7 @@ import { useState } from "react";
 interface WebhookSettingsProps {
   companyId: string;
   webhookToken: string | null;
+  companySlug: string | null;
   baseUrl: string;
 }
 
@@ -24,14 +25,25 @@ function downloadXlsxTemplate() {
   URL.revokeObjectURL(url);
 }
 
-export default function WebhookSettings({ companyId, webhookToken: initialToken, baseUrl }: WebhookSettingsProps) {
+export default function WebhookSettings({ companyId, webhookToken: initialToken, companySlug, baseUrl }: WebhookSettingsProps) {
   const [token, setToken] = useState(initialToken);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [copiedCurl, setCopiedCurl] = useState(false);
+  const [copiedTool, setCopiedTool] = useState(false);
   const [confirming, setConfirming] = useState(false);
 
   const webhookUrl = token ? `${baseUrl}/api/webhook/leads/${token}` : null;
+  // Ferramenta pública "Gerador de link do WhatsApp": quem copia um link na
+  // página vira lead desta empresa (funil LEADS, origem gerador-link-whatsapp).
+  const toolUrl = companySlug ? `${baseUrl}/ferramentas/link-whatsapp/${companySlug}` : null;
+
+  function copyTool() {
+    if (!toolUrl) return;
+    navigator.clipboard.writeText(toolUrl);
+    setCopiedTool(true);
+    setTimeout(() => setCopiedTool(false), 2000);
+  }
 
   async function handleGenerate() {
     setLoading(true);
@@ -236,6 +248,45 @@ export default function WebhookSettings({ companyId, webhookToken: initialToken,
           </p>
         </div>
       )}
+
+      {/* Ferramenta pública: gerador de link do WhatsApp */}
+      <div className="mb-6 bg-[#0a0f1a] border border-emerald-500/20 rounded-xl p-4">
+        <div className="flex items-start gap-3">
+          <span className="text-2xl">💬</span>
+          <div className="flex-1 min-w-0">
+            <p className="text-white text-sm font-semibold mb-0.5">Gerador de link do WhatsApp (página pública)</p>
+            <p className="text-slate-500 text-xs mb-3">
+              Divulgue esta página como isca: a pessoa monta o link do WhatsApp dela e, ao copiar,
+              o número e a mensagem entram no seu CRM como lead
+              (funil <strong className="text-slate-400">LEADS</strong>, origem{" "}
+              <code className="text-indigo-300 font-mono">gerador-link-whatsapp</code>).
+            </p>
+            {toolUrl ? (
+              <div className="flex items-center gap-2">
+                <code className="flex-1 min-w-0 bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-emerald-300 font-mono break-all">
+                  {toolUrl}
+                </code>
+                <button
+                  onClick={copyTool}
+                  className="flex-shrink-0 px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition-colors"
+                >
+                  {copiedTool ? "✓ Copiado" : "Copiar"}
+                </button>
+                <a
+                  href={toolUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-shrink-0 px-3 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white text-xs font-medium transition-colors"
+                >
+                  Abrir
+                </a>
+              </div>
+            ) : (
+              <p className="text-slate-600 text-sm italic">Disponível quando você está dentro de uma empresa.</p>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* Template de importação */}
       <div className="border border-dashed border-[#1e2d45] rounded-xl p-4">

@@ -292,18 +292,21 @@ export default async function ConfiguracoesPage({
   } else if (secao === "integracoes-webhook") {
     const companyId = userCompanyId ?? "";
     let webhookToken: string | null = null;
+    let companySlug: string | null = null;
     if (companyId) {
       const company = await prisma.company.findUnique({
         where: { id: companyId },
-        select: { webhookToken: true },
+        select: { webhookToken: true, slug: true },
       });
       webhookToken = company?.webhookToken ?? null;
+      companySlug = company?.slug ?? null;
     }
     const baseUrl = process.env.NEXTAUTH_URL ?? process.env.NEXT_PUBLIC_BASE_URL ?? "";
     content = (
       <WebhookSettings
         companyId={companyId}
         webhookToken={webhookToken}
+        companySlug={companySlug}
         baseUrl={baseUrl}
       />
     );
