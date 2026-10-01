@@ -144,8 +144,10 @@ export interface LeadComment {
 const TIMELINE_META: Record<string, { Icon: LucideIcon; titleColor: string; bg: string }> = {
   lead_created:      { Icon: Sparkles,          titleColor: "#a5b4fc", bg: "bg-indigo-500/5 border-indigo-500/15" },
   comment:           { Icon: MessageSquare,     titleColor: "#a5b4fc", bg: "bg-[#0a0f1a] border-[#1e2d45]" },
-  message_in:        { Icon: ArrowDownLeft,     titleColor: "#6ee7b7", bg: "bg-emerald-500/5 border-emerald-500/15" },
-  message_out:       { Icon: ArrowUpRight,      titleColor: "#86efac", bg: "bg-green-500/5 border-green-500/15" },
+  // Conversa: cliente em azul (à esquerda), nós em verde (à direita) — dá pra
+  // ler o vai-e-vem de relance, como no app do WhatsApp.
+  message_in:        { Icon: ArrowDownLeft,     titleColor: "#7dd3fc", bg: "bg-sky-500/10 border-sky-500/30" },
+  message_out:       { Icon: ArrowUpRight,      titleColor: "#86efac", bg: "bg-green-500/10 border-green-500/30" },
   link_open:         { Icon: Eye,               titleColor: "#fbbf24", bg: "bg-amber-500/5 border-amber-500/20" },
   link_click:        { Icon: MousePointerClick, titleColor: "#67e8f9", bg: "bg-cyan-500/5 border-cyan-500/15" },
   tracking_link_set: { Icon: Link2,             titleColor: "#c4b5fd", bg: "bg-violet-500/5 border-violet-500/15" },
@@ -161,6 +163,16 @@ const TIMELINE_META: Record<string, { Icon: LucideIcon; titleColor: string; bg: 
   clickup_linked:    { Icon: CheckSquare,       titleColor: "#fcd34d", bg: "bg-amber-500/5 border-amber-500/15" },
   email_in:          { Icon: Mail,              titleColor: "#93c5fd", bg: "bg-blue-500/5 border-blue-500/15" },
   email_out:         { Icon: Mail,              titleColor: "#a5b4fc", bg: "bg-indigo-500/5 border-indigo-500/15" },
+};
+
+/**
+ * Etiqueta do canal nas mensagens da timeline (meta.channel vem da API).
+ * WhatsApp é o canal padrão e fica sem etiqueta pra não poluir cada linha.
+ */
+const CHANNEL_CHIP: Record<string, { label: string; className: string }> = {
+  instagram: { label: "Instagram", className: "text-pink-300 bg-pink-500/10 border-pink-500/30" },
+  messenger: { label: "Messenger", className: "text-blue-300 bg-blue-500/10 border-blue-500/30" },
+  facebook:  { label: "Facebook",  className: "text-blue-300 bg-blue-500/10 border-blue-500/30" },
 };
 
 type TimelineFilter = "all" | "messages" | "emails" | "links" | "system" | "notes";
@@ -3458,12 +3470,23 @@ export default function CRMBoard({
                     }
                     return filtered.map((evt) => {
                       const meta = TIMELINE_META[evt.type] ?? TIMELINE_META.lead_created;
+                      const channel = evt.meta?.channel as string | undefined;
+                      const chip = channel ? CHANNEL_CHIP[channel] : undefined;
+                      // Recuo estilo chat: nossa mensagem à direita, do cliente à esquerda.
+                      const align =
+                        evt.type === "message_out" ? "ml-8" :
+                        evt.type === "message_in"  ? "mr-8" : "";
                       return (
-                        <div key={evt.id} className={`rounded-lg px-3 py-2.5 border ${meta.bg}`}>
+                        <div key={evt.id} className={`rounded-lg px-3 py-2.5 border ${meta.bg} ${align}`}>
                           <div className="flex items-center justify-between gap-2 mb-1">
-                            <span className="text-[11px] font-semibold flex items-center gap-1.5" style={{ color: meta.titleColor }}>
+                            <span className="text-[11px] font-semibold flex items-center gap-1.5 min-w-0" style={{ color: meta.titleColor }}>
                               <meta.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} />
                               <span className="truncate">{evt.title}</span>
+                              {chip && (
+                                <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded border flex-shrink-0 ${chip.className}`}>
+                                  {chip.label}
+                                </span>
+                              )}
                             </span>
                             <span className="text-slate-500 text-[10px] flex-shrink-0">
                               {formatTimelineDate(evt.timestamp)}

@@ -68,6 +68,7 @@ export async function GET(
     select: {
       id: true,
       phone: true,
+      instagram: true,
       source: true,
       companyId: true,
       createdAt: true,
@@ -167,10 +168,66 @@ export async function GET(
           ? (m.participantName ? `${m.participantName} respondeu` : "Cliente respondeu")
           : "Mensagem enviada",
         body: preview,
+        meta: { channel: "whatsapp" },
       });
     }
   } catch (e) {
     console.warn("[timeline] messages bucket falhou", e);
+  }
+
+  // 3b. Direct do Instagram / Messenger. A conversa é ligada ao lead pelo
+  // leadId (backfill do match) ou, quando ainda não ligada, pelo @ do Instagram
+  // gravado no lead. Mesma janela de dias das mensagens do WhatsApp.
+  try {
+    const igConvs = await prisma.igConversation.findMany({
+      where: {
+        companyId: lead.companyId,
+        OR: [
+          { leadId: lead.id },
+          ...(lead.instagram
+            ? [{ participantUsername: { equals: lead.instagram, mode: "insensitive" as const } }]
+            : []),
+        ],
+      },
+      select: { id: true, channel: true, participantUsername: true },
+    });
+
+    if (igConvs.length > 0) {
+      const convById = new Map(igConvs.map((c) => [c.id, c]));
+      const igMessages = await prisma.igMessage.findMany({
+        where: {
+          conversationId: { in: igConvs.map((c) => c.id) },
+          ...(msgSince ? { createdAt: { gte: msgSince } } : {}),
+        },
+        orderBy: { createdAt: "desc" },
+        take: 50,
+        select: { id: true, conversationId: true, direction: true, source: true, text: true, createdAt: true },
+      });
+
+      for (const m of igMessages) {
+        const conv = convById.get(m.conversationId);
+        const channel =
+          conv?.channel === "MESSENGER" ? "messenger" :
+          conv?.channel === "FACEBOOK"  ? "facebook"  : "instagram";
+        const isIn = m.direction === "IN";
+        const text = m.text?.trim() || "Mídia";
+        events.push({
+          id: `ig-${m.id}`,
+          type: isIn ? "message_in" : "message_out",
+          timestamp: m.createdAt.toISOString(),
+          title: isIn
+            ? (conv?.participantUsername ? `@${conv.participantUsername} respondeu` : "Cliente respondeu")
+            : m.source === "AI"         ? "Enviada pela IA"
+            : m.source === "AUTOMATION" ? "Automação enviou"
+            : m.source === "EXTERNAL"   ? "Enviada pelo app"
+            : "Mensagem enviada",
+          body: text.length > 140 ? text.slice(0, 140) + "…" : text,
+          meta: { channel },
+        });
+      }
+    }
+  } catch (e) {
+    console.warn("[timeline] instagram bucket falhou", e);
   }
 
   // 4. Cliques no link de rastreamento (se houver)
