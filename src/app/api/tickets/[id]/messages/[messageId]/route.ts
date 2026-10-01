@@ -72,7 +72,7 @@ export async function PATCH(
   const trimmed = newBody.trim();
   const prevBody = message.body;
 
-  const [updated] = await prisma.$transaction([
+  const results = await prisma.$transaction([
     prisma.ticketMessage.update({
       where: { id: messageId },
       data: { body: trimmed },
@@ -97,6 +97,10 @@ export async function PATCH(
     }),
   ]);
 
-  return NextResponse.json({ ...updated, hasMedia: !!updated.mediaType });
+  const updated = results[0] as { id: string; body: string; mediaType: string | null };
+  // Último item da transação = registro da edição (guarda o texto anterior em
+  // meta.prev). A tela usa pra mostrar "editado" com as versões antigas.
+  const activity = results[results.length - 1];
+  return NextResponse.json({ ...updated, hasMedia: !!updated.mediaType, activity });
 }
 

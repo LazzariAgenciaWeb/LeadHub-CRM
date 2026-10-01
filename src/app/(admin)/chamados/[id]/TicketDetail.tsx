@@ -33,6 +33,8 @@ interface TicketActivity {
   body: string | null;
   authorName: string | null;
   createdAt: string;
+  // Edição de mensagem guarda { field:"messageBody", messageId, prev, next }.
+  meta?: unknown;
 }
 
 // Mensagem da conversa WhatsApp (do schema Message). Carregada sob demanda
@@ -234,7 +236,7 @@ export default function TicketDetail({
   const router = useRouter();
   const [, startTransition] = useTransition();
   const [messages, setMessages] = useState<TicketMessage[]>(ticket.messages);
-  const [activities] = useState<TicketActivity[]>(ticket.activities ?? []);
+  const [activities, setActivities] = useState<TicketActivity[]>(ticket.activities ?? []);
   // Abas do chamado (acima da solicitação original). "info" é a principal —
   // mostra só a descrição. As demais são filtros do feed (Todas / Mensagens /
   // Notas internas / Sistema) ou view dedicada (WhatsApp). Replica o padrão
@@ -557,11 +559,59 @@ export default function TicketDetail({
       }
       const updated = await res.json();
       setMessages((prev) => prev.map((m) => (m.id === updated.id ? { ...m, body: updated.body } : m)));
+      if (updated.activity) setActivities((prev) => [...prev, updated.activity]);
       setEditingMsg(null);
       startTransition(() => router.refresh());
     } finally {
       setSavingMsg(false);
     }
+  }
+
+  // Histórico de edição: cada edição guarda o texto anterior (meta.prev) no
+  // activity. Mensagem editada ganha o selo "editado" que abre as versões.
+  const [historyOpen, setHistoryOpen] = useState<string | null>(null);
+  const editHistory = new Map<string, { prev: string; at: string; by: string | null }[]>();
+  for (const a of activities) {
+    const m = a.meta as { field?: string; messageId?: string; prev?: unknown } | null | undefined;
+    if (m?.field === "messageBody" && m.messageId && typeof m.prev === "string") {
+      const list = editHistory.get(m.messageId) ?? [];
+      list.push({ prev: m.prev, at: String(a.createdAt), by: a.authorName });
+      editHistory.set(m.messageId, list);
+    }
+  }
+  function editedBadge(id: string) {
+    const v = editHistory.get(id);
+    if (!v?.length) return null;
+    return (
+      <button
+        type="button"
+        onClick={() => setHistoryOpen(historyOpen === id ? null : id)}
+        className="text-[10px] italic text-slate-500 hover:text-indigo-300 underline decoration-dotted underline-offset-2"
+        title="Ver versões anteriores"
+      >
+        editado{v.length > 1 ? ` ${v.length}×` : ""}
+      </button>
+    );
+  }
+  function historyBox(id: string) {
+    const v = editHistory.get(id);
+    if (historyOpen !== id || !v?.length) return null;
+    return (
+      <div className="mt-2 w-full max-w-[85%] bg-[#0a0f1a] border border-dashed border-slate-700 rounded-lg p-3 space-y-2.5">
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] uppercase tracking-wide font-semibold text-slate-500">Versões anteriores</span>
+          <button type="button" onClick={() => setHistoryOpen(null)} className="text-slate-600 hover:text-white text-xs">×</button>
+        </div>
+        {[...v].reverse().map((e, i) => (
+          <div key={i} className="border-l-2 border-slate-700 pl-2.5">
+            <div className="text-[10px] text-slate-500 mb-0.5">
+              Texto até {new Date(e.at).toLocaleString("pt-BR")}{e.by ? ` · alterado por ${e.by}` : ""}
+            </div>
+            <RichMessageBody text={e.prev} className="text-xs text-slate-400 leading-relaxed" />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   // ClickUp
@@ -1070,6 +1120,7 @@ export default function TicketDetail({
                   <span className="text-slate-700 text-[10px] ml-auto font-mono">
                     {new Date(initialMsg.createdAt).toLocaleString("pt-BR")}
                   </span>
+                  {editedBadge(initialMsg.id)}
                   {canManage && editingMsg?.id !== initialMsg.id && (
                     <button
                       type="button"
@@ -1096,6 +1147,7 @@ export default function TicketDetail({
                     className="text-slate-200 text-sm leading-relaxed"
                   />
                 )}
+                {historyBox(initialMsg.id)}
               </div>
             )}
 
@@ -1156,6 +1208,7 @@ export default function TicketDetail({
                             <span className="text-slate-700 text-[10px] ml-auto font-mono">
                               {new Date(msg.createdAt).toLocaleString("pt-BR")}
                             </span>
+                            {editedBadge(msg.id)}
                             {canManage && editingMsg?.id !== msg.id && (
                               <button
                                 type="button"
@@ -1183,6 +1236,7 @@ export default function TicketDetail({
                               linkClassName="text-amber-200 hover:text-amber-100 underline decoration-amber-400/40 break-all"
                             />
                           )}
+                          {historyBox(msg.id)}
                           {!!msg.attachments?.length && (
                             <div className="mt-2"><AttachmentList files={msg.attachments} compact libraryClientId={canManage ? clientId : null} /></div>
                           )}
@@ -1202,6 +1256,7 @@ export default function TicketDetail({
                             <span className="text-slate-700 text-[10px] font-mono">
                               {new Date(msg.createdAt).toLocaleString("pt-BR")}
                             </span>
+                            {editedBadge(msg.id)}
                             {canManage && editingMsg?.id !== msg.id && (
                               <button
                                 type="button"
@@ -1247,6 +1302,7 @@ export default function TicketDetail({
                             />
                           </div>
                           )}
+                          {historyBox(msg.id)}
                           {!!msg.attachments?.length && (
                             <div className="max-w-[85%] mt-1 w-full">
                               <AttachmentList files={msg.attachments} compact libraryClientId={canManage ? clientId : null} />
