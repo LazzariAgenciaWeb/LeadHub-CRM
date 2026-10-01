@@ -1,4 +1,4 @@
-import { S3Client, HeadObjectCommand, DeleteObjectCommand, GetObjectCommand, CopyObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, HeadObjectCommand, DeleteObjectCommand, GetObjectCommand, CopyObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -100,4 +100,39 @@ export async function deleteObject(key: string) {
 export async function copyObject(fromKey: string, toKey: string) {
   const source = `${S3_BUCKET}/${fromKey.split("/").map(encodeURIComponent).join("/")}`;
   await internal().send(new CopyObjectCommand({ Bucket: S3_BUCKET, Key: toKey, CopySource: source }));
+}
+
+// ─── Objeto público (imagem de assinatura de email) ─────────────────────────
+// Anexo usa URL assinada, que expira — serve pro navegador de quem está
+// logado. Imagem de assinatura é outra história: ela é buscada pelo cliente
+// de email de quem RECEBEU, meses depois, sem login. Por isso vai num prefixo
+// de leitura anônima e a URL é direta, sem assinatura.
+
+/** Prefixo com leitura pública (precisa da policy anônima no MinIO). */
+export const PUBLIC_PREFIX = "public/";
+
+/** Sobe um arquivo pequeno direto pelo servidor (sem passo no navegador). */
+export async function putObject(key: string, body: Buffer, contentType: string) {
+  await internal().send(
+    new PutObjectCommand({ Bucket: S3_BUCKET, Key: key, Body: body, ContentType: contentType })
+  );
+}
+
+/** URL direta e permanente do objeto (só funciona no prefixo público). */
+export function publicObjectUrl(key: string): string {
+  const base = (publicEndpoint ?? "").replace(/\/+$/, "");
+  return forcePathStyle ? `${base}/${S3_BUCKET}/${key}` : `${base.replace("://", `://${S3_BUCKET}.`)}/${key}`;
+}
+
+/**
+ * Confere se a URL abre SEM autenticação — é o que o cliente de email vai
+ * fazer. Falso quando falta a policy anônima no bucket/prefixo.
+ */
+export async function isPubliclyReadable(url: string): Promise<boolean> {
+  try {
+    const res = await fetch(url, { method: "GET", headers: { Range: "bytes=0-0" }, cache: "no-store" });
+    return res.ok || res.status === 206;
+  } catch {
+    return false;
+  }
 }

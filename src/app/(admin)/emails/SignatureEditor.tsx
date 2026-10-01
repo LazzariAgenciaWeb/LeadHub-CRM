@@ -11,7 +11,7 @@
  * embutida em assinatura — ela precisa estar publicada na internet.
  */
 import { useEffect, useRef, useState } from "react";
-import { Bold, Italic, Link2, Image as ImageIcon, Code2, Eraser } from "lucide-react";
+import { Bold, Italic, Link2, Image as ImageIcon, Code2, Eraser, Upload } from "lucide-react";
 
 interface Props {
   value: string;
@@ -20,7 +20,20 @@ interface Props {
 
 export default function SignatureEditor({ value, onChange }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [htmlMode, setHtmlMode] = useState(false);
+  const [podeSubir, setPodeSubir] = useState(false);
+  const [subindo, setSubindo] = useState(false);
+  const [aviso, setAviso] = useState("");
+
+  // O botão de upload só aparece quando o armazenamento de arquivos está
+  // ligado — senão sobra só a imagem por URL, que funciona sempre.
+  useEffect(() => {
+    fetch("/api/email/inbox/signature-image")
+      .then((r) => r.json())
+      .then((j) => setPodeSubir(!!j.enabled))
+      .catch(() => setPodeSubir(false));
+  }, []);
 
   // Só escreve de fora quando o editor não está com o foco — senão o cursor
   // pula pro começo a cada tecla digitada.
@@ -52,6 +65,31 @@ export default function SignatureEditor({ value, onChange }: Props) {
     run("insertHTML", `<img src="${url.trim()}" alt="" style="max-width:220px;height:auto" />`);
   }
 
+  async function subirImagem(file: File | null | undefined) {
+    if (!file) return;
+    setSubindo(true);
+    setAviso("");
+    try {
+      const contentBase64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result).split(",")[1] ?? "");
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const res = await fetch("/api/email/inbox/signature-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filename: file.name, contentType: file.type, contentBase64 }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setAviso(j.error || "Falha ao enviar a imagem"); return; }
+      if (j.aviso) setAviso(j.aviso);
+      run("insertHTML", `<img src="${j.url}" alt="" style="max-width:220px;height:auto" />`);
+    } finally {
+      setSubindo(false);
+    }
+  }
+
   const botao = "p-1.5 rounded-md text-slate-300 hover:bg-white/10";
 
   return (
@@ -61,6 +99,16 @@ export default function SignatureEditor({ value, onChange }: Props) {
         <button type="button" onClick={() => run("italic")} title="Itálico" className={botao}><Italic size={13} /></button>
         <button type="button" onClick={addLink} title="Inserir link" className={botao}><Link2 size={13} /></button>
         <button type="button" onClick={addImage} title="Inserir imagem por URL" className={botao}><ImageIcon size={13} /></button>
+        {podeSubir && (
+          <>
+            <button type="button" onClick={() => fileRef.current?.click()} disabled={subindo}
+              title="Enviar imagem do computador" className={`${botao} disabled:opacity-40`}>
+              <Upload size={13} />
+            </button>
+            <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp" className="hidden"
+              onChange={(e) => { subirImagem(e.target.files?.[0]); e.target.value = ""; }} />
+          </>
+        )}
         <button type="button" onClick={() => run("removeFormat")} title="Limpar formatação" className={botao}><Eraser size={13} /></button>
         <button type="button" onClick={() => setHtmlMode((v) => !v)} title="Editar o HTML"
           className={`${botao} ml-auto ${htmlMode ? "bg-indigo-500/20 text-indigo-200" : ""}`}>
@@ -89,9 +137,15 @@ export default function SignatureEditor({ value, onChange }: Props) {
         />
       )}
 
+      {aviso && (
+        <p className="px-2 py-1.5 text-[10px] text-amber-200 bg-amber-500/10 border-t border-amber-500/30">{aviso}</p>
+      )}
       <p className="px-2 py-1 text-[10px] text-slate-500 bg-white/5 border-t border-white/10">
-        A imagem precisa estar publicada na internet (seu site, por exemplo) — clientes de email não
-        exibem imagem guardada só aqui dentro.
+        {subindo
+          ? "Enviando imagem…"
+          : podeSubir
+          ? "A imagem fica publicada num endereço fixo — é assim que o cliente de email consegue exibi-la."
+          : "A imagem precisa estar publicada na internet (seu site, por exemplo) — clientes de email não exibem imagem guardada só aqui dentro."}
       </p>
     </div>
   );
