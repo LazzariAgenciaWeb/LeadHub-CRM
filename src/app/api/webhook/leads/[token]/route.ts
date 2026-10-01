@@ -59,7 +59,7 @@ async function syncClickupIfOportunidade(
 //      telefone em QUALQUER funil) com todos os campos enviados, podendo mover
 //      de pipeline/etapa. É o caminho pra promover LEADS → OPORTUNIDADES sem
 //      criar duplicata.
-export async function POST(
+async function handlePost(
   req: NextRequest,
   { params }: { params: Promise<{ token: string }> }
 ) {
@@ -320,6 +320,31 @@ export async function POST(
     { ok: true, created: true, leadId: lead.id, lead, ...(clickup ? { clickup } : {}) },
     { status: 201 },
   );
+}
+
+// CORS: formulários e páginas estáticas hospedadas em outro domínio (site do
+// cliente, landing na hospedagem dele) chamam o webhook direto do navegador.
+// Mesmo padrão do /api/pixel/event.
+function corsHeaders(origin: string | null) {
+  return {
+    "Access-Control-Allow-Origin": origin || "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Max-Age": "86400",
+  };
+}
+
+export async function OPTIONS(req: NextRequest) {
+  return new NextResponse(null, { status: 204, headers: corsHeaders(req.headers.get("origin")) });
+}
+
+export async function POST(
+  req: NextRequest,
+  ctx: { params: Promise<{ token: string }> }
+) {
+  const res = await handlePost(req, ctx);
+  for (const [k, v] of Object.entries(corsHeaders(req.headers.get("origin")))) res.headers.set(k, v);
+  return res;
 }
 
 // GET /api/webhook/leads/[token] — verificação de saúde do endpoint
