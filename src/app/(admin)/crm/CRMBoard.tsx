@@ -7,9 +7,10 @@ import {
   Tag, Clock, FileText, Sparkles, Link2, Plug, Settings, MessageSquare, CheckSquare, Building2,
   Activity as ActivityIcon, Inbox, Filter,
   Globe, Hourglass, Eye, MousePointerClick, Flame, User, DollarSign, Milestone,
-  ArrowDownLeft, ArrowUpRight, Check, X, Trash2, Mail,
+  ArrowDownLeft, ArrowUpRight, Check, X, Trash2, Mail, Route,
   type LucideIcon,
 } from "lucide-react";
+import LeadJourney from "./LeadJourney";
 import SendEmailButton from "@/components/SendEmailButton";
 import ImportLeads from "./ImportLeads";
 import BuscarProspectsModal from "./BuscarProspectsModal";
@@ -175,9 +176,11 @@ const CHANNEL_CHIP: Record<string, { label: string; className: string }> = {
   facebook:  { label: "Facebook",  className: "text-blue-300 bg-blue-500/10 border-blue-500/30" },
 };
 
-type TimelineFilter = "all" | "messages" | "emails" | "links" | "system" | "notes";
+// "journey" não filtra a timeline: troca a lista pela visão de jornada (LeadJourney).
+type TimelineFilter = "journey" | "all" | "messages" | "emails" | "links" | "system" | "notes";
 
 const TIMELINE_FILTERS: { id: TimelineFilter; Icon: LucideIcon; grad: GradientKey; label: string }[] = [
+  { id: "journey",  Icon: Route,          grad: "crm",         label: "Jornada" },
   { id: "all",      Icon: Inbox,          grad: "dashboard",   label: "Tudo" },
   { id: "messages", Icon: MessageSquare,  grad: "whatsapp",    label: "Mensagens" },
   { id: "emails",   Icon: Mail,           grad: "email",       label: "E-mails" },
@@ -3420,11 +3423,13 @@ export default function CRMBoard({
                 {/* Filtros — agrupam eventos por tipo */}
                 <div className="px-3 py-2 border-b border-[#1e2d45] flex-shrink-0 flex flex-wrap gap-1">
                   {TIMELINE_FILTERS.map((f) => {
-                    const count = f.id === "all"
+                    const count = f.id === "journey"
+                      ? 0
+                      : f.id === "all"
                       ? timeline.length
                       : timeline.filter((e) => EVENT_GROUP[e.type] === f.id).length;
                     const active = timelineFilter === f.id;
-                    const disabled = f.id !== "all" && count === 0;
+                    const disabled = f.id !== "all" && f.id !== "journey" && count === 0;
                     return (
                       <button
                         key={f.id}
@@ -3453,7 +3458,9 @@ export default function CRMBoard({
 
                 {/* Timeline */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                  {loadingTimeline ? (
+                  {timelineFilter === "journey" ? (
+                    <LeadJourney key={selected.id} leadId={selected.id} />
+                  ) : loadingTimeline ? (
                     <div className="text-slate-600 text-xs text-center py-6">Carregando atividades...</div>
                   ) : timeline.length === 0 ? (
                     <div className="text-slate-700 text-xs text-center py-6">Nenhuma atividade registrada.</div>
