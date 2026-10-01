@@ -11,6 +11,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { EMAIL_BUCKETS, bucketOf, type EmailBucket, type EmailBucketFilter } from "@/lib/email-buckets";
+import SignatureEditor from "./SignatureEditor";
 import { analyzeAttachment, analyzeLinks, type EmailLink } from "@/lib/email-threat-scan";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
@@ -1988,10 +1989,10 @@ export default function EmailInbox() {
 
                 <div>
                   <p className="text-[10px] uppercase tracking-wide text-slate-500 mb-1.5">Assinatura — vai no fim de todo email enviado por esta conta</p>
-                  <textarea value={accForm.signature} onChange={(e) => setAccForm((f) => ({ ...f, signature: e.target.value }))}
-                    placeholder={"Diego R. Lazzari\nAZZ Agência de Marketing Digital\n(44) 99999-9999 · azzagencia.com.br"}
-                    rows={3}
-                    className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-y" />
+                  <SignatureEditor
+                    value={accForm.signature}
+                    onChange={(html) => setAccForm((f) => ({ ...f, signature: html }))}
+                  />
                 </div>
 
                 <label className="flex items-center gap-2 text-xs text-slate-400">

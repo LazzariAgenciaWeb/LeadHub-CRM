@@ -20,6 +20,7 @@
     "test:messaging": "tsx scripts/test-messaging-flow.ts",
     "test:email-scan": "tsx scripts/test-email-scan.ts",
     "test:email-group": "tsx scripts/test-email-group.ts",
+    "test:html-sanitize": "tsx scripts/test-html-sanitize.ts",
     "prepare": "git config core.hooksPath scripts/git-hooks 2>/dev/null || true",
     "postinstall": "echo 'Build pre-compilado incluido no repositorio'"
   },

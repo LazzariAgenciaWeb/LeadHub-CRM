@@ -22,6 +22,7 @@ import { prisma } from "./prisma";
 import { encryptSecret, tryDecryptSecret } from "./crypto";
 import { sendCompanyMail } from "./company-email";
 import { scanEmailThreats } from "./email-threat-scan";
+import { htmlToPlainText, looksLikeHtml, sanitizeSignatureHtml } from "./html-sanitize";
 import { pickSenderRule, senderRuleCandidates } from "./email-trust";
 import type { EmailAccount, InboxEmailFolder } from "@/generated/prisma";
 
@@ -113,7 +114,7 @@ export async function upsertEmailAccount(
     imapSecure: input.imapSecure ?? true,
     imapUser: input.imapUser?.trim() || null,
     imapPassEnc,
-    signature: input.signature?.trim() || null,
+    signature: sanitizeSignatureHtml(input.signature) || null,
     active: input.active ?? true,
   };
 
@@ -847,10 +848,22 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
     });
   }
 
-  // Assinatura da conta anexada ao fim do corpo (texto e HTML).
-  const signature = account?.signature?.trim();
-  const text = signature ? `${input.text.trim()}\n\n--\n${signature}` : input.text.trim();
-  const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#111">${escapeHtml(text).replace(/\n/g, "<br/>")}</div>`;
+  // Assinatura da conta no fim do corpo. Ela é HTML (imagem, link, formatação)
+  // — assinatura antiga, salva como texto puro, ainda funciona: vira HTML na
+  // hora. O email leva as duas versões: HTML e texto puro.
+  const corpo = input.text.trim();
+  const sigRaw = account?.signature?.trim() ?? "";
+  const sigHtml = sigRaw
+    ? (looksLikeHtml(sigRaw) ? sanitizeSignatureHtml(sigRaw) : escapeHtml(sigRaw).replace(/\n/g, "<br/>"))
+    : "";
+  const sigText = sigRaw ? (looksLikeHtml(sigRaw) ? htmlToPlainText(sigRaw) : sigRaw) : "";
+
+  const text = sigText ? `${corpo}\n\n--\n${sigText}` : corpo;
+  const html =
+    `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#111">` +
+    escapeHtml(corpo).replace(/\n/g, "<br/>") +
+    (sigHtml ? `<br/><br/><div style="color:#555">--</div>${sigHtml}` : "") +
+    `</div>`;
 
   // Anexos do upload → formato do nodemailer.
   const mailAttachments = (input.attachments ?? []).map((a) => ({
