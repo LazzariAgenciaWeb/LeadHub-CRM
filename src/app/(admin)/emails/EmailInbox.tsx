@@ -7,7 +7,8 @@ import {
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
   Tag as TagIcon, ListChecks, Info, Globe, ChevronDown, ChevronRight, Link2,
-  Layers, Eye, EyeOff, Maximize2, PanelLeftClose, PanelLeftOpen, Lock, type LucideIcon,
+  Layers, Eye, EyeOff, Maximize2, PanelLeftClose, PanelLeftOpen, Lock, MessagesSquare,
+  type LucideIcon,
 } from "lucide-react";
 import { EMAIL_BUCKETS, bucketOf, type EmailBucket, type EmailBucketFilter } from "@/lib/email-buckets";
 import { analyzeAttachment, analyzeLinks, type EmailLink } from "@/lib/email-threat-scan";
@@ -17,6 +18,19 @@ type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
 type FolderSel = Folder | "ALL";
 
 type SenderRule = { id: string; fromEmail: string; type: "BLOCK" | "ALLOW"; createdAt: string };
+
+/** Uma mensagem da conversa (thread) do email aberto. */
+type ThreadMsg = {
+  id: string;
+  direction: "IN" | "OUT";
+  folder: Folder;
+  fromEmail: string;
+  fromName: string | null;
+  toEmail: string;
+  snippet: string;
+  sentAt: string;
+  _count?: { attachments: number };
+};
 
 type EmailTag = { id: string; name: string; color: string; count?: number };
 
@@ -216,6 +230,9 @@ export default function EmailInbox() {
   // Painel "Links deste email" — o iframe é sandbox fechado, então clicar
   // dentro do email não abre nada; é por aqui que o link vai pra aba nova.
   const [linksOpen, setLinksOpen] = useState(false);
+  // Conversa: o histórico de ida e volta deste email (ver email-thread.ts).
+  const [thread, setThread] = useState<ThreadMsg[]>([]);
+  const [threadOpen, setThreadOpen] = useState(true);
   const [syncing, setSyncing] = useState(false);
   const [notice, setNotice] = useState("");
 
@@ -360,6 +377,32 @@ export default function EmailInbox() {
       setSelected((s) => (s ? { ...s, seen: next } : s));
       setEmails((prev) => prev.map((e) => (e.id === selected.id ? { ...e, seen: next } : e)));
       load({ silent: true });
+    }
+  }
+
+  // Carrega a conversa do email aberto (histórico do que foi decidido).
+  useEffect(() => {
+    const id = selected?.id;
+    if (!id) { setThread([]); return; }
+    let cancelado = false;
+    fetch(`/api/email/inbox/${id}/thread`)
+      .then((r) => r.json())
+      .then((j) => { if (!cancelado) setThread(j.messages ?? []); })
+      .catch(() => { if (!cancelado) setThread([]); });
+    return () => { cancelado = true; };
+  }, [selected?.id]);
+
+  /** Abre outro email da conversa sem piscar a tela. */
+  async function openEmailById(id: string) {
+    setDetailLoading(true);
+    try {
+      const res = await fetch(`/api/email/inbox/${id}`).then((r) => r.json());
+      if (res.email) {
+        setSelected(res.email);
+        setEmails((prev) => prev.map((e) => (e.id === id ? { ...e, seen: true } : e)));
+      }
+    } finally {
+      setDetailLoading(false);
     }
   }
 
@@ -1452,6 +1495,45 @@ export default function EmailInbox() {
                       marque como spam — o remetente entra na blacklist (e dá pra bloquear o domínio nas Regras).
                     </p>
                   </div>
+                </div>
+              )}
+              {thread.length > 1 && (
+                <div className="px-4 py-2 border-b border-white/10">
+                  <button onClick={() => setThreadOpen((v) => !v)}
+                    className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-white">
+                    {threadOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                    <MessagesSquare size={12} /> Conversa · {thread.length} mensagens
+                  </button>
+                  {threadOpen && (
+                    <ol className="mt-1.5 space-y-1">
+                      {thread.map((m) => {
+                        const atual = m.id === selected.id;
+                        return (
+                          <li key={m.id}>
+                            <button onClick={() => { if (!atual) openEmailById(m.id); }}
+                              title={m.direction === "OUT" ? `Enviado para ${m.toEmail}` : `Recebido de ${m.fromEmail}`}
+                              className={`w-full text-left flex items-start gap-2 rounded-lg px-2 py-1 border ${
+                                atual ? "bg-indigo-500/15 border-indigo-500/30" : "border-transparent hover:bg-white/5"}`}>
+                              <span className={`mt-0.5 text-[9px] px-1 py-0.5 rounded flex-shrink-0 ${
+                                m.direction === "OUT" ? "bg-indigo-500/20 text-indigo-300" : "bg-slate-500/20 text-slate-300"}`}>
+                                {m.direction === "OUT" ? "nós" : "eles"}
+                              </span>
+                              <span className="min-w-0 flex-1">
+                                <span className="flex items-center gap-1.5">
+                                  <span className="text-[11px] text-slate-300 truncate">
+                                    {m.direction === "OUT" ? `Para ${m.toEmail}` : (m.fromName || m.fromEmail)}
+                                  </span>
+                                  <span className="text-[10px] text-slate-600 flex-shrink-0">{fmtDate(m.sentAt)}</span>
+                                  {(m._count?.attachments ?? 0) > 0 && <span className="text-[10px] flex-shrink-0">📎</span>}
+                                </span>
+                                <span className="block text-[10px] text-slate-500 truncate">{m.snippet || "—"}</span>
+                              </span>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ol>
+                  )}
                 </div>
               )}
               {selected.attachments?.length > 0 && (

@@ -3560,6 +3560,9 @@ model InboxEmail {
   // Dedup por conta: o mesmo Message-ID pode chegar em duas contas da empresa
   // (email enviado pra comercial@ e suporte@ ao mesmo tempo).
   @@unique([accountId, messageId])
+  // Busca de cópias e montagem da conversa (pai por messageId, filhos por inReplyTo).
+  @@index([companyId, messageId])
+  @@index([companyId, inReplyTo])
   @@index([companyId, folder, sentAt])
   @@index([companyId, seen])
   @@index([leadId])
