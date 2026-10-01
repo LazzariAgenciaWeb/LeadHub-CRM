@@ -18,13 +18,16 @@ interface Props {
 
 export default function LinkWhatsappTool({ slug, ownerName, ownerLogoUrl, ownerWebsite }: Props) {
   const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("Olá! Vi seu contato e quero saber mais.");
+  const [message, setMessage] = useState("Olá! Vim pelo Instagram e quero saber mais.");
   const [copied, setCopied] = useState(false);
   const [touched, setTouched] = useState(false);
 
   const digits = useMemo(() => normalizeWaPhone(phone), [phone]);
   const phoneOk = isValidWaPhone(digits);
-  const link = phoneOk ? buildWaLink(digits, message) : "";
+  // Mensagem obrigatória: é ela que diz de onde a pessoa veio ("Vim pelo
+  // Instagram..."), senão o dono do link não sabe qual canal gerou o contato.
+  const messageOk = message.trim().length > 0;
+  const link = phoneOk && messageOk ? buildWaLink(digits, message) : "";
 
   // Registra o lead uma vez por combinação número+mensagem. Best-effort: se a
   // API falhar o visitante nem percebe — o link já está copiado.
@@ -47,7 +50,7 @@ export default function LinkWhatsappTool({ slug, ownerName, ownerLogoUrl, ownerW
 
   async function handleCopy() {
     setTouched(true);
-    if (!phoneOk) return;
+    if (!phoneOk || !messageOk) return;
     try {
       await navigator.clipboard.writeText(link);
     } catch {
@@ -62,12 +65,13 @@ export default function LinkWhatsappTool({ slug, ownerName, ownerLogoUrl, ownerW
 
   function handleOpen() {
     setTouched(true);
-    if (!phoneOk) return;
+    if (!phoneOk || !messageOk) return;
     void captureLead();
     window.open(link, "_blank", "noopener,noreferrer");
   }
 
   const showPhoneError = touched && !phoneOk;
+  const showMessageError = touched && !messageOk;
 
   return (
     <div className="min-h-screen bg-[#070b14] text-white flex flex-col">
@@ -132,7 +136,7 @@ export default function LinkWhatsappTool({ slug, ownerName, ownerLogoUrl, ownerW
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label htmlFor="wa-message" className="text-slate-300 text-sm font-medium">
-                  Mensagem que o cliente vai mandar
+                  Mensagem que o cliente vai mandar <span className="text-red-400">*</span>
                 </label>
                 <span className="text-slate-600 text-xs">
                   {message.length}/{WA_TOOL_MAX_MESSAGE}
@@ -144,11 +148,16 @@ export default function LinkWhatsappTool({ slug, ownerName, ownerLogoUrl, ownerW
                 maxLength={WA_TOOL_MAX_MESSAGE}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full bg-[#080b12] border border-[#1e2d45] rounded-xl px-4 py-3 text-white placeholder:text-slate-600 outline-none focus:border-emerald-500 transition-colors resize-y"
-                placeholder="Olá! Quero saber mais sobre..."
+                onBlur={() => setTouched(true)}
+                className={`w-full bg-[#080b12] border rounded-xl px-4 py-3 text-white placeholder:text-slate-600 outline-none focus:border-emerald-500 transition-colors resize-y ${
+                  showMessageError ? "border-red-500/60" : "border-[#1e2d45]"
+                }`}
+                placeholder="Olá! Vim pelo Instagram e quero saber mais."
               />
-              <p className="text-slate-500 text-xs mt-1.5">
-                Opcional. Ela aparece já digitada quando a pessoa abre o WhatsApp.
+              <p className={`text-xs mt-1.5 ${showMessageError ? "text-red-400" : "text-slate-500"}`}>
+                {showMessageError
+                  ? "Escreva a mensagem. É ela que mostra de onde a pessoa veio."
+                  : "Ela chega já digitada e identifica o canal: um link com \"Vim pelo Instagram\" na bio, outro com \"Vi o anúncio\" nos anúncios. Assim você sabe de onde veio cada contato."}
               </p>
             </div>
 
@@ -161,7 +170,7 @@ export default function LinkWhatsappTool({ slug, ownerName, ownerLogoUrl, ownerW
                   id="wa-link-output"
                   readOnly
                   value={link}
-                  placeholder="Preencha o número pra gerar o link"
+                  placeholder="Preencha o número e a mensagem pra gerar o link"
                   onFocus={(e) => e.currentTarget.select()}
                   className="flex-1 min-w-0 bg-[#080b12] border border-[#1e2d45] rounded-xl px-4 py-3 text-emerald-300 text-sm font-mono placeholder:text-slate-600 placeholder:font-sans outline-none"
                 />
