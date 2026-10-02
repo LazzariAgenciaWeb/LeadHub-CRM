@@ -83,7 +83,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
 
   const body = await req.json();
-  const { name, description, type, status, startDate, dueDate, clientCompanyId, serviceId, memberIds, clickupListId, visibility, accessUserIds } = body;
+  const { name, description, type, status, startDate, dueDate, clientCompanyId, serviceId, memberIds, clickupListId, visibility, accessUserIds, setorId } = body;
 
   // Detecta transição pra ENTREGUE — gera pontos pros membros
   const movingToDelivered = status === "ProjectStatus" || status === "ENTREGUE";
@@ -107,15 +107,69 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     // Ao trocar/remover a lista, descarta snapshot antigo (tasks eram de outra lista)
     await prisma.projectTaskState.deleteMany({ where: { projectId: id } }).catch(() => {});
   }
+
+  // ── Troca do setor principal ────────────────────────────────────────────
+  // O setor define a casa do projeto: quem o vê quando é Restrito e de onde
+  // sai a lista de pessoas que podem ser membros. Só aceita setor da MESMA
+  // empresa — mover projeto entre empresas trocaria o dono dos dados.
+  let setorTrocado = false;
+  if (setorId !== undefined && String(setorId) && String(setorId) !== existing.setorId) {
+    const destino = await prisma.setor.findUnique({
+      where:  { id: String(setorId) },
+      select: { id: true, companyId: true },
+    });
+    if (!destino) return NextResponse.json({ error: "Setor não encontrado" }, { status: 400 });
+    if (destino.companyId !== existing.setor.companyId) {
+      return NextResponse.json({ error: "O setor precisa ser da mesma empresa" }, { status: 400 });
+    }
+    if (role !== "SUPER_ADMIN" && destino.companyId !== userCompanyId) {
+      return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+    }
+    data.setorId = destino.id;
+    setorTrocado = true;
+  }
+
   if (becameDelivered) data.deliveredAt = new Date();
 
-  const project = await prisma.setorClickupList.update({
-    where: { id },
-    data,
-    include: {
-      members: { include: { user: { select: { id: true, name: true } } } },
-    },
-  });
+  let project;
+  try {
+    project = await prisma.setorClickupList.update({
+      where: { id },
+      data,
+      include: {
+        members: { include: { user: { select: { id: true, name: true } } } },
+      },
+    });
+  } catch (e: any) {
+    // @@unique([setorId, clickupListId]): o setor de destino já tem um projeto
+    // apontando pra essa mesma lista do ClickUp.
+    if (e?.code === "P2002" && setorTrocado) {
+      return NextResponse.json(
+        { error: "O setor de destino já tem um projeto ligado a essa lista do ClickUp. Remova o vínculo antes de mover." },
+        { status: 409 },
+      );
+    }
+    throw e;
+  }
+
+  // Ao trocar de setor, os membros herdados do setor antigo ficariam órfãos —
+  // aparecem como responsáveis mas não têm mais nada a ver com o projeto.
+  // Mantém só quem também pertence ao setor novo.
+  if (setorTrocado) {
+    const doNovoSetor = await prisma.setorUser.findMany({
+      where:  { setorId: data.setorId as string },
+      select: { userId: true },
+    });
+    const permitidos = new Set(doNovoSetor.map((su) => su.userId));
+    const atuais = await prisma.projectMember.findMany({
+      where:  { projectId: id },
+      select: { userId: true },
+    });
+    const remover = atuais.filter((m) => !permitidos.has(m.userId)).map((m) => m.userId);
+    if (remover.length && !Array.isArray(memberIds)) {
+      await prisma.projectMember.deleteMany({ where: { projectId: id, userId: { in: remover } } });
+    }
+  }
 
   // Atualiza membros se enviado memberIds
   if (Array.isArray(memberIds)) {

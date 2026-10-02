@@ -52,6 +52,15 @@ export default async function ProjectDetailPage({
     include: { user: { select: { id: true, name: true } } },
   });
 
+  // Setores da mesma empresa — destinos possíveis pra trocar o setor principal.
+  // Projeto criado pela esteira de vendas herda o setor de quem fechou a venda,
+  // então quase sempre precisa ser remanejado na mão depois.
+  const companySetores = await prisma.setor.findMany({
+    where:   { companyId: project.setor.companyId },
+    orderBy: { name: "asc" },
+    select:  { id: true, name: true },
+  });
+
   // Usuários da empresa-agência (pra liberar acesso extra em projeto restrito).
   // Exclui SUPER_ADMIN (dono da plataforma, não atendente).
   const companyUsers = await prisma.user.findMany({
@@ -186,6 +195,7 @@ export default async function ProjectDetailPage({
       project={project as any}
       availableUsers={setorUsers.map((su) => su.user)}
       companyUsers={companyUsers}
+      companySetores={companySetores}
       accessUserIds={project.accessUsers.map((a) => a.userId)}
       activities={activities}
       clientCompanies={clientCompanies}

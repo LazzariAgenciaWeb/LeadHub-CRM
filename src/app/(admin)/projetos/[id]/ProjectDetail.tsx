@@ -219,12 +219,13 @@ const TICKET_STATUS_LABEL: Record<string, string> = {
 };
 
 export default function ProjectDetail({
-  project, availableUsers, companyUsers, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
+  project, availableUsers, companyUsers, companySetores, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
   catalogServices, serviceSteps, currentServiceId, materials, publicToken,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
   companyUsers: { id: string; name: string }[];
+  companySetores: { id: string; name: string }[];
   accessUserIds: string[];
   activities: Activity[];
   clientCompanies: { id: string; name: string }[];
@@ -735,6 +736,15 @@ export default function ProjectDetail({
               {saving ? "Salvando..." : "Salvar equipe"}
             </button>
           </div>
+
+          {/* Setor principal — a casa do projeto (equipe + quem vê se Restrito) */}
+          <SetorSelector
+            projectId={project.id}
+            current={project.setor}
+            setores={companySetores}
+            restricted={(project.visibility ?? "OPEN") === "RESTRICTED"}
+            memberCount={project.members.length}
+          />
 
           {/* Cliente vinculado (editável + criar novo) */}
           <ClientSelector
@@ -3004,6 +3014,96 @@ function ClickupListIdEditor({ projectId, current }: { projectId: string; curren
       ) : (
         <p className="text-slate-500 text-xs italic">Sem ClickUp — projeto só interno.</p>
       )}
+    </div>
+  );
+}
+
+/**
+ * Troca o setor principal do projeto.
+ *
+ * O setor é a casa do projeto: define quem pode ser membro (usuários do setor)
+ * e, em projeto Restrito, quem consegue abrir. Projeto nascido da esteira de
+ * vendas herda o setor de quem fechou a venda, então quase sempre precisa ser
+ * remanejado na mão. Por isso a troca pede confirmação: os efeitos colaterais
+ * (equipe limpa, visibilidade muda de dono) não são óbvios olhando o seletor.
+ */
+function SetorSelector({
+  projectId, current, setores, restricted, memberCount,
+}: {
+  projectId: string;
+  current: { id: string; name: string };
+  setores: { id: string; name: string }[];
+  restricted: boolean;
+  memberCount: number;
+}) {
+  const router = useRouter();
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
+
+  async function mover(setorId: string) {
+    if (!setorId || setorId === current.id) { setEditing(false); return; }
+    const destino = setores.find((x) => x.id === setorId);
+    const avisos = [
+      `Mover "${current.name}" → "${destino?.name ?? "outro setor"}"?`,
+      "",
+      memberCount > 0
+        ? `• A equipe (${memberCount}) vem do setor atual: quem não estiver no setor novo sai do projeto.`
+        : "• A equipe passa a ser escolhida entre os usuários do setor novo.",
+    ];
+    if (restricted) avisos.push("• O projeto é Restrito: quem enxerga passa a ser o setor novo.");
+    if (!confirm(avisos.join("\n"))) return;
+
+    setSaving(true);
+    setErro(null);
+    const res = await fetch(`/api/projetos/${projectId}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ setorId }),
+    });
+    setSaving(false);
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setErro(body?.error ?? "Não foi possível mover o projeto.");
+      return;
+    }
+    setEditing(false);
+    router.refresh();
+  }
+
+  return (
+    <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-slate-500 text-xs uppercase tracking-wider">Setor principal</span>
+        {!editing && setores.length > 1 && (
+          <button onClick={() => { setEditing(true); setErro(null); }} className="text-slate-500 hover:text-white text-[10px]">
+            Mover
+          </button>
+        )}
+      </div>
+
+      {!editing ? (
+        <div className="text-sm text-white">🏷 {current.name}</div>
+      ) : (
+        <div className="space-y-2">
+          <select
+            defaultValue={current.id}
+            onChange={(e) => mover(e.target.value)}
+            disabled={saving}
+            className="w-full bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+          >
+            {setores.map((x) => (
+              <option key={x.id} value={x.id}>{x.name}{x.id === current.id ? " (atual)" : ""}</option>
+            ))}
+          </select>
+          <button onClick={() => setEditing(false)} className="w-full px-2 py-1.5 text-slate-500 hover:text-white text-xs">
+            Fechar
+          </button>
+        </div>
+      )}
+
+      {erro && <p className="text-red-400 text-[11px] mt-2">{erro}</p>}
+      {saving && <p className="text-slate-500 text-[11px] mt-2">Movendo...</p>}
     </div>
   );
 }
