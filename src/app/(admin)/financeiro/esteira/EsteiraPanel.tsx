@@ -27,6 +27,11 @@ export interface EsteiraSale {
   /** Cobrança gerada ao faturar. null = ainda não faturada (ou sem cliente). */
   /** Anotação livre sobre o andamento desta venda. */
   notes: string | null;
+  /** Projeto que entrega esta venda — onde mora o detalhe do trabalho. */
+  project: {
+    id: string; name: string; status: string;
+    taskCount: number; taskCompleted: number;
+  } | null;
   /** Cobranças geradas — uma por parcela; vazio = ainda não faturada. */
   invoices: {
     id: string; dueDate: string; status: string; amountCents: number;
@@ -38,6 +43,8 @@ export interface EsteiraData {
   isGlobal: boolean;
   clients: { id: string; name: string }[];
   colaboradores: { id: string; nome: string }[];
+  /** Projetos em aberto, pra vincular a venda que entra em produção. */
+  projetos: { id: string; nome: string; clienteId: string | null }[];
   sales: EsteiraSale[];
 }
 
@@ -122,6 +129,11 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
   // Anotação de andamento — qual venda está com o campo aberto e o texto.
   const [notasFor, setNotasFor] = useState<string | null>(null);
   const [notasTexto, setNotasTexto] = useState("");
+  // Vínculo com projeto ao liberar a produção: qual venda está escolhendo,
+  // o projeto existente selecionado e o nome quando cria um novo.
+  const [projetoFor, setProjetoFor] = useState<string | null>(null);
+  const [projetoPick, setProjetoPick] = useState("");
+  const [projetoNovo, setProjetoNovo] = useState("");
   // Venda manual: o trabalho que já estava em aberto ANTES do sistema não tem
   // lead — sem esta entrada, a migração ficava fora da esteira pra sempre.
   const [novaAberta, setNovaAberta] = useState(false);
@@ -171,6 +183,7 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
         productionStatus: criada.productionStatus,
         deliveredAt: criada.deliveredAt ?? null,
         notes: criada.notes ?? null,
+        project: null,
         invoices: [],
       },
       ...prev,
@@ -231,6 +244,15 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
               responsibleName: updated.responsibleName ?? null,
               client: updated.clientCompany ?? null,
               notes: updated.notes ?? null,
+              project: updated.project
+                ? {
+                    id: updated.project.id,
+                    name: updated.project.name,
+                    status: updated.project.status,
+                    taskCount: updated.project.taskCount ?? 0,
+                    taskCompleted: updated.project.taskCompleted ?? 0,
+                  }
+                : null,
               // `invoices` vem preenchida quando as parcelas acabaram de ser
               // criadas. Vazia numa request que não mexeu em cobrança: aí
               // mantemos o que já estava, a menos que o faturamento tenha sido
@@ -260,6 +282,9 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
     setParcelas("1");
     setNotasFor(null);
     setNotasTexto("");
+    setProjetoFor(null);
+    setProjetoPick("");
+    setProjetoNovo("");
     router.refresh();
   }
 
@@ -612,6 +637,16 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                             startBilling(s);
                             return;
                           }
+                          // Liberar a produção sem dizer ONDE o trabalho vai
+                          // acontecer é como a entrega se perde. Pergunta o
+                          // projeto na hora — e já grava o status junto.
+                          if (cp.key === "productionStatus" && e.target.value === "LIBERADO" && !s.project) {
+                            setProjetoFor(s.id);
+                            setProjetoPick("");
+                            setProjetoNovo(s.title);
+                            setErr("");
+                            return;
+                          }
                           patch(s.id, { [cp.key]: e.target.value });
                         }}
                         className={`${selectCls} ${
@@ -742,6 +777,124 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                       ? `Gera ${nParcelas} cobranças de ${s.client?.name ?? "—"}, uma por mês a partir do vencimento escolhido. Cada parcela entra na competência do mês em que vence.`
                       : `Gera a cobrança de ${s.client?.name ?? "—"} na competência do fechamento da venda.`}
                   </span>
+                </div>
+              )}
+
+              {/* Escolha do projeto ao liberar a produção */}
+              {projetoFor === s.id && (() => {
+                const doCliente = data.projetos.filter(
+                  (p) => !s.client || !p.clienteId || p.clienteId === s.client.id,
+                );
+                return (
+                  <div className="mt-3 pt-3 border-t border-[#1e2d45]">
+                    <p className="text-xs text-slate-400 mb-2">
+                      Onde esta entrega vai acontecer? O detalhe do trabalho fica no projeto —
+                      aqui a esteira só acompanha até entregar e liberar a bonificação.
+                    </p>
+                    <div className="flex items-end gap-2 flex-wrap">
+                      <label className="flex flex-col gap-1">
+                        <span className="text-[11px] text-slate-500">Projeto existente</span>
+                        <select
+                          value={projetoPick}
+                          onChange={(e) => { setProjetoPick(e.target.value); if (e.target.value) setProjetoNovo(""); }}
+                          className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 min-w-[220px]"
+                        >
+                          <option value="">— criar um novo —</option>
+                          {doCliente.map((p) => (
+                            <option key={p.id} value={p.id}>{p.nome}</option>
+                          ))}
+                        </select>
+                      </label>
+                      {!projetoPick && (
+                        <label className="flex flex-col gap-1 flex-1 min-w-[200px]">
+                          <span className="text-[11px] text-slate-500">Nome do projeto novo</span>
+                          <input
+                            value={projetoNovo}
+                            onChange={(e) => setProjetoNovo(e.target.value)}
+                            placeholder="Ex.: Site institucional — Empresa X"
+                            className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                          />
+                        </label>
+                      )}
+                      <button
+                        disabled={busy === s.id || (!projetoPick && !projetoNovo.trim())}
+                        onClick={() =>
+                          patch(s.id, {
+                            productionStatus: "LIBERADO",
+                            ...(projetoPick
+                              ? { projectId: projetoPick }
+                              : { newProjectName: projetoNovo.trim() }),
+                          })
+                        }
+                        className="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-sm flex items-center gap-1.5"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                        {projetoPick ? "Vincular e liberar" : "Criar projeto e liberar"}
+                      </button>
+                      {/* Liberar sem projeto continua possível — não travamos o
+                          fluxo por causa do cadastro. */}
+                      <button
+                        onClick={() => patch(s.id, { productionStatus: "LIBERADO" })}
+                        className="px-2 py-2 text-slate-500 hover:text-slate-300 text-xs"
+                      >
+                        Liberar sem projeto
+                      </button>
+                      <button
+                        onClick={() => { setProjetoFor(null); setProjetoNovo(""); setProjetoPick(""); }}
+                        className="px-2 py-2 text-slate-500 hover:text-white text-sm"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Projeto vinculado: andamento + link pra conferir a entrega */}
+              {s.project && (
+                <div className="mt-2 flex items-center gap-2 text-[11px] flex-wrap">
+                  <Link
+                    href={`/projetos/${s.project.id}`}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/25 text-indigo-300 hover:bg-indigo-500/20 transition-colors"
+                  >
+                    📁 {s.project.name}
+                    <ExternalLink className="w-3 h-3" />
+                  </Link>
+                  <span className={s.project.status === "ENTREGUE" ? "text-emerald-400" : "text-slate-500"}>
+                    {s.project.status === "ENTREGUE" ? "✓ entregue" : s.project.status.toLowerCase().replace(/_/g, " ")}
+                    {s.project.taskCount > 0 && (
+                      <span className="text-slate-600">
+                        {" · "}{s.project.taskCompleted}/{s.project.taskCount} tarefas
+                      </span>
+                    )}
+                  </span>
+                  {/* Projeto entregue e venda ainda não: o atalho que fecha o
+                      ciclo e libera a bonificação do serviço pontual. Não é
+                      automático de propósito — quem confere a entrega ao
+                      cliente é a pessoa, não o status do projeto. */}
+                  {s.project.status === "ENTREGUE" && s.productionStatus !== "ENTREGUE" && (
+                    <button
+                      onClick={() =>
+                        patch(s.id, {
+                          productionStatus: "ENTREGUE",
+                          deliveredAt: new Date().toISOString(),
+                        })
+                      }
+                      disabled={busy === s.id}
+                      className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25 disabled:opacity-40 font-medium"
+                    >
+                      marcar venda como entregue
+                    </button>
+                  )}
+                  {/* Desvincula sem apagar o projeto — vínculo errado acontece. */}
+                  <button
+                    onClick={() => patch(s.id, { projectId: null })}
+                    disabled={busy === s.id}
+                    title="Desvincular o projeto desta venda"
+                    className="text-slate-700 hover:text-red-400 disabled:opacity-40"
+                  >
+                    <Unlink className="w-3 h-3" />
+                  </button>
                 </div>
               )}
 

@@ -1584,6 +1584,7 @@ model SetorClickupList {
   taskEvents    ProjectTaskEvent[]
   materials     ProjectMaterial[]
   serviceSteps  ProjectService[]    @relation("ProjectServicesList") // serviços entregues neste projeto, em sequência
+  sales         Sale[]              @relation("SaleProject") // vendas da esteira que este projeto entrega
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
@@ -4255,11 +4256,19 @@ model Sale {
   // uma por parcela (venda à vista gera uma só).
   invoices ClientInvoice[]
 
+  // Projeto que ENTREGA esta venda. Ligado ao liberar a produção: o detalhe do
+  // que fazer vive no projeto (tarefas, prazo, material), e a esteira só
+  // acompanha o andamento e espera a entrega pra liberar a bonificação.
+  // SetNull: apagar o projeto não apaga o histórico da venda.
+  project   SetorClickupList? @relation("SaleProject", fields: [projectId], references: [id], onDelete: SetNull)
+  projectId String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([companyId, closedAt])
   @@index([companyId, clientCompanyId])
+  @@index([projectId])
 }
 
 // Bonificação de UM colaborador, numa competência, por UMA origem.

@@ -14363,6 +14363,7 @@ export namespace Prisma {
     taskEvents: number
     materials: number
     serviceSteps: number
+    sales: number
   }
 
   export type SetorClickupListCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14375,6 +14376,7 @@ export namespace Prisma {
     taskEvents?: boolean | SetorClickupListCountOutputTypeCountTaskEventsArgs
     materials?: boolean | SetorClickupListCountOutputTypeCountMaterialsArgs
     serviceSteps?: boolean | SetorClickupListCountOutputTypeCountServiceStepsArgs
+    sales?: boolean | SetorClickupListCountOutputTypeCountSalesArgs
   }
 
   // Custom InputTypes
@@ -14449,6 +14451,13 @@ export namespace Prisma {
    */
   export type SetorClickupListCountOutputTypeCountServiceStepsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectServiceWhereInput
+  }
+
+  /**
+   * SetorClickupListCountOutputType without action
+   */
+  export type SetorClickupListCountOutputTypeCountSalesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SaleWhereInput
   }
 
 
@@ -57539,6 +57548,7 @@ export namespace Prisma {
     taskEvents?: boolean | SetorClickupList$taskEventsArgs<ExtArgs>
     materials?: boolean | SetorClickupList$materialsArgs<ExtArgs>
     serviceSteps?: boolean | SetorClickupList$serviceStepsArgs<ExtArgs>
+    sales?: boolean | SetorClickupList$salesArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setorClickupList"]>
 
@@ -57612,6 +57622,7 @@ export namespace Prisma {
     taskEvents?: boolean | SetorClickupList$taskEventsArgs<ExtArgs>
     materials?: boolean | SetorClickupList$materialsArgs<ExtArgs>
     serviceSteps?: boolean | SetorClickupList$serviceStepsArgs<ExtArgs>
+    sales?: boolean | SetorClickupList$salesArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SetorClickupListIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -57635,6 +57646,7 @@ export namespace Prisma {
       taskEvents: Prisma.$ProjectTaskEventPayload<ExtArgs>[]
       materials: Prisma.$ProjectMaterialPayload<ExtArgs>[]
       serviceSteps: Prisma.$ProjectServicePayload<ExtArgs>[]
+      sales: Prisma.$SalePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -58037,6 +58049,7 @@ export namespace Prisma {
     taskEvents<T extends SetorClickupList$taskEventsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$taskEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskEventPayload<ExtArgs>, T, "findMany"> | Null>
     materials<T extends SetorClickupList$materialsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMaterialPayload<ExtArgs>, T, "findMany"> | Null>
     serviceSteps<T extends SetorClickupList$serviceStepsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$serviceStepsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findMany"> | Null>
+    sales<T extends SetorClickupList$salesArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$salesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -58615,6 +58628,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProjectServiceScalarFieldEnum | ProjectServiceScalarFieldEnum[]
+  }
+
+  /**
+   * SetorClickupList.sales
+   */
+  export type SetorClickupList$salesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sale
+     */
+    select?: SaleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SaleInclude<ExtArgs> | null
+    where?: SaleWhereInput
+    orderBy?: SaleOrderByWithRelationInput | SaleOrderByWithRelationInput[]
+    cursor?: SaleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SaleScalarFieldEnum | SaleScalarFieldEnum[]
   }
 
   /**
@@ -140815,6 +140848,7 @@ export namespace Prisma {
     releasedAt: Date | null
     deliveredAt: Date | null
     notes: string | null
+    projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -140842,6 +140876,7 @@ export namespace Prisma {
     releasedAt: Date | null
     deliveredAt: Date | null
     notes: string | null
+    projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -140869,6 +140904,7 @@ export namespace Prisma {
     releasedAt: number
     deliveredAt: number
     notes: number
+    projectId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -140906,6 +140942,7 @@ export namespace Prisma {
     releasedAt?: true
     deliveredAt?: true
     notes?: true
+    projectId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -140933,6 +140970,7 @@ export namespace Prisma {
     releasedAt?: true
     deliveredAt?: true
     notes?: true
+    projectId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -140960,6 +140998,7 @@ export namespace Prisma {
     releasedAt?: true
     deliveredAt?: true
     notes?: true
+    projectId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -141074,6 +141113,7 @@ export namespace Prisma {
     releasedAt: Date | null
     deliveredAt: Date | null
     notes: string | null
+    projectId: string | null
     createdAt: Date
     updatedAt: Date
     _count: SaleCountAggregateOutputType | null
@@ -141120,6 +141160,7 @@ export namespace Prisma {
     releasedAt?: boolean
     deliveredAt?: boolean
     notes?: boolean
+    projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -141127,6 +141168,7 @@ export namespace Prisma {
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
     bonuses?: boolean | Sale$bonusesArgs<ExtArgs>
     invoices?: boolean | Sale$invoicesArgs<ExtArgs>
+    project?: boolean | Sale$projectArgs<ExtArgs>
     _count?: boolean | SaleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sale"]>
 
@@ -141153,11 +141195,13 @@ export namespace Prisma {
     releasedAt?: boolean
     deliveredAt?: boolean
     notes?: boolean
+    projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
+    project?: boolean | Sale$projectArgs<ExtArgs>
   }, ExtArgs["result"]["sale"]>
 
   export type SaleSelectScalar = {
@@ -141183,6 +141227,7 @@ export namespace Prisma {
     releasedAt?: boolean
     deliveredAt?: boolean
     notes?: boolean
+    projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -141193,12 +141238,14 @@ export namespace Prisma {
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
     bonuses?: boolean | Sale$bonusesArgs<ExtArgs>
     invoices?: boolean | Sale$invoicesArgs<ExtArgs>
+    project?: boolean | Sale$projectArgs<ExtArgs>
     _count?: boolean | SaleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SaleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
+    project?: boolean | Sale$projectArgs<ExtArgs>
   }
 
   export type $SalePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -141209,6 +141256,7 @@ export namespace Prisma {
       clientCompany: Prisma.$CompanyPayload<ExtArgs> | null
       bonuses: Prisma.$BonusPayload<ExtArgs>[]
       invoices: Prisma.$ClientInvoicePayload<ExtArgs>[]
+      project: Prisma.$SetorClickupListPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -141233,6 +141281,7 @@ export namespace Prisma {
       releasedAt: Date | null
       deliveredAt: Date | null
       notes: string | null
+      projectId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["sale"]>
@@ -141604,6 +141653,7 @@ export namespace Prisma {
     clientCompany<T extends Sale$clientCompanyArgs<ExtArgs> = {}>(args?: Subset<T, Sale$clientCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     bonuses<T extends Sale$bonusesArgs<ExtArgs> = {}>(args?: Subset<T, Sale$bonusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany"> | Null>
     invoices<T extends Sale$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Sale$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany"> | Null>
+    project<T extends Sale$projectArgs<ExtArgs> = {}>(args?: Subset<T, Sale$projectArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -141655,6 +141705,7 @@ export namespace Prisma {
     readonly releasedAt: FieldRef<"Sale", 'DateTime'>
     readonly deliveredAt: FieldRef<"Sale", 'DateTime'>
     readonly notes: FieldRef<"Sale", 'String'>
+    readonly projectId: FieldRef<"Sale", 'String'>
     readonly createdAt: FieldRef<"Sale", 'DateTime'>
     readonly updatedAt: FieldRef<"Sale", 'DateTime'>
   }
@@ -142042,6 +142093,21 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClientInvoiceScalarFieldEnum | ClientInvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Sale.project
+   */
+  export type Sale$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    where?: SetorClickupListWhereInput
   }
 
   /**
@@ -156709,6 +156775,7 @@ export namespace Prisma {
     releasedAt: 'releasedAt',
     deliveredAt: 'deliveredAt',
     notes: 'notes',
+    projectId: 'projectId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -161815,6 +161882,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventListRelationFilter
     materials?: ProjectMaterialListRelationFilter
     serviceSteps?: ProjectServiceListRelationFilter
+    sales?: SaleListRelationFilter
   }
 
   export type SetorClickupListOrderByWithRelationInput = {
@@ -161854,6 +161922,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventOrderByRelationAggregateInput
     materials?: ProjectMaterialOrderByRelationAggregateInput
     serviceSteps?: ProjectServiceOrderByRelationAggregateInput
+    sales?: SaleOrderByRelationAggregateInput
   }
 
   export type SetorClickupListWhereUniqueInput = Prisma.AtLeast<{
@@ -161897,6 +161966,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventListRelationFilter
     materials?: ProjectMaterialListRelationFilter
     serviceSteps?: ProjectServiceListRelationFilter
+    sales?: SaleListRelationFilter
   }, "id" | "publicToken" | "setorId_clickupListId">
 
   export type SetorClickupListOrderByWithAggregationInput = {
@@ -169306,6 +169376,7 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
+    projectId?: StringNullableFilter<"Sale"> | string | null
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -169313,6 +169384,7 @@ export namespace Prisma {
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     bonuses?: BonusListRelationFilter
     invoices?: ClientInvoiceListRelationFilter
+    project?: XOR<SetorClickupListNullableRelationFilter, SetorClickupListWhereInput> | null
   }
 
   export type SaleOrderByWithRelationInput = {
@@ -169338,6 +169410,7 @@ export namespace Prisma {
     releasedAt?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
@@ -169345,6 +169418,7 @@ export namespace Prisma {
     clientCompany?: CompanyOrderByWithRelationInput
     bonuses?: BonusOrderByRelationAggregateInput
     invoices?: ClientInvoiceOrderByRelationAggregateInput
+    project?: SetorClickupListOrderByWithRelationInput
   }
 
   export type SaleWhereUniqueInput = Prisma.AtLeast<{
@@ -169373,6 +169447,7 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
+    projectId?: StringNullableFilter<"Sale"> | string | null
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -169380,6 +169455,7 @@ export namespace Prisma {
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     bonuses?: BonusListRelationFilter
     invoices?: ClientInvoiceListRelationFilter
+    project?: XOR<SetorClickupListNullableRelationFilter, SetorClickupListWhereInput> | null
   }, "id" | "leadId">
 
   export type SaleOrderByWithAggregationInput = {
@@ -169405,6 +169481,7 @@ export namespace Prisma {
     releasedAt?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SaleCountOrderByAggregateInput
@@ -169440,6 +169517,7 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
     notes?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    projectId?: StringNullableWithAggregatesFilter<"Sale"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
   }
@@ -175038,6 +175116,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateInput = {
@@ -175074,6 +175153,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUpdateInput = {
@@ -175110,6 +175190,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateInput = {
@@ -175146,6 +175227,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateManyInput = {
@@ -183422,6 +183504,7 @@ export namespace Prisma {
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
+    project?: SetorClickupListCreateNestedOneWithoutSalesInput
   }
 
   export type SaleUncheckedCreateInput = {
@@ -183447,6 +183530,7 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
@@ -183480,6 +183564,7 @@ export namespace Prisma {
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
+    project?: SetorClickupListUpdateOneWithoutSalesNestedInput
   }
 
   export type SaleUncheckedUpdateInput = {
@@ -183505,6 +183590,7 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
@@ -183534,6 +183620,7 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -183585,6 +183672,7 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -193483,6 +193571,7 @@ export namespace Prisma {
     releasedAt?: SortOrder
     deliveredAt?: SortOrder
     notes?: SortOrder
+    projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -193514,6 +193603,7 @@ export namespace Prisma {
     releasedAt?: SortOrder
     deliveredAt?: SortOrder
     notes?: SortOrder
+    projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -193541,6 +193631,7 @@ export namespace Prisma {
     releasedAt?: SortOrder
     deliveredAt?: SortOrder
     notes?: SortOrder
+    projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -202520,6 +202611,13 @@ export namespace Prisma {
     connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
   }
 
+  export type SaleCreateNestedManyWithoutProjectInput = {
+    create?: XOR<SaleCreateWithoutProjectInput, SaleUncheckedCreateWithoutProjectInput> | SaleCreateWithoutProjectInput[] | SaleUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: SaleCreateOrConnectWithoutProjectInput | SaleCreateOrConnectWithoutProjectInput[]
+    createMany?: SaleCreateManyProjectInputEnvelope
+    connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+  }
+
   export type ProjectMemberUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -202581,6 +202679,13 @@ export namespace Prisma {
     connectOrCreate?: ProjectServiceCreateOrConnectWithoutProjectInput | ProjectServiceCreateOrConnectWithoutProjectInput[]
     createMany?: ProjectServiceCreateManyProjectInputEnvelope
     connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+  }
+
+  export type SaleUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<SaleCreateWithoutProjectInput, SaleUncheckedCreateWithoutProjectInput> | SaleCreateWithoutProjectInput[] | SaleUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: SaleCreateOrConnectWithoutProjectInput | SaleCreateOrConnectWithoutProjectInput[]
+    createMany?: SaleCreateManyProjectInputEnvelope
+    connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
   }
 
   export type EnumProjectStatusFieldUpdateOperationsInput = {
@@ -202741,6 +202846,20 @@ export namespace Prisma {
     deleteMany?: ProjectServiceScalarWhereInput | ProjectServiceScalarWhereInput[]
   }
 
+  export type SaleUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<SaleCreateWithoutProjectInput, SaleUncheckedCreateWithoutProjectInput> | SaleCreateWithoutProjectInput[] | SaleUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: SaleCreateOrConnectWithoutProjectInput | SaleCreateOrConnectWithoutProjectInput[]
+    upsert?: SaleUpsertWithWhereUniqueWithoutProjectInput | SaleUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: SaleCreateManyProjectInputEnvelope
+    set?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    disconnect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    delete?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    update?: SaleUpdateWithWhereUniqueWithoutProjectInput | SaleUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: SaleUpdateManyWithWhereWithoutProjectInput | SaleUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: SaleScalarWhereInput | SaleScalarWhereInput[]
+  }
+
   export type ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -202865,6 +202984,20 @@ export namespace Prisma {
     update?: ProjectServiceUpdateWithWhereUniqueWithoutProjectInput | ProjectServiceUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: ProjectServiceUpdateManyWithWhereWithoutProjectInput | ProjectServiceUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: ProjectServiceScalarWhereInput | ProjectServiceScalarWhereInput[]
+  }
+
+  export type SaleUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<SaleCreateWithoutProjectInput, SaleUncheckedCreateWithoutProjectInput> | SaleCreateWithoutProjectInput[] | SaleUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: SaleCreateOrConnectWithoutProjectInput | SaleCreateOrConnectWithoutProjectInput[]
+    upsert?: SaleUpsertWithWhereUniqueWithoutProjectInput | SaleUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: SaleCreateManyProjectInputEnvelope
+    set?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    disconnect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    delete?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    update?: SaleUpdateWithWhereUniqueWithoutProjectInput | SaleUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: SaleUpdateManyWithWhereWithoutProjectInput | SaleUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: SaleScalarWhereInput | SaleScalarWhereInput[]
   }
 
   export type SetorClickupListCreateNestedOneWithoutInternalTasksInput = {
@@ -206148,6 +206281,12 @@ export namespace Prisma {
     connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
   }
 
+  export type SetorClickupListCreateNestedOneWithoutSalesInput = {
+    create?: XOR<SetorClickupListCreateWithoutSalesInput, SetorClickupListUncheckedCreateWithoutSalesInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutSalesInput
+    connect?: SetorClickupListWhereUniqueInput
+  }
+
   export type BonusUncheckedCreateNestedManyWithoutSaleInput = {
     create?: XOR<BonusCreateWithoutSaleInput, BonusUncheckedCreateWithoutSaleInput> | BonusCreateWithoutSaleInput[] | BonusUncheckedCreateWithoutSaleInput[]
     connectOrCreate?: BonusCreateOrConnectWithoutSaleInput | BonusCreateOrConnectWithoutSaleInput[]
@@ -206216,6 +206355,16 @@ export namespace Prisma {
     update?: ClientInvoiceUpdateWithWhereUniqueWithoutSaleInput | ClientInvoiceUpdateWithWhereUniqueWithoutSaleInput[]
     updateMany?: ClientInvoiceUpdateManyWithWhereWithoutSaleInput | ClientInvoiceUpdateManyWithWhereWithoutSaleInput[]
     deleteMany?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
+  }
+
+  export type SetorClickupListUpdateOneWithoutSalesNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutSalesInput, SetorClickupListUncheckedCreateWithoutSalesInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutSalesInput
+    upsert?: SetorClickupListUpsertWithoutSalesInput
+    disconnect?: SetorClickupListWhereInput | boolean
+    delete?: SetorClickupListWhereInput | boolean
+    connect?: SetorClickupListWhereUniqueInput
+    update?: XOR<XOR<SetorClickupListUpdateToOneWithWhereWithoutSalesInput, SetorClickupListUpdateWithoutSalesInput>, SetorClickupListUncheckedUpdateWithoutSalesInput>
   }
 
   export type BonusUncheckedUpdateManyWithoutSaleNestedInput = {
@@ -214793,6 +214942,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutClientCompanyInput = {
@@ -214828,6 +214978,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutClientCompanyInput = {
@@ -216127,6 +216278,7 @@ export namespace Prisma {
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
+    project?: SetorClickupListCreateNestedOneWithoutSalesInput
   }
 
   export type SaleUncheckedCreateWithoutCompanyInput = {
@@ -216151,6 +216303,7 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
@@ -216193,6 +216346,7 @@ export namespace Prisma {
     lead?: LeadCreateNestedOneWithoutSaleInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
+    project?: SetorClickupListCreateNestedOneWithoutSalesInput
   }
 
   export type SaleUncheckedCreateWithoutClientCompanyInput = {
@@ -216217,6 +216371,7 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
@@ -219758,6 +219913,7 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
+    projectId?: StringNullableFilter<"Sale"> | string | null
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
   }
@@ -223832,6 +223988,7 @@ export namespace Prisma {
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
+    project?: SetorClickupListCreateNestedOneWithoutSalesInput
   }
 
   export type SaleUncheckedCreateWithoutLeadInput = {
@@ -223856,6 +224013,7 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
@@ -224765,6 +224923,7 @@ export namespace Prisma {
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
+    project?: SetorClickupListUpdateOneWithoutSalesNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutLeadInput = {
@@ -224789,6 +224948,7 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
@@ -237609,6 +237769,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTicketsInput = {
@@ -237644,6 +237805,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTicketsInput = {
@@ -238810,6 +238972,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTicketsInput = {
@@ -238845,6 +239008,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TicketMessageUpsertWithWhereUniqueWithoutTicketInput = {
@@ -239644,6 +239808,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutSetorInput = {
@@ -239679,6 +239844,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutSetorInput = {
@@ -241178,6 +241344,74 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SaleCreateWithoutProjectInput = {
+    id?: string
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    bonusEligible?: boolean
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
+    lead?: LeadCreateNestedOneWithoutSaleInput
+    clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    bonuses?: BonusCreateNestedManyWithoutSaleInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
+  }
+
+  export type SaleUncheckedCreateWithoutProjectInput = {
+    id?: string
+    companyId: string
+    leadId?: string | null
+    clientCompanyId?: string | null
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    bonusEligible?: boolean
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
+  }
+
+  export type SaleCreateOrConnectWithoutProjectInput = {
+    where: SaleWhereUniqueInput
+    create: XOR<SaleCreateWithoutProjectInput, SaleUncheckedCreateWithoutProjectInput>
+  }
+
+  export type SaleCreateManyProjectInputEnvelope = {
+    data: SaleCreateManyProjectInput | SaleCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SetorUpsertWithoutClickupListsInput = {
     update: XOR<SetorUpdateWithoutClickupListsInput, SetorUncheckedUpdateWithoutClickupListsInput>
     create: XOR<SetorCreateWithoutClickupListsInput, SetorUncheckedCreateWithoutClickupListsInput>
@@ -241813,6 +242047,22 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
   }
 
+  export type SaleUpsertWithWhereUniqueWithoutProjectInput = {
+    where: SaleWhereUniqueInput
+    update: XOR<SaleUpdateWithoutProjectInput, SaleUncheckedUpdateWithoutProjectInput>
+    create: XOR<SaleCreateWithoutProjectInput, SaleUncheckedCreateWithoutProjectInput>
+  }
+
+  export type SaleUpdateWithWhereUniqueWithoutProjectInput = {
+    where: SaleWhereUniqueInput
+    data: XOR<SaleUpdateWithoutProjectInput, SaleUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type SaleUpdateManyWithWhereWithoutProjectInput = {
+    where: SaleScalarWhereInput
+    data: XOR<SaleUpdateManyMutationInput, SaleUncheckedUpdateManyWithoutProjectInput>
+  }
+
   export type SetorClickupListCreateWithoutInternalTasksInput = {
     id?: string
     clickupListId?: string | null
@@ -241846,6 +242096,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutInternalTasksInput = {
@@ -241881,6 +242132,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutInternalTasksInput = {
@@ -242333,6 +242585,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutInternalTasksInput = {
@@ -242368,6 +242621,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectServiceUpsertWithoutTasksInput = {
@@ -242744,6 +242998,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutServiceStepsInput = {
@@ -242779,6 +243034,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutServiceStepsInput = {
@@ -242935,6 +243191,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutServiceStepsInput = {
@@ -242970,6 +243227,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ServiceUpsertWithoutProjectStepsInput = {
@@ -243127,6 +243385,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTaskEventsInput = {
@@ -243162,6 +243421,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTaskEventsInput = {
@@ -243278,6 +243538,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTaskEventsInput = {
@@ -243313,6 +243574,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TicketCreateWithoutAccessUsersInput = {
@@ -243736,6 +243998,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutAccessUsersInput = {
@@ -243771,6 +244034,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutAccessUsersInput = {
@@ -243947,6 +244211,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutAccessUsersInput = {
@@ -243982,6 +244247,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectAccessInput = {
@@ -244148,6 +244414,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTaskStatesInput = {
@@ -244183,6 +244450,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTaskStatesInput = {
@@ -244234,6 +244502,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTaskStatesInput = {
@@ -244269,6 +244538,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateWithoutActivitiesInput = {
@@ -244304,6 +244574,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutActivitiesInput = {
@@ -244339,6 +244610,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutActivitiesInput = {
@@ -244390,6 +244662,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutActivitiesInput = {
@@ -244425,6 +244698,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateWithoutMembersInput = {
@@ -244460,6 +244734,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutMembersInput = {
@@ -244495,6 +244770,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutMembersInput = {
@@ -244671,6 +244947,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutMembersInput = {
@@ -244706,6 +244983,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectMembershipsInput = {
@@ -244872,6 +245150,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutMaterialsInput = {
@@ -244907,6 +245186,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutMaterialsInput = {
@@ -245017,6 +245297,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutMaterialsInput = {
@@ -245052,6 +245333,7 @@ export namespace Prisma {
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectTaskUpsertWithoutMaterialsInput = {
@@ -281435,6 +281717,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutServiceInput = {
@@ -281470,6 +281753,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutServiceInput = {
@@ -283147,6 +283431,7 @@ export namespace Prisma {
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
+    project?: SetorClickupListCreateNestedOneWithoutSalesInput
   }
 
   export type SaleUncheckedCreateWithoutInvoicesInput = {
@@ -283172,6 +283457,7 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
@@ -283565,6 +283851,7 @@ export namespace Prisma {
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
+    project?: SetorClickupListUpdateOneWithoutSalesNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutInvoicesInput = {
@@ -283590,6 +283877,7 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
@@ -284354,6 +284642,83 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SetorClickupListCreateWithoutSalesInput = {
+    id?: string
+    clickupListId?: string | null
+    name: string
+    description?: string | null
+    type?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    publicToken?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutClickupListsInput
+    clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+    service?: ServiceCreateNestedOneWithoutProjectsInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
+    tickets?: TicketCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
+    materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListUncheckedCreateWithoutSalesInput = {
+    id?: string
+    setorId: string
+    clickupListId?: string | null
+    name: string
+    description?: string | null
+    type?: string | null
+    clientCompanyId?: string | null
+    serviceId?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    publicToken?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
+    materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListCreateOrConnectWithoutSalesInput = {
+    where: SetorClickupListWhereUniqueInput
+    create: XOR<SetorClickupListCreateWithoutSalesInput, SetorClickupListUncheckedCreateWithoutSalesInput>
+  }
+
   export type CompanyUpsertWithoutSalesAsAgencyInput = {
     update: XOR<CompanyUpdateWithoutSalesAsAgencyInput, CompanyUncheckedUpdateWithoutSalesAsAgencyInput>
     create: XOR<CompanyCreateWithoutSalesAsAgencyInput, CompanyUncheckedCreateWithoutSalesAsAgencyInput>
@@ -285071,6 +285436,89 @@ export namespace Prisma {
     data: XOR<ClientInvoiceUpdateManyMutationInput, ClientInvoiceUncheckedUpdateManyWithoutSaleInput>
   }
 
+  export type SetorClickupListUpsertWithoutSalesInput = {
+    update: XOR<SetorClickupListUpdateWithoutSalesInput, SetorClickupListUncheckedUpdateWithoutSalesInput>
+    create: XOR<SetorClickupListCreateWithoutSalesInput, SetorClickupListUncheckedCreateWithoutSalesInput>
+    where?: SetorClickupListWhereInput
+  }
+
+  export type SetorClickupListUpdateToOneWithWhereWithoutSalesInput = {
+    where?: SetorClickupListWhereInput
+    data: XOR<SetorClickupListUpdateWithoutSalesInput, SetorClickupListUncheckedUpdateWithoutSalesInput>
+  }
+
+  export type SetorClickupListUpdateWithoutSalesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+    service?: ServiceUpdateOneWithoutProjectsNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
+    materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateWithoutSalesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
+    materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
   export type CompanyCreateWithoutBonusesInput = {
     id?: string
     name: string
@@ -285372,6 +285820,7 @@ export namespace Prisma {
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
+    project?: SetorClickupListCreateNestedOneWithoutSalesInput
   }
 
   export type SaleUncheckedCreateWithoutBonusesInput = {
@@ -285397,6 +285846,7 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
@@ -285909,6 +286359,7 @@ export namespace Prisma {
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
+    project?: SetorClickupListUpdateOneWithoutSalesNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutBonusesInput = {
@@ -285934,6 +286385,7 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
@@ -297408,6 +297860,7 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -297434,6 +297887,7 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -298793,6 +299247,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutClientCompanyInput = {
@@ -298828,6 +299283,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -300280,6 +300736,7 @@ export namespace Prisma {
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
+    project?: SetorClickupListUpdateOneWithoutSalesNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutCompanyInput = {
@@ -300304,6 +300761,7 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
@@ -300332,6 +300790,7 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -300362,6 +300821,7 @@ export namespace Prisma {
     lead?: LeadUpdateOneWithoutSaleNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
+    project?: SetorClickupListUpdateOneWithoutSalesNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutClientCompanyInput = {
@@ -300386,6 +300846,7 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
@@ -300414,6 +300875,7 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -305608,6 +306070,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutSetorInput = {
@@ -305643,6 +306106,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutSetorInput = {
@@ -305824,6 +306288,33 @@ export namespace Prisma {
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
+  }
+
+  export type SaleCreateManyProjectInput = {
+    id?: string
+    companyId: string
+    leadId?: string | null
+    clientCompanyId?: string | null
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    bonusEligible?: boolean
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProjectMemberUpdateWithoutProjectInput = {
@@ -306208,6 +306699,91 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SaleUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
+    lead?: LeadUpdateOneWithoutSaleNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    bonuses?: BonusUpdateManyWithoutSaleNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
+  }
+
+  export type SaleUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
+  }
+
+  export type SaleUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProjectMaterialCreateManyTaskInput = {
@@ -308243,6 +308819,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutServiceInput = {
@@ -308278,6 +308855,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutServiceInput = {

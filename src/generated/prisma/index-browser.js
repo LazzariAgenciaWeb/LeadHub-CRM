@@ -1894,6 +1894,7 @@ exports.Prisma.SaleScalarFieldEnum = {
   releasedAt: 'releasedAt',
   deliveredAt: 'deliveredAt',
   notes: 'notes',
+  projectId: 'projectId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

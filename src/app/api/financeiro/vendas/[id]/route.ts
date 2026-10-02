@@ -111,6 +111,60 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   // contratado, marcada direto na lista de pontuais da aba Bonificação.
   if (body?.bonusEligible !== undefined) data.bonusEligible = !!body.bonusEligible;
 
+  // ── Projeto que entrega esta venda ───────────────────────────────────────
+  // Duas formas, como no vínculo de cliente: apontar pra um projeto que já
+  // existe, ou criar um novo já amarrado ao cliente da venda. O detalhe do
+  // trabalho vive lá; aqui fica só o elo pra acompanhar e, na entrega,
+  // bonificar.
+  if (body?.projectId !== undefined) {
+    if (!body.projectId) {
+      data.projectId = null;
+    } else {
+      const p = await prisma.setorClickupList.findFirst({
+        where: { id: String(body.projectId), setor: { companyId: sale.companyId } },
+        select: { id: true },
+      });
+      if (!p) return NextResponse.json({ error: "Projeto não encontrado nesta empresa" }, { status: 400 });
+      data.projectId = p.id;
+    }
+  } else if (body?.newProjectName) {
+    const nome = String(body.newProjectName).trim();
+    if (!nome) return NextResponse.json({ error: "Dê um nome ao projeto" }, { status: 400 });
+
+    // Setor: o informado, ou o primeiro da empresa. Projeto precisa de setor,
+    // e exigir essa escolha aqui travaria o fluxo da esteira por um detalhe
+    // que se ajusta depois, dentro do projeto.
+    const setor = body?.setorId
+      ? await prisma.setor.findFirst({
+          where: { id: String(body.setorId), companyId: sale.companyId },
+          select: { id: true },
+        })
+      : await prisma.setor.findFirst({
+          where: { companyId: sale.companyId },
+          orderBy: { createdAt: "asc" },
+          select: { id: true },
+        });
+    if (!setor) {
+      return NextResponse.json(
+        { error: "Nenhum setor cadastrado — crie um setor antes de abrir projetos." },
+        { status: 400 },
+      );
+    }
+
+    const criado = await prisma.setorClickupList.create({
+      data: {
+        setorId: setor.id,
+        name: nome,
+        clientCompanyId: (data.clientCompanyId as string | undefined) ?? sale.clientCompanyId,
+        // Entra já em produção: o gatilho de criar foi liberar a produção.
+        status: "EM_ANDAMENTO",
+        description: `Entrega da venda "${sale.title}" (${(sale.valueCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}).`,
+      },
+      select: { id: true },
+    });
+    data.projectId = criado.id;
+  }
+
   // Responsável pela execução — quem entrega e bonifica. Vazio/null limpa.
   if (body?.responsibleUserId !== undefined) {
     if (!body.responsibleUserId) {
@@ -155,7 +209,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const updated = await prisma.sale.update({
     where: { id },
     data,
-    include: { clientCompany: { select: { id: true, name: true } } },
+    include: {
+      clientCompany: { select: { id: true, name: true } },
+      project: { select: { id: true, name: true, status: true, taskCount: true, taskCompleted: true } },
+    },
   });
 
   // ── Data de entrega mudou de mês → bonificação acompanha ─────────────────
