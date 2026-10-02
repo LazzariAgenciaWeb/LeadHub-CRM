@@ -5,6 +5,7 @@ import { criarTools } from "./criar";
 import { notasTools } from "./notas";
 import { financeiroTools } from "./financeiro";
 import { filaDoDia } from "./fila";
+import { avisarNoWhatsapp } from "./avisos";
 
 export type { ToolDef, ToolContext, ToolResult, ToolChannel } from "./types";
 export { buildFilaDoDia, formatFila, type FilaDoDia, type FilaItem } from "./fila";
@@ -18,7 +19,10 @@ export const ALL_TOOLS: ToolDef[] = [
   ...financeiroTools,
 ];
 
-const BY_NAME = new Map(ALL_TOOLS.map((t) => [t.name, t]));
+/** Só pelo MCP: no chat/WhatsApp a resposta já vai pro canal. */
+export const MCP_ONLY_TOOLS: ToolDef[] = [avisarNoWhatsapp];
+
+const BY_NAME = new Map([...ALL_TOOLS, ...MCP_ONLY_TOOLS].map((t) => [t.name, t]));
 
 export function getTool(name: string): ToolDef | undefined {
   return BY_NAME.get(name);
@@ -31,5 +35,5 @@ export function anthropicToolDefs(): Anthropic.Tool[] {
 
 /** Definições no formato MCP (tools/list). */
 export function mcpToolDefs() {
-  return ALL_TOOLS.map((t) => ({ name: t.name, description: t.description, inputSchema: t.input_schema }));
+  return [...ALL_TOOLS, ...MCP_ONLY_TOOLS].map((t) => ({ name: t.name, description: t.description, inputSchema: t.input_schema }));
 }

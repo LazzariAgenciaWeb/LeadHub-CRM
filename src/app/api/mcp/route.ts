@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
-import { prisma } from "@/lib/prisma";
 import { mcpToolDefs } from "@/lib/assistant-tools/registry";
+import { authenticateAssistantToken } from "@/lib/personal-assistant/token-auth";
 import { runToolDirect } from "@/lib/personal-assistant/engine";
 import { userCanUseAssistant } from "@/lib/personal-assistant/access";
 
@@ -31,16 +30,7 @@ function rpcError(id: RpcReq["id"], code: number, message: string, data?: unknow
   return { jsonrpc: "2.0", id: id ?? null, error: { code, message, ...(data !== undefined ? { data } : {}) } };
 }
 
-async function authenticate(req: NextRequest): Promise<{ userId: string } | null> {
-  const auth = req.headers.get("authorization") ?? "";
-  const m = auth.match(/^Bearer\s+(.+)$/i);
-  if (!m) return null;
-  const hash = crypto.createHash("sha256").update(m[1].trim()).digest("hex");
-  const user = await prisma.user.findUnique({ where: { mcpTokenHash: hash }, select: { id: true } });
-  if (!user) return null;
-  prisma.user.update({ where: { id: user.id }, data: { mcpTokenLastUsedAt: new Date() } }).catch(() => {});
-  return { userId: user.id };
-}
+const authenticate = authenticateAssistantToken;
 
 async function handleOne(msg: RpcReq, userId: string): Promise<unknown | null> {
   const { id, method, params } = msg;
