@@ -74,6 +74,7 @@ export default function AssistentePessoalSettings({
     ? `claude mcp add --transport http gohub ${freshToken.mcpUrl} --header "Authorization: Bearer ${freshToken.token}"`
     : null;
   const inboxUrl = freshToken ? freshToken.mcpUrl.replace(/\/api\/mcp$/, "/api/assistente/inbox") : null;
+  const claudeAiUrl = freshToken ? `${freshToken.mcpUrl}/t/${freshToken.token}` : null;
   const curlCmd = freshToken && inboxUrl
     ? `curl -X POST ${inboxUrl} -H "Authorization: Bearer ${freshToken.token}" -H "Content-Type: application/json" -d '{"title":"Reels novo pra gravar: 3 erros no tráfego","body":"Roteiro no ClickUp","tags":["reels"],"link":"https://app.clickup.com/t/xxxx","source":"rotina-reels"}'`
     : null;
@@ -162,6 +163,18 @@ export default function AssistentePessoalSettings({
                   <button onClick={() => copy(freshToken.token, "tok")} className="text-xs px-2 rounded bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">{copied === "tok" ? "Copiado!" : "Copiar"}</button>
                 </div>
               </div>
+              {claudeAiUrl && (
+                <div>
+                  <div className="text-slate-400 text-[10px] uppercase tracking-wide font-semibold mb-1">claude.ai (site/app) — tarefas agendadas e chats</div>
+                  <div className="flex gap-2">
+                    <code className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-[11px] text-slate-200 font-mono break-all">{claudeAiUrl}</code>
+                    <button onClick={() => copy(claudeAiUrl, "ai")} className="text-xs px-2 rounded bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">{copied === "ai" ? "Copiado!" : "Copiar"}</button>
+                  </div>
+                  <div className="text-[11px] text-slate-500 mt-1">
+                    No claude.ai: Configurações → Conectores → <b>Adicionar conector personalizado</b> → nome "GoHub", cole esta URL, autenticação <b>nenhuma</b> (a URL já carrega o token — trate como senha). Depois ative o conector "GoHub" nas suas tarefas agendadas.
+                  </div>
+                </div>
+              )}
               <div>
                 <div className="text-slate-400 text-[10px] uppercase tracking-wide font-semibold mb-1">Claude Code (terminal)</div>
                 <div className="flex gap-2">
@@ -189,7 +202,7 @@ export default function AssistentePessoalSettings({
           {!freshToken && tokenState.has && (
             <div className="text-[11px] text-slate-500 space-y-1">
               <div>Com o token você conecta o Claude (MCP) e também recebe avisos de rotinas externas:</div>
-              <div>• MCP: <code className="text-slate-400">POST /api/mcp</code> — ferramentas do assistente, incl. <code className="text-slate-400">avisar_no_whatsapp</code>.</div>
+              <div>• MCP: <code className="text-slate-400">POST /api/mcp</code> (header Bearer, Claude Code) ou <code className="text-slate-400">/api/mcp/t/&lt;token&gt;</code> (claude.ai, sem auth) — ferramentas do assistente, incl. <code className="text-slate-400">avisar_no_whatsapp</code>.</div>
               <div>• Webhook: <code className="text-slate-400">POST /api/assistente/inbox</code> — <code className="text-slate-400">{"{ title, body?, tags?, link?, kind?, dueAt? }"}</code> → bloquinho + WhatsApp.</div>
               <div>Perdeu o token? Gere um novo (o antigo deixa de valer).</div>
             </div>
