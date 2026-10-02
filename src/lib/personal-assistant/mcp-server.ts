@@ -72,9 +72,15 @@ async function handleOne(msg: RpcReq, userId: string): Promise<unknown | null> {
 export async function mcpPost(req: NextRequest, tokenOverride?: string): Promise<NextResponse> {
   const auth = await authenticateAssistantToken(req, tokenOverride);
   if (!auth) {
+    // 401 + resource_metadata: é assim que o cliente MCP descobre o OAuth
+    // (RFC 9728) e inicia o fluxo de autorização sozinho.
+    const base = (process.env.NEXT_PUBLIC_BASE_URL ?? process.env.NEXTAUTH_URL ?? "").replace(/\/$/, "");
     return NextResponse.json(rpcError(null, -32001, "Não autorizado: envie Authorization: Bearer <token>"), {
       status: 401,
-      headers: { "WWW-Authenticate": 'Bearer realm="gohub-mcp"' },
+      headers: {
+        "WWW-Authenticate": `Bearer realm="gohub-mcp", resource_metadata="${base}/.well-known/oauth-protected-resource"`,
+        "Access-Control-Allow-Origin": "*",
+      },
     });
   }
   if (!(await userCanUseAssistant(auth.userId))) {

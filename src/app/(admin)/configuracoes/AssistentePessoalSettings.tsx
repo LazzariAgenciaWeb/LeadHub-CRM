@@ -74,7 +74,7 @@ export default function AssistentePessoalSettings({
     ? `claude mcp add --transport http gohub ${freshToken.mcpUrl} --header "Authorization: Bearer ${freshToken.token}"`
     : null;
   const inboxUrl = freshToken ? freshToken.mcpUrl.replace(/\/api\/mcp$/, "/api/assistente/inbox") : null;
-  const claudeAiUrl = freshToken ? `${freshToken.mcpUrl}/t/${freshToken.token}` : null;
+  const claudeAiUrl = freshToken ? freshToken.mcpUrl : null;
   const curlCmd = freshToken && inboxUrl
     ? `curl -X POST ${inboxUrl} -H "Authorization: Bearer ${freshToken.token}" -H "Content-Type: application/json" -d '{"title":"Reels novo pra gravar: 3 erros no tráfego","body":"Roteiro no ClickUp","tags":["reels"],"link":"https://app.clickup.com/t/xxxx","source":"rotina-reels"}'`
     : null;
@@ -171,7 +171,7 @@ export default function AssistentePessoalSettings({
                     <button onClick={() => copy(claudeAiUrl, "ai")} className="text-xs px-2 rounded bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">{copied === "ai" ? "Copiado!" : "Copiar"}</button>
                   </div>
                   <div className="text-[11px] text-slate-500 mt-1">
-                    No claude.ai: Configurações → Conectores → <b>Adicionar conector personalizado</b> → nome "GoHub", cole esta URL, autenticação <b>nenhuma</b> (a URL já carrega o token — trate como senha). Depois ative o conector "GoHub" nas suas tarefas agendadas.
+                    No claude.ai: Configurações → Conectores → <b>Adicionar conector personalizado</b> → nome "GoHub", cole esta URL e deixe OAuth Client ID/Secret em branco. Ao conectar, o claude.ai abre o GoHub e você clica em <b>Autorizar</b> (sem copiar token). Depois ative o conector "GoHub" nas suas tarefas agendadas.
                   </div>
                 </div>
               )}

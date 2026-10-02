@@ -4637,3 +4637,43 @@ model ClientLibraryItem {
 
   @@index([clientCompanyId, folder])
 }
+
+// ── OAuth do MCP (conector personalizado do claude.ai) ───────────────────────
+// claude.ai exige OAuth 2.1 (registro dinâmico + PKCE) pra conectar um MCP
+// remoto. Fluxo: /register → /authorize (consentimento, usuário logado) →
+// /token. O access token vira "token pessoal" equivalente ao gohub_… .
+model McpOAuthClient {
+  id           String          @id // client_id
+  name         String?
+  redirectUris String[]        @default([])
+  createdAt    DateTime        @default(now())
+  codes        McpOAuthCode[]
+  tokens       McpOAuthToken[]
+}
+
+model McpOAuthCode {
+  code          String         @id
+  clientId      String
+  client        McpOAuthClient @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  userId        String
+  redirectUri   String
+  codeChallenge String?
+  scope         String?
+  expiresAt     DateTime
+  createdAt     DateTime       @default(now())
+}
+
+model McpOAuthToken {
+  id          String         @id @default(cuid())
+  tokenHash   String         @unique // sha256 do access token
+  refreshHash String?        @unique // sha256 do refresh token
+  clientId    String
+  client      McpOAuthClient @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  userId      String
+  scope       String?
+  expiresAt   DateTime
+  lastUsedAt  DateTime?
+  createdAt   DateTime       @default(now())
+
+  @@index([userId])
+}

@@ -28,9 +28,14 @@ export default function LoginPage() {
     if (result?.error) {
       setError("Email ou senha incorretos.");
     } else {
+      // callbackUrl (ex.: consentimento OAuth do MCP) — só caminhos internos.
+      const cb = new URLSearchParams(window.location.search).get("callbackUrl") ?? "";
+      let target = "/";
+      if (cb.startsWith("/") && !cb.startsWith("//")) target = cb;
+      else if (/^https?:\/\//.test(cb)) { try { const u = new URL(cb); if (u.origin === window.location.origin) target = u.pathname + u.search; } catch {} }
       // Vai pra "/" e deixa o roteamento central decidir: empresa-cliente
       // (sub-company) cai no "Meu espaço"; agência/super-admin no dashboard.
-      router.push("/");
+      router.push(target);
     }
   }
 

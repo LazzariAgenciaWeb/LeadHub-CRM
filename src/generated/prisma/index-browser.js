@@ -2056,6 +2056,36 @@ exports.Prisma.ClientLibraryItemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.McpOAuthClientScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  redirectUris: 'redirectUris',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.McpOAuthCodeScalarFieldEnum = {
+  code: 'code',
+  clientId: 'clientId',
+  userId: 'userId',
+  redirectUri: 'redirectUri',
+  codeChallenge: 'codeChallenge',
+  scope: 'scope',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.McpOAuthTokenScalarFieldEnum = {
+  id: 'id',
+  tokenHash: 'tokenHash',
+  refreshHash: 'refreshHash',
+  clientId: 'clientId',
+  userId: 'userId',
+  scope: 'scope',
+  expiresAt: 'expiresAt',
+  lastUsedAt: 'lastUsedAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2651,7 +2681,10 @@ exports.Prisma.ModelName = {
   PunchAdjustRequest: 'PunchAdjustRequest',
   TimesheetSignature: 'TimesheetSignature',
   StorageObject: 'StorageObject',
-  ClientLibraryItem: 'ClientLibraryItem'
+  ClientLibraryItem: 'ClientLibraryItem',
+  McpOAuthClient: 'McpOAuthClient',
+  McpOAuthCode: 'McpOAuthCode',
+  McpOAuthToken: 'McpOAuthToken'
 };
 
 /**

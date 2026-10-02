@@ -13,6 +13,16 @@ export async function authenticateAssistantToken(req: NextRequest, tokenOverride
   const raw = tokenOverride?.trim() || m?.[1]?.trim() || req.nextUrl.searchParams.get("token")?.trim() || "";
   if (!raw) return null;
   const hash = crypto.createHash("sha256").update(raw).digest("hex");
+
+  // 1) token OAuth (claude.ai conector personalizado)
+  if (raw.startsWith("gohub_oa_")) {
+    const t = await prisma.mcpOAuthToken.findUnique({ where: { tokenHash: hash }, select: { id: true, userId: true, expiresAt: true } });
+    if (!t || t.expiresAt < new Date()) return null;
+    prisma.mcpOAuthToken.update({ where: { id: t.id }, data: { lastUsedAt: new Date() } }).catch(() => {});
+    return { userId: t.userId };
+  }
+
+  // 2) token pessoal (Meu Perfil) — Claude Code, webhook, URL /api/mcp/t/<token>
   const user = await prisma.user.findUnique({ where: { mcpTokenHash: hash }, select: { id: true } });
   if (!user) return null;
   prisma.user.update({ where: { id: user.id }, data: { mcpTokenLastUsedAt: new Date() } }).catch(() => {});

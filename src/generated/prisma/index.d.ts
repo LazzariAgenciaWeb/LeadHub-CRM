@@ -653,6 +653,21 @@ export type StorageObject = $Result.DefaultSelection<Prisma.$StorageObjectPayloa
  * 
  */
 export type ClientLibraryItem = $Result.DefaultSelection<Prisma.$ClientLibraryItemPayload>
+/**
+ * Model McpOAuthClient
+ * 
+ */
+export type McpOAuthClient = $Result.DefaultSelection<Prisma.$McpOAuthClientPayload>
+/**
+ * Model McpOAuthCode
+ * 
+ */
+export type McpOAuthCode = $Result.DefaultSelection<Prisma.$McpOAuthCodePayload>
+/**
+ * Model McpOAuthToken
+ * 
+ */
+export type McpOAuthToken = $Result.DefaultSelection<Prisma.$McpOAuthTokenPayload>
 
 /**
  * Enums
@@ -2870,6 +2885,36 @@ export class PrismaClient<
     * ```
     */
   get clientLibraryItem(): Prisma.ClientLibraryItemDelegate<ExtArgs>;
+
+  /**
+   * `prisma.mcpOAuthClient`: Exposes CRUD operations for the **McpOAuthClient** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more McpOAuthClients
+    * const mcpOAuthClients = await prisma.mcpOAuthClient.findMany()
+    * ```
+    */
+  get mcpOAuthClient(): Prisma.McpOAuthClientDelegate<ExtArgs>;
+
+  /**
+   * `prisma.mcpOAuthCode`: Exposes CRUD operations for the **McpOAuthCode** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more McpOAuthCodes
+    * const mcpOAuthCodes = await prisma.mcpOAuthCode.findMany()
+    * ```
+    */
+  get mcpOAuthCode(): Prisma.McpOAuthCodeDelegate<ExtArgs>;
+
+  /**
+   * `prisma.mcpOAuthToken`: Exposes CRUD operations for the **McpOAuthToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more McpOAuthTokens
+    * const mcpOAuthTokens = await prisma.mcpOAuthToken.findMany()
+    * ```
+    */
+  get mcpOAuthToken(): Prisma.McpOAuthTokenDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -3438,7 +3483,10 @@ export namespace Prisma {
     PunchAdjustRequest: 'PunchAdjustRequest',
     TimesheetSignature: 'TimesheetSignature',
     StorageObject: 'StorageObject',
-    ClientLibraryItem: 'ClientLibraryItem'
+    ClientLibraryItem: 'ClientLibraryItem',
+    McpOAuthClient: 'McpOAuthClient',
+    McpOAuthCode: 'McpOAuthCode',
+    McpOAuthToken: 'McpOAuthToken'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3454,7 +3502,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem"
+      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -12418,6 +12466,216 @@ export namespace Prisma {
           }
         }
       }
+      McpOAuthClient: {
+        payload: Prisma.$McpOAuthClientPayload<ExtArgs>
+        fields: Prisma.McpOAuthClientFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.McpOAuthClientFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.McpOAuthClientFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload>
+          }
+          findFirst: {
+            args: Prisma.McpOAuthClientFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.McpOAuthClientFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload>
+          }
+          findMany: {
+            args: Prisma.McpOAuthClientFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload>[]
+          }
+          create: {
+            args: Prisma.McpOAuthClientCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload>
+          }
+          createMany: {
+            args: Prisma.McpOAuthClientCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.McpOAuthClientCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload>[]
+          }
+          delete: {
+            args: Prisma.McpOAuthClientDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload>
+          }
+          update: {
+            args: Prisma.McpOAuthClientUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload>
+          }
+          deleteMany: {
+            args: Prisma.McpOAuthClientDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.McpOAuthClientUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.McpOAuthClientUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthClientPayload>
+          }
+          aggregate: {
+            args: Prisma.McpOAuthClientAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMcpOAuthClient>
+          }
+          groupBy: {
+            args: Prisma.McpOAuthClientGroupByArgs<ExtArgs>
+            result: $Utils.Optional<McpOAuthClientGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.McpOAuthClientCountArgs<ExtArgs>
+            result: $Utils.Optional<McpOAuthClientCountAggregateOutputType> | number
+          }
+        }
+      }
+      McpOAuthCode: {
+        payload: Prisma.$McpOAuthCodePayload<ExtArgs>
+        fields: Prisma.McpOAuthCodeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.McpOAuthCodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.McpOAuthCodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload>
+          }
+          findFirst: {
+            args: Prisma.McpOAuthCodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.McpOAuthCodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload>
+          }
+          findMany: {
+            args: Prisma.McpOAuthCodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload>[]
+          }
+          create: {
+            args: Prisma.McpOAuthCodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload>
+          }
+          createMany: {
+            args: Prisma.McpOAuthCodeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.McpOAuthCodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload>[]
+          }
+          delete: {
+            args: Prisma.McpOAuthCodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload>
+          }
+          update: {
+            args: Prisma.McpOAuthCodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload>
+          }
+          deleteMany: {
+            args: Prisma.McpOAuthCodeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.McpOAuthCodeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.McpOAuthCodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthCodePayload>
+          }
+          aggregate: {
+            args: Prisma.McpOAuthCodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMcpOAuthCode>
+          }
+          groupBy: {
+            args: Prisma.McpOAuthCodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<McpOAuthCodeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.McpOAuthCodeCountArgs<ExtArgs>
+            result: $Utils.Optional<McpOAuthCodeCountAggregateOutputType> | number
+          }
+        }
+      }
+      McpOAuthToken: {
+        payload: Prisma.$McpOAuthTokenPayload<ExtArgs>
+        fields: Prisma.McpOAuthTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.McpOAuthTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.McpOAuthTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.McpOAuthTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.McpOAuthTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload>
+          }
+          findMany: {
+            args: Prisma.McpOAuthTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload>[]
+          }
+          create: {
+            args: Prisma.McpOAuthTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload>
+          }
+          createMany: {
+            args: Prisma.McpOAuthTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.McpOAuthTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.McpOAuthTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload>
+          }
+          update: {
+            args: Prisma.McpOAuthTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.McpOAuthTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.McpOAuthTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.McpOAuthTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$McpOAuthTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.McpOAuthTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMcpOAuthToken>
+          }
+          groupBy: {
+            args: Prisma.McpOAuthTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<McpOAuthTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.McpOAuthTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<McpOAuthTokenCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -15275,6 +15533,46 @@ export namespace Prisma {
    */
   export type VideoCategoryCountOutputTypeCountReleasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VideoCategoryReleaseWhereInput
+  }
+
+
+  /**
+   * Count Type McpOAuthClientCountOutputType
+   */
+
+  export type McpOAuthClientCountOutputType = {
+    codes: number
+    tokens: number
+  }
+
+  export type McpOAuthClientCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    codes?: boolean | McpOAuthClientCountOutputTypeCountCodesArgs
+    tokens?: boolean | McpOAuthClientCountOutputTypeCountTokensArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * McpOAuthClientCountOutputType without action
+   */
+  export type McpOAuthClientCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClientCountOutputType
+     */
+    select?: McpOAuthClientCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * McpOAuthClientCountOutputType without action
+   */
+  export type McpOAuthClientCountOutputTypeCountCodesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: McpOAuthCodeWhereInput
+  }
+
+  /**
+   * McpOAuthClientCountOutputType without action
+   */
+  export type McpOAuthClientCountOutputTypeCountTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: McpOAuthTokenWhereInput
   }
 
 
@@ -154645,6 +154943,2912 @@ export namespace Prisma {
 
 
   /**
+   * Model McpOAuthClient
+   */
+
+  export type AggregateMcpOAuthClient = {
+    _count: McpOAuthClientCountAggregateOutputType | null
+    _min: McpOAuthClientMinAggregateOutputType | null
+    _max: McpOAuthClientMaxAggregateOutputType | null
+  }
+
+  export type McpOAuthClientMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type McpOAuthClientMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type McpOAuthClientCountAggregateOutputType = {
+    id: number
+    name: number
+    redirectUris: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type McpOAuthClientMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type McpOAuthClientMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type McpOAuthClientCountAggregateInputType = {
+    id?: true
+    name?: true
+    redirectUris?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type McpOAuthClientAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which McpOAuthClient to aggregate.
+     */
+    where?: McpOAuthClientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthClients to fetch.
+     */
+    orderBy?: McpOAuthClientOrderByWithRelationInput | McpOAuthClientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: McpOAuthClientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthClients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthClients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned McpOAuthClients
+    **/
+    _count?: true | McpOAuthClientCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: McpOAuthClientMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: McpOAuthClientMaxAggregateInputType
+  }
+
+  export type GetMcpOAuthClientAggregateType<T extends McpOAuthClientAggregateArgs> = {
+        [P in keyof T & keyof AggregateMcpOAuthClient]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMcpOAuthClient[P]>
+      : GetScalarType<T[P], AggregateMcpOAuthClient[P]>
+  }
+
+
+
+
+  export type McpOAuthClientGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: McpOAuthClientWhereInput
+    orderBy?: McpOAuthClientOrderByWithAggregationInput | McpOAuthClientOrderByWithAggregationInput[]
+    by: McpOAuthClientScalarFieldEnum[] | McpOAuthClientScalarFieldEnum
+    having?: McpOAuthClientScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: McpOAuthClientCountAggregateInputType | true
+    _min?: McpOAuthClientMinAggregateInputType
+    _max?: McpOAuthClientMaxAggregateInputType
+  }
+
+  export type McpOAuthClientGroupByOutputType = {
+    id: string
+    name: string | null
+    redirectUris: string[]
+    createdAt: Date
+    _count: McpOAuthClientCountAggregateOutputType | null
+    _min: McpOAuthClientMinAggregateOutputType | null
+    _max: McpOAuthClientMaxAggregateOutputType | null
+  }
+
+  type GetMcpOAuthClientGroupByPayload<T extends McpOAuthClientGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<McpOAuthClientGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof McpOAuthClientGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], McpOAuthClientGroupByOutputType[P]>
+            : GetScalarType<T[P], McpOAuthClientGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type McpOAuthClientSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    redirectUris?: boolean
+    createdAt?: boolean
+    codes?: boolean | McpOAuthClient$codesArgs<ExtArgs>
+    tokens?: boolean | McpOAuthClient$tokensArgs<ExtArgs>
+    _count?: boolean | McpOAuthClientCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mcpOAuthClient"]>
+
+  export type McpOAuthClientSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    redirectUris?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["mcpOAuthClient"]>
+
+  export type McpOAuthClientSelectScalar = {
+    id?: boolean
+    name?: boolean
+    redirectUris?: boolean
+    createdAt?: boolean
+  }
+
+  export type McpOAuthClientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    codes?: boolean | McpOAuthClient$codesArgs<ExtArgs>
+    tokens?: boolean | McpOAuthClient$tokensArgs<ExtArgs>
+    _count?: boolean | McpOAuthClientCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type McpOAuthClientIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $McpOAuthClientPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "McpOAuthClient"
+    objects: {
+      codes: Prisma.$McpOAuthCodePayload<ExtArgs>[]
+      tokens: Prisma.$McpOAuthTokenPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string | null
+      redirectUris: string[]
+      createdAt: Date
+    }, ExtArgs["result"]["mcpOAuthClient"]>
+    composites: {}
+  }
+
+  type McpOAuthClientGetPayload<S extends boolean | null | undefined | McpOAuthClientDefaultArgs> = $Result.GetResult<Prisma.$McpOAuthClientPayload, S>
+
+  type McpOAuthClientCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<McpOAuthClientFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: McpOAuthClientCountAggregateInputType | true
+    }
+
+  export interface McpOAuthClientDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['McpOAuthClient'], meta: { name: 'McpOAuthClient' } }
+    /**
+     * Find zero or one McpOAuthClient that matches the filter.
+     * @param {McpOAuthClientFindUniqueArgs} args - Arguments to find a McpOAuthClient
+     * @example
+     * // Get one McpOAuthClient
+     * const mcpOAuthClient = await prisma.mcpOAuthClient.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends McpOAuthClientFindUniqueArgs>(args: SelectSubset<T, McpOAuthClientFindUniqueArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one McpOAuthClient that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {McpOAuthClientFindUniqueOrThrowArgs} args - Arguments to find a McpOAuthClient
+     * @example
+     * // Get one McpOAuthClient
+     * const mcpOAuthClient = await prisma.mcpOAuthClient.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends McpOAuthClientFindUniqueOrThrowArgs>(args: SelectSubset<T, McpOAuthClientFindUniqueOrThrowArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first McpOAuthClient that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthClientFindFirstArgs} args - Arguments to find a McpOAuthClient
+     * @example
+     * // Get one McpOAuthClient
+     * const mcpOAuthClient = await prisma.mcpOAuthClient.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends McpOAuthClientFindFirstArgs>(args?: SelectSubset<T, McpOAuthClientFindFirstArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first McpOAuthClient that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthClientFindFirstOrThrowArgs} args - Arguments to find a McpOAuthClient
+     * @example
+     * // Get one McpOAuthClient
+     * const mcpOAuthClient = await prisma.mcpOAuthClient.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends McpOAuthClientFindFirstOrThrowArgs>(args?: SelectSubset<T, McpOAuthClientFindFirstOrThrowArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more McpOAuthClients that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthClientFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all McpOAuthClients
+     * const mcpOAuthClients = await prisma.mcpOAuthClient.findMany()
+     * 
+     * // Get first 10 McpOAuthClients
+     * const mcpOAuthClients = await prisma.mcpOAuthClient.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mcpOAuthClientWithIdOnly = await prisma.mcpOAuthClient.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends McpOAuthClientFindManyArgs>(args?: SelectSubset<T, McpOAuthClientFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a McpOAuthClient.
+     * @param {McpOAuthClientCreateArgs} args - Arguments to create a McpOAuthClient.
+     * @example
+     * // Create one McpOAuthClient
+     * const McpOAuthClient = await prisma.mcpOAuthClient.create({
+     *   data: {
+     *     // ... data to create a McpOAuthClient
+     *   }
+     * })
+     * 
+     */
+    create<T extends McpOAuthClientCreateArgs>(args: SelectSubset<T, McpOAuthClientCreateArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many McpOAuthClients.
+     * @param {McpOAuthClientCreateManyArgs} args - Arguments to create many McpOAuthClients.
+     * @example
+     * // Create many McpOAuthClients
+     * const mcpOAuthClient = await prisma.mcpOAuthClient.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends McpOAuthClientCreateManyArgs>(args?: SelectSubset<T, McpOAuthClientCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many McpOAuthClients and returns the data saved in the database.
+     * @param {McpOAuthClientCreateManyAndReturnArgs} args - Arguments to create many McpOAuthClients.
+     * @example
+     * // Create many McpOAuthClients
+     * const mcpOAuthClient = await prisma.mcpOAuthClient.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many McpOAuthClients and only return the `id`
+     * const mcpOAuthClientWithIdOnly = await prisma.mcpOAuthClient.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends McpOAuthClientCreateManyAndReturnArgs>(args?: SelectSubset<T, McpOAuthClientCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a McpOAuthClient.
+     * @param {McpOAuthClientDeleteArgs} args - Arguments to delete one McpOAuthClient.
+     * @example
+     * // Delete one McpOAuthClient
+     * const McpOAuthClient = await prisma.mcpOAuthClient.delete({
+     *   where: {
+     *     // ... filter to delete one McpOAuthClient
+     *   }
+     * })
+     * 
+     */
+    delete<T extends McpOAuthClientDeleteArgs>(args: SelectSubset<T, McpOAuthClientDeleteArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one McpOAuthClient.
+     * @param {McpOAuthClientUpdateArgs} args - Arguments to update one McpOAuthClient.
+     * @example
+     * // Update one McpOAuthClient
+     * const mcpOAuthClient = await prisma.mcpOAuthClient.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends McpOAuthClientUpdateArgs>(args: SelectSubset<T, McpOAuthClientUpdateArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more McpOAuthClients.
+     * @param {McpOAuthClientDeleteManyArgs} args - Arguments to filter McpOAuthClients to delete.
+     * @example
+     * // Delete a few McpOAuthClients
+     * const { count } = await prisma.mcpOAuthClient.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends McpOAuthClientDeleteManyArgs>(args?: SelectSubset<T, McpOAuthClientDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more McpOAuthClients.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthClientUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many McpOAuthClients
+     * const mcpOAuthClient = await prisma.mcpOAuthClient.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends McpOAuthClientUpdateManyArgs>(args: SelectSubset<T, McpOAuthClientUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one McpOAuthClient.
+     * @param {McpOAuthClientUpsertArgs} args - Arguments to update or create a McpOAuthClient.
+     * @example
+     * // Update or create a McpOAuthClient
+     * const mcpOAuthClient = await prisma.mcpOAuthClient.upsert({
+     *   create: {
+     *     // ... data to create a McpOAuthClient
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the McpOAuthClient we want to update
+     *   }
+     * })
+     */
+    upsert<T extends McpOAuthClientUpsertArgs>(args: SelectSubset<T, McpOAuthClientUpsertArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of McpOAuthClients.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthClientCountArgs} args - Arguments to filter McpOAuthClients to count.
+     * @example
+     * // Count the number of McpOAuthClients
+     * const count = await prisma.mcpOAuthClient.count({
+     *   where: {
+     *     // ... the filter for the McpOAuthClients we want to count
+     *   }
+     * })
+    **/
+    count<T extends McpOAuthClientCountArgs>(
+      args?: Subset<T, McpOAuthClientCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], McpOAuthClientCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a McpOAuthClient.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthClientAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends McpOAuthClientAggregateArgs>(args: Subset<T, McpOAuthClientAggregateArgs>): Prisma.PrismaPromise<GetMcpOAuthClientAggregateType<T>>
+
+    /**
+     * Group by McpOAuthClient.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthClientGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends McpOAuthClientGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: McpOAuthClientGroupByArgs['orderBy'] }
+        : { orderBy?: McpOAuthClientGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, McpOAuthClientGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMcpOAuthClientGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the McpOAuthClient model
+   */
+  readonly fields: McpOAuthClientFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for McpOAuthClient.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__McpOAuthClientClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    codes<T extends McpOAuthClient$codesArgs<ExtArgs> = {}>(args?: Subset<T, McpOAuthClient$codesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "findMany"> | Null>
+    tokens<T extends McpOAuthClient$tokensArgs<ExtArgs> = {}>(args?: Subset<T, McpOAuthClient$tokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the McpOAuthClient model
+   */ 
+  interface McpOAuthClientFieldRefs {
+    readonly id: FieldRef<"McpOAuthClient", 'String'>
+    readonly name: FieldRef<"McpOAuthClient", 'String'>
+    readonly redirectUris: FieldRef<"McpOAuthClient", 'String[]'>
+    readonly createdAt: FieldRef<"McpOAuthClient", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * McpOAuthClient findUnique
+   */
+  export type McpOAuthClientFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthClient to fetch.
+     */
+    where: McpOAuthClientWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthClient findUniqueOrThrow
+   */
+  export type McpOAuthClientFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthClient to fetch.
+     */
+    where: McpOAuthClientWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthClient findFirst
+   */
+  export type McpOAuthClientFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthClient to fetch.
+     */
+    where?: McpOAuthClientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthClients to fetch.
+     */
+    orderBy?: McpOAuthClientOrderByWithRelationInput | McpOAuthClientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for McpOAuthClients.
+     */
+    cursor?: McpOAuthClientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthClients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthClients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of McpOAuthClients.
+     */
+    distinct?: McpOAuthClientScalarFieldEnum | McpOAuthClientScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthClient findFirstOrThrow
+   */
+  export type McpOAuthClientFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthClient to fetch.
+     */
+    where?: McpOAuthClientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthClients to fetch.
+     */
+    orderBy?: McpOAuthClientOrderByWithRelationInput | McpOAuthClientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for McpOAuthClients.
+     */
+    cursor?: McpOAuthClientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthClients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthClients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of McpOAuthClients.
+     */
+    distinct?: McpOAuthClientScalarFieldEnum | McpOAuthClientScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthClient findMany
+   */
+  export type McpOAuthClientFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthClients to fetch.
+     */
+    where?: McpOAuthClientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthClients to fetch.
+     */
+    orderBy?: McpOAuthClientOrderByWithRelationInput | McpOAuthClientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing McpOAuthClients.
+     */
+    cursor?: McpOAuthClientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthClients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthClients.
+     */
+    skip?: number
+    distinct?: McpOAuthClientScalarFieldEnum | McpOAuthClientScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthClient create
+   */
+  export type McpOAuthClientCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+    /**
+     * The data needed to create a McpOAuthClient.
+     */
+    data: XOR<McpOAuthClientCreateInput, McpOAuthClientUncheckedCreateInput>
+  }
+
+  /**
+   * McpOAuthClient createMany
+   */
+  export type McpOAuthClientCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many McpOAuthClients.
+     */
+    data: McpOAuthClientCreateManyInput | McpOAuthClientCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * McpOAuthClient createManyAndReturn
+   */
+  export type McpOAuthClientCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many McpOAuthClients.
+     */
+    data: McpOAuthClientCreateManyInput | McpOAuthClientCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * McpOAuthClient update
+   */
+  export type McpOAuthClientUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+    /**
+     * The data needed to update a McpOAuthClient.
+     */
+    data: XOR<McpOAuthClientUpdateInput, McpOAuthClientUncheckedUpdateInput>
+    /**
+     * Choose, which McpOAuthClient to update.
+     */
+    where: McpOAuthClientWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthClient updateMany
+   */
+  export type McpOAuthClientUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update McpOAuthClients.
+     */
+    data: XOR<McpOAuthClientUpdateManyMutationInput, McpOAuthClientUncheckedUpdateManyInput>
+    /**
+     * Filter which McpOAuthClients to update
+     */
+    where?: McpOAuthClientWhereInput
+  }
+
+  /**
+   * McpOAuthClient upsert
+   */
+  export type McpOAuthClientUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+    /**
+     * The filter to search for the McpOAuthClient to update in case it exists.
+     */
+    where: McpOAuthClientWhereUniqueInput
+    /**
+     * In case the McpOAuthClient found by the `where` argument doesn't exist, create a new McpOAuthClient with this data.
+     */
+    create: XOR<McpOAuthClientCreateInput, McpOAuthClientUncheckedCreateInput>
+    /**
+     * In case the McpOAuthClient was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<McpOAuthClientUpdateInput, McpOAuthClientUncheckedUpdateInput>
+  }
+
+  /**
+   * McpOAuthClient delete
+   */
+  export type McpOAuthClientDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+    /**
+     * Filter which McpOAuthClient to delete.
+     */
+    where: McpOAuthClientWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthClient deleteMany
+   */
+  export type McpOAuthClientDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which McpOAuthClients to delete
+     */
+    where?: McpOAuthClientWhereInput
+  }
+
+  /**
+   * McpOAuthClient.codes
+   */
+  export type McpOAuthClient$codesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    where?: McpOAuthCodeWhereInput
+    orderBy?: McpOAuthCodeOrderByWithRelationInput | McpOAuthCodeOrderByWithRelationInput[]
+    cursor?: McpOAuthCodeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: McpOAuthCodeScalarFieldEnum | McpOAuthCodeScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthClient.tokens
+   */
+  export type McpOAuthClient$tokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    where?: McpOAuthTokenWhereInput
+    orderBy?: McpOAuthTokenOrderByWithRelationInput | McpOAuthTokenOrderByWithRelationInput[]
+    cursor?: McpOAuthTokenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: McpOAuthTokenScalarFieldEnum | McpOAuthTokenScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthClient without action
+   */
+  export type McpOAuthClientDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthClient
+     */
+    select?: McpOAuthClientSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthClientInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model McpOAuthCode
+   */
+
+  export type AggregateMcpOAuthCode = {
+    _count: McpOAuthCodeCountAggregateOutputType | null
+    _min: McpOAuthCodeMinAggregateOutputType | null
+    _max: McpOAuthCodeMaxAggregateOutputType | null
+  }
+
+  export type McpOAuthCodeMinAggregateOutputType = {
+    code: string | null
+    clientId: string | null
+    userId: string | null
+    redirectUri: string | null
+    codeChallenge: string | null
+    scope: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type McpOAuthCodeMaxAggregateOutputType = {
+    code: string | null
+    clientId: string | null
+    userId: string | null
+    redirectUri: string | null
+    codeChallenge: string | null
+    scope: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type McpOAuthCodeCountAggregateOutputType = {
+    code: number
+    clientId: number
+    userId: number
+    redirectUri: number
+    codeChallenge: number
+    scope: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type McpOAuthCodeMinAggregateInputType = {
+    code?: true
+    clientId?: true
+    userId?: true
+    redirectUri?: true
+    codeChallenge?: true
+    scope?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type McpOAuthCodeMaxAggregateInputType = {
+    code?: true
+    clientId?: true
+    userId?: true
+    redirectUri?: true
+    codeChallenge?: true
+    scope?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type McpOAuthCodeCountAggregateInputType = {
+    code?: true
+    clientId?: true
+    userId?: true
+    redirectUri?: true
+    codeChallenge?: true
+    scope?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type McpOAuthCodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which McpOAuthCode to aggregate.
+     */
+    where?: McpOAuthCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthCodes to fetch.
+     */
+    orderBy?: McpOAuthCodeOrderByWithRelationInput | McpOAuthCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: McpOAuthCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned McpOAuthCodes
+    **/
+    _count?: true | McpOAuthCodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: McpOAuthCodeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: McpOAuthCodeMaxAggregateInputType
+  }
+
+  export type GetMcpOAuthCodeAggregateType<T extends McpOAuthCodeAggregateArgs> = {
+        [P in keyof T & keyof AggregateMcpOAuthCode]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMcpOAuthCode[P]>
+      : GetScalarType<T[P], AggregateMcpOAuthCode[P]>
+  }
+
+
+
+
+  export type McpOAuthCodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: McpOAuthCodeWhereInput
+    orderBy?: McpOAuthCodeOrderByWithAggregationInput | McpOAuthCodeOrderByWithAggregationInput[]
+    by: McpOAuthCodeScalarFieldEnum[] | McpOAuthCodeScalarFieldEnum
+    having?: McpOAuthCodeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: McpOAuthCodeCountAggregateInputType | true
+    _min?: McpOAuthCodeMinAggregateInputType
+    _max?: McpOAuthCodeMaxAggregateInputType
+  }
+
+  export type McpOAuthCodeGroupByOutputType = {
+    code: string
+    clientId: string
+    userId: string
+    redirectUri: string
+    codeChallenge: string | null
+    scope: string | null
+    expiresAt: Date
+    createdAt: Date
+    _count: McpOAuthCodeCountAggregateOutputType | null
+    _min: McpOAuthCodeMinAggregateOutputType | null
+    _max: McpOAuthCodeMaxAggregateOutputType | null
+  }
+
+  type GetMcpOAuthCodeGroupByPayload<T extends McpOAuthCodeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<McpOAuthCodeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof McpOAuthCodeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], McpOAuthCodeGroupByOutputType[P]>
+            : GetScalarType<T[P], McpOAuthCodeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type McpOAuthCodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    code?: boolean
+    clientId?: boolean
+    userId?: boolean
+    redirectUri?: boolean
+    codeChallenge?: boolean
+    scope?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    client?: boolean | McpOAuthClientDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mcpOAuthCode"]>
+
+  export type McpOAuthCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    code?: boolean
+    clientId?: boolean
+    userId?: boolean
+    redirectUri?: boolean
+    codeChallenge?: boolean
+    scope?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    client?: boolean | McpOAuthClientDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mcpOAuthCode"]>
+
+  export type McpOAuthCodeSelectScalar = {
+    code?: boolean
+    clientId?: boolean
+    userId?: boolean
+    redirectUri?: boolean
+    codeChallenge?: boolean
+    scope?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type McpOAuthCodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | McpOAuthClientDefaultArgs<ExtArgs>
+  }
+  export type McpOAuthCodeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | McpOAuthClientDefaultArgs<ExtArgs>
+  }
+
+  export type $McpOAuthCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "McpOAuthCode"
+    objects: {
+      client: Prisma.$McpOAuthClientPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      code: string
+      clientId: string
+      userId: string
+      redirectUri: string
+      codeChallenge: string | null
+      scope: string | null
+      expiresAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["mcpOAuthCode"]>
+    composites: {}
+  }
+
+  type McpOAuthCodeGetPayload<S extends boolean | null | undefined | McpOAuthCodeDefaultArgs> = $Result.GetResult<Prisma.$McpOAuthCodePayload, S>
+
+  type McpOAuthCodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<McpOAuthCodeFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: McpOAuthCodeCountAggregateInputType | true
+    }
+
+  export interface McpOAuthCodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['McpOAuthCode'], meta: { name: 'McpOAuthCode' } }
+    /**
+     * Find zero or one McpOAuthCode that matches the filter.
+     * @param {McpOAuthCodeFindUniqueArgs} args - Arguments to find a McpOAuthCode
+     * @example
+     * // Get one McpOAuthCode
+     * const mcpOAuthCode = await prisma.mcpOAuthCode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends McpOAuthCodeFindUniqueArgs>(args: SelectSubset<T, McpOAuthCodeFindUniqueArgs<ExtArgs>>): Prisma__McpOAuthCodeClient<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one McpOAuthCode that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {McpOAuthCodeFindUniqueOrThrowArgs} args - Arguments to find a McpOAuthCode
+     * @example
+     * // Get one McpOAuthCode
+     * const mcpOAuthCode = await prisma.mcpOAuthCode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends McpOAuthCodeFindUniqueOrThrowArgs>(args: SelectSubset<T, McpOAuthCodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__McpOAuthCodeClient<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first McpOAuthCode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthCodeFindFirstArgs} args - Arguments to find a McpOAuthCode
+     * @example
+     * // Get one McpOAuthCode
+     * const mcpOAuthCode = await prisma.mcpOAuthCode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends McpOAuthCodeFindFirstArgs>(args?: SelectSubset<T, McpOAuthCodeFindFirstArgs<ExtArgs>>): Prisma__McpOAuthCodeClient<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first McpOAuthCode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthCodeFindFirstOrThrowArgs} args - Arguments to find a McpOAuthCode
+     * @example
+     * // Get one McpOAuthCode
+     * const mcpOAuthCode = await prisma.mcpOAuthCode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends McpOAuthCodeFindFirstOrThrowArgs>(args?: SelectSubset<T, McpOAuthCodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__McpOAuthCodeClient<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more McpOAuthCodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthCodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all McpOAuthCodes
+     * const mcpOAuthCodes = await prisma.mcpOAuthCode.findMany()
+     * 
+     * // Get first 10 McpOAuthCodes
+     * const mcpOAuthCodes = await prisma.mcpOAuthCode.findMany({ take: 10 })
+     * 
+     * // Only select the `code`
+     * const mcpOAuthCodeWithCodeOnly = await prisma.mcpOAuthCode.findMany({ select: { code: true } })
+     * 
+     */
+    findMany<T extends McpOAuthCodeFindManyArgs>(args?: SelectSubset<T, McpOAuthCodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a McpOAuthCode.
+     * @param {McpOAuthCodeCreateArgs} args - Arguments to create a McpOAuthCode.
+     * @example
+     * // Create one McpOAuthCode
+     * const McpOAuthCode = await prisma.mcpOAuthCode.create({
+     *   data: {
+     *     // ... data to create a McpOAuthCode
+     *   }
+     * })
+     * 
+     */
+    create<T extends McpOAuthCodeCreateArgs>(args: SelectSubset<T, McpOAuthCodeCreateArgs<ExtArgs>>): Prisma__McpOAuthCodeClient<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many McpOAuthCodes.
+     * @param {McpOAuthCodeCreateManyArgs} args - Arguments to create many McpOAuthCodes.
+     * @example
+     * // Create many McpOAuthCodes
+     * const mcpOAuthCode = await prisma.mcpOAuthCode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends McpOAuthCodeCreateManyArgs>(args?: SelectSubset<T, McpOAuthCodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many McpOAuthCodes and returns the data saved in the database.
+     * @param {McpOAuthCodeCreateManyAndReturnArgs} args - Arguments to create many McpOAuthCodes.
+     * @example
+     * // Create many McpOAuthCodes
+     * const mcpOAuthCode = await prisma.mcpOAuthCode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many McpOAuthCodes and only return the `code`
+     * const mcpOAuthCodeWithCodeOnly = await prisma.mcpOAuthCode.createManyAndReturn({ 
+     *   select: { code: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends McpOAuthCodeCreateManyAndReturnArgs>(args?: SelectSubset<T, McpOAuthCodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a McpOAuthCode.
+     * @param {McpOAuthCodeDeleteArgs} args - Arguments to delete one McpOAuthCode.
+     * @example
+     * // Delete one McpOAuthCode
+     * const McpOAuthCode = await prisma.mcpOAuthCode.delete({
+     *   where: {
+     *     // ... filter to delete one McpOAuthCode
+     *   }
+     * })
+     * 
+     */
+    delete<T extends McpOAuthCodeDeleteArgs>(args: SelectSubset<T, McpOAuthCodeDeleteArgs<ExtArgs>>): Prisma__McpOAuthCodeClient<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one McpOAuthCode.
+     * @param {McpOAuthCodeUpdateArgs} args - Arguments to update one McpOAuthCode.
+     * @example
+     * // Update one McpOAuthCode
+     * const mcpOAuthCode = await prisma.mcpOAuthCode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends McpOAuthCodeUpdateArgs>(args: SelectSubset<T, McpOAuthCodeUpdateArgs<ExtArgs>>): Prisma__McpOAuthCodeClient<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more McpOAuthCodes.
+     * @param {McpOAuthCodeDeleteManyArgs} args - Arguments to filter McpOAuthCodes to delete.
+     * @example
+     * // Delete a few McpOAuthCodes
+     * const { count } = await prisma.mcpOAuthCode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends McpOAuthCodeDeleteManyArgs>(args?: SelectSubset<T, McpOAuthCodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more McpOAuthCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthCodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many McpOAuthCodes
+     * const mcpOAuthCode = await prisma.mcpOAuthCode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends McpOAuthCodeUpdateManyArgs>(args: SelectSubset<T, McpOAuthCodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one McpOAuthCode.
+     * @param {McpOAuthCodeUpsertArgs} args - Arguments to update or create a McpOAuthCode.
+     * @example
+     * // Update or create a McpOAuthCode
+     * const mcpOAuthCode = await prisma.mcpOAuthCode.upsert({
+     *   create: {
+     *     // ... data to create a McpOAuthCode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the McpOAuthCode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends McpOAuthCodeUpsertArgs>(args: SelectSubset<T, McpOAuthCodeUpsertArgs<ExtArgs>>): Prisma__McpOAuthCodeClient<$Result.GetResult<Prisma.$McpOAuthCodePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of McpOAuthCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthCodeCountArgs} args - Arguments to filter McpOAuthCodes to count.
+     * @example
+     * // Count the number of McpOAuthCodes
+     * const count = await prisma.mcpOAuthCode.count({
+     *   where: {
+     *     // ... the filter for the McpOAuthCodes we want to count
+     *   }
+     * })
+    **/
+    count<T extends McpOAuthCodeCountArgs>(
+      args?: Subset<T, McpOAuthCodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], McpOAuthCodeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a McpOAuthCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthCodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends McpOAuthCodeAggregateArgs>(args: Subset<T, McpOAuthCodeAggregateArgs>): Prisma.PrismaPromise<GetMcpOAuthCodeAggregateType<T>>
+
+    /**
+     * Group by McpOAuthCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthCodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends McpOAuthCodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: McpOAuthCodeGroupByArgs['orderBy'] }
+        : { orderBy?: McpOAuthCodeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, McpOAuthCodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMcpOAuthCodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the McpOAuthCode model
+   */
+  readonly fields: McpOAuthCodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for McpOAuthCode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__McpOAuthCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    client<T extends McpOAuthClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, McpOAuthClientDefaultArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the McpOAuthCode model
+   */ 
+  interface McpOAuthCodeFieldRefs {
+    readonly code: FieldRef<"McpOAuthCode", 'String'>
+    readonly clientId: FieldRef<"McpOAuthCode", 'String'>
+    readonly userId: FieldRef<"McpOAuthCode", 'String'>
+    readonly redirectUri: FieldRef<"McpOAuthCode", 'String'>
+    readonly codeChallenge: FieldRef<"McpOAuthCode", 'String'>
+    readonly scope: FieldRef<"McpOAuthCode", 'String'>
+    readonly expiresAt: FieldRef<"McpOAuthCode", 'DateTime'>
+    readonly createdAt: FieldRef<"McpOAuthCode", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * McpOAuthCode findUnique
+   */
+  export type McpOAuthCodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthCode to fetch.
+     */
+    where: McpOAuthCodeWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthCode findUniqueOrThrow
+   */
+  export type McpOAuthCodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthCode to fetch.
+     */
+    where: McpOAuthCodeWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthCode findFirst
+   */
+  export type McpOAuthCodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthCode to fetch.
+     */
+    where?: McpOAuthCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthCodes to fetch.
+     */
+    orderBy?: McpOAuthCodeOrderByWithRelationInput | McpOAuthCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for McpOAuthCodes.
+     */
+    cursor?: McpOAuthCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of McpOAuthCodes.
+     */
+    distinct?: McpOAuthCodeScalarFieldEnum | McpOAuthCodeScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthCode findFirstOrThrow
+   */
+  export type McpOAuthCodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthCode to fetch.
+     */
+    where?: McpOAuthCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthCodes to fetch.
+     */
+    orderBy?: McpOAuthCodeOrderByWithRelationInput | McpOAuthCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for McpOAuthCodes.
+     */
+    cursor?: McpOAuthCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of McpOAuthCodes.
+     */
+    distinct?: McpOAuthCodeScalarFieldEnum | McpOAuthCodeScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthCode findMany
+   */
+  export type McpOAuthCodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthCodes to fetch.
+     */
+    where?: McpOAuthCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthCodes to fetch.
+     */
+    orderBy?: McpOAuthCodeOrderByWithRelationInput | McpOAuthCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing McpOAuthCodes.
+     */
+    cursor?: McpOAuthCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthCodes.
+     */
+    skip?: number
+    distinct?: McpOAuthCodeScalarFieldEnum | McpOAuthCodeScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthCode create
+   */
+  export type McpOAuthCodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a McpOAuthCode.
+     */
+    data: XOR<McpOAuthCodeCreateInput, McpOAuthCodeUncheckedCreateInput>
+  }
+
+  /**
+   * McpOAuthCode createMany
+   */
+  export type McpOAuthCodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many McpOAuthCodes.
+     */
+    data: McpOAuthCodeCreateManyInput | McpOAuthCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * McpOAuthCode createManyAndReturn
+   */
+  export type McpOAuthCodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many McpOAuthCodes.
+     */
+    data: McpOAuthCodeCreateManyInput | McpOAuthCodeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * McpOAuthCode update
+   */
+  export type McpOAuthCodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a McpOAuthCode.
+     */
+    data: XOR<McpOAuthCodeUpdateInput, McpOAuthCodeUncheckedUpdateInput>
+    /**
+     * Choose, which McpOAuthCode to update.
+     */
+    where: McpOAuthCodeWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthCode updateMany
+   */
+  export type McpOAuthCodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update McpOAuthCodes.
+     */
+    data: XOR<McpOAuthCodeUpdateManyMutationInput, McpOAuthCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which McpOAuthCodes to update
+     */
+    where?: McpOAuthCodeWhereInput
+  }
+
+  /**
+   * McpOAuthCode upsert
+   */
+  export type McpOAuthCodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the McpOAuthCode to update in case it exists.
+     */
+    where: McpOAuthCodeWhereUniqueInput
+    /**
+     * In case the McpOAuthCode found by the `where` argument doesn't exist, create a new McpOAuthCode with this data.
+     */
+    create: XOR<McpOAuthCodeCreateInput, McpOAuthCodeUncheckedCreateInput>
+    /**
+     * In case the McpOAuthCode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<McpOAuthCodeUpdateInput, McpOAuthCodeUncheckedUpdateInput>
+  }
+
+  /**
+   * McpOAuthCode delete
+   */
+  export type McpOAuthCodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+    /**
+     * Filter which McpOAuthCode to delete.
+     */
+    where: McpOAuthCodeWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthCode deleteMany
+   */
+  export type McpOAuthCodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which McpOAuthCodes to delete
+     */
+    where?: McpOAuthCodeWhereInput
+  }
+
+  /**
+   * McpOAuthCode without action
+   */
+  export type McpOAuthCodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthCode
+     */
+    select?: McpOAuthCodeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthCodeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model McpOAuthToken
+   */
+
+  export type AggregateMcpOAuthToken = {
+    _count: McpOAuthTokenCountAggregateOutputType | null
+    _min: McpOAuthTokenMinAggregateOutputType | null
+    _max: McpOAuthTokenMaxAggregateOutputType | null
+  }
+
+  export type McpOAuthTokenMinAggregateOutputType = {
+    id: string | null
+    tokenHash: string | null
+    refreshHash: string | null
+    clientId: string | null
+    userId: string | null
+    scope: string | null
+    expiresAt: Date | null
+    lastUsedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type McpOAuthTokenMaxAggregateOutputType = {
+    id: string | null
+    tokenHash: string | null
+    refreshHash: string | null
+    clientId: string | null
+    userId: string | null
+    scope: string | null
+    expiresAt: Date | null
+    lastUsedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type McpOAuthTokenCountAggregateOutputType = {
+    id: number
+    tokenHash: number
+    refreshHash: number
+    clientId: number
+    userId: number
+    scope: number
+    expiresAt: number
+    lastUsedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type McpOAuthTokenMinAggregateInputType = {
+    id?: true
+    tokenHash?: true
+    refreshHash?: true
+    clientId?: true
+    userId?: true
+    scope?: true
+    expiresAt?: true
+    lastUsedAt?: true
+    createdAt?: true
+  }
+
+  export type McpOAuthTokenMaxAggregateInputType = {
+    id?: true
+    tokenHash?: true
+    refreshHash?: true
+    clientId?: true
+    userId?: true
+    scope?: true
+    expiresAt?: true
+    lastUsedAt?: true
+    createdAt?: true
+  }
+
+  export type McpOAuthTokenCountAggregateInputType = {
+    id?: true
+    tokenHash?: true
+    refreshHash?: true
+    clientId?: true
+    userId?: true
+    scope?: true
+    expiresAt?: true
+    lastUsedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type McpOAuthTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which McpOAuthToken to aggregate.
+     */
+    where?: McpOAuthTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthTokens to fetch.
+     */
+    orderBy?: McpOAuthTokenOrderByWithRelationInput | McpOAuthTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: McpOAuthTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned McpOAuthTokens
+    **/
+    _count?: true | McpOAuthTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: McpOAuthTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: McpOAuthTokenMaxAggregateInputType
+  }
+
+  export type GetMcpOAuthTokenAggregateType<T extends McpOAuthTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateMcpOAuthToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMcpOAuthToken[P]>
+      : GetScalarType<T[P], AggregateMcpOAuthToken[P]>
+  }
+
+
+
+
+  export type McpOAuthTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: McpOAuthTokenWhereInput
+    orderBy?: McpOAuthTokenOrderByWithAggregationInput | McpOAuthTokenOrderByWithAggregationInput[]
+    by: McpOAuthTokenScalarFieldEnum[] | McpOAuthTokenScalarFieldEnum
+    having?: McpOAuthTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: McpOAuthTokenCountAggregateInputType | true
+    _min?: McpOAuthTokenMinAggregateInputType
+    _max?: McpOAuthTokenMaxAggregateInputType
+  }
+
+  export type McpOAuthTokenGroupByOutputType = {
+    id: string
+    tokenHash: string
+    refreshHash: string | null
+    clientId: string
+    userId: string
+    scope: string | null
+    expiresAt: Date
+    lastUsedAt: Date | null
+    createdAt: Date
+    _count: McpOAuthTokenCountAggregateOutputType | null
+    _min: McpOAuthTokenMinAggregateOutputType | null
+    _max: McpOAuthTokenMaxAggregateOutputType | null
+  }
+
+  type GetMcpOAuthTokenGroupByPayload<T extends McpOAuthTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<McpOAuthTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof McpOAuthTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], McpOAuthTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], McpOAuthTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type McpOAuthTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tokenHash?: boolean
+    refreshHash?: boolean
+    clientId?: boolean
+    userId?: boolean
+    scope?: boolean
+    expiresAt?: boolean
+    lastUsedAt?: boolean
+    createdAt?: boolean
+    client?: boolean | McpOAuthClientDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mcpOAuthToken"]>
+
+  export type McpOAuthTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tokenHash?: boolean
+    refreshHash?: boolean
+    clientId?: boolean
+    userId?: boolean
+    scope?: boolean
+    expiresAt?: boolean
+    lastUsedAt?: boolean
+    createdAt?: boolean
+    client?: boolean | McpOAuthClientDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mcpOAuthToken"]>
+
+  export type McpOAuthTokenSelectScalar = {
+    id?: boolean
+    tokenHash?: boolean
+    refreshHash?: boolean
+    clientId?: boolean
+    userId?: boolean
+    scope?: boolean
+    expiresAt?: boolean
+    lastUsedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type McpOAuthTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | McpOAuthClientDefaultArgs<ExtArgs>
+  }
+  export type McpOAuthTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | McpOAuthClientDefaultArgs<ExtArgs>
+  }
+
+  export type $McpOAuthTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "McpOAuthToken"
+    objects: {
+      client: Prisma.$McpOAuthClientPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tokenHash: string
+      refreshHash: string | null
+      clientId: string
+      userId: string
+      scope: string | null
+      expiresAt: Date
+      lastUsedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["mcpOAuthToken"]>
+    composites: {}
+  }
+
+  type McpOAuthTokenGetPayload<S extends boolean | null | undefined | McpOAuthTokenDefaultArgs> = $Result.GetResult<Prisma.$McpOAuthTokenPayload, S>
+
+  type McpOAuthTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<McpOAuthTokenFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: McpOAuthTokenCountAggregateInputType | true
+    }
+
+  export interface McpOAuthTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['McpOAuthToken'], meta: { name: 'McpOAuthToken' } }
+    /**
+     * Find zero or one McpOAuthToken that matches the filter.
+     * @param {McpOAuthTokenFindUniqueArgs} args - Arguments to find a McpOAuthToken
+     * @example
+     * // Get one McpOAuthToken
+     * const mcpOAuthToken = await prisma.mcpOAuthToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends McpOAuthTokenFindUniqueArgs>(args: SelectSubset<T, McpOAuthTokenFindUniqueArgs<ExtArgs>>): Prisma__McpOAuthTokenClient<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one McpOAuthToken that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {McpOAuthTokenFindUniqueOrThrowArgs} args - Arguments to find a McpOAuthToken
+     * @example
+     * // Get one McpOAuthToken
+     * const mcpOAuthToken = await prisma.mcpOAuthToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends McpOAuthTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, McpOAuthTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__McpOAuthTokenClient<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first McpOAuthToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthTokenFindFirstArgs} args - Arguments to find a McpOAuthToken
+     * @example
+     * // Get one McpOAuthToken
+     * const mcpOAuthToken = await prisma.mcpOAuthToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends McpOAuthTokenFindFirstArgs>(args?: SelectSubset<T, McpOAuthTokenFindFirstArgs<ExtArgs>>): Prisma__McpOAuthTokenClient<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first McpOAuthToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthTokenFindFirstOrThrowArgs} args - Arguments to find a McpOAuthToken
+     * @example
+     * // Get one McpOAuthToken
+     * const mcpOAuthToken = await prisma.mcpOAuthToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends McpOAuthTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, McpOAuthTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__McpOAuthTokenClient<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more McpOAuthTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all McpOAuthTokens
+     * const mcpOAuthTokens = await prisma.mcpOAuthToken.findMany()
+     * 
+     * // Get first 10 McpOAuthTokens
+     * const mcpOAuthTokens = await prisma.mcpOAuthToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mcpOAuthTokenWithIdOnly = await prisma.mcpOAuthToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends McpOAuthTokenFindManyArgs>(args?: SelectSubset<T, McpOAuthTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a McpOAuthToken.
+     * @param {McpOAuthTokenCreateArgs} args - Arguments to create a McpOAuthToken.
+     * @example
+     * // Create one McpOAuthToken
+     * const McpOAuthToken = await prisma.mcpOAuthToken.create({
+     *   data: {
+     *     // ... data to create a McpOAuthToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends McpOAuthTokenCreateArgs>(args: SelectSubset<T, McpOAuthTokenCreateArgs<ExtArgs>>): Prisma__McpOAuthTokenClient<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many McpOAuthTokens.
+     * @param {McpOAuthTokenCreateManyArgs} args - Arguments to create many McpOAuthTokens.
+     * @example
+     * // Create many McpOAuthTokens
+     * const mcpOAuthToken = await prisma.mcpOAuthToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends McpOAuthTokenCreateManyArgs>(args?: SelectSubset<T, McpOAuthTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many McpOAuthTokens and returns the data saved in the database.
+     * @param {McpOAuthTokenCreateManyAndReturnArgs} args - Arguments to create many McpOAuthTokens.
+     * @example
+     * // Create many McpOAuthTokens
+     * const mcpOAuthToken = await prisma.mcpOAuthToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many McpOAuthTokens and only return the `id`
+     * const mcpOAuthTokenWithIdOnly = await prisma.mcpOAuthToken.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends McpOAuthTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, McpOAuthTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a McpOAuthToken.
+     * @param {McpOAuthTokenDeleteArgs} args - Arguments to delete one McpOAuthToken.
+     * @example
+     * // Delete one McpOAuthToken
+     * const McpOAuthToken = await prisma.mcpOAuthToken.delete({
+     *   where: {
+     *     // ... filter to delete one McpOAuthToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends McpOAuthTokenDeleteArgs>(args: SelectSubset<T, McpOAuthTokenDeleteArgs<ExtArgs>>): Prisma__McpOAuthTokenClient<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one McpOAuthToken.
+     * @param {McpOAuthTokenUpdateArgs} args - Arguments to update one McpOAuthToken.
+     * @example
+     * // Update one McpOAuthToken
+     * const mcpOAuthToken = await prisma.mcpOAuthToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends McpOAuthTokenUpdateArgs>(args: SelectSubset<T, McpOAuthTokenUpdateArgs<ExtArgs>>): Prisma__McpOAuthTokenClient<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more McpOAuthTokens.
+     * @param {McpOAuthTokenDeleteManyArgs} args - Arguments to filter McpOAuthTokens to delete.
+     * @example
+     * // Delete a few McpOAuthTokens
+     * const { count } = await prisma.mcpOAuthToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends McpOAuthTokenDeleteManyArgs>(args?: SelectSubset<T, McpOAuthTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more McpOAuthTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many McpOAuthTokens
+     * const mcpOAuthToken = await prisma.mcpOAuthToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends McpOAuthTokenUpdateManyArgs>(args: SelectSubset<T, McpOAuthTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one McpOAuthToken.
+     * @param {McpOAuthTokenUpsertArgs} args - Arguments to update or create a McpOAuthToken.
+     * @example
+     * // Update or create a McpOAuthToken
+     * const mcpOAuthToken = await prisma.mcpOAuthToken.upsert({
+     *   create: {
+     *     // ... data to create a McpOAuthToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the McpOAuthToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends McpOAuthTokenUpsertArgs>(args: SelectSubset<T, McpOAuthTokenUpsertArgs<ExtArgs>>): Prisma__McpOAuthTokenClient<$Result.GetResult<Prisma.$McpOAuthTokenPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of McpOAuthTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthTokenCountArgs} args - Arguments to filter McpOAuthTokens to count.
+     * @example
+     * // Count the number of McpOAuthTokens
+     * const count = await prisma.mcpOAuthToken.count({
+     *   where: {
+     *     // ... the filter for the McpOAuthTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends McpOAuthTokenCountArgs>(
+      args?: Subset<T, McpOAuthTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], McpOAuthTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a McpOAuthToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends McpOAuthTokenAggregateArgs>(args: Subset<T, McpOAuthTokenAggregateArgs>): Prisma.PrismaPromise<GetMcpOAuthTokenAggregateType<T>>
+
+    /**
+     * Group by McpOAuthToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {McpOAuthTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends McpOAuthTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: McpOAuthTokenGroupByArgs['orderBy'] }
+        : { orderBy?: McpOAuthTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, McpOAuthTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMcpOAuthTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the McpOAuthToken model
+   */
+  readonly fields: McpOAuthTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for McpOAuthToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__McpOAuthTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    client<T extends McpOAuthClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, McpOAuthClientDefaultArgs<ExtArgs>>): Prisma__McpOAuthClientClient<$Result.GetResult<Prisma.$McpOAuthClientPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the McpOAuthToken model
+   */ 
+  interface McpOAuthTokenFieldRefs {
+    readonly id: FieldRef<"McpOAuthToken", 'String'>
+    readonly tokenHash: FieldRef<"McpOAuthToken", 'String'>
+    readonly refreshHash: FieldRef<"McpOAuthToken", 'String'>
+    readonly clientId: FieldRef<"McpOAuthToken", 'String'>
+    readonly userId: FieldRef<"McpOAuthToken", 'String'>
+    readonly scope: FieldRef<"McpOAuthToken", 'String'>
+    readonly expiresAt: FieldRef<"McpOAuthToken", 'DateTime'>
+    readonly lastUsedAt: FieldRef<"McpOAuthToken", 'DateTime'>
+    readonly createdAt: FieldRef<"McpOAuthToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * McpOAuthToken findUnique
+   */
+  export type McpOAuthTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthToken to fetch.
+     */
+    where: McpOAuthTokenWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthToken findUniqueOrThrow
+   */
+  export type McpOAuthTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthToken to fetch.
+     */
+    where: McpOAuthTokenWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthToken findFirst
+   */
+  export type McpOAuthTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthToken to fetch.
+     */
+    where?: McpOAuthTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthTokens to fetch.
+     */
+    orderBy?: McpOAuthTokenOrderByWithRelationInput | McpOAuthTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for McpOAuthTokens.
+     */
+    cursor?: McpOAuthTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of McpOAuthTokens.
+     */
+    distinct?: McpOAuthTokenScalarFieldEnum | McpOAuthTokenScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthToken findFirstOrThrow
+   */
+  export type McpOAuthTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthToken to fetch.
+     */
+    where?: McpOAuthTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthTokens to fetch.
+     */
+    orderBy?: McpOAuthTokenOrderByWithRelationInput | McpOAuthTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for McpOAuthTokens.
+     */
+    cursor?: McpOAuthTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of McpOAuthTokens.
+     */
+    distinct?: McpOAuthTokenScalarFieldEnum | McpOAuthTokenScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthToken findMany
+   */
+  export type McpOAuthTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which McpOAuthTokens to fetch.
+     */
+    where?: McpOAuthTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of McpOAuthTokens to fetch.
+     */
+    orderBy?: McpOAuthTokenOrderByWithRelationInput | McpOAuthTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing McpOAuthTokens.
+     */
+    cursor?: McpOAuthTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` McpOAuthTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` McpOAuthTokens.
+     */
+    skip?: number
+    distinct?: McpOAuthTokenScalarFieldEnum | McpOAuthTokenScalarFieldEnum[]
+  }
+
+  /**
+   * McpOAuthToken create
+   */
+  export type McpOAuthTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a McpOAuthToken.
+     */
+    data: XOR<McpOAuthTokenCreateInput, McpOAuthTokenUncheckedCreateInput>
+  }
+
+  /**
+   * McpOAuthToken createMany
+   */
+  export type McpOAuthTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many McpOAuthTokens.
+     */
+    data: McpOAuthTokenCreateManyInput | McpOAuthTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * McpOAuthToken createManyAndReturn
+   */
+  export type McpOAuthTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many McpOAuthTokens.
+     */
+    data: McpOAuthTokenCreateManyInput | McpOAuthTokenCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * McpOAuthToken update
+   */
+  export type McpOAuthTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a McpOAuthToken.
+     */
+    data: XOR<McpOAuthTokenUpdateInput, McpOAuthTokenUncheckedUpdateInput>
+    /**
+     * Choose, which McpOAuthToken to update.
+     */
+    where: McpOAuthTokenWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthToken updateMany
+   */
+  export type McpOAuthTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update McpOAuthTokens.
+     */
+    data: XOR<McpOAuthTokenUpdateManyMutationInput, McpOAuthTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which McpOAuthTokens to update
+     */
+    where?: McpOAuthTokenWhereInput
+  }
+
+  /**
+   * McpOAuthToken upsert
+   */
+  export type McpOAuthTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the McpOAuthToken to update in case it exists.
+     */
+    where: McpOAuthTokenWhereUniqueInput
+    /**
+     * In case the McpOAuthToken found by the `where` argument doesn't exist, create a new McpOAuthToken with this data.
+     */
+    create: XOR<McpOAuthTokenCreateInput, McpOAuthTokenUncheckedCreateInput>
+    /**
+     * In case the McpOAuthToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<McpOAuthTokenUpdateInput, McpOAuthTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * McpOAuthToken delete
+   */
+  export type McpOAuthTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter which McpOAuthToken to delete.
+     */
+    where: McpOAuthTokenWhereUniqueInput
+  }
+
+  /**
+   * McpOAuthToken deleteMany
+   */
+  export type McpOAuthTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which McpOAuthTokens to delete
+     */
+    where?: McpOAuthTokenWhereInput
+  }
+
+  /**
+   * McpOAuthToken without action
+   */
+  export type McpOAuthTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the McpOAuthToken
+     */
+    select?: McpOAuthTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: McpOAuthTokenInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -156974,6 +160178,45 @@ export namespace Prisma {
   };
 
   export type ClientLibraryItemScalarFieldEnum = (typeof ClientLibraryItemScalarFieldEnum)[keyof typeof ClientLibraryItemScalarFieldEnum]
+
+
+  export const McpOAuthClientScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    redirectUris: 'redirectUris',
+    createdAt: 'createdAt'
+  };
+
+  export type McpOAuthClientScalarFieldEnum = (typeof McpOAuthClientScalarFieldEnum)[keyof typeof McpOAuthClientScalarFieldEnum]
+
+
+  export const McpOAuthCodeScalarFieldEnum: {
+    code: 'code',
+    clientId: 'clientId',
+    userId: 'userId',
+    redirectUri: 'redirectUri',
+    codeChallenge: 'codeChallenge',
+    scope: 'scope',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type McpOAuthCodeScalarFieldEnum = (typeof McpOAuthCodeScalarFieldEnum)[keyof typeof McpOAuthCodeScalarFieldEnum]
+
+
+  export const McpOAuthTokenScalarFieldEnum: {
+    id: 'id',
+    tokenHash: 'tokenHash',
+    refreshHash: 'refreshHash',
+    clientId: 'clientId',
+    userId: 'userId',
+    scope: 'scope',
+    expiresAt: 'expiresAt',
+    lastUsedAt: 'lastUsedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type McpOAuthTokenScalarFieldEnum = (typeof McpOAuthTokenScalarFieldEnum)[keyof typeof McpOAuthTokenScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -170560,6 +173803,204 @@ export namespace Prisma {
     createdByName?: StringNullableWithAggregatesFilter<"ClientLibraryItem"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ClientLibraryItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ClientLibraryItem"> | Date | string
+  }
+
+  export type McpOAuthClientWhereInput = {
+    AND?: McpOAuthClientWhereInput | McpOAuthClientWhereInput[]
+    OR?: McpOAuthClientWhereInput[]
+    NOT?: McpOAuthClientWhereInput | McpOAuthClientWhereInput[]
+    id?: StringFilter<"McpOAuthClient"> | string
+    name?: StringNullableFilter<"McpOAuthClient"> | string | null
+    redirectUris?: StringNullableListFilter<"McpOAuthClient">
+    createdAt?: DateTimeFilter<"McpOAuthClient"> | Date | string
+    codes?: McpOAuthCodeListRelationFilter
+    tokens?: McpOAuthTokenListRelationFilter
+  }
+
+  export type McpOAuthClientOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    redirectUris?: SortOrder
+    createdAt?: SortOrder
+    codes?: McpOAuthCodeOrderByRelationAggregateInput
+    tokens?: McpOAuthTokenOrderByRelationAggregateInput
+  }
+
+  export type McpOAuthClientWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: McpOAuthClientWhereInput | McpOAuthClientWhereInput[]
+    OR?: McpOAuthClientWhereInput[]
+    NOT?: McpOAuthClientWhereInput | McpOAuthClientWhereInput[]
+    name?: StringNullableFilter<"McpOAuthClient"> | string | null
+    redirectUris?: StringNullableListFilter<"McpOAuthClient">
+    createdAt?: DateTimeFilter<"McpOAuthClient"> | Date | string
+    codes?: McpOAuthCodeListRelationFilter
+    tokens?: McpOAuthTokenListRelationFilter
+  }, "id">
+
+  export type McpOAuthClientOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    redirectUris?: SortOrder
+    createdAt?: SortOrder
+    _count?: McpOAuthClientCountOrderByAggregateInput
+    _max?: McpOAuthClientMaxOrderByAggregateInput
+    _min?: McpOAuthClientMinOrderByAggregateInput
+  }
+
+  export type McpOAuthClientScalarWhereWithAggregatesInput = {
+    AND?: McpOAuthClientScalarWhereWithAggregatesInput | McpOAuthClientScalarWhereWithAggregatesInput[]
+    OR?: McpOAuthClientScalarWhereWithAggregatesInput[]
+    NOT?: McpOAuthClientScalarWhereWithAggregatesInput | McpOAuthClientScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"McpOAuthClient"> | string
+    name?: StringNullableWithAggregatesFilter<"McpOAuthClient"> | string | null
+    redirectUris?: StringNullableListFilter<"McpOAuthClient">
+    createdAt?: DateTimeWithAggregatesFilter<"McpOAuthClient"> | Date | string
+  }
+
+  export type McpOAuthCodeWhereInput = {
+    AND?: McpOAuthCodeWhereInput | McpOAuthCodeWhereInput[]
+    OR?: McpOAuthCodeWhereInput[]
+    NOT?: McpOAuthCodeWhereInput | McpOAuthCodeWhereInput[]
+    code?: StringFilter<"McpOAuthCode"> | string
+    clientId?: StringFilter<"McpOAuthCode"> | string
+    userId?: StringFilter<"McpOAuthCode"> | string
+    redirectUri?: StringFilter<"McpOAuthCode"> | string
+    codeChallenge?: StringNullableFilter<"McpOAuthCode"> | string | null
+    scope?: StringNullableFilter<"McpOAuthCode"> | string | null
+    expiresAt?: DateTimeFilter<"McpOAuthCode"> | Date | string
+    createdAt?: DateTimeFilter<"McpOAuthCode"> | Date | string
+    client?: XOR<McpOAuthClientRelationFilter, McpOAuthClientWhereInput>
+  }
+
+  export type McpOAuthCodeOrderByWithRelationInput = {
+    code?: SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    redirectUri?: SortOrder
+    codeChallenge?: SortOrderInput | SortOrder
+    scope?: SortOrderInput | SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    client?: McpOAuthClientOrderByWithRelationInput
+  }
+
+  export type McpOAuthCodeWhereUniqueInput = Prisma.AtLeast<{
+    code?: string
+    AND?: McpOAuthCodeWhereInput | McpOAuthCodeWhereInput[]
+    OR?: McpOAuthCodeWhereInput[]
+    NOT?: McpOAuthCodeWhereInput | McpOAuthCodeWhereInput[]
+    clientId?: StringFilter<"McpOAuthCode"> | string
+    userId?: StringFilter<"McpOAuthCode"> | string
+    redirectUri?: StringFilter<"McpOAuthCode"> | string
+    codeChallenge?: StringNullableFilter<"McpOAuthCode"> | string | null
+    scope?: StringNullableFilter<"McpOAuthCode"> | string | null
+    expiresAt?: DateTimeFilter<"McpOAuthCode"> | Date | string
+    createdAt?: DateTimeFilter<"McpOAuthCode"> | Date | string
+    client?: XOR<McpOAuthClientRelationFilter, McpOAuthClientWhereInput>
+  }, "code">
+
+  export type McpOAuthCodeOrderByWithAggregationInput = {
+    code?: SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    redirectUri?: SortOrder
+    codeChallenge?: SortOrderInput | SortOrder
+    scope?: SortOrderInput | SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: McpOAuthCodeCountOrderByAggregateInput
+    _max?: McpOAuthCodeMaxOrderByAggregateInput
+    _min?: McpOAuthCodeMinOrderByAggregateInput
+  }
+
+  export type McpOAuthCodeScalarWhereWithAggregatesInput = {
+    AND?: McpOAuthCodeScalarWhereWithAggregatesInput | McpOAuthCodeScalarWhereWithAggregatesInput[]
+    OR?: McpOAuthCodeScalarWhereWithAggregatesInput[]
+    NOT?: McpOAuthCodeScalarWhereWithAggregatesInput | McpOAuthCodeScalarWhereWithAggregatesInput[]
+    code?: StringWithAggregatesFilter<"McpOAuthCode"> | string
+    clientId?: StringWithAggregatesFilter<"McpOAuthCode"> | string
+    userId?: StringWithAggregatesFilter<"McpOAuthCode"> | string
+    redirectUri?: StringWithAggregatesFilter<"McpOAuthCode"> | string
+    codeChallenge?: StringNullableWithAggregatesFilter<"McpOAuthCode"> | string | null
+    scope?: StringNullableWithAggregatesFilter<"McpOAuthCode"> | string | null
+    expiresAt?: DateTimeWithAggregatesFilter<"McpOAuthCode"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"McpOAuthCode"> | Date | string
+  }
+
+  export type McpOAuthTokenWhereInput = {
+    AND?: McpOAuthTokenWhereInput | McpOAuthTokenWhereInput[]
+    OR?: McpOAuthTokenWhereInput[]
+    NOT?: McpOAuthTokenWhereInput | McpOAuthTokenWhereInput[]
+    id?: StringFilter<"McpOAuthToken"> | string
+    tokenHash?: StringFilter<"McpOAuthToken"> | string
+    refreshHash?: StringNullableFilter<"McpOAuthToken"> | string | null
+    clientId?: StringFilter<"McpOAuthToken"> | string
+    userId?: StringFilter<"McpOAuthToken"> | string
+    scope?: StringNullableFilter<"McpOAuthToken"> | string | null
+    expiresAt?: DateTimeFilter<"McpOAuthToken"> | Date | string
+    lastUsedAt?: DateTimeNullableFilter<"McpOAuthToken"> | Date | string | null
+    createdAt?: DateTimeFilter<"McpOAuthToken"> | Date | string
+    client?: XOR<McpOAuthClientRelationFilter, McpOAuthClientWhereInput>
+  }
+
+  export type McpOAuthTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    tokenHash?: SortOrder
+    refreshHash?: SortOrderInput | SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    scope?: SortOrderInput | SortOrder
+    expiresAt?: SortOrder
+    lastUsedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    client?: McpOAuthClientOrderByWithRelationInput
+  }
+
+  export type McpOAuthTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tokenHash?: string
+    refreshHash?: string
+    AND?: McpOAuthTokenWhereInput | McpOAuthTokenWhereInput[]
+    OR?: McpOAuthTokenWhereInput[]
+    NOT?: McpOAuthTokenWhereInput | McpOAuthTokenWhereInput[]
+    clientId?: StringFilter<"McpOAuthToken"> | string
+    userId?: StringFilter<"McpOAuthToken"> | string
+    scope?: StringNullableFilter<"McpOAuthToken"> | string | null
+    expiresAt?: DateTimeFilter<"McpOAuthToken"> | Date | string
+    lastUsedAt?: DateTimeNullableFilter<"McpOAuthToken"> | Date | string | null
+    createdAt?: DateTimeFilter<"McpOAuthToken"> | Date | string
+    client?: XOR<McpOAuthClientRelationFilter, McpOAuthClientWhereInput>
+  }, "id" | "tokenHash" | "refreshHash">
+
+  export type McpOAuthTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    tokenHash?: SortOrder
+    refreshHash?: SortOrderInput | SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    scope?: SortOrderInput | SortOrder
+    expiresAt?: SortOrder
+    lastUsedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: McpOAuthTokenCountOrderByAggregateInput
+    _max?: McpOAuthTokenMaxOrderByAggregateInput
+    _min?: McpOAuthTokenMinOrderByAggregateInput
+  }
+
+  export type McpOAuthTokenScalarWhereWithAggregatesInput = {
+    AND?: McpOAuthTokenScalarWhereWithAggregatesInput | McpOAuthTokenScalarWhereWithAggregatesInput[]
+    OR?: McpOAuthTokenScalarWhereWithAggregatesInput[]
+    NOT?: McpOAuthTokenScalarWhereWithAggregatesInput | McpOAuthTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"McpOAuthToken"> | string
+    tokenHash?: StringWithAggregatesFilter<"McpOAuthToken"> | string
+    refreshHash?: StringNullableWithAggregatesFilter<"McpOAuthToken"> | string | null
+    clientId?: StringWithAggregatesFilter<"McpOAuthToken"> | string
+    userId?: StringWithAggregatesFilter<"McpOAuthToken"> | string
+    scope?: StringNullableWithAggregatesFilter<"McpOAuthToken"> | string | null
+    expiresAt?: DateTimeWithAggregatesFilter<"McpOAuthToken"> | Date | string
+    lastUsedAt?: DateTimeNullableWithAggregatesFilter<"McpOAuthToken"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"McpOAuthToken"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -184760,6 +188201,222 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type McpOAuthClientCreateInput = {
+    id: string
+    name?: string | null
+    redirectUris?: McpOAuthClientCreateredirectUrisInput | string[]
+    createdAt?: Date | string
+    codes?: McpOAuthCodeCreateNestedManyWithoutClientInput
+    tokens?: McpOAuthTokenCreateNestedManyWithoutClientInput
+  }
+
+  export type McpOAuthClientUncheckedCreateInput = {
+    id: string
+    name?: string | null
+    redirectUris?: McpOAuthClientCreateredirectUrisInput | string[]
+    createdAt?: Date | string
+    codes?: McpOAuthCodeUncheckedCreateNestedManyWithoutClientInput
+    tokens?: McpOAuthTokenUncheckedCreateNestedManyWithoutClientInput
+  }
+
+  export type McpOAuthClientUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    redirectUris?: McpOAuthClientUpdateredirectUrisInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    codes?: McpOAuthCodeUpdateManyWithoutClientNestedInput
+    tokens?: McpOAuthTokenUpdateManyWithoutClientNestedInput
+  }
+
+  export type McpOAuthClientUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    redirectUris?: McpOAuthClientUpdateredirectUrisInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    codes?: McpOAuthCodeUncheckedUpdateManyWithoutClientNestedInput
+    tokens?: McpOAuthTokenUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type McpOAuthClientCreateManyInput = {
+    id: string
+    name?: string | null
+    redirectUris?: McpOAuthClientCreateredirectUrisInput | string[]
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthClientUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    redirectUris?: McpOAuthClientUpdateredirectUrisInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthClientUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    redirectUris?: McpOAuthClientUpdateredirectUrisInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthCodeCreateInput = {
+    code: string
+    userId: string
+    redirectUri: string
+    codeChallenge?: string | null
+    scope?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+    client: McpOAuthClientCreateNestedOneWithoutCodesInput
+  }
+
+  export type McpOAuthCodeUncheckedCreateInput = {
+    code: string
+    clientId: string
+    userId: string
+    redirectUri: string
+    codeChallenge?: string | null
+    scope?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthCodeUpdateInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    redirectUri?: StringFieldUpdateOperationsInput | string
+    codeChallenge?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: McpOAuthClientUpdateOneRequiredWithoutCodesNestedInput
+  }
+
+  export type McpOAuthCodeUncheckedUpdateInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    redirectUri?: StringFieldUpdateOperationsInput | string
+    codeChallenge?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthCodeCreateManyInput = {
+    code: string
+    clientId: string
+    userId: string
+    redirectUri: string
+    codeChallenge?: string | null
+    scope?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthCodeUpdateManyMutationInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    redirectUri?: StringFieldUpdateOperationsInput | string
+    codeChallenge?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthCodeUncheckedUpdateManyInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    redirectUri?: StringFieldUpdateOperationsInput | string
+    codeChallenge?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthTokenCreateInput = {
+    id?: string
+    tokenHash: string
+    refreshHash?: string | null
+    userId: string
+    scope?: string | null
+    expiresAt: Date | string
+    lastUsedAt?: Date | string | null
+    createdAt?: Date | string
+    client: McpOAuthClientCreateNestedOneWithoutTokensInput
+  }
+
+  export type McpOAuthTokenUncheckedCreateInput = {
+    id?: string
+    tokenHash: string
+    refreshHash?: string | null
+    clientId: string
+    userId: string
+    scope?: string | null
+    expiresAt: Date | string
+    lastUsedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    refreshHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: McpOAuthClientUpdateOneRequiredWithoutTokensNestedInput
+  }
+
+  export type McpOAuthTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    refreshHash?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthTokenCreateManyInput = {
+    id?: string
+    tokenHash: string
+    refreshHash?: string | null
+    clientId: string
+    userId: string
+    scope?: string | null
+    expiresAt: Date | string
+    lastUsedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    refreshHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    refreshHash?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -194322,6 +197979,119 @@ export namespace Prisma {
     createdByName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type McpOAuthCodeListRelationFilter = {
+    every?: McpOAuthCodeWhereInput
+    some?: McpOAuthCodeWhereInput
+    none?: McpOAuthCodeWhereInput
+  }
+
+  export type McpOAuthTokenListRelationFilter = {
+    every?: McpOAuthTokenWhereInput
+    some?: McpOAuthTokenWhereInput
+    none?: McpOAuthTokenWhereInput
+  }
+
+  export type McpOAuthCodeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type McpOAuthTokenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type McpOAuthClientCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    redirectUris?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type McpOAuthClientMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type McpOAuthClientMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type McpOAuthClientRelationFilter = {
+    is?: McpOAuthClientWhereInput
+    isNot?: McpOAuthClientWhereInput
+  }
+
+  export type McpOAuthCodeCountOrderByAggregateInput = {
+    code?: SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    redirectUri?: SortOrder
+    codeChallenge?: SortOrder
+    scope?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type McpOAuthCodeMaxOrderByAggregateInput = {
+    code?: SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    redirectUri?: SortOrder
+    codeChallenge?: SortOrder
+    scope?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type McpOAuthCodeMinOrderByAggregateInput = {
+    code?: SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    redirectUri?: SortOrder
+    codeChallenge?: SortOrder
+    scope?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type McpOAuthTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    tokenHash?: SortOrder
+    refreshHash?: SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    scope?: SortOrder
+    expiresAt?: SortOrder
+    lastUsedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type McpOAuthTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tokenHash?: SortOrder
+    refreshHash?: SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    scope?: SortOrder
+    expiresAt?: SortOrder
+    lastUsedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type McpOAuthTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    tokenHash?: SortOrder
+    refreshHash?: SortOrder
+    clientId?: SortOrder
+    userId?: SortOrder
+    scope?: SortOrder
+    expiresAt?: SortOrder
+    lastUsedAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -206949,6 +210719,127 @@ export namespace Prisma {
     delete?: StorageObjectWhereInput | boolean
     connect?: StorageObjectWhereUniqueInput
     update?: XOR<XOR<StorageObjectUpdateToOneWithWhereWithoutLibraryItemInput, StorageObjectUpdateWithoutLibraryItemInput>, StorageObjectUncheckedUpdateWithoutLibraryItemInput>
+  }
+
+  export type McpOAuthClientCreateredirectUrisInput = {
+    set: string[]
+  }
+
+  export type McpOAuthCodeCreateNestedManyWithoutClientInput = {
+    create?: XOR<McpOAuthCodeCreateWithoutClientInput, McpOAuthCodeUncheckedCreateWithoutClientInput> | McpOAuthCodeCreateWithoutClientInput[] | McpOAuthCodeUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: McpOAuthCodeCreateOrConnectWithoutClientInput | McpOAuthCodeCreateOrConnectWithoutClientInput[]
+    createMany?: McpOAuthCodeCreateManyClientInputEnvelope
+    connect?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+  }
+
+  export type McpOAuthTokenCreateNestedManyWithoutClientInput = {
+    create?: XOR<McpOAuthTokenCreateWithoutClientInput, McpOAuthTokenUncheckedCreateWithoutClientInput> | McpOAuthTokenCreateWithoutClientInput[] | McpOAuthTokenUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: McpOAuthTokenCreateOrConnectWithoutClientInput | McpOAuthTokenCreateOrConnectWithoutClientInput[]
+    createMany?: McpOAuthTokenCreateManyClientInputEnvelope
+    connect?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+  }
+
+  export type McpOAuthCodeUncheckedCreateNestedManyWithoutClientInput = {
+    create?: XOR<McpOAuthCodeCreateWithoutClientInput, McpOAuthCodeUncheckedCreateWithoutClientInput> | McpOAuthCodeCreateWithoutClientInput[] | McpOAuthCodeUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: McpOAuthCodeCreateOrConnectWithoutClientInput | McpOAuthCodeCreateOrConnectWithoutClientInput[]
+    createMany?: McpOAuthCodeCreateManyClientInputEnvelope
+    connect?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+  }
+
+  export type McpOAuthTokenUncheckedCreateNestedManyWithoutClientInput = {
+    create?: XOR<McpOAuthTokenCreateWithoutClientInput, McpOAuthTokenUncheckedCreateWithoutClientInput> | McpOAuthTokenCreateWithoutClientInput[] | McpOAuthTokenUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: McpOAuthTokenCreateOrConnectWithoutClientInput | McpOAuthTokenCreateOrConnectWithoutClientInput[]
+    createMany?: McpOAuthTokenCreateManyClientInputEnvelope
+    connect?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+  }
+
+  export type McpOAuthClientUpdateredirectUrisInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type McpOAuthCodeUpdateManyWithoutClientNestedInput = {
+    create?: XOR<McpOAuthCodeCreateWithoutClientInput, McpOAuthCodeUncheckedCreateWithoutClientInput> | McpOAuthCodeCreateWithoutClientInput[] | McpOAuthCodeUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: McpOAuthCodeCreateOrConnectWithoutClientInput | McpOAuthCodeCreateOrConnectWithoutClientInput[]
+    upsert?: McpOAuthCodeUpsertWithWhereUniqueWithoutClientInput | McpOAuthCodeUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: McpOAuthCodeCreateManyClientInputEnvelope
+    set?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+    disconnect?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+    delete?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+    connect?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+    update?: McpOAuthCodeUpdateWithWhereUniqueWithoutClientInput | McpOAuthCodeUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: McpOAuthCodeUpdateManyWithWhereWithoutClientInput | McpOAuthCodeUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: McpOAuthCodeScalarWhereInput | McpOAuthCodeScalarWhereInput[]
+  }
+
+  export type McpOAuthTokenUpdateManyWithoutClientNestedInput = {
+    create?: XOR<McpOAuthTokenCreateWithoutClientInput, McpOAuthTokenUncheckedCreateWithoutClientInput> | McpOAuthTokenCreateWithoutClientInput[] | McpOAuthTokenUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: McpOAuthTokenCreateOrConnectWithoutClientInput | McpOAuthTokenCreateOrConnectWithoutClientInput[]
+    upsert?: McpOAuthTokenUpsertWithWhereUniqueWithoutClientInput | McpOAuthTokenUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: McpOAuthTokenCreateManyClientInputEnvelope
+    set?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+    disconnect?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+    delete?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+    connect?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+    update?: McpOAuthTokenUpdateWithWhereUniqueWithoutClientInput | McpOAuthTokenUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: McpOAuthTokenUpdateManyWithWhereWithoutClientInput | McpOAuthTokenUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: McpOAuthTokenScalarWhereInput | McpOAuthTokenScalarWhereInput[]
+  }
+
+  export type McpOAuthCodeUncheckedUpdateManyWithoutClientNestedInput = {
+    create?: XOR<McpOAuthCodeCreateWithoutClientInput, McpOAuthCodeUncheckedCreateWithoutClientInput> | McpOAuthCodeCreateWithoutClientInput[] | McpOAuthCodeUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: McpOAuthCodeCreateOrConnectWithoutClientInput | McpOAuthCodeCreateOrConnectWithoutClientInput[]
+    upsert?: McpOAuthCodeUpsertWithWhereUniqueWithoutClientInput | McpOAuthCodeUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: McpOAuthCodeCreateManyClientInputEnvelope
+    set?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+    disconnect?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+    delete?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+    connect?: McpOAuthCodeWhereUniqueInput | McpOAuthCodeWhereUniqueInput[]
+    update?: McpOAuthCodeUpdateWithWhereUniqueWithoutClientInput | McpOAuthCodeUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: McpOAuthCodeUpdateManyWithWhereWithoutClientInput | McpOAuthCodeUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: McpOAuthCodeScalarWhereInput | McpOAuthCodeScalarWhereInput[]
+  }
+
+  export type McpOAuthTokenUncheckedUpdateManyWithoutClientNestedInput = {
+    create?: XOR<McpOAuthTokenCreateWithoutClientInput, McpOAuthTokenUncheckedCreateWithoutClientInput> | McpOAuthTokenCreateWithoutClientInput[] | McpOAuthTokenUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: McpOAuthTokenCreateOrConnectWithoutClientInput | McpOAuthTokenCreateOrConnectWithoutClientInput[]
+    upsert?: McpOAuthTokenUpsertWithWhereUniqueWithoutClientInput | McpOAuthTokenUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: McpOAuthTokenCreateManyClientInputEnvelope
+    set?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+    disconnect?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+    delete?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+    connect?: McpOAuthTokenWhereUniqueInput | McpOAuthTokenWhereUniqueInput[]
+    update?: McpOAuthTokenUpdateWithWhereUniqueWithoutClientInput | McpOAuthTokenUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: McpOAuthTokenUpdateManyWithWhereWithoutClientInput | McpOAuthTokenUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: McpOAuthTokenScalarWhereInput | McpOAuthTokenScalarWhereInput[]
+  }
+
+  export type McpOAuthClientCreateNestedOneWithoutCodesInput = {
+    create?: XOR<McpOAuthClientCreateWithoutCodesInput, McpOAuthClientUncheckedCreateWithoutCodesInput>
+    connectOrCreate?: McpOAuthClientCreateOrConnectWithoutCodesInput
+    connect?: McpOAuthClientWhereUniqueInput
+  }
+
+  export type McpOAuthClientUpdateOneRequiredWithoutCodesNestedInput = {
+    create?: XOR<McpOAuthClientCreateWithoutCodesInput, McpOAuthClientUncheckedCreateWithoutCodesInput>
+    connectOrCreate?: McpOAuthClientCreateOrConnectWithoutCodesInput
+    upsert?: McpOAuthClientUpsertWithoutCodesInput
+    connect?: McpOAuthClientWhereUniqueInput
+    update?: XOR<XOR<McpOAuthClientUpdateToOneWithWhereWithoutCodesInput, McpOAuthClientUpdateWithoutCodesInput>, McpOAuthClientUncheckedUpdateWithoutCodesInput>
+  }
+
+  export type McpOAuthClientCreateNestedOneWithoutTokensInput = {
+    create?: XOR<McpOAuthClientCreateWithoutTokensInput, McpOAuthClientUncheckedCreateWithoutTokensInput>
+    connectOrCreate?: McpOAuthClientCreateOrConnectWithoutTokensInput
+    connect?: McpOAuthClientWhereUniqueInput
+  }
+
+  export type McpOAuthClientUpdateOneRequiredWithoutTokensNestedInput = {
+    create?: XOR<McpOAuthClientCreateWithoutTokensInput, McpOAuthClientUncheckedCreateWithoutTokensInput>
+    connectOrCreate?: McpOAuthClientCreateOrConnectWithoutTokensInput
+    upsert?: McpOAuthClientUpsertWithoutTokensInput
+    connect?: McpOAuthClientWhereUniqueInput
+    update?: XOR<XOR<McpOAuthClientUpdateToOneWithWhereWithoutTokensInput, McpOAuthClientUpdateWithoutTokensInput>, McpOAuthClientUncheckedUpdateWithoutTokensInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -294954,6 +298845,225 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type McpOAuthCodeCreateWithoutClientInput = {
+    code: string
+    userId: string
+    redirectUri: string
+    codeChallenge?: string | null
+    scope?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthCodeUncheckedCreateWithoutClientInput = {
+    code: string
+    userId: string
+    redirectUri: string
+    codeChallenge?: string | null
+    scope?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthCodeCreateOrConnectWithoutClientInput = {
+    where: McpOAuthCodeWhereUniqueInput
+    create: XOR<McpOAuthCodeCreateWithoutClientInput, McpOAuthCodeUncheckedCreateWithoutClientInput>
+  }
+
+  export type McpOAuthCodeCreateManyClientInputEnvelope = {
+    data: McpOAuthCodeCreateManyClientInput | McpOAuthCodeCreateManyClientInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type McpOAuthTokenCreateWithoutClientInput = {
+    id?: string
+    tokenHash: string
+    refreshHash?: string | null
+    userId: string
+    scope?: string | null
+    expiresAt: Date | string
+    lastUsedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthTokenUncheckedCreateWithoutClientInput = {
+    id?: string
+    tokenHash: string
+    refreshHash?: string | null
+    userId: string
+    scope?: string | null
+    expiresAt: Date | string
+    lastUsedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthTokenCreateOrConnectWithoutClientInput = {
+    where: McpOAuthTokenWhereUniqueInput
+    create: XOR<McpOAuthTokenCreateWithoutClientInput, McpOAuthTokenUncheckedCreateWithoutClientInput>
+  }
+
+  export type McpOAuthTokenCreateManyClientInputEnvelope = {
+    data: McpOAuthTokenCreateManyClientInput | McpOAuthTokenCreateManyClientInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type McpOAuthCodeUpsertWithWhereUniqueWithoutClientInput = {
+    where: McpOAuthCodeWhereUniqueInput
+    update: XOR<McpOAuthCodeUpdateWithoutClientInput, McpOAuthCodeUncheckedUpdateWithoutClientInput>
+    create: XOR<McpOAuthCodeCreateWithoutClientInput, McpOAuthCodeUncheckedCreateWithoutClientInput>
+  }
+
+  export type McpOAuthCodeUpdateWithWhereUniqueWithoutClientInput = {
+    where: McpOAuthCodeWhereUniqueInput
+    data: XOR<McpOAuthCodeUpdateWithoutClientInput, McpOAuthCodeUncheckedUpdateWithoutClientInput>
+  }
+
+  export type McpOAuthCodeUpdateManyWithWhereWithoutClientInput = {
+    where: McpOAuthCodeScalarWhereInput
+    data: XOR<McpOAuthCodeUpdateManyMutationInput, McpOAuthCodeUncheckedUpdateManyWithoutClientInput>
+  }
+
+  export type McpOAuthCodeScalarWhereInput = {
+    AND?: McpOAuthCodeScalarWhereInput | McpOAuthCodeScalarWhereInput[]
+    OR?: McpOAuthCodeScalarWhereInput[]
+    NOT?: McpOAuthCodeScalarWhereInput | McpOAuthCodeScalarWhereInput[]
+    code?: StringFilter<"McpOAuthCode"> | string
+    clientId?: StringFilter<"McpOAuthCode"> | string
+    userId?: StringFilter<"McpOAuthCode"> | string
+    redirectUri?: StringFilter<"McpOAuthCode"> | string
+    codeChallenge?: StringNullableFilter<"McpOAuthCode"> | string | null
+    scope?: StringNullableFilter<"McpOAuthCode"> | string | null
+    expiresAt?: DateTimeFilter<"McpOAuthCode"> | Date | string
+    createdAt?: DateTimeFilter<"McpOAuthCode"> | Date | string
+  }
+
+  export type McpOAuthTokenUpsertWithWhereUniqueWithoutClientInput = {
+    where: McpOAuthTokenWhereUniqueInput
+    update: XOR<McpOAuthTokenUpdateWithoutClientInput, McpOAuthTokenUncheckedUpdateWithoutClientInput>
+    create: XOR<McpOAuthTokenCreateWithoutClientInput, McpOAuthTokenUncheckedCreateWithoutClientInput>
+  }
+
+  export type McpOAuthTokenUpdateWithWhereUniqueWithoutClientInput = {
+    where: McpOAuthTokenWhereUniqueInput
+    data: XOR<McpOAuthTokenUpdateWithoutClientInput, McpOAuthTokenUncheckedUpdateWithoutClientInput>
+  }
+
+  export type McpOAuthTokenUpdateManyWithWhereWithoutClientInput = {
+    where: McpOAuthTokenScalarWhereInput
+    data: XOR<McpOAuthTokenUpdateManyMutationInput, McpOAuthTokenUncheckedUpdateManyWithoutClientInput>
+  }
+
+  export type McpOAuthTokenScalarWhereInput = {
+    AND?: McpOAuthTokenScalarWhereInput | McpOAuthTokenScalarWhereInput[]
+    OR?: McpOAuthTokenScalarWhereInput[]
+    NOT?: McpOAuthTokenScalarWhereInput | McpOAuthTokenScalarWhereInput[]
+    id?: StringFilter<"McpOAuthToken"> | string
+    tokenHash?: StringFilter<"McpOAuthToken"> | string
+    refreshHash?: StringNullableFilter<"McpOAuthToken"> | string | null
+    clientId?: StringFilter<"McpOAuthToken"> | string
+    userId?: StringFilter<"McpOAuthToken"> | string
+    scope?: StringNullableFilter<"McpOAuthToken"> | string | null
+    expiresAt?: DateTimeFilter<"McpOAuthToken"> | Date | string
+    lastUsedAt?: DateTimeNullableFilter<"McpOAuthToken"> | Date | string | null
+    createdAt?: DateTimeFilter<"McpOAuthToken"> | Date | string
+  }
+
+  export type McpOAuthClientCreateWithoutCodesInput = {
+    id: string
+    name?: string | null
+    redirectUris?: McpOAuthClientCreateredirectUrisInput | string[]
+    createdAt?: Date | string
+    tokens?: McpOAuthTokenCreateNestedManyWithoutClientInput
+  }
+
+  export type McpOAuthClientUncheckedCreateWithoutCodesInput = {
+    id: string
+    name?: string | null
+    redirectUris?: McpOAuthClientCreateredirectUrisInput | string[]
+    createdAt?: Date | string
+    tokens?: McpOAuthTokenUncheckedCreateNestedManyWithoutClientInput
+  }
+
+  export type McpOAuthClientCreateOrConnectWithoutCodesInput = {
+    where: McpOAuthClientWhereUniqueInput
+    create: XOR<McpOAuthClientCreateWithoutCodesInput, McpOAuthClientUncheckedCreateWithoutCodesInput>
+  }
+
+  export type McpOAuthClientUpsertWithoutCodesInput = {
+    update: XOR<McpOAuthClientUpdateWithoutCodesInput, McpOAuthClientUncheckedUpdateWithoutCodesInput>
+    create: XOR<McpOAuthClientCreateWithoutCodesInput, McpOAuthClientUncheckedCreateWithoutCodesInput>
+    where?: McpOAuthClientWhereInput
+  }
+
+  export type McpOAuthClientUpdateToOneWithWhereWithoutCodesInput = {
+    where?: McpOAuthClientWhereInput
+    data: XOR<McpOAuthClientUpdateWithoutCodesInput, McpOAuthClientUncheckedUpdateWithoutCodesInput>
+  }
+
+  export type McpOAuthClientUpdateWithoutCodesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    redirectUris?: McpOAuthClientUpdateredirectUrisInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: McpOAuthTokenUpdateManyWithoutClientNestedInput
+  }
+
+  export type McpOAuthClientUncheckedUpdateWithoutCodesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    redirectUris?: McpOAuthClientUpdateredirectUrisInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: McpOAuthTokenUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type McpOAuthClientCreateWithoutTokensInput = {
+    id: string
+    name?: string | null
+    redirectUris?: McpOAuthClientCreateredirectUrisInput | string[]
+    createdAt?: Date | string
+    codes?: McpOAuthCodeCreateNestedManyWithoutClientInput
+  }
+
+  export type McpOAuthClientUncheckedCreateWithoutTokensInput = {
+    id: string
+    name?: string | null
+    redirectUris?: McpOAuthClientCreateredirectUrisInput | string[]
+    createdAt?: Date | string
+    codes?: McpOAuthCodeUncheckedCreateNestedManyWithoutClientInput
+  }
+
+  export type McpOAuthClientCreateOrConnectWithoutTokensInput = {
+    where: McpOAuthClientWhereUniqueInput
+    create: XOR<McpOAuthClientCreateWithoutTokensInput, McpOAuthClientUncheckedCreateWithoutTokensInput>
+  }
+
+  export type McpOAuthClientUpsertWithoutTokensInput = {
+    update: XOR<McpOAuthClientUpdateWithoutTokensInput, McpOAuthClientUncheckedUpdateWithoutTokensInput>
+    create: XOR<McpOAuthClientCreateWithoutTokensInput, McpOAuthClientUncheckedCreateWithoutTokensInput>
+    where?: McpOAuthClientWhereInput
+  }
+
+  export type McpOAuthClientUpdateToOneWithWhereWithoutTokensInput = {
+    where?: McpOAuthClientWhereInput
+    data: XOR<McpOAuthClientUpdateWithoutTokensInput, McpOAuthClientUncheckedUpdateWithoutTokensInput>
+  }
+
+  export type McpOAuthClientUpdateWithoutTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    redirectUris?: McpOAuthClientUpdateredirectUrisInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    codes?: McpOAuthCodeUpdateManyWithoutClientNestedInput
+  }
+
+  export type McpOAuthClientUncheckedUpdateWithoutTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    redirectUris?: McpOAuthClientUpdateredirectUrisInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    codes?: McpOAuthCodeUncheckedUpdateManyWithoutClientNestedInput
+  }
+
   export type TicketCreateManyCreatedByInput = {
     id?: string
     title: string
@@ -309309,6 +313419,90 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type McpOAuthCodeCreateManyClientInput = {
+    code: string
+    userId: string
+    redirectUri: string
+    codeChallenge?: string | null
+    scope?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthTokenCreateManyClientInput = {
+    id?: string
+    tokenHash: string
+    refreshHash?: string | null
+    userId: string
+    scope?: string | null
+    expiresAt: Date | string
+    lastUsedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type McpOAuthCodeUpdateWithoutClientInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    redirectUri?: StringFieldUpdateOperationsInput | string
+    codeChallenge?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthCodeUncheckedUpdateWithoutClientInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    redirectUri?: StringFieldUpdateOperationsInput | string
+    codeChallenge?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthCodeUncheckedUpdateManyWithoutClientInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    redirectUri?: StringFieldUpdateOperationsInput | string
+    codeChallenge?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthTokenUpdateWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    refreshHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthTokenUncheckedUpdateWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    refreshHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type McpOAuthTokenUncheckedUpdateManyWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    refreshHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -309462,6 +313656,10 @@ export namespace Prisma {
      * @deprecated Use VideoCategoryCountOutputTypeDefaultArgs instead
      */
     export type VideoCategoryCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VideoCategoryCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use McpOAuthClientCountOutputTypeDefaultArgs instead
+     */
+    export type McpOAuthClientCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = McpOAuthClientCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -309974,6 +314172,18 @@ export namespace Prisma {
      * @deprecated Use ClientLibraryItemDefaultArgs instead
      */
     export type ClientLibraryItemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientLibraryItemDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use McpOAuthClientDefaultArgs instead
+     */
+    export type McpOAuthClientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = McpOAuthClientDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use McpOAuthCodeDefaultArgs instead
+     */
+    export type McpOAuthCodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = McpOAuthCodeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use McpOAuthTokenDefaultArgs instead
+     */
+    export type McpOAuthTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = McpOAuthTokenDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
