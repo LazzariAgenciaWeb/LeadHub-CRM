@@ -3849,6 +3849,11 @@ model Assistant {
   revivalDelayMin Int     @default(0)
   revivalText     String? @db.Text
 
+  // CONTINUACAO: o agente prometeu algo e o turno acabou sem entregar — ele
+  // volta sozinho em ~30s pra cumprir. Ligado por padrao (e o conserto de um
+  // furo real); desligavel se atrapalhar algum agente.
+  followThrough Boolean @default(true)
+
   // Texto do "me segue antes" quando o gate nasce no DIRECT (agente de IA).
   // Antes isso era emprestado da primeira automação de POST com follow-gate —
   // editar uma automação mudava o agente sem querer. null = cai no texto da

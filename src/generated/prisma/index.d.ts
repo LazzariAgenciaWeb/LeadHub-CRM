@@ -131142,6 +131142,7 @@ export namespace Prisma {
     courtesyText: string | null
     revivalDelayMin: number | null
     revivalText: string | null
+    followThrough: boolean | null
     followAskText: string | null
     groupFirstAidDelayMin: number | null
     reactivationWord: string | null
@@ -131176,6 +131177,7 @@ export namespace Prisma {
     courtesyText: string | null
     revivalDelayMin: number | null
     revivalText: string | null
+    followThrough: boolean | null
     followAskText: string | null
     groupFirstAidDelayMin: number | null
     reactivationWord: string | null
@@ -131211,6 +131213,7 @@ export namespace Prisma {
     courtesyText: number
     revivalDelayMin: number
     revivalText: number
+    followThrough: number
     followAskText: number
     groupFirstAidDelayMin: number
     reactivationWord: number
@@ -131263,6 +131266,7 @@ export namespace Prisma {
     courtesyText?: true
     revivalDelayMin?: true
     revivalText?: true
+    followThrough?: true
     followAskText?: true
     groupFirstAidDelayMin?: true
     reactivationWord?: true
@@ -131297,6 +131301,7 @@ export namespace Prisma {
     courtesyText?: true
     revivalDelayMin?: true
     revivalText?: true
+    followThrough?: true
     followAskText?: true
     groupFirstAidDelayMin?: true
     reactivationWord?: true
@@ -131332,6 +131337,7 @@ export namespace Prisma {
     courtesyText?: true
     revivalDelayMin?: true
     revivalText?: true
+    followThrough?: true
     followAskText?: true
     groupFirstAidDelayMin?: true
     reactivationWord?: true
@@ -131454,6 +131460,7 @@ export namespace Prisma {
     courtesyText: string | null
     revivalDelayMin: number
     revivalText: string | null
+    followThrough: boolean
     followAskText: string | null
     groupFirstAidDelayMin: number
     reactivationWord: string | null
@@ -131508,6 +131515,7 @@ export namespace Prisma {
     courtesyText?: boolean
     revivalDelayMin?: boolean
     revivalText?: boolean
+    followThrough?: boolean
     followAskText?: boolean
     groupFirstAidDelayMin?: boolean
     reactivationWord?: boolean
@@ -131551,6 +131559,7 @@ export namespace Prisma {
     courtesyText?: boolean
     revivalDelayMin?: boolean
     revivalText?: boolean
+    followThrough?: boolean
     followAskText?: boolean
     groupFirstAidDelayMin?: boolean
     reactivationWord?: boolean
@@ -131591,6 +131600,7 @@ export namespace Prisma {
     courtesyText?: boolean
     revivalDelayMin?: boolean
     revivalText?: boolean
+    followThrough?: boolean
     followAskText?: boolean
     groupFirstAidDelayMin?: boolean
     reactivationWord?: boolean
@@ -131655,6 +131665,7 @@ export namespace Prisma {
       courtesyText: string | null
       revivalDelayMin: number
       revivalText: string | null
+      followThrough: boolean
       followAskText: string | null
       groupFirstAidDelayMin: number
       reactivationWord: string | null
@@ -132087,6 +132098,7 @@ export namespace Prisma {
     readonly courtesyText: FieldRef<"Assistant", 'String'>
     readonly revivalDelayMin: FieldRef<"Assistant", 'Int'>
     readonly revivalText: FieldRef<"Assistant", 'String'>
+    readonly followThrough: FieldRef<"Assistant", 'Boolean'>
     readonly followAskText: FieldRef<"Assistant", 'String'>
     readonly groupFirstAidDelayMin: FieldRef<"Assistant", 'Int'>
     readonly reactivationWord: FieldRef<"Assistant", 'String'>
@@ -159788,6 +159800,7 @@ export namespace Prisma {
     courtesyText: 'courtesyText',
     revivalDelayMin: 'revivalDelayMin',
     revivalText: 'revivalText',
+    followThrough: 'followThrough',
     followAskText: 'followAskText',
     groupFirstAidDelayMin: 'groupFirstAidDelayMin',
     reactivationWord: 'reactivationWord',
@@ -171609,6 +171622,7 @@ export namespace Prisma {
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
     revivalDelayMin?: IntFilter<"Assistant"> | number
     revivalText?: StringNullableFilter<"Assistant"> | string | null
+    followThrough?: BoolFilter<"Assistant"> | boolean
     followAskText?: StringNullableFilter<"Assistant"> | string | null
     groupFirstAidDelayMin?: IntFilter<"Assistant"> | number
     reactivationWord?: StringNullableFilter<"Assistant"> | string | null
@@ -171651,6 +171665,7 @@ export namespace Prisma {
     courtesyText?: SortOrderInput | SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrderInput | SortOrder
+    followThrough?: SortOrder
     followAskText?: SortOrderInput | SortOrder
     groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrderInput | SortOrder
@@ -171696,6 +171711,7 @@ export namespace Prisma {
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
     revivalDelayMin?: IntFilter<"Assistant"> | number
     revivalText?: StringNullableFilter<"Assistant"> | string | null
+    followThrough?: BoolFilter<"Assistant"> | boolean
     followAskText?: StringNullableFilter<"Assistant"> | string | null
     groupFirstAidDelayMin?: IntFilter<"Assistant"> | number
     reactivationWord?: StringNullableFilter<"Assistant"> | string | null
@@ -171738,6 +171754,7 @@ export namespace Prisma {
     courtesyText?: SortOrderInput | SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrderInput | SortOrder
+    followThrough?: SortOrder
     followAskText?: SortOrderInput | SortOrder
     groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrderInput | SortOrder
@@ -171781,6 +171798,7 @@ export namespace Prisma {
     courtesyText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     revivalDelayMin?: IntWithAggregatesFilter<"Assistant"> | number
     revivalText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    followThrough?: BoolWithAggregatesFilter<"Assistant"> | boolean
     followAskText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     groupFirstAidDelayMin?: IntWithAggregatesFilter<"Assistant"> | number
     reactivationWord?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
@@ -185789,6 +185807,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -185828,6 +185847,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -185863,6 +185883,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185902,6 +185923,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185939,6 +185961,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -185972,6 +185995,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186004,6 +186028,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196628,6 +196653,7 @@ export namespace Prisma {
     courtesyText?: SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrder
+    followThrough?: SortOrder
     followAskText?: SortOrder
     groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrder
@@ -196670,6 +196696,7 @@ export namespace Prisma {
     courtesyText?: SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrder
+    followThrough?: SortOrder
     followAskText?: SortOrder
     groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrder
@@ -196704,6 +196731,7 @@ export namespace Prisma {
     courtesyText?: SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrder
+    followThrough?: SortOrder
     followAskText?: SortOrder
     groupFirstAidDelayMin?: SortOrder
     reactivationWord?: SortOrder
@@ -213398,6 +213426,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -213436,6 +213465,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -213480,6 +213510,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -213517,6 +213548,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -215081,6 +215113,7 @@ export namespace Prisma {
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
     revivalDelayMin?: IntFilter<"Assistant"> | number
     revivalText?: StringNullableFilter<"Assistant"> | string | null
+    followThrough?: BoolFilter<"Assistant"> | boolean
     followAskText?: StringNullableFilter<"Assistant"> | string | null
     groupFirstAidDelayMin?: IntFilter<"Assistant"> | number
     reactivationWord?: StringNullableFilter<"Assistant"> | string | null
@@ -221876,6 +221909,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -221913,6 +221947,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -235532,6 +235567,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -235570,6 +235606,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -255279,6 +255316,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -255317,6 +255355,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -284227,6 +284266,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -284265,6 +284305,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -284388,6 +284429,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -284426,6 +284468,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -284814,6 +284857,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -284852,6 +284896,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -285183,6 +285228,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -285221,6 +285267,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -299411,6 +299458,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -299444,6 +299492,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -300659,6 +300708,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -300697,6 +300747,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -300733,6 +300784,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -300765,6 +300817,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -300802,6 +300855,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -300838,6 +300892,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -302569,6 +302624,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -306692,6 +306748,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -306729,6 +306786,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -306765,6 +306823,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -308674,6 +308733,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -308907,6 +308967,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -308945,6 +309006,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -308981,6 +309043,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -311440,6 +311503,7 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
     reactivationWord?: string | null
@@ -311647,6 +311711,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -311685,6 +311750,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
@@ -311721,6 +311787,7 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
     reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null

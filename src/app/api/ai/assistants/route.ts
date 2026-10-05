@@ -118,6 +118,7 @@ export async function POST(req: NextRequest) {
       calendarUserId,
       meetingDurationMin,
       courtesyDelayMin,
+      followThrough: body.followThrough !== false,
       revivalDelayMin: Math.min(20160, Math.max(0, parseInt(body.revivalDelayMin, 10) || 0)),
       revivalText: (body.revivalText ?? "").trim() || null,
       followAskText: (body.followAskText ?? "").trim() || null,

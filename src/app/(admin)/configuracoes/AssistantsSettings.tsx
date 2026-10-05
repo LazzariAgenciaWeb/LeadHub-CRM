@@ -70,6 +70,7 @@ interface Assistant {
   groupFirstAidDelayMin: number;
   courtesyText: string | null;
   revivalDelayMin?: number;
+  followThrough?: boolean;
   revivalText?: string | null;
   reactivationWord: string | null;
   sendPauseNotice: boolean;
@@ -147,6 +148,7 @@ export default function AssistantsSettings({
   const [fGroupDelay, setFGroupDelay] = useState(0);
   const [fCourtesyText, setFCourtesyText] = useState("");
   const [fRevivalDelay, setFRevivalDelay] = useState(0);
+  const [fFollowThrough, setFFollowThrough] = useState(true);
   const [fRevivalText, setFRevivalText] = useState("");
   const [fFollowAsk, setFFollowAsk] = useState("");
   const [fReactivationWord, setFReactivationWord] = useState("");
@@ -176,7 +178,7 @@ export default function AssistantsSettings({
     setFActivation("ALWAYS"); setFTriggers("");
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
-    setFRevivalDelay(0); setFRevivalText(""); setFFollowAsk("");
+    setFRevivalDelay(0); setFRevivalText(""); setFFollowThrough(true); setFFollowAsk("");
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
     setFRoutes([
@@ -202,6 +204,7 @@ export default function AssistantsSettings({
     setFGroupDelay(a.groupFirstAidDelayMin ?? 0);
     setFCourtesyText(a.courtesyText ?? "");
     setFRevivalDelay(a.revivalDelayMin ?? 0);
+    setFFollowThrough(a.followThrough !== false);
     setFRevivalText(a.revivalText ?? "");
     setFFollowAsk(a.followAskText ?? "");
     setFReactivationWord(a.reactivationWord ?? "");
@@ -261,6 +264,7 @@ export default function AssistantsSettings({
       groupFirstAidDelayMin: fGroupDelay,
       courtesyText: fCourtesyText,
       revivalDelayMin: fRevivalDelay,
+      followThrough: fFollowThrough,
       revivalText: fRevivalText,
       followAskText: fFollowAsk,
       reactivationWord: fReactivationWord,
@@ -699,6 +703,27 @@ export default function AssistantsSettings({
                     <p className="text-slate-600 text-[11px] mt-1.5">
                       Máximo 1 aviso por conversa por hora; a conversa continua pendente pro time.
                       Escreva <strong className="text-slate-400">uma variação por linha</strong> — o sistema sorteia uma a cada envio (não repete sempre a mesma frase).
+                    </p>
+                  </div>
+
+                  {/* Continuação — o agente prometeu e não entregou */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      ↩️ Continuação <span className="text-slate-600 normal-case">— quando o próprio agente para no meio</span>
+                    </label>
+                    <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={fFollowThrough}
+                        onChange={(e) => setFFollowThrough(e.target.checked)}
+                        className="w-4 h-4 accent-emerald-500"
+                      />
+                      Cumprir sozinho o que prometeu
+                    </label>
+                    <p className="text-slate-600 text-[11px] mt-1.5">
+                      Quando o agente encerra dizendo o próximo passo (&quot;vou te oferecer os horários&quot;) e a mensagem não sai, ele <strong className="text-slate-400">volta em ~30s e entrega</strong> — sem esperar o contato escrever.
+                      É diferente do Resgate: ali quem sumiu foi o contato; aqui quem ficou devendo fomos nós.
+                      Acontece <strong className="text-slate-400">uma vez só</strong> por promessa, e se não houver nada pendente ele fica quieto.
                     </p>
                   </div>
 

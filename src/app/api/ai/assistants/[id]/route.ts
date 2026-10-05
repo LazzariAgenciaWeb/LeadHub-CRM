@@ -87,6 +87,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.courtesyDelayMin = Number.isNaN(cdRaw) ? 5 : Math.min(120, Math.max(0, cdRaw));
   }
   if ("courtesyText" in body) data.courtesyText = (body.courtesyText ?? "").trim() || null;
+  if ("followThrough" in body) data.followThrough = !!body.followThrough;
   if ("revivalDelayMin" in body) {
     data.revivalDelayMin = Math.min(20160, Math.max(0, parseInt(body.revivalDelayMin, 10) || 0));
   }

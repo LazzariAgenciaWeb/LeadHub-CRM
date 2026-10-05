@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v20-resgate";
+export const AUTO_AGENT_REV = "v21-continuacao";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -876,14 +876,97 @@ type AgentRunResult =
   | { ok: true; action: string; replied: boolean }
   | { ok: false; skipped: string };
 
+// ── Auto-continuação (o agente prometeu e não entregou) ──────────────────────
+// O motor só acorda quando o CONTATO fala. Então, quando o modelo encerra o
+// turno anunciando o próximo passo ("vou te oferecer os horários") e não
+// entrega, a conversa congela: o contato espera uma mensagem que nunca vem e
+// ninguém é avisado, porque do nosso lado a conversa parece respondida.
+//
+// Aqui o agente volta sozinho uns segundos depois pra cumprir o que prometeu.
+// A detecção é por texto e pode errar pra mais — por isso a instrução da
+// continuação autoriza responder "nada": falso positivo custa uma chamada de
+// IA, não uma mensagem fora de hora.
+const PROMISE_RE =
+  /\b(vou (te |lhe )?(mandar|enviar|oferecer|passar|montar|verificar|checar|buscar|trazer|preparar|sugerir|separar|consultar)|já (te |lhe )?(mando|envio|passo|retorno|verifico)|te (mando|envio|passo) (já|agora|em seguida)|em instantes|num instante|um instante|só um momento|segue (abaixo|logo abaixo)|deixa eu (ver|verificar|checar|consultar)|vou dar uma olhada|me dá um segundo)\b/i;
+
+const CONTINUATION_DELAY_MS = 30_000; // tempo pra soar como "digitando", não como robô travado
+const CONTINUATION_MAX_AGE_MS = 60 * 60_000; // promessa velha demais não se cumpre sozinha
+const CONTINUATION_MAX_PER_SWEEP = 20;
+
+/**
+ * Agenda a continuação quando o texto enviado prometeu algo. Em memória (o
+ * caminho rápido); a varredura do cron é a rede pra restart de deploy.
+ */
+function scheduleFollowThrough(conversationId: string, sentText: string): void {
+  if (!PROMISE_RE.test(sentText)) return;
+  setTimeout(() => {
+    runAutoAgentNow(conversationId, { continuation: true }).catch((err) =>
+      console.error(`[AutoAgent] erro na continuação conv=${conversationId}:`, err)
+    );
+  }, CONTINUATION_DELAY_MS);
+}
+
+/**
+ * Rede de proteção da continuação: varre conversas em que a última fala é do
+ * bot, prometeu algo e nada saiu depois. Pega o que o timer perdeu (restart de
+ * deploy) e o que ficou parado antes da função existir.
+ */
+export async function runFollowThroughSweep(): Promise<{ checked: number; resumed: number }> {
+  const now = Date.now();
+  let checked = 0;
+  let resumed = 0;
+
+  const convs = await prisma.conversation.findMany({
+    where: {
+      isGroup: false,
+      aiMode: "ACTIVE",
+      status: { not: "CLOSED" },
+      lastMessageDirection: "OUTBOUND",
+      lastMessageAt: {
+        lte: new Date(now - 2 * 60_000), // dá tempo do caminho rápido agir
+        gte: new Date(now - CONTINUATION_MAX_AGE_MS),
+      },
+    },
+    select: { id: true },
+    orderBy: { lastMessageAt: "desc" },
+    take: 60,
+  });
+
+  for (const c of convs) {
+    if (resumed >= CONTINUATION_MAX_PER_SWEEP) break;
+    checked++;
+    try {
+      const last = await prisma.message.findFirst({
+        where: { conversationId: c.id },
+        orderBy: { receivedAt: "desc" },
+        select: { body: true, direction: true, rawPayload: true },
+      });
+      const raw = last?.rawPayload as any;
+      if (!last || last.direction !== "OUTBOUND" || !raw?.autoAgent || raw?.continuation) continue;
+      if (!PROMISE_RE.test(last.body ?? "")) continue;
+      const res = await runAutoAgentNow(c.id, { continuation: true });
+      if (res.ok && res.replied) resumed++;
+    } catch (err) {
+      console.error(`[AutoAgent] falha na varredura de continuação conv=${c.id}:`, err);
+    }
+  }
+
+  if (resumed > 0) console.log(`[AutoAgent] continuação: ${resumed} conversa(s) retomada(s) de ${checked}`);
+  return { checked, resumed };
+}
+
 /**
  * Processa a conversa AGORA (chamado pelo debounce; exportado também pra
  * testes/diagnóstico). Registra cada execução em recentRuns.
  */
-export async function runAutoAgentNow(conversationId: string): Promise<AgentRunResult> {
-  const diag: Record<string, unknown> = {};
+export async function runAutoAgentNow(
+  conversationId: string,
+  opts?: { continuation?: boolean }
+): Promise<AgentRunResult> {
+  const continuation = !!opts?.continuation;
+  const diag: Record<string, unknown> = continuation ? { continuacao: true } : {};
   try {
-    const res = await runAutoAgentCore(conversationId, diag);
+    const res = await runAutoAgentCore(conversationId, diag, continuation);
     recordRun({ conv: conversationId, ...diag, ...res });
     return res;
   } catch (err) {
@@ -893,7 +976,11 @@ export async function runAutoAgentNow(conversationId: string): Promise<AgentRunR
 }
 
 /** Núcleo do processamento — todos os guards vivem aqui. */
-async function runAutoAgentCore(conversationId: string, diag: Record<string, unknown>): Promise<AgentRunResult> {
+async function runAutoAgentCore(
+  conversationId: string,
+  diag: Record<string, unknown>,
+  continuation = false
+): Promise<AgentRunResult> {
   const conv = await prisma.conversation.findUnique({
     where: { id: conversationId },
     select: {
@@ -912,13 +999,30 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   const last = await prisma.message.findFirst({
     where: { conversationId: conv.id },
     orderBy: { receivedAt: "desc" },
-    select: { id: true, direction: true, instanceId: true, receivedAt: true, body: true },
+    select: { id: true, direction: true, instanceId: true, receivedAt: true, body: true, rawPayload: true },
   });
-  if (!last || last.direction !== "INBOUND") return { ok: false, skipped: "last_not_inbound" };
+  if (!last) return { ok: false, skipped: "sem_mensagem" };
+
+  if (continuation) {
+    // CONTINUAÇÃO: o contato não falou — voltamos porque a ÚLTIMA fala foi
+    // nossa e prometeu algo que não saiu. Só vale quando a última mensagem é
+    // do próprio bot: se um humano escreveu depois, a conversa é dele.
+    const raw = last.rawPayload as any;
+    if (last.direction !== "OUTBOUND") return { ok: false, skipped: "continuacao_desnecessaria" };
+    if (!raw?.autoAgent) return { ok: false, skipped: "continuacao_humano_falou" };
+    if (raw?.continuation) return { ok: false, skipped: "continuacao_ja_feita" };
+    if (conv.isGroup) return { ok: false, skipped: "continuacao_em_grupo" };
+    if (Date.now() - last.receivedAt.getTime() > CONTINUATION_MAX_AGE_MS) {
+      return { ok: false, skipped: "continuacao_tarde_demais" };
+    }
+  } else if (last.direction !== "INBOUND") {
+    return { ok: false, skipped: "last_not_inbound" };
+  }
   if (!last.instanceId) return { ok: false, skipped: "no_instance" };
 
   // Mensagem terminal ("obrigado", "ok", "blz") → resposta mínima ou nenhuma.
-  const lastIsTerminal = isTerminalMessage(last.body ?? "");
+  // Na continuação a última mensagem é NOSSA, então não se aplica.
+  const lastIsTerminal = !continuation && isTerminalMessage(last.body ?? "");
 
   const instance = await prisma.whatsappInstance.findUnique({
     where: { id: last.instanceId },
@@ -1127,7 +1231,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     // de volta pro textão se não reforçar aqui.
     {
       role: "system",
-      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.${scheduling ? ` ATENÇÃO: você TEM a seção AGENDAMENTO DIRETO com horários livres da agenda — ofereça horários DELA; NUNCA diga que um gestor vai verificar disponibilidade e NUNCA envie link de agenda. Ao confirmar reunião use action "AGENDAR" COM os campos "agendarInicio" (código [S...] do horário) e "agendarEmail" dentro do JSON.` : ""}${lastIsTerminal ? ` O contato APENAS agradeceu/encerrou: responda no máximo 1 bolha curta de cortesia SEM pergunta — e se um atendente humano já se despediu logo acima, responda [] (nada).` : ""}`,
+      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.${scheduling ? ` ATENÇÃO: você TEM a seção AGENDAMENTO DIRETO com horários livres da agenda — ofereça horários DELA; NUNCA diga que um gestor vai verificar disponibilidade e NUNCA envie link de agenda. Ao confirmar reunião use action "AGENDAR" COM os campos "agendarInicio" (código [S...] do horário) e "agendarEmail" dentro do JSON.` : ""}${lastIsTerminal ? ` O contato APENAS agradeceu/encerrou: responda no máximo 1 bolha curta de cortesia SEM pergunta — e se um atendente humano já se despediu logo acima, responda [] (nada).` : ""}${continuation ? ` ⚠️ CONTINUAÇÃO: o contato NÃO escreveu nada novo. Você está voltando porque a SUA última mensagem anunciou um próximo passo e ele não foi entregue. Entregue AGORA o que ficou faltando (ex.: os horários concretos da seção AGENDAMENTO DIRETO) — direto, sem saudação, sem se desculpar, sem repetir o que já disse e SEM prometer de novo. Se não houver nada pendente de verdade, responda com "reply": [] (nada).` : ""}`,
     },
   ];
 
@@ -1216,7 +1320,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
       const pause = Math.min(4000, 1500 + part.length * 25);
       await new Promise((r) => setTimeout(r, pause));
     }
-    const ok = await sendBotText(botSender, part);
+    const ok = await sendBotText(botSender, part, continuation ? { continuation: true } : undefined);
     if (ok) {
       replied = true;
     } else {
@@ -1309,6 +1413,19 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
         phone: conv.phone,
       });
     }
+  }
+
+  // Turno terminou com o agente ainda dono da conversa (sem rota, sem handoff).
+  // Se ele prometeu algo, volta sozinho pra cumprir — ninguém mais vai, porque
+  // do lado do time a conversa já consta como respondida.
+  if (
+    action === "NONE" &&
+    replied &&
+    !conv.isGroup &&
+    !continuation &&
+    (assistant as any).followThrough !== false
+  ) {
+    scheduleFollowThrough(conv.id, repliesToSend.join(" "));
   }
 
   return { ok: true, action, replied };

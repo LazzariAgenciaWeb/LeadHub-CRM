@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { runRevivalSweep } from "@/lib/auto-agent";
+import { runRevivalSweep, runFollowThroughSweep } from "@/lib/auto-agent";
 
 /**
  * GET/POST /api/cron/agent-revival
@@ -23,8 +23,20 @@ async function handle(req: NextRequest) {
   }
 
   try {
+    // Duas varreduras irmãs, por quem está devendo a mensagem:
+    //  - continuação: NÓS prometemos e não entregamos → entrega o que faltou;
+    //  - resgate: o CONTATO sumiu depois da nossa resposta → cutuca.
+    // A continuação vem primeiro: cumprir a promessa muda a última mensagem da
+    // conversa e tira do resgate um caso que não era abandono, era falha nossa.
+    const follow = await runFollowThroughSweep();
     const { checked, sent } = await runRevivalSweep();
-    return NextResponse.json({ ok: true, checked, sent, timestamp: new Date().toISOString() });
+    return NextResponse.json({
+      ok: true,
+      checked,
+      sent,
+      continuacao: follow,
+      timestamp: new Date().toISOString(),
+    });
   } catch (err: any) {
     console.error("[Cron Resgate] falhou:", err);
     return NextResponse.json({ ok: false, error: err?.message ?? "erro" }, { status: 500 });
