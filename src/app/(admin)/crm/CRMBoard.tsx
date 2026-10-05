@@ -3327,7 +3327,11 @@ export default function CRMBoard({
               </div>
 
               {/* ── Atividade / conversas (renderiza à ESQUERDA e larga por causa do row-reverse) ── */}
-              <div className="flex-1 flex flex-col border-t md:border-t-0 border-[#1e2d45] min-h-0">
+              {/* min-w-0 é obrigatório: sem ele o item flex não encolhe abaixo do
+                  conteúdo mais largo (ex.: link longo numa mensagem) e, com o
+                  row-reverse, o excesso vaza pela ESQUERDA e é cortado pelo
+                  overflow-hidden do pai — a coluna inteira aparecia cortada. */}
+              <div className="flex-1 min-w-0 flex flex-col border-t md:border-t-0 border-[#1e2d45] min-h-0">
                 {/* Header */}
                 <div className="px-4 py-3 border-b border-[#1e2d45] flex-shrink-0 flex items-center gap-2 bg-[#0f1825]">
                   <span className="text-sm font-semibold text-white flex items-center gap-1.5">
