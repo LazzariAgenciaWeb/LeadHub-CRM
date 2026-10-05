@@ -9,6 +9,7 @@ import { getUserPermissions } from "@/lib/user-permissions";
 import { createConversationEvent } from "@/lib/conversation-events";
 import { sendLeadWonConversion, sendLeadPromotedConversion } from "@/lib/meta-capi";
 import { upsertSaleFromWonLead, removeSaleIfUntouched } from "@/lib/sales";
+import { linkEmailsByAddress } from "@/lib/lead-email-link";
 
 // GET /api/leads/[id]
 export async function GET(
@@ -172,7 +173,8 @@ export async function PATCH(
   const lead = await prisma.lead.update({
     where: { id },
     data: {
-      name, phone, email, source,
+      // phone é NOT NULL no banco: limpar o telefone grava "" (lead sem celular).
+      name, phone: phone === null ? "" : phone, email, source,
       ...(effectiveStatus !== undefined && { status: effectiveStatus }),
       ...outcomeDates,
       notes, value,
@@ -579,6 +581,12 @@ export async function PATCH(
         meta:       { leadId: id },
       });
     }
+  }
+
+  // Ganhou/trocou de email → emails já trocados com o novo endereço (e ainda
+  // sem vínculo) passam a aparecer na negociação. Não bloqueia a resposta.
+  if (typeof email === "string" && email.trim() && email.trim().toLowerCase() !== (existing.email ?? "").toLowerCase()) {
+    void linkEmailsByAddress(existing.companyId, id, email).catch(() => {});
   }
 
   return NextResponse.json(lead);

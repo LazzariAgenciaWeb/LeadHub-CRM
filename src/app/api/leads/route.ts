@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { createConversationEvent } from "@/lib/conversation-events";
+import { linkEmailsByAddress } from "@/lib/lead-email-link";
 
 // GET /api/leads?companyId=&status=&campaignId=&pipeline=&search=&page=&limit=
 export async function GET(req: NextRequest) {
@@ -85,8 +86,14 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { name, phone, email, source, status, notes, value, companyId, campaignId, pipeline, pipelineStage, isInternal } = body;
 
-  if (!phone) {
-    return NextResponse.json({ error: "Telefone é obrigatório" }, { status: 400 });
+  // Telefone deixou de ser obrigatório: nem toda negociação começa com celular
+  // (indicação, email, evento). Exige ao menos um identificador legível.
+  // Sem telefone, grava "" (a coluna é NOT NULL) — o mesmo que o webhook já faz
+  // pra lead só de Instagram. Celular ou grupo podem ser vinculados depois.
+  const phoneClean = typeof phone === "string" ? phone.trim() : "";
+  const nameClean = typeof name === "string" ? name.trim() : "";
+  if (!phoneClean && !nameClean) {
+    return NextResponse.json({ error: "Informe ao menos o nome ou o telefone" }, { status: 400 });
   }
 
   const effectiveCompanyId =
@@ -108,8 +115,8 @@ export async function POST(req: NextRequest) {
 
   const lead = await prisma.lead.create({
     data: {
-      name,
-      phone,
+      name: nameClean || null,
+      phone: phoneClean,
       email,
       source,
       status: status ?? "NEW",
@@ -162,6 +169,12 @@ export async function POST(req: NextRequest) {
       authorName: session.user?.name ?? null,
       meta:       { leadId: lead.id },
     });
+  }
+
+  // Emails já trocados com esse endereço na caixa de entrada (e ainda sem
+  // vínculo) passam a aparecer no lead. Não bloqueia a resposta.
+  if (lead.email) {
+    void linkEmailsByAddress(lead.companyId, lead.id, lead.email).catch(() => {});
   }
 
   return NextResponse.json(lead, { status: 201 });

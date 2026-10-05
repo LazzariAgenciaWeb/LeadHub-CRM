@@ -165,28 +165,32 @@ export async function GET(
     where: lead.conversationId
       ? { id: lead.conversationId }
       : phone ? { companyId, phone } : { id: "__none__" },
-    select: { id: true, aiPausedAt: true },
+    select: { id: true, phone: true, aiPausedAt: true },
   }).catch(() => null);
 
-  if (phone) {
+  // Mensagens do telefone do lead + da conversa vinculada (ex.: grupo da negociação).
+  const msgPhones = [...new Set([phone, conversation?.phone].filter((p): p is string => !!p?.trim()))];
+  const phoneIn = { in: msgPhones };
+
+  if (msgPhones.length > 0) {
     try {
       const [firstIn, firstAi, countIn, countOut, humanFirsts] = await Promise.all([
         prisma.message.findFirst({
-          where: { companyId, phone, direction: "INBOUND" },
+          where: { companyId, phone: phoneIn, direction: "INBOUND" },
           orderBy: { receivedAt: "asc" },
           select: { id: true, body: true, receivedAt: true },
         }),
         prisma.message.findFirst({
-          where: { companyId, phone, direction: "OUTBOUND", sentByAI: true },
+          where: { companyId, phone: phoneIn, direction: "OUTBOUND", sentByAI: true },
           orderBy: { receivedAt: "asc" },
           select: { id: true, body: true, receivedAt: true },
         }),
-        prisma.message.count({ where: { companyId, phone, direction: "INBOUND" } }),
-        prisma.message.count({ where: { companyId, phone, direction: "OUTBOUND" } }),
+        prisma.message.count({ where: { companyId, phone: phoneIn, direction: "INBOUND" } }),
+        prisma.message.count({ where: { companyId, phone: phoneIn, direction: "OUTBOUND" } }),
         prisma.message.groupBy({
           by: ["sentByUserId"],
           where: {
-            companyId, phone, direction: "OUTBOUND",
+            companyId, phone: phoneIn, direction: "OUTBOUND",
             sentByAI: false, sentByUserId: { not: null },
           },
           _min: { receivedAt: true },
@@ -206,7 +210,7 @@ export async function GET(
         });
         // Tempo de 1ª resposta: primeira saída (IA ou humano) depois do 1º contato.
         const firstOut = await prisma.message.findFirst({
-          where: { companyId, phone, direction: "OUTBOUND", receivedAt: { gte: firstIn.receivedAt } },
+          where: { companyId, phone: phoneIn, direction: "OUTBOUND", receivedAt: { gte: firstIn.receivedAt } },
           orderBy: { receivedAt: "asc" },
           select: { receivedAt: true },
         });

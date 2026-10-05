@@ -11,6 +11,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import LeadJourney from "./LeadJourney";
+import { LinkConversationPicker, LeadEmailsPanel, type LinkConversationResult } from "./LeadLinks";
 import SendEmailButton from "@/components/SendEmailButton";
 import ImportLeads from "./ImportLeads";
 import BuscarProspectsModal from "./BuscarProspectsModal";
@@ -33,7 +34,9 @@ export interface PipelineStage {
 export interface CRMLead {
   id: string;
   name: string | null;
+  /** "" quando o lead entrou sem telefone (celular/grupo vinculado depois). */
   phone: string;
+  conversationId?: string | null;
   email: string | null;
   notes: string | null;
   source: string | null;
@@ -171,6 +174,7 @@ const TIMELINE_META: Record<string, { Icon: LucideIcon; titleColor: string; bg: 
  * WhatsApp é o canal padrão e fica sem etiqueta pra não poluir cada linha.
  */
 const CHANNEL_CHIP: Record<string, { label: string; className: string }> = {
+  whatsapp_group: { label: "Grupo", className: "text-violet-300 bg-violet-500/10 border-violet-500/30" },
   instagram: { label: "Instagram", className: "text-pink-300 bg-pink-500/10 border-pink-500/30" },
   messenger: { label: "Messenger", className: "text-blue-300 bg-blue-500/10 border-blue-500/30" },
   facebook:  { label: "Facebook",  className: "text-blue-300 bg-blue-500/10 border-blue-500/30" },
@@ -504,11 +508,8 @@ export default function CRMBoard({
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deletingLead, setDeletingLead] = useState(false);
 
-  // Vincular conversa WhatsApp
+  // Vincular conversa WhatsApp (contato ou grupo) — picker em LeadLinks.tsx
   const [showLinkConv, setShowLinkConv] = useState(false);
-  const [linkPhone, setLinkPhone] = useState("");
-  const [linkingConv, setLinkingConv] = useState(false);
-  const [linkResult, setLinkResult] = useState<string | null>(null);
 
   // ClickUp task ID (só Oportunidades)
   const [editingClickup, setEditingClickup] = useState(false);
@@ -889,8 +890,8 @@ export default function CRMBoard({
 
   async function handleSaveContact() {
     if (!selected) return;
-    if (!contactForm.phone.trim()) {
-      alert("Telefone é obrigatório.");
+    if (!contactForm.phone.trim() && !contactForm.name.trim()) {
+      alert("Informe ao menos o nome ou o telefone.");
       return;
     }
     setSavingContact(true);
@@ -980,8 +981,6 @@ export default function CRMBoard({
     setTrackerSearch("");
     setConfirmDelete(false);
     setShowLinkConv(false);
-    setLinkPhone("");
-    setLinkResult(null);
     setEditingClickup(false);
     setClickupInput(lead.clickupTaskId ?? "");
     setSyncClickupError(null);
@@ -1375,28 +1374,18 @@ export default function CRMBoard({
     startTransition(() => router.refresh());
   }
 
-  async function handleLinkConversation() {
-    if (!selected || !linkPhone.trim()) return;
-    setLinkingConv(true);
-    setLinkResult(null);
-    const res = await fetch("/api/whatsapp/link-prospect", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        phone: linkPhone.trim(),
-        companyId: selected.company?.id ?? (selected as any).companyId,
-        leadId: selected.id,
-      }),
-    });
-    setLinkingConv(false);
-    if (res.ok) {
-      const data = await res.json();
-      setLinkResult(`✅ ${data.linked} mensagem(ns) vinculada(s)`);
-      setLinkPhone("");
-    } else {
-      const data = await res.json();
-      setLinkResult(`❌ ${data.error ?? "Erro ao vincular"}`);
-    }
+  function handleConversationLinked(r: LinkConversationResult) {
+    if (!selected) return;
+    const patch = { conversationId: r.conversationId, phone: r.phone ?? selected.phone };
+    setSelected({ ...selected, ...patch });
+    setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, ...patch } : l)));
+    reloadTimeline();
+  }
+
+  /** Abre "Conexões externas" já com a busca de conversa — atalho do header. */
+  function openLinkConversation() {
+    setIntegrationsOpen(true);
+    setShowLinkConv(true);
   }
 
   async function handleRemoveFromPipeline() {
@@ -1418,7 +1407,7 @@ export default function CRMBoard({
   async function handleAddLead(e: React.FormEvent) {
     e.preventDefault();
     setAddError("");
-    if (!addForm.phone.trim()) { setAddError("Telefone é obrigatório"); return; }
+    if (!addForm.phone.trim() && !addForm.name.trim()) { setAddError("Informe ao menos o nome ou o telefone"); return; }
     setAddSaving(true);
     const res = await fetch("/api/leads", {
       method: "POST",
@@ -1792,7 +1781,7 @@ export default function CRMBoard({
                           </div>
                         )}
                         {/* Botão WhatsApp rápido — escondido quando Evolution validou que não tem WhatsApp */}
-                        {lead.hasWhatsapp !== false && (
+                        {lead.hasWhatsapp !== false && !!lead.phone && (
                           <a
                             href={whatsappEnabled ? leadhubInboxUrl(lead.phone) : waMeUrl(lead.phone)}
                             target={whatsappEnabled ? "_self" : "_blank"}
@@ -2068,7 +2057,7 @@ export default function CRMBoard({
 
               <div>
                 <label className="block text-slate-400 text-xs font-medium mb-1.5">
-                  Telefone <span className="text-red-400">*</span>
+                  Telefone <span className="text-slate-600 font-normal">(opcional — dá pra vincular celular ou grupo depois)</span>
                 </label>
                 <input
                   type="text"
@@ -2174,13 +2163,28 @@ export default function CRMBoard({
                     className="group flex items-center gap-2 text-left"
                     title="Clique para renomear"
                   >
-                    <h2 className="text-white font-bold text-lg truncate">{selected.name ?? selected.phone}</h2>
+                    <h2 className="text-white font-bold text-lg truncate">{selected.name || selected.phone || selected.email || "Sem nome"}</h2>
                     <span className="opacity-0 group-hover:opacity-60 text-slate-400 text-xs transition-opacity flex-shrink-0">✏️</span>
                   </button>
                 )}
-                {selected.name && (
+                {selected.name && !selected.phone && (
                   <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                    <span className="text-slate-500 text-xs font-mono">{selected.phone}</span>
+                    <span className="text-slate-500 text-xs italic">Sem telefone</span>
+                    {whatsappEnabled && (
+                      <button
+                        onClick={openLinkConversation}
+                        className="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 border border-indigo-500/25 hover:bg-indigo-500/25 font-medium"
+                      >
+                        🔗 Vincular celular ou grupo
+                      </button>
+                    )}
+                  </div>
+                )}
+                {selected.name && selected.phone && (
+                  <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                    <span className="text-slate-500 text-xs font-mono">
+                      {selected.phone.endsWith("@g.us") ? "Grupo do WhatsApp" : selected.phone}
+                    </span>
                     {selected.hasWhatsapp === true && (
                       <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-medium inline-flex items-center gap-1">
                         <Check className="w-3 h-3" strokeWidth={2.5} /> Tem WhatsApp
@@ -2238,7 +2242,7 @@ export default function CRMBoard({
 
                   {/* Atalhos mais usados — na MESMA linha dos seletores, alinhados à direita
                       (antes ficavam escondidos no acordeão "Conexões externas"). */}
-                  {selected.hasWhatsapp !== false && (
+                  {selected.hasWhatsapp !== false && !!selected.phone && (
                     <div className="flex items-center gap-2 ml-auto flex-wrap">
                       {whatsappEnabled && (
                         <a
@@ -2249,6 +2253,7 @@ export default function CRMBoard({
                           <MessageSquare className="w-3.5 h-3.5" strokeWidth={2.25} /> Abrir no LeadHub
                         </a>
                       )}
+                      {!selected.phone.endsWith("@g.us") && (
                       <a
                         href={waMeUrl(selected.phone)}
                         target="_blank"
@@ -2262,6 +2267,7 @@ export default function CRMBoard({
                       >
                         <Globe className="w-3.5 h-3.5" strokeWidth={2.25} /> WhatsApp Web
                       </a>
+                      )}
                     </div>
                   )}
                 </div>
@@ -2681,7 +2687,7 @@ export default function CRMBoard({
                   <div className="bg-[#0f1623] border border-indigo-700/40 rounded-lg p-3 space-y-2">
                     {([
                       ["name", "Nome", "text"],
-                      ["phone", "Telefone *", "text"],
+                      ["phone", "Telefone", "text"],
                       ["email", "E-mail", "email"],
                       ["website", "Site", "text"],
                       ["instagram", "Instagram (URL)", "text"],
@@ -2783,6 +2789,11 @@ export default function CRMBoard({
                         Sem email cadastrado — preencha no lápis ✏️ acima pra habilitar o envio pela plataforma.
                       </div>
                     )}
+                    <LeadEmailsPanel
+                      leadId={selected.id}
+                      leadEmail={selected.email}
+                      onChanged={reloadTimeline}
+                    />
                   </div>
 
                   {(selected.website || selected.instagram || selected.facebook || selected.address || selected.city || selected.segment || selected.source === "SerpAPI" || selected.externalId) && (
@@ -3125,34 +3136,27 @@ export default function CRMBoard({
                             {/* "Abrir no LeadHub" e "WhatsApp Web" subiram pro header do drawer. */}
                             {whatsappEnabled && (
                               <button
-                                onClick={() => { setShowLinkConv(!showLinkConv); setLinkResult(null); setLinkPhone(""); }}
+                                onClick={() => setShowLinkConv(!showLinkConv)}
                                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-xs transition-colors"
                               >
-                                🔗 Vincular outra conversa {showLinkConv ? "▴" : "▾"}
+                                🔗 {selected.phone ? "Vincular outra conversa ou grupo" : "Vincular celular ou grupo"} {showLinkConv ? "▴" : "▾"}
                               </button>
                             )}
                           </div>
                           )}
-                            {showLinkConv && selected.hasWhatsapp !== false && (
+                            {showLinkConv && whatsappEnabled && selected.hasWhatsapp !== false && (
                               <div className="mt-2 space-y-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
-                                <p className="text-slate-500 text-[10px]">Cole o telefone da conversa para vincular as mensagens a este lead.</p>
-                                <div className="flex gap-2">
-                                  <input
-                                    type="text"
-                                    value={linkPhone}
-                                    onChange={(e) => setLinkPhone(e.target.value)}
-                                    placeholder="5511999999999"
-                                    className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
-                                  />
-                                  <button
-                                    onClick={handleLinkConversation}
-                                    disabled={linkingConv || !linkPhone.trim()}
-                                    className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
-                                  >
-                                    {linkingConv ? "..." : "Vincular"}
-                                  </button>
-                                </div>
-                                {linkResult && <p className="text-xs">{linkResult}</p>}
+                                <p className="text-slate-500 text-[10px]">
+                                  Busque a conversa do WhatsApp (contato ou grupo) para trazer as mensagens para esta negociação.
+                                  {selected.phone
+                                    ? " O telefone atual do lead é mantido."
+                                    : " O lead passa a usar o número da conversa escolhida."}
+                                </p>
+                                <LinkConversationPicker
+                                  leadId={selected.id}
+                                  companyId={selected.company?.id ?? (selected as any).companyId}
+                                  onLinked={handleConversationLinked}
+                                />
                               </div>
                             )}
                         </div>

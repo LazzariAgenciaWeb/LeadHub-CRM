@@ -16,6 +16,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "phone, companyId e leadId são obrigatórios" }, { status: 400 });
   }
 
+  // O companyId vem do corpo — sem este gate, qualquer usuário logado ligava
+  // mensagens a lead de OUTRA empresa só trocando o id.
+  const role = (session.user as any).role;
+  const userCompanyId = (session.user as any).companyId;
+  if (role !== "SUPER_ADMIN" && companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+
   // Verify the lead exists and belongs to this company
   const lead = await prisma.lead.findFirst({
     where: { id: leadId, companyId },
@@ -30,10 +38,10 @@ export async function POST(req: NextRequest) {
     data: { leadId },
   });
 
-  // Also update the lead's phone if it doesn't have one
-  if (!lead.phone || lead.phone === phone) {
-    // phone is already set or matches — no action needed
-  } else if (!lead.phone) {
+  // Lead sem telefone herda o da conversa vinculada. (Antes havia um
+  // `if (!lead.phone) {} else if (!lead.phone) {...}` — o segundo ramo nunca
+  // rodava, então o telefone jamais era gravado.)
+  if (!lead.phone?.trim()) {
     await prisma.lead.update({
       where: { id: leadId },
       data: { phone },

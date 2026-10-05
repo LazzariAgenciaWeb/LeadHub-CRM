@@ -68,6 +68,7 @@ export async function GET(
     select: {
       id: true,
       phone: true,
+      conversation: { select: { phone: true } },
       instagram: true,
       source: true,
       companyId: true,
@@ -134,10 +135,14 @@ export async function GET(
   const msgSince =
     msgDays === null ? null : new Date(lead.createdAt.getTime() - msgDays * 86_400_000);
 
-  try {
+  // Telefone do lead + o da conversa vinculada (ex.: grupo da negociação, ou
+  // celular ligado depois a um lead que entrou sem telefone).
+  const msgPhones = [...new Set([lead.phone, lead.conversation?.phone].filter((p): p is string => !!p?.trim()))];
+
+  if (msgPhones.length > 0) try {
     const messages = await prisma.message.findMany({
       where: {
-        phone: lead.phone,
+        phone: { in: msgPhones },
         companyId: lead.companyId,
         ...(msgSince ? { receivedAt: { gte: msgSince } } : {}),
       },
@@ -150,10 +155,12 @@ export async function GET(
         receivedAt: true,
         participantName: true,
         mediaType: true,
+        phone: true,
       },
     });
     for (const m of messages) {
       const isIn = m.direction === "INBOUND";
+      const isGroupMsg = m.phone.endsWith("@g.us");
       const preview = m.body?.trim()
         ? (m.body.length > 140 ? m.body.slice(0, 140) + "…" : m.body)
         : (m.mediaType?.startsWith("image") ? "Imagem"
@@ -168,7 +175,7 @@ export async function GET(
           ? (m.participantName ? `${m.participantName} respondeu` : "Cliente respondeu")
           : "Mensagem enviada",
         body: preview,
-        meta: { channel: "whatsapp" },
+        meta: { channel: isGroupMsg ? "whatsapp_group" : "whatsapp" },
       });
     }
   } catch (e) {
