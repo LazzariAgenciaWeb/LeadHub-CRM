@@ -388,7 +388,13 @@ export default function EmailInbox() {
     let cancelado = false;
     fetch(`/api/email/inbox/${id}/thread`)
       .then((r) => r.json())
-      .then((j) => { if (!cancelado) setThread(j.messages ?? []); })
+      .then((j) => {
+        if (cancelado) return;
+        const msgs = j.messages ?? [];
+        setThread(msgs);
+        // Conversa longa começa fechada — o email em si é o que importa ver.
+        setThreadOpen(msgs.length <= 3);
+      })
       .catch(() => { if (!cancelado) setThread([]); });
     return () => { cancelado = true; };
   }, [selected?.id]);
@@ -946,7 +952,9 @@ export default function EmailInbox() {
   const activeAccounts = accounts.filter((a) => a.active);
 
   return (
-    <div className="p-6">
+    // Ocupa a altura disponível do shell (main é flex-1 com altura definida):
+    // antes eram 72vh fixos, o que deixava uma faixa morta em tela alta.
+    <div className="p-6 h-full flex flex-col min-h-0">
       {/* Header */}
       <div className="flex flex-wrap items-center gap-3 mb-3">
         <h1 className="text-xl font-semibold text-white flex items-center gap-2">
@@ -1046,7 +1054,7 @@ export default function EmailInbox() {
         </div>
       )}
 
-      <div className={`grid grid-cols-1 gap-4 h-[72vh] overflow-hidden ${
+      <div className={`grid grid-cols-1 gap-4 flex-1 min-h-0 md:min-h-[420px] max-md:min-h-[75vh] overflow-hidden ${
         sideCollapsed
           ? "md:grid-cols-[48px_minmax(0,460px)_minmax(0,1fr)]"
           : "md:grid-cols-[170px_320px_minmax(0,1fr)]"}`}>
@@ -1506,7 +1514,7 @@ export default function EmailInbox() {
                     <MessagesSquare size={12} /> Conversa · {thread.length} mensagens
                   </button>
                   {threadOpen && (
-                    <ol className="mt-1.5 space-y-1">
+                    <ol className="mt-1.5 space-y-1 max-h-[22vh] overflow-y-auto pr-1">
                       {thread.map((m) => {
                         const atual = m.id === selected.id;
                         return (
