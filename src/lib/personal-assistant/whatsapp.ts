@@ -107,9 +107,33 @@ export async function sendAssistantMessage(userId: string, text: string): Promis
   if (!user?.assistantGroupJid || !user.assistantInstanceId) return false;
   const inst = await prisma.whatsappInstance.findUnique({ where: { id: user.assistantInstanceId }, select: { instanceName: true, instanceToken: true, status: true } });
   if (!inst) return false;
-  const body = text.startsWith(ASSISTANT_MARK) ? text : `${ASSISTANT_MARK} ${text}`;
-  await safeSend(inst.instanceName, user.assistantGroupJid, body, inst.instanceToken);
+  // Mensagem longa (roteiro de reels, resumo grande): divide em partes de até
+  // ~3500 caracteres, quebrando em parágrafo, e numera "(1/3)".
+  const parts = splitMessage(text, 3500);
+  for (let i = 0; i < parts.length; i++) {
+    const suffix = parts.length > 1 ? ` _(${i + 1}/${parts.length})_` : "";
+    const chunk = parts[i];
+    const body = (chunk.startsWith(ASSISTANT_MARK) ? chunk : `${ASSISTANT_MARK} ${chunk}`) + suffix;
+    await safeSend(inst.instanceName, user.assistantGroupJid, body, inst.instanceToken);
+  }
   return true;
+}
+
+function splitMessage(text: string, max: number): string[] {
+  const t = text.trim();
+  if (t.length <= max) return [t];
+  const out: string[] = [];
+  let rest = t;
+  while (rest.length > max) {
+    let cut = rest.lastIndexOf("\n\n", max);
+    if (cut < max * 0.5) cut = rest.lastIndexOf("\n", max);
+    if (cut < max * 0.5) cut = rest.lastIndexOf(" ", max);
+    if (cut < max * 0.5) cut = max;
+    out.push(rest.slice(0, cut).trim());
+    rest = rest.slice(cut).trim();
+  }
+  if (rest) out.push(rest);
+  return out;
 }
 
 /**
