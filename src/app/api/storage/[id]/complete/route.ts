@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { headObjectSize } from "@/lib/storage/s3";
 import { authorizeTarget, targetOf } from "@/lib/storage/access";
+import { pushFileToClickup } from "@/lib/clickup-files";
 
 // POST /api/storage/[id]/complete   Body: { draft? }
 // Browser avisa que terminou de subir. Conferimos no bucket (HEAD) antes de
@@ -56,6 +57,8 @@ export async function POST(
         },
       }).catch(() => {});
     }
+    // Tarefa ligada ao ClickUp: o arquivo vai pra lá também (em segundo plano).
+    if (file && !body.draft) void pushFileToClickup(file.id);
   }
   return NextResponse.json(file);
 }

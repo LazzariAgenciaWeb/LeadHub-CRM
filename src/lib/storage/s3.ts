@@ -96,6 +96,13 @@ export async function deleteObject(key: string) {
   await internal().send(new DeleteObjectCommand({ Bucket: S3_BUCKET, Key: key }));
 }
 
+/** Lê o objeto inteiro pro servidor (ex.: reenviar o anexo pro ClickUp). */
+export async function getObjectBuffer(key: string): Promise<Buffer> {
+  const r = await internal().send(new GetObjectCommand({ Bucket: S3_BUCKET, Key: key }));
+  if (!r.Body) throw new Error("Objeto vazio");
+  return Buffer.from(await r.Body.transformToByteArray());
+}
+
 /** Copia um objeto dentro do bucket (ex.: anexo de chamado → biblioteca do cliente). */
 export async function copyObject(fromKey: string, toKey: string) {
   const source = `${S3_BUCKET}/${fromKey.split("/").map(encodeURIComponent).join("/")}`;

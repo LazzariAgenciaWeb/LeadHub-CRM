@@ -264,6 +264,49 @@ export async function fetchClickupTaskDescription(apiToken: string, taskId: stri
   } catch { return ""; }
 }
 
+export type ClickupAttachment = {
+  id: string;
+  title: string;
+  url: string;
+  extension: string;
+  mimeType: string;
+  size: number;
+  thumbnail: string | null;
+  date: string | null;
+};
+
+/** Anexos de uma tarefa do ClickUp (sem pastas nem apagados). */
+export async function fetchClickupTaskAttachments(apiToken: string, taskId: string): Promise<ClickupAttachment[]> {
+  if (!taskId) return [];
+  const res = await fetch(taskApiUrl(taskId, ""), { headers: { Authorization: apiToken }, cache: "no-store" });
+  if (!res.ok) throw new Error(`ClickUp respondeu ${res.status}`);
+  const t = await res.json();
+  return (Array.isArray(t.attachments) ? t.attachments : [])
+    .filter((a: any) => a && a.url && !a.is_folder && !a.deleted && !a.hidden)
+    .map((a: any) => ({
+      id: String(a.id),
+      title: String(a.title ?? "arquivo"),
+      url: String(a.url),
+      extension: String(a.extension ?? ""),
+      mimeType: String(a.mimetype ?? ""),
+      size: Number(a.size) || 0,
+      thumbnail: a.thumbnail_large || a.thumbnail_medium || a.thumbnail_small || null,
+      date: a.date ? new Date(Number(a.date)).toISOString() : null,
+    }));
+}
+
+/** Sobe um arquivo como anexo da tarefa no ClickUp. Devolve o id do anexo. */
+export async function uploadClickupAttachment(
+  apiToken: string, taskId: string, file: Buffer, fileName: string, mimeType: string,
+): Promise<string | null> {
+  const form = new FormData();
+  form.append("attachment", new Blob([new Uint8Array(file)], { type: mimeType || "application/octet-stream" }), fileName);
+  const res = await fetch(taskApiUrl(taskId, "/attachment"), { method: "POST", headers: { Authorization: apiToken }, body: form });
+  if (!res.ok) throw new Error(`ClickUp respondeu ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  const d = await res.json().catch(() => null);
+  return d?.id ? String(d.id) : null;
+}
+
 /** Busca os comentários de uma tarefa do ClickUp como [{text, at, cid}] (cronológico).
  *  `cid` = id do comentário no ClickUp — usado pra dedup e evitar eco. */
 export async function fetchClickupTaskComments(apiToken: string, taskId: string): Promise<{ text: string; at: string; cid?: string }[]> {

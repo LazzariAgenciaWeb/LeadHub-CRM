@@ -2056,6 +2056,7 @@ exports.Prisma.StorageObjectScalarFieldEnum = {
   ticketMessageId: 'ticketMessageId',
   projectTaskId: 'projectTaskId',
   libraryCompanyId: 'libraryCompanyId',
+  clickupAttachmentId: 'clickupAttachmentId',
   uploadedById: 'uploadedById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

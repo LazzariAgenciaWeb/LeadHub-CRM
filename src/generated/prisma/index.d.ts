@@ -153127,6 +153127,7 @@ export namespace Prisma {
     ticketMessageId: string | null
     projectTaskId: string | null
     libraryCompanyId: string | null
+    clickupAttachmentId: string | null
     uploadedById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -153145,6 +153146,7 @@ export namespace Prisma {
     ticketMessageId: string | null
     projectTaskId: string | null
     libraryCompanyId: string | null
+    clickupAttachmentId: string | null
     uploadedById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -153163,6 +153165,7 @@ export namespace Prisma {
     ticketMessageId: number
     projectTaskId: number
     libraryCompanyId: number
+    clickupAttachmentId: number
     uploadedById: number
     createdAt: number
     updatedAt: number
@@ -153191,6 +153194,7 @@ export namespace Prisma {
     ticketMessageId?: true
     projectTaskId?: true
     libraryCompanyId?: true
+    clickupAttachmentId?: true
     uploadedById?: true
     createdAt?: true
     updatedAt?: true
@@ -153209,6 +153213,7 @@ export namespace Prisma {
     ticketMessageId?: true
     projectTaskId?: true
     libraryCompanyId?: true
+    clickupAttachmentId?: true
     uploadedById?: true
     createdAt?: true
     updatedAt?: true
@@ -153227,6 +153232,7 @@ export namespace Prisma {
     ticketMessageId?: true
     projectTaskId?: true
     libraryCompanyId?: true
+    clickupAttachmentId?: true
     uploadedById?: true
     createdAt?: true
     updatedAt?: true
@@ -153332,6 +153338,7 @@ export namespace Prisma {
     ticketMessageId: string | null
     projectTaskId: string | null
     libraryCompanyId: string | null
+    clickupAttachmentId: string | null
     uploadedById: string | null
     createdAt: Date
     updatedAt: Date
@@ -153369,6 +153376,7 @@ export namespace Prisma {
     ticketMessageId?: boolean
     projectTaskId?: boolean
     libraryCompanyId?: boolean
+    clickupAttachmentId?: boolean
     uploadedById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -153393,6 +153401,7 @@ export namespace Prisma {
     ticketMessageId?: boolean
     projectTaskId?: boolean
     libraryCompanyId?: boolean
+    clickupAttachmentId?: boolean
     uploadedById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -153416,6 +153425,7 @@ export namespace Prisma {
     ticketMessageId?: boolean
     projectTaskId?: boolean
     libraryCompanyId?: boolean
+    clickupAttachmentId?: boolean
     uploadedById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -153460,6 +153470,7 @@ export namespace Prisma {
       ticketMessageId: string | null
       projectTaskId: string | null
       libraryCompanyId: string | null
+      clickupAttachmentId: string | null
       uploadedById: string | null
       createdAt: Date
       updatedAt: Date
@@ -153874,6 +153885,7 @@ export namespace Prisma {
     readonly ticketMessageId: FieldRef<"StorageObject", 'String'>
     readonly projectTaskId: FieldRef<"StorageObject", 'String'>
     readonly libraryCompanyId: FieldRef<"StorageObject", 'String'>
+    readonly clickupAttachmentId: FieldRef<"StorageObject", 'String'>
     readonly uploadedById: FieldRef<"StorageObject", 'String'>
     readonly createdAt: FieldRef<"StorageObject", 'DateTime'>
     readonly updatedAt: FieldRef<"StorageObject", 'DateTime'>
@@ -161456,6 +161468,7 @@ export namespace Prisma {
     ticketMessageId: 'ticketMessageId',
     projectTaskId: 'projectTaskId',
     libraryCompanyId: 'libraryCompanyId',
+    clickupAttachmentId: 'clickupAttachmentId',
     uploadedById: 'uploadedById',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -175023,6 +175036,7 @@ export namespace Prisma {
     ticketMessageId?: StringNullableFilter<"StorageObject"> | string | null
     projectTaskId?: StringNullableFilter<"StorageObject"> | string | null
     libraryCompanyId?: StringNullableFilter<"StorageObject"> | string | null
+    clickupAttachmentId?: StringNullableFilter<"StorageObject"> | string | null
     uploadedById?: StringNullableFilter<"StorageObject"> | string | null
     createdAt?: DateTimeFilter<"StorageObject"> | Date | string
     updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
@@ -175047,6 +175061,7 @@ export namespace Prisma {
     ticketMessageId?: SortOrderInput | SortOrder
     projectTaskId?: SortOrderInput | SortOrder
     libraryCompanyId?: SortOrderInput | SortOrder
+    clickupAttachmentId?: SortOrderInput | SortOrder
     uploadedById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -175074,6 +175089,7 @@ export namespace Prisma {
     ticketMessageId?: StringNullableFilter<"StorageObject"> | string | null
     projectTaskId?: StringNullableFilter<"StorageObject"> | string | null
     libraryCompanyId?: StringNullableFilter<"StorageObject"> | string | null
+    clickupAttachmentId?: StringNullableFilter<"StorageObject"> | string | null
     uploadedById?: StringNullableFilter<"StorageObject"> | string | null
     createdAt?: DateTimeFilter<"StorageObject"> | Date | string
     updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
@@ -175098,6 +175114,7 @@ export namespace Prisma {
     ticketMessageId?: SortOrderInput | SortOrder
     projectTaskId?: SortOrderInput | SortOrder
     libraryCompanyId?: SortOrderInput | SortOrder
+    clickupAttachmentId?: SortOrderInput | SortOrder
     uploadedById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -175124,6 +175141,7 @@ export namespace Prisma {
     ticketMessageId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
     projectTaskId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
     libraryCompanyId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
+    clickupAttachmentId?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
     uploadedById?: StringNullableWithAggregatesFilter<"StorageObject"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"StorageObject"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"StorageObject"> | Date | string
@@ -189602,6 +189620,7 @@ export namespace Prisma {
     size?: number
     status?: string
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
@@ -189625,6 +189644,7 @@ export namespace Prisma {
     ticketMessageId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -189640,6 +189660,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
@@ -189663,6 +189684,7 @@ export namespace Prisma {
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -189682,6 +189704,7 @@ export namespace Prisma {
     ticketMessageId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -189696,6 +189719,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -189713,6 +189737,7 @@ export namespace Prisma {
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -199650,6 +199675,7 @@ export namespace Prisma {
     ticketMessageId?: SortOrder
     projectTaskId?: SortOrder
     libraryCompanyId?: SortOrder
+    clickupAttachmentId?: SortOrder
     uploadedById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -199672,6 +199698,7 @@ export namespace Prisma {
     ticketMessageId?: SortOrder
     projectTaskId?: SortOrder
     libraryCompanyId?: SortOrder
+    clickupAttachmentId?: SortOrder
     uploadedById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -199690,6 +199717,7 @@ export namespace Prisma {
     ticketMessageId?: SortOrder
     projectTaskId?: SortOrder
     libraryCompanyId?: SortOrder
+    clickupAttachmentId?: SortOrder
     uploadedById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -215731,6 +215759,7 @@ export namespace Prisma {
     size?: number
     status?: string
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
@@ -215753,6 +215782,7 @@ export namespace Prisma {
     ticketMessageId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
@@ -217283,6 +217313,7 @@ export namespace Prisma {
     ticketMessageId?: StringNullableFilter<"StorageObject"> | string | null
     projectTaskId?: StringNullableFilter<"StorageObject"> | string | null
     libraryCompanyId?: StringNullableFilter<"StorageObject"> | string | null
+    clickupAttachmentId?: StringNullableFilter<"StorageObject"> | string | null
     uploadedById?: StringNullableFilter<"StorageObject"> | string | null
     createdAt?: DateTimeFilter<"StorageObject"> | Date | string
     updatedAt?: DateTimeFilter<"StorageObject"> | Date | string
@@ -224268,6 +224299,7 @@ export namespace Prisma {
     size?: number
     status?: string
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ticket?: TicketCreateNestedOneWithoutAttachmentsInput
@@ -224289,6 +224321,7 @@ export namespace Prisma {
     ticketMessageId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -243865,6 +243898,7 @@ export namespace Prisma {
     size?: number
     status?: string
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
@@ -243886,6 +243920,7 @@ export namespace Prisma {
     ticketMessageId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -245069,6 +245104,7 @@ export namespace Prisma {
     size?: number
     status?: string
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
@@ -245090,6 +245126,7 @@ export namespace Prisma {
     ticketId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -248413,6 +248450,7 @@ export namespace Prisma {
     size?: number
     status?: string
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
@@ -248434,6 +248472,7 @@ export namespace Prisma {
     ticketId?: string | null
     ticketMessageId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -301167,6 +301206,7 @@ export namespace Prisma {
     size?: number
     status?: string
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutStorageObjectsInput
@@ -301189,6 +301229,7 @@ export namespace Prisma {
     ticketMessageId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -301502,6 +301543,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
@@ -301524,6 +301566,7 @@ export namespace Prisma {
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -302292,6 +302335,7 @@ export namespace Prisma {
     ticketMessageId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -303998,6 +304042,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
@@ -304020,6 +304065,7 @@ export namespace Prisma {
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
@@ -304038,6 +304084,7 @@ export namespace Prisma {
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -305542,6 +305589,7 @@ export namespace Prisma {
     ticketMessageId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -310021,6 +310069,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
@@ -310042,6 +310091,7 @@ export namespace Prisma {
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -310060,6 +310110,7 @@ export namespace Prisma {
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -312358,6 +312409,7 @@ export namespace Prisma {
     ticketMessageId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -312558,6 +312610,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
@@ -312579,6 +312632,7 @@ export namespace Prisma {
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -312597,6 +312651,7 @@ export namespace Prisma {
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -312614,6 +312669,7 @@ export namespace Prisma {
     ticketId?: string | null
     projectTaskId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -312628,6 +312684,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
@@ -312649,6 +312706,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -312667,6 +312725,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -313842,6 +313901,7 @@ export namespace Prisma {
     ticketId?: string | null
     ticketMessageId?: string | null
     libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -313922,6 +313982,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
@@ -313943,6 +314004,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -313961,6 +314023,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

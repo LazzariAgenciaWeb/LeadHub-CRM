@@ -13,6 +13,7 @@ import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
 import { ApprovalCard, TaskApprovalBar, type TaskApproval } from "./ProjectApproval";
+import ClickupAttachments from "./ClickupAttachments";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
 import { uploadFile, type StoredFile } from "@/components/attachments/upload";
 import SaveToLibraryButton from "@/components/attachments/SaveToLibraryButton";
@@ -218,6 +219,8 @@ function describeEvent(e: TaskEvent): { icon: string; text: string; dot?: string
       return { icon: "📣", text: `enviou pra aprovação do cliente (${e.toText ?? ""})`, dot: "bg-amber-400" };
     case "APPROVAL_VIEWED":
       return { icon: "👀", text: `o cliente abriu o link de aprovação (${e.toText ?? ""})` };
+    case "CLICKUP_IMPORT":
+      return { icon: "📥", text: `trouxe do ClickUp: ${e.toText ?? ""}` };
     case "APPROVAL_REVISIT":
       return { icon: "👀", text: `o cliente voltou ao link de aprovação (${e.toText ?? ""})` };
     case "APPROVAL_NUDGE":
@@ -1758,6 +1761,14 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
             onDeleted={dropDeletedFile}
             libraryClientId={clientId}
           />
+
+          {task.clickupTaskId && (
+            <ClickupAttachments
+              projectId={projectId}
+              taskId={task.id}
+              onImported={() => { setAttachRefreshKey((k) => k + 1); void loadEvents(); router.refresh(); }}
+            />
+          )}
 
           <div>
             <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1">

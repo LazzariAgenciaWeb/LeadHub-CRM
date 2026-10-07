@@ -4632,6 +4632,11 @@ model StorageObject {
   libraryCompanyId String?
   libraryItem      ClientLibraryItem?
 
+  // Anexo correspondente no ClickUp (tarefa espelhada): preenchido quando o
+  // arquivo veio de lá ("Trazer do ClickUp") ou quando foi enviado pra lá.
+  // Evita duplicar nos dois sentidos.
+  clickupAttachmentId String?
+
   uploadedById String?
   uploadedBy   User?   @relation("StorageObjectUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
 
