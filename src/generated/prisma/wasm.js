@@ -742,6 +742,7 @@ exports.Prisma.ProjectTaskScalarFieldEnum = {
   approvalViewCount: 'approvalViewCount',
   approvalSlidesSeen: 'approvalSlidesSeen',
   approvalSlidesTotal: 'approvalSlidesTotal',
+  approvalLastViewIp: 'approvalLastViewIp',
   approvalNudgedAt: 'approvalNudgedAt',
   approvalNudgeCount: 'approvalNudgeCount',
   approvedAt: 'approvedAt',
@@ -2106,6 +2107,15 @@ exports.Prisma.McpOAuthTokenScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.InternalIpScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  ip: 'ip',
+  userId: 'userId',
+  lastSeenAt: 'lastSeenAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2704,7 +2714,8 @@ exports.Prisma.ModelName = {
   ClientLibraryItem: 'ClientLibraryItem',
   McpOAuthClient: 'McpOAuthClient',
   McpOAuthCode: 'McpOAuthCode',
-  McpOAuthToken: 'McpOAuthToken'
+  McpOAuthToken: 'McpOAuthToken',
+  InternalIp: 'InternalIp'
 };
 
 /**

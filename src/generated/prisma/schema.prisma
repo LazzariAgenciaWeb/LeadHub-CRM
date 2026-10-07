@@ -1659,6 +1659,7 @@ model ProjectTask {
   approvalViewCount   Int       @default(0) // visitas nesta rodada
   approvalSlidesSeen  Int       @default(0) // até qual arquivo do carrossel o cliente passou
   approvalSlidesTotal Int       @default(0)
+  approvalLastViewIp  String? // IP da última visita que contou (cliente, não equipe)
   approvalNudgedAt    DateTime? // último lembrete no grupo
   approvalNudgeCount  Int       @default(0)
   approvedAt          DateTime?
@@ -4710,4 +4711,21 @@ model McpOAuthToken {
   createdAt   DateTime       @default(now())
 
   @@index([userId])
+}
+
+// IP de rede da EQUIPE (escritório, casa, 4G de quem trabalha), aprendido
+// sozinho quando alguém da agência usa o LeadHub. Serve pra não contar como
+// "cliente viu" o acesso interno ao link de aprovação (/aprovar), mesmo sem
+// login — ex.: celular no Wi-Fi do escritório. Vale 30 dias desde o último uso.
+// companyId "" = plataforma (SUPER_ADMIN), interno pra qualquer agência.
+model InternalIp {
+  id         String   @id @default(cuid())
+  companyId  String   @default("")
+  ip         String
+  userId     String?
+  lastSeenAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  @@unique([companyId, ip])
+  @@index([ip])
 }

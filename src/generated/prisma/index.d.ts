@@ -668,6 +668,11 @@ export type McpOAuthCode = $Result.DefaultSelection<Prisma.$McpOAuthCodePayload>
  * 
  */
 export type McpOAuthToken = $Result.DefaultSelection<Prisma.$McpOAuthTokenPayload>
+/**
+ * Model InternalIp
+ * 
+ */
+export type InternalIp = $Result.DefaultSelection<Prisma.$InternalIpPayload>
 
 /**
  * Enums
@@ -2915,6 +2920,16 @@ export class PrismaClient<
     * ```
     */
   get mcpOAuthToken(): Prisma.McpOAuthTokenDelegate<ExtArgs>;
+
+  /**
+   * `prisma.internalIp`: Exposes CRUD operations for the **InternalIp** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InternalIps
+    * const internalIps = await prisma.internalIp.findMany()
+    * ```
+    */
+  get internalIp(): Prisma.InternalIpDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -3486,7 +3501,8 @@ export namespace Prisma {
     ClientLibraryItem: 'ClientLibraryItem',
     McpOAuthClient: 'McpOAuthClient',
     McpOAuthCode: 'McpOAuthCode',
-    McpOAuthToken: 'McpOAuthToken'
+    McpOAuthToken: 'McpOAuthToken',
+    InternalIp: 'InternalIp'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3502,7 +3518,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken"
+      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -12673,6 +12689,76 @@ export namespace Prisma {
           count: {
             args: Prisma.McpOAuthTokenCountArgs<ExtArgs>
             result: $Utils.Optional<McpOAuthTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      InternalIp: {
+        payload: Prisma.$InternalIpPayload<ExtArgs>
+        fields: Prisma.InternalIpFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InternalIpFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InternalIpFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload>
+          }
+          findFirst: {
+            args: Prisma.InternalIpFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InternalIpFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload>
+          }
+          findMany: {
+            args: Prisma.InternalIpFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload>[]
+          }
+          create: {
+            args: Prisma.InternalIpCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload>
+          }
+          createMany: {
+            args: Prisma.InternalIpCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InternalIpCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload>[]
+          }
+          delete: {
+            args: Prisma.InternalIpDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload>
+          }
+          update: {
+            args: Prisma.InternalIpUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload>
+          }
+          deleteMany: {
+            args: Prisma.InternalIpDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InternalIpUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InternalIpUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InternalIpPayload>
+          }
+          aggregate: {
+            args: Prisma.InternalIpAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInternalIp>
+          }
+          groupBy: {
+            args: Prisma.InternalIpGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InternalIpGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InternalIpCountArgs<ExtArgs>
+            result: $Utils.Optional<InternalIpCountAggregateOutputType> | number
           }
         }
       }
@@ -59086,6 +59172,7 @@ export namespace Prisma {
     approvalViewCount: number | null
     approvalSlidesSeen: number | null
     approvalSlidesTotal: number | null
+    approvalLastViewIp: string | null
     approvalNudgedAt: Date | null
     approvalNudgeCount: number | null
     approvedAt: Date | null
@@ -59122,6 +59209,7 @@ export namespace Prisma {
     approvalViewCount: number | null
     approvalSlidesSeen: number | null
     approvalSlidesTotal: number | null
+    approvalLastViewIp: string | null
     approvalNudgedAt: Date | null
     approvalNudgeCount: number | null
     approvedAt: Date | null
@@ -59161,6 +59249,7 @@ export namespace Prisma {
     approvalViewCount: number
     approvalSlidesSeen: number
     approvalSlidesTotal: number
+    approvalLastViewIp: number
     approvalNudgedAt: number
     approvalNudgeCount: number
     approvedAt: number
@@ -59215,6 +59304,7 @@ export namespace Prisma {
     approvalViewCount?: true
     approvalSlidesSeen?: true
     approvalSlidesTotal?: true
+    approvalLastViewIp?: true
     approvalNudgedAt?: true
     approvalNudgeCount?: true
     approvedAt?: true
@@ -59251,6 +59341,7 @@ export namespace Prisma {
     approvalViewCount?: true
     approvalSlidesSeen?: true
     approvalSlidesTotal?: true
+    approvalLastViewIp?: true
     approvalNudgedAt?: true
     approvalNudgeCount?: true
     approvedAt?: true
@@ -59290,6 +59381,7 @@ export namespace Prisma {
     approvalViewCount?: true
     approvalSlidesSeen?: true
     approvalSlidesTotal?: true
+    approvalLastViewIp?: true
     approvalNudgedAt?: true
     approvalNudgeCount?: true
     approvedAt?: true
@@ -59416,6 +59508,7 @@ export namespace Prisma {
     approvalViewCount: number
     approvalSlidesSeen: number
     approvalSlidesTotal: number
+    approvalLastViewIp: string | null
     approvalNudgedAt: Date | null
     approvalNudgeCount: number
     approvedAt: Date | null
@@ -59474,6 +59567,7 @@ export namespace Prisma {
     approvalViewCount?: boolean
     approvalSlidesSeen?: boolean
     approvalSlidesTotal?: boolean
+    approvalLastViewIp?: boolean
     approvalNudgedAt?: boolean
     approvalNudgeCount?: boolean
     approvedAt?: boolean
@@ -59521,6 +59615,7 @@ export namespace Prisma {
     approvalViewCount?: boolean
     approvalSlidesSeen?: boolean
     approvalSlidesTotal?: boolean
+    approvalLastViewIp?: boolean
     approvalNudgedAt?: boolean
     approvalNudgeCount?: boolean
     approvedAt?: boolean
@@ -59564,6 +59659,7 @@ export namespace Prisma {
     approvalViewCount?: boolean
     approvalSlidesSeen?: boolean
     approvalSlidesTotal?: boolean
+    approvalLastViewIp?: boolean
     approvalNudgedAt?: boolean
     approvalNudgeCount?: boolean
     approvedAt?: boolean
@@ -59631,6 +59727,7 @@ export namespace Prisma {
       approvalViewCount: number
       approvalSlidesSeen: number
       approvalSlidesTotal: number
+      approvalLastViewIp: string | null
       approvalNudgedAt: Date | null
       approvalNudgeCount: number
       approvedAt: Date | null
@@ -60067,6 +60164,7 @@ export namespace Prisma {
     readonly approvalViewCount: FieldRef<"ProjectTask", 'Int'>
     readonly approvalSlidesSeen: FieldRef<"ProjectTask", 'Int'>
     readonly approvalSlidesTotal: FieldRef<"ProjectTask", 'Int'>
+    readonly approvalLastViewIp: FieldRef<"ProjectTask", 'String'>
     readonly approvalNudgedAt: FieldRef<"ProjectTask", 'DateTime'>
     readonly approvalNudgeCount: FieldRef<"ProjectTask", 'Int'>
     readonly approvedAt: FieldRef<"ProjectTask", 'DateTime'>
@@ -158143,6 +158241,896 @@ export namespace Prisma {
 
 
   /**
+   * Model InternalIp
+   */
+
+  export type AggregateInternalIp = {
+    _count: InternalIpCountAggregateOutputType | null
+    _min: InternalIpMinAggregateOutputType | null
+    _max: InternalIpMaxAggregateOutputType | null
+  }
+
+  export type InternalIpMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    ip: string | null
+    userId: string | null
+    lastSeenAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type InternalIpMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    ip: string | null
+    userId: string | null
+    lastSeenAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type InternalIpCountAggregateOutputType = {
+    id: number
+    companyId: number
+    ip: number
+    userId: number
+    lastSeenAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type InternalIpMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    ip?: true
+    userId?: true
+    lastSeenAt?: true
+    createdAt?: true
+  }
+
+  export type InternalIpMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    ip?: true
+    userId?: true
+    lastSeenAt?: true
+    createdAt?: true
+  }
+
+  export type InternalIpCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    ip?: true
+    userId?: true
+    lastSeenAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type InternalIpAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InternalIp to aggregate.
+     */
+    where?: InternalIpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InternalIps to fetch.
+     */
+    orderBy?: InternalIpOrderByWithRelationInput | InternalIpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InternalIpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InternalIps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InternalIps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InternalIps
+    **/
+    _count?: true | InternalIpCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InternalIpMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InternalIpMaxAggregateInputType
+  }
+
+  export type GetInternalIpAggregateType<T extends InternalIpAggregateArgs> = {
+        [P in keyof T & keyof AggregateInternalIp]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInternalIp[P]>
+      : GetScalarType<T[P], AggregateInternalIp[P]>
+  }
+
+
+
+
+  export type InternalIpGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InternalIpWhereInput
+    orderBy?: InternalIpOrderByWithAggregationInput | InternalIpOrderByWithAggregationInput[]
+    by: InternalIpScalarFieldEnum[] | InternalIpScalarFieldEnum
+    having?: InternalIpScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InternalIpCountAggregateInputType | true
+    _min?: InternalIpMinAggregateInputType
+    _max?: InternalIpMaxAggregateInputType
+  }
+
+  export type InternalIpGroupByOutputType = {
+    id: string
+    companyId: string
+    ip: string
+    userId: string | null
+    lastSeenAt: Date
+    createdAt: Date
+    _count: InternalIpCountAggregateOutputType | null
+    _min: InternalIpMinAggregateOutputType | null
+    _max: InternalIpMaxAggregateOutputType | null
+  }
+
+  type GetInternalIpGroupByPayload<T extends InternalIpGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InternalIpGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InternalIpGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InternalIpGroupByOutputType[P]>
+            : GetScalarType<T[P], InternalIpGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InternalIpSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    ip?: boolean
+    userId?: boolean
+    lastSeenAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["internalIp"]>
+
+  export type InternalIpSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    ip?: boolean
+    userId?: boolean
+    lastSeenAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["internalIp"]>
+
+  export type InternalIpSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    ip?: boolean
+    userId?: boolean
+    lastSeenAt?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $InternalIpPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InternalIp"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      ip: string
+      userId: string | null
+      lastSeenAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["internalIp"]>
+    composites: {}
+  }
+
+  type InternalIpGetPayload<S extends boolean | null | undefined | InternalIpDefaultArgs> = $Result.GetResult<Prisma.$InternalIpPayload, S>
+
+  type InternalIpCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InternalIpFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InternalIpCountAggregateInputType | true
+    }
+
+  export interface InternalIpDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InternalIp'], meta: { name: 'InternalIp' } }
+    /**
+     * Find zero or one InternalIp that matches the filter.
+     * @param {InternalIpFindUniqueArgs} args - Arguments to find a InternalIp
+     * @example
+     * // Get one InternalIp
+     * const internalIp = await prisma.internalIp.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InternalIpFindUniqueArgs>(args: SelectSubset<T, InternalIpFindUniqueArgs<ExtArgs>>): Prisma__InternalIpClient<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one InternalIp that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InternalIpFindUniqueOrThrowArgs} args - Arguments to find a InternalIp
+     * @example
+     * // Get one InternalIp
+     * const internalIp = await prisma.internalIp.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InternalIpFindUniqueOrThrowArgs>(args: SelectSubset<T, InternalIpFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InternalIpClient<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first InternalIp that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InternalIpFindFirstArgs} args - Arguments to find a InternalIp
+     * @example
+     * // Get one InternalIp
+     * const internalIp = await prisma.internalIp.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InternalIpFindFirstArgs>(args?: SelectSubset<T, InternalIpFindFirstArgs<ExtArgs>>): Prisma__InternalIpClient<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first InternalIp that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InternalIpFindFirstOrThrowArgs} args - Arguments to find a InternalIp
+     * @example
+     * // Get one InternalIp
+     * const internalIp = await prisma.internalIp.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InternalIpFindFirstOrThrowArgs>(args?: SelectSubset<T, InternalIpFindFirstOrThrowArgs<ExtArgs>>): Prisma__InternalIpClient<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more InternalIps that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InternalIpFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InternalIps
+     * const internalIps = await prisma.internalIp.findMany()
+     * 
+     * // Get first 10 InternalIps
+     * const internalIps = await prisma.internalIp.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const internalIpWithIdOnly = await prisma.internalIp.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InternalIpFindManyArgs>(args?: SelectSubset<T, InternalIpFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a InternalIp.
+     * @param {InternalIpCreateArgs} args - Arguments to create a InternalIp.
+     * @example
+     * // Create one InternalIp
+     * const InternalIp = await prisma.internalIp.create({
+     *   data: {
+     *     // ... data to create a InternalIp
+     *   }
+     * })
+     * 
+     */
+    create<T extends InternalIpCreateArgs>(args: SelectSubset<T, InternalIpCreateArgs<ExtArgs>>): Prisma__InternalIpClient<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many InternalIps.
+     * @param {InternalIpCreateManyArgs} args - Arguments to create many InternalIps.
+     * @example
+     * // Create many InternalIps
+     * const internalIp = await prisma.internalIp.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InternalIpCreateManyArgs>(args?: SelectSubset<T, InternalIpCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InternalIps and returns the data saved in the database.
+     * @param {InternalIpCreateManyAndReturnArgs} args - Arguments to create many InternalIps.
+     * @example
+     * // Create many InternalIps
+     * const internalIp = await prisma.internalIp.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InternalIps and only return the `id`
+     * const internalIpWithIdOnly = await prisma.internalIp.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InternalIpCreateManyAndReturnArgs>(args?: SelectSubset<T, InternalIpCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a InternalIp.
+     * @param {InternalIpDeleteArgs} args - Arguments to delete one InternalIp.
+     * @example
+     * // Delete one InternalIp
+     * const InternalIp = await prisma.internalIp.delete({
+     *   where: {
+     *     // ... filter to delete one InternalIp
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InternalIpDeleteArgs>(args: SelectSubset<T, InternalIpDeleteArgs<ExtArgs>>): Prisma__InternalIpClient<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one InternalIp.
+     * @param {InternalIpUpdateArgs} args - Arguments to update one InternalIp.
+     * @example
+     * // Update one InternalIp
+     * const internalIp = await prisma.internalIp.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InternalIpUpdateArgs>(args: SelectSubset<T, InternalIpUpdateArgs<ExtArgs>>): Prisma__InternalIpClient<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more InternalIps.
+     * @param {InternalIpDeleteManyArgs} args - Arguments to filter InternalIps to delete.
+     * @example
+     * // Delete a few InternalIps
+     * const { count } = await prisma.internalIp.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InternalIpDeleteManyArgs>(args?: SelectSubset<T, InternalIpDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InternalIps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InternalIpUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InternalIps
+     * const internalIp = await prisma.internalIp.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InternalIpUpdateManyArgs>(args: SelectSubset<T, InternalIpUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InternalIp.
+     * @param {InternalIpUpsertArgs} args - Arguments to update or create a InternalIp.
+     * @example
+     * // Update or create a InternalIp
+     * const internalIp = await prisma.internalIp.upsert({
+     *   create: {
+     *     // ... data to create a InternalIp
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InternalIp we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InternalIpUpsertArgs>(args: SelectSubset<T, InternalIpUpsertArgs<ExtArgs>>): Prisma__InternalIpClient<$Result.GetResult<Prisma.$InternalIpPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of InternalIps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InternalIpCountArgs} args - Arguments to filter InternalIps to count.
+     * @example
+     * // Count the number of InternalIps
+     * const count = await prisma.internalIp.count({
+     *   where: {
+     *     // ... the filter for the InternalIps we want to count
+     *   }
+     * })
+    **/
+    count<T extends InternalIpCountArgs>(
+      args?: Subset<T, InternalIpCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InternalIpCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InternalIp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InternalIpAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InternalIpAggregateArgs>(args: Subset<T, InternalIpAggregateArgs>): Prisma.PrismaPromise<GetInternalIpAggregateType<T>>
+
+    /**
+     * Group by InternalIp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InternalIpGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InternalIpGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InternalIpGroupByArgs['orderBy'] }
+        : { orderBy?: InternalIpGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InternalIpGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInternalIpGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InternalIp model
+   */
+  readonly fields: InternalIpFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InternalIp.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InternalIpClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InternalIp model
+   */ 
+  interface InternalIpFieldRefs {
+    readonly id: FieldRef<"InternalIp", 'String'>
+    readonly companyId: FieldRef<"InternalIp", 'String'>
+    readonly ip: FieldRef<"InternalIp", 'String'>
+    readonly userId: FieldRef<"InternalIp", 'String'>
+    readonly lastSeenAt: FieldRef<"InternalIp", 'DateTime'>
+    readonly createdAt: FieldRef<"InternalIp", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InternalIp findUnique
+   */
+  export type InternalIpFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+    /**
+     * Filter, which InternalIp to fetch.
+     */
+    where: InternalIpWhereUniqueInput
+  }
+
+  /**
+   * InternalIp findUniqueOrThrow
+   */
+  export type InternalIpFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+    /**
+     * Filter, which InternalIp to fetch.
+     */
+    where: InternalIpWhereUniqueInput
+  }
+
+  /**
+   * InternalIp findFirst
+   */
+  export type InternalIpFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+    /**
+     * Filter, which InternalIp to fetch.
+     */
+    where?: InternalIpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InternalIps to fetch.
+     */
+    orderBy?: InternalIpOrderByWithRelationInput | InternalIpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InternalIps.
+     */
+    cursor?: InternalIpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InternalIps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InternalIps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InternalIps.
+     */
+    distinct?: InternalIpScalarFieldEnum | InternalIpScalarFieldEnum[]
+  }
+
+  /**
+   * InternalIp findFirstOrThrow
+   */
+  export type InternalIpFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+    /**
+     * Filter, which InternalIp to fetch.
+     */
+    where?: InternalIpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InternalIps to fetch.
+     */
+    orderBy?: InternalIpOrderByWithRelationInput | InternalIpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InternalIps.
+     */
+    cursor?: InternalIpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InternalIps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InternalIps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InternalIps.
+     */
+    distinct?: InternalIpScalarFieldEnum | InternalIpScalarFieldEnum[]
+  }
+
+  /**
+   * InternalIp findMany
+   */
+  export type InternalIpFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+    /**
+     * Filter, which InternalIps to fetch.
+     */
+    where?: InternalIpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InternalIps to fetch.
+     */
+    orderBy?: InternalIpOrderByWithRelationInput | InternalIpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InternalIps.
+     */
+    cursor?: InternalIpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InternalIps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InternalIps.
+     */
+    skip?: number
+    distinct?: InternalIpScalarFieldEnum | InternalIpScalarFieldEnum[]
+  }
+
+  /**
+   * InternalIp create
+   */
+  export type InternalIpCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+    /**
+     * The data needed to create a InternalIp.
+     */
+    data: XOR<InternalIpCreateInput, InternalIpUncheckedCreateInput>
+  }
+
+  /**
+   * InternalIp createMany
+   */
+  export type InternalIpCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InternalIps.
+     */
+    data: InternalIpCreateManyInput | InternalIpCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InternalIp createManyAndReturn
+   */
+  export type InternalIpCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many InternalIps.
+     */
+    data: InternalIpCreateManyInput | InternalIpCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InternalIp update
+   */
+  export type InternalIpUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+    /**
+     * The data needed to update a InternalIp.
+     */
+    data: XOR<InternalIpUpdateInput, InternalIpUncheckedUpdateInput>
+    /**
+     * Choose, which InternalIp to update.
+     */
+    where: InternalIpWhereUniqueInput
+  }
+
+  /**
+   * InternalIp updateMany
+   */
+  export type InternalIpUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InternalIps.
+     */
+    data: XOR<InternalIpUpdateManyMutationInput, InternalIpUncheckedUpdateManyInput>
+    /**
+     * Filter which InternalIps to update
+     */
+    where?: InternalIpWhereInput
+  }
+
+  /**
+   * InternalIp upsert
+   */
+  export type InternalIpUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+    /**
+     * The filter to search for the InternalIp to update in case it exists.
+     */
+    where: InternalIpWhereUniqueInput
+    /**
+     * In case the InternalIp found by the `where` argument doesn't exist, create a new InternalIp with this data.
+     */
+    create: XOR<InternalIpCreateInput, InternalIpUncheckedCreateInput>
+    /**
+     * In case the InternalIp was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InternalIpUpdateInput, InternalIpUncheckedUpdateInput>
+  }
+
+  /**
+   * InternalIp delete
+   */
+  export type InternalIpDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+    /**
+     * Filter which InternalIp to delete.
+     */
+    where: InternalIpWhereUniqueInput
+  }
+
+  /**
+   * InternalIp deleteMany
+   */
+  export type InternalIpDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InternalIps to delete
+     */
+    where?: InternalIpWhereInput
+  }
+
+  /**
+   * InternalIp without action
+   */
+  export type InternalIpDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternalIp
+     */
+    select?: InternalIpSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -158887,6 +159875,7 @@ export namespace Prisma {
     approvalViewCount: 'approvalViewCount',
     approvalSlidesSeen: 'approvalSlidesSeen',
     approvalSlidesTotal: 'approvalSlidesTotal',
+    approvalLastViewIp: 'approvalLastViewIp',
     approvalNudgedAt: 'approvalNudgedAt',
     approvalNudgeCount: 'approvalNudgeCount',
     approvedAt: 'approvedAt',
@@ -160531,6 +161520,18 @@ export namespace Prisma {
   };
 
   export type McpOAuthTokenScalarFieldEnum = (typeof McpOAuthTokenScalarFieldEnum)[keyof typeof McpOAuthTokenScalarFieldEnum]
+
+
+  export const InternalIpScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    ip: 'ip',
+    userId: 'userId',
+    lastSeenAt: 'lastSeenAt',
+    createdAt: 'createdAt'
+  };
+
+  export type InternalIpScalarFieldEnum = (typeof InternalIpScalarFieldEnum)[keyof typeof InternalIpScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -165646,6 +166647,7 @@ export namespace Prisma {
     approvalViewCount?: IntFilter<"ProjectTask"> | number
     approvalSlidesSeen?: IntFilter<"ProjectTask"> | number
     approvalSlidesTotal?: IntFilter<"ProjectTask"> | number
+    approvalLastViewIp?: StringNullableFilter<"ProjectTask"> | string | null
     approvalNudgedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     approvalNudgeCount?: IntFilter<"ProjectTask"> | number
     approvedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
@@ -165692,6 +166694,7 @@ export namespace Prisma {
     approvalViewCount?: SortOrder
     approvalSlidesSeen?: SortOrder
     approvalSlidesTotal?: SortOrder
+    approvalLastViewIp?: SortOrderInput | SortOrder
     approvalNudgedAt?: SortOrderInput | SortOrder
     approvalNudgeCount?: SortOrder
     approvedAt?: SortOrderInput | SortOrder
@@ -165741,6 +166744,7 @@ export namespace Prisma {
     approvalViewCount?: IntFilter<"ProjectTask"> | number
     approvalSlidesSeen?: IntFilter<"ProjectTask"> | number
     approvalSlidesTotal?: IntFilter<"ProjectTask"> | number
+    approvalLastViewIp?: StringNullableFilter<"ProjectTask"> | string | null
     approvalNudgedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     approvalNudgeCount?: IntFilter<"ProjectTask"> | number
     approvedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
@@ -165787,6 +166791,7 @@ export namespace Prisma {
     approvalViewCount?: SortOrder
     approvalSlidesSeen?: SortOrder
     approvalSlidesTotal?: SortOrder
+    approvalLastViewIp?: SortOrderInput | SortOrder
     approvalNudgedAt?: SortOrderInput | SortOrder
     approvalNudgeCount?: SortOrder
     approvedAt?: SortOrderInput | SortOrder
@@ -165834,6 +166839,7 @@ export namespace Prisma {
     approvalViewCount?: IntWithAggregatesFilter<"ProjectTask"> | number
     approvalSlidesSeen?: IntWithAggregatesFilter<"ProjectTask"> | number
     approvalSlidesTotal?: IntWithAggregatesFilter<"ProjectTask"> | number
+    approvalLastViewIp?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     approvalNudgedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     approvalNudgeCount?: IntWithAggregatesFilter<"ProjectTask"> | number
     approvedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
@@ -174419,6 +175425,64 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"McpOAuthToken"> | Date | string
   }
 
+  export type InternalIpWhereInput = {
+    AND?: InternalIpWhereInput | InternalIpWhereInput[]
+    OR?: InternalIpWhereInput[]
+    NOT?: InternalIpWhereInput | InternalIpWhereInput[]
+    id?: StringFilter<"InternalIp"> | string
+    companyId?: StringFilter<"InternalIp"> | string
+    ip?: StringFilter<"InternalIp"> | string
+    userId?: StringNullableFilter<"InternalIp"> | string | null
+    lastSeenAt?: DateTimeFilter<"InternalIp"> | Date | string
+    createdAt?: DateTimeFilter<"InternalIp"> | Date | string
+  }
+
+  export type InternalIpOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    ip?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    lastSeenAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InternalIpWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_ip?: InternalIpCompanyIdIpCompoundUniqueInput
+    AND?: InternalIpWhereInput | InternalIpWhereInput[]
+    OR?: InternalIpWhereInput[]
+    NOT?: InternalIpWhereInput | InternalIpWhereInput[]
+    companyId?: StringFilter<"InternalIp"> | string
+    ip?: StringFilter<"InternalIp"> | string
+    userId?: StringNullableFilter<"InternalIp"> | string | null
+    lastSeenAt?: DateTimeFilter<"InternalIp"> | Date | string
+    createdAt?: DateTimeFilter<"InternalIp"> | Date | string
+  }, "id" | "companyId_ip">
+
+  export type InternalIpOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    ip?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    lastSeenAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: InternalIpCountOrderByAggregateInput
+    _max?: InternalIpMaxOrderByAggregateInput
+    _min?: InternalIpMinOrderByAggregateInput
+  }
+
+  export type InternalIpScalarWhereWithAggregatesInput = {
+    AND?: InternalIpScalarWhereWithAggregatesInput | InternalIpScalarWhereWithAggregatesInput[]
+    OR?: InternalIpScalarWhereWithAggregatesInput[]
+    NOT?: InternalIpScalarWhereWithAggregatesInput | InternalIpScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InternalIp"> | string
+    companyId?: StringWithAggregatesFilter<"InternalIp"> | string
+    ip?: StringWithAggregatesFilter<"InternalIp"> | string
+    userId?: StringNullableWithAggregatesFilter<"InternalIp"> | string | null
+    lastSeenAt?: DateTimeWithAggregatesFilter<"InternalIp"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"InternalIp"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -179226,6 +180290,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -179272,6 +180337,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -179310,6 +180376,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179356,6 +180423,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179398,6 +180466,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -179433,6 +180502,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179472,6 +180542,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -188973,6 +190044,69 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InternalIpCreateInput = {
+    id?: string
+    companyId?: string
+    ip: string
+    userId?: string | null
+    lastSeenAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type InternalIpUncheckedCreateInput = {
+    id?: string
+    companyId?: string
+    ip: string
+    userId?: string | null
+    lastSeenAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type InternalIpUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InternalIpUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InternalIpCreateManyInput = {
+    id?: string
+    companyId?: string
+    ip: string
+    userId?: string | null
+    lastSeenAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type InternalIpUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InternalIpUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -192931,6 +194065,7 @@ export namespace Prisma {
     approvalViewCount?: SortOrder
     approvalSlidesSeen?: SortOrder
     approvalSlidesTotal?: SortOrder
+    approvalLastViewIp?: SortOrder
     approvalNudgedAt?: SortOrder
     approvalNudgeCount?: SortOrder
     approvedAt?: SortOrder
@@ -192975,6 +194110,7 @@ export namespace Prisma {
     approvalViewCount?: SortOrder
     approvalSlidesSeen?: SortOrder
     approvalSlidesTotal?: SortOrder
+    approvalLastViewIp?: SortOrder
     approvalNudgedAt?: SortOrder
     approvalNudgeCount?: SortOrder
     approvedAt?: SortOrder
@@ -193011,6 +194147,7 @@ export namespace Prisma {
     approvalViewCount?: SortOrder
     approvalSlidesSeen?: SortOrder
     approvalSlidesTotal?: SortOrder
+    approvalLastViewIp?: SortOrder
     approvalNudgedAt?: SortOrder
     approvalNudgeCount?: SortOrder
     approvedAt?: SortOrder
@@ -198725,6 +199862,38 @@ export namespace Prisma {
     scope?: SortOrder
     expiresAt?: SortOrder
     lastUsedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InternalIpCompanyIdIpCompoundUniqueInput = {
+    companyId: string
+    ip: string
+  }
+
+  export type InternalIpCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    ip?: SortOrder
+    userId?: SortOrder
+    lastSeenAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InternalIpMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    ip?: SortOrder
+    userId?: SortOrder
+    lastSeenAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InternalIpMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    ip?: SortOrder
+    userId?: SortOrder
+    lastSeenAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -213762,6 +214931,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -213806,6 +214976,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -213854,6 +215025,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -213898,6 +215070,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -215578,6 +216751,7 @@ export namespace Prisma {
     approvalViewCount?: IntFilter<"ProjectTask"> | number
     approvalSlidesSeen?: IntFilter<"ProjectTask"> | number
     approvalSlidesTotal?: IntFilter<"ProjectTask"> | number
+    approvalLastViewIp?: StringNullableFilter<"ProjectTask"> | string | null
     approvalNudgedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     approvalNudgeCount?: IntFilter<"ProjectTask"> | number
     approvedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
@@ -245907,6 +247081,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -245951,6 +247126,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -247892,6 +249068,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -247936,6 +249113,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -248138,6 +249316,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -248183,6 +249362,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -248321,6 +249501,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -248366,6 +249547,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -250183,6 +251365,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -250228,6 +251411,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -250372,6 +251556,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -250417,6 +251602,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -298814,6 +300000,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -298859,6 +300046,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -299463,6 +300651,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -299508,6 +300697,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -300822,6 +302012,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -300860,6 +302051,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -301901,6 +303093,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -301945,6 +303138,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -301986,6 +303180,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -302021,6 +303216,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -302065,6 +303261,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -302106,6 +303303,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -312020,6 +313218,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -312300,6 +313499,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -312344,6 +313544,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -312385,6 +313586,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -312829,6 +314031,7 @@ export namespace Prisma {
     approvalViewCount?: number
     approvalSlidesSeen?: number
     approvalSlidesTotal?: number
+    approvalLastViewIp?: string | null
     approvalNudgedAt?: Date | string | null
     approvalNudgeCount?: number
     approvedAt?: Date | string | null
@@ -312864,6 +314067,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -312908,6 +314112,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -312949,6 +314154,7 @@ export namespace Prisma {
     approvalViewCount?: IntFieldUpdateOperationsInput | number
     approvalSlidesSeen?: IntFieldUpdateOperationsInput | number
     approvalSlidesTotal?: IntFieldUpdateOperationsInput | number
+    approvalLastViewIp?: NullableStringFieldUpdateOperationsInput | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgeCount?: IntFieldUpdateOperationsInput | number
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -315974,6 +317180,10 @@ export namespace Prisma {
      * @deprecated Use McpOAuthTokenDefaultArgs instead
      */
     export type McpOAuthTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = McpOAuthTokenDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InternalIpDefaultArgs instead
+     */
+    export type InternalIpArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InternalIpDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

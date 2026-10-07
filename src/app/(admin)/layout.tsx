@@ -4,6 +4,8 @@ import ImpersonationBanner from "@/components/ImpersonationBanner";
 import IconGradients from "@/components/IconGradients";
 import { getEffectiveSession, isImpersonating } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
+import { clientIp, learnInternalIp } from "@/lib/internal-ip";
 
 export default async function AdminLayout({
   children,
@@ -39,6 +41,15 @@ export default async function AdminLayout({
     // Cliente sem acesso completo → só o Meu Espaço (não entra no sistema da agência).
     // EXCEÇÃO: quando é SUPER_ADMIN impersonando, não trava — ele está inspecionando.
     if (isClient && !company?.fullSystemAccess && !impersonating) redirect("/meu-espaco");
+  }
+
+  // IP da equipe: quem é da agência (ou da plataforma) usando o LeadHub ensina
+  // a rede dela, pra o acesso interno ao link de aprovação não contar como
+  // "cliente viu". Cliente com acesso ao sistema não entra (é visita real).
+  if (!isClient) {
+    const ip = clientIp(await headers());
+    const realSuper = role === "SUPER_ADMIN" || impersonating;
+    void learnInternalIp(realSuper ? null : companyId ?? null, ip, (session.user as any)?.id ?? null);
   }
 
   return (
