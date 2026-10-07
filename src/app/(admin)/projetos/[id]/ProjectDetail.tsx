@@ -218,6 +218,8 @@ function describeEvent(e: TaskEvent): { icon: string; text: string; dot?: string
       return { icon: "📣", text: `enviou pra aprovação do cliente (${e.toText ?? ""})`, dot: "bg-amber-400" };
     case "APPROVAL_VIEWED":
       return { icon: "👀", text: `o cliente abriu o link de aprovação (${e.toText ?? ""})` };
+    case "APPROVAL_REVISIT":
+      return { icon: "👀", text: `o cliente voltou ao link de aprovação (${e.toText ?? ""})` };
     case "APPROVAL_NUDGE":
       return { icon: "⏰", text: e.toText ?? "lembrete de aprovação no grupo" };
     case "COMMENT":

@@ -116,7 +116,10 @@ export async function POST(
       approvalFileIds:    fileIds,
       ...(sameRound
         ? { approvalNudgedAt: now }
-        : { approvalSentAt: now, approvalViewedAt: null, approvalNudgedAt: null, approvalNudgeCount: 0 }),
+        : {
+            approvalSentAt: now, approvalViewedAt: null, approvalNudgedAt: null, approvalNudgeCount: 0,
+            approvalLastViewAt: null, approvalViewCount: 0, approvalSlidesSeen: 0, approvalSlidesTotal: 0,
+          }),
       approvedAt:         null,
       approvedByName:     null,
       status:             "AGUARDANDO_CLIENTE",

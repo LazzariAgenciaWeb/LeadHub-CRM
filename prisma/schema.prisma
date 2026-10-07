@@ -1655,6 +1655,10 @@ model ProjectTask {
   approvalFileIds     Json?     // arquivos da peça nesta rodada, na ordem do carrossel
   approvalSentAt      DateTime? // envio da rodada atual
   approvalViewedAt    DateTime? // 1ª abertura do link NESTA rodada (null = não abriu)
+  approvalLastViewAt  DateTime? // última visita (nova visita = 30 min+ depois da anterior)
+  approvalViewCount   Int       @default(0) // visitas nesta rodada
+  approvalSlidesSeen  Int       @default(0) // até qual arquivo do carrossel o cliente passou
+  approvalSlidesTotal Int       @default(0)
   approvalNudgedAt    DateTime? // último lembrete no grupo
   approvalNudgeCount  Int       @default(0)
   approvedAt          DateTime?

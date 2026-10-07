@@ -16,6 +16,10 @@ export type TaskApproval = {
   round: number;
   sentAt: string | null;
   viewedAt: string | null;
+  lastViewAt: string | null;
+  viewCount: number;
+  slidesSeen: number;
+  slidesTotal: number;
   nudgeCount: number;
   approvedAt: string | null;
   approvedBy: string | null;
@@ -29,6 +33,17 @@ const fmt = (iso: string) =>
 function diasDesde(iso: string): string {
   const d = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
   return d <= 0 ? "hoje" : d === 1 ? "há 1 dia" : `há ${d} dias`;
+}
+
+/** "viu 07/10 15:40 · 3 visitas · 5 de 7 slides" — ou "não abriu". */
+function viewSummary(a: TaskApproval): string {
+  if (!a.viewedAt) return "não abriu";
+  const parts = [`viu ${fmt(a.lastViewAt ?? a.viewedAt)}`];
+  if (a.viewCount > 1) parts.push(`${a.viewCount} visitas`);
+  if (a.slidesTotal > 1) {
+    parts.push(a.slidesSeen >= a.slidesTotal ? `passou os ${a.slidesTotal} slides` : `${a.slidesSeen} de ${a.slidesTotal} slides`);
+  }
+  return parts.join(" · ");
 }
 
 function approvalLink(token: string) {
@@ -213,7 +228,7 @@ export function ApprovalCard({
                   <div className="min-w-0 flex-1">
                     <div className="text-slate-200 truncate">{t.title}{a.round > 1 && <span className="text-slate-500"> · v{a.round}</span>}</div>
                     <div className="text-slate-500">
-                      enviada {diasDesde(a.sentAt!)} · {a.viewedAt ? `viu em ${fmt(a.viewedAt)}` : "não abriu"}
+                      enviada {diasDesde(a.sentAt!)} · {viewSummary(a)}
                       {a.nudgeCount > 0 && ` · ${a.nudgeCount}/${project.approvalMaxReminders} lembrete${a.nudgeCount > 1 ? "s" : ""}`}
                       {stale && <span className="text-red-300"> · fale direto com o cliente</span>}
                     </div>
@@ -302,7 +317,7 @@ export function TaskApprovalBar({
       )}
       {waiting && (
         <span className="text-amber-300">
-          v{approval!.round} enviada {diasDesde(approval!.sentAt!)} · {approval!.viewedAt ? `cliente viu ${fmt(approval!.viewedAt)}` : "cliente não abriu"}
+          v{approval!.round} enviada {diasDesde(approval!.sentAt!)} · cliente {viewSummary(approval!)}
           {approval!.nudgeCount > 0 && ` · ${approval!.nudgeCount} lembrete${approval!.nudgeCount > 1 ? "s" : ""}`}
         </span>
       )}

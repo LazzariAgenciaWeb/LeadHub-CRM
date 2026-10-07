@@ -145,9 +145,13 @@ export default function AprovarClient(p: Props) {
     try { setName(localStorage.getItem(NAME_KEY) ?? ""); } catch { /* sem storage */ }
     // "Visto" só pelo navegador — o robô de prévia do WhatsApp não roda JS.
     if (p.status === "AGUARDANDO_CLIENTE") {
-      fetch(`/api/aprovar/${p.token}/visto`, { method: "POST" }).catch(() => {});
+      fetch(`/api/aprovar/${p.token}/visto`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ open: true, seen: p.files.length ? 1 : 0, total: p.files.length }),
+      }).catch(() => {});
     }
-  }, [p.status, p.token]);
+  }, [p.status, p.token, p.files.length]);
 
   // Imagem que já carregou antes da hidratação não dispara onLoad: mede aqui.
   useEffect(() => {
@@ -176,6 +180,20 @@ export default function AprovarClient(p: Props) {
     }
     setDownloading(false);
   }
+
+  // Até onde o cliente passou no carrossel (a equipe vê "viu 5 de 7"). Manda
+  // só quando passa do máximo já visto — no máximo um aviso por slide.
+  const maxSeen = useRef(1);
+  useEffect(() => {
+    if (p.status !== "AGUARDANDO_CLIENTE" || idx + 1 <= maxSeen.current) return;
+    maxSeen.current = idx + 1;
+    fetch(`/api/aprovar/${p.token}/visto`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ seen: maxSeen.current, total: p.files.length }),
+      keepalive: true,
+    }).catch(() => {});
+  }, [idx, p.status, p.token, p.files.length]);
 
   // Índice pelo slide mais perto do centro (com gap/padding, scrollLeft/largura erra).
   function onScroll() {
