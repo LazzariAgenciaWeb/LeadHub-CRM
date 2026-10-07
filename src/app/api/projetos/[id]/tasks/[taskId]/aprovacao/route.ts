@@ -96,9 +96,10 @@ export async function POST(
 
   // Anexos da versão passam a "aguardando" — o mesmo status que a equipe já
   // usava à mão, então o feed da tarefa mostra a peça em aprovação.
+  const inPiece = new Set(fileIds);
   const comments = readComments(task.comments).map((c) =>
-    version && c.at === version.at && c.by !== "client"
-      ? { ...c, attachments: c.attachments?.map((a) => ({ ...a, status: "aguardando" as const })) }
+    c.by !== "client" && c.attachments?.some((a) => inPiece.has(a.id))
+      ? { ...c, attachments: c.attachments.map((a) => (inPiece.has(a.id) ? { ...a, status: "aguardando" as const } : a)) }
       : c,
   );
 

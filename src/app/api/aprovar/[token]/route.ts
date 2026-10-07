@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { readComments, sanitizeComments, type TaskComment } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
 import { getClickupSettings, addCommentToClickupTask, markClickupTaskDone } from "@/lib/clickup";
-import { resolveGroupInstanceId, readFileIds } from "@/lib/approval";
+import { resolveGroupInstanceId, pieceFileIds } from "@/lib/approval";
 import { deliverScheduledMessage } from "@/lib/scheduled-send";
 
 // POST /api/aprovar/[token]
@@ -50,25 +50,31 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
     return NextResponse.json({ error: "Conte o que precisa ajustar." }, { status: 400 });
   }
 
+  // Peça = mesma lista que a página mostrou (ordem do carrossel). Status e
+  // observação vão em cada anexo dela, em qualquer andamento.
+  const piece = await pieceFileIds(task);
+  const inPiece = new Set(piece);
   const existing = readComments(task.comments);
-  const version = existing.find((c) => c.at === task.approvalCommentAt && c.by !== "client");
   const updated = existing.map((c) =>
-    c === version
+    c.by !== "client" && c.attachments?.some((a) => inPiece.has(a.id))
       ? {
           ...c,
-          attachments: c.attachments?.map((a) => ({
-            ...a,
-            status: action === "approve" ? ("aprovada" as const) : ("alteracao" as const),
-            ...(notes.has(a.id) ? { note: notes.get(a.id)! } : {}),
-          })),
+          attachments: c.attachments.map((a) =>
+            inPiece.has(a.id)
+              ? {
+                  ...a,
+                  status: action === "approve" ? ("aprovada" as const) : ("alteracao" as const),
+                  ...(notes.has(a.id) ? { note: notes.get(a.id)! } : {}),
+                }
+              : a,
+          ),
         }
       : c,
   );
 
   // Comentário do cliente — o que a equipe lê no andamento.
-  // "Arquivo N" = posição no carrossel que o cliente viu (snapshot do envio).
-  const order = readFileIds(task.approvalFileIds);
-  const fileNames = new Map((order.length ? order : (version?.attachments ?? []).map((a) => a.id)).map((id, i) => [id, `Arquivo ${i + 1}`]));
+  // "Arquivo N" = posição no carrossel que o cliente viu.
+  const fileNames = new Map(piece.map((id, i) => [id, `Arquivo ${i + 1}`]));
   const notesText = [...notes].map(([fid, n]) => `• ${fileNames.get(fid) ?? "Arquivo"}: ${n}`).join("\n");
   const clientText =
     action === "approve"

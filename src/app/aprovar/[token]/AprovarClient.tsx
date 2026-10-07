@@ -26,6 +26,7 @@ type Props = {
   approvedByName: string | null;
   versionText: string;
   files: ApprovalFile[];
+  links: { url: string; title: string }[];
   history: { text: string; at: string; byClient: boolean }[];
 };
 
@@ -76,6 +77,10 @@ input.f:focus,textarea.f:focus{outline:none;border-color:var(--accent)}
 .banner{margin-top:18px;padding:16px;border-radius:16px;font-size:14px}
 .banner.ok{background:rgba(79,209,160,.1);border:1px solid rgba(79,209,160,.35);color:#BDF3DF}
 .banner.info{background:rgba(110,134,255,.1);border:1px solid rgba(110,134,255,.3);color:#D5DCFF}
+.lk{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;border:1px solid var(--line2);background:#0B0D15;color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;margin-top:8px}
+.lk:first-of-type{margin-top:0}
+.lk span.t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lk span.go{color:var(--accent);font-size:13px}
 .links{margin-top:22px;display:flex;flex-direction:column;gap:8px;font-size:13px}
 .links a{color:var(--ink2)}
 a.open{color:var(--accent);font-size:13px;font-weight:600}
@@ -212,6 +217,22 @@ export default function AprovarClient(p: Props) {
           </>
         ) : (
           <div className="card"><div className="pre">A peça ainda não foi anexada. Fale com a agência pelo grupo.</div></div>
+        )}
+
+        {p.links.length > 0 && (
+          <div className="card">
+            <h3>Arquivos e links</h3>
+            {p.links.map((l) => {
+              const drive = /drive\.google\.com|docs\.google\.com/i.test(l.url);
+              return (
+                <a key={l.url} className="lk" href={l.url} target="_blank" rel="noopener noreferrer">
+                  <span>{drive ? "📁" : "🔗"}</span>
+                  <span className="t">{l.title || (drive ? "Pasta no Google Drive" : l.url.replace(/^https?:\/\//, ""))}</span>
+                  <span className="go">Abrir ↗</span>
+                </a>
+              );
+            })}
+          </div>
         )}
 
         {p.versionText.trim() && (

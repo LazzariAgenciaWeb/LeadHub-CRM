@@ -2,6 +2,7 @@ import { randomBytes } from "crypto";
 import { prisma } from "./prisma";
 import { readComments, type TaskComment } from "./checklist";
 import { SYSTEM_TIMEZONE } from "./business-hours";
+import { fileVisibleToClient } from "./client-task-files";
 
 /**
  * Aprovação de peças pelo cliente (gestão de mídias, piloto).
@@ -40,21 +41,21 @@ export function latestVersionComment(raw: unknown): TaskComment | null {
 
 /**
  * Arquivos que formam a peça, em ordem de NOME (= ordem do carrossel —
- * "slide-2" antes de "slide-10"):
- * os anexos da versão (andamento) + os arquivos soltos da tarefa (subidos
- * pelo "+ Anexar", sem andamento). `since` limita os soltos aos subidos depois
- * dessa data — numa rodada nova, os slides da versão anterior não voltam.
+ * "slide-2" antes de "slide-10"): todos os arquivos da tarefa visíveis ao
+ * cliente — soltos ou presos a andamento (subir vários de uma vez cria um
+ * andamento por arquivo). `since` limita aos subidos depois dessa data: numa
+ * rodada nova, os slides da versão anterior não voltam. `keep` mantém os que
+ * já estavam na rodada (reenvio).
+ *
+ * `version` = andamento com anexo mais recente depois do corte — o texto dele
+ * aparece pro cliente como recado/legenda.
  */
 export async function collectApprovalFiles(
   task: { id: string; comments: unknown },
   opts: { since?: Date | null; keep?: string[] } = {},
 ): Promise<{ ids: string[]; version: TaskComment | null }> {
-  const comments = readComments(task.comments);
-  // Andamento só conta como versão se veio depois do corte (rodada nova).
   const latest = latestVersionComment(task.comments);
   const version = latest && (!opts.since || new Date(latest.at) > opts.since) ? latest : null;
-  const referenced = new Set(comments.flatMap((c) => (c.attachments ?? []).map((a) => a.id)));
-  const versionIds = new Set((version?.attachments ?? []).map((a) => a.id));
   const keep = new Set(opts.keep ?? []);
 
   const objs = await prisma.storageObject.findMany({
@@ -65,11 +66,20 @@ export async function collectApprovalFiles(
   const ids = objs
     .filter((o) =>
       keep.has(o.id) ||
-      versionIds.has(o.id) ||
-      (!referenced.has(o.id) && (!opts.since || o.createdAt > opts.since)),
+      (fileVisibleToClient(task.comments, o.id) && (!opts.since || o.createdAt > opts.since)),
     )
     .map((o) => o.id);
   return { ids, version };
+}
+
+/**
+ * Arquivos que o cliente vê no link agora. 1ª rodada: montado na hora (inclui
+ * o que a equipe subir depois do envio). Da 2ª em diante: a lista guardada no
+ * envio, pra versão anterior não voltar misturada.
+ */
+export async function pieceFileIds(task: { id: string; comments: unknown; approvalRound: number; approvalFileIds: unknown }): Promise<string[]> {
+  const saved = readFileIds(task.approvalFileIds);
+  return task.approvalRound <= 1 || !saved.length ? (await collectApprovalFiles(task)).ids : saved;
 }
 
 const collator = new Intl.Collator("pt-BR", { numeric: true, sensitivity: "base" });

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { clientComments } from "@/lib/checklist";
-import { appBaseUrl, collectApprovalFiles, readFileIds } from "@/lib/approval";
+import { appBaseUrl, pieceFileIds } from "@/lib/approval";
 import { fileVisibleToClient } from "@/lib/client-task-files";
 import AprovarClient, { type ApprovalFile } from "./AprovarClient";
 
@@ -21,10 +21,10 @@ async function load(token: string) {
   const comments = clientComments(task.comments);
   const version = comments.find((c) => c.at === task.approvalCommentAt && c.by !== "client") ?? null;
 
-  // Peça = arquivos guardados no envio. Links enviados antes disso (sem a
-  // lista) montam na hora: anexos da versão + arquivos soltos da tarefa.
-  const saved = readFileIds(task.approvalFileIds);
-  const ids = saved.length ? saved : (await collectApprovalFiles(task)).ids;
+  // Peça: na 1ª rodada, todos os arquivos visíveis da tarefa (montado na hora,
+  // então arquivo que a equipe sobe depois já aparece). Da 2ª em diante, a
+  // lista guardada no envio — pra versão anterior não voltar misturada.
+  const ids = await pieceFileIds(task);
   const objs = ids.length
     ? await prisma.storageObject.findMany({
         where:  { id: { in: ids }, projectTaskId: task.id, status: "READY" },
@@ -40,6 +40,19 @@ async function load(token: string) {
       return { id, fileName: o.fileName, mimeType: o.mimeType, status: meta.get(id)?.status ?? null, note: meta.get(id)?.note ?? null };
     });
 
+  // Links da peça (pasta do Drive, Canva…): seção LINKS da tarefa + links
+  // dos andamentos visíveis. Só http(s), sem repetir.
+  const mats = await prisma.projectMaterial.findMany({
+    where:   { taskId: task.id, kind: "LINK", visibleToClient: true, url: { not: null } },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select:  { title: true, url: true },
+  });
+  const seen = new Set<string>();
+  const links = [
+    ...mats.map((m) => ({ url: m.url!, title: m.title })),
+    ...comments.filter((c) => c.by !== "client").flatMap((c) => c.links ?? []).map((l) => ({ url: l.url, title: l.title ?? "" })),
+  ].filter((l) => /^https?:\/\//i.test(l.url) && !seen.has(l.url) && !!seen.add(l.url));
+
   // Conversa da peça: o que o cliente já pediu e o que a equipe respondeu
   // (sem os andamentos internos). Mais recente por último.
   const history = comments
@@ -47,7 +60,7 @@ async function load(token: string) {
     .slice(-8)
     .map((c) => ({ text: c.text, at: c.at, byClient: c.by === "client" }));
 
-  return { task, files, history, versionText: version?.text ?? "" };
+  return { task, files, links, history, versionText: version?.text ?? "" };
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ token: string }> }): Promise<Metadata> {
@@ -81,7 +94,7 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
     );
   }
 
-  const { task, files, history, versionText } = data;
+  const { task, files, links, history, versionText } = data;
   return (
     <AprovarClient
       token={token}
@@ -98,6 +111,7 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
       approvedByName={task.approvedByName}
       versionText={versionText}
       files={files}
+      links={links}
       history={history}
     />
   );
