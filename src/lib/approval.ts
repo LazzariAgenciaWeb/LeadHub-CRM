@@ -39,6 +39,47 @@ export function latestVersionComment(raw: unknown): TaskComment | null {
 }
 
 /**
+ * Arquivos que formam a peça, em ordem de NOME (= ordem do carrossel —
+ * "slide-2" antes de "slide-10"):
+ * os anexos da versão (andamento) + os arquivos soltos da tarefa (subidos
+ * pelo "+ Anexar", sem andamento). `since` limita os soltos aos subidos depois
+ * dessa data — numa rodada nova, os slides da versão anterior não voltam.
+ */
+export async function collectApprovalFiles(
+  task: { id: string; comments: unknown },
+  opts: { since?: Date | null; keep?: string[] } = {},
+): Promise<{ ids: string[]; version: TaskComment | null }> {
+  const comments = readComments(task.comments);
+  // Andamento só conta como versão se veio depois do corte (rodada nova).
+  const latest = latestVersionComment(task.comments);
+  const version = latest && (!opts.since || new Date(latest.at) > opts.since) ? latest : null;
+  const referenced = new Set(comments.flatMap((c) => (c.attachments ?? []).map((a) => a.id)));
+  const versionIds = new Set((version?.attachments ?? []).map((a) => a.id));
+  const keep = new Set(opts.keep ?? []);
+
+  const objs = await prisma.storageObject.findMany({
+    where:   { projectTaskId: task.id, status: "READY" },
+    select:  { id: true, createdAt: true, fileName: true },
+  });
+  objs.sort((a, b) => byFileName(a.fileName, b.fileName));
+  const ids = objs
+    .filter((o) =>
+      keep.has(o.id) ||
+      versionIds.has(o.id) ||
+      (!referenced.has(o.id) && (!opts.since || o.createdAt > opts.since)),
+    )
+    .map((o) => o.id);
+  return { ids, version };
+}
+
+const collator = new Intl.Collator("pt-BR", { numeric: true, sensitivity: "base" });
+export const byFileName = (a: string, b: string) => collator.compare(a, b);
+
+export function readFileIds(raw: unknown): string[] {
+  return Array.isArray(raw) ? raw.filter((x): x is string => typeof x === "string") : [];
+}
+
+/**
  * Instância que fala no grupo: a da conversa existente com o grupo (é a que
  * está dentro dele). Sem conversa ainda, cai na 1ª instância conectada da
  * empresa que aceita grupos.

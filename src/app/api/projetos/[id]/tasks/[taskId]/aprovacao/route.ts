@@ -7,6 +7,7 @@ import { readComments, sanitizeComments } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
 import {
   newApprovalToken, approvalUrl, latestVersionComment, resolveGroupInstanceId, sendMessageText,
+  collectApprovalFiles, readFileIds,
 } from "@/lib/approval";
 import { deliverScheduledMessage } from "@/lib/scheduled-send";
 
@@ -61,10 +62,20 @@ export async function POST(
   const send = body?.send !== false;
   const agencyId = task.project.setor.companyId;
 
-  const version = latestVersionComment(task.comments);
-  if (!version) {
+  // Reenvio enquanto ainda espera o cliente = MESMA rodada (mantém o "visto",
+  // só reinicia a contagem do lembrete e acrescenta arquivo que faltou).
+  // Depois que o cliente respondeu, enviar de novo abre rodada nova, e os
+  // arquivos soltos da rodada anterior ficam de fora.
+  const sameRound = task.status === "AGUARDANDO_CLIENTE" && task.approvalRound > 0;
+  const picked = await collectApprovalFiles(task, sameRound
+    ? { since: task.approvalSentAt, keep: readFileIds(task.approvalFileIds) }
+    : { since: task.approvalRound > 0 ? task.approvalSentAt : null });
+  // No reenvio, o andamento da rodada continua sendo a versão mesmo sem ser "novo".
+  const version = picked.version ?? (sameRound ? latestVersionComment(task.comments) : null);
+  const fileIds = picked.ids;
+  if (!fileIds.length) {
     return NextResponse.json(
-      { error: "Anexe a peça num andamento (visível ao cliente) antes de enviar pra aprovação." },
+      { error: "Anexe a peça na tarefa (em Arquivos ou num andamento) antes de enviar pra aprovação." },
       { status: 400 },
     );
   }
@@ -86,15 +97,12 @@ export async function POST(
   // Anexos da versão passam a "aguardando" — o mesmo status que a equipe já
   // usava à mão, então o feed da tarefa mostra a peça em aprovação.
   const comments = readComments(task.comments).map((c) =>
-    c.at === version.at && c.by !== "client"
+    version && c.at === version.at && c.by !== "client"
       ? { ...c, attachments: c.attachments?.map((a) => ({ ...a, status: "aguardando" as const })) }
       : c,
   );
 
   const token = task.approvalToken ?? newApprovalToken();
-  // Reenvio da MESMA versão ainda em aprovação: mesma rodada, mantém o "visto"
-  // e só reinicia a contagem do próximo lembrete. Versão nova = rodada nova.
-  const sameRound = task.status === "AGUARDANDO_CLIENTE" && task.approvalRound > 0 && task.approvalCommentAt === version.at;
   const round = sameRound ? task.approvalRound : task.approvalRound + 1;
   const now   = new Date();
 
@@ -103,7 +111,8 @@ export async function POST(
     data: {
       approvalToken:      token,
       approvalRound:      round,
-      approvalCommentAt:  version.at,
+      approvalCommentAt:  version?.at ?? null,
+      approvalFileIds:    fileIds,
       ...(sameRound
         ? { approvalNudgedAt: now }
         : { approvalSentAt: now, approvalViewedAt: null, approvalNudgedAt: null, approvalNudgeCount: 0 }),

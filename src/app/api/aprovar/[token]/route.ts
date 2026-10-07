@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { readComments, sanitizeComments, type TaskComment } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
 import { getClickupSettings, addCommentToClickupTask, markClickupTaskDone } from "@/lib/clickup";
-import { resolveGroupInstanceId } from "@/lib/approval";
+import { resolveGroupInstanceId, readFileIds } from "@/lib/approval";
 import { deliverScheduledMessage } from "@/lib/scheduled-send";
 
 // POST /api/aprovar/[token]
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
     where: { approvalToken: token },
     select: {
       id: true, title: true, status: true, comments: true, clickupTaskId: true, projectId: true,
-      approvalCommentAt: true, approvalRound: true,
+      approvalCommentAt: true, approvalRound: true, approvalFileIds: true,
       project: { select: { approvalGroupJid: true, setor: { select: { companyId: true } } } },
     },
   });
@@ -66,7 +66,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
   );
 
   // Comentário do cliente — o que a equipe lê no andamento.
-  const fileNames = new Map((version?.attachments ?? []).map((a, i) => [a.id, `Arquivo ${i + 1}`]));
+  // "Arquivo N" = posição no carrossel que o cliente viu (snapshot do envio).
+  const order = readFileIds(task.approvalFileIds);
+  const fileNames = new Map((order.length ? order : (version?.attachments ?? []).map((a) => a.id)).map((id, i) => [id, `Arquivo ${i + 1}`]));
   const notesText = [...notes].map(([fid, n]) => `• ${fileNames.get(fid) ?? "Arquivo"}: ${n}`).join("\n");
   const clientText =
     action === "approve"

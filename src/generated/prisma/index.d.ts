@@ -59128,6 +59128,7 @@ export namespace Prisma {
     approvalToken: number
     approvalRound: number
     approvalCommentAt: number
+    approvalFileIds: number
     approvalSentAt: number
     approvalViewedAt: number
     approvalNudgedAt: number
@@ -59238,6 +59239,7 @@ export namespace Prisma {
     approvalToken?: true
     approvalRound?: true
     approvalCommentAt?: true
+    approvalFileIds?: true
     approvalSentAt?: true
     approvalViewedAt?: true
     approvalNudgedAt?: true
@@ -59359,6 +59361,7 @@ export namespace Prisma {
     approvalToken: string | null
     approvalRound: number
     approvalCommentAt: string | null
+    approvalFileIds: JsonValue | null
     approvalSentAt: Date | null
     approvalViewedAt: Date | null
     approvalNudgedAt: Date | null
@@ -59412,6 +59415,7 @@ export namespace Prisma {
     approvalToken?: boolean
     approvalRound?: boolean
     approvalCommentAt?: boolean
+    approvalFileIds?: boolean
     approvalSentAt?: boolean
     approvalViewedAt?: boolean
     approvalNudgedAt?: boolean
@@ -59454,6 +59458,7 @@ export namespace Prisma {
     approvalToken?: boolean
     approvalRound?: boolean
     approvalCommentAt?: boolean
+    approvalFileIds?: boolean
     approvalSentAt?: boolean
     approvalViewedAt?: boolean
     approvalNudgedAt?: boolean
@@ -59492,6 +59497,7 @@ export namespace Prisma {
     approvalToken?: boolean
     approvalRound?: boolean
     approvalCommentAt?: boolean
+    approvalFileIds?: boolean
     approvalSentAt?: boolean
     approvalViewedAt?: boolean
     approvalNudgedAt?: boolean
@@ -59554,6 +59560,7 @@ export namespace Prisma {
       approvalToken: string | null
       approvalRound: number
       approvalCommentAt: string | null
+      approvalFileIds: Prisma.JsonValue | null
       approvalSentAt: Date | null
       approvalViewedAt: Date | null
       approvalNudgedAt: Date | null
@@ -59985,6 +59992,7 @@ export namespace Prisma {
     readonly approvalToken: FieldRef<"ProjectTask", 'String'>
     readonly approvalRound: FieldRef<"ProjectTask", 'Int'>
     readonly approvalCommentAt: FieldRef<"ProjectTask", 'String'>
+    readonly approvalFileIds: FieldRef<"ProjectTask", 'Json'>
     readonly approvalSentAt: FieldRef<"ProjectTask", 'DateTime'>
     readonly approvalViewedAt: FieldRef<"ProjectTask", 'DateTime'>
     readonly approvalNudgedAt: FieldRef<"ProjectTask", 'DateTime'>
@@ -158799,6 +158807,7 @@ export namespace Prisma {
     approvalToken: 'approvalToken',
     approvalRound: 'approvalRound',
     approvalCommentAt: 'approvalCommentAt',
+    approvalFileIds: 'approvalFileIds',
     approvalSentAt: 'approvalSentAt',
     approvalViewedAt: 'approvalViewedAt',
     approvalNudgedAt: 'approvalNudgedAt',
@@ -165548,6 +165557,7 @@ export namespace Prisma {
     approvalToken?: StringNullableFilter<"ProjectTask"> | string | null
     approvalRound?: IntFilter<"ProjectTask"> | number
     approvalCommentAt?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalFileIds?: JsonNullableFilter<"ProjectTask">
     approvalSentAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     approvalViewedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     approvalNudgedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
@@ -165589,6 +165599,7 @@ export namespace Prisma {
     approvalToken?: SortOrderInput | SortOrder
     approvalRound?: SortOrder
     approvalCommentAt?: SortOrderInput | SortOrder
+    approvalFileIds?: SortOrderInput | SortOrder
     approvalSentAt?: SortOrderInput | SortOrder
     approvalViewedAt?: SortOrderInput | SortOrder
     approvalNudgedAt?: SortOrderInput | SortOrder
@@ -165633,6 +165644,7 @@ export namespace Prisma {
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
     approvalRound?: IntFilter<"ProjectTask"> | number
     approvalCommentAt?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalFileIds?: JsonNullableFilter<"ProjectTask">
     approvalSentAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     approvalViewedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     approvalNudgedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
@@ -165674,6 +165686,7 @@ export namespace Prisma {
     approvalToken?: SortOrderInput | SortOrder
     approvalRound?: SortOrder
     approvalCommentAt?: SortOrderInput | SortOrder
+    approvalFileIds?: SortOrderInput | SortOrder
     approvalSentAt?: SortOrderInput | SortOrder
     approvalViewedAt?: SortOrderInput | SortOrder
     approvalNudgedAt?: SortOrderInput | SortOrder
@@ -165716,6 +165729,7 @@ export namespace Prisma {
     approvalToken?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     approvalRound?: IntWithAggregatesFilter<"ProjectTask"> | number
     approvalCommentAt?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
+    approvalFileIds?: JsonNullableWithAggregatesFilter<"ProjectTask">
     approvalSentAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     approvalViewedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     approvalNudgedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
@@ -179096,6 +179110,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -179137,6 +179152,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -179170,6 +179186,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179211,6 +179228,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179248,6 +179266,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -179278,6 +179297,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179312,6 +179332,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -192763,6 +192784,7 @@ export namespace Prisma {
     approvalToken?: SortOrder
     approvalRound?: SortOrder
     approvalCommentAt?: SortOrder
+    approvalFileIds?: SortOrder
     approvalSentAt?: SortOrder
     approvalViewedAt?: SortOrder
     approvalNudgedAt?: SortOrder
@@ -213573,6 +213595,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -213612,6 +213635,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -213655,6 +213679,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -213694,6 +213719,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -215367,6 +215393,7 @@ export namespace Prisma {
     approvalToken?: StringNullableFilter<"ProjectTask"> | string | null
     approvalRound?: IntFilter<"ProjectTask"> | number
     approvalCommentAt?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalFileIds?: JsonNullableFilter<"ProjectTask">
     approvalSentAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     approvalViewedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     approvalNudgedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
@@ -245606,6 +245633,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -245645,6 +245673,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -247579,6 +247608,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -247618,6 +247648,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -247815,6 +247846,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -247855,6 +247887,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -247988,6 +248021,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -248028,6 +248062,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -249840,6 +249875,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -249880,6 +249916,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -250019,6 +250056,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -250059,6 +250097,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -298189,6 +298228,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -298229,6 +298269,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -298826,6 +298867,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -298866,6 +298908,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -300171,6 +300214,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -300204,6 +300248,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -301240,6 +301285,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -301279,6 +301325,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -301315,6 +301362,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -301345,6 +301393,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -301384,6 +301433,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -301420,6 +301470,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -311325,6 +311376,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -311600,6 +311652,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -311639,6 +311692,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -311675,6 +311729,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -312114,6 +312169,7 @@ export namespace Prisma {
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: Date | string | null
     approvalViewedAt?: Date | string | null
     approvalNudgedAt?: Date | string | null
@@ -312144,6 +312200,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -312183,6 +312240,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -312219,6 +312277,7 @@ export namespace Prisma {
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalFileIds?: NullableJsonNullValueInput | InputJsonValue
     approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

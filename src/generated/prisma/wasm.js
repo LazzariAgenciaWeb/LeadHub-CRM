@@ -734,6 +734,7 @@ exports.Prisma.ProjectTaskScalarFieldEnum = {
   approvalToken: 'approvalToken',
   approvalRound: 'approvalRound',
   approvalCommentAt: 'approvalCommentAt',
+  approvalFileIds: 'approvalFileIds',
   approvalSentAt: 'approvalSentAt',
   approvalViewedAt: 'approvalViewedAt',
   approvalNudgedAt: 'approvalNudgedAt',

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { clientComments } from "@/lib/checklist";
-import { appBaseUrl } from "@/lib/approval";
+import { appBaseUrl, collectApprovalFiles, readFileIds } from "@/lib/approval";
+import { fileVisibleToClient } from "@/lib/client-task-files";
 import AprovarClient, { type ApprovalFile } from "./AprovarClient";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +12,7 @@ async function load(token: string) {
     where: { approvalToken: token },
     select: {
       id: true, title: true, description: true, status: true, comments: true, dueDate: true,
-      approvalRound: true, approvalCommentAt: true, approvalSentAt: true, approvedAt: true, approvedByName: true,
+      approvalRound: true, approvalCommentAt: true, approvalFileIds: true, approvalSentAt: true, approvedAt: true, approvedByName: true,
       project: { select: { name: true, publicToken: true, clientCompany: { select: { name: true } } } },
     },
   });
@@ -19,14 +20,25 @@ async function load(token: string) {
 
   const comments = clientComments(task.comments);
   const version = comments.find((c) => c.at === task.approvalCommentAt && c.by !== "client") ?? null;
-  const ids = (version?.attachments ?? []).map((a) => a.id);
-  const ready = ids.length
-    ? await prisma.storageObject.findMany({ where: { id: { in: ids }, projectTaskId: task.id, status: "READY" }, select: { id: true } })
+
+  // Peça = arquivos guardados no envio. Links enviados antes disso (sem a
+  // lista) montam na hora: anexos da versão + arquivos soltos da tarefa.
+  const saved = readFileIds(task.approvalFileIds);
+  const ids = saved.length ? saved : (await collectApprovalFiles(task)).ids;
+  const objs = ids.length
+    ? await prisma.storageObject.findMany({
+        where:  { id: { in: ids }, projectTaskId: task.id, status: "READY" },
+        select: { id: true, fileName: true, mimeType: true },
+      })
     : [];
-  const readySet = new Set(ready.map((r) => r.id));
-  const files: ApprovalFile[] = (version?.attachments ?? [])
-    .filter((a) => readySet.has(a.id))
-    .map((a) => ({ id: a.id, fileName: a.fileName, mimeType: a.mimeType, status: a.status ?? null, note: a.note ?? null }));
+  const byId = new Map(objs.map((o) => [o.id, o]));
+  const meta = new Map((version?.attachments ?? []).map((a) => [a.id, a]));
+  const files: ApprovalFile[] = ids
+    .filter((id) => byId.has(id) && fileVisibleToClient(task.comments, id))
+    .map((id) => {
+      const o = byId.get(id)!;
+      return { id, fileName: o.fileName, mimeType: o.mimeType, status: meta.get(id)?.status ?? null, note: meta.get(id)?.note ?? null };
+    });
 
   // Conversa da peça: o que o cliente já pediu e o que a equipe respondeu
   // (sem os andamentos internos). Mais recente por último.

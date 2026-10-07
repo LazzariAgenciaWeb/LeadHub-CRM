@@ -15,3 +15,4 @@ ALTER TABLE "ProjectTask" ADD COLUMN "approvedAt" TIMESTAMP(3);
 ALTER TABLE "ProjectTask" ADD COLUMN "approvedByName" TEXT;
 CREATE UNIQUE INDEX "ProjectTask_approvalToken_key" ON "ProjectTask"("approvalToken");
 CREATE INDEX "ProjectTask_status_approvalSentAt_idx" ON "ProjectTask"("status", "approvalSentAt");
+ALTER TABLE "ProjectTask" ADD COLUMN "approvalFileIds" JSONB;
