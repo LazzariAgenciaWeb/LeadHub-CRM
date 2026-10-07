@@ -47,10 +47,26 @@ h1{font-size:22px;line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
 .sub{color:var(--ink3);font-size:13px}
 .car{margin:18px -16px 0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:0 16px;scrollbar-width:none}
 .car::-webkit-scrollbar{display:none}
-.slide{flex:0 0 100%;scroll-snap-align:center;border-radius:18px;overflow:hidden;background:#0B0D15;border:1px solid var(--line);position:relative}
-.slide img,.slide video{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;background:#000}
-.slide .doc{padding:28px 18px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
-.slide .tag{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:rgba(6,7,12,.75);border:1px solid var(--line2)}
+.slide{flex:0 0 100%;scroll-snap-align:center;border-radius:18px;overflow:hidden;background:#000;border:1px solid var(--line);position:relative;
+  height:min(60vh,620px);display:flex;align-items:center;justify-content:center}
+.slide img,.slide video{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.slide .doc{background:#0B0D15;width:100%;height:100%;justify-content:center;padding:28px 18px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.slide .tags{position:absolute;top:10px;left:10px;display:flex;gap:6px;z-index:2}
+.slide .tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:rgba(6,7,12,.75);border:1px solid var(--line2)}
+.slide .tag.story{color:#F7C5FF;border-color:rgba(214,120,255,.45)}
+.slide .tag.feed{color:#C9D3FF;border-color:rgba(110,134,255,.45)}
+.slide .wm{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.72));color:rgba(255,255,255,.88);font-size:12px;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.carw{position:relative}
+.dl{position:absolute;top:10px;right:10px;z-index:2;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;
+  background:rgba(6,7,12,.75);border:1px solid var(--line2);color:var(--ink);text-decoration:none}
+.dlall{display:flex;justify-content:center;margin-top:8px}
+.dlall button{background:none;border:0;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;padding:4px 8px}
+.arr{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:999px;border:1px solid var(--line2);
+  background:rgba(6,7,12,.72);color:var(--ink);font-size:20px;line-height:1;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(6px)}
+.arr:disabled{opacity:.25;cursor:default}
+.arr.l{left:6px}.arr.r{right:6px}
 .dots{display:flex;justify-content:center;gap:6px;margin-top:10px}
 .dot{width:7px;height:7px;border-radius:999px;background:var(--line2);border:0;padding:0}
 .dot.on{background:var(--accent);width:18px}
@@ -100,6 +116,8 @@ export default function AprovarClient(p: Props) {
   const [err, setErr] = useState<string | null>(null);
   const [done, setDone] = useState<null | "approve" | "adjust">(null);
   const [idx, setIdx] = useState(0);
+  // Formato detectado pela proporção da imagem: vertical 9:16 = Stories, o resto = Feed.
+  const [fmtOf, setFmtOf] = useState<Record<string, "story" | "feed">>({});
   const carRef = useRef<HTMLDivElement>(null);
 
   const pending = status === "AGUARDANDO_CLIENTE" && !done;
@@ -116,15 +134,67 @@ export default function AprovarClient(p: Props) {
     }
   }, [p.status, p.token]);
 
+  // Imagem que já carregou antes da hidratação não dispara onLoad: mede aqui.
+  useEffect(() => {
+    const imgs = carRef.current?.querySelectorAll("img") ?? [];
+    const found: Record<string, "story" | "feed"> = {};
+    imgs.forEach((im, i) => {
+      const f = p.files.filter((x) => x.mimeType.startsWith("image/"))[i];
+      if (f && im.complete && im.naturalWidth) found[f.id] = im.naturalHeight / im.naturalWidth >= 1.6 ? "story" : "feed";
+    });
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (Object.keys(found).length) setFmtOf((m) => ({ ...found, ...m }));
+  }, [p.files]);
+
+  // Baixa um por um (sem zip): o navegador pode pedir permissão pra vários downloads.
+  const [downloading, setDownloading] = useState(false);
+  async function downloadAll() {
+    setDownloading(true);
+    for (const f of p.files) {
+      const a = document.createElement("a");
+      a.href = `${fileUrl(f.id)}?download=1`;
+      a.download = f.fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      await new Promise((r) => setTimeout(r, 700));
+    }
+    setDownloading(false);
+  }
+
+  // Índice pelo slide mais perto do centro (com gap/padding, scrollLeft/largura erra).
   function onScroll() {
     const el = carRef.current;
     if (!el) return;
-    setIdx(Math.round(el.scrollLeft / el.clientWidth));
+    const mid = el.scrollLeft + el.clientWidth / 2;
+    let best = 0, bestD = Infinity;
+    Array.from(el.children).forEach((c, i) => {
+      const s = c as HTMLElement;
+      const d = Math.abs(s.offsetLeft - el.offsetLeft + s.offsetWidth / 2 - mid);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    setIdx(best);
   }
   function goTo(i: number) {
     const el = carRef.current;
-    if (el) el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+    const slide = el?.children[i] as HTMLElement | undefined;
+    if (!el || !slide) return;
+    setIdx(i);
+    el.scrollTo({ left: slide.offsetLeft - el.offsetLeft - (el.clientWidth - slide.offsetWidth) / 2, behavior: "smooth" });
   }
+  // Setas do teclado no computador.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
+      if (e.key === "ArrowRight") goTo(Math.min(idx + 1, p.files.length - 1));
+      if (e.key === "ArrowLeft") goTo(Math.max(idx - 1, 0));
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+
 
   async function submit(action: "approve" | "adjust") {
     setErr(null);
@@ -185,13 +255,29 @@ export default function AprovarClient(p: Props) {
 
         {p.files.length > 0 ? (
           <>
+            <div className="carw">
             <div className="car" ref={carRef} onScroll={onScroll}>
               {p.files.map((f, i) => (
                 <div className="slide" key={f.id}>
-                  {p.files.length > 1 && <span className="tag">{i + 1}</span>}
+                  <div className="tags">
+                    {p.files.length > 1 && <span className="tag">{i + 1}/{p.files.length}</span>}
+                    {fmtOf[f.id] && <span className={`tag ${fmtOf[f.id]}`}>{fmtOf[f.id] === "story" ? "Stories" : "Feed"}</span>}
+                  </div>
+                  <a className="dl" href={`${fileUrl(f.id)}?download=1`} download={f.fileName} aria-label={`Baixar ${f.fileName}`}>⬇ Baixar</a>
+                  <div className="wm">{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</div>
                   {f.mimeType.startsWith("image/") ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={fileUrl(f.id)} alt={`${p.title}: arquivo ${i + 1}`} loading={i < 2 ? "eager" : "lazy"} />
+                    <img
+                      src={fileUrl(f.id)}
+                      alt={`${p.title}: ${f.fileName}`}
+                      loading={i < 2 ? "eager" : "lazy"}
+                      onLoad={(e) => {
+                        const im = e.currentTarget;
+                        if (!im.naturalWidth) return;
+                        const kind = im.naturalHeight / im.naturalWidth >= 1.6 ? "story" : "feed";
+                        setFmtOf((m) => (m[f.id] === kind ? m : { ...m, [f.id]: kind }));
+                      }}
+                    />
                   ) : f.mimeType.startsWith("video/") ? (
                     <video src={fileUrl(f.id)} controls playsInline preload="metadata" />
                   ) : (
@@ -206,12 +292,24 @@ export default function AprovarClient(p: Props) {
             </div>
             {p.files.length > 1 && (
               <>
+                <button type="button" className="arr l" onClick={() => goTo(idx - 1)} disabled={idx === 0} aria-label="Anterior">‹</button>
+                <button type="button" className="arr r" onClick={() => goTo(idx + 1)} disabled={idx >= p.files.length - 1} aria-label="Próximo">›</button>
+              </>
+            )}
+            </div>
+            {p.files.length > 1 && (
+              <>
                 <div className="dots">
                   {p.files.map((f, i) => (
                     <button key={f.id} className={`dot ${i === idx ? "on" : ""}`} onClick={() => goTo(i)} aria-label={`Ir para o arquivo ${i + 1}`} />
                   ))}
                 </div>
-                <div className="count">{idx + 1} de {p.files.length} · arraste pro lado</div>
+                <div className="dlall">
+                  <button type="button" onClick={downloadAll} disabled={downloading}>
+                    {downloading ? "Baixando…" : `⬇ Baixar todos (${p.files.length})`}
+                  </button>
+                </div>
+                <div className="count">{idx + 1} de {p.files.length} · {p.files[idx]?.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</div>
               </>
             )}
           </>
