@@ -703,6 +703,10 @@ exports.Prisma.SetorClickupListScalarFieldEnum = {
   lastSyncedAt: 'lastSyncedAt',
   clientExpectedAt: 'clientExpectedAt',
   clientLastContactAt: 'clientLastContactAt',
+  approvalGroupJid: 'approvalGroupJid',
+  approvalGroupName: 'approvalGroupName',
+  approvalReminderDays: 'approvalReminderDays',
+  approvalMaxReminders: 'approvalMaxReminders',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -727,6 +731,15 @@ exports.Prisma.ProjectTaskScalarFieldEnum = {
   dueDate: 'dueDate',
   assigneeId: 'assigneeId',
   createdById: 'createdById',
+  approvalToken: 'approvalToken',
+  approvalRound: 'approvalRound',
+  approvalCommentAt: 'approvalCommentAt',
+  approvalSentAt: 'approvalSentAt',
+  approvalViewedAt: 'approvalViewedAt',
+  approvalNudgedAt: 'approvalNudgedAt',
+  approvalNudgeCount: 'approvalNudgeCount',
+  approvedAt: 'approvedAt',
+  approvedByName: 'approvedByName',
   completedAt: 'completedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

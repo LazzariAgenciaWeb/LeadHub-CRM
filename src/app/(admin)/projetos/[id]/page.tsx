@@ -121,6 +121,17 @@ export default async function ProjectDetailPage({
     ignored:      t.ignoredAt != null,
     assigneeId:   t.assigneeId ?? null,
     assigneeName: t.assignee?.name ?? null,
+    approval: t.approvalToken
+      ? {
+          token:        t.approvalToken,
+          round:        t.approvalRound,
+          sentAt:       t.approvalSentAt?.toISOString() ?? null,
+          viewedAt:     t.approvalViewedAt?.toISOString() ?? null,
+          nudgeCount:   t.approvalNudgeCount,
+          approvedAt:   t.approvedAt?.toISOString() ?? null,
+          approvedBy:   t.approvedByName ?? null,
+        }
+      : null,
     materials: materials
       .filter((m) => m.taskId === t.id && m.kind !== "INLINE") // INLINE = print no descritivo
       .map((m) => ({ id: m.id, kind: m.kind, title: m.title, url: m.url })),

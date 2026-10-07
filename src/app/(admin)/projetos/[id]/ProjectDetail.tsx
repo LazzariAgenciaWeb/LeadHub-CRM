@@ -12,6 +12,7 @@ import ProjectServiceSelector from "./ProjectServiceSelector";
 import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
+import { ApprovalCard, TaskApprovalBar, type TaskApproval } from "./ProjectApproval";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
 import { uploadFile, type StoredFile } from "@/components/attachments/upload";
 import SaveToLibraryButton from "@/components/attachments/SaveToLibraryButton";
@@ -37,6 +38,10 @@ type Project = {
   lastSyncedAt:        Date | string | null;
   clientExpectedAt:    Date | string | null;
   clientLastContactAt: Date | string | null;
+  approvalGroupJid:     string | null;
+  approvalGroupName:    string | null;
+  approvalReminderDays: number;
+  approvalMaxReminders: number;
   setor:               { id: string; name: string };
   clientCompany:       { id: string; name: string } | null;
   members:             { user: { id: string; name: string; email: string } }[];
@@ -56,6 +61,7 @@ const ACTIVITY_META: Record<string, { icon: string; text: string; color: string 
   TASK_UPDATED:    { icon: "📝", text: "Atualizada:",        color: "text-amber-300"   },
   TASK_COMPLETED:  { icon: "✅", text: "Concluída:",         color: "text-emerald-300" },
   CLIENT_FOLLOWUP: { icon: "📨", text: "Cobrança ao cliente", color: "text-fuchsia-300" },
+  APPROVAL_STALE:  { icon: "⏳", text: "Aprovação travada:", color: "text-orange-300"  },
   INCIDENT:        { icon: "⚠️", text: "Incidente:",          color: "text-red-400"     },
 };
 
@@ -120,6 +126,7 @@ type InternalTask = {
   ignored:      boolean; // veio do ClickUp mas foi descartada — fora da fila
   assigneeId:   string | null;
   assigneeName: string | null;
+  approval:     TaskApproval | null; // rodada de aprovação por link (null = nunca enviada)
   materials: { id: string; kind: string; title: string; url: string | null }[]; // links/anexos da tarefa
 };
 
@@ -207,6 +214,12 @@ function describeEvent(e: TaskEvent): { icon: string; text: string; dot?: string
     }
     case "ATTACH_NOTE":
       return { icon: "✎", text: `descreveu ${e.fromText ?? "a arte"}: “${e.toText ?? ""}”` };
+    case "APPROVAL_SENT":
+      return { icon: "📣", text: `enviou pra aprovação do cliente (${e.toText ?? ""})`, dot: "bg-amber-400" };
+    case "APPROVAL_VIEWED":
+      return { icon: "👀", text: `o cliente abriu o link de aprovação (${e.toText ?? ""})` };
+    case "APPROVAL_NUDGE":
+      return { icon: "⏰", text: e.toText ?? "lembrete de aprovação no grupo" };
     case "COMMENT":
       return null;
     default:
@@ -423,6 +436,12 @@ export default function ProjectDetail({
             )}
           </div>
 
+          {/* Aprovação de peças pelo cliente (link + grupo do WhatsApp) */}
+          <ApprovalCard
+            project={project}
+            tasks={internalTasks.filter((t) => !t.ignored).map((t) => ({ id: t.id, title: t.title, status: t.status, approval: t.approval }))}
+          />
+
           {/* Progresso ClickUp — só quando há lista vinculada */}
           {project.clickupListId && (
           <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
@@ -519,6 +538,7 @@ export default function ProjectDetail({
             hasClickup={!!project.clickupListId}
             serviceSteps={serviceSteps}
             clientId={project.clientCompany?.id ?? null}
+            hasApprovalGroup={!!project.approvalGroupJid}
           />
 
           {/* Materiais, anexos, links & link do cliente */}
@@ -1268,7 +1288,7 @@ function CommentAttachmentCard({
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
-function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup, availableUsers, clientId = null }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean; availableUsers: { id: string; name: string }[]; clientId?: string | null }) {
+function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup, availableUsers, clientId = null, hasApprovalGroup = false }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean; availableUsers: { id: string; name: string }[]; clientId?: string | null; hasApprovalGroup?: boolean }) {
   const router = useRouter();
   const [title, setTitle] = useState(task.title);
   const [stage, setStage] = useState(task.stage ?? "");
@@ -1644,6 +1664,15 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
           );
         })}
       </div>
+
+      <TaskApprovalBar
+        projectId={projectId}
+        taskId={task.id}
+        status={taskStatus}
+        approval={task.approval}
+        hasGroup={hasApprovalGroup}
+        onStatus={setTaskStatus}
+      />
 
       {/* Linha única de metadados: datas + prazo + toggles (Cliente vê / ClickUp).
           Antes eram 2 linhas separadas com border — agora tudo num strip compacto. */}
@@ -2080,9 +2109,10 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
  * criar uma nova — interna (LeadHub) ou direto no ClickUp (lista do projeto).
  */
 function ProjectTasksCard({
-  projectId, availableUsers, internalTasks, hasClickup, serviceSteps, clientId = null,
+  projectId, availableUsers, internalTasks, hasClickup, serviceSteps, clientId = null, hasApprovalGroup = false,
 }: {
   projectId: string;
+  hasApprovalGroup?: boolean;
   /** Cliente do projeto — habilita "Guardar em Arquivos" nos anexos das tarefas. */
   clientId?: string | null;
   availableUsers: { id: string; name: string }[];
@@ -2761,7 +2791,7 @@ function ProjectTasksCard({
               <div className="flex-1 min-h-0 px-6 py-5">
                 {/* key = id: troca de tarefa REMONTA o editor. Sem isso os campos
                     (inicializados por useState) manteriam os valores da anterior. */}
-                <TaskEditor key={t.id} projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} clientId={clientId} />
+                <TaskEditor key={t.id} projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} clientId={clientId} hasApprovalGroup={hasApprovalGroup} />
               </div>
             </div>
           </div>

@@ -1572,6 +1572,13 @@ model SetorClickupList {
   clientExpectedAt    DateTime? // próxima vez que se espera retorno
   clientLastContactAt DateTime? // última cobrança registrada
 
+  // Aprovação pelo WhatsApp (gestão de mídias): grupo do cliente que recebe o
+  // link de cada peça e os lembretes. null = projeto não usa aprovação por link.
+  approvalGroupJid      String? // JID @g.us
+  approvalGroupName     String?
+  approvalReminderDays  Int     @default(2) // lembra no grupo após N dias sem aprovar
+  approvalMaxReminders  Int     @default(3) // depois disso para de insistir e avisa a equipe
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -1636,6 +1643,19 @@ model ProjectTask {
   createdBy   User?   @relation("ProjectTaskCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   createdById String?
 
+  // Aprovação por link (/aprovar/[approvalToken]) — sem login, escopo só desta
+  // tarefa. Cada "Enviar pra aprovação" abre uma rodada nova; a versão em
+  // aprovação é o andamento com anexos cujo `at` está em approvalCommentAt.
+  approvalToken       String?   @unique
+  approvalRound       Int       @default(0)
+  approvalCommentAt   String?
+  approvalSentAt      DateTime? // envio da rodada atual
+  approvalViewedAt    DateTime? // 1ª abertura do link NESTA rodada (null = não abriu)
+  approvalNudgedAt    DateTime? // último lembrete no grupo
+  approvalNudgeCount  Int       @default(0)
+  approvedAt          DateTime?
+  approvedByName      String?
+
   completedAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -1647,6 +1667,7 @@ model ProjectTask {
   @@index([projectId, done])
   @@index([assigneeId])
   @@index([projectServiceId])
+  @@index([status, approvalSentAt])
 }
 
 // Serviço do catálogo entregue dentro de um projeto, com posição na sequência.

@@ -136,6 +136,23 @@ echo "📅 Cron Mensagens Agendadas habilitado — rodará a cada ${SCHEDULED_MS
   done
 ) &
 
+# Cron: Lembretes de aprovação de peças no grupo do cliente
+# Frequência: a cada 15 minutos (config: APPROVAL_INTERVAL_SECONDS). A rota só
+# dispara em dia útil, 9h–18h.
+APPROVAL_INTERVAL_SECONDS="${APPROVAL_INTERVAL_SECONDS:-900}"
+echo "✅ Cron Aprovações habilitado — rodará a cada ${APPROVAL_INTERVAL_SECONDS}s"
+(
+  sleep 70
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/aprovacoes" --max-time 120 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron Aprovações] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep "$APPROVAL_INTERVAL_SECONDS"
+  done
+) &
+
 # Cron: Assistente pessoal — lembretes (a cada 60s) e resumo diário (a cada 5min,
 # a rota só envia 1x/dia a partir das 8h). Config: ASSISTANT_INTERVAL_SECONDS
 ASSISTANT_INTERVAL_SECONDS="${ASSISTANT_INTERVAL_SECONDS:-60}"

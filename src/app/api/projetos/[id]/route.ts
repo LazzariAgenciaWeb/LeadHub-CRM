@@ -83,7 +83,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
 
   const body = await req.json();
-  const { name, description, type, status, startDate, dueDate, clientCompanyId, serviceId, memberIds, clickupListId, visibility, accessUserIds, setorId } = body;
+  const { name, description, type, status, startDate, dueDate, clientCompanyId, serviceId, memberIds, clickupListId, visibility, accessUserIds, setorId, approvalGroupJid, approvalGroupName, approvalReminderDays, approvalMaxReminders } = body;
 
   // Detecta transição pra ENTREGUE — gera pontos pros membros
   const movingToDelivered = status === "ProjectStatus" || status === "ENTREGUE";
@@ -100,6 +100,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (clientCompanyId !== undefined) data.clientCompanyId = clientCompanyId ?? null;
   if (serviceId !== undefined) data.serviceId = serviceId || null;
   if (visibility !== undefined) data.visibility = visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN";
+  // Aprovação pelo WhatsApp: grupo do cliente + regra de lembrete.
+  if (approvalGroupJid !== undefined) {
+    const jid = typeof approvalGroupJid === "string" ? approvalGroupJid.trim() : "";
+    if (jid && !jid.endsWith("@g.us")) return NextResponse.json({ error: "Grupo inválido" }, { status: 400 });
+    data.approvalGroupJid  = jid || null;
+    data.approvalGroupName = jid ? (String(approvalGroupName ?? "").trim().slice(0, 120) || null) : null;
+  }
+  if (approvalReminderDays !== undefined) data.approvalReminderDays = Math.min(30, Math.max(1, Math.round(Number(approvalReminderDays) || 2)));
+  if (approvalMaxReminders !== undefined) data.approvalMaxReminders = Math.min(10, Math.max(0, Math.round(Number(approvalMaxReminders) || 0)));
   if (clickupListId !== undefined && typeof clickupListId === "string") {
     // String vazia = remover vínculo (projeto vira só interno). Não-vazia = trocar.
     const trimmed = clickupListId.trim();

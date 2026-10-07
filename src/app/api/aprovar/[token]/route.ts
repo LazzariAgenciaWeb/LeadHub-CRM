@@ -1,0 +1,141 @@
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { readComments, sanitizeComments, type TaskComment } from "@/lib/checklist";
+import { Prisma } from "@/generated/prisma";
+import { getClickupSettings, addCommentToClickupTask, markClickupTaskDone } from "@/lib/clickup";
+import { resolveGroupInstanceId } from "@/lib/approval";
+import { deliverScheduledMessage } from "@/lib/scheduled-send";
+
+// POST /api/aprovar/[token]
+// Body: { action: "approve" | "adjust", name: string, text?: string, notes?: { [fileId]: string } }
+//
+// Ação do CLIENTE no link de aprovação — sem login: o token vale só pra esta
+// tarefa e só enquanto ela está em aprovação. Quem aprovou fica registrado
+// pelo nome digitado. O resultado também vai pro grupo do cliente: confirma
+// pra ele e avisa a equipe pela própria caixa do WhatsApp.
+export async function POST(req: NextRequest, { params }: { params: Promise<{ token: string }> }) {
+  const { token } = await params;
+  const body = await req.json().catch(() => ({}));
+  const action = body?.action === "approve" ? "approve" : body?.action === "adjust" ? "adjust" : null;
+  const name = String(body?.name ?? "").trim().slice(0, 80);
+  const text = String(body?.text ?? "").trim().slice(0, 2000);
+  const notesRaw = body?.notes && typeof body.notes === "object" ? body.notes as Record<string, unknown> : {};
+
+  if (!action) return NextResponse.json({ error: "Ação inválida" }, { status: 400 });
+  if (name.length < 2) return NextResponse.json({ error: "Informe seu nome." }, { status: 400 });
+
+  const task = await prisma.projectTask.findUnique({
+    where: { approvalToken: token },
+    select: {
+      id: true, title: true, status: true, comments: true, clickupTaskId: true, projectId: true,
+      approvalCommentAt: true, approvalRound: true,
+      project: { select: { approvalGroupJid: true, setor: { select: { companyId: true } } } },
+    },
+  });
+  if (!task) return NextResponse.json({ error: "Link inválido" }, { status: 404 });
+  if (task.status !== "AGUARDANDO_CLIENTE") {
+    return NextResponse.json(
+      { error: task.status === "APROVADO" ? "Esta peça já foi aprovada." : "Esta peça já voltou pra equipe ajustar." },
+      { status: 409 },
+    );
+  }
+
+  // Observações por arquivo (só no ajuste) — limitadas aos anexos da versão.
+  const notes = new Map<string, string>();
+  for (const [k, v] of Object.entries(notesRaw)) {
+    const n = String(v ?? "").trim().slice(0, 500);
+    if (n) notes.set(k, n);
+  }
+  if (action === "adjust" && !text && notes.size === 0) {
+    return NextResponse.json({ error: "Conte o que precisa ajustar." }, { status: 400 });
+  }
+
+  const existing = readComments(task.comments);
+  const version = existing.find((c) => c.at === task.approvalCommentAt && c.by !== "client");
+  const updated = existing.map((c) =>
+    c === version
+      ? {
+          ...c,
+          attachments: c.attachments?.map((a) => ({
+            ...a,
+            status: action === "approve" ? ("aprovada" as const) : ("alteracao" as const),
+            ...(notes.has(a.id) ? { note: notes.get(a.id)! } : {}),
+          })),
+        }
+      : c,
+  );
+
+  // Comentário do cliente — o que a equipe lê no andamento.
+  const fileNames = new Map((version?.attachments ?? []).map((a, i) => [a.id, `Arquivo ${i + 1}`]));
+  const notesText = [...notes].map(([fid, n]) => `• ${fileNames.get(fid) ?? "Arquivo"}: ${n}`).join("\n");
+  const clientText =
+    action === "approve"
+      ? `✓ Aprovado por ${name}${text ? `\n${text}` : ""}`
+      : `✎ Ajuste pedido por ${name}${text ? `\n${text}` : ""}${notesText ? `\n${notesText}` : ""}`;
+  const clientComment: TaskComment = { text: clientText.slice(0, 2000), at: new Date().toISOString(), by: "client" };
+
+  // ClickUp (best-effort): comentário do cliente + conclusão quando aprova.
+  if (task.clickupTaskId) {
+    try {
+      const settings = await getClickupSettings(task.project.setor.companyId);
+      if (settings?.apiToken) {
+        const cid = await addCommentToClickupTask({ apiToken: settings.apiToken, taskId: task.clickupTaskId, comment: `[Cliente] ${clientText}` });
+        if (cid) clientComment.cid = cid;
+        if (action === "approve") await markClickupTaskDone(settings.apiToken, task.clickupTaskId, settings.statusChamadoConcluido);
+      }
+    } catch { /* silencioso */ }
+  }
+
+  const now = new Date();
+  const nextStatus = action === "approve" ? "APROVADO" : "EM_PRODUCAO";
+  // Claim pelo status: dois cliques (ou duas pessoas) não gravam duas vezes.
+  const r = await prisma.projectTask.updateMany({
+    where: { id: task.id, status: "AGUARDANDO_CLIENTE" },
+    data: {
+      status:         nextStatus,
+      awaitingClient: false,
+      done:           action === "approve",
+      completedAt:    action === "approve" ? now : null,
+      approvedAt:     action === "approve" ? now : null,
+      approvedByName: action === "approve" ? name : null,
+      comments:       sanitizeComments([...updated, clientComment]) ?? Prisma.DbNull,
+    },
+  });
+  if (!r.count) return NextResponse.json({ error: "Esta peça acabou de ser respondida." }, { status: 409 });
+
+  await prisma.projectTaskEvent.createMany({
+    data: [
+      { taskId: task.id, projectId: task.projectId, type: "STATUS", fromText: "AGUARDANDO_CLIENTE", toText: nextStatus, authorName: name, byClient: true },
+      { taskId: task.id, projectId: task.projectId, type: "COMMENT", toText: clientText.slice(0, 500), authorName: name, byClient: true },
+    ],
+  }).catch(() => {});
+
+  // Devolutiva no grupo: o cliente vê que chegou e a equipe recebe na caixa.
+  const groupJid = task.project.approvalGroupJid;
+  if (groupJid) {
+    try {
+      const agencyId = task.project.setor.companyId;
+      const instanceId = await resolveGroupInstanceId(agencyId, groupJid);
+      if (instanceId) {
+        const msg = await prisma.scheduledMessage.create({
+          data: {
+            companyId: agencyId,
+            instanceId,
+            phone:  groupJid,
+            body:   action === "approve"
+              ? `✅ *${task.title}* aprovada por ${name}. Obrigado!`
+              : `✏️ Recebemos o pedido de ajuste de ${name} em *${task.title}*. A equipe já vai cuidar e manda a nova versão por aqui.`,
+            sendAt: now,
+            kind:   "approval_result",
+            meta:   { taskId: task.id, projectId: task.projectId, action },
+          },
+        });
+        await deliverScheduledMessage(msg.id);
+      }
+    } catch (e) {
+      console.error("[aprovar] devolutiva no grupo falhou:", e);
+    }
+  }
+
+  return NextResponse.json({ ok: true, status: nextStatus });
+}

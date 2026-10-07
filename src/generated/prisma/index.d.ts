@@ -57486,6 +57486,8 @@ export namespace Prisma {
     taskOverdue: number | null
     taskNoDueDate: number | null
     taskNoAssignee: number | null
+    approvalReminderDays: number | null
+    approvalMaxReminders: number | null
   }
 
   export type SetorClickupListSumAggregateOutputType = {
@@ -57494,6 +57496,8 @@ export namespace Prisma {
     taskOverdue: number | null
     taskNoDueDate: number | null
     taskNoAssignee: number | null
+    approvalReminderDays: number | null
+    approvalMaxReminders: number | null
   }
 
   export type SetorClickupListMinAggregateOutputType = {
@@ -57519,6 +57523,10 @@ export namespace Prisma {
     lastSyncedAt: Date | null
     clientExpectedAt: Date | null
     clientLastContactAt: Date | null
+    approvalGroupJid: string | null
+    approvalGroupName: string | null
+    approvalReminderDays: number | null
+    approvalMaxReminders: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -57546,6 +57554,10 @@ export namespace Prisma {
     lastSyncedAt: Date | null
     clientExpectedAt: Date | null
     clientLastContactAt: Date | null
+    approvalGroupJid: string | null
+    approvalGroupName: string | null
+    approvalReminderDays: number | null
+    approvalMaxReminders: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -57573,6 +57585,10 @@ export namespace Prisma {
     lastSyncedAt: number
     clientExpectedAt: number
     clientLastContactAt: number
+    approvalGroupJid: number
+    approvalGroupName: number
+    approvalReminderDays: number
+    approvalMaxReminders: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -57585,6 +57601,8 @@ export namespace Prisma {
     taskOverdue?: true
     taskNoDueDate?: true
     taskNoAssignee?: true
+    approvalReminderDays?: true
+    approvalMaxReminders?: true
   }
 
   export type SetorClickupListSumAggregateInputType = {
@@ -57593,6 +57611,8 @@ export namespace Prisma {
     taskOverdue?: true
     taskNoDueDate?: true
     taskNoAssignee?: true
+    approvalReminderDays?: true
+    approvalMaxReminders?: true
   }
 
   export type SetorClickupListMinAggregateInputType = {
@@ -57618,6 +57638,10 @@ export namespace Prisma {
     lastSyncedAt?: true
     clientExpectedAt?: true
     clientLastContactAt?: true
+    approvalGroupJid?: true
+    approvalGroupName?: true
+    approvalReminderDays?: true
+    approvalMaxReminders?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -57645,6 +57669,10 @@ export namespace Prisma {
     lastSyncedAt?: true
     clientExpectedAt?: true
     clientLastContactAt?: true
+    approvalGroupJid?: true
+    approvalGroupName?: true
+    approvalReminderDays?: true
+    approvalMaxReminders?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -57672,6 +57700,10 @@ export namespace Prisma {
     lastSyncedAt?: true
     clientExpectedAt?: true
     clientLastContactAt?: true
+    approvalGroupJid?: true
+    approvalGroupName?: true
+    approvalReminderDays?: true
+    approvalMaxReminders?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -57786,6 +57818,10 @@ export namespace Prisma {
     lastSyncedAt: Date | null
     clientExpectedAt: Date | null
     clientLastContactAt: Date | null
+    approvalGroupJid: string | null
+    approvalGroupName: string | null
+    approvalReminderDays: number
+    approvalMaxReminders: number
     createdAt: Date
     updatedAt: Date
     _count: SetorClickupListCountAggregateOutputType | null
@@ -57832,6 +57868,10 @@ export namespace Prisma {
     lastSyncedAt?: boolean
     clientExpectedAt?: boolean
     clientLastContactAt?: boolean
+    approvalGroupJid?: boolean
+    approvalGroupName?: boolean
+    approvalReminderDays?: boolean
+    approvalMaxReminders?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     setor?: boolean | SetorDefaultArgs<ExtArgs>
@@ -57873,6 +57913,10 @@ export namespace Prisma {
     lastSyncedAt?: boolean
     clientExpectedAt?: boolean
     clientLastContactAt?: boolean
+    approvalGroupJid?: boolean
+    approvalGroupName?: boolean
+    approvalReminderDays?: boolean
+    approvalMaxReminders?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     setor?: boolean | SetorDefaultArgs<ExtArgs>
@@ -57903,6 +57947,10 @@ export namespace Prisma {
     lastSyncedAt?: boolean
     clientExpectedAt?: boolean
     clientLastContactAt?: boolean
+    approvalGroupJid?: boolean
+    approvalGroupName?: boolean
+    approvalReminderDays?: boolean
+    approvalMaxReminders?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -57969,6 +58017,10 @@ export namespace Prisma {
       lastSyncedAt: Date | null
       clientExpectedAt: Date | null
       clientLastContactAt: Date | null
+      approvalGroupJid: string | null
+      approvalGroupName: string | null
+      approvalReminderDays: number
+      approvalMaxReminders: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["setorClickupList"]>
@@ -58399,6 +58451,10 @@ export namespace Prisma {
     readonly lastSyncedAt: FieldRef<"SetorClickupList", 'DateTime'>
     readonly clientExpectedAt: FieldRef<"SetorClickupList", 'DateTime'>
     readonly clientLastContactAt: FieldRef<"SetorClickupList", 'DateTime'>
+    readonly approvalGroupJid: FieldRef<"SetorClickupList", 'String'>
+    readonly approvalGroupName: FieldRef<"SetorClickupList", 'String'>
+    readonly approvalReminderDays: FieldRef<"SetorClickupList", 'Int'>
+    readonly approvalMaxReminders: FieldRef<"SetorClickupList", 'Int'>
     readonly createdAt: FieldRef<"SetorClickupList", 'DateTime'>
     readonly updatedAt: FieldRef<"SetorClickupList", 'DateTime'>
   }
@@ -58969,8 +59025,20 @@ export namespace Prisma {
 
   export type AggregateProjectTask = {
     _count: ProjectTaskCountAggregateOutputType | null
+    _avg: ProjectTaskAvgAggregateOutputType | null
+    _sum: ProjectTaskSumAggregateOutputType | null
     _min: ProjectTaskMinAggregateOutputType | null
     _max: ProjectTaskMaxAggregateOutputType | null
+  }
+
+  export type ProjectTaskAvgAggregateOutputType = {
+    approvalRound: number | null
+    approvalNudgeCount: number | null
+  }
+
+  export type ProjectTaskSumAggregateOutputType = {
+    approvalRound: number | null
+    approvalNudgeCount: number | null
   }
 
   export type ProjectTaskMinAggregateOutputType = {
@@ -58991,6 +59059,15 @@ export namespace Prisma {
     dueDate: Date | null
     assigneeId: string | null
     createdById: string | null
+    approvalToken: string | null
+    approvalRound: number | null
+    approvalCommentAt: string | null
+    approvalSentAt: Date | null
+    approvalViewedAt: Date | null
+    approvalNudgedAt: Date | null
+    approvalNudgeCount: number | null
+    approvedAt: Date | null
+    approvedByName: string | null
     completedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -59014,6 +59091,15 @@ export namespace Prisma {
     dueDate: Date | null
     assigneeId: string | null
     createdById: string | null
+    approvalToken: string | null
+    approvalRound: number | null
+    approvalCommentAt: string | null
+    approvalSentAt: Date | null
+    approvalViewedAt: Date | null
+    approvalNudgedAt: Date | null
+    approvalNudgeCount: number | null
+    approvedAt: Date | null
+    approvedByName: string | null
     completedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -59039,12 +59125,31 @@ export namespace Prisma {
     dueDate: number
     assigneeId: number
     createdById: number
+    approvalToken: number
+    approvalRound: number
+    approvalCommentAt: number
+    approvalSentAt: number
+    approvalViewedAt: number
+    approvalNudgedAt: number
+    approvalNudgeCount: number
+    approvedAt: number
+    approvedByName: number
     completedAt: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type ProjectTaskAvgAggregateInputType = {
+    approvalRound?: true
+    approvalNudgeCount?: true
+  }
+
+  export type ProjectTaskSumAggregateInputType = {
+    approvalRound?: true
+    approvalNudgeCount?: true
+  }
 
   export type ProjectTaskMinAggregateInputType = {
     id?: true
@@ -59064,6 +59169,15 @@ export namespace Prisma {
     dueDate?: true
     assigneeId?: true
     createdById?: true
+    approvalToken?: true
+    approvalRound?: true
+    approvalCommentAt?: true
+    approvalSentAt?: true
+    approvalViewedAt?: true
+    approvalNudgedAt?: true
+    approvalNudgeCount?: true
+    approvedAt?: true
+    approvedByName?: true
     completedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -59087,6 +59201,15 @@ export namespace Prisma {
     dueDate?: true
     assigneeId?: true
     createdById?: true
+    approvalToken?: true
+    approvalRound?: true
+    approvalCommentAt?: true
+    approvalSentAt?: true
+    approvalViewedAt?: true
+    approvalNudgedAt?: true
+    approvalNudgeCount?: true
+    approvedAt?: true
+    approvedByName?: true
     completedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -59112,6 +59235,15 @@ export namespace Prisma {
     dueDate?: true
     assigneeId?: true
     createdById?: true
+    approvalToken?: true
+    approvalRound?: true
+    approvalCommentAt?: true
+    approvalSentAt?: true
+    approvalViewedAt?: true
+    approvalNudgedAt?: true
+    approvalNudgeCount?: true
+    approvedAt?: true
+    approvedByName?: true
     completedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -59156,6 +59288,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ProjectTaskAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProjectTaskSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ProjectTaskMinAggregateInputType
@@ -59186,6 +59330,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ProjectTaskCountAggregateInputType | true
+    _avg?: ProjectTaskAvgAggregateInputType
+    _sum?: ProjectTaskSumAggregateInputType
     _min?: ProjectTaskMinAggregateInputType
     _max?: ProjectTaskMaxAggregateInputType
   }
@@ -59210,10 +59356,21 @@ export namespace Prisma {
     dueDate: Date | null
     assigneeId: string | null
     createdById: string | null
+    approvalToken: string | null
+    approvalRound: number
+    approvalCommentAt: string | null
+    approvalSentAt: Date | null
+    approvalViewedAt: Date | null
+    approvalNudgedAt: Date | null
+    approvalNudgeCount: number
+    approvedAt: Date | null
+    approvedByName: string | null
     completedAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: ProjectTaskCountAggregateOutputType | null
+    _avg: ProjectTaskAvgAggregateOutputType | null
+    _sum: ProjectTaskSumAggregateOutputType | null
     _min: ProjectTaskMinAggregateOutputType | null
     _max: ProjectTaskMaxAggregateOutputType | null
   }
@@ -59252,6 +59409,15 @@ export namespace Prisma {
     dueDate?: boolean
     assigneeId?: boolean
     createdById?: boolean
+    approvalToken?: boolean
+    approvalRound?: boolean
+    approvalCommentAt?: boolean
+    approvalSentAt?: boolean
+    approvalViewedAt?: boolean
+    approvalNudgedAt?: boolean
+    approvalNudgeCount?: boolean
+    approvedAt?: boolean
+    approvedByName?: boolean
     completedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -59285,6 +59451,15 @@ export namespace Prisma {
     dueDate?: boolean
     assigneeId?: boolean
     createdById?: boolean
+    approvalToken?: boolean
+    approvalRound?: boolean
+    approvalCommentAt?: boolean
+    approvalSentAt?: boolean
+    approvalViewedAt?: boolean
+    approvalNudgedAt?: boolean
+    approvalNudgeCount?: boolean
+    approvedAt?: boolean
+    approvedByName?: boolean
     completedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -59314,6 +59489,15 @@ export namespace Prisma {
     dueDate?: boolean
     assigneeId?: boolean
     createdById?: boolean
+    approvalToken?: boolean
+    approvalRound?: boolean
+    approvalCommentAt?: boolean
+    approvalSentAt?: boolean
+    approvalViewedAt?: boolean
+    approvalNudgedAt?: boolean
+    approvalNudgeCount?: boolean
+    approvedAt?: boolean
+    approvedByName?: boolean
     completedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -59367,6 +59551,15 @@ export namespace Prisma {
       dueDate: Date | null
       assigneeId: string | null
       createdById: string | null
+      approvalToken: string | null
+      approvalRound: number
+      approvalCommentAt: string | null
+      approvalSentAt: Date | null
+      approvalViewedAt: Date | null
+      approvalNudgedAt: Date | null
+      approvalNudgeCount: number
+      approvedAt: Date | null
+      approvedByName: string | null
       completedAt: Date | null
       createdAt: Date
       updatedAt: Date
@@ -59789,6 +59982,15 @@ export namespace Prisma {
     readonly dueDate: FieldRef<"ProjectTask", 'DateTime'>
     readonly assigneeId: FieldRef<"ProjectTask", 'String'>
     readonly createdById: FieldRef<"ProjectTask", 'String'>
+    readonly approvalToken: FieldRef<"ProjectTask", 'String'>
+    readonly approvalRound: FieldRef<"ProjectTask", 'Int'>
+    readonly approvalCommentAt: FieldRef<"ProjectTask", 'String'>
+    readonly approvalSentAt: FieldRef<"ProjectTask", 'DateTime'>
+    readonly approvalViewedAt: FieldRef<"ProjectTask", 'DateTime'>
+    readonly approvalNudgedAt: FieldRef<"ProjectTask", 'DateTime'>
+    readonly approvalNudgeCount: FieldRef<"ProjectTask", 'Int'>
+    readonly approvedAt: FieldRef<"ProjectTask", 'DateTime'>
+    readonly approvedByName: FieldRef<"ProjectTask", 'String'>
     readonly completedAt: FieldRef<"ProjectTask", 'DateTime'>
     readonly createdAt: FieldRef<"ProjectTask", 'DateTime'>
     readonly updatedAt: FieldRef<"ProjectTask", 'DateTime'>
@@ -158563,6 +158765,10 @@ export namespace Prisma {
     lastSyncedAt: 'lastSyncedAt',
     clientExpectedAt: 'clientExpectedAt',
     clientLastContactAt: 'clientLastContactAt',
+    approvalGroupJid: 'approvalGroupJid',
+    approvalGroupName: 'approvalGroupName',
+    approvalReminderDays: 'approvalReminderDays',
+    approvalMaxReminders: 'approvalMaxReminders',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -158590,6 +158796,15 @@ export namespace Prisma {
     dueDate: 'dueDate',
     assigneeId: 'assigneeId',
     createdById: 'createdById',
+    approvalToken: 'approvalToken',
+    approvalRound: 'approvalRound',
+    approvalCommentAt: 'approvalCommentAt',
+    approvalSentAt: 'approvalSentAt',
+    approvalViewedAt: 'approvalViewedAt',
+    approvalNudgedAt: 'approvalNudgedAt',
+    approvalNudgeCount: 'approvalNudgeCount',
+    approvedAt: 'approvedAt',
+    approvedByName: 'approvedByName',
     completedAt: 'completedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -165124,6 +165339,10 @@ export namespace Prisma {
     lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientExpectedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientLastContactAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    approvalGroupJid?: StringNullableFilter<"SetorClickupList"> | string | null
+    approvalGroupName?: StringNullableFilter<"SetorClickupList"> | string | null
+    approvalReminderDays?: IntFilter<"SetorClickupList"> | number
+    approvalMaxReminders?: IntFilter<"SetorClickupList"> | number
     createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     setor?: XOR<SetorRelationFilter, SetorWhereInput>
@@ -165164,6 +165383,10 @@ export namespace Prisma {
     lastSyncedAt?: SortOrderInput | SortOrder
     clientExpectedAt?: SortOrderInput | SortOrder
     clientLastContactAt?: SortOrderInput | SortOrder
+    approvalGroupJid?: SortOrderInput | SortOrder
+    approvalGroupName?: SortOrderInput | SortOrder
+    approvalReminderDays?: SortOrder
+    approvalMaxReminders?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     setor?: SetorOrderByWithRelationInput
@@ -165208,6 +165431,10 @@ export namespace Prisma {
     lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientExpectedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientLastContactAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    approvalGroupJid?: StringNullableFilter<"SetorClickupList"> | string | null
+    approvalGroupName?: StringNullableFilter<"SetorClickupList"> | string | null
+    approvalReminderDays?: IntFilter<"SetorClickupList"> | number
+    approvalMaxReminders?: IntFilter<"SetorClickupList"> | number
     createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     setor?: XOR<SetorRelationFilter, SetorWhereInput>
@@ -165248,6 +165475,10 @@ export namespace Prisma {
     lastSyncedAt?: SortOrderInput | SortOrder
     clientExpectedAt?: SortOrderInput | SortOrder
     clientLastContactAt?: SortOrderInput | SortOrder
+    approvalGroupJid?: SortOrderInput | SortOrder
+    approvalGroupName?: SortOrderInput | SortOrder
+    approvalReminderDays?: SortOrder
+    approvalMaxReminders?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SetorClickupListCountOrderByAggregateInput
@@ -165283,6 +165514,10 @@ export namespace Prisma {
     lastSyncedAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
     clientExpectedAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
     clientLastContactAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
+    approvalGroupJid?: StringNullableWithAggregatesFilter<"SetorClickupList"> | string | null
+    approvalGroupName?: StringNullableWithAggregatesFilter<"SetorClickupList"> | string | null
+    approvalReminderDays?: IntWithAggregatesFilter<"SetorClickupList"> | number
+    approvalMaxReminders?: IntWithAggregatesFilter<"SetorClickupList"> | number
     createdAt?: DateTimeWithAggregatesFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SetorClickupList"> | Date | string
   }
@@ -165310,6 +165545,15 @@ export namespace Prisma {
     dueDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableFilter<"ProjectTask"> | string | null
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalToken?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalRound?: IntFilter<"ProjectTask"> | number
+    approvalCommentAt?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalSentAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvalViewedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvalNudgedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvalNudgeCount?: IntFilter<"ProjectTask"> | number
+    approvedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvedByName?: StringNullableFilter<"ProjectTask"> | string | null
     completedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     createdAt?: DateTimeFilter<"ProjectTask"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTask"> | Date | string
@@ -165342,6 +165586,15 @@ export namespace Prisma {
     dueDate?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
+    approvalToken?: SortOrderInput | SortOrder
+    approvalRound?: SortOrder
+    approvalCommentAt?: SortOrderInput | SortOrder
+    approvalSentAt?: SortOrderInput | SortOrder
+    approvalViewedAt?: SortOrderInput | SortOrder
+    approvalNudgedAt?: SortOrderInput | SortOrder
+    approvalNudgeCount?: SortOrder
+    approvedAt?: SortOrderInput | SortOrder
+    approvedByName?: SortOrderInput | SortOrder
     completedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -165356,6 +165609,7 @@ export namespace Prisma {
 
   export type ProjectTaskWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    approvalToken?: string
     AND?: ProjectTaskWhereInput | ProjectTaskWhereInput[]
     OR?: ProjectTaskWhereInput[]
     NOT?: ProjectTaskWhereInput | ProjectTaskWhereInput[]
@@ -165377,6 +165631,14 @@ export namespace Prisma {
     dueDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableFilter<"ProjectTask"> | string | null
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalRound?: IntFilter<"ProjectTask"> | number
+    approvalCommentAt?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalSentAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvalViewedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvalNudgedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvalNudgeCount?: IntFilter<"ProjectTask"> | number
+    approvedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvedByName?: StringNullableFilter<"ProjectTask"> | string | null
     completedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     createdAt?: DateTimeFilter<"ProjectTask"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTask"> | Date | string
@@ -165387,7 +165649,7 @@ export namespace Prisma {
     materials?: ProjectMaterialListRelationFilter
     attachments?: StorageObjectListRelationFilter
     events?: ProjectTaskEventListRelationFilter
-  }, "id">
+  }, "id" | "approvalToken">
 
   export type ProjectTaskOrderByWithAggregationInput = {
     id?: SortOrder
@@ -165409,12 +165671,23 @@ export namespace Prisma {
     dueDate?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
+    approvalToken?: SortOrderInput | SortOrder
+    approvalRound?: SortOrder
+    approvalCommentAt?: SortOrderInput | SortOrder
+    approvalSentAt?: SortOrderInput | SortOrder
+    approvalViewedAt?: SortOrderInput | SortOrder
+    approvalNudgedAt?: SortOrderInput | SortOrder
+    approvalNudgeCount?: SortOrder
+    approvedAt?: SortOrderInput | SortOrder
+    approvedByName?: SortOrderInput | SortOrder
     completedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ProjectTaskCountOrderByAggregateInput
+    _avg?: ProjectTaskAvgOrderByAggregateInput
     _max?: ProjectTaskMaxOrderByAggregateInput
     _min?: ProjectTaskMinOrderByAggregateInput
+    _sum?: ProjectTaskSumOrderByAggregateInput
   }
 
   export type ProjectTaskScalarWhereWithAggregatesInput = {
@@ -165440,6 +165713,15 @@ export namespace Prisma {
     dueDate?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     createdById?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
+    approvalToken?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
+    approvalRound?: IntWithAggregatesFilter<"ProjectTask"> | number
+    approvalCommentAt?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
+    approvalSentAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
+    approvalViewedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
+    approvalNudgedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
+    approvalNudgeCount?: IntWithAggregatesFilter<"ProjectTask"> | number
+    approvedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
+    approvedByName?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     completedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ProjectTask"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProjectTask"> | Date | string
@@ -178561,6 +178843,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -178601,6 +178887,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -178635,6 +178925,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -178675,6 +178969,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -178712,6 +179010,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -178736,6 +179038,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -178763,6 +179069,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -178783,6 +179093,15 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -178815,6 +179134,15 @@ export namespace Prisma {
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -178839,6 +179167,15 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -178871,6 +179208,15 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -178899,6 +179245,15 @@ export namespace Prisma {
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -178920,6 +179275,15 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -178945,6 +179309,15 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -192257,6 +192630,10 @@ export namespace Prisma {
     lastSyncedAt?: SortOrder
     clientExpectedAt?: SortOrder
     clientLastContactAt?: SortOrder
+    approvalGroupJid?: SortOrder
+    approvalGroupName?: SortOrder
+    approvalReminderDays?: SortOrder
+    approvalMaxReminders?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -192267,6 +192644,8 @@ export namespace Prisma {
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
     taskNoAssignee?: SortOrder
+    approvalReminderDays?: SortOrder
+    approvalMaxReminders?: SortOrder
   }
 
   export type SetorClickupListMaxOrderByAggregateInput = {
@@ -192292,6 +192671,10 @@ export namespace Prisma {
     lastSyncedAt?: SortOrder
     clientExpectedAt?: SortOrder
     clientLastContactAt?: SortOrder
+    approvalGroupJid?: SortOrder
+    approvalGroupName?: SortOrder
+    approvalReminderDays?: SortOrder
+    approvalMaxReminders?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -192319,6 +192702,10 @@ export namespace Prisma {
     lastSyncedAt?: SortOrder
     clientExpectedAt?: SortOrder
     clientLastContactAt?: SortOrder
+    approvalGroupJid?: SortOrder
+    approvalGroupName?: SortOrder
+    approvalReminderDays?: SortOrder
+    approvalMaxReminders?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -192329,6 +192716,8 @@ export namespace Prisma {
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
     taskNoAssignee?: SortOrder
+    approvalReminderDays?: SortOrder
+    approvalMaxReminders?: SortOrder
   }
 
   export type EnumProjectStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -192371,9 +192760,23 @@ export namespace Prisma {
     dueDate?: SortOrder
     assigneeId?: SortOrder
     createdById?: SortOrder
+    approvalToken?: SortOrder
+    approvalRound?: SortOrder
+    approvalCommentAt?: SortOrder
+    approvalSentAt?: SortOrder
+    approvalViewedAt?: SortOrder
+    approvalNudgedAt?: SortOrder
+    approvalNudgeCount?: SortOrder
+    approvedAt?: SortOrder
+    approvedByName?: SortOrder
     completedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ProjectTaskAvgOrderByAggregateInput = {
+    approvalRound?: SortOrder
+    approvalNudgeCount?: SortOrder
   }
 
   export type ProjectTaskMaxOrderByAggregateInput = {
@@ -192394,6 +192797,15 @@ export namespace Prisma {
     dueDate?: SortOrder
     assigneeId?: SortOrder
     createdById?: SortOrder
+    approvalToken?: SortOrder
+    approvalRound?: SortOrder
+    approvalCommentAt?: SortOrder
+    approvalSentAt?: SortOrder
+    approvalViewedAt?: SortOrder
+    approvalNudgedAt?: SortOrder
+    approvalNudgeCount?: SortOrder
+    approvedAt?: SortOrder
+    approvedByName?: SortOrder
     completedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -192417,9 +192829,23 @@ export namespace Prisma {
     dueDate?: SortOrder
     assigneeId?: SortOrder
     createdById?: SortOrder
+    approvalToken?: SortOrder
+    approvalRound?: SortOrder
+    approvalCommentAt?: SortOrder
+    approvalSentAt?: SortOrder
+    approvalViewedAt?: SortOrder
+    approvalNudgedAt?: SortOrder
+    approvalNudgeCount?: SortOrder
+    approvedAt?: SortOrder
+    approvedByName?: SortOrder
     completedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ProjectTaskSumOrderByAggregateInput = {
+    approvalRound?: SortOrder
+    approvalNudgeCount?: SortOrder
   }
 
   export type ProjectServiceCountOrderByAggregateInput = {
@@ -213144,6 +213570,15 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -213174,6 +213609,15 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -213208,6 +213652,15 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -213238,6 +213691,15 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -214902,6 +215364,15 @@ export namespace Prisma {
     dueDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableFilter<"ProjectTask"> | string | null
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalToken?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalRound?: IntFilter<"ProjectTask"> | number
+    approvalCommentAt?: StringNullableFilter<"ProjectTask"> | string | null
+    approvalSentAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvalViewedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvalNudgedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvalNudgeCount?: IntFilter<"ProjectTask"> | number
+    approvedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
+    approvedByName?: StringNullableFilter<"ProjectTask"> | string | null
     completedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     createdAt?: DateTimeFilter<"ProjectTask"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTask"> | Date | string
@@ -218853,6 +219324,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -218891,6 +219366,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -222982,6 +223461,10 @@ export namespace Prisma {
     lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientExpectedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientLastContactAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    approvalGroupJid?: StringNullableFilter<"SetorClickupList"> | string | null
+    approvalGroupName?: StringNullableFilter<"SetorClickupList"> | string | null
+    approvalReminderDays?: IntFilter<"SetorClickupList"> | number
+    approvalMaxReminders?: IntFilter<"SetorClickupList"> | number
     createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
   }
@@ -241684,6 +242167,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -241723,6 +242210,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -242887,6 +243378,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -242926,6 +243421,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -243723,6 +244222,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
@@ -243761,6 +244264,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -245096,6 +245603,15 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -245126,6 +245642,15 @@ export namespace Prisma {
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -246011,6 +246536,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -246050,6 +246579,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -246500,6 +247033,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -246539,6 +247076,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -246913,6 +247454,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -246952,6 +247497,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -247027,6 +247576,15 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -247057,6 +247615,15 @@ export namespace Prisma {
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -247106,6 +247673,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -247145,6 +247716,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -247237,6 +247812,15 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -247268,6 +247852,15 @@ export namespace Prisma {
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -247300,6 +247893,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -247339,6 +247936,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -247384,6 +247985,15 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -247415,6 +248025,15 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -247453,6 +248072,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -247492,6 +248115,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -247913,6 +248540,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -247952,6 +248583,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -248126,6 +248761,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -248165,6 +248804,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -248329,6 +248972,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -248368,6 +249015,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -248417,6 +249068,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -248456,6 +249111,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -248489,6 +249148,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -248528,6 +249191,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -248577,6 +249244,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -248616,6 +249287,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -248649,6 +249324,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -248688,6 +249367,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
@@ -248862,6 +249545,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -248901,6 +249588,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
@@ -249065,6 +249756,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -249104,6 +249799,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -249138,6 +249837,15 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -249169,6 +249877,15 @@ export namespace Prisma {
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -249212,6 +249929,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -249251,6 +249972,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -249291,6 +250016,15 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -249322,6 +250056,15 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -285642,6 +286385,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -285680,6 +286427,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -288600,6 +289351,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -288639,6 +289394,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -289405,6 +290164,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -289444,6 +290207,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -297419,6 +298186,15 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -297450,6 +298226,15 @@ export namespace Prisma {
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -298038,6 +298823,15 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -298069,6 +298863,15 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -299365,6 +300168,15 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -299389,6 +300201,15 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -300416,6 +301237,15 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -300446,6 +301276,15 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -300473,6 +301312,15 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -300494,6 +301342,15 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -300524,6 +301381,15 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -300551,6 +301417,15 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -301563,6 +302438,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -303400,6 +304279,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -303438,6 +304321,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -303474,6 +304361,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -309982,6 +310873,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -310230,6 +311125,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
@@ -310268,6 +311167,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -310304,6 +311207,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -310415,6 +311322,15 @@ export namespace Prisma {
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -310681,6 +311597,15 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -310711,6 +311636,15 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -310738,6 +311672,15 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -311168,6 +312111,15 @@ export namespace Prisma {
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
+    approvalToken?: string | null
+    approvalRound?: number
+    approvalCommentAt?: string | null
+    approvalSentAt?: Date | string | null
+    approvalViewedAt?: Date | string | null
+    approvalNudgedAt?: Date | string | null
+    approvalNudgeCount?: number
+    approvedAt?: Date | string | null
+    approvedByName?: string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -311189,6 +312141,15 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -311219,6 +312180,15 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -311246,6 +312216,15 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalRound?: IntFieldUpdateOperationsInput | number
+    approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNudgeCount?: IntFieldUpdateOperationsInput | number
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedByName?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -312872,6 +313851,10 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -312983,6 +313966,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -313021,6 +314008,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -313057,6 +314048,10 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

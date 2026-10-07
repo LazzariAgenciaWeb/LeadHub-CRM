@@ -83,7 +83,7 @@ export default async function MeuEspacoPage() {
       internalTasks: {
         where: { visibleToClient: true },
         orderBy: [{ createdAt: "asc" }],
-        select: { id: true, title: true, description: true, comments: true, done: true, startDate: true, dueDate: true, projectServiceId: true, awaitingClient: true },
+        select: { id: true, title: true, description: true, comments: true, done: true, startDate: true, dueDate: true, projectServiceId: true, awaitingClient: true, approvalToken: true },
       },
       serviceSteps: {
         where: { visibleToClient: true },
@@ -182,7 +182,7 @@ export default async function MeuEspacoPage() {
   const awaitingItems = projects.flatMap((p) =>
     p.internalTasks
       .filter((t) => t.awaitingClient)
-      .map((t) => ({ id: t.id, title: t.title, projectId: p.id, projectName: p.name })),
+      .map((t) => ({ id: t.id, title: t.title, projectId: p.id, projectName: p.name, approvalToken: t.approvalToken })),
   );
 
   function Poster({ c }: { c: (typeof cards)[number] }) {
@@ -236,10 +236,10 @@ export default async function MeuEspacoPage() {
             <div className="awaitbox">
               <div className="awaith"><span className="awaitn">{awaitingItems.length}</span> Aguardando você</div>
               {awaitingItems.slice(0, 4).map((it) => (
-                <Link key={it.id} href={`/meu-espaco/${it.projectId}`} className="awaititem">
-                  <span className="awi-ic">✍️</span>
+                <Link key={it.id} href={it.approvalToken ? `/aprovar/${it.approvalToken}` : `/meu-espaco/${it.projectId}`} className="awaititem">
+                  <span className="awi-ic">{it.approvalToken ? "🎨" : "✍️"}</span>
                   <span className="awi-tx"><span className="awi-t">{it.title}</span><span className="awi-p">{it.projectName}</span></span>
-                  <span className="awi-go">Responder →</span>
+                  <span className="awi-go">{it.approvalToken ? "Ver e aprovar →" : "Responder →"}</span>
                 </Link>
               ))}
             </div>
