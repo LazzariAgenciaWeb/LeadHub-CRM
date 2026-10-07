@@ -77,7 +77,7 @@ export async function PATCH(
 
   const body = await request.json();
   const {
-    name, tradeName, document, segment, phone, email, website, logoUrl, status, triggerOnly,
+    name, tradeName, document, segment, phone, email, website, logoUrl, brandColor, status, triggerOnly,
     // SUPER_ADMIN only
     hasSystemAccess, fullSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup,
     moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, moduleEmailInbox, moduleInstagram, moduleEspacoCliente, moduleVideos, moduleBling, moduleRelatorioMarketing, serpapiKey,
@@ -150,6 +150,9 @@ export async function PATCH(
       ...(email !== undefined && { email }),
       ...(website !== undefined && { website }),
       ...(logoUrl !== undefined && { logoUrl }),
+      ...(brandColor !== undefined && {
+        brandColor: /^#[0-9a-f]{6}$/i.test(String(brandColor ?? "").trim()) ? String(brandColor).trim().toUpperCase() : null,
+      }),
       ...adminOnlyData,
       ...selfServeData,
       ...(podeBillingNotes && { billingNotes: String(billingNotes ?? "").trim() || null }),

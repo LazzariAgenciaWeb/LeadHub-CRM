@@ -287,6 +287,9 @@ model Company {
   email     String?
   website   String?
   logoUrl   String?
+  // Cor da marca (#RRGGBB) — com o logoUrl, veste as telas que o cliente
+  // final vê (ex.: link de aprovação de peças) com a identidade da agência.
+  brandColor String?
   status    CompanyStatus @default(ACTIVE)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt

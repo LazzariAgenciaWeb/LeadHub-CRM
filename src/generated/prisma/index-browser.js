@@ -251,6 +251,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   email: 'email',
   website: 'website',
   logoUrl: 'logoUrl',
+  brandColor: 'brandColor',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',

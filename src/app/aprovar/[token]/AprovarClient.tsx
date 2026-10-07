@@ -27,15 +27,16 @@ type Props = {
   versionText: string;
   files: ApprovalFile[];
   links: { url: string; title: string }[];
+  brand: { name: string; logoUrl: string | null; color: string | null };
   history: { text: string; at: string; byClient: boolean }[];
 };
 
 const NAME_KEY = "lh-aprovador-nome";
 
 const STYLE = `
-.ap{--accent:#6E86FF;--ok:#4FD1A0;--warn:#F5B564;--ink:#F3F5FA;--ink2:#AFB6C6;--ink3:#727A8C;
+.ap{--accent:var(--brand,#6E86FF);--ok:#4FD1A0;--warn:#F5B564;--ink:#F3F5FA;--ink2:#AFB6C6;--ink3:#727A8C;
   --line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--card:rgba(255,255,255,.04);
-  min-height:100vh;color:var(--ink);background:radial-gradient(110% 70% at 85% -10%,rgba(110,134,255,.16),transparent 60%),#06070C;
+  min-height:100vh;color:var(--ink);background:radial-gradient(110% 70% at 85% -10%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),#06070C;
   font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
 .ap *{box-sizing:border-box}
 .apw{max-width:640px;margin:0 auto;padding:22px 16px 180px}
@@ -54,7 +55,7 @@ h1{font-size:22px;line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
 .slide .tags{position:absolute;top:10px;left:10px;display:flex;gap:6px;z-index:2}
 .slide .tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:rgba(6,7,12,.75);border:1px solid var(--line2)}
 .slide .tag.story{color:#F7C5FF;border-color:rgba(214,120,255,.45)}
-.slide .tag.feed{color:#C9D3FF;border-color:rgba(110,134,255,.45)}
+.slide .tag.feed{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
 .slide .wm{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;z-index:2;pointer-events:none;
   background:linear-gradient(180deg,transparent,rgba(0,0,0,.72));color:rgba(255,255,255,.88);font-size:12px;font-weight:600;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 2px rgba(0,0,0,.6)}
@@ -87,7 +88,12 @@ textarea.f{min-height:84px;resize:vertical}
 input.f:focus,textarea.f:focus{outline:none;border-color:var(--accent)}
 .btn{flex:1;border:0;border-radius:14px;padding:14px 12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
 .btn:disabled{opacity:.5;cursor:default}
-.btn.ok{background:var(--ok);color:#04150F}
+.btn.ok{background:var(--accent);color:var(--on-accent,#04150F)}
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+.brandbar img{height:30px;width:auto;max-width:150px;object-fit:contain;display:block}
+.brandbar b{font-size:15px;letter-spacing:-.01em}
+.brandbar span{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
+.made{margin-top:28px;text-align:center;font-size:11px;color:var(--ink3)}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}
 .err{color:#FF8A8A;font-size:13px}
 .banner{margin-top:18px;padding:16px;border-radius:16px;font-size:14px}
@@ -101,6 +107,15 @@ input.f:focus,textarea.f:focus{outline:none;border-color:var(--accent)}
 .links a{color:var(--ink2)}
 a.open{color:var(--accent);font-size:13px;font-weight:600}
 `;
+
+// Cor da agência vira o acento da tela; o texto em cima dela (botão aprovar)
+// fica escuro ou claro conforme a luminância — amarelo pede texto preto.
+function brandVars(color: string | null): React.CSSProperties | undefined {
+  if (!color || !/^#[0-9a-f]{6}$/i.test(color)) return undefined;
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(color.slice(i, i + 2), 16) / 255);
+  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return { ["--brand" as string]: color, ["--on-accent" as string]: lum > 0.55 ? "#0A0A0A" : "#FFFFFF" } as React.CSSProperties;
+}
 
 const fmt = (iso: string) =>
   new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
@@ -224,9 +239,16 @@ export default function AprovarClient(p: Props) {
     : <span className="chip">Em ajuste pela equipe</span>;
 
   return (
-    <div className="ap">
+    <div className="ap" style={brandVars(p.brand.color)}>
       <style>{STYLE}</style>
       <div className="apw">
+        <div className="brandbar">
+          {p.brand.logoUrl
+            // eslint-disable-next-line @next/next/no-img-element
+            ? <img src={p.brand.logoUrl} alt={p.brand.name} />
+            : <b>{p.brand.name}</b>}
+          <span>Aprovação de peças</span>
+        </div>
         <div className="eyebrow">
           {p.clientName && <span>{p.clientName}</span>}
           {statusChip}
@@ -364,6 +386,7 @@ export default function AprovarClient(p: Props) {
           {p.panelToken && <Link href={`/c/${p.panelToken}`}>Ver todas as entregas de {p.projectName} →</Link>}
           <Link href="/meu-espaco">Entrar no meu painel →</Link>
         </div>
+        <div className="made">{p.brand.name}</div>
       </div>
 
       {pending && (

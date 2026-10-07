@@ -25619,6 +25619,7 @@ export namespace Prisma {
     email: string | null
     website: string | null
     logoUrl: string | null
+    brandColor: string | null
     status: $Enums.CompanyStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -25666,6 +25667,7 @@ export namespace Prisma {
     email: string | null
     website: string | null
     logoUrl: string | null
+    brandColor: string | null
     status: $Enums.CompanyStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -25713,6 +25715,7 @@ export namespace Prisma {
     email: number
     website: number
     logoUrl: number
+    brandColor: number
     status: number
     createdAt: number
     updatedAt: number
@@ -25772,6 +25775,7 @@ export namespace Prisma {
     email?: true
     website?: true
     logoUrl?: true
+    brandColor?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -25819,6 +25823,7 @@ export namespace Prisma {
     email?: true
     website?: true
     logoUrl?: true
+    brandColor?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -25866,6 +25871,7 @@ export namespace Prisma {
     email?: true
     website?: true
     logoUrl?: true
+    brandColor?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -26000,6 +26006,7 @@ export namespace Prisma {
     email: string | null
     website: string | null
     logoUrl: string | null
+    brandColor: string | null
     status: $Enums.CompanyStatus
     createdAt: Date
     updatedAt: Date
@@ -26066,6 +26073,7 @@ export namespace Prisma {
     email?: boolean
     website?: boolean
     logoUrl?: boolean
+    brandColor?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -26204,6 +26212,7 @@ export namespace Prisma {
     email?: boolean
     website?: boolean
     logoUrl?: boolean
+    brandColor?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -26252,6 +26261,7 @@ export namespace Prisma {
     email?: boolean
     website?: boolean
     logoUrl?: boolean
+    brandColor?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -26490,6 +26500,7 @@ export namespace Prisma {
       email: string | null
       website: string | null
       logoUrl: string | null
+      brandColor: string | null
       status: $Enums.CompanyStatus
       createdAt: Date
       updatedAt: Date
@@ -27017,6 +27028,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Company", 'String'>
     readonly website: FieldRef<"Company", 'String'>
     readonly logoUrl: FieldRef<"Company", 'String'>
+    readonly brandColor: FieldRef<"Company", 'String'>
     readonly status: FieldRef<"Company", 'CompanyStatus'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
@@ -158240,6 +158252,7 @@ export namespace Prisma {
     email: 'email',
     website: 'website',
     logoUrl: 'logoUrl',
+    brandColor: 'brandColor',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -162223,6 +162236,7 @@ export namespace Prisma {
     email?: StringNullableFilter<"Company"> | string | null
     website?: StringNullableFilter<"Company"> | string | null
     logoUrl?: StringNullableFilter<"Company"> | string | null
+    brandColor?: StringNullableFilter<"Company"> | string | null
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
@@ -162360,6 +162374,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     website?: SortOrderInput | SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    brandColor?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -162502,6 +162517,7 @@ export namespace Prisma {
     email?: StringNullableFilter<"Company"> | string | null
     website?: StringNullableFilter<"Company"> | string | null
     logoUrl?: StringNullableFilter<"Company"> | string | null
+    brandColor?: StringNullableFilter<"Company"> | string | null
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
@@ -162637,6 +162653,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     website?: SortOrderInput | SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    brandColor?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -162692,6 +162709,7 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"Company"> | string | null
     website?: StringNullableWithAggregatesFilter<"Company"> | string | null
     logoUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    brandColor?: StringNullableWithAggregatesFilter<"Company"> | string | null
     status?: EnumCompanyStatusWithAggregatesFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
@@ -175310,6 +175328,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -175446,6 +175465,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -175582,6 +175602,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -175718,6 +175739,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -175854,6 +175876,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -175901,6 +175924,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -175947,6 +175971,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -190497,6 +190522,7 @@ export namespace Prisma {
     email?: SortOrder
     website?: SortOrder
     logoUrl?: SortOrder
+    brandColor?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -190549,6 +190575,7 @@ export namespace Prisma {
     email?: SortOrder
     website?: SortOrder
     logoUrl?: SortOrder
+    brandColor?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -190596,6 +190623,7 @@ export namespace Prisma {
     email?: SortOrder
     website?: SortOrder
     logoUrl?: SortOrder
+    brandColor?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -212624,6 +212652,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -212759,6 +212788,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -214548,6 +214578,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -214683,6 +214714,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -216954,6 +216986,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -217089,6 +217122,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -217365,6 +217399,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -217500,6 +217535,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -218534,6 +218570,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -218669,6 +218706,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -218809,6 +218847,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -218944,6 +218983,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -223002,6 +223042,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -223137,6 +223178,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -223291,6 +223333,7 @@ export namespace Prisma {
     email?: StringNullableFilter<"Company"> | string | null
     website?: StringNullableFilter<"Company"> | string | null
     logoUrl?: StringNullableFilter<"Company"> | string | null
+    brandColor?: StringNullableFilter<"Company"> | string | null
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
@@ -226079,6 +226122,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -226214,6 +226258,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -226627,6 +226672,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -226762,6 +226808,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -227002,6 +227049,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -227137,6 +227185,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -227483,6 +227532,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -227618,6 +227668,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -227881,6 +227932,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -228016,6 +228068,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -228818,6 +228871,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -228953,6 +229007,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -229584,6 +229639,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -229719,6 +229775,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -229890,6 +229947,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230025,6 +230083,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230472,6 +230531,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230607,6 +230667,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230784,6 +230845,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230919,6 +230981,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -231378,6 +231441,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -231513,6 +231577,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -231690,6 +231755,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -231825,6 +231891,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -231976,6 +232043,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -232111,6 +232179,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -232291,6 +232360,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -232426,6 +232496,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -232713,6 +232784,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -232848,6 +232920,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -233372,6 +233445,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -233507,6 +233581,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -234144,6 +234219,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -234279,6 +234355,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -234430,6 +234507,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -234565,6 +234643,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -234700,6 +234779,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -234835,6 +234915,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -235111,6 +235192,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -235246,6 +235328,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -235637,6 +235720,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -235772,6 +235856,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -236336,6 +236421,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -236471,6 +236557,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -236694,6 +236781,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -236829,6 +236917,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -237375,6 +237464,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -237510,6 +237600,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -238070,6 +238161,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -238205,6 +238297,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -238397,6 +238490,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -238532,6 +238626,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -238957,6 +239052,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -239092,6 +239188,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -239756,6 +239853,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -239891,6 +239989,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -240490,6 +240589,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -240625,6 +240725,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -241041,6 +241142,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -241176,6 +241278,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -241311,6 +241414,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -241446,6 +241550,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -241711,6 +241816,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -241846,6 +241952,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -242492,6 +242599,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -242627,6 +242735,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -242904,6 +243013,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -243039,6 +243149,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -243766,6 +243877,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -243901,6 +244013,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -244372,6 +244485,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -244507,6 +244621,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -245148,6 +245263,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -245283,6 +245399,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -245994,6 +246111,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -246129,6 +246247,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -250777,6 +250896,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -250912,6 +251032,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -251113,6 +251234,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -251248,6 +251370,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -251605,6 +251728,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -251740,6 +251864,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -251942,6 +252067,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -252077,6 +252203,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -252212,6 +252339,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -252347,6 +252475,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -252532,6 +252661,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -252667,6 +252797,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -252849,6 +252980,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -252984,6 +253116,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -253172,6 +253305,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -253307,6 +253441,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -253442,6 +253577,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -253577,6 +253713,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -253728,6 +253865,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -253863,6 +254001,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -253998,6 +254137,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -254133,6 +254273,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -254284,6 +254425,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -254419,6 +254561,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -254554,6 +254697,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -254689,6 +254833,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -254840,6 +254985,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -254975,6 +255121,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -255110,6 +255257,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -255245,6 +255393,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -255396,6 +255545,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -255531,6 +255681,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -255666,6 +255817,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -255801,6 +255953,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -256184,6 +256337,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -256319,6 +256473,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -256518,6 +256673,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -256653,6 +256809,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -256895,6 +257052,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257030,6 +257188,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257234,6 +257393,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -257369,6 +257529,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -257618,6 +257779,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257753,6 +257915,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257998,6 +258161,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -258133,6 +258297,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -258478,6 +258643,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -258613,6 +258779,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -259046,6 +259213,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -259181,6 +259349,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -259332,6 +259501,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -259467,6 +259637,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -259602,6 +259773,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -259737,6 +259909,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -259888,6 +260061,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -260023,6 +260197,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -260158,6 +260333,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -260293,6 +260469,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -260444,6 +260621,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -260579,6 +260757,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -260714,6 +260893,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -260849,6 +261029,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -261000,6 +261181,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -261135,6 +261317,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -261270,6 +261453,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -261405,6 +261589,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -261556,6 +261741,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -261691,6 +261877,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -261826,6 +262013,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -261961,6 +262149,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -262112,6 +262301,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -262247,6 +262437,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -262382,6 +262573,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -262517,6 +262709,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -262668,6 +262861,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -262803,6 +262997,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -262938,6 +263133,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -263073,6 +263269,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -263224,6 +263421,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -263359,6 +263557,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -263494,6 +263693,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -263629,6 +263829,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -263780,6 +263981,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -263915,6 +264117,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -264050,6 +264253,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -264185,6 +264389,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -264336,6 +264541,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -264471,6 +264677,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -264606,6 +264813,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -264741,6 +264949,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -264892,6 +265101,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -265027,6 +265237,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -265162,6 +265373,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -265297,6 +265509,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -265448,6 +265661,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -265583,6 +265797,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -265718,6 +265933,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -265853,6 +266069,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -266004,6 +266221,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -266139,6 +266357,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -266274,6 +266493,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -266409,6 +266629,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -266560,6 +266781,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -266695,6 +266917,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -266830,6 +267053,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -266965,6 +267189,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -267116,6 +267341,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -267251,6 +267477,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -267386,6 +267613,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -267521,6 +267749,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -267672,6 +267901,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -267807,6 +268037,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -267942,6 +268173,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -268077,6 +268309,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -268228,6 +268461,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -268363,6 +268597,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -268498,6 +268733,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -268633,6 +268869,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -268784,6 +269021,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -268919,6 +269157,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -269054,6 +269293,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -269189,6 +269429,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -269364,6 +269605,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -269499,6 +269741,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -269721,6 +269964,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -269856,6 +270100,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -270043,6 +270288,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -270178,6 +270424,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -270454,6 +270701,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -270589,6 +270837,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -270902,6 +271151,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -271037,6 +271287,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -271334,6 +271585,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -271469,6 +271721,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -271751,6 +272004,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -271886,6 +272140,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -272146,6 +272401,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -272281,6 +272537,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -272563,6 +272820,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -272698,6 +272956,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -272958,6 +273217,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -273093,6 +273353,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -273375,6 +273636,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -273510,6 +273772,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -273645,6 +273908,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -273780,6 +274044,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -273931,6 +274196,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -274066,6 +274332,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -274713,6 +274980,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -274848,6 +275116,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -274999,6 +275268,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -275134,6 +275404,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -275269,6 +275540,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -275404,6 +275676,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -275617,6 +275890,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -275752,6 +276026,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -275930,6 +276205,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -276065,6 +276341,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -276542,6 +276819,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -276677,6 +276955,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -277480,6 +277759,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -277615,6 +277895,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -277766,6 +278047,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -277901,6 +278183,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -278036,6 +278319,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -278171,6 +278455,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -278418,6 +278703,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -278553,6 +278839,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -278720,6 +279007,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -278855,6 +279143,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -279304,6 +279593,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -279439,6 +279729,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -279886,6 +280177,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -280021,6 +280313,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -280172,6 +280465,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -280307,6 +280601,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -280586,6 +280881,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -280721,6 +281017,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -280941,6 +281238,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -281076,6 +281374,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -281227,6 +281526,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -281362,6 +281662,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -281513,6 +281814,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -281648,6 +281950,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -281783,6 +282086,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -281918,6 +282222,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -282069,6 +282374,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -282204,6 +282510,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -282422,6 +282729,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -282557,6 +282865,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -282755,6 +283064,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -282890,6 +283200,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -283025,6 +283336,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -283160,6 +283472,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -283719,6 +284032,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -283854,6 +284168,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -284387,6 +284702,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -284522,6 +284838,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -284718,6 +285035,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -284853,6 +285171,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -285355,6 +285674,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -285490,6 +285810,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -285720,6 +286041,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -285855,6 +286177,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -286075,6 +286398,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -286210,6 +286534,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -286545,6 +286870,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -286680,6 +287006,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -286863,6 +287190,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -286998,6 +287326,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -287308,6 +287637,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -287443,6 +287773,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -287809,6 +288140,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -287944,6 +288276,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -288217,6 +288550,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -288352,6 +288686,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -288621,6 +288956,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -288756,6 +289092,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -289013,6 +289350,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -289148,6 +289486,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -289476,6 +289815,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -289611,6 +289951,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -289880,6 +290221,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -290015,6 +290357,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -290273,6 +290616,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -290408,6 +290752,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -290806,6 +291151,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -290941,6 +291287,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -291341,6 +291688,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -291476,6 +291824,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -291627,6 +291976,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -291762,6 +292112,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -291897,6 +292248,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -292032,6 +292384,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -292241,6 +292594,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -292376,6 +292730,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -292597,6 +292952,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -292732,6 +293088,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -292926,6 +293283,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -293061,6 +293419,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -293276,6 +293635,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -293411,6 +293771,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -293687,6 +294048,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -293822,6 +294184,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -294088,6 +294451,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -294223,6 +294587,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -294499,6 +294864,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -294634,6 +295000,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -294900,6 +295267,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -295035,6 +295403,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -295436,6 +295805,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -295571,6 +295941,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -295968,6 +296339,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -296103,6 +296475,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -296504,6 +296877,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -296639,6 +297013,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -297036,6 +297411,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -297171,6 +297547,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -297447,6 +297824,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -297582,6 +297960,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -297848,6 +298227,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -297983,6 +298363,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -298469,6 +298850,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -298604,6 +298986,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -299104,6 +299487,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -299239,6 +299623,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -299431,6 +299816,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -299566,6 +299952,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -302369,6 +302756,7 @@ export namespace Prisma {
     email?: string | null
     website?: string | null
     logoUrl?: string | null
+    brandColor?: string | null
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -303740,6 +304128,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -303875,6 +304264,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -304010,6 +304400,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

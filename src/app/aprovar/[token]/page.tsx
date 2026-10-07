@@ -13,7 +13,13 @@ async function load(token: string) {
     select: {
       id: true, title: true, description: true, status: true, comments: true, dueDate: true,
       approvalRound: true, approvalCommentAt: true, approvalFileIds: true, approvalSentAt: true, approvedAt: true, approvedByName: true,
-      project: { select: { name: true, publicToken: true, clientCompany: { select: { name: true } } } },
+      project: {
+        select: {
+          name: true, publicToken: true, clientCompany: { select: { name: true } },
+          // Agência dona do projeto: a tela veste a identidade dela.
+          setor: { select: { company: { select: { name: true, tradeName: true, logoUrl: true, brandColor: true } } } },
+        },
+      },
     },
   });
   if (!task) return null;
@@ -112,6 +118,11 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
       versionText={versionText}
       files={files}
       links={links}
+      brand={{
+        name:    task.project.setor.company.tradeName || task.project.setor.company.name,
+        logoUrl: task.project.setor.company.logoUrl,
+        color:   task.project.setor.company.brandColor,
+      }}
       history={history}
     />
   );

@@ -11,6 +11,7 @@ interface Company {
   website: string | null;
   segment: string | null;
   logoUrl: string | null;
+  brandColor: string | null;
 }
 
 export default function SettingsForm({
@@ -40,6 +41,7 @@ export default function SettingsForm({
     website: company?.website ?? "",
     segment: company?.segment ?? "",
     logoUrl: company?.logoUrl ?? "",
+    brandColor: company?.brandColor ?? "",
   });
   const [savingCompany, setSavingCompany] = useState(false);
   const [savedCompany, setSavedCompany] = useState(false);
@@ -216,6 +218,34 @@ export default function SettingsForm({
                 placeholder="https://cdn.seusite.com/logo.png"
                 className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
               />
+              <p className="text-[11px] text-slate-500 mt-1">Aparece no link de aprovação que o cliente abre. Use a versão pra fundo escuro.</p>
+            </div>
+
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                Cor da marca
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={/^#[0-9a-f]{6}$/i.test(companyForm.brandColor) ? companyForm.brandColor : "#6E86FF"}
+                  onChange={(e) => setCompanyForm({ ...companyForm, brandColor: e.target.value.toUpperCase() })}
+                  className="w-10 h-10 rounded-lg bg-[#161f30] border border-[#1e2d45] cursor-pointer"
+                />
+                <input
+                  type="text"
+                  value={companyForm.brandColor}
+                  onChange={(e) => setCompanyForm({ ...companyForm, brandColor: e.target.value })}
+                  placeholder="#FDE000"
+                  className="w-32 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+                {companyForm.brandColor && (
+                  <button type="button" onClick={() => setCompanyForm({ ...companyForm, brandColor: "" })} className="text-xs text-slate-500 hover:text-slate-300">
+                    usar padrão
+                  </button>
+                )}
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1">Botão de aprovar e destaques do link de aprovação.</p>
             </div>
 
             <button
