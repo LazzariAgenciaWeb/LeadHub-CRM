@@ -41,7 +41,7 @@ export async function PATCH(
 
   const conv = await prisma.conversation.findUnique({
     where: { id },
-    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true, createdAt: true, excludeFromGamification: true, lastMessageDirection: true, lastMessageAt: true, instanceId: true, syncBlocked: true },
+    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true, createdAt: true, excludeFromGamification: true, lastMessageDirection: true, lastMessageAt: true, instanceId: true, syncBlocked: true, aiMode: true, isGroup: true },
   });
   if (!conv) return NextResponse.json({ error: "Conversa não encontrada" }, { status: 404 });
   if (userRole !== "SUPER_ADMIN" && conv.companyId !== userCompanyId) {
@@ -324,6 +324,16 @@ export async function PATCH(
       where: { conversationId: conv.id, attendanceStatus: { not: legacy } },
       data:  { attendanceStatus: legacy },
     }).catch(() => { /* não crítico */ });
+  }
+
+  // Reativar o agente = devolver a conversa pra ele AGORA. Antes só destravava
+  // e ele esperava o contato escrever de novo — numa conversa em que a última
+  // fala foi nossa (sentinela, atendente), isso podia nunca acontecer. Ele lê o
+  // histórico e continua de onde parou, ou fica quieto se nada está pendente.
+  if (body.aiMode === "ACTIVE" && conv.aiMode !== "ACTIVE" && !conv.isGroup) {
+    void import("@/lib/auto-agent")
+      .then(({ runAutoAgentNow }) => runAutoAgentNow(conv.id, { resume: true }))
+      .catch((err) => console.error(`[AutoAgent] retomada falhou conv=${conv.id}:`, err));
   }
 
   return NextResponse.json(updated);

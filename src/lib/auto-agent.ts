@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v21-continuacao";
+export const AUTO_AGENT_REV = "v22-retomada";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -961,25 +961,47 @@ export async function runFollowThroughSweep(): Promise<{ checked: number; resume
  */
 export async function runAutoAgentNow(
   conversationId: string,
-  opts?: { continuation?: boolean }
+  opts?: { continuation?: boolean; resume?: boolean }
 ): Promise<AgentRunResult> {
   const continuation = !!opts?.continuation;
-  const diag: Record<string, unknown> = continuation ? { continuacao: true } : {};
+  const resume = !!opts?.resume && !continuation;
+  const diag: Record<string, unknown> = continuation ? { continuacao: true } : resume ? { retomada: true } : {};
   try {
-    const res = await runAutoAgentCore(conversationId, diag, continuation);
+    const res = await runAutoAgentCore(conversationId, diag, continuation, resume);
     recordRun({ conv: conversationId, ...diag, ...res });
+    await persistLastResult(conversationId, res, continuation);
     return res;
   } catch (err) {
     recordRun({ conv: conversationId, ...diag, error: String(err) });
+    await persistLastResult(conversationId, { ok: false, skipped: "erro_interno" }, continuation);
     throw err;
   }
+}
+
+/**
+ * Grava na conversa o resultado da última tentativa do agente — é o que a tela
+ * do WhatsApp mostra no botão do robô. O anel em memória (recentRuns) some no
+ * restart e só guarda 12 execuções de TODAS as conversas.
+ *
+ * Fica de fora o que não diz nada sobre a conversa: instância sem agente
+ * (seria uma escrita a cada mensagem de toda instância comum) e as checagens
+ * de continuação que concluem "não havia nada pendente".
+ */
+async function persistLastResult(conversationId: string, res: AgentRunResult, continuation: boolean) {
+  if (!res.ok && res.skipped === "no_auto_assistant") return;
+  if (continuation && !(res.ok && res.replied)) return;
+  const value = res.ok ? `ok:${res.action}${res.replied ? "" : ":sem_envio"}` : res.skipped;
+  await prisma.conversation
+    .update({ where: { id: conversationId }, data: { aiLastResult: value, aiLastRunAt: new Date() } })
+    .catch(() => { /* diagnóstico nunca derruba o atendimento */ });
 }
 
 /** Núcleo do processamento — todos os guards vivem aqui. */
 async function runAutoAgentCore(
   conversationId: string,
   diag: Record<string, unknown>,
-  continuation = false
+  continuation = false,
+  resume = false
 ): Promise<AgentRunResult> {
   const conv = await prisma.conversation.findUnique({
     where: { id: conversationId },
@@ -1015,6 +1037,12 @@ async function runAutoAgentCore(
     if (Date.now() - last.receivedAt.getTime() > CONTINUATION_MAX_AGE_MS) {
       return { ok: false, skipped: "continuacao_tarde_demais" };
     }
+  } else if (resume) {
+    // RETOMADA: alguém do time reativou o agente nesta conversa. A última
+    // fala pode ser de qualquer um (contato, atendente, sentinela) — ele lê
+    // o histórico e decide se há algo pendente. Grupo fica de fora: lá o
+    // agente só entra pela sentinela.
+    if (conv.isGroup) return { ok: false, skipped: "retomada_em_grupo" };
   } else if (last.direction !== "INBOUND") {
     return { ok: false, skipped: "last_not_inbound" };
   }
@@ -1022,7 +1050,7 @@ async function runAutoAgentCore(
 
   // Mensagem terminal ("obrigado", "ok", "blz") → resposta mínima ou nenhuma.
   // Na continuação a última mensagem é NOSSA, então não se aplica.
-  const lastIsTerminal = !continuation && isTerminalMessage(last.body ?? "");
+  const lastIsTerminal = last.direction === "INBOUND" && !continuation && isTerminalMessage(last.body ?? "");
 
   const instance = await prisma.whatsappInstance.findUnique({
     where: { id: last.instanceId },
@@ -1056,6 +1084,12 @@ async function runAutoAgentCore(
   // aparece (ex.: texto do anúncio). Enquanto não assumir, a conversa é 100%
   // do time — ele nem gasta chamada de IA. Depois de assumir, atende normal
   // até o ciclo ser concluído (aí o engajamento zera e ele volta a esperar).
+  // Retomada manual vale como engajamento: quem clicou decidiu que o agente
+  // assume esta conversa, com ou sem gatilho de campanha.
+  if (resume && (assistant as any).activationMode === "TRIGGER" && !conv.aiEngagedAt) {
+    await prisma.conversation.update({ where: { id: conv.id }, data: { aiEngagedAt: new Date() } });
+    conv.aiEngagedAt = new Date();
+  }
   if ((assistant as any).activationMode === "TRIGGER" && !conv.aiEngagedAt) {
     const triggers = ((assistant as any).triggerKeywords as string[]) ?? [];
     const hit = triggers.length ? matchesTrigger(last.body ?? "", triggers) : null;
@@ -1231,7 +1265,7 @@ async function runAutoAgentCore(
     // de volta pro textão se não reforçar aqui.
     {
       role: "system",
-      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.${scheduling ? ` ATENÇÃO: você TEM a seção AGENDAMENTO DIRETO com horários livres da agenda — ofereça horários DELA; NUNCA diga que um gestor vai verificar disponibilidade e NUNCA envie link de agenda. Ao confirmar reunião use action "AGENDAR" COM os campos "agendarInicio" (código [S...] do horário) e "agendarEmail" dentro do JSON.` : ""}${lastIsTerminal ? ` O contato APENAS agradeceu/encerrou: responda no máximo 1 bolha curta de cortesia SEM pergunta — e se um atendente humano já se despediu logo acima, responda [] (nada).` : ""}${continuation ? ` ⚠️ CONTINUAÇÃO: o contato NÃO escreveu nada novo. Você está voltando porque a SUA última mensagem anunciou um próximo passo e ele não foi entregue. Entregue AGORA o que ficou faltando (ex.: os horários concretos da seção AGENDAMENTO DIRETO) — direto, sem saudação, sem se desculpar, sem repetir o que já disse e SEM prometer de novo. Se não houver nada pendente de verdade, responda com "reply": [] (nada).` : ""}`,
+      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.${scheduling ? ` ATENÇÃO: você TEM a seção AGENDAMENTO DIRETO com horários livres da agenda — ofereça horários DELA; NUNCA diga que um gestor vai verificar disponibilidade e NUNCA envie link de agenda. Ao confirmar reunião use action "AGENDAR" COM os campos "agendarInicio" (código [S...] do horário) e "agendarEmail" dentro do JSON.` : ""}${lastIsTerminal ? ` O contato APENAS agradeceu/encerrou: responda no máximo 1 bolha curta de cortesia SEM pergunta — e se um atendente humano já se despediu logo acima, responda [] (nada).` : ""}${continuation ? ` ⚠️ CONTINUAÇÃO: o contato NÃO escreveu nada novo. Você está voltando porque a SUA última mensagem anunciou um próximo passo e ele não foi entregue. Entregue AGORA o que ficou faltando (ex.: os horários concretos da seção AGENDAMENTO DIRETO) — direto, sem saudação, sem se desculpar, sem repetir o que já disse e SEM prometer de novo. Se não houver nada pendente de verdade, responda com "reply": [] (nada).` : ""}${resume ? ` 🔄 RETOMADA: um atendente acabou de devolver esta conversa pra você. Leia o histórico inteiro (as mensagens de atendente humano também são "nossas") e continue DE ONDE PAROU: se o contato tem pergunta ou pedido sem resposta, responda agora; se a conversa estava num passo (ex.: escolher horário), siga desse passo. Não se apresente de novo, não recomece a qualificação, não repita o que já foi dito. Se a conversa está em dia e não há nada pendente, responda com "reply": [] (nada).` : ""}`,
     },
   ];
 

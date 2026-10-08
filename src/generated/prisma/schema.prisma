@@ -1228,6 +1228,12 @@ model Conversation {
   // anterior a este instante — a próxima mensagem inicia um ciclo NOVO
   // (re-saudação, re-qualificação). Setado pelo botão da Inbox e no Finalizar.
   aiCycleResetAt DateTime?
+  // Diagnostico persistente do agente: resultado da ULTIMA tentativa dele nesta
+  // conversa ("ok:NONE", "aiMode_PAUSED_HUMAN", "ai_QUOTA"...). Antes isso so
+  // vivia num anel de 12 execucoes em memoria — "por que a IA nao respondeu?"
+  // virava adivinhacao dias depois.
+  aiLastResult   String?
+  aiLastRunAt    DateTime?
 
   // SLA
   firstResponseAt DateTime? // primeira resposta do atendente (calcula tempo de resposta)

@@ -112,6 +112,8 @@ export async function GET(req: NextRequest) {
       setor:    { select: { id: true, name: true } },
       excludeFromGamification: true,
       aiMode: true,
+      aiLastResult: true,
+      aiLastRunAt: true,
     },
   });
 
@@ -177,6 +179,8 @@ export async function GET(req: NextRequest) {
           setor:                   conv.setor,
           excludeFromGamification: conv.excludeFromGamification,
           aiMode: conv.aiMode,
+          aiLastResult: conv.aiLastResult,
+          aiLastRunAt: conv.aiLastRunAt ? conv.aiLastRunAt.toISOString() : null,
         },
       };
     })

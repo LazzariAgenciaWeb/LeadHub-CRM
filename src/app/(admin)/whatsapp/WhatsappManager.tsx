@@ -155,7 +155,38 @@ interface Conversation {
     excludeFromGamification?: boolean;
     // Agente de IA autônomo — estado do bot nesta conversa
     aiMode?: "ACTIVE" | "PAUSED_HUMAN" | "OFF";
+    // Resultado da última tentativa do agente nesta conversa (diagnóstico)
+    aiLastResult?: string | null;
+    aiLastRunAt?: string | null;
   } | null;
+}
+
+// Tradução do código gravado pelo motor (Conversation.aiLastResult) pra quem
+// atende. "warn" = o agente QUERIA responder e algo impediu — vale destacar.
+function describeAiResult(code: string | null | undefined): { text: string; warn: boolean } | null {
+  if (!code) return null;
+  if (code.startsWith("ok:")) {
+    if (code.endsWith(":sem_envio")) return { text: "leu a conversa e não viu nada pendente", warn: false };
+    if (code === "ok:NONE") return { text: "respondeu", warn: false };
+    if (code === "ok:AGENDAR") return { text: "agendou a reunião", warn: false };
+    return { text: "respondeu e passou pro time", warn: false };
+  }
+  const map: Record<string, { text: string; warn: boolean }> = {
+    aiMode_PAUSED_HUMAN: { text: "pausada — um humano assumiu (clique no robô pra ela reassumir)", warn: false },
+    aiMode_OFF: { text: "desligada nesta conversa", warn: false },
+    aguardando_gatilho: { text: "esperando a palavra-gatilho da campanha", warn: false },
+    closed: { text: "conversa finalizada", warn: false },
+    last_not_inbound: { text: "nada pendente do contato", warn: false },
+    human_replied_during_ai: { text: "um atendente respondeu enquanto ela pensava", warn: false },
+    paused_during_ai: { text: "foi pausada enquanto pensava", warn: false },
+    ai_QUOTA: { text: "cota de IA da empresa esgotada", warn: true },
+    ai_NO_CONFIG: { text: "IA sem configuração (chave/modelo)", warn: true },
+    ai_AI_ERROR: { text: "o provedor de IA não respondeu", warn: true },
+    bad_json: { text: "a IA respondeu fora do formato", warn: true },
+    send_failed: { text: "a mensagem não saiu pelo WhatsApp (instância?)", warn: true },
+    erro_interno: { text: "erro interno no agente", warn: true },
+  };
+  return map[code] ?? { text: code, warn: false };
 }
 
 interface WaMessage {
@@ -3913,11 +3944,14 @@ export default function WhatsappManager({
                           onClick={toggleAiMode}
                           disabled={convActionLoading}
                           title={
-                            conv.aiMode === "ACTIVE"
+                            (conv.aiMode === "ACTIVE"
                               ? "🤖 IA atendendo esta conversa — clique pra desligar"
                               : conv.aiMode === "PAUSED_HUMAN"
-                                ? "IA pausada (humano assumiu) — clique pra reativar"
-                                : "IA desligada nesta conversa — clique pra reativar"
+                                ? "IA pausada (humano assumiu) — clique pra ela REASSUMIR: lê a conversa e continua de onde parou"
+                                : "IA desligada nesta conversa — clique pra ela REASSUMIR: lê a conversa e continua de onde parou") +
+                            (describeAiResult(conv.aiLastResult)
+                              ? `\n\nÚltima tentativa${conv.aiLastRunAt ? ` (${new Date(conv.aiLastRunAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })})` : ""}: ${describeAiResult(conv.aiLastResult)!.text}`
+                              : "")
                           }
                           className={`px-2 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 flex items-center gap-1 ${
                             conv.aiMode === "ACTIVE"
@@ -3938,6 +3972,17 @@ export default function WhatsappManager({
                             <BotOff className="w-4 h-4" strokeWidth={2.5} />
                           )}
                         </button>
+                      )}
+
+                      {/* Agente quis responder e algo impediu — fica à vista,
+                          não escondido num log que some no próximo deploy. */}
+                      {conv.aiMode !== undefined && describeAiResult(conv.aiLastResult)?.warn && (
+                        <span
+                          className="px-2 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 text-amber-300 text-[11px] font-medium"
+                          title="Motivo da última vez que o agente tentou responder nesta conversa"
+                        >
+                          ⚠️ IA não respondeu: {describeAiResult(conv.aiLastResult)!.text}
+                        </span>
                       )}
 
                       {/* Concluir atendimento de IA — zera o contexto do agente:

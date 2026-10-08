@@ -576,6 +576,8 @@ exports.Prisma.ConversationScalarFieldEnum = {
   aiPausedAt: 'aiPausedAt',
   aiEngagedAt: 'aiEngagedAt',
   aiCycleResetAt: 'aiCycleResetAt',
+  aiLastResult: 'aiLastResult',
+  aiLastRunAt: 'aiLastRunAt',
   firstResponseAt: 'firstResponseAt',
   closedAt: 'closedAt',
   companyId: 'companyId',

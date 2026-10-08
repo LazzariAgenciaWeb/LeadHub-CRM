@@ -87,6 +87,8 @@ export default async function WhatsappPage({
       setor: { select: { id: true, name: true } },
       excludeFromGamification: true,
       aiMode: true,
+      aiLastResult: true,
+      aiLastRunAt: true,
     },
   });
 
@@ -179,6 +181,8 @@ export default async function WhatsappPage({
           setor: conv.setor,
           excludeFromGamification: conv.excludeFromGamification,
           aiMode: conv.aiMode,
+          aiLastResult: conv.aiLastResult,
+          aiLastRunAt: conv.aiLastRunAt ? conv.aiLastRunAt.toISOString() : null,
         },
       };
     })
