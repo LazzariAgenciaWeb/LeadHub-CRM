@@ -2136,6 +2136,31 @@ function ProjectTasksCard({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  // "+ Etapa" direto na lista — antes só dava pelo ⚙ Configurar projeto.
+  const [stageOpen, setStageOpen] = useState(false);
+  const [stageName, setStageName] = useState("");
+  const [stageBusy, setStageBusy] = useState(false);
+  const [stageErr, setStageErr] = useState<string | null>(null);
+  async function createStage() {
+    const name = stageName.trim();
+    if (!name || stageBusy) return;
+    setStageBusy(true);
+    setStageErr(null);
+    const res = await fetch(`/api/projetos/${projectId}/servicos`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ name }),
+    }).catch(() => null);
+    setStageBusy(false);
+    if (!res?.ok) {
+      const d = await res?.json().catch(() => ({}));
+      setStageErr(d?.error ?? "Não foi possível criar a etapa.");
+      return;
+    }
+    setStageName("");
+    setStageOpen(false);
+    router.refresh();
+  }
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     destino: hasClickup ? "clickup" : "interna",
@@ -2294,6 +2319,43 @@ function ProjectTasksCard({
               {selectMode ? "Cancelar seleção" : "☑ Selecionar"}
             </button>
           )}
+          {stageOpen ? (
+            <div className="flex items-center gap-1">
+              <input
+                autoFocus
+                value={stageName}
+                onChange={(e) => setStageName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") { e.preventDefault(); createStage(); }
+                  if (e.key === "Escape") { setStageOpen(false); setStageName(""); setStageErr(null); }
+                }}
+                placeholder="Nome da etapa · Enter"
+                disabled={stageBusy}
+                className="w-52 bg-[#080b12] border border-indigo-500/60 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-400"
+              />
+              <button
+                onClick={createStage}
+                disabled={stageBusy || !stageName.trim()}
+                className="text-xs px-2.5 py-1.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-200 font-medium disabled:opacity-40"
+              >
+                {stageBusy ? "…" : "Criar"}
+              </button>
+              <button
+                onClick={() => { setStageOpen(false); setStageName(""); setStageErr(null); }}
+                className="text-slate-500 hover:text-white px-1"
+                aria-label="Cancelar"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setStageOpen(true)}
+              className="text-xs px-3 py-1.5 rounded-lg font-medium border border-[#1e2d45] text-slate-300 hover:text-white hover:border-indigo-500/60"
+            >
+              + Etapa
+            </button>
+          )}
           <button
             onClick={() => setOpen((v) => !v)}
             className="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium"
@@ -2302,6 +2364,7 @@ function ProjectTasksCard({
           </button>
         </div>
       </div>
+      {stageErr && <p className="px-5 pt-2 text-red-400 text-xs">{stageErr}</p>}
 
       {/* Barra de ação em massa */}
       {selectMode && (
