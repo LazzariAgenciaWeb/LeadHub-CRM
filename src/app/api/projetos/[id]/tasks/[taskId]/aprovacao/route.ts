@@ -73,9 +73,12 @@ export async function POST(
   // No reenvio, o andamento da rodada continua sendo a versão mesmo sem ser "novo".
   const version = picked.version ?? (sameRound ? latestVersionComment(task.comments) : null);
   const fileIds = picked.ids;
-  if (!fileIds.length) {
+  // Peça só de texto vale: planejamento/roteiro/legenda vão no descritivo, sem
+  // anexo. Conta o texto de verdade — print colado sozinho ([[img:..]]) também.
+  const descricao = task.description?.trim() ?? "";
+  if (!fileIds.length && !descricao.replace(/<[^>]+>/g, "").trim()) {
     return NextResponse.json(
-      { error: "Anexe a peça na tarefa (em Arquivos ou num andamento) antes de enviar pra aprovação." },
+      { error: "Anexe a peça (em Arquivos ou num andamento) ou escreva o conteúdo no descritivo antes de enviar pra aprovação." },
       { status: 400 },
     );
   }
@@ -114,6 +117,7 @@ export async function POST(
       approvalRound:      round,
       approvalCommentAt:  version?.at ?? null,
       approvalFileIds:    fileIds,
+      approvalText:       descricao || null,
       ...(sameRound
         ? { approvalNudgedAt: now }
         : {

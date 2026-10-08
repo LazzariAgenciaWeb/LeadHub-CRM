@@ -29,6 +29,8 @@ type Props = {
   links: { url: string; title: string }[];
   brand: { name: string; logoUrl: string | null; color: string | null };
   history: { text: string; at: string; byClient: boolean }[];
+  /** URL dos prints do descritivo, com `__ID__` no lugar do id do material. */
+  mediaBase: string;
 };
 
 const NAME_KEY = "lh-aprovador-nome";
@@ -75,6 +77,9 @@ h1{font-size:22px;line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
 .card{margin-top:16px;padding:14px 16px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
 .card h3{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3)}
 .pre{white-space:pre-wrap;word-break:break-word;font-size:14px;color:var(--ink2)}
+.pre img{display:block;max-width:100%;margin:10px 0;border-radius:10px;border:1px solid var(--line)}
+.card.texto{padding:20px 20px 22px;border-color:var(--line2)}
+.card.texto .pre{font-size:15.5px;line-height:1.65;color:var(--ink)}
 .hist{display:flex;flex-direction:column;gap:8px}
 .msg{padding:9px 12px;border-radius:12px;font-size:13px;white-space:pre-wrap;word-break:break-word;max-width:92%}
 .msg.me{align-self:flex-end;background:rgba(110,134,255,.14);border:1px solid rgba(110,134,255,.3)}
@@ -115,6 +120,23 @@ function brandVars(color: string | null): React.CSSProperties | undefined {
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(color.slice(i, i + 2), 16) / 255);
   const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
   return { ["--brand" as string]: color, ["--on-accent" as string]: lum > 0.55 ? "#0A0A0A" : "#FFFFFF" } as React.CSSProperties;
+}
+
+// Descritivo como o cliente vê: texto puro + prints colados ([[img:id]]).
+// Nada de HTML vindo do banco — a página é pública.
+function TextoPeca({ text, mediaBase }: { text: string; mediaBase: string }) {
+  const clean = text.replace(/<[^>]+>/g, "");
+  const parts = clean.split(/\[\[img:([a-zA-Z0-9_-]+)\]\]/);
+  return (
+    <div className="pre">
+      {parts.map((part, i) =>
+        i % 2 === 1
+          // eslint-disable-next-line @next/next/no-img-element
+          ? <img key={i} src={mediaBase.replace("__ID__", part)} alt="" loading="lazy" />
+          : part ? <span key={i}>{part}</span> : null,
+      )}
+    </div>
+  );
 }
 
 const fmt = (iso: string) =>
@@ -353,6 +375,11 @@ export default function AprovarClient(p: Props) {
               </>
             )}
           </>
+        ) : p.description?.trim() ? (
+          <div className="card texto">
+            <h3>Conteúdo para aprovação</h3>
+            <TextoPeca text={p.description} mediaBase={p.mediaBase} />
+          </div>
         ) : (
           <div className="card"><div className="pre">A peça ainda não foi anexada. Fale com a agência pelo grupo.</div></div>
         )}
@@ -379,10 +406,10 @@ export default function AprovarClient(p: Props) {
             <div className="pre">{p.versionText}</div>
           </div>
         )}
-        {p.description?.trim() && (
+        {p.files.length > 0 && p.description?.trim() && (
           <div className="card">
             <h3>Sobre a peça</h3>
-            <div className="pre">{p.description.replace(/<[^>]+>/g, "")}</div>
+            <TextoPeca text={p.description} mediaBase={p.mediaBase} />
           </div>
         )}
 

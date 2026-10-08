@@ -11,8 +11,8 @@ async function load(token: string) {
   const task = await prisma.projectTask.findUnique({
     where: { approvalToken: token },
     select: {
-      id: true, title: true, description: true, status: true, comments: true, dueDate: true,
-      approvalRound: true, approvalCommentAt: true, approvalFileIds: true, approvalSentAt: true, approvedAt: true, approvedByName: true,
+      id: true, projectId: true, title: true, description: true, status: true, comments: true, dueDate: true,
+      approvalText: true, approvalRound: true, approvalCommentAt: true, approvalFileIds: true, approvalSentAt: true, approvedAt: true, approvedByName: true,
       project: {
         select: {
           name: true, publicToken: true, clientCompany: { select: { name: true } },
@@ -105,7 +105,10 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
     <AprovarClient
       token={token}
       title={task.title}
-      description={task.description}
+      // O que foi ENVIADO, não o descritivo de agora (pode ter sido editado depois).
+      description={task.approvalText ?? task.description}
+      // Prints colados no descritivo: liberados pelo próprio token de aprovação.
+      mediaBase={`/api/projetos/${task.projectId}/materiais/__ID__/media?a=${encodeURIComponent(token)}`}
       clientName={task.project.clientCompany?.name ?? null}
       projectName={task.project.name}
       panelToken={task.project.publicToken}

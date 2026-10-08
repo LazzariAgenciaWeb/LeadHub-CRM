@@ -242,7 +242,7 @@ export function ApprovalCard({
       ) : (
         project.approvalGroupJid && !editing && (
           <p className="text-xs text-slate-500">
-            Nada esperando o cliente. Abra uma tarefa, anexe a peça e clique em <span className="text-slate-300">Enviar pra aprovação</span>.
+            Nada esperando o cliente. Abra uma tarefa, anexe a peça (ou escreva no descritivo) e clique em <span className="text-slate-300">Enviar pra aprovação</span>.
           </p>
         )
       )}
@@ -311,7 +311,7 @@ export function TaskApprovalBar({
   return (
     <div className="shrink-0 mb-2 flex items-center gap-2 flex-wrap text-[11px] bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5">
       <span className="text-slate-500">Aprovação:</span>
-      {!approval && <span className="text-slate-400">anexe a peça (Arquivos ou andamento) e envie</span>}
+      {!approval && <span className="text-slate-400">anexe a peça ou escreva no descritivo e envie</span>}
       {approval && status === "APROVADO" && approval.approvedAt && (
         <span className="text-emerald-300">✓ aprovada por {approval.approvedBy ?? "cliente"} em {fmt(approval.approvedAt)}</span>
       )}

@@ -1659,6 +1659,10 @@ model ProjectTask {
   approvalRound       Int       @default(0)
   approvalCommentAt   String?
   approvalFileIds     Json? // arquivos da peça nesta rodada, na ordem do carrossel
+  // Cópia do descritivo NO ENVIO. Peça só de texto (planejamento, roteiro,
+  // legenda) não tem arquivo pra congelar — sem isto, editar o descritivo
+  // depois mudaria o que o link mostra como "aprovado".
+  approvalText        String?   @db.Text
   approvalSentAt      DateTime? // envio da rodada atual
   approvalViewedAt    DateTime? // 1ª abertura do link NESTA rodada (null = não abriu)
   approvalLastViewAt  DateTime? // última visita (nova visita = 30 min+ depois da anterior)

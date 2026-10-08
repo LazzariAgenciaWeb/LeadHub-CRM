@@ -12,7 +12,10 @@ import { prisma } from "@/lib/prisma";
  * Acesso:
  *   • sessão logada da mesma empresa do projeto (admin/atendente), OU
  *   • `?t=<publicToken>` batendo com o publicToken do projeto (painel do cliente,
- *     que é público em /c/[token]).
+ *     que é público em /c/[token]), OU
+ *   • `?a=<approvalToken>` da tarefa dona do print (link de aprovação, também
+ *     público). Só libera material DAQUELA tarefa — o link de uma peça não
+ *     abre imagens das outras.
  */
 export async function GET(
   req: NextRequest,
@@ -26,6 +29,7 @@ export async function GET(
       mediaBase64: true,
       mediaType: true,
       projectId: true,
+      taskId: true,
       project: { select: { publicToken: true, setor: { select: { companyId: true } } } },
     },
   });
@@ -35,7 +39,16 @@ export async function GET(
 
   // 1) acesso público via token do painel do cliente
   const token = req.nextUrl.searchParams.get("t");
-  const publicOk = !!token && !!material.project.publicToken && token === material.project.publicToken;
+  let publicOk = !!token && !!material.project.publicToken && token === material.project.publicToken;
+
+  const approval = req.nextUrl.searchParams.get("a");
+  if (!publicOk && approval && material.taskId) {
+    const task = await prisma.projectTask.findUnique({
+      where:  { approvalToken: approval },
+      select: { id: true, projectId: true },
+    });
+    publicOk = !!task && task.id === material.taskId && task.projectId === id;
+  }
 
   // 2) senão, exige sessão da mesma empresa
   if (!publicOk) {
