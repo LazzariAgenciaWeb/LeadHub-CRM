@@ -1440,10 +1440,10 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
     setAttachRefreshKey((k) => k + 1);
     void loadEvents();
     router.refresh();
-    setSyncMsg(d?.warning
-      ? `Sincronizada · imagens: ${d.warning}`
-      : d?.images ? `Sincronizada · ${d.images} imagem${d.images > 1 ? "ns" : ""} nova${d.images > 1 ? "s" : ""}` : "Sincronizada ✓");
-    setTimeout(() => setSyncMsg(null), 5000);
+    setSyncMsg(d?.pendingImages
+      ? `Sincronizada · ${d.pendingImages} imagem${d.pendingImages > 1 ? "ns" : ""} no ClickUp pra escolher em "Anexos no ClickUp"`
+      : "Sincronizada ✓");
+    setTimeout(() => setSyncMsg(null), 7000);
   }
 
   async function pushToClickup() {
@@ -1772,7 +1772,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                     onClick={syncFromClickup}
                     disabled={syncing}
                     className="flex items-center gap-1.5 pl-2.5 pr-2 py-1 hover:bg-[#7b68ee]/20 disabled:opacity-60"
-                    title="Puxa do ClickUp só esta tarefa: título, datas, descritivo, comentários e imagens novas"
+                    title="Puxa do ClickUp só esta tarefa: título, datas, descritivo e comentários. Imagens você escolhe em Anexos no ClickUp"
                   >
                     <RefreshCw className={`w-3 h-3 ${syncing ? "animate-spin" : ""}`} />
                     {syncing ? "Sincronizando…" : "Sincronizar"}

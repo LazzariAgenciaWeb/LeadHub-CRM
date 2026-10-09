@@ -141,14 +141,14 @@ export async function POST(
 
   // ─── TAREFA DE PROJETO (painel do cliente) ──────────────────────────────────
   // Qualquer evento da tarefa → sincroniza ELA inteira (título, datas, descritivo,
-  // comentários, conclusão + imagens novas), igual ao botão "Sincronizar" do
-  // modal. Antes só descritivo e comentário chegavam em tempo real; status,
-  // prazo e imagem esperavam o cron diário das 7h.
+  // comentários, conclusão), igual ao botão "Sincronizar" do modal. Antes só
+  // descritivo e comentário chegavam em tempo real; status e prazo esperavam o
+  // cron diário das 7h. Anexos não entram sozinhos: a equipe escolhe no modal.
   if (projectTaskRow) {
     if (event === "taskDeleted") return NextResponse.json({ ok: true, skipped: "project-task-deleted" });
-    const r = await syncOneProjectTask(projectTaskRow.id, { name: "ClickUp" });
+    const r = await syncOneProjectTask(projectTaskRow.id);
     return NextResponse.json(r.ok
-      ? { ok: true, projectTask: projectTaskRow.id, images: r.images, ...(r.warning ? { warning: r.warning } : {}) }
+      ? { ok: true, projectTask: projectTaskRow.id, pendingImages: r.pendingImages }
       : { ok: true, projectTask: projectTaskRow.id, skipped: r.error });
   }
 

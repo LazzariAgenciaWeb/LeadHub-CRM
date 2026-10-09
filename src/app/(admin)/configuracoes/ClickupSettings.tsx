@@ -308,7 +308,7 @@ export default function ClickupSettings({
           <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-lg px-3 py-2.5">
             <p className="text-indigo-300 text-[11px] font-semibold mb-1">Eventos a marcar no ClickUp: <span className="text-white">todos</span></p>
             <ul className="text-slate-400 text-[11px] leading-relaxed list-disc list-inside">
-              <li>Tarefas de projeto: status, prazo, título, descritivo, comentários e imagens novas chegam na hora</li>
+              <li>Tarefas de projeto: status, prazo, título, descritivo e comentários chegam na hora (imagens você escolhe na tarefa)</li>
               <li>Chamados e oportunidades: comentário no ClickUp vira mensagem; status e prazo atualizam o lead</li>
               <li>Só com <code className="text-slate-300">taskCommentPosted</code>, o resto espera o sync diário das 7h</li>
             </ul>

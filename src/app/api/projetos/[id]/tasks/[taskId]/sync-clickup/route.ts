@@ -9,9 +9,9 @@ import { syncOneProjectTask } from "@/lib/project-task-pull";
 //
 // Sincroniza SÓ esta tarefa com o ClickUp — sem rodar o sync do projeto
 // inteiro (que busca a lista toda e passa por todas as tarefas). Puxa título,
-// datas, descritivo, comentários e conclusão (mesma regra do sync do projeto)
-// e traz as IMAGENS novas pro andamento. Outros anexos (txt, pdf…) continuam
-// no "Trazer" manual do quadro de anexos: nem todo arquivo do ClickUp é peça.
+// datas, descritivo, comentários e conclusão (mesma regra do sync do projeto).
+// Anexos ficam no "Trazer" manual do quadro de anexos — a equipe escolhe o que
+// é peça; aqui só informa quantas imagens novas existem.
 export async function POST(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string; taskId: string }> },
@@ -52,12 +52,8 @@ export async function POST(
   })) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
-  const r = await syncOneProjectTask(taskId, {
-    id: (session.user as any).id, name: (session.user as any).name,
-  });
+  const r = await syncOneProjectTask(taskId);
   if (!r.ok) return NextResponse.json({ error: r.error }, { status: r.status });
-  const images = r.images;
-  const imageError = r.warning ?? null;
 
   // Devolve o estado novo: o modal guarda os campos em estado local e não
   // enxergaria a mudança só com router.refresh().
@@ -67,8 +63,7 @@ export async function POST(
   });
   return NextResponse.json({
     ok: true,
-    images,
-    ...(imageError ? { warning: imageError } : {}),
+    pendingImages: r.pendingImages,
     task: fresh && {
       ...fresh,
       startDate: fresh.startDate?.toISOString() ?? null,

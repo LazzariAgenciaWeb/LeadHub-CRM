@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { fetchClickupTaskDescription, fetchClickupTaskComments, getClickupSettings, fetchClickupTaskLite, type ClickupTaskLite } from "@/lib/clickup";
-import { listClickupAttachments, importClickupAttachments } from "@/lib/clickup-files";
+import { listClickupAttachments } from "@/lib/clickup-files";
 import { readComments, sanitizeComments } from "@/lib/checklist";
 
 export type LinkedTask = {
@@ -80,35 +80,31 @@ export async function pullClickupIntoTask(apiToken: string, lt: LinkedTask, src:
 const IMAGE_EXT = /^(png|jpe?g|webp|gif|avif|heic)$/i;
 
 export type OneTaskSyncResult =
-  | { ok: true; images: number; warning?: string }
+  | { ok: true; pendingImages: number }
   | { ok: false; error: string; status: number };
 
 /**
- * Puxa do ClickUp só esta tarefa: título, datas, descritivo, comentários,
- * conclusão (pullClickupIntoTask) e as IMAGENS novas pro andamento. Outros
- * anexos (txt, pdf…) ficam no "Trazer" manual: nem todo arquivo é peça.
+ * Puxa do ClickUp só esta tarefa: título, datas, descritivo, comentários e
+ * conclusão (pullClickupIntoTask). Anexos NÃO entram sozinhos: nem toda imagem
+ * do ClickUp é peça pro cliente (rascunho, referência, versão descartada) —
+ * só conta quantas imagens novas existem, e a equipe escolhe no "Trazer" do
+ * quadro "Anexos no ClickUp".
  *
  * Serializado por tarefa: o ClickUp dispara vários eventos juntos (taskUpdated
- * + taskStatusUpdated…) e duas importações simultâneas trariam a mesma imagem
- * em dobro. Um processo só (container único) → fila em memória basta.
+ * + taskStatusUpdated…) e não vale gravar a mesma tarefa em paralelo. Um
+ * processo só (container único) → fila em memória basta.
  */
 const running = new Map<string, Promise<OneTaskSyncResult>>();
 
-export function syncOneProjectTask(
-  taskId: string,
-  author: { id?: string | null; name?: string | null },
-): Promise<OneTaskSyncResult> {
+export function syncOneProjectTask(taskId: string): Promise<OneTaskSyncResult> {
   const prev = running.get(taskId) ?? Promise.resolve(null as unknown as OneTaskSyncResult);
-  const next = prev.catch(() => null).then(() => doSyncOne(taskId, author));
+  const next = prev.catch(() => null).then(() => doSyncOne(taskId));
   running.set(taskId, next);
   void next.finally(() => { if (running.get(taskId) === next) running.delete(taskId); });
   return next;
 }
 
-async function doSyncOne(
-  taskId: string,
-  author: { id?: string | null; name?: string | null },
-): Promise<OneTaskSyncResult> {
+async function doSyncOne(taskId: string): Promise<OneTaskSyncResult> {
   const task = await prisma.projectTask.findUnique({
     where:  { id: taskId },
     select: { ...LINKED_TASK_SELECT, project: { select: { setor: { select: { companyId: true } } } } },
@@ -123,20 +119,10 @@ async function doSyncOne(
   if (!remote) return { ok: false, error: "Não consegui ler a tarefa no ClickUp (apagada ou sem acesso?).", status: 502 };
   await pullClickupIntoTask(settings.apiToken, task, remote.task);
 
-  let images = 0;
-  let warning: string | undefined;
+  let pendingImages = 0;
   try {
     const atts = await listClickupAttachments(taskId);
-    const ids = atts
-      .filter((a) => !a.imported && (/^image\//i.test(a.mimeType) || IMAGE_EXT.test(a.extension)))
-      .map((a) => a.id);
-    if (ids.length) {
-      const r = await importClickupAttachments(taskId, ids, author);
-      images = r.imported;
-      if (r.errors.length) warning = r.errors[0];
-    }
-  } catch (e: any) {
-    warning = e?.message ?? "Falha ao trazer as imagens";
-  }
-  return { ok: true, images, ...(warning ? { warning } : {}) };
+    pendingImages = atts.filter((a) => !a.imported && (/^image\//i.test(a.mimeType) || IMAGE_EXT.test(a.extension))).length;
+  } catch { /* só informativo */ }
+  return { ok: true, pendingImages };
 }
