@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { EMAIL_BUCKETS, bucketOf, type EmailBucket, type EmailBucketFilter } from "@/lib/email-buckets";
 import SignatureEditor from "./SignatureEditor";
+import RecipientInput from "./RecipientInput";
 import { analyzeAttachment, analyzeLinks, type EmailLink } from "@/lib/email-threat-scan";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
@@ -1683,21 +1684,29 @@ export default function EmailInbox() {
                 </div>
               )}
               <div className="flex items-center gap-2">
-                <input value={compose.to} onChange={(e) => setCompose((c) => ({ ...c, to: e.target.value }))}
-                  placeholder="Para (um ou mais emails, separados por vírgula)"
-                  className="flex-1 rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                <div className="flex-1">
+                  <RecipientInput
+                    value={compose.to}
+                    onChange={(v) => setCompose((c) => ({ ...c, to: v }))}
+                    placeholder="Para — comece a digitar o nome ou o email"
+                  />
+                </div>
                 {!showCcBcc && (
                   <button onClick={() => setShowCcBcc(true)} className="text-[11px] text-slate-500 hover:text-indigo-300 flex-shrink-0">Cc/Cco</button>
                 )}
               </div>
               {showCcBcc && (
                 <>
-                  <input value={compose.cc} onChange={(e) => setCompose((c) => ({ ...c, cc: e.target.value }))}
-                    placeholder="Cc (cópia — separados por vírgula)"
-                    className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-                  <input value={compose.bcc} onChange={(e) => setCompose((c) => ({ ...c, bcc: e.target.value }))}
-                    placeholder="Cco (cópia oculta — separados por vírgula)"
-                    className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                  <RecipientInput
+                    value={compose.cc}
+                    onChange={(v) => setCompose((c) => ({ ...c, cc: v }))}
+                    placeholder="Cc (cópia)"
+                  />
+                  <RecipientInput
+                    value={compose.bcc}
+                    onChange={(v) => setCompose((c) => ({ ...c, bcc: v }))}
+                    placeholder="Cco (cópia oculta)"
+                  />
                 </>
               )}
               <input value={compose.subject} onChange={(e) => setCompose((c) => ({ ...c, subject: e.target.value }))}
