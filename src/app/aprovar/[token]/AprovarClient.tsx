@@ -30,7 +30,7 @@ type Props = {
   previous: ApprovalFile[];
   links: { url: string; title: string }[];
   brand: { name: string; logoUrl: string | null; color: string | null };
-  history: { text: string; at: string; byClient: boolean }[];
+  history: { text: string; who: string | null; kind: "approve" | "adjust" | "note"; at: string; round: number | null }[];
   /** URL dos prints do descritivo, com `__ID__` no lugar do id do material. */
   mediaBase: string;
 };
@@ -95,6 +95,13 @@ h1{font-size:22px;line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
 .hist{display:flex;flex-direction:column;gap:8px}
 .msg{padding:9px 12px;border-radius:12px;font-size:13px;white-space:pre-wrap;word-break:break-word;max-width:92%}
 .msg.me{align-self:flex-end;background:rgba(110,134,255,.14);border:1px solid rgba(110,134,255,.3)}
+.msg.adjust{align-self:stretch;max-width:100%;background:rgba(245,181,100,.10);border:1px solid rgba(245,181,100,.45)}
+.msg.approve{align-self:stretch;max-width:100%;background:rgba(79,209,160,.10);border:1px solid rgba(79,209,160,.45)}
+.msg.note{align-self:stretch;max-width:100%;background:var(--card);border:1px solid var(--line)}
+.msg .mh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;font-size:12px;font-weight:700}
+.msg.adjust .mh{color:var(--warn)}
+.msg.approve .mh{color:var(--ok)}
+.msg .ver{font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--ink2)}
 .msg.them{align-self:flex-start;background:var(--card);border:1px solid var(--line)}
 .msg small{display:block;color:var(--ink3);font-size:11px;margin-top:2px}
 .bar{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(6,7,12,0),rgba(6,7,12,.92) 22%,#06070C);padding:22px 16px calc(14px + env(safe-area-inset-bottom))}
@@ -448,12 +455,16 @@ export default function AprovarClient(p: Props) {
 
         {p.history.length > 0 && (
           <div className="card">
-            <h3>Conversa sobre esta peça</h3>
+            <h3>Seus retornos nesta peça</h3>
             <div className="hist">
               {p.history.map((h, i) => (
-                <div key={i} className={`msg ${h.byClient ? "me" : "them"}`}>
-                  {h.text}
-                  <small>{h.byClient ? "Você" : "Equipe"} · {fmt(h.at)}</small>
+                <div key={i} className={`msg ${h.kind}`}>
+                  <div className="mh">
+                    {h.round && <span className="ver">Versão {h.round}</span>}
+                    <span>{h.kind === "approve" ? "✓ Aprovou" : h.kind === "adjust" ? "✎ Pediu ajuste" : "Comentário"}</span>
+                  </div>
+                  {h.text && <div>{h.text}</div>}
+                  <small>{h.who ?? "Você"} · {fmt(h.at)}</small>
                 </div>
               ))}
             </div>

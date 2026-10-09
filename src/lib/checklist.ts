@@ -149,6 +149,8 @@ export function readComments(raw: unknown): TaskComment[] {
 export function clientComments(raw: unknown): TaskComment[] {
   return readComments(raw)
     .filter((c) => c.by === "client" || c.vis !== false)
+    // Eco do ClickUp do retorno do próprio cliente ("[Cliente] …") — duplicado.
+    .filter((c) => c.by === "client" || !c.text.startsWith("[Cliente]"))
     // Aviso operacional ("📥 Trazido do ClickUp") é da equipe: pro cliente o
     // andamento aparece só com os arquivos. Não dá pra marcar como interno —
     // aí os arquivos sumiriam do cliente junto.

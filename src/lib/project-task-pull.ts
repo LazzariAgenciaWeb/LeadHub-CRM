@@ -44,7 +44,11 @@ export async function pullClickupIntoTask(apiToken: string, lt: LinkedTask, src:
     const existing = readComments(lt.comments);
     const seen = new Set(existing.map((c) => `${c.text}|${c.at}`));
     const seenCid = new Set(existing.map((c) => c.cid).filter(Boolean));
-    const fresh = cmts.filter((c) => !(c.cid && seenCid.has(c.cid)) && !seen.has(`${c.text}|${c.at}`));
+    // "[Cliente] …" é o retorno do cliente que o LeadHub empurrou pro ClickUp:
+    // o original já está aqui. Sem este filtro ele volta como comentário da
+    // equipe quando o webhook chega antes de o cid ser gravado.
+    const fresh = cmts.filter((c) =>
+      !c.text.startsWith("[Cliente]") && !(c.cid && seenCid.has(c.cid)) && !seen.has(`${c.text}|${c.at}`));
     if (fresh.length) {
       mergedComments = sanitizeComments(
         [...existing, ...fresh].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime()),

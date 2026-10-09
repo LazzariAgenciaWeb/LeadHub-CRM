@@ -59,12 +59,34 @@ async function load(token: string) {
     ...comments.filter((c) => c.by !== "client").flatMap((c) => c.links ?? []).map((l) => ({ url: l.url, title: l.title ?? "" })),
   ].filter((l) => /^https?:\/\//i.test(l.url) && !seen.has(l.url) && !!seen.add(l.url));
 
-  // Conversa da peça: o que o cliente já pediu e o que a equipe respondeu
-  // (sem os andamentos internos). Mais recente por último.
+  // Retornos do cliente, cada um ligado à VERSÃO que ele estava vendo (rodada
+  // aberta pelo último "Enviar pra aprovação" antes dele). Notas da equipe
+  // ficam fora: são de produção (arquivos, pastas, "ignorar v3") e confundiam
+  // o cliente — o recado pra ele é o descritivo/legenda da peça.
+  const sends = await prisma.projectTaskEvent.findMany({
+    where:   { taskId: task.id, type: "APPROVAL_SENT" },
+    orderBy: { createdAt: "asc" },
+    select:  { createdAt: true, toText: true },
+  });
+  const roundAt = (iso: string) => {
+    const t = new Date(iso).getTime();
+    let r = 0;
+    for (const s of sends) {
+      if (s.createdAt.getTime() > t) break;
+      r = Number(/Rodada (\d+)/.exec(s.toText ?? "")?.[1]) || r + 1;
+    }
+    return r || null;
+  };
   const history = comments
-    .filter((c) => c.text?.trim() && c !== version)
-    .slice(-8)
-    .map((c) => ({ text: c.text, at: c.at, byClient: c.by === "client" }));
+    .filter((c) => c.by === "client" && c.text?.trim())
+    .slice(-12)
+    .map((c) => ({
+      text: c.text.replace(/^(✓ Aprovado|✎ Ajuste pedido) por [^\n]+\n?/, "").trim(),
+      who:  /^(?:✓ Aprovado|✎ Ajuste pedido) por ([^\n]+)/.exec(c.text)?.[1] ?? null,
+      kind: c.text.startsWith("✓ Aprovado") ? "approve" as const : c.text.startsWith("✎ Ajuste pedido") ? "adjust" as const : "note" as const,
+      at:   c.at,
+      round: roundAt(c.at),
+    }));
 
   // Da 2ª rodada em diante: o que o cliente (ou a equipe por ele) marcou como
   // alteração/reprovada nas versões anteriores, com o pedido — pra ele conferir
