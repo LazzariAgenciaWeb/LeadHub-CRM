@@ -16,7 +16,7 @@ const BODY_CHARS = 400;
 const IMPORTANCE = new Set(["ALTA", "NORMAL", "BAIXA"]);
 
 export type TriageResult =
-  | { ok: true; digest: string; analyzed: number }
+  | { ok: true; digest: string; analyzed: number; movedToSpam?: number }
   | { ok: false; code: "QUOTA" | "NO_CONFIG" | "AI_ERROR" | "EMPTY"; error: string };
 
 /**
@@ -44,7 +44,7 @@ export async function runEmailTriage(
     select: {
       id: true, fromEmail: true, fromName: true, subject: true,
       snippet: true, textBody: true, seen: true, sentAt: true,
-      suspicious: true, suspiciousReasons: true, aiLocked: true,
+      suspicious: true, suspiciousReasons: true, aiLocked: true, folder: true,
       tags: { select: { name: true } },
       lead: { select: { name: true } },
       ticket: { select: { title: true } },
@@ -187,8 +187,17 @@ Responda APENAS com JSON válido, sem markdown, neste formato:
   const fromById = new Map(emails.map((e) => [e.id, e.fromEmail]));
   const isTrusted = await loadTrustMatcher(companyId);
 
+  // Limpeza automática: descarte e golpe saem da Entrada (vão pro Spam).
+  const empresa = await prisma.company.findUnique({
+    where: { id: companyId },
+    select: { emailAutoSpam: true },
+  });
+  const autoSpam = !!empresa?.emailAutoSpam;
+
   const validIds = new Set(emails.map((e) => e.id));
+  const folderById = new Map(emails.map((e) => [e.id, e.folder]));
   let updated = 0;
+  let movidos = 0;
   for (const item of parsed.emails ?? []) {
     if (!validIds.has(item.id)) continue;
     const importance = String(item.importance ?? "").toUpperCase();
@@ -220,10 +229,19 @@ Responda APENAS com JSON válido, sem markdown, neste formato:
             }
           : {}),
         ...(tagIds.length ? { tags: { connect: tagIds.map((id) => ({ id })) } } : {}),
+        // Descarte/golpe na Entrada vai pro Spam — nunca mexe em email que o
+        // usuário classificou à mão nem em remetente confiável.
+        ...(autoSpam && !isLocked && !trusted &&
+            folderById.get(item.id) === "INBOX" &&
+            (finalImportance === "BAIXA" || item.suspicious === true)
+          ? { folder: "SPAM" as const }
+          : {}),
       },
     }).catch(() => null);
+    if (autoSpam && !isLocked && !trusted && folderById.get(item.id) === "INBOX" &&
+        (finalImportance === "BAIXA" || item.suspicious === true)) movidos++;
     updated++;
   }
 
-  return { ok: true, digest: parsed.digest ?? "Análise concluída.", analyzed: updated };
+  return { ok: true, digest: parsed.digest ?? "Análise concluída.", analyzed: updated, movedToSpam: movidos };
 }

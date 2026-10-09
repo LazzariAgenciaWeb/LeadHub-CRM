@@ -19,22 +19,54 @@ export async function GET() {
   if (!ctx.ok) return ctx.res;
   const company = await prisma.company.findUnique({
     where: { id: ctx.companyId },
-    select: { emailAiTriageAuto: true },
+    select: { emailAiTriageAuto: true, emailAutoSpam: true },
   });
-  return NextResponse.json({ aiTriageAuto: company?.emailAiTriageAuto ?? false });
+  return NextResponse.json({
+    aiTriageAuto: company?.emailAiTriageAuto ?? false,
+    autoSpam: company?.emailAutoSpam ?? false,
+  });
 }
 
-// PATCH /api/email/inbox/settings  { aiTriageAuto: boolean }
+// PATCH /api/email/inbox/settings  { aiTriageAuto?: boolean, autoSpam?: boolean }
+// Ao LIGAR a limpeza automática, já faz a faxina do que está parado na
+// Entrada — senão a caixa continuaria suja até chegar email novo.
 export async function PATCH(req: NextRequest) {
   const ctx = await requireCtx();
   if (!ctx.ok) return ctx.res;
   const body = await req.json().catch(() => ({}));
-  if (typeof body?.aiTriageAuto !== "boolean") {
-    return NextResponse.json({ error: "aiTriageAuto (boolean) obrigatório" }, { status: 400 });
+
+  const data: { emailAiTriageAuto?: boolean; emailAutoSpam?: boolean } = {};
+  if (typeof body?.aiTriageAuto === "boolean") data.emailAiTriageAuto = body.aiTriageAuto;
+  if (typeof body?.autoSpam === "boolean") data.emailAutoSpam = body.autoSpam;
+  if (!Object.keys(data).length) {
+    return NextResponse.json({ error: "Nada pra atualizar" }, { status: 400 });
   }
-  await prisma.company.update({
+
+  const company = await prisma.company.update({
     where: { id: ctx.companyId },
-    data: { emailAiTriageAuto: body.aiTriageAuto },
+    data,
+    select: { emailAiTriageAuto: true, emailAutoSpam: true },
   });
-  return NextResponse.json({ ok: true, aiTriageAuto: body.aiTriageAuto });
+
+  let limpos = 0;
+  if (data.emailAutoSpam === true) {
+    const r = await prisma.inboxEmail.updateMany({
+      where: {
+        companyId: ctx.companyId,
+        direction: "IN",
+        folder: "INBOX",
+        aiLocked: false, // decisão manual é respeitada
+        OR: [{ suspicious: true }, { aiImportance: "BAIXA" }],
+      },
+      data: { folder: "SPAM" },
+    });
+    limpos = r.count;
+  }
+
+  return NextResponse.json({
+    ok: true,
+    aiTriageAuto: company.emailAiTriageAuto,
+    autoSpam: company.emailAutoSpam,
+    limpos,
+  });
 }

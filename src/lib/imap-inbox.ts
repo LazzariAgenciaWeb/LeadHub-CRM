@@ -425,6 +425,16 @@ async function storeMessage(
   }
   const suspicious = suspiciousReasons.length > 0;
 
+  // Com a limpeza automática ligada, golpe não encosta na Entrada: a marca
+  // deixa de ser só aviso e vira ação. Fica no Spam, revisável.
+  if (suspicious && folder === "INBOX") {
+    const empresa = await prisma.company.findUnique({
+      where: { id: companyId },
+      select: { emailAutoSpam: true },
+    });
+    if (empresa?.emailAutoSpam) folder = "SPAM";
+  }
+
   const created = await prisma.inboxEmail.create({
     data: {
       companyId,

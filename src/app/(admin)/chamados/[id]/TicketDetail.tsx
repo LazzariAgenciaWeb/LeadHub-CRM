@@ -10,6 +10,24 @@ import { RichMessageBody } from "@/components/RichMessageBody";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
 import AttachmentList from "@/components/attachments/AttachmentList";
 import { uploadFile, type StoredFile } from "@/components/attachments/upload";
+import {
+  Info, Inbox, MessageSquare, MessageCircle, Lock, Settings, Mail, Link2,
+  FileText, Paperclip, type LucideIcon,
+} from "lucide-react";
+import { gradStroke, type GradientKey } from "@/components/IconGradients";
+
+/**
+ * Marcador da linha do tempo por tipo de item (feed do chamado). Mesmo
+ * conjunto de ícones das abas, pra ligar visualmente filtro ↔ item.
+ */
+const FEED_MARKER: Record<"client" | "support" | "internal" | "system" | "whatsapp" | "email", { Icon: LucideIcon; ring: string; color: string; label: string }> = {
+  client:   { Icon: MessageSquare, ring: "border-slate-500/50 bg-slate-500/10",     color: "#94a3b8", label: "Mensagem" },
+  support:  { Icon: MessageSquare, ring: "border-indigo-500/50 bg-indigo-500/15",   color: "#a5b4fc", label: "Resposta" },
+  internal: { Icon: Lock,          ring: "border-amber-500/50 bg-amber-500/10",     color: "#fcd34d", label: "Nota interna" },
+  system:   { Icon: Settings,      ring: "border-slate-600/50 bg-slate-600/10",     color: "#64748b", label: "Sistema" },
+  whatsapp: { Icon: MessageCircle, ring: "border-emerald-500/50 bg-emerald-500/10", color: "#6ee7b7", label: "WhatsApp" },
+  email:    { Icon: Mail,          ring: "border-sky-500/50 bg-sky-500/10",         color: "#7dd3fc", label: "E-mail" },
+};
 
 interface TicketMessage {
   id: string;
@@ -251,7 +269,10 @@ export default function TicketDetail({
   const showWhatsappTab = whatsappEnabled && !!ticket.phone;
 
   useEffect(() => {
-    if (feedTab !== "whatsapp") return;
+    // Carrega também em "Todas" (aba padrão): a linha do tempo junta a conversa
+    // do WhatsApp com mensagens, notas, sistema e e-mails.
+    if (feedTab !== "whatsapp" && feedTab !== "all") return;
+    if (!showWhatsappTab) return;
     if (whatsappMessages !== null || loadingWhatsapp) return;
     if (!ticket.phone) return;
     setLoadingWhatsapp(true);
@@ -278,7 +299,7 @@ export default function TicketDetail({
       })
       .catch((err) => setWhatsappError(err.message ?? "Erro ao carregar conversa"))
       .finally(() => setLoadingWhatsapp(false));
-  }, [feedTab, whatsappMessages, loadingWhatsapp, ticket.phone, ticket.company.id, whatsappWindow?.openedAt, whatsappWindow?.closedAt]);
+  }, [feedTab, showWhatsappTab, whatsappMessages, loadingWhatsapp, ticket.phone, ticket.company.id, whatsappWindow?.openedAt, whatsappWindow?.closedAt]);
 
   // Emails vinculados ao chamado (InboxEmail.ticketId) — carregados sob demanda
   // na aba "E-mail", mesmo padrão da aba WhatsApp. Aba só pra gestores.
@@ -306,7 +327,8 @@ export default function TicketDetail({
   };
 
   useEffect(() => {
-    if (feedTab !== "email") return;
+    if (feedTab !== "email" && feedTab !== "all") return;
+    if (!showEmailTab) return;
     loadTicketEmails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [feedTab]);
@@ -899,20 +921,115 @@ export default function TicketDetail({
   const allMessagesCount = messages.filter((m) => !m.isInternal).length;
   const internalCount = messages.filter((m) => m.isInternal).length;
   const systemCount = activities.length;
-  const totalAllCount = messages.length + activities.length;
-  const FEED_TABS: { id: typeof feedTab; icon: string; label: string; count: number | null }[] = [
-    { id: "info",     icon: "📋", label: "Informações",    count: null },
-    { id: "all",      icon: "🗂️", label: "Todas",          count: totalAllCount },
-    { id: "messages", icon: "💬", label: "Mensagens",      count: allMessagesCount },
-    { id: "internal", icon: "🔒", label: "Notas internas", count: internalCount },
-    { id: "system",   icon: "⚙️", label: "Sistema",        count: systemCount },
+  // WhatsApp e e-mail entram na linha do tempo de "Todas" quando a aba do canal
+  // existe pra este usuário (mesmas regras de showWhatsappTab/showEmailTab).
+  const waInFeed = showWhatsappTab ? (whatsappMessages ?? []) : [];
+  const emailsInFeed = showEmailTab ? (ticketEmails ?? []) : [];
+  const totalAllCount = messages.length + activities.length + waInFeed.length + emailsInFeed.length;
+  type FeedTabDef = { id: typeof feedTab; Icon: LucideIcon; grad: GradientKey; label: string; count: number | null };
+  const FEED_TABS: FeedTabDef[] = [
+    { id: "info",     Icon: Info,          grad: "dashboard",     label: "Informações",    count: null },
+    { id: "all",      Icon: Inbox,         grad: "dashboard",     label: "Todas",          count: totalAllCount },
+    { id: "messages", Icon: MessageSquare, grad: "chamados",      label: "Mensagens",      count: allMessagesCount },
+    { id: "internal", Icon: Lock,          grad: "setores",       label: "Notas internas", count: internalCount },
+    { id: "system",   Icon: Settings,      grad: "configuracoes", label: "Sistema",        count: systemCount },
     ...(showWhatsappTab
-      ? [{ id: "whatsapp" as const, icon: "📱", label: "WhatsApp", count: whatsappMessages?.length ?? null }]
+      ? [{ id: "whatsapp" as const, Icon: MessageCircle, grad: "whatsapp" as GradientKey, label: "WhatsApp", count: whatsappMessages?.length ?? null }]
       : []),
     ...(showEmailTab
-      ? [{ id: "email" as const, icon: "📧", label: "E-mail", count: ticketEmails?.length ?? null }]
+      ? [{ id: "email" as const, Icon: Mail, grad: "email" as GradientKey, label: "E-mail", count: ticketEmails?.length ?? null }]
       : []),
   ];
+
+  // Balão de mensagem do WhatsApp — usado na aba WhatsApp e na linha do tempo.
+  // OUTBOUND (nosso) à direita em verde; INBOUND (cliente) à esquerda.
+  function waBubble(msg: WaMessage, showChannel = false) {
+    const isOut = msg.direction === "OUTBOUND";
+    return (
+      <div className={`flex gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
+          isOut ? "bg-emerald-500/20 text-emerald-300" : "bg-[#1e2d45] text-slate-400"
+        }`}>
+          {isOut ? "→" : (msg.participantName?.charAt(0).toUpperCase() ?? "C")}
+        </div>
+        <div className={`flex-1 min-w-0 ${isOut ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
+          <div className={`flex items-center gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+            <span className={`text-[10px] font-medium ${isOut ? "text-emerald-400" : "text-slate-500"}`}>
+              {isOut ? "Você" : (msg.participantName ?? "Cliente")}
+              {showChannel && <span className="text-slate-600"> · WhatsApp</span>}
+            </span>
+            <span className="text-slate-700 text-[10px] font-mono">
+              {new Date(msg.receivedAt).toLocaleString("pt-BR")}
+            </span>
+          </div>
+          <div className={`rounded-xl px-3 py-2 text-sm max-w-[85%] whitespace-pre-wrap break-words ${
+            isOut ? "bg-emerald-600/90 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"
+          }`}>
+            {msg.hasMedia && msg.mediaType?.startsWith("image/") && (
+              <img
+                src={`/api/whatsapp/messages/${msg.id}/media`}
+                alt="anexo"
+                loading="lazy"
+                className="rounded-lg max-h-80 mb-2 cursor-pointer hover:opacity-90"
+                onClick={() => window.open(`/api/whatsapp/messages/${msg.id}/media`, "_blank")}
+              />
+            )}
+            {msg.hasMedia && !msg.mediaType?.startsWith("image/") && (
+              <a
+                href={`/api/whatsapp/messages/${msg.id}/media`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center gap-1 text-[11px] mb-1 underline ${isOut ? "text-emerald-100" : "text-indigo-300"}`}
+              >
+                <Paperclip className="w-3 h-3" /> Abrir anexo ({msg.mediaType ?? "arquivo"})
+              </a>
+            )}
+            {msg.body}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Balão de e-mail — usado na aba E-mail e na linha do tempo. Clique abre o
+  // leitor completo.
+  function emailBubble(em: TicketEmail, showChannel = false) {
+    const isOut = em.direction === "OUT";
+    return (
+      <div className={`flex gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+        <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+          isOut ? "bg-indigo-500/20 text-indigo-300" : "bg-[#1e2d45] text-slate-400"
+        }`}>
+          <Mail className="w-3 h-3" />
+        </div>
+        <div className={`flex-1 min-w-0 ${isOut ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
+          <div className={`flex items-center gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+            <span className={`text-[10px] font-medium ${isOut ? "text-indigo-400" : "text-slate-500"}`}>
+              {isOut ? `Você → ${em.toEmail}` : (em.fromName || em.fromEmail)}
+              {showChannel && <span className="text-slate-600"> · E-mail</span>}
+            </span>
+            <span className="text-slate-700 text-[10px] font-mono">
+              {new Date(em.sentAt).toLocaleString("pt-BR")}
+            </span>
+          </div>
+          <div
+            onClick={() => openEmail(em.id)}
+            title="Ver e-mail completo"
+            className={`rounded-xl px-3 py-2 text-sm max-w-[85%] cursor-pointer transition-opacity hover:opacity-80 ${
+              loadingViewEmail === em.id ? "opacity-60" : ""
+            } ${
+              isOut ? "bg-indigo-600/90 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"
+            }`}
+          >
+            <div className="font-semibold text-[12px] mb-0.5">{em.subject || "(sem assunto)"}</div>
+            <div className={`text-[12px] ${isOut ? "text-indigo-100" : "text-slate-400"}`}>
+              {loadingViewEmail === em.id ? "Abrindo..." : (em.snippet || "—")}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -1027,7 +1144,7 @@ export default function TicketDetail({
                       : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white hover:border-[#2a3d5a]"
                   }`}
                 >
-                  <span>{t.icon}</span>
+                  <t.Icon className="w-3 h-3" stroke={gradStroke(t.grad)} strokeWidth={2.5} />
                   <span>{t.label}</span>
                   {t.count !== null && t.count > 0 && (
                     <span className={`text-[9px] font-bold px-1 rounded ${
@@ -1047,7 +1164,7 @@ export default function TicketDetail({
                 title="Vincular conversa WhatsApp ou e-mail a este chamado"
                 className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border border-dashed border-[#2a3d5a] text-slate-400 hover:text-white hover:border-indigo-500/60 transition-colors ml-auto"
               >
-                🔗 <span>Vincular</span>
+                <Link2 className="w-3 h-3" stroke={gradStroke("links")} strokeWidth={2.5} /> <span>Vincular</span>
               </button>
             )}
           </div>
@@ -1158,18 +1275,31 @@ export default function TicketDetail({
             {feedTab !== "info" && feedTab !== "whatsapp" && feedTab !== "email" && (() => {
               type FeedItem =
                 | { kind: "msg"; createdAt: string; data: TicketMessage }
-                | { kind: "act"; createdAt: string; data: TicketActivity };
+                | { kind: "act"; createdAt: string; data: TicketActivity }
+                | { kind: "wa"; createdAt: string; data: WaMessage }
+                | { kind: "email"; createdAt: string; data: TicketEmail };
               const allFeed: FeedItem[] = [
                 ...updates.map((m): FeedItem => ({ kind: "msg", createdAt: m.createdAt, data: m })),
                 ...activities.map((a): FeedItem => ({ kind: "act", createdAt: a.createdAt, data: a })),
+                ...waInFeed.map((w): FeedItem => ({ kind: "wa", createdAt: w.receivedAt, data: w })),
+                ...emailsInFeed.map((e): FeedItem => ({ kind: "email", createdAt: e.sentAt, data: e })),
               ].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+              // "Todas" mostra tudo; as demais abas filtram por tipo. WhatsApp e
+              // E-mail têm view própria (abaixo), então aqui só entram em "Todas".
               const feed = allFeed.filter((item) => {
                 if (feedTab === "all") return true;
                 if (feedTab === "system") return item.kind === "act";
                 if (feedTab === "internal") return item.kind === "msg" && item.data.isInternal;
                 if (feedTab === "messages") return item.kind === "msg" && !item.data.isInternal;
-                return true;
+                return false;
               });
+              const markerOf = (item: FeedItem) =>
+                item.kind === "act"   ? FEED_MARKER.system :
+                item.kind === "wa"    ? FEED_MARKER.whatsapp :
+                item.kind === "email" ? FEED_MARKER.email :
+                item.data.isInternal  ? FEED_MARKER.internal :
+                item.data.authorRole === "SUPER_ADMIN" ? FEED_MARKER.support : FEED_MARKER.client;
+              const keyOf = (item: FeedItem) => `${item.kind}-${item.data.id}`;
               if (allFeed.length === 0) return null;
               if (feed.length === 0) {
                 return (
@@ -1181,15 +1311,39 @@ export default function TicketDetail({
               return (
               <div>
                 <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider mb-3">
-                  Atualizações ({feed.length}{feed.length !== allFeed.length ? ` de ${allFeed.length}` : ""})
+                  {feedTab === "all" ? "Linha do tempo" : "Atualizações"} ({feed.length}{feed.length !== allFeed.length ? ` de ${allFeed.length}` : ""})
                 </div>
-                <div className="space-y-3">
+                {/* Trilho vertical: cada item ganha um marcador com o ícone do tipo
+                    (mesmo das abas), em ordem cronológica. */}
+                <div className="relative">
+                  <div className="absolute left-[11px] top-2 bottom-2 w-px bg-[#1e2d45]" aria-hidden />
+                  <div className="space-y-3">
                   {feed.map((item) => {
+                    const mk = markerOf(item);
+                    return (
+                      <div key={keyOf(item)} className="relative pl-9">
+                        <span
+                          className={`absolute left-0 top-0.5 w-[23px] h-[23px] rounded-full border flex items-center justify-center bg-[#0c1220] ${mk.ring}`}
+                          title={mk.label}
+                        >
+                          <mk.Icon className="w-3 h-3" stroke={mk.color} strokeWidth={2.25} />
+                        </span>
+                        {renderFeedItem(item)}
+                      </div>
+                    );
+                  })}
+                  </div>
+                </div>
+              </div>
+              );
+
+              function renderFeedItem(item: FeedItem) {
+                    if (item.kind === "wa") return waBubble(item.data, true);
+                    if (item.kind === "email") return emailBubble(item.data, true);
                     if (item.kind === "act") {
                       const a = item.data;
                       return (
-                        <div key={`a-${a.id}`} className="flex items-center gap-2 text-[11px] text-slate-500 py-1 px-3 border-l-2 border-slate-700/50">
-                          <span className="text-slate-600">⚙️</span>
+                        <div className="flex items-center gap-2 text-[11px] text-slate-500 py-1">
                           <span className="flex-1">{a.body ?? a.type}</span>
                           <span className="text-slate-700 font-mono text-[10px]">
                             {new Date(a.createdAt).toLocaleString("pt-BR")}
@@ -1311,10 +1465,7 @@ export default function TicketDetail({
                         </div>
                       </div>
                     );
-                  })}
-                </div>
-              </div>
-              );
+              }
             })()}
 
             {/* WhatsApp tab — view dedicada. Carrega conversa do telefone vinculado
@@ -1348,54 +1499,9 @@ export default function TicketDetail({
                 )}
                 {whatsappMessages && whatsappMessages.length > 0 && (
                   <div className="space-y-2">
-                    {whatsappMessages.map((msg) => {
-                      const isOut = msg.direction === "OUTBOUND";
-                      return (
-                        <div key={msg.id} className={`flex gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
-                            isOut ? "bg-emerald-500/20 text-emerald-300" : "bg-[#1e2d45] text-slate-400"
-                          }`}>
-                            {isOut ? "→" : (msg.participantName?.charAt(0).toUpperCase() ?? "C")}
-                          </div>
-                          <div className={`flex-1 min-w-0 ${isOut ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
-                            <div className={`flex items-center gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
-                              <span className={`text-[10px] font-medium ${isOut ? "text-emerald-400" : "text-slate-500"}`}>
-                                {isOut ? "Você" : (msg.participantName ?? "Cliente")}
-                              </span>
-                              <span className="text-slate-700 text-[10px] font-mono">
-                                {new Date(msg.receivedAt).toLocaleString("pt-BR")}
-                              </span>
-                            </div>
-                            <div className={`rounded-xl px-3 py-2 text-sm max-w-[85%] whitespace-pre-wrap break-words ${
-                              isOut
-                                ? "bg-emerald-600/90 text-white"
-                                : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"
-                            }`}>
-                              {msg.hasMedia && msg.mediaType?.startsWith("image/") && (
-                                <img
-                                  src={`/api/whatsapp/messages/${msg.id}/media`}
-                                  alt="anexo"
-                                  loading="lazy"
-                                  className="rounded-lg max-h-80 mb-2 cursor-pointer hover:opacity-90"
-                                  onClick={() => window.open(`/api/whatsapp/messages/${msg.id}/media`, "_blank")}
-                                />
-                              )}
-                              {msg.hasMedia && !msg.mediaType?.startsWith("image/") && (
-                                <a
-                                  href={`/api/whatsapp/messages/${msg.id}/media`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className={`block text-[11px] mb-1 underline ${isOut ? "text-emerald-100" : "text-indigo-300"}`}
-                                >
-                                  📎 Abrir anexo ({msg.mediaType ?? "arquivo"})
-                                </a>
-                              )}
-                              {msg.body}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                    {whatsappMessages.map((msg) => (
+                      <div key={msg.id}>{waBubble(msg)}</div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -1437,42 +1543,9 @@ export default function TicketDetail({
                 )}
                 {ticketEmails && ticketEmails.length > 0 && (
                   <div className="space-y-2">
-                    {ticketEmails.map((em) => {
-                      const isOut = em.direction === "OUT";
-                      return (
-                        <div key={em.id} className={`flex gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
-                            isOut ? "bg-indigo-500/20 text-indigo-300" : "bg-[#1e2d45] text-slate-400"
-                          }`}>
-                            {isOut ? "→" : "@"}
-                          </div>
-                          <div className={`flex-1 min-w-0 ${isOut ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
-                            <div className={`flex items-center gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
-                              <span className={`text-[10px] font-medium ${isOut ? "text-indigo-400" : "text-slate-500"}`}>
-                                {isOut ? `Você → ${em.toEmail}` : (em.fromName || em.fromEmail)}
-                              </span>
-                              <span className="text-slate-700 text-[10px] font-mono">
-                                {new Date(em.sentAt).toLocaleString("pt-BR")}
-                              </span>
-                            </div>
-                            <div
-                              onClick={() => openEmail(em.id)}
-                              title="Ver e-mail completo"
-                              className={`rounded-xl px-3 py-2 text-sm max-w-[85%] cursor-pointer transition-opacity hover:opacity-80 ${
-                                loadingViewEmail === em.id ? "opacity-60" : ""
-                              } ${
-                                isOut ? "bg-indigo-600/90 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"
-                              }`}
-                            >
-                              <div className="font-semibold text-[12px] mb-0.5">{em.subject || "(sem assunto)"}</div>
-                              <div className={`text-[12px] ${isOut ? "text-indigo-100" : "text-slate-400"}`}>
-                                {loadingViewEmail === em.id ? "Abrindo..." : (em.snippet || "—")}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                    {ticketEmails.map((em) => (
+                      <div key={em.id}>{emailBubble(em)}</div>
+                    ))}
                   </div>
                 )}
               </div>

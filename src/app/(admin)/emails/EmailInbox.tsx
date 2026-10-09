@@ -250,6 +250,8 @@ export default function EmailInbox() {
 
   // Triagem IA
   const [aiAuto, setAiAuto] = useState<boolean | null>(null); // null = carregando
+  // Descarte/golpe vão pro Spam sozinhos em vez de ficar entulhando a Entrada.
+  const [autoSpam, setAutoSpam] = useState<boolean | null>(null);
   const [aiOpen, setAiOpen] = useState(false);
   const [aiDigest, setAiDigest] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
@@ -750,9 +752,27 @@ export default function EmailInbox() {
   useEffect(() => {
     fetch(`/api/email/inbox/settings`)
       .then((r) => r.json())
-      .then((j) => setAiAuto(!!j.aiTriageAuto))
+      .then((j) => { setAiAuto(!!j.aiTriageAuto); setAutoSpam(!!j.autoSpam); })
       .catch(() => setAiAuto(false));
   }, []);
+
+  async function toggleAutoSpam() {
+    if (autoSpam === null) return;
+    const next = !autoSpam;
+    setAutoSpam(next);
+    const res = await fetch(`/api/email/inbox/settings`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ autoSpam: next }),
+    });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) { setAutoSpam(!next); return; }
+    setNotice(next
+      ? `Limpeza automática LIGADA — descarte e golpe vão pro Spam${j.limpos ? ` · ${j.limpos} saíram da Entrada agora` : ""}`
+      : "Limpeza automática desligada — descarte volta a ficar na Entrada, só etiquetado");
+    setTimeout(() => setNotice(""), 8000);
+    load({ silent: true });
+  }
 
   async function toggleAiAuto() {
     if (aiAuto === null) return;
@@ -1044,6 +1064,15 @@ export default function EmailInbox() {
             aiAuto ? "border-indigo-500/40 bg-indigo-500/15 text-indigo-200" : "border-white/10 text-slate-500 hover:bg-white/5"}`}>
           <span className={`w-1.5 h-1.5 rounded-full ${aiAuto ? "bg-emerald-400" : "bg-slate-600"}`} />
           Triagem automática: {aiAuto === null ? "…" : aiAuto ? "ligada" : "desligada"}
+        </button>
+        <button onClick={toggleAutoSpam} disabled={autoSpam === null}
+          title={autoSpam
+            ? "Descarte (newsletter, propaganda) e golpe vão direto pro Spam, sem passar pela Entrada. Clique pra desligar."
+            : "Desligada: descarte e golpe ficam na Entrada, só etiquetados. Clique pra ligar — eles passam a ir pro Spam, e o que já está parado na Entrada é limpo agora."}
+          className={`flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[11px] border ${
+            autoSpam ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-200" : "border-white/10 text-slate-500 hover:bg-white/5"}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${autoSpam ? "bg-emerald-400" : "bg-slate-600"}`} />
+          Limpar Entrada: {autoSpam === null ? "…" : autoSpam ? "ligada" : "desligada"}
         </button>
       </div>
 

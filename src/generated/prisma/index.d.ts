@@ -25759,6 +25759,7 @@ export namespace Prisma {
     aiQuotaResetAt: Date | null
     parentCompanyId: string | null
     emailAiTriageAuto: boolean | null
+    emailAutoSpam: boolean | null
     triggerOnly: boolean | null
     webhookToken: string | null
   }
@@ -25807,6 +25808,7 @@ export namespace Prisma {
     aiQuotaResetAt: Date | null
     parentCompanyId: string | null
     emailAiTriageAuto: boolean | null
+    emailAutoSpam: boolean | null
     triggerOnly: boolean | null
     webhookToken: string | null
   }
@@ -25855,6 +25857,7 @@ export namespace Prisma {
     aiQuotaResetAt: number
     parentCompanyId: number
     emailAiTriageAuto: number
+    emailAutoSpam: number
     triggerOnly: number
     webhookToken: number
     _all: number
@@ -25915,6 +25918,7 @@ export namespace Prisma {
     aiQuotaResetAt?: true
     parentCompanyId?: true
     emailAiTriageAuto?: true
+    emailAutoSpam?: true
     triggerOnly?: true
     webhookToken?: true
   }
@@ -25963,6 +25967,7 @@ export namespace Prisma {
     aiQuotaResetAt?: true
     parentCompanyId?: true
     emailAiTriageAuto?: true
+    emailAutoSpam?: true
     triggerOnly?: true
     webhookToken?: true
   }
@@ -26011,6 +26016,7 @@ export namespace Prisma {
     aiQuotaResetAt?: true
     parentCompanyId?: true
     emailAiTriageAuto?: true
+    emailAutoSpam?: true
     triggerOnly?: true
     webhookToken?: true
     _all?: true
@@ -26146,6 +26152,7 @@ export namespace Prisma {
     aiQuotaResetAt: Date | null
     parentCompanyId: string | null
     emailAiTriageAuto: boolean
+    emailAutoSpam: boolean
     triggerOnly: boolean
     webhookToken: string | null
     _count: CompanyCountAggregateOutputType | null
@@ -26213,6 +26220,7 @@ export namespace Prisma {
     aiQuotaResetAt?: boolean
     parentCompanyId?: boolean
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
@@ -26352,6 +26360,7 @@ export namespace Prisma {
     aiQuotaResetAt?: boolean
     parentCompanyId?: boolean
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
@@ -26401,6 +26410,7 @@ export namespace Prisma {
     aiQuotaResetAt?: boolean
     parentCompanyId?: boolean
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
   }
@@ -26640,6 +26650,7 @@ export namespace Prisma {
       aiQuotaResetAt: Date | null
       parentCompanyId: string | null
       emailAiTriageAuto: boolean
+      emailAutoSpam: boolean
       triggerOnly: boolean
       webhookToken: string | null
     }, ExtArgs["result"]["company"]>
@@ -27168,6 +27179,7 @@ export namespace Prisma {
     readonly aiQuotaResetAt: FieldRef<"Company", 'DateTime'>
     readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly emailAiTriageAuto: FieldRef<"Company", 'Boolean'>
+    readonly emailAutoSpam: FieldRef<"Company", 'Boolean'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
     readonly webhookToken: FieldRef<"Company", 'String'>
   }
@@ -159404,6 +159416,7 @@ export namespace Prisma {
     aiQuotaResetAt: 'aiQuotaResetAt',
     parentCompanyId: 'parentCompanyId',
     emailAiTriageAuto: 'emailAiTriageAuto',
+    emailAutoSpam: 'emailAutoSpam',
     triggerOnly: 'triggerOnly',
     webhookToken: 'webhookToken'
   };
@@ -163419,6 +163432,7 @@ export namespace Prisma {
     aiQuotaResetAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     emailAiTriageAuto?: BoolFilter<"Company"> | boolean
+    emailAutoSpam?: BoolFilter<"Company"> | boolean
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
@@ -163557,6 +163571,7 @@ export namespace Prisma {
     aiQuotaResetAt?: SortOrderInput | SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     emailAiTriageAuto?: SortOrder
+    emailAutoSpam?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
     parentCompany?: CompanyOrderByWithRelationInput
@@ -163699,6 +163714,7 @@ export namespace Prisma {
     aiQuotaResetAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     emailAiTriageAuto?: BoolFilter<"Company"> | boolean
+    emailAutoSpam?: BoolFilter<"Company"> | boolean
     triggerOnly?: BoolFilter<"Company"> | boolean
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     subCompanies?: CompanyListRelationFilter
@@ -163836,6 +163852,7 @@ export namespace Prisma {
     aiQuotaResetAt?: SortOrderInput | SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     emailAiTriageAuto?: SortOrder
+    emailAutoSpam?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
     _count?: CompanyCountOrderByAggregateInput
@@ -163892,6 +163909,7 @@ export namespace Prisma {
     aiQuotaResetAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
     parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     emailAiTriageAuto?: BoolWithAggregatesFilter<"Company"> | boolean
+    emailAutoSpam?: BoolWithAggregatesFilter<"Company"> | boolean
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
     webhookToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
   }
@@ -176627,6 +176645,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -176765,6 +176784,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -176901,6 +176921,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -177039,6 +177060,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -177176,6 +177198,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
   }
@@ -177223,6 +177246,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -177271,6 +177295,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -191952,6 +191977,7 @@ export namespace Prisma {
     aiQuotaResetAt?: SortOrder
     parentCompanyId?: SortOrder
     emailAiTriageAuto?: SortOrder
+    emailAutoSpam?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
   }
@@ -192005,6 +192031,7 @@ export namespace Prisma {
     aiQuotaResetAt?: SortOrder
     parentCompanyId?: SortOrder
     emailAiTriageAuto?: SortOrder
+    emailAutoSpam?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
   }
@@ -192053,6 +192080,7 @@ export namespace Prisma {
     aiQuotaResetAt?: SortOrder
     parentCompanyId?: SortOrder
     emailAiTriageAuto?: SortOrder
+    emailAutoSpam?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
   }
@@ -214155,6 +214183,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -214292,6 +214321,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -216111,6 +216141,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -216248,6 +216279,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -218552,6 +218584,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -218689,6 +218722,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -218969,6 +219003,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -219106,6 +219141,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -220168,6 +220204,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -220305,6 +220342,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -220445,6 +220483,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -220581,6 +220620,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -224650,6 +224690,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -224787,6 +224828,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -224942,6 +224984,7 @@ export namespace Prisma {
     aiQuotaResetAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     emailAiTriageAuto?: BoolFilter<"Company"> | boolean
+    emailAutoSpam?: BoolFilter<"Company"> | boolean
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
   }
@@ -227732,6 +227775,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -227869,6 +227913,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -228282,6 +228327,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -228419,6 +228465,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -228659,6 +228706,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -228796,6 +228844,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -229142,6 +229191,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -229279,6 +229329,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -229542,6 +229593,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -229679,6 +229731,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -230485,6 +230538,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -230622,6 +230676,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -231257,6 +231312,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -231394,6 +231450,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -231565,6 +231622,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -231702,6 +231760,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -232149,6 +232208,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -232286,6 +232346,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -232463,6 +232524,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -232600,6 +232662,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -233059,6 +233122,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -233196,6 +233260,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -233373,6 +233438,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -233510,6 +233576,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -233661,6 +233728,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -233798,6 +233866,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -233978,6 +234047,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -234115,6 +234185,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -234402,6 +234473,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -234539,6 +234611,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -235071,6 +235144,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -235208,6 +235282,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -235853,6 +235928,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -235990,6 +236066,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -236141,6 +236218,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -236278,6 +236356,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -236413,6 +236492,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -236550,6 +236630,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -236830,6 +236911,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -236967,6 +237049,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -237366,6 +237449,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -237503,6 +237587,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -238075,6 +238160,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -238212,6 +238298,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -238435,6 +238522,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -238572,6 +238660,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -239126,6 +239215,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -239263,6 +239353,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -239831,6 +239922,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -239968,6 +240060,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -240160,6 +240253,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -240297,6 +240391,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -240726,6 +240821,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -240863,6 +240959,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -241531,6 +241628,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -241668,6 +241766,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -242279,6 +242378,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -242416,6 +242516,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -242836,6 +242937,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -242973,6 +243075,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -243108,6 +243211,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -243245,6 +243349,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -243514,6 +243619,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -243651,6 +243757,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -244303,6 +244410,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -244440,6 +244548,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -244721,6 +244830,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -244858,6 +244968,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -245591,6 +245702,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -245728,6 +245840,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -246203,6 +246316,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -246340,6 +246454,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -246981,6 +247096,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -247118,6 +247234,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -247841,6 +247958,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -247978,6 +248096,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -252736,6 +252855,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -252873,6 +252993,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -253074,6 +253195,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -253211,6 +253333,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -253568,6 +253691,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -253705,6 +253829,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -253907,6 +254032,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -254044,6 +254170,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -254179,6 +254306,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -254316,6 +254444,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -254501,6 +254630,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -254638,6 +254768,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -254820,6 +254951,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -254957,6 +255089,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -255145,6 +255278,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -255282,6 +255416,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -255417,6 +255552,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -255554,6 +255690,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -255705,6 +255842,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -255842,6 +255980,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -255977,6 +256116,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -256114,6 +256254,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -256265,6 +256406,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -256402,6 +256544,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -256537,6 +256680,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -256674,6 +256818,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -256825,6 +256970,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -256962,6 +257108,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -257097,6 +257244,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -257234,6 +257382,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -257385,6 +257534,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -257522,6 +257672,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -257657,6 +257808,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -257794,6 +257946,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -258177,6 +258330,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -258314,6 +258468,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -258513,6 +258668,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -258650,6 +258806,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -258892,6 +259049,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -259029,6 +259187,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -259233,6 +259392,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -259370,6 +259530,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -259619,6 +259780,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -259756,6 +259918,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -260001,6 +260164,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -260138,6 +260302,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -260483,6 +260648,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -260620,6 +260786,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -261053,6 +261220,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -261190,6 +261358,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -261341,6 +261510,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -261478,6 +261648,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -261613,6 +261784,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -261750,6 +261922,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -261901,6 +262074,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -262038,6 +262212,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -262173,6 +262348,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -262310,6 +262486,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -262461,6 +262638,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -262598,6 +262776,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -262733,6 +262912,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -262870,6 +263050,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -263021,6 +263202,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -263158,6 +263340,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -263293,6 +263476,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -263430,6 +263614,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -263581,6 +263766,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -263718,6 +263904,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -263853,6 +264040,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -263990,6 +264178,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -264141,6 +264330,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -264278,6 +264468,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -264413,6 +264604,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -264550,6 +264742,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -264701,6 +264894,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -264838,6 +265032,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -264973,6 +265168,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -265110,6 +265306,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -265261,6 +265458,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -265398,6 +265596,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -265533,6 +265732,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -265670,6 +265870,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -265821,6 +266022,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -265958,6 +266160,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -266093,6 +266296,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -266230,6 +266434,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -266381,6 +266586,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -266518,6 +266724,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -266653,6 +266860,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -266790,6 +266998,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -266941,6 +267150,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -267078,6 +267288,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -267213,6 +267424,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -267350,6 +267562,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -267501,6 +267714,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -267638,6 +267852,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -267773,6 +267988,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -267910,6 +268126,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -268061,6 +268278,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -268198,6 +268416,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -268333,6 +268552,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -268470,6 +268690,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -268621,6 +268842,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -268758,6 +268980,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -268893,6 +269116,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -269030,6 +269254,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -269181,6 +269406,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -269318,6 +269544,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -269453,6 +269680,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -269590,6 +269818,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -269741,6 +269970,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -269878,6 +270108,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -270013,6 +270244,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -270150,6 +270382,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -270301,6 +270534,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -270438,6 +270672,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -270573,6 +270808,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -270710,6 +270946,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -270861,6 +271098,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -270998,6 +271236,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -271133,6 +271372,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -271270,6 +271510,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -271445,6 +271686,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -271582,6 +271824,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -271804,6 +272047,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -271941,6 +272185,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -272128,6 +272373,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -272265,6 +272511,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -272545,6 +272792,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -272682,6 +272930,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -272999,6 +273248,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -273136,6 +273386,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -273437,6 +273688,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -273574,6 +273826,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -273860,6 +274113,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -273997,6 +274251,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -274261,6 +274516,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -274398,6 +274654,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -274684,6 +274941,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -274821,6 +275079,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -275085,6 +275344,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -275222,6 +275482,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -275508,6 +275769,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -275645,6 +275907,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -275780,6 +276043,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -275917,6 +276181,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -276068,6 +276333,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -276205,6 +276471,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -276868,6 +277135,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -277005,6 +277273,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -277156,6 +277425,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -277293,6 +277563,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -277428,6 +277699,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -277565,6 +277837,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -277778,6 +278051,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -277915,6 +278189,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -278093,6 +278368,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -278230,6 +278506,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -278711,6 +278988,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -278848,6 +279126,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -279655,6 +279934,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -279792,6 +280072,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -279943,6 +280224,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -280080,6 +280362,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -280215,6 +280498,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -280352,6 +280636,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -280599,6 +280884,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -280736,6 +281022,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -280903,6 +281190,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -281040,6 +281328,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -281489,6 +281778,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -281626,6 +281916,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -282073,6 +282364,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -282210,6 +282502,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -282361,6 +282654,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -282498,6 +282792,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -282777,6 +283072,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -282914,6 +283210,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -283134,6 +283431,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -283271,6 +283569,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -283422,6 +283721,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -283559,6 +283859,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -283710,6 +284011,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -283847,6 +284149,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -283982,6 +284285,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -284119,6 +284423,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -284270,6 +284575,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -284407,6 +284713,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -284625,6 +284932,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -284762,6 +285070,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -284960,6 +285269,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -285097,6 +285407,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -285232,6 +285543,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -285369,6 +285681,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -285936,6 +286249,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -286073,6 +286387,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -286614,6 +286929,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -286751,6 +287067,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -286947,6 +287264,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -287084,6 +287402,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -287586,6 +287905,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -287723,6 +288043,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -287953,6 +288274,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -288090,6 +288412,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -288310,6 +288633,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -288447,6 +288771,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -288782,6 +289107,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -288919,6 +289245,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -289102,6 +289429,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -289239,6 +289567,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -289549,6 +289878,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -289686,6 +290016,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -290052,6 +290383,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -290189,6 +290521,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -290462,6 +290795,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -290599,6 +290933,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -290868,6 +291203,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -291005,6 +291341,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -291262,6 +291599,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -291399,6 +291737,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -291727,6 +292066,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -291864,6 +292204,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -292133,6 +292474,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -292270,6 +292612,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -292528,6 +292871,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -292665,6 +293009,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -293067,6 +293412,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -293204,6 +293550,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -293608,6 +293955,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -293745,6 +294093,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -293896,6 +294245,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -294033,6 +294383,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -294168,6 +294519,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -294305,6 +294657,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -294514,6 +294867,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -294651,6 +295005,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -294872,6 +295227,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -295009,6 +295365,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -295203,6 +295560,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -295340,6 +295698,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -295555,6 +295914,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -295692,6 +296052,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -295972,6 +296333,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -296109,6 +296471,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -296379,6 +296742,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -296516,6 +296880,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -296796,6 +297161,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -296933,6 +297299,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -297203,6 +297570,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -297340,6 +297708,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -297749,6 +298118,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -297886,6 +298256,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -298291,6 +298662,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -298428,6 +298800,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -298837,6 +299210,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -298974,6 +299348,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -299379,6 +299754,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -299516,6 +299892,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -299796,6 +300173,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -299933,6 +300311,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -300203,6 +300582,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -300340,6 +300720,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -300842,6 +301223,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -300979,6 +301361,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -301495,6 +301878,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -301632,6 +302016,7 @@ export namespace Prisma {
     aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -301826,6 +302211,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -301963,6 +302349,7 @@ export namespace Prisma {
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -304828,6 +305215,7 @@ export namespace Prisma {
     aiUsedThisMonth?: number
     aiQuotaResetAt?: Date | string | null
     emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
   }
@@ -306205,6 +306593,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -306341,6 +306730,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -306477,6 +306867,7 @@ export namespace Prisma {
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
     aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }

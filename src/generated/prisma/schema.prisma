@@ -419,6 +419,9 @@ model Company {
   // cada rodada com email novo). Default OFF — o botão "Resumo IA" manual
   // sempre funciona; este flag só controla o disparo automático.
   emailAiTriageAuto         Boolean               @default(false)
+  // Descarte (newsletter, propaganda) e golpe saem da Entrada sozinhos e vão
+  // pro Spam — a gaveta deixa de ser só etiqueta e passa a limpar a caixa.
+  emailAutoSpam             Boolean               @default(false)
 
   emailAccounts            EmailAccount[]
   inboxEmails              InboxEmail[]
