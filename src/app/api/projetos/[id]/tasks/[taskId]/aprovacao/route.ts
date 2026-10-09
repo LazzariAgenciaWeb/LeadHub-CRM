@@ -70,17 +70,29 @@ export async function POST(
   const picked = await collectApprovalFiles(task, sameRound
     ? { since: task.approvalSentAt, keep: readFileIds(task.approvalFileIds) }
     : { since: task.approvalRound > 0 ? task.approvalSentAt : null });
+  const fileIds = picked.ids;
+
   // No reenvio, o andamento da rodada continua sendo a versão mesmo sem ser "novo".
   const version = picked.version ?? (sameRound ? latestVersionComment(task.comments) : null);
-  const fileIds = picked.ids;
+
   // Peça só de texto vale: planejamento/roteiro/legenda vão no descritivo, sem
-  // anexo. Conta o texto de verdade — print colado sozinho ([[img:..]]) também.
+  // anexo. Mas SÓ quando a tarefa não tem arquivo nenhum — tarefa de arte sem
+  // versão nova não pode virar "aprove este texto".
   const descricao = task.description?.trim() ?? "";
-  if (!fileIds.length && !descricao.replace(/<[^>]+>/g, "").trim()) {
-    return NextResponse.json(
-      { error: "Anexe a peça (em Arquivos ou num andamento) ou escreva o conteúdo no descritivo antes de enviar pra aprovação." },
-      { status: 400 },
-    );
+  if (!fileIds.length) {
+    const temArquivo = (await collectApprovalFiles(task)).ids.length > 0;
+    if (temArquivo) {
+      return NextResponse.json(
+        { error: "Nenhum arquivo novo desde o último envio. Suba a versão nova da peça antes de enviar." },
+        { status: 400 },
+      );
+    }
+    if (!descricao.replace(/<[^>]+>/g, "").trim()) {
+      return NextResponse.json(
+        { error: "Anexe a peça (em Arquivos ou num andamento) ou escreva o conteúdo no descritivo antes de enviar pra aprovação." },
+        { status: 400 },
+      );
+    }
   }
 
   let instanceId: string | null = null;
