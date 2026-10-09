@@ -77,16 +77,26 @@ async function load(token: string) {
     }
     return r || null;
   };
+  // Conversa inteira (equipe + cliente) em ordem, com a versão de cada
+  // mensagem. Legenda e lembretes da equipe costumam estar aqui — não podem
+  // sumir. Fora: a própria versão (já aparece como recado/legenda) e os
+  // andamentos só de arquivo. Nota que a equipe não quer mostrar → marcar 🔒.
   const history = comments
-    .filter((c) => c.by === "client" && c.text?.trim())
-    .slice(-12)
-    .map((c) => ({
-      text: c.text.replace(/^(✓ Aprovado|✎ Ajuste pedido) por [^\n]+\n?/, "").trim(),
-      who:  /^(?:✓ Aprovado|✎ Ajuste pedido) por ([^\n]+)/.exec(c.text)?.[1] ?? null,
-      kind: c.text.startsWith("✓ Aprovado") ? "approve" as const : c.text.startsWith("✎ Ajuste pedido") ? "adjust" as const : "note" as const,
-      at:   c.at,
-      round: roundAt(c.at),
-    }));
+    .filter((c) => c.text?.trim() && c !== version)
+    .slice(-20)
+    .map((c) => {
+      const client = c.by === "client";
+      return {
+        text: client ? c.text.replace(/^(✓ Aprovado|✎ Ajuste pedido) por [^\n]+\n?/, "").trim() : c.text,
+        who:  client ? (/^(?:✓ Aprovado|✎ Ajuste pedido) por ([^\n]+)/.exec(c.text)?.[1] ?? null) : null,
+        kind: !client ? "team" as const
+          : c.text.startsWith("✓ Aprovado") ? "approve" as const
+          : c.text.startsWith("✎ Ajuste pedido") ? "adjust" as const
+          : "note" as const,
+        at:   c.at,
+        round: roundAt(c.at),
+      };
+    });
 
   // Da 2ª rodada em diante: o que o cliente (ou a equipe por ele) marcou como
   // alteração/reprovada nas versões anteriores, com o pedido — pra ele conferir

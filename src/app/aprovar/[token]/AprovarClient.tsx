@@ -30,7 +30,7 @@ type Props = {
   previous: ApprovalFile[];
   links: { url: string; title: string }[];
   brand: { name: string; logoUrl: string | null; color: string | null };
-  history: { text: string; who: string | null; kind: "approve" | "adjust" | "note"; at: string; round: number | null }[];
+  history: { text: string; who: string | null; kind: "approve" | "adjust" | "note" | "team"; at: string; round: number | null }[];
   /** URL dos prints do descritivo, com `__ID__` no lugar do id do material. */
   mediaBase: string;
 };
@@ -43,12 +43,23 @@ const STYLE = `
   min-height:100vh;color:var(--ink);background:radial-gradient(110% 70% at 85% -10%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),#06070C;
   font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
 .ap *{box-sizing:border-box}
-.apw{max-width:640px;margin:0 auto;padding:22px 16px 180px}
+.apw{max-width:1240px;margin:0 auto;padding:22px 16px 180px}
+.lay{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}
+.cmed,.cinfo{min-width:0}
+@media (min-width:980px){
+  .apw{padding:28px 32px 150px}
+  .lay{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:32px;align-items:start}
+  .cmed{position:sticky;top:16px}
+  .slide{height:min(76vh,780px)}
+  .cmed .car{margin-left:0;margin-right:0;padding:0}
+  .cinfo .card:first-child{margin-top:18px}
+}
+@media (min-width:640px) and (max-width:979px){.apw{max-width:760px;padding:24px 24px 170px}}
 .eyebrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--ink3)}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;border:1px solid var(--line2);font-size:11px;font-weight:600;color:var(--ink2)}
 .chip.warn{color:var(--warn);border-color:rgba(245,181,100,.35);background:rgba(245,181,100,.08)}
 .chip.ok{color:var(--ok);border-color:rgba(79,209,160,.35);background:rgba(79,209,160,.08)}
-h1{font-size:22px;line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
+h1{font-size:clamp(22px,2.4vw,30px);line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
 .sub{color:var(--ink3);font-size:13px}
 .car{margin:18px -16px 0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:0 16px;scrollbar-width:none}
 .car::-webkit-scrollbar{display:none}
@@ -97,7 +108,9 @@ h1{font-size:22px;line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
 .msg.me{align-self:flex-end;background:rgba(110,134,255,.14);border:1px solid rgba(110,134,255,.3)}
 .msg.adjust{align-self:stretch;max-width:100%;background:rgba(245,181,100,.10);border:1px solid rgba(245,181,100,.45)}
 .msg.approve{align-self:stretch;max-width:100%;background:rgba(79,209,160,.10);border:1px solid rgba(79,209,160,.45)}
-.msg.note{align-self:stretch;max-width:100%;background:var(--card);border:1px solid var(--line)}
+.msg.note{align-self:stretch;max-width:100%;background:rgba(110,134,255,.10);border:1px solid rgba(110,134,255,.3)}
+.msg.team{align-self:stretch;max-width:100%;background:var(--card);border:1px solid var(--line)}
+.msg.team .mh{color:var(--ink2)}
 .msg .mh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;font-size:12px;font-weight:700}
 .msg.adjust .mh{color:var(--warn)}
 .msg.approve .mh{color:var(--ok)}
@@ -105,7 +118,7 @@ h1{font-size:22px;line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
 .msg.them{align-self:flex-start;background:var(--card);border:1px solid var(--line)}
 .msg small{display:block;color:var(--ink3);font-size:11px;margin-top:2px}
 .bar{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(6,7,12,0),rgba(6,7,12,.92) 22%,#06070C);padding:22px 16px calc(14px + env(safe-area-inset-bottom))}
-.barw{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.barw{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
 .row{display:flex;gap:8px}
 input.f,textarea.f{width:100%;background:#0B0D15;border:1px solid var(--line2);border-radius:12px;color:var(--ink);padding:11px 12px;font-size:16px;font-family:inherit}
 textarea.f{min-height:84px;resize:vertical}
@@ -334,27 +347,10 @@ export default function AprovarClient(p: Props) {
           <div className="banner info">A equipe está trabalhando nos ajustes. A nova versão chega pelo grupo do WhatsApp.</div>
         )}
 
-        {p.previous.length > 0 && (
-          <div className="card prev">
-            <h3>O que você pediu na versão anterior</h3>
-            {p.previous.map((f) => (
-              <div key={f.id} className="prevrow">
-                <a className="th" href={`/api/aprovar/${p.token}/arquivo/${f.id}`} target="_blank" rel="noopener noreferrer" title={f.fileName}>
-                  {/^image\//i.test(f.mimeType)
-                    // eslint-disable-next-line @next/next/no-img-element
-                    ? <img src={`/api/aprovar/${p.token}/arquivo/${f.id}`} alt="" loading="lazy" />
-                    : "📄"}
-                  <b className={f.status === "reprovada" ? "rep" : ""}>{f.status === "reprovada" ? "REPROVADA" : "ALTERAR"}</b>
-                </a>
-                <div className="pd">
-                  <small>{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</small>
-                  <div>{f.note?.trim() || "Pedido de ajuste (veja a conversa abaixo)."}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
+        {/* Desktop: arte grande à esquerda (fixa ao rolar), texto e conversa à
+            direita. Celular: uma coluna, arte primeiro. */}
+        <div className="lay">
+          <div className="cmed">
         {p.files.length > 0 ? (
           <>
             <div className="carw">
@@ -424,6 +420,29 @@ export default function AprovarClient(p: Props) {
           <div className="card"><div className="pre">A peça ainda não foi anexada. Fale com a agência pelo grupo.</div></div>
         )}
 
+          </div>
+          <div className="cinfo">
+        {p.previous.length > 0 && (
+          <div className="card prev">
+            <h3>O que você pediu na versão anterior</h3>
+            {p.previous.map((f) => (
+              <div key={f.id} className="prevrow">
+                <a className="th" href={`/api/aprovar/${p.token}/arquivo/${f.id}`} target="_blank" rel="noopener noreferrer" title={f.fileName}>
+                  {/^image\//i.test(f.mimeType)
+                    // eslint-disable-next-line @next/next/no-img-element
+                    ? <img src={`/api/aprovar/${p.token}/arquivo/${f.id}`} alt="" loading="lazy" />
+                    : "📄"}
+                  <b className={f.status === "reprovada" ? "rep" : ""}>{f.status === "reprovada" ? "REPROVADA" : "ALTERAR"}</b>
+                </a>
+                <div className="pd">
+                  <small>{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</small>
+                  <div>{f.note?.trim() || "Pedido de ajuste (veja a conversa abaixo)."}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {p.links.length > 0 && (
           <div className="card">
             <h3>Arquivos e links</h3>
@@ -455,21 +474,24 @@ export default function AprovarClient(p: Props) {
 
         {p.history.length > 0 && (
           <div className="card">
-            <h3>Seus retornos nesta peça</h3>
+            <h3>Conversa sobre esta peça</h3>
             <div className="hist">
               {p.history.map((h, i) => (
                 <div key={i} className={`msg ${h.kind}`}>
                   <div className="mh">
                     {h.round && <span className="ver">Versão {h.round}</span>}
-                    <span>{h.kind === "approve" ? "✓ Aprovou" : h.kind === "adjust" ? "✎ Pediu ajuste" : "Comentário"}</span>
+                    <span>{h.kind === "approve" ? "✓ Você aprovou" : h.kind === "adjust" ? "✎ Você pediu ajuste" : h.kind === "team" ? p.brand.name : "Você comentou"}</span>
                   </div>
                   {h.text && <div>{h.text}</div>}
-                  <small>{h.who ?? "Você"} · {fmt(h.at)}</small>
+                  <small>{h.kind === "team" ? "Equipe" : (h.who ?? "Você")} · {fmt(h.at)}</small>
                 </div>
               ))}
             </div>
           </div>
         )}
+
+          </div>
+        </div>
 
         <div className="links">
           {p.panelToken && <Link href={`/c/${p.panelToken}`}>Ver todas as entregas de {p.projectName} →</Link>}
