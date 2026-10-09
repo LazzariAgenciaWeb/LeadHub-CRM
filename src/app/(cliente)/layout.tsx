@@ -32,7 +32,7 @@ export default async function ClienteLayout({ children }: { children: React.Reac
   const impersonatedCompany = (session as any)._impersonating;
   const banner =
     impersonating && impersonatedCompany ? (
-      <ImpersonationBanner companyName={impersonatedCompany.companyName} />
+      <ImpersonationBanner companyName={impersonatedCompany.companyName} actingAs={impersonatedCompany.actingAs ?? null} />
     ) : null;
 
   return (

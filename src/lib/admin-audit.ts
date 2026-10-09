@@ -12,6 +12,7 @@ import { prisma } from "./prisma";
 export type AdminAuditAction =
   | "IMPERSONATE_START"
   | "IMPERSONATE_END"
+  | "IMPERSONATE_ACT_AS"
   | "PLAN_OVERRIDE"
   | "MODULE_TOGGLE"
   | "USER_PASSWORD_RESET"

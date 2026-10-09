@@ -23,7 +23,10 @@ export default async function AdminLayout({
 
   const banner =
     impersonating && impersonatedCompany ? (
-      <ImpersonationBanner companyName={impersonatedCompany.companyName} />
+      <ImpersonationBanner
+        companyName={impersonatedCompany.companyName}
+        actingAs={impersonatedCompany.actingAs ?? null}
+      />
     ) : null;
 
   // Empresa cliente (sub-company) usa o sistema normal (com os módulos que ela

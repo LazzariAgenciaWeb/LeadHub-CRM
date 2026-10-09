@@ -40,6 +40,13 @@ model User {
   // vê tudo do cliente. Default vazio = vê todas.
   hiddenWaInstanceIds String[] @default([])
 
+  // "Conta vinculada": este usuário da empresa É o super admin X (mesma pessoa,
+  // ex.: Diego da AZZ ↔ Diego Lazzari). Quando o super admin X impersona esta
+  // empresa, a sessão age com a identidade deste usuário (id/nome/e-mail):
+  // mensagens, atribuições e pontos saem no nome certo. Máx. 1 por empresa
+  // por super admin (regra no endpoint). Null = ninguém vinculado.
+  linkedSuperAdminId String?
+
   ticketsCreated        Ticket[]               @relation("TicketCreatedBy")
   ticketsAssigned       Ticket[]               @relation("TicketAssignee")
   companyContact        CompanyContact?        @relation("ContactUser")
@@ -98,6 +105,8 @@ model User {
 
   @@index([companyId])
   @@index([assistantGroupJid])
+
+  @@index([linkedSuperAdminId])
 }
 
 // ── Assistente pessoal ───────────────────────────────────────────────────────

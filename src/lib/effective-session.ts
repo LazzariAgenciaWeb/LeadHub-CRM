@@ -48,6 +48,19 @@ export async function getEffectiveSession() {
   });
   if (!company) return session;
 
+  // Conta vinculada: se o super admin disse "nesta empresa eu sou o usuário X",
+  // a sessão impersonada assume a identidade de X (id/nome/e-mail). Assim o
+  // que ele faz dentro do cliente (mensagem, atribuição, pontos) sai no nome
+  // certo, e não como "Diego Lazzari (super admin)". Sem vínculo → observa
+  // com a identidade real do super admin, como antes.
+  const realUserId = (session.user as any)?.id as string | undefined;
+  const linked = realUserId
+    ? await prisma.user.findFirst({
+        where: { companyId, linkedSuperAdminId: realUserId, role: { not: "SUPER_ADMIN" } },
+        select: { id: true, name: true, email: true },
+      })
+    : null;
+
   // Cofre + pipelines do CRM vêm de PlanFeatures (não de flags em Company),
   // igual o auth.ts faz no login real. Sem isso a sidebar impersonada esconde
   // os sub-itens do CRM mesmo quando o plano libera.
@@ -76,6 +89,7 @@ export async function getEffectiveSession() {
     ...session,
     user: {
       ...session.user,
+      ...(linked ? { id: linked.id, name: linked.name, email: linked.email } : {}),
       role: "ADMIN",
       companyId,
       // Reflect the company's actual enabled modules. Espelha o auth.ts real:
@@ -126,9 +140,23 @@ export async function getEffectiveSession() {
         canViewFinanceiro:  true,
       },
     },
-    _impersonating: { companyId, companyName: company.name },
-  } as typeof session & { _impersonating: { companyId: string; companyName: string } };
+    _impersonating: {
+      companyId,
+      companyName: company.name,
+      realUserId: realUserId ?? null,
+      actingAs: linked ? { userId: linked.id, name: linked.name } : null,
+    },
+  } as typeof session & { _impersonating: ImpersonationInfo };
 }
+
+export type ImpersonationInfo = {
+  companyId: string;
+  companyName: string;
+  /** id real do SUPER_ADMIN logado (session.user.id pode ser o da conta vinculada) */
+  realUserId: string | null;
+  /** conta vinculada em uso — null = observando com a identidade do super admin */
+  actingAs: { userId: string; name: string } | null;
+};
 
 export function isImpersonating(session: any): boolean {
   return !!session?._impersonating;
