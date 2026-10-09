@@ -66,7 +66,22 @@ async function load(token: string) {
     .slice(-8)
     .map((c) => ({ text: c.text, at: c.at, byClient: c.by === "client" }));
 
-  return { task, files, links, history, versionText: version?.text ?? "" };
+  // Da 2ª rodada em diante: o que o cliente (ou a equipe por ele) marcou como
+  // alteração/reprovada nas versões anteriores, com o pedido — pra ele conferir
+  // se o ajuste atendeu antes de aprovar a versão nova.
+  const current = new Set(files.map((f) => f.id));
+  const seenPrev = new Set<string>();
+  const previous: ApprovalFile[] = task.approvalRound > 1
+    ? comments
+        .filter((c) => c.by !== "client")
+        .flatMap((c) => c.attachments ?? [])
+        .filter((a) => (a.status === "alteracao" || a.status === "reprovada") && !current.has(a.id)
+          && fileVisibleToClient(task.comments, a.id) && !seenPrev.has(a.id) && !!seenPrev.add(a.id))
+        .map((a) => ({ id: a.id, fileName: a.fileName, mimeType: a.mimeType, status: a.status ?? null, note: a.note ?? null }))
+        .sort((x, y) => x.fileName.localeCompare(y.fileName, "pt-BR", { numeric: true }))
+    : [];
+
+  return { task, files, links, history, previous, versionText: version?.text ?? "" };
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ token: string }> }): Promise<Metadata> {
@@ -100,7 +115,7 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
     );
   }
 
-  const { task, files, links, history, versionText } = data;
+  const { task, files, links, history, previous, versionText } = data;
   return (
     <AprovarClient
       token={token}
@@ -120,6 +135,7 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
       approvedByName={task.approvedByName}
       versionText={versionText}
       files={files}
+      previous={previous}
       links={links}
       brand={{
         name:    task.project.setor.company.tradeName || task.project.setor.company.name,

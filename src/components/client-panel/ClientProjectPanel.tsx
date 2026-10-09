@@ -169,6 +169,15 @@ const STYLE = `
 .cfile .cfnote{font-size:12px;color:var(--ink2);font-style:italic;line-height:1.45;white-space:pre-wrap}
 .cfile .cfdl{font-size:11px;color:var(--ink3);text-decoration:none}
 .cfile .cfdl:hover{color:var(--ink)}
+.cfwrap{display:flex;flex-direction:column;gap:6px}
+.cfreq{padding:8px 10px;border-radius:9px;border:1px solid rgba(251,146,60,.4);background:rgba(251,146,60,.1);color:#FED7AA;font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.cfreq b{display:block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;opacity:.8;margin-bottom:2px}
+.cfreq.rep{border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:#FECACA}
+.cfile.rej{border-color:rgba(251,146,60,.35)}
+.cfile.rej img{opacity:.5;filter:grayscale(.6)}
+.cfthumb{position:relative;flex:none;display:block}
+.cfthumb .rib{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:9px;font-weight:800;letter-spacing:.04em;color:#fff;background:#EA580C;padding:2px 0;border-radius:0 0 8px 8px}
+.cfthumb .rib.rep{background:#DC2626}
 .cst{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid}
 .cst i{width:6px;height:6px;border-radius:50%;background:currentColor}
 .cst.nova{color:#AFB6C6;border-color:rgba(175,182,198,.3)}

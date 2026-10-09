@@ -26,6 +26,8 @@ type Props = {
   approvedByName: string | null;
   versionText: string;
   files: ApprovalFile[];
+  /** Versões anteriores que voltaram pra ajuste, com o pedido (rodada 2+). */
+  previous: ApprovalFile[];
   links: { url: string; title: string }[];
   brand: { name: string; logoUrl: string | null; color: string | null };
   history: { text: string; at: string; byClient: boolean }[];
@@ -79,6 +81,16 @@ h1{font-size:22px;line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
 .pre{white-space:pre-wrap;word-break:break-word;font-size:14px;color:var(--ink2)}
 .pre img{display:block;max-width:100%;margin:10px 0;border-radius:10px;border:1px solid var(--line)}
 .card.texto{padding:20px 20px 22px;border-color:var(--line2)}
+.card.prev{border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.05)}
+.prevrow{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.prevrow:first-of-type{border-top:0;padding-top:4px}
+.prevrow .th{position:relative;flex:none;width:64px;height:64px;border-radius:10px;overflow:hidden;border:1px solid var(--line2);background:#0B0D15;display:grid;place-items:center;font-size:22px}
+.prevrow .th img{width:100%;height:100%;object-fit:cover;opacity:.55;filter:grayscale(.6)}
+.prevrow .th b{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:9px;font-weight:800;letter-spacing:.04em;color:#fff;background:#EA580C;padding:2px 0}
+.prevrow .th b.rep{background:#DC2626}
+.prevrow .pd{min-width:0;flex:1}
+.prevrow .pd small{display:block;font-size:11px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prevrow .pd div{font-size:14px;color:var(--ink);white-space:pre-wrap;word-break:break-word;margin-top:2px}
 .card.texto .pre{font-size:15.5px;line-height:1.65;color:var(--ink)}
 .hist{display:flex;flex-direction:column;gap:8px}
 .msg{padding:9px 12px;border-radius:12px;font-size:13px;white-space:pre-wrap;word-break:break-word;max-width:92%}
@@ -313,6 +325,27 @@ export default function AprovarClient(p: Props) {
         )}
         {!done && status !== "APROVADO" && status !== "AGUARDANDO_CLIENTE" && (
           <div className="banner info">A equipe está trabalhando nos ajustes. A nova versão chega pelo grupo do WhatsApp.</div>
+        )}
+
+        {p.previous.length > 0 && (
+          <div className="card prev">
+            <h3>O que você pediu na versão anterior</h3>
+            {p.previous.map((f) => (
+              <div key={f.id} className="prevrow">
+                <a className="th" href={`/api/aprovar/${p.token}/arquivo/${f.id}`} target="_blank" rel="noopener noreferrer" title={f.fileName}>
+                  {/^image\//i.test(f.mimeType)
+                    // eslint-disable-next-line @next/next/no-img-element
+                    ? <img src={`/api/aprovar/${p.token}/arquivo/${f.id}`} alt="" loading="lazy" />
+                    : "📄"}
+                  <b className={f.status === "reprovada" ? "rep" : ""}>{f.status === "reprovada" ? "REPROVADA" : "ALTERAR"}</b>
+                </a>
+                <div className="pd">
+                  <small>{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</small>
+                  <div>{f.note?.trim() || "Pedido de ajuste (veja a conversa abaixo)."}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
 
         {p.files.length > 0 ? (

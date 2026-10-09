@@ -74,18 +74,30 @@ function ClientFileCard({ a, url, dl }: {
 }) {
   const isImage = /^image\/(png|jpe?g|gif|webp|avif)$/i.test(a.mimeType);
   const st = a.status && ATTACH_LABEL[a.status] ? a.status : null;
+  // Versão que voltou pra ajuste: o pedido vai EM CIMA e a miniatura fica
+  // apagada — pro cliente não confundir com a versão nova que vai aprovar.
+  const rej = st === "alteracao" || st === "reprovada";
   return (
-    <div className="cfile">
-      <a href={url} target="_blank" rel="noopener noreferrer" title={a.fileName}>
-        {isImage
-          ? <img src={url} alt={a.fileName} loading="lazy" />
-          : <span className="cfic">📄</span>}
-      </a>
-      <div className="cfb">
-        <a className="cfn" href={url} target="_blank" rel="noopener noreferrer" title={a.fileName}>{a.fileName}</a>
-        {st && <span className={`cst ${st}`}><i />{ATTACH_LABEL[st]}</span>}
-        {a.note && <span className="cfnote">“{a.note}”</span>}
-        <a className="cfdl" href={dl}>⬇ Baixar</a>
+    <div className="cfwrap">
+      {rej && (
+        <div className={`cfreq ${st === "reprovada" ? "rep" : ""}`}>
+          <b>{st === "reprovada" ? "✕ Reprovada" : "✎ Pedido de alteração"}</b>
+          {a.note?.trim() || "Ajuste pedido nesta versão."}
+        </div>
+      )}
+      <div className={`cfile ${rej ? "rej" : ""}`}>
+        <a className="cfthumb" href={url} target="_blank" rel="noopener noreferrer" title={a.fileName}>
+          {isImage
+            ? <img src={url} alt={a.fileName} loading="lazy" />
+            : <span className="cfic">📄</span>}
+          {rej && <span className={`rib ${st === "reprovada" ? "rep" : ""}`}>{st === "reprovada" ? "REPROVADA" : "VERSÃO ANTIGA"}</span>}
+        </a>
+        <div className="cfb">
+          <a className="cfn" href={url} target="_blank" rel="noopener noreferrer" title={a.fileName}>{a.fileName}</a>
+          {st && <span className={`cst ${st}`}><i />{ATTACH_LABEL[st]}</span>}
+          {a.note && !rej && <span className="cfnote">“{a.note}”</span>}
+          <a className="cfdl" href={dl}>⬇ Baixar</a>
+        </div>
       </div>
     </div>
   );
