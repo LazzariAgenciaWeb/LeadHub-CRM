@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getActingSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 
 // Perfil do próprio usuário logado.
-// Usa sessão REAL (não impersonada): mesmo super admin impersonando edita o
-// próprio perfil, não o do cliente fictício.
+// Usa a identidade em vigor: sessão REAL, ou a conta vinculada quando o super
+// admin impersona uma empresa onde "ele é" alguém (edita o perfil/assinatura
+// desse usuário, que é a mesma pessoa). Impersonar sem vínculo → perfil real.
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
+  const session = await getActingSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const userId = (session.user as any).id as string | undefined;
@@ -31,7 +31,7 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getActingSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const userId = (session.user as any).id as string | undefined;

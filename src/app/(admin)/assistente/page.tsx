@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getEffectiveSession } from "@/lib/effective-session";
+import { getEffectiveSession, getActingSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { hasModule, can, isSuperAdmin } from "@/lib/permissions";
 import { getAnthropicConfig } from "@/lib/anthropic";
@@ -13,7 +13,8 @@ import AssistantHome from "./AssistantHome";
 /**
  * /assistente — home do assistente pessoal.
  * Não é painel: é chat (texto/áudio) + fila de próximas ações + bloquinho.
- * Age em nome do usuário logado REAL (mesmo com impersonação ativa).
+ * Age em nome da identidade em vigor: o usuário logado REAL, ou a conta
+ * vinculada quando o super admin impersona uma empresa onde "ele é" alguém.
  */
 export default async function AssistentePage() {
   const real = await getServerSession(authOptions);
@@ -21,7 +22,8 @@ export default async function AssistentePage() {
   const eff = (await getEffectiveSession()) ?? real;
   if (!isSuperAdmin(real) && !(hasModule(eff, "assistentePessoal") && can(eff, "canUseAI"))) redirect("/dashboard");
 
-  const userId = (real.user as any).id as string;
+  const acting = (await getActingSession()) ?? real;
+  const userId = (acting.user as any).id as string;
   const [me, provider] = await Promise.all([
     prisma.user.findUnique({ where: { id: userId }, select: { name: true, assistantGroupJid: true, companyId: true, role: true } }),
     getAssistantProvider(),

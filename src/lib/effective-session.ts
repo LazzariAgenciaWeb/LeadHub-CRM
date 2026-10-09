@@ -161,3 +161,19 @@ export type ImpersonationInfo = {
 export function isImpersonating(session: any): boolean {
   return !!session?._impersonating;
 }
+
+/**
+ * Sessão da IDENTIDADE em vigor — pra recursos pessoais (assistente, Meu
+ * Perfil, assinatura do WhatsApp):
+ * - impersonando COM conta vinculada → sessão efetiva (id/nome do vinculado);
+ * - impersonando SEM vínculo → sessão real (o super admin continua sendo ele);
+ * - sem impersonação → sessão normal.
+ */
+export async function getActingSession() {
+  const eff = await getEffectiveSession();
+  if (!eff) return null;
+  const imp = (eff as any)._impersonating as ImpersonationInfo | undefined;
+  if (!imp) return eff;
+  if (imp.actingAs) return eff;
+  return getServerSession(authOptions);
+}

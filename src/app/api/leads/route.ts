@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 import { getUserPermissions } from "@/lib/user-permissions";
@@ -9,7 +8,7 @@ import { linkEmailsByAddress } from "@/lib/lead-email-link";
 
 // GET /api/leads?companyId=&status=&campaignId=&pipeline=&search=&page=&limit=
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   }
@@ -64,7 +63,7 @@ export async function GET(req: NextRequest) {
 
 // POST /api/leads
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   }

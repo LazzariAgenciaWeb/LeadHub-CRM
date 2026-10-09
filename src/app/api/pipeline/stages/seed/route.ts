@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 
 type StageOutcome = "NEUTRO" | "GANHO" | "PERDIDO";
@@ -46,7 +45,7 @@ const DEFAULT_STAGES: Record<string, { name: string; color: string; order: numbe
 // POST /api/pipeline/stages/seed
 // Cria etapas padrão para um pipeline de uma empresa (se ainda não existirem)
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const userRole = (session.user as any).role;
