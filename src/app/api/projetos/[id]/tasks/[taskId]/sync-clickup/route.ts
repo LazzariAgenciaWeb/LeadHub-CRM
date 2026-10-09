@@ -3,11 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
-import { getClickupSettings, fetchClickupTaskLite } from "@/lib/clickup";
-import { listClickupAttachments, importClickupAttachments } from "@/lib/clickup-files";
-import { pullClickupIntoTask, LINKED_TASK_SELECT } from "@/lib/project-task-pull";
-
-const IMAGE_EXT = /^(png|jpe?g|webp|gif|avif|heic)$/i;
+import { syncOneProjectTask } from "@/lib/project-task-pull";
 
 // POST /api/projetos/[id]/tasks/[taskId]/sync-clickup
 //
@@ -32,7 +28,6 @@ export async function POST(
   const task = await prisma.projectTask.findUnique({
     where: { id: taskId },
     select: {
-      ...LINKED_TASK_SELECT,
       projectId: true,
       project: {
         select: {
@@ -57,39 +52,12 @@ export async function POST(
   })) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
-  if (!task.clickupTaskId) {
-    return NextResponse.json({ error: "Esta tarefa não está ligada ao ClickUp." }, { status: 400 });
-  }
-
-  const settings = await getClickupSettings(task.project.setor.companyId);
-  if (!settings?.apiToken) {
-    return NextResponse.json({ error: "ClickUp não configurado nesta empresa." }, { status: 503 });
-  }
-
-  const remote = await fetchClickupTaskLite(settings.apiToken, task.clickupTaskId);
-  if (!remote) {
-    return NextResponse.json({ error: "Não consegui ler a tarefa no ClickUp (apagada ou sem acesso?)." }, { status: 502 });
-  }
-  await pullClickupIntoTask(settings.apiToken, task, remote.task);
-
-  // Imagens novas → andamento (viram cards com status, entram no "Para aprovar").
-  let images = 0;
-  let imageError: string | null = null;
-  try {
-    const atts = await listClickupAttachments(taskId);
-    const ids = atts
-      .filter((a) => !a.imported && (/^image\//i.test(a.mimeType) || IMAGE_EXT.test(a.extension)))
-      .map((a) => a.id);
-    if (ids.length) {
-      const r = await importClickupAttachments(taskId, ids, {
-        id: (session.user as any).id, name: (session.user as any).name,
-      });
-      images = r.imported;
-      if (r.errors.length) imageError = r.errors[0];
-    }
-  } catch (e: any) {
-    imageError = e?.message ?? "Falha ao trazer as imagens";
-  }
+  const r = await syncOneProjectTask(taskId, {
+    id: (session.user as any).id, name: (session.user as any).name,
+  });
+  if (!r.ok) return NextResponse.json({ error: r.error }, { status: r.status });
+  const images = r.images;
+  const imageError = r.warning ?? null;
 
   // Devolve o estado novo: o modal guarda os campos em estado local e não
   // enxergaria a mudança só com router.refresh().

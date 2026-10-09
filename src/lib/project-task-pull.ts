@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { fetchClickupTaskDescription, fetchClickupTaskComments, type ClickupTaskLite } from "@/lib/clickup";
+import { fetchClickupTaskDescription, fetchClickupTaskComments, getClickupSettings, fetchClickupTaskLite, type ClickupTaskLite } from "@/lib/clickup";
+import { listClickupAttachments, importClickupAttachments } from "@/lib/clickup-files";
 import { readComments, sanitizeComments } from "@/lib/checklist";
 
 export type LinkedTask = {
@@ -72,4 +73,70 @@ export async function pullClickupIntoTask(apiToken: string, lt: LinkedTask, src:
       ...(mergedComments ? { comments: mergedComments } : {}),
     },
   }).catch(() => {});
+}
+
+// ─── Sincronizar UMA tarefa (botão do modal + webhook em tempo real) ─────────
+
+const IMAGE_EXT = /^(png|jpe?g|webp|gif|avif|heic)$/i;
+
+export type OneTaskSyncResult =
+  | { ok: true; images: number; warning?: string }
+  | { ok: false; error: string; status: number };
+
+/**
+ * Puxa do ClickUp só esta tarefa: título, datas, descritivo, comentários,
+ * conclusão (pullClickupIntoTask) e as IMAGENS novas pro andamento. Outros
+ * anexos (txt, pdf…) ficam no "Trazer" manual: nem todo arquivo é peça.
+ *
+ * Serializado por tarefa: o ClickUp dispara vários eventos juntos (taskUpdated
+ * + taskStatusUpdated…) e duas importações simultâneas trariam a mesma imagem
+ * em dobro. Um processo só (container único) → fila em memória basta.
+ */
+const running = new Map<string, Promise<OneTaskSyncResult>>();
+
+export function syncOneProjectTask(
+  taskId: string,
+  author: { id?: string | null; name?: string | null },
+): Promise<OneTaskSyncResult> {
+  const prev = running.get(taskId) ?? Promise.resolve(null as unknown as OneTaskSyncResult);
+  const next = prev.catch(() => null).then(() => doSyncOne(taskId, author));
+  running.set(taskId, next);
+  void next.finally(() => { if (running.get(taskId) === next) running.delete(taskId); });
+  return next;
+}
+
+async function doSyncOne(
+  taskId: string,
+  author: { id?: string | null; name?: string | null },
+): Promise<OneTaskSyncResult> {
+  const task = await prisma.projectTask.findUnique({
+    where:  { id: taskId },
+    select: { ...LINKED_TASK_SELECT, project: { select: { setor: { select: { companyId: true } } } } },
+  });
+  if (!task) return { ok: false, error: "Tarefa não encontrada", status: 404 };
+  if (!task.clickupTaskId) return { ok: false, error: "Esta tarefa não está ligada ao ClickUp.", status: 400 };
+
+  const settings = await getClickupSettings(task.project.setor.companyId);
+  if (!settings?.apiToken) return { ok: false, error: "ClickUp não configurado nesta empresa.", status: 503 };
+
+  const remote = await fetchClickupTaskLite(settings.apiToken, task.clickupTaskId);
+  if (!remote) return { ok: false, error: "Não consegui ler a tarefa no ClickUp (apagada ou sem acesso?).", status: 502 };
+  await pullClickupIntoTask(settings.apiToken, task, remote.task);
+
+  let images = 0;
+  let warning: string | undefined;
+  try {
+    const atts = await listClickupAttachments(taskId);
+    const ids = atts
+      .filter((a) => !a.imported && (/^image\//i.test(a.mimeType) || IMAGE_EXT.test(a.extension)))
+      .map((a) => a.id);
+    if (ids.length) {
+      const r = await importClickupAttachments(taskId, ids, author);
+      images = r.imported;
+      if (r.errors.length) warning = r.errors[0];
+    }
+  } catch (e: any) {
+    warning = e?.message ?? "Falha ao trazer as imagens";
+  }
+  return { ok: true, images, ...(warning ? { warning } : {}) };
 }

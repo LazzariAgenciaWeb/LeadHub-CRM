@@ -6,6 +6,8 @@
  * dela apontando pra essa URL com o seu companyId no path.
  *
  * Eventos tratados:
+ *   - Tarefa de PROJETO: qualquer evento → sincroniza a tarefa inteira
+ *     (syncOneProjectTask: campos, comentários, conclusão, imagens novas).
  *   - `taskCommentPosted` → cria `TicketMessage` (chamado) ou `LeadComment`
  *     (oportunidade), conforme onde o `clickupTaskId` bate.
  *   - `taskStatusUpdated` (lead apenas) → atualiza `lead.pipelineStage`
@@ -19,7 +21,7 @@
  *      mostra a URL exata e o campo do Webhook Secret.
  *   2. ClickUp → Settings → Integrations → Webhooks → Create Webhook
  *      - URL: copia da tela acima
- *      - Eventos: marcar `taskCommentPosted`
+ *      - Eventos: marcar TODOS (o handler ignora o que não usa)
  *      - Após criar, copia o "Secret" exibido pelo ClickUp e cola no campo.
  *
  * Verificação de assinatura: ClickUp envia `X-Signature` = HMAC-SHA256 hex
@@ -39,9 +41,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
-import { getClickupWebhookSecret, getClickupSettings, fetchClickupTaskDescription, fetchClickupTaskComments, fetchClickupTaskLite } from "@/lib/clickup";
-import { readComments, sanitizeComments } from "@/lib/checklist";
+import { getClickupWebhookSecret, getClickupSettings, fetchClickupTaskLite } from "@/lib/clickup";
 import { mirrorClickupTasks } from "@/lib/project-mirror";
+import { syncOneProjectTask } from "@/lib/project-task-pull";
 
 // Webhook precisa do body cru pra validar a assinatura.
 export const runtime = "nodejs";
@@ -138,39 +140,16 @@ export async function POST(
   }
 
   // ─── TAREFA DE PROJETO (painel do cliente) ──────────────────────────────────
-  // taskUpdated → puxa o descritivo atual; taskCommentPosted → traz os comentários
-  // como atualizações do cliente (merge deduplicado por texto+data). Busca via API
-  // pra pegar o conteúdo consolidado, evitando parsear history_items.
+  // Qualquer evento da tarefa → sincroniza ELA inteira (título, datas, descritivo,
+  // comentários, conclusão + imagens novas), igual ao botão "Sincronizar" do
+  // modal. Antes só descritivo e comentário chegavam em tempo real; status,
+  // prazo e imagem esperavam o cron diário das 7h.
   if (projectTaskRow) {
-    const projTask = projectTaskRow;
-    const settings = await getClickupSettings(companyId);
-    if (!settings) return NextResponse.json({ ok: true, skipped: "clickup-not-configured" });
-    const data: any = {};
-
-    if (event === "taskUpdated") {
-      try { const d = await fetchClickupTaskDescription(settings.apiToken, taskId); if (d) data.description = d; } catch { /* silencioso */ }
-    }
-    if (event === "taskCommentPosted") {
-      try {
-        const cmts = await fetchClickupTaskComments(settings.apiToken, taskId);
-        const existing = readComments(projTask.comments);
-        const seen = new Set(existing.map((c) => `${c.text}|${c.at}`));
-        const seenCid = new Set(existing.map((c) => c.cid).filter(Boolean));
-        // dedup por id do ClickUp (evita eco do que o LeadHub empurrou) + texto|data.
-        const fresh = cmts.filter((c) => !(c.cid && seenCid.has(c.cid)) && !seen.has(`${c.text}|${c.at}`));
-        if (fresh.length) {
-          const merged = sanitizeComments(
-            [...existing, ...fresh].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime()),
-          );
-          if (merged) data.comments = merged;
-        }
-      } catch { /* silencioso */ }
-    }
-
-    if (Object.keys(data).length) {
-      await prisma.projectTask.update({ where: { id: projTask.id }, data }).catch(() => {});
-    }
-    return NextResponse.json({ ok: true, projectTask: projTask.id, updated: Object.keys(data) });
+    if (event === "taskDeleted") return NextResponse.json({ ok: true, skipped: "project-task-deleted" });
+    const r = await syncOneProjectTask(projectTaskRow.id, { name: "ClickUp" });
+    return NextResponse.json(r.ok
+      ? { ok: true, projectTask: projectTaskRow.id, images: r.images, ...(r.warning ? { warning: r.warning } : {}) }
+      : { ok: true, projectTask: projectTaskRow.id, skipped: r.error });
   }
 
   // ─── TICKET (chamados) ──────────────────────────────────────────────────────
