@@ -1,16 +1,14 @@
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import EmpresasClient from "./EmpresasClient";
 import { can } from "@/lib/permissions";
 
-// Usa getServerSession (sessão real), não getEffectiveSession.
-// Gerir empresas (deletar, transferir, criar) é ação de SUPER_ADMIN e não deve
-// respeitar o cookie de impersonation — se o admin clicou "Visualizar como cliente"
-// e voltou pra cá, ele continua sendo SUPER_ADMIN nesta tela.
+// Sessão EFETIVA: impersonando a AZZ, esta tela é "Meus Clientes" da AZZ, sem
+// botão "Ver como cliente". Trocar de empresa é só pelo banner (Trocar cliente)
+// — nunca por um clique num card de cliente.
 export default async function EmpresasPage() {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   const role = (session?.user as any)?.role;
   const userCompanyId = (session?.user as any)?.companyId;
 
@@ -20,7 +18,7 @@ export default async function EmpresasPage() {
   if (role === "CLIENT" && !can(session, "canViewCompanies")) redirect("/dashboard");
 
   let companies: any[] = [];
-  let isSuperAdmin = role === "SUPER_ADMIN";
+  const isSuperAdmin = role === "SUPER_ADMIN";
   let parentCompanyName: string | null = null;
 
   if (isSuperAdmin) {

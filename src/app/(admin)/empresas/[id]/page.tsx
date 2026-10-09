@@ -1,5 +1,5 @@
 import { redirect, notFound } from "next/navigation";
-import { getEffectiveSession } from "@/lib/effective-session";
+import { getEffectiveSession, isImpersonating } from "@/lib/effective-session";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { can } from "@/lib/permissions";
@@ -34,14 +34,12 @@ export default async function EmpresaDetailPage({
   if (role === "CLIENT" && !can(session, "canViewCompanies")) redirect("/dashboard");
 
   const { id } = await params;
-  // isSuperAdmin must be based on the REAL session, not the effective session.
-  // When impersonating, getEffectiveSession() returns role="ADMIN", which would
-  // prevent auto-exit and hide the module editing controls.
-  const isSuperAdmin = realRole === "SUPER_ADMIN";
-
-  // Não encerra impersonação automaticamente aqui: sair do cliente é SEMPRE
-  // ação explícita do SUPER_ADMIN pelo banner. Os controles privilegiados desta
-  // página já dependem de realRole, então funcionam mesmo impersonando.
+  // Super admin só é super admin aqui quando NÃO está impersonando. Dentro de
+  // um cliente, esta tela se comporta como a do ADMIN daquele cliente (vê só
+  // sub-empresas dele, sem "Acessar Painel" nem edição de plano/módulos) —
+  // assim um clique num cliente nunca troca a impersonação. Trocar/sair é
+  // sempre pelo banner.
+  const isSuperAdmin = realRole === "SUPER_ADMIN" && !isImpersonating(session);
 
   const [company, contacts] = await Promise.all([
     prisma.company.findUnique({
