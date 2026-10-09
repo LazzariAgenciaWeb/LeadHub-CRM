@@ -178,6 +178,12 @@ const ATTACH_STATUS_META: Record<AttachStatus, { label: string; cls: string; dot
   reprovada:  { label: "Reprovada",   cls: "bg-red-500/15 text-red-300 border-red-500/30",             dot: "bg-red-400"     },
 };
 
+// Imagem com pedido de alteração / reprovada sai do bloco "Para aprovar" e
+// fica só no andamento, marcada, com o pedido em cima — pra ninguém aprovar a
+// versão velha por engano depois do ajuste.
+const isRejected = (s?: string) => s === "alteracao" || s === "reprovada";
+const fileCollator = new Intl.Collator("pt-BR", { numeric: true, sensitivity: "base" });
+
 type TaskEvent = {
   id: string;
   type: string;
@@ -1145,6 +1151,10 @@ function CommentAttachmentCard({
   const isImage = /^image\//i.test(a.mimeType);
   const status = (a.status && ATTACH_STATUSES.includes(a.status) ? a.status : "nova") as AttachStatus;
   const meta = ATTACH_STATUS_META[status];
+  const rejected = isRejected(status);
+  const tone = status === "reprovada"
+    ? { box: "border-red-500/50 bg-red-500/[0.06]", call: "bg-red-500/15 border-red-500/40 text-red-100", label: "✕ Reprovada pelo cliente", ribbon: "bg-red-600" }
+    : { box: "border-orange-500/50 bg-orange-500/[0.06]", call: "bg-orange-500/15 border-orange-500/40 text-orange-100", label: "✎ Pedido de alteração", ribbon: "bg-orange-600" };
   const [menuOpen, setMenuOpen] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteDraft, setNoteDraft] = useState(a.note ?? "");
@@ -1168,16 +1178,30 @@ function CommentAttachmentCard({
   }
 
   return (
-    <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg p-2 space-y-1.5">
+    <div className={`border rounded-lg p-2 space-y-1.5 ${rejected ? tone.box : "bg-[#0a0f1a] border-[#1e2d45]"}`}>
+      {/* Reprovada: o pedido fica EM CIMA da imagem, não escondido embaixo. */}
+      {rejected && !noteOpen && (
+        <div className={`rounded-md border px-2.5 py-1.5 ${tone.call}`}>
+          <div className="text-[10px] font-bold uppercase tracking-wide opacity-80">{tone.label}</div>
+          <div className="text-[12px] leading-snug whitespace-pre-wrap mt-0.5">
+            {a.note?.trim() || <span className="opacity-60 italic">Sem detalhe nesta imagem — veja o comentário do cliente no andamento.</span>}
+          </div>
+        </div>
+      )}
       <div className="flex items-start gap-2">
         {isImage ? (
-          <a href={`/api/storage/${a.id}`} target="_blank" rel="noopener noreferrer" className="shrink-0" title={a.fileName}>
+          <a href={`/api/storage/${a.id}`} target="_blank" rel="noopener noreferrer" className="shrink-0 relative" title={a.fileName}>
             <img
               src={`/api/storage/${a.id}`}
               alt={a.fileName}
               loading="lazy"
-              className="w-20 h-20 object-cover rounded border border-[#1e2d45] hover:opacity-90 transition"
+              className={`w-20 h-20 object-cover rounded border border-[#1e2d45] hover:opacity-90 transition ${rejected ? "opacity-50 grayscale" : ""}`}
             />
+            {rejected && (
+              <span className={`absolute inset-x-0 bottom-0 text-center text-[9px] font-bold text-white py-0.5 rounded-b ${tone.ribbon}`}>
+                {status === "reprovada" ? "REPROVADA" : "ALTERAR"}
+              </span>
+            )}
           </a>
         ) : (
           <div className="w-20 h-20 rounded border border-[#1e2d45] bg-[#0f1729] flex items-center justify-center text-xl shrink-0">📄</div>
@@ -1234,7 +1258,11 @@ function CommentAttachmentCard({
                       <button
                         key={s}
                         type="button"
-                        onClick={() => { onUpdate({ status: s }); setMenuOpen(false); }}
+                        onClick={() => {
+                          onUpdate({ status: s });
+                          setMenuOpen(false);
+                          if (isRejected(s) && !a.note?.trim()) setNoteOpen(true);
+                        }}
                         className={`w-full flex items-center gap-1.5 px-2.5 py-1 text-[11px] text-left hover:bg-[#1e2d45] ${cur ? "text-white font-semibold" : "text-slate-300"}`}
                       >
                         <span className={`w-1.5 h-1.5 rounded-full ${m.dot}`} />
@@ -1251,9 +1279,11 @@ function CommentAttachmentCard({
                 type="button"
                 onClick={() => setNoteOpen(true)}
                 className="text-[10px] font-semibold text-indigo-300 hover:text-indigo-200"
-                title={a.note ? "Editar descrição" : "Descrever esta arte"}
+                title={rejected ? "O que o cliente pediu" : a.note ? "Editar descrição" : "Descrever esta arte"}
               >
-                {a.note ? "✎ editar descrição" : "+ descrição"}
+                {rejected
+                  ? (a.note ? "✎ editar pedido" : "+ pedido de alteração")
+                  : (a.note ? "✎ editar descrição" : "+ descrição")}
               </button>
             )}
           </div>
@@ -1270,7 +1300,7 @@ function CommentAttachmentCard({
                   if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); saveNote(); }
                 }}
                 rows={2}
-                placeholder="Ex.: cliente pediu pra mudar a cor do botão"
+                placeholder={rejected ? "O que o cliente pediu pra mudar nesta imagem?" : "Ex.: cliente pediu pra mudar a cor do botão"}
                 className="w-full bg-[#0f1729] border border-indigo-500/40 rounded px-2 py-1 text-[11px] text-slate-100 focus:outline-none focus:border-indigo-500 resize-y"
               />
               <div className="flex justify-end gap-1.5">
@@ -1278,7 +1308,7 @@ function CommentAttachmentCard({
                 <button type="button" onClick={saveNote} className="text-[10px] px-2 py-0.5 rounded bg-indigo-600/80 hover:bg-indigo-500 text-white font-medium">Salvar</button>
               </div>
             </div>
-          ) : a.note ? (
+          ) : a.note && !rejected ? (
             <p className="mt-1 text-[11px] text-slate-400 italic leading-snug whitespace-pre-wrap">
               &ldquo;{a.note}&rdquo;
             </p>
@@ -1860,6 +1890,44 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
           </div>
 
           <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-3">
+            {/* Para aprovar: a peça que está valendo, sempre no topo. Reprovada /
+                com alteração sai daqui e fica no andamento com o pedido em cima. */}
+            {(() => {
+              const seen = new Set<string>();
+              const atuais: { i: number; a: any }[] = [];
+              comments.forEach((c: any, i: number) => {
+                if (c.by === "client") return;
+                for (const a of c.attachments ?? []) {
+                  if (seen.has(a.id) || isRejected(a.status)) continue;
+                  seen.add(a.id);
+                  atuais.push({ i, a });
+                }
+              });
+              if (!atuais.length) return null;
+              atuais.sort((x, y) => fileCollator.compare(x.a.fileName, y.a.fileName));
+              const rejeitadas = comments.reduce(
+                (n: number, c: any) => n + (c.by === "client" ? 0 : (c.attachments ?? []).filter((a: any) => isRejected(a.status)).length), 0);
+              return (
+                <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/[0.04] p-2.5 space-y-1.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[11px] font-bold uppercase tracking-wide text-indigo-200">📌 Para aprovar ({atuais.length})</span>
+                    {rejeitadas > 0 && (
+                      <span className="text-[10px] text-orange-300/80">{rejeitadas} com alteração ↓ no andamento</span>
+                    )}
+                  </div>
+                  {atuais.map(({ i, a }) => (
+                    <CommentAttachmentCard
+                      key={a.id}
+                      a={a}
+                      libraryClientId={clientId}
+                      onUpdate={(patch) => updateAttachment(i, a.id, patch)}
+                      onRemove={() => removeAttachmentFromComment(i, a.id)}
+                    />
+                  ))}
+                </div>
+              );
+            })()}
+
             {/* Log da tarefa — compacto */}
             <div className="text-[11px] text-slate-500 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 space-y-0.5">
               <div>Aberta em <span className="text-slate-300 tabular-nums">{fmt(task.createdAt)}</span></div>
@@ -1938,18 +2006,28 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                         {/* Anexos do comentário (snapshot no JSON — binário no MinIO).
                             Cada um tem status (nova/aguardando/alteração/aprovada/reprovada)
                             + nota opcional. Só editável se o autor foi a equipe. */}
+                        {/* Imagem que está valendo mora no "Para aprovar" lá em cima —
+                            aqui vira só uma linha. Reprovada fica inteira, com o pedido. */}
                         {!!(c as any).attachments?.length && (
                           <div className={`space-y-1.5 ${c.text ? "mt-2" : ""}`}>
-                            {((c as any).attachments as any[]).map((a) => (
-                              <CommentAttachmentCard
-                                key={a.id}
-                                a={a}
-                                editable={!fromClient}
-                                libraryClientId={clientId}
-                                onUpdate={(patch) => updateAttachment(i, a.id, patch)}
-                                onRemove={() => removeAttachmentFromComment(i, a.id)}
-                              />
-                            ))}
+                            {((c as any).attachments as any[]).map((a) =>
+                              fromClient || isRejected(a.status) ? (
+                                <CommentAttachmentCard
+                                  key={a.id}
+                                  a={a}
+                                  editable={!fromClient}
+                                  libraryClientId={clientId}
+                                  onUpdate={(patch) => updateAttachment(i, a.id, patch)}
+                                  onRemove={() => removeAttachmentFromComment(i, a.id)}
+                                />
+                              ) : (
+                                <div key={a.id} className="flex items-center gap-1.5 text-[11px] text-slate-400">
+                                  <span>📎</span>
+                                  <span className="truncate">{a.fileName}</span>
+                                  <span className="text-slate-600 shrink-0">· em Para aprovar ↑</span>
+                                </div>
+                              ),
+                            )}
                           </div>
                         )}
                         {/* Links do comentário — mesma UI dos Links da tarefa */}

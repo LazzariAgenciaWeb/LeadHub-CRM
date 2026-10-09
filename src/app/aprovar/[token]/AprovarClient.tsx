@@ -449,7 +449,7 @@ export default function AprovarClient(p: Props) {
                 {p.files.length > 1 && (
                   <input
                     className="f"
-                    placeholder={`Ajuste só no arquivo ${idx + 1}? Escreva aqui (opcional)`}
+                    placeholder={`Ajuste no arquivo ${idx + 1}? Escreva aqui — arquivo sem recado conta como aprovado`}
                     value={notes[p.files[idx]?.id] ?? ""}
                     onChange={(e) => setNotes((n) => ({ ...n, [p.files[idx].id]: e.target.value }))}
                   />

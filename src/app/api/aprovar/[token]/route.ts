@@ -54,6 +54,14 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
   // observação vão em cada anexo dela, em qualquer andamento.
   const piece = await pieceFileIds(task);
   const inPiece = new Set(piece);
+  // Ajuste com recado em imagens específicas: só ELAS vão pra alteração; as
+  // outras o cliente viu no carrossel e não apontou nada → aprovadas. Sem
+  // recado por imagem (só texto geral), não dá pra saber qual → todas.
+  const porImagem = [...notes.keys()].some((k) => inPiece.has(k));
+  const statusDe = (fid: string) =>
+    action === "approve" ? ("aprovada" as const)
+    : !porImagem || notes.has(fid) ? ("alteracao" as const)
+    : ("aprovada" as const);
   const existing = readComments(task.comments);
   const updated = existing.map((c) =>
     c.by !== "client" && c.attachments?.some((a) => inPiece.has(a.id))
@@ -63,7 +71,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
             inPiece.has(a.id)
               ? {
                   ...a,
-                  status: action === "approve" ? ("aprovada" as const) : ("alteracao" as const),
+                  status: statusDe(a.id),
                   ...(notes.has(a.id) ? { note: notes.get(a.id)! } : {}),
                 }
               : a,
