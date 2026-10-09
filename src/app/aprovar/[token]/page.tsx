@@ -59,44 +59,85 @@ async function load(token: string) {
     ...comments.filter((c) => c.by !== "client").flatMap((c) => c.links ?? []).map((l) => ({ url: l.url, title: l.title ?? "" })),
   ].filter((l) => /^https?:\/\//i.test(l.url) && !seen.has(l.url) && !!seen.add(l.url));
 
-  // Retornos do cliente, cada um ligado à VERSÃO que ele estava vendo (rodada
-  // aberta pelo último "Enviar pra aprovação" antes dele). Notas da equipe
-  // ficam fora: são de produção (arquivos, pastas, "ignorar v3") e confundiam
-  // o cliente — o recado pra ele é o descritivo/legenda da peça.
+  // Linha do tempo da peça, em ordem: cada envio de versão (com as artes que
+  // foram), as mensagens da equipe (com anexos) e os retornos do cliente.
+  // Cada item leva a versão em que aconteceu. Textos em destaque (📌) sobem
+  // pro bloco "Para aprovar" e não repetem aqui; o eco "[Cliente]" já saiu em
+  // clientComments. Nota que não deve aparecer → 🔒 na tarefa.
   const sends = await prisma.projectTaskEvent.findMany({
     where:   { taskId: task.id, type: "APPROVAL_SENT" },
     orderBy: { createdAt: "asc" },
-    select:  { createdAt: true, toText: true },
+    select:  { createdAt: true, toText: true, fromText: true },
   });
+  const roundOf = (s: { toText: string | null }, fallback: number) =>
+    Number(/Rodada (\d+)/.exec(s.toText ?? "")?.[1]) || fallback;
   const roundAt = (iso: string) => {
     const t = new Date(iso).getTime();
     let r = 0;
     for (const s of sends) {
       if (s.createdAt.getTime() > t) break;
-      r = Number(/Rodada (\d+)/.exec(s.toText ?? "")?.[1]) || r + 1;
+      r = roundOf(s, r + 1);
     }
     return r || null;
   };
-  // Conversa inteira (equipe + cliente) em ordem, com a versão de cada
-  // mensagem. Legenda e lembretes da equipe costumam estar aqui — não podem
-  // sumir. Fora: a própria versão (já aparece como recado/legenda) e os
-  // andamentos só de arquivo. Nota que a equipe não quer mostrar → marcar 🔒.
-  const history = comments
-    .filter((c) => c.text?.trim() && c !== version)
-    .slice(-20)
-    .map((c) => {
-      const client = c.by === "client";
-      return {
-        text: client ? c.text.replace(/^(✓ Aprovado|✎ Ajuste pedido) por [^\n]+\n?/, "").trim() : c.text,
-        who:  client ? (/^(?:✓ Aprovado|✎ Ajuste pedido) por ([^\n]+)/.exec(c.text)?.[1] ?? null) : null,
-        kind: !client ? "team" as const
-          : c.text.startsWith("✓ Aprovado") ? "approve" as const
-          : c.text.startsWith("✎ Ajuste pedido") ? "adjust" as const
-          : "note" as const,
-        at:   c.at,
-        round: roundAt(c.at),
-      };
+
+  // Só miniatura de arquivo que existe e o cliente pode ver.
+  const ready = await prisma.storageObject.findMany({
+    where:  { projectTaskId: task.id, status: "READY" },
+    select: { id: true, fileName: true, mimeType: true },
+  });
+  const readyById = new Map(ready.map((o) => [o.id, o]));
+  const thumbs = (ids: string[]) =>
+    ids
+      .filter((id) => readyById.has(id) && fileVisibleToClient(task.comments, id))
+      .map((id) => readyById.get(id)!)
+      .sort((x, y) => x.fileName.localeCompare(y.fileName, "pt-BR", { numeric: true }));
+
+  type Item = {
+    kind: "sent" | "team" | "approve" | "adjust" | "note";
+    text: string; who: string | null; at: string; round: number | null;
+    files: { id: string; fileName: string; mimeType: string }[];
+  };
+  const items: Item[] = [];
+  const roundsShown = new Set<number>();
+  sends.forEach((s, i) => {
+    const r = roundOf(s, i + 1);
+    if (roundsShown.has(r)) return; // reenvio da mesma versão não repete
+    roundsShown.add(r);
+    items.push({
+      kind: "sent", text: "", who: null, at: s.createdAt.toISOString(), round: r,
+      files: thumbs((s.fromText ?? "").split(",").filter(Boolean)),
     });
+  });
+  // Arquivos que já aparecem num "Enviada pra aprovação": o andamento só de
+  // anexo (sem texto) com eles não repete as mesmas miniaturas.
+  const sentIds = new Set(items.flatMap((it) => it.files.map((f) => f.id)));
+  for (const c of comments) {
+    if (c.hl) continue;
+    const client = c.by === "client";
+    const all = client ? [] : thumbs((c.attachments ?? []).map((x) => x.id));
+    // Mesmas artes de um envio: o texto fica, as miniaturas não repetem.
+    const files = all.every((f) => sentIds.has(f.id)) ? [] : all;
+    if (!c.text?.trim() && !files.length) continue;
+    items.push({
+      kind: !client ? "team"
+        : c.text.startsWith("✓ Aprovado") ? "approve"
+        : c.text.startsWith("✎ Ajuste pedido") ? "adjust"
+        : "note",
+      text: client ? c.text.replace(/^(✓ Aprovado|✎ Ajuste pedido) por [^\n]+\n?/, "").trim() : c.text,
+      who:  client ? (/^(?:✓ Aprovado|✎ Ajuste pedido) por ([^\n]+)/.exec(c.text)?.[1] ?? null) : null,
+      at:   c.at,
+      round: roundAt(c.at),
+      files,
+    });
+  }
+  items.sort((x, y) => new Date(x.at).getTime() - new Date(y.at).getTime());
+  const history = items.slice(-30);
+
+  // Bloco "Para aprovar": textos que a equipe destacou (legenda, roteiro…).
+  const highlights = comments
+    .filter((c) => c.by !== "client" && c.hl && c.text?.trim())
+    .map((c) => ({ text: c.text, at: c.at }));
 
   // Da 2ª rodada em diante: o que o cliente (ou a equipe por ele) marcou como
   // alteração/reprovada nas versões anteriores, com o pedido — pra ele conferir
@@ -113,7 +154,7 @@ async function load(token: string) {
         .sort((x, y) => x.fileName.localeCompare(y.fileName, "pt-BR", { numeric: true }))
     : [];
 
-  return { task, files, links, history, previous, versionText: version?.text ?? "" };
+  return { task, files, links, history, highlights, previous, versionText: version?.text ?? "" };
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ token: string }> }): Promise<Metadata> {
@@ -147,7 +188,7 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
     );
   }
 
-  const { task, files, links, history, previous, versionText } = data;
+  const { task, files, links, history, highlights, previous, versionText } = data;
   return (
     <AprovarClient
       token={token}
@@ -175,6 +216,7 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
         color:   task.project.setor.company.brandColor,
       }}
       history={history}
+      highlights={highlights}
     />
   );
 }

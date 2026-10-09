@@ -152,7 +152,9 @@ export async function POST(
       ...(task.status !== "AGUARDANDO_CLIENTE"
         ? [{ taskId, projectId: id, type: "STATUS", fromText: task.status, toText: "AGUARDANDO_CLIENTE", authorId: userId ?? null, authorName: userName ?? null }]
         : []),
-      { taskId, projectId: id, type: "APPROVAL_SENT", toText: `Rodada ${round}${sameRound ? " · reenviada" : ""}${send ? " · no grupo" : " · link gerado"}`, authorId: userId ?? null, authorName: userName ?? null },
+      // fromText = arquivos desta rodada (ids) — a linha do tempo do cliente
+      // mostra as miniaturas do que foi enviado em cada versão.
+      { taskId, projectId: id, type: "APPROVAL_SENT", fromText: fileIds.join(","), toText: `Rodada ${round}${sameRound ? " · reenviada" : ""}${send ? " · no grupo" : " · link gerado"}`, authorId: userId ?? null, authorName: userName ?? null },
     ],
   }).catch(() => {});
 

@@ -111,6 +111,7 @@ type InternalTask = {
     at: string;
     by?: "client";
     vis?: boolean;
+    hl?: boolean;
     attachments?: { id: string; fileName: string; mimeType: string; size?: number }[];
     links?: { url: string; title?: string }[];
   }[];
@@ -1949,18 +1950,36 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                   atuais.push({ i, a });
                 }
               });
-              if (!atuais.length) return null;
+              const destaques = comments
+                .map((c: any, i: number) => ({ c, i }))
+                .filter(({ c }) => c.by !== "client" && c.hl && c.text?.trim());
+              if (!atuais.length && !destaques.length) return null;
               atuais.sort((x, y) => fileCollator.compare(x.a.fileName, y.a.fileName));
               const rejeitadas = comments.reduce(
                 (n: number, c: any) => n + (c.by === "client" ? 0 : (c.attachments ?? []).filter((a: any) => isRejected(a.status)).length), 0);
               return (
                 <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/[0.04] p-2.5 space-y-1.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wide text-indigo-200">📌 Para aprovar ({atuais.length})</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wide text-indigo-200">📌 Para aprovar ({atuais.length + destaques.length})</span>
                     {rejeitadas > 0 && (
                       <span className="text-[10px] text-orange-300/80">{rejeitadas} com alteração ↓ no andamento</span>
                     )}
                   </div>
+                  {destaques.map(({ c, i }) => (
+                    <div key={`hl-${i}`} className="rounded-md border border-indigo-400/30 bg-[#0f1729] px-2.5 py-2">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <span className="text-[10px] font-bold uppercase tracking-wide text-indigo-300">Texto em destaque{c.vis === false ? " · 🔒 interno" : ""}</span>
+                        <button
+                          onClick={() => persistComments(comments.map((x, idx) => (idx === i ? { ...x, hl: false } : x)))}
+                          className="text-[10px] font-semibold text-slate-500 hover:text-white"
+                          title="Tirar do destaque"
+                        >
+                          tirar destaque
+                        </button>
+                      </div>
+                      <RichMessageBody text={c.text} className="text-[13px] text-slate-200 leading-relaxed" linkClassName="text-indigo-300 underline break-all" />
+                    </div>
+                  ))}
                   {atuais.map(({ i, a }) => (
                     <CommentAttachmentCard
                       key={a.id}
@@ -2022,11 +2041,21 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                     const c = comments[i];
                     const fromClient = (c as any).by === "client";
                     const internal = (c as any).vis === false;
+                    const destacada = !fromClient && (c as any).hl === true;
                     return (
-                      <div key={i} className={`group/cm rounded-lg border px-3 py-2 ${fromClient ? "border-amber-500/30 bg-amber-500/5" : internal ? "border-slate-700 bg-[#0b0f18]" : "border-[#1e2d45] bg-[#0f1729]"}`}>
+                      <div key={i} className={`group/cm rounded-lg border px-3 py-2 ${fromClient ? "border-amber-500/30 bg-amber-500/5" : destacada ? "border-indigo-400/50 bg-indigo-500/[0.07]" : internal ? "border-slate-700 bg-[#0b0f18]" : "border-[#1e2d45] bg-[#0f1729]"}`}>
                         <div className="flex items-center justify-between gap-2 mb-1">
-                          <span className={`text-[11px] font-bold ${fromClient ? "text-amber-300" : internal ? "text-slate-400" : "text-indigo-300"}`}>{fromClient ? "Cliente" : "Equipe"}{internal && !fromClient ? " · 🔒 interno" : ""}</span>
+                          <span className={`text-[11px] font-bold ${fromClient ? "text-amber-300" : internal ? "text-slate-400" : "text-indigo-300"}`}>{fromClient ? "Cliente" : "Equipe"}{internal && !fromClient ? " · 🔒 interno" : ""}{destacada ? " · 📌 em destaque" : ""}</span>
                           <div className="flex items-center gap-2">
+                            {!fromClient && !!c.text?.trim() && (
+                              <button
+                                onClick={() => persistComments(comments.map((x, idx) => (idx === i ? { ...x, hl: !destacada } : x)))}
+                                className={`text-[10px] font-semibold ${destacada ? "text-indigo-300 hover:text-white" : "text-slate-500 hover:text-indigo-300 opacity-0 group-hover/cm:opacity-100"}`}
+                                title={destacada ? "Tirar do destaque" : "Destacar em “Para aprovar” (legenda, texto a aprovar) — aqui e no link do cliente"}
+                              >
+                                {destacada ? "📌 tirar destaque" : "📌 destacar"}
+                              </button>
+                            )}
                             {!fromClient && (
                               <button onClick={() => persistComments(comments.map((x, idx) => (idx === i ? { ...x, vis: internal ? true : false } : x)))} className="text-[10px] font-semibold text-slate-500 hover:text-emerald-300 opacity-0 group-hover/cm:opacity-100" title={internal ? "Mostrar pro cliente" : "Deixar só interno"}>{internal ? "mostrar" : "ocultar"}</button>
                             )}

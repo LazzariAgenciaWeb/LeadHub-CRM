@@ -67,6 +67,9 @@ export type TaskComment = {
   at: string;
   by?: "client";
   vis?: boolean;
+  // Destaque (📌): legenda/texto que o cliente precisa aprovar. Sobe pro bloco
+  // "Para aprovar" no topo — no andamento da equipe e no link do cliente.
+  hl?: boolean;
   cid?: string;
   // Anexos/links atrelados a este comentário — resolvem o rastro de "essa
   // imagem veio nesta alteração pedida em X data". Os anexos são snapshots
@@ -97,6 +100,7 @@ export function sanitizeComments(raw: unknown): TaskComment[] | null {
     const c: TaskComment = { text, at };
     if ((it as any).by === "client") c.by = "client"; // resposta do cliente
     if ((it as any).vis === false) c.vis = false; // marcado como interno
+    if ((it as any).hl === true) c.hl = true; // em destaque ("Para aprovar")
     if (typeof (it as any).cid === "string" && (it as any).cid) c.cid = (it as any).cid; // id no ClickUp
     if (hasAttach) {
       const atts: TaskCommentAttachment[] = [];

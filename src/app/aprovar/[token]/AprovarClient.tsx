@@ -30,7 +30,11 @@ type Props = {
   previous: ApprovalFile[];
   links: { url: string; title: string }[];
   brand: { name: string; logoUrl: string | null; color: string | null };
-  history: { text: string; who: string | null; kind: "approve" | "adjust" | "note" | "team"; at: string; round: number | null }[];
+  history: {
+    text: string; who: string | null; kind: "sent" | "approve" | "adjust" | "note" | "team"; at: string; round: number | null;
+    files: { id: string; fileName: string; mimeType: string }[];
+  }[];
+  highlights: { text: string; at: string }[];
   /** URL dos prints do descritivo, com `__ID__` no lugar do id do material. */
   mediaBase: string;
 };
@@ -111,6 +115,15 @@ h1{font-size:clamp(22px,2.4vw,30px);line-height:1.25;margin:10px 0 4px;letter-sp
 .msg.note{align-self:stretch;max-width:100%;background:rgba(110,134,255,.10);border:1px solid rgba(110,134,255,.3)}
 .msg.team{align-self:stretch;max-width:100%;background:var(--card);border:1px solid var(--line)}
 .msg.team .mh{color:var(--ink2)}
+.msg.sent{align-self:stretch;max-width:100%;background:color-mix(in srgb,var(--accent) 8%,transparent);border:1px dashed color-mix(in srgb,var(--accent) 45%,transparent)}
+.msg.sent .mh{color:var(--accent)}
+.thumbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.thumbs a{display:block;width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--line2);background:#000;position:relative}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.thumbs span{position:absolute;inset:0;display:grid;place-items:center;font-size:10px;color:var(--ink2);text-transform:uppercase}
+.hlbox{border-color:color-mix(in srgb,var(--accent) 50%,transparent);background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.hlbox h3{color:var(--accent)}
+.hlbox .hlitem+.hlitem{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .msg .mh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;font-size:12px;font-weight:700}
 .msg.adjust .mh{color:var(--warn)}
 .msg.approve .mh{color:var(--ok)}
@@ -422,6 +435,14 @@ export default function AprovarClient(p: Props) {
 
           </div>
           <div className="cinfo">
+        {p.highlights.length > 0 && (
+          <div className="card hlbox">
+            <h3>📌 Para aprovar</h3>
+            {p.highlights.map((h, i) => (
+              <div key={i} className="hlitem pre" style={{ color: "var(--ink)" }}>{h.text}</div>
+            ))}
+          </div>
+        )}
         {p.previous.length > 0 && (
           <div className="card prev">
             <h3>O que você pediu na versão anterior</h3>
@@ -459,12 +480,6 @@ export default function AprovarClient(p: Props) {
           </div>
         )}
 
-        {p.versionText.trim() && (
-          <div className="card">
-            <h3>Recado da equipe / legenda</h3>
-            <div className="pre">{p.versionText}</div>
-          </div>
-        )}
         {p.files.length > 0 && p.description?.trim() && (
           <div className="card">
             <h3>Sobre a peça</h3>
@@ -474,16 +489,34 @@ export default function AprovarClient(p: Props) {
 
         {p.history.length > 0 && (
           <div className="card">
-            <h3>Conversa sobre esta peça</h3>
+            <h3>Linha do tempo da peça</h3>
             <div className="hist">
               {p.history.map((h, i) => (
                 <div key={i} className={`msg ${h.kind}`}>
                   <div className="mh">
                     {h.round && <span className="ver">Versão {h.round}</span>}
-                    <span>{h.kind === "approve" ? "✓ Você aprovou" : h.kind === "adjust" ? "✎ Você pediu ajuste" : h.kind === "team" ? p.brand.name : "Você comentou"}</span>
+                    <span>
+                      {h.kind === "sent" ? "📣 Enviada pra aprovação"
+                        : h.kind === "approve" ? "✓ Você aprovou"
+                        : h.kind === "adjust" ? "✎ Você pediu ajuste"
+                        : h.kind === "team" ? p.brand.name
+                        : "Você comentou"}
+                    </span>
                   </div>
                   {h.text && <div>{h.text}</div>}
-                  <small>{h.kind === "team" ? "Equipe" : (h.who ?? "Você")} · {fmt(h.at)}</small>
+                  {h.files.length > 0 && (
+                    <div className="thumbs">
+                      {h.files.map((f) => (
+                        <a key={f.id} href={fileUrl(f.id)} target="_blank" rel="noopener noreferrer" title={f.fileName}>
+                          {/^image\//i.test(f.mimeType)
+                            // eslint-disable-next-line @next/next/no-img-element
+                            ? <img src={fileUrl(f.id)} alt={f.fileName} loading="lazy" />
+                            : <span>{f.fileName.split(".").pop()}</span>}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                  <small>{h.kind === "sent" ? `${h.files.length} arquivo${h.files.length === 1 ? "" : "s"}` : h.kind === "team" ? "Equipe" : (h.who ?? "Você")} · {fmt(h.at)}</small>
                 </div>
               ))}
             </div>
