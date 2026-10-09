@@ -10,7 +10,7 @@ type Att = { id: string; title: string; extension: string; size: number; thumbna
  * trazer pro LeadHub (aí entra na peça do link de aprovação). O caminho
  * inverso é automático: arquivo subido aqui vai pro ClickUp sozinho.
  */
-export default function ClickupAttachments({ projectId, taskId, onImported }: { projectId: string; taskId: string; onImported: () => void }) {
+export default function ClickupAttachments({ projectId, taskId, onImported, refreshKey = 0 }: { projectId: string; taskId: string; onImported: () => void; refreshKey?: number }) {
   const [list, setList] = useState<Att[] | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [sel, setSel] = useState<Set<string>>(new Set());
@@ -25,7 +25,7 @@ export default function ClickupAttachments({ projectId, taskId, onImported }: { 
     setList(d.attachments ?? []);
   }
   // eslint-disable-next-line react-hooks/set-state-in-effect, react-hooks/exhaustive-deps
-  useEffect(() => { void load(); }, [projectId, taskId]);
+  useEffect(() => { void load(); }, [projectId, taskId, refreshKey]);
 
   async function bring(ids: string[] | null) {
     setBusy(true);

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
-import { getClickupSettings, fetchClickupTasks, fetchClickupTaskDescription, fetchClickupTaskComments } from "@/lib/clickup";
-import { readComments, sanitizeComments } from "@/lib/checklist";
+import { getClickupSettings, fetchClickupTasks } from "@/lib/clickup";
+import { pullClickupIntoTask, LINKED_TASK_SELECT } from "@/lib/project-task-pull";
 import { syncProjectTasks } from "@/lib/gamification";
 import { mirrorClickupTasks } from "@/lib/project-mirror";
 import { assertModule } from "@/lib/billing";
@@ -56,66 +56,13 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   // internas VINCULADAS (importadas/espelhadas). Não cria novas — só atualiza.
   const linked = await prisma.projectTask.findMany({
     where:  { projectId: id, clickupTaskId: { not: null } },
-    select: { id: true, clickupTaskId: true, comments: true, description: true, updatedAt: true },
+    select: LINKED_TASK_SELECT,
   });
   if (linked.length) {
     const byId = new Map(tasks.map((t) => [t.id, t]));
     for (const lt of linked) {
       const src = byId.get(lt.clickupTaskId!);
-      if (!src) continue;
-
-      // "Quem venceu a corrida" — só sobrescreve campos editáveis (título, prazo,
-      // início, descritivo) quando o ClickUp foi atualizado DEPOIS da última
-      // edição no LeadHub. Se o Diego editou no LeadHub e o ClickUp está mais
-      // velho, preserva a edição local.
-      const remoteMs = src.dateUpdated ?? 0;
-      const localMs  = lt.updatedAt.getTime();
-      const remoteWins = remoteMs > localMs;
-
-      // Descritivo: puxa quando o remote é mais novo OU quando ainda não há
-      // descritivo local (caso das tarefas recém-espelhadas — nascem sem descrição
-      // e precisam preencher já nesta sync). Best-effort — 1 chamada por tarefa.
-      const noLocalDesc = !lt.description || !lt.description.trim();
-      let desc: string | null = null;
-      if (remoteWins || noLocalDesc) {
-        try { desc = (await fetchClickupTaskDescription(settings.apiToken, lt.clickupTaskId!)) || null; } catch { /* silencioso */ }
-      }
-      // Comentários do ClickUp → atualizações do cliente. Merge deduplicado por
-      // texto+data; comentários do cliente (by:"client") nunca colidem (não vão
-      // pro ClickUp). Ordena cronologicamente. Comentários sempre mergam
-      // (independente de "quem venceu"): comentário é append-only.
-      let mergedComments: ReturnType<typeof sanitizeComments> = undefined as any;
-      try {
-        const cmts = await fetchClickupTaskComments(settings.apiToken, lt.clickupTaskId!);
-        const existing = readComments(lt.comments);
-        const seen = new Set(existing.map((c) => `${c.text}|${c.at}`));
-        const seenCid = new Set(existing.map((c) => c.cid).filter(Boolean));
-        // pula os que já temos (por id do ClickUp — inclui os que o LeadHub empurrou,
-        // evitando eco) ou por texto+data (comentários antigos sem cid).
-        const fresh = cmts.filter((c) => !(c.cid && seenCid.has(c.cid)) && !seen.has(`${c.text}|${c.at}`));
-        if (fresh.length) {
-          mergedComments = sanitizeComments(
-            [...existing, ...fresh].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime()),
-          );
-        }
-      } catch { /* silencioso */ }
-
-      await prisma.projectTask.update({
-        where: { id: lt.id },
-        data: {
-          // Campos que respeitam "quem venceu" — não sobrescrevem edição local.
-          ...(remoteWins && src.name ? { title: src.name } : {}),
-          ...(desc ? { description: desc } : {}),
-          ...(remoteWins ? { dueDate:   src.dueDate   != null ? new Date(src.dueDate)   : null } : {}),
-          ...(remoteWins ? { startDate: src.startDate != null ? new Date(src.startDate) : null } : {}),
-          // done é sempre alinhado com o ClickUp (idempotente e não conflita:
-          // concluir no LeadHub já foi empurrado pro ClickUp via markClickupTaskDone).
-          done: src.isCompleted,
-          completedAt: src.isCompleted ? new Date() : null,
-          // Comentários mergados (append-only).
-          ...(mergedComments ? { comments: mergedComments } : {}),
-        },
-      }).catch(() => {});
+      if (src) await pullClickupIntoTask(settings.apiToken, lt, src);
     }
   }
 

@@ -1416,6 +1416,36 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   const [visible, setVisible] = useState(task.visibleToClient);
   const [pushing, setPushing] = useState(false);
 
+  // Sincroniza SÓ esta tarefa com o ClickUp (título, datas, descritivo,
+  // comentários, conclusão + imagens novas) — sem rodar o projeto inteiro.
+  const [syncing, setSyncing] = useState(false);
+  const [syncMsg, setSyncMsg] = useState<string | null>(null);
+  async function syncFromClickup() {
+    if (syncing) return;
+    setSyncing(true);
+    setSyncMsg(null);
+    const res = await fetch(`/api/projetos/${projectId}/tasks/${task.id}/sync-clickup`, { method: "POST" }).catch(() => null);
+    const d = await res?.json().catch(() => null);
+    setSyncing(false);
+    if (!res?.ok) { setSyncMsg(d?.error ?? "Falha ao sincronizar"); return; }
+    const t = d?.task;
+    if (t) {
+      setTitle(t.title);
+      setDescription(t.description ?? "");
+      setStartDate(t.startDate ? t.startDate.slice(0, 10) : "");
+      setDueDate(t.dueDate ? t.dueDate.slice(0, 10) : "");
+      setTaskStatus(t.status);
+      setComments(t.comments ?? []);
+    }
+    setAttachRefreshKey((k) => k + 1);
+    void loadEvents();
+    router.refresh();
+    setSyncMsg(d?.warning
+      ? `Sincronizada · imagens: ${d.warning}`
+      : d?.images ? `Sincronizada · ${d.images} imagem${d.images > 1 ? "ns" : ""} nova${d.images > 1 ? "s" : ""}` : "Sincronizada ✓");
+    setTimeout(() => setSyncMsg(null), 5000);
+  }
+
   async function pushToClickup() {
     setPushing(true);
     await fetch(`/api/projetos/${projectId}/tasks/${task.id}/push-clickup`, { method: "POST" }).catch(() => {});
@@ -1734,15 +1764,30 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
           </button>
           {hasClickup && (
             task.clickupTaskId ? (
-              <a
-                href={`https://app.clickup.com/t/${task.clickupTaskId}`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#7b68ee]/40 bg-[#7b68ee]/10 text-[11px] font-semibold text-[#b9aefb] hover:bg-[#7b68ee]/20"
-                title="Sincroniza nos dois sentidos"
-              >
-                <RefreshCw className="w-3 h-3" /> ClickUp <ExternalLink className="w-2.5 h-2.5" />
-              </a>
+              <div className="flex items-center gap-1.5">
+                {syncMsg && <span className="text-[11px] text-[#b9aefb]">{syncMsg}</span>}
+                <div className="flex items-center rounded-full border border-[#7b68ee]/40 bg-[#7b68ee]/10 text-[11px] font-semibold text-[#b9aefb] overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={syncFromClickup}
+                    disabled={syncing}
+                    className="flex items-center gap-1.5 pl-2.5 pr-2 py-1 hover:bg-[#7b68ee]/20 disabled:opacity-60"
+                    title="Puxa do ClickUp só esta tarefa: título, datas, descritivo, comentários e imagens novas"
+                  >
+                    <RefreshCw className={`w-3 h-3 ${syncing ? "animate-spin" : ""}`} />
+                    {syncing ? "Sincronizando…" : "Sincronizar"}
+                  </button>
+                  <a
+                    href={`https://app.clickup.com/t/${task.clickupTaskId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-1 pl-2 pr-2.5 py-1 border-l border-[#7b68ee]/30 hover:bg-[#7b68ee]/20"
+                    title="Abrir no ClickUp"
+                  >
+                    ClickUp <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
+                </div>
+              </div>
             ) : (
               <button
                 type="button"
@@ -1796,6 +1841,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
             <ClickupAttachments
               projectId={projectId}
               taskId={task.id}
+              refreshKey={attachRefreshKey}
               onImported={() => { setAttachRefreshKey((k) => k + 1); void loadEvents(); router.refresh(); }}
             />
           )}
