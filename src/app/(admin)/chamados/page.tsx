@@ -2,6 +2,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getViewer, ticketVisibilityWhere } from "@/lib/visibility";
 import TicketsBoard from "./TicketsBoard";
+import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
 const DEFAULT_STAGES = [
   { id: "d0", name: "Novo",               color: "#6366f1", order: 0, isFinal: false },
@@ -20,6 +21,9 @@ export default async function ChamadosPage({
   const session = await getEffectiveSession();
   const isSuperAdmin = (session?.user as any)?.role === "SUPER_ADMIN";
   const userCompanyId = (session?.user as any)?.companyId as string | undefined;
+
+  // Super admin sem impersonar: chamados são por empresa — pede o cliente primeiro.
+  if (isSuperAdmin) return <SuperAdminCompanyGate title="Chamados" />;
 
   const sp = await searchParams;
   const filterCompanyId = isSuperAdmin ? (sp.companyId ?? "") : (userCompanyId ?? "");

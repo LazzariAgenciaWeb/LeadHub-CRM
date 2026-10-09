@@ -2,12 +2,15 @@ import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import InstagramManager from "./InstagramManager";
+import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
 export const metadata = { title: "Instagram · LeadHub" };
 
 export default async function InstagramPage() {
   const session = await getEffectiveSession();
   if (!session) redirect("/login");
+
+  if ((session.user as any)?.role === "SUPER_ADMIN") return <SuperAdminCompanyGate title="Instagram" />;
 
   const gate = await assertModule(session, "instagram");
   if (!gate.ok) {

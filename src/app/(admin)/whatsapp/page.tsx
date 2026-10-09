@@ -31,6 +31,15 @@ export default async function WhatsappPage({
     instanceWhere.id = { in: perms.instanceIds };
   }
 
+  // Super admin na visão global: tira também as instâncias que ele escolheu
+  // esconder (mesma lista usada pra filtrar as conversas, logo abaixo).
+  const hiddenInstanceIds = await getHiddenInstanceIds(session);
+  if (isSuperAdmin && hiddenInstanceIds.length > 0) {
+    instanceWhere.id = instanceWhere.id
+      ? { in: (instanceWhere.id.in as string[]).filter((id) => !hiddenInstanceIds.includes(id)) }
+      : { notIn: hiddenInstanceIds };
+  }
+
   const instances = await prisma.whatsappInstance.findMany({
     where: instanceWhere,
     select: {
@@ -62,7 +71,6 @@ export default async function WhatsappPage({
 
   // Visibilidade: esconde conversas de instâncias privadas de outro dono e as
   // bloqueadas (syncBlocked). Vale pra todos, inclusive admins.
-  const hiddenInstanceIds = await getHiddenInstanceIds(session);
   convFilter.AND = [
     ...(convFilter.AND ?? []),
     ...conversationVisibilityAnd({ hiddenIds: hiddenInstanceIds }),
@@ -257,6 +265,7 @@ export default async function WhatsappPage({
 
   return (
     <WhatsappManager
+      canManageVisibleInstances={isSuperAdmin}
       instances={instances as any}
       isSuperAdmin={isSuperAdmin}
       defaultCompanyId={companyId}

@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import EmailInbox from "./EmailInbox";
+import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
 export const metadata = { title: "E-mail · LeadHub" };
 export const dynamic = "force-dynamic";
@@ -9,6 +10,8 @@ export const dynamic = "force-dynamic";
 export default async function EmailInboxPage() {
   const session = await getEffectiveSession();
   if (!session) redirect("/login");
+
+  if ((session.user as any)?.role === "SUPER_ADMIN") return <SuperAdminCompanyGate title="E-mail" />;
 
   const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) {

@@ -5,6 +5,7 @@ import RelatoriosDashboard from "./RelatoriosDashboard";
 import RelatoriosNav from "./RelatoriosNav";
 import RelatoriosMarketing from "./RelatoriosMarketing";
 import RelatoriosFunil, { type StageStat, type FunnelData } from "./RelatoriosFunil";
+import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
 export default async function RelatoriosPage({
   searchParams,
@@ -16,6 +17,9 @@ export default async function RelatoriosPage({
 
   const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
   const userCompanyId = (session.user as any)?.companyId as string | undefined;
+
+  // Super admin sem impersonar: relatório é por empresa — pede o cliente primeiro.
+  if (isSuperAdmin) return <SuperAdminCompanyGate title="Relatórios" />;
 
   const sp = await searchParams;
   const secao = sp.secao ?? "geral";

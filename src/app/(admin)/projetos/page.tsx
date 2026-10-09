@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import ProjetosBoard from "./ProjetosBoard";
 import SyncAllButton from "./SyncAllButton";
+import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,9 @@ export default async function ProjetosPage({
   const userId        = (session.user as any).id as string | undefined;
   const userCompanyId = (session.user as any).companyId as string | undefined;
   const isSuperAdmin  = role === "SUPER_ADMIN";
+
+  // Super admin sem impersonar: projetos são por empresa — pede o cliente primeiro.
+  if (isSuperAdmin) return <SuperAdminCompanyGate title="Projetos" />;
 
   const sp = await searchParams;
   const filterCompanyId = isSuperAdmin ? (sp.companyId ?? "") : (userCompanyId ?? "");

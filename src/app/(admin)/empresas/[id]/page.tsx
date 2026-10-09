@@ -1,6 +1,4 @@
 import { redirect, notFound } from "next/navigation";
-import { cookies } from "next/headers";
-import { IMPERSONATE_COOKIE } from "@/lib/effective-session";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -41,14 +39,9 @@ export default async function EmpresaDetailPage({
   // prevent auto-exit and hide the module editing controls.
   const isSuperAdmin = realRole === "SUPER_ADMIN";
 
-  // SUPER_ADMIN: clear impersonation so the page shows real SUPER_ADMIN context
-  if (isSuperAdmin) {
-    const cookieStore = await cookies();
-    const impersonating = cookieStore.get(IMPERSONATE_COOKIE)?.value;
-    if (impersonating) {
-      redirect(`/api/admin/impersonate/exit?returnTo=/empresas/${id}`);
-    }
-  }
+  // Não encerra impersonação automaticamente aqui: sair do cliente é SEMPRE
+  // ação explícita do SUPER_ADMIN pelo banner. Os controles privilegiados desta
+  // página já dependem de realRole, então funcionam mesmo impersonando.
 
   const [company, contacts] = await Promise.all([
     prisma.company.findUnique({

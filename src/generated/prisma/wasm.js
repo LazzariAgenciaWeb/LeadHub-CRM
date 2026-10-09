@@ -135,6 +135,7 @@ exports.Prisma.UserScalarFieldEnum = {
   whatsappSignature: 'whatsappSignature',
   whatsappSignatureDefault: 'whatsappSignatureDefault',
   companyId: 'companyId',
+  hiddenWaInstanceIds: 'hiddenWaInstanceIds',
   rankingCategory: 'rankingCategory',
   lastBadgeSeenAt: 'lastBadgeSeenAt',
   assistantGroupJid: 'assistantGroupJid',

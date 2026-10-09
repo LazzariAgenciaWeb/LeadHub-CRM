@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { IMPERSONATE_COOKIE } from "@/lib/effective-session";
+import { IMPERSONATE_COOKIE, IMPERSONATE_MAX_AGE } from "@/lib/effective-session";
 import { recordAdminAction, extractIp } from "@/lib/admin-audit";
 import { prisma } from "@/lib/prisma";
 
@@ -34,13 +34,21 @@ export async function GET(
     metadata:        { targetCompanyName: targetCompany?.name ?? null },
   });
 
+  // ?returnTo=/caminho — volta pra tela de onde o SUPER_ADMIN escolheu o cliente
+  // (gate "selecione o cliente" em relatórios/chamados/etc). Só caminho relativo.
+  const returnTo = new URL(req.url).searchParams.get("returnTo");
+  const target = returnTo && returnTo.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/dashboard";
+
   const baseUrl = process.env.NEXTAUTH_URL ?? `https://${req.headers.get("host")}`;
-  const res = NextResponse.redirect(new URL("/dashboard", baseUrl));
+  const res = NextResponse.redirect(new URL(target, baseUrl));
   res.cookies.set(IMPERSONATE_COOKIE, companyId, {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60, // 1 hora
+    // Longo de propósito: a impersonação só termina quando o SUPER_ADMIN clica
+    // em "Voltar ao admin" no banner. Antes era 1h e o F5 "voltava" pro
+    // super admin no meio do trabalho dentro do cliente.
+    maxAge: IMPERSONATE_MAX_AGE,
   });
   return res;
 }

@@ -5,6 +5,8 @@ import { prisma } from "./prisma";
 import { getCompanyPlan } from "./limits";
 
 export const IMPERSONATE_COOKIE = "x-impersonate";
+// 30 dias — sair da impersonação é ação explícita (banner), não expiração.
+export const IMPERSONATE_MAX_AGE = 60 * 60 * 24 * 30;
 
 /**
  * Like getServerSession, but respects impersonation:

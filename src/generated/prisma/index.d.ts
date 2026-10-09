@@ -15733,6 +15733,7 @@ export namespace Prisma {
     whatsappSignature: number
     whatsappSignatureDefault: number
     companyId: number
+    hiddenWaInstanceIds: number
     rankingCategory: number
     lastBadgeSeenAt: number
     assistantGroupJid: number
@@ -15801,6 +15802,7 @@ export namespace Prisma {
     whatsappSignature?: true
     whatsappSignatureDefault?: true
     companyId?: true
+    hiddenWaInstanceIds?: true
     rankingCategory?: true
     lastBadgeSeenAt?: true
     assistantGroupJid?: true
@@ -15896,6 +15898,7 @@ export namespace Prisma {
     whatsappSignature: string | null
     whatsappSignatureDefault: boolean
     companyId: string | null
+    hiddenWaInstanceIds: string[]
     rankingCategory: $Enums.RankingCategory
     lastBadgeSeenAt: Date | null
     assistantGroupJid: string | null
@@ -15935,6 +15938,7 @@ export namespace Prisma {
     whatsappSignature?: boolean
     whatsappSignatureDefault?: boolean
     companyId?: boolean
+    hiddenWaInstanceIds?: boolean
     rankingCategory?: boolean
     lastBadgeSeenAt?: boolean
     assistantGroupJid?: boolean
@@ -15998,6 +16002,7 @@ export namespace Prisma {
     whatsappSignature?: boolean
     whatsappSignatureDefault?: boolean
     companyId?: boolean
+    hiddenWaInstanceIds?: boolean
     rankingCategory?: boolean
     lastBadgeSeenAt?: boolean
     assistantGroupJid?: boolean
@@ -16021,6 +16026,7 @@ export namespace Prisma {
     whatsappSignature?: boolean
     whatsappSignatureDefault?: boolean
     companyId?: boolean
+    hiddenWaInstanceIds?: boolean
     rankingCategory?: boolean
     lastBadgeSeenAt?: boolean
     assistantGroupJid?: boolean
@@ -16134,6 +16140,7 @@ export namespace Prisma {
       whatsappSignature: string | null
       whatsappSignatureDefault: boolean
       companyId: string | null
+      hiddenWaInstanceIds: string[]
       rankingCategory: $Enums.RankingCategory
       lastBadgeSeenAt: Date | null
       assistantGroupJid: string | null
@@ -16586,6 +16593,7 @@ export namespace Prisma {
     readonly whatsappSignature: FieldRef<"User", 'String'>
     readonly whatsappSignatureDefault: FieldRef<"User", 'Boolean'>
     readonly companyId: FieldRef<"User", 'String'>
+    readonly hiddenWaInstanceIds: FieldRef<"User", 'String[]'>
     readonly rankingCategory: FieldRef<"User", 'RankingCategory'>
     readonly lastBadgeSeenAt: FieldRef<"User", 'DateTime'>
     readonly assistantGroupJid: FieldRef<"User", 'String'>
@@ -159205,6 +159213,7 @@ export namespace Prisma {
     whatsappSignature: 'whatsappSignature',
     whatsappSignatureDefault: 'whatsappSignatureDefault',
     companyId: 'companyId',
+    hiddenWaInstanceIds: 'hiddenWaInstanceIds',
     rankingCategory: 'rankingCategory',
     lastBadgeSeenAt: 'lastBadgeSeenAt',
     assistantGroupJid: 'assistantGroupJid',
@@ -162498,6 +162507,7 @@ export namespace Prisma {
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     whatsappSignatureDefault?: BoolFilter<"User"> | boolean
     companyId?: StringNullableFilter<"User"> | string | null
+    hiddenWaInstanceIds?: StringNullableListFilter<"User">
     rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
     lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     assistantGroupJid?: StringNullableFilter<"User"> | string | null
@@ -162560,6 +162570,7 @@ export namespace Prisma {
     whatsappSignature?: SortOrderInput | SortOrder
     whatsappSignatureDefault?: SortOrder
     companyId?: SortOrderInput | SortOrder
+    hiddenWaInstanceIds?: SortOrder
     rankingCategory?: SortOrder
     lastBadgeSeenAt?: SortOrderInput | SortOrder
     assistantGroupJid?: SortOrderInput | SortOrder
@@ -162626,6 +162637,7 @@ export namespace Prisma {
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     whatsappSignatureDefault?: BoolFilter<"User"> | boolean
     companyId?: StringNullableFilter<"User"> | string | null
+    hiddenWaInstanceIds?: StringNullableListFilter<"User">
     rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
     lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     assistantGroupJid?: StringNullableFilter<"User"> | string | null
@@ -162687,6 +162699,7 @@ export namespace Prisma {
     whatsappSignature?: SortOrderInput | SortOrder
     whatsappSignatureDefault?: SortOrder
     companyId?: SortOrderInput | SortOrder
+    hiddenWaInstanceIds?: SortOrder
     rankingCategory?: SortOrder
     lastBadgeSeenAt?: SortOrderInput | SortOrder
     assistantGroupJid?: SortOrderInput | SortOrder
@@ -162715,6 +162728,7 @@ export namespace Prisma {
     whatsappSignature?: StringNullableWithAggregatesFilter<"User"> | string | null
     whatsappSignatureDefault?: BoolWithAggregatesFilter<"User"> | boolean
     companyId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    hiddenWaInstanceIds?: StringNullableListFilter<"User">
     rankingCategory?: EnumRankingCategoryWithAggregatesFilter<"User"> | $Enums.RankingCategory
     lastBadgeSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     assistantGroupJid?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -175567,6 +175581,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -175629,6 +175644,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -175689,6 +175705,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175751,6 +175768,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175812,6 +175830,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -175833,6 +175852,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175855,6 +175875,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -190271,6 +190292,14 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type EnumRankingCategoryFilter<$PrismaModel = never> = {
     equals?: $Enums.RankingCategory | EnumRankingCategoryFieldRefInput<$PrismaModel>
     in?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
@@ -190621,6 +190650,7 @@ export namespace Prisma {
     whatsappSignature?: SortOrder
     whatsappSignatureDefault?: SortOrder
     companyId?: SortOrder
+    hiddenWaInstanceIds?: SortOrder
     rankingCategory?: SortOrder
     lastBadgeSeenAt?: SortOrder
     assistantGroupJid?: SortOrder
@@ -190764,14 +190794,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRankingCategoryFilter<$PrismaModel>
     _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
-  }
-
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
   }
 
   export type UserRelationFilter = {
@@ -200009,6 +200031,10 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type UserCreatehiddenWaInstanceIdsInput = {
+    set: string[]
+  }
+
   export type CompanyCreateNestedOneWithoutUsersInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
@@ -200579,6 +200605,11 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type UserUpdatehiddenWaInstanceIdsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type EnumRankingCategoryFieldUpdateOperationsInput = {
@@ -217524,6 +217555,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -217585,6 +217617,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -217686,6 +217719,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217747,6 +217781,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217926,6 +217961,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -217987,6 +218023,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -218062,6 +218099,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218123,6 +218161,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218182,6 +218221,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -218243,6 +218283,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -218318,6 +218359,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218379,6 +218421,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218715,6 +218758,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -218776,6 +218820,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -219134,6 +219179,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219195,6 +219241,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219254,6 +219301,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -219315,6 +219363,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -219390,6 +219439,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219451,6 +219501,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219510,6 +219561,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -219571,6 +219623,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -219646,6 +219699,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219707,6 +219761,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219766,6 +219821,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -219827,6 +219883,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -219902,6 +219959,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219963,6 +220021,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -220581,6 +220640,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -220641,6 +220701,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -224859,6 +224920,7 @@ export namespace Prisma {
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     whatsappSignatureDefault?: BoolFilter<"User"> | boolean
     companyId?: StringNullableFilter<"User"> | string | null
+    hiddenWaInstanceIds?: StringNullableListFilter<"User">
     rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
     lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     assistantGroupJid?: StringNullableFilter<"User"> | string | null
@@ -234527,6 +234589,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -234588,6 +234651,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -234652,6 +234716,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -234713,6 +234778,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -235194,6 +235260,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235255,6 +235322,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235325,6 +235393,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -235386,6 +235455,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -236522,6 +236592,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -236583,6 +236654,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -236941,6 +237013,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -237002,6 +237075,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -237061,6 +237135,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -237122,6 +237197,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -237760,6 +237836,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -237821,6 +237898,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -238802,6 +238880,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -238863,6 +238942,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -239519,6 +239599,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239580,6 +239661,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240287,6 +240369,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -240348,6 +240431,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -241070,6 +241154,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -241131,6 +241216,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -243185,6 +243271,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -243246,6 +243333,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -243587,6 +243675,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -243648,6 +243737,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -244378,6 +244468,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244439,6 +244530,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244792,6 +244884,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -244853,6 +244946,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248298,6 +248392,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -248359,6 +248454,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -248423,6 +248519,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -248484,6 +248581,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -248809,6 +248907,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248870,6 +248969,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -248940,6 +249040,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -249001,6 +249102,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -249911,6 +250013,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -249972,6 +250075,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -250116,6 +250220,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -250177,6 +250282,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -250321,6 +250427,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -250382,6 +250489,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -250548,6 +250656,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -250609,6 +250718,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -251105,6 +251215,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -251166,6 +251277,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -251332,6 +251444,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -251393,6 +251506,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -251889,6 +252003,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -251950,6 +252065,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -252104,6 +252220,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -252165,6 +252282,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -272152,6 +272270,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -272213,6 +272332,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -272596,6 +272716,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -272657,6 +272778,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273036,6 +273158,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -273097,6 +273220,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -273449,6 +273573,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273510,6 +273635,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273852,6 +273978,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -273913,6 +274040,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -274265,6 +274393,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -274326,6 +274455,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -274668,6 +274798,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -274729,6 +274860,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -275081,6 +275213,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -275142,6 +275275,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -276044,6 +276178,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -276105,6 +276240,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -276180,6 +276316,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -276241,6 +276378,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -276300,6 +276438,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -276361,6 +276500,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -276436,6 +276576,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -276497,6 +276638,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278058,6 +278200,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -278119,6 +278262,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -278678,6 +278822,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -278739,6 +278884,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -285189,6 +285335,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -285250,6 +285397,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -285472,6 +285620,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -285533,6 +285682,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -285891,6 +286041,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -285952,6 +286103,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -286158,6 +286310,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -286219,6 +286372,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -292591,6 +292745,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -292652,6 +292807,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -293144,6 +293300,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -293205,6 +293362,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -295488,6 +295646,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -295549,6 +295708,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -295907,6 +296067,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -295968,6 +296129,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -296304,6 +296466,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -296365,6 +296528,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -296723,6 +296887,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -296784,6 +296949,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -297120,6 +297286,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -297181,6 +297348,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -297245,6 +297413,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -297306,6 +297475,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -297664,6 +297834,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -297725,6 +297896,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -297795,6 +297967,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -297856,6 +298029,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -298192,6 +298366,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -298253,6 +298428,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -298317,6 +298493,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -298378,6 +298555,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -298736,6 +298914,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -298797,6 +298976,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -298867,6 +299047,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -298928,6 +299109,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -299264,6 +299446,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -299325,6 +299508,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -299683,6 +299867,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -299744,6 +299929,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -300302,6 +300488,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -300363,6 +300550,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
     companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -300967,6 +301155,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -301028,6 +301217,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -304467,6 +304657,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: $Enums.RankingCategory
     lastBadgeSeenAt?: Date | string | null
     assistantGroupJid?: string | null
@@ -306114,6 +306305,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -306174,6 +306366,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
@@ -306234,6 +306427,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null

@@ -8,7 +8,7 @@ import {
   MessageCircle, MessageSquare, Hourglass, Calendar,
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
   Send, StickyNote, Target, DollarSign, Search, Bot, BotOff, Pause, Building2, Link2,
-  ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle, Zap,
+  ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle, Zap, Eye, EyeOff,
   type LucideIcon,
 } from "lucide-react";
 import QuickReplies from "./QuickReplies";
@@ -371,6 +371,7 @@ export default function WhatsappManager({
   modoAtendimento = "ATENDE",
   pipelineStages = [],
   teamNumbers = [],
+  canManageVisibleInstances = false,
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
@@ -391,6 +392,8 @@ export default function WhatsappManager({
   modoAtendimento?: "VISAO" | "ATENDE";
   pipelineStages?: { pipeline: string; name: string; color: string; order: number; isFinal: boolean; companyId: string }[];
   teamNumbers?: string[];
+  // SUPER_ADMIN na visão global: mostra "Instâncias visíveis" nos filtros.
+  canManageVisibleInstances?: boolean;
 }) {
   // Toggle de assinatura por mensagem. Default vem da preferência do user
   // (Configurações → Meu Perfil): se ele desligou o default, começa desmarcado
@@ -623,6 +626,30 @@ export default function WhatsappManager({
   // Bloqueio de conversa (não sincronizar / esconder) + tela de gerenciar
   const [togglingBlock, setTogglingBlock] = useState(false);
   const [showBlockedModal, setShowBlockedModal] = useState(false);
+  // Instâncias visíveis (super admin) — quais instâncias entram na visão global
+  type VisibleInst = { id: string; instanceName: string; label: string | null; phone: string | null; status: string; company: { id: string; name: string } | null; hidden: boolean };
+  const [showVisibleInstModal, setShowVisibleInstModal] = useState(false);
+  const [visibleInstList, setVisibleInstList] = useState<VisibleInst[]>([]);
+  const [loadingVisibleInst, setLoadingVisibleInst] = useState(false);
+  const [savingVisibleInst, setSavingVisibleInst] = useState(false);
+  async function loadVisibleInstances() {
+    setLoadingVisibleInst(true);
+    try {
+      const res = await fetch("/api/admin/whatsapp-visibility");
+      if (res.ok) setVisibleInstList(await res.json());
+    } finally { setLoadingVisibleInst(false); }
+  }
+  async function saveVisibleInstances() {
+    setSavingVisibleInst(true);
+    try {
+      const hiddenIds = visibleInstList.filter((i) => i.hidden).map((i) => i.id);
+      const res = await fetch("/api/admin/whatsapp-visibility", {
+        method: "PATCH", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ hiddenIds }),
+      });
+      if (res.ok) window.location.reload();
+    } finally { setSavingVisibleInst(false); }
+  }
   const [blockedConvs, setBlockedConvs] = useState<any[]>([]);
   const [loadingBlocked, setLoadingBlocked] = useState(false);
 
@@ -3324,6 +3351,19 @@ export default function WhatsappManager({
                     <span className="flex-1 text-left">Conversas bloqueadas</span>
                   </button>
                 </div>
+
+                {/* Instâncias visíveis — só super admin na visão global */}
+                {canManageVisibleInstances && (
+                  <div className="px-3 pb-3 border-t border-[#1e2d45] pt-2">
+                    <button
+                      onClick={() => { setShowVisibleInstModal(true); loadVisibleInstances(); }}
+                      className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-medium text-slate-500 hover:bg-white/5 hover:text-slate-300 transition-colors w-full"
+                    >
+                      <Eye className="w-3.5 h-3.5 text-indigo-400" strokeWidth={2.25} />
+                      <span className="flex-1 text-left">Instâncias visíveis</span>
+                    </button>
+                  </div>
+                )}
 
                 {/* Ocultar grupos */}
                 <div className="px-3 pb-3 border-t border-[#1e2d45] pt-2">
@@ -6084,6 +6124,79 @@ export default function WhatsappManager({
                   );
                 })}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: instâncias visíveis na visão global (super admin) */}
+      {showVisibleInstModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/70" onClick={() => setShowVisibleInstModal(false)} />
+          <div className="relative bg-[#0c1220] border border-[#1e2d45] rounded-2xl w-full max-w-lg mx-4 shadow-2xl max-h-[85vh] flex flex-col">
+            <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Eye className="w-4 h-4 text-indigo-400" strokeWidth={2.5} />
+                <span className="text-sm font-semibold text-white">Instâncias visíveis</span>
+              </div>
+              <button onClick={() => setShowVisibleInstModal(false)} className="text-slate-500 hover:text-white text-lg">×</button>
+            </div>
+            <div className="px-5 py-3 overflow-y-auto flex-1">
+              <p className="text-slate-500 text-[11px] mb-3">
+                Marque quais instâncias entram na sua visão global do WhatsApp. Desmarcadas somem da lista
+                e da busca (só pra sua conta de super admin — impersonando um cliente você vê tudo dele).
+              </p>
+              {loadingVisibleInst && <p className="text-slate-600 text-xs py-4 text-center">Carregando...</p>}
+              {!loadingVisibleInst && visibleInstList.length === 0 && (
+                <p className="text-slate-600 text-xs py-4 text-center">Nenhuma instância cadastrada.</p>
+              )}
+              {!loadingVisibleInst && visibleInstList.length > 0 && (
+                <div className="flex items-center gap-3 mb-3 text-[11px]">
+                  <button onClick={() => setVisibleInstList((l) => l.map((i) => ({ ...i, hidden: false })))} className="text-indigo-300 hover:text-indigo-200">Marcar todas</button>
+                  <button onClick={() => setVisibleInstList((l) => l.map((i) => ({ ...i, hidden: true })))} className="text-slate-500 hover:text-slate-300">Desmarcar todas</button>
+                </div>
+              )}
+              <div className="space-y-3">
+                {Object.entries(
+                  visibleInstList.reduce<Record<string, VisibleInst[]>>((acc, i) => {
+                    const k = i.company?.name ?? "Sem empresa";
+                    (acc[k] ??= []).push(i);
+                    return acc;
+                  }, {})
+                ).map(([companyName, list]) => (
+                  <div key={companyName}>
+                    <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-1.5">{companyName}</p>
+                    <div className="space-y-1">
+                      {list.map((inst) => (
+                        <label key={inst.id} className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-[#0f1623] border border-[#1e2d45] cursor-pointer hover:border-indigo-500/40">
+                          <input
+                            type="checkbox"
+                            checked={!inst.hidden}
+                            onChange={(e) => setVisibleInstList((l) => l.map((i) => i.id === inst.id ? { ...i, hidden: !e.target.checked } : i))}
+                            className="accent-indigo-500"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className={`text-xs font-medium truncate ${inst.hidden ? "text-slate-500" : "text-slate-200"}`}>{inst.label ?? inst.instanceName}</p>
+                            <p className="text-[10px] text-slate-600 truncate">{inst.phone ?? inst.instanceName}</p>
+                          </div>
+                          <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${inst.status === "CONNECTED" ? "bg-emerald-400" : "bg-slate-600"}`} />
+                          {inst.hidden && <EyeOff className="w-3.5 h-3.5 text-slate-600" />}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="px-5 py-3 border-t border-[#1e2d45] flex items-center justify-end gap-2">
+              <button onClick={() => setShowVisibleInstModal(false)} className="text-[11px] text-slate-500 hover:text-slate-300 px-3 py-1.5">Cancelar</button>
+              <button
+                onClick={saveVisibleInstances}
+                disabled={savingVisibleInst || loadingVisibleInst}
+                className="text-[11px] font-semibold bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg disabled:opacity-50"
+              >
+                {savingVisibleInst ? "Salvando..." : "Salvar e recarregar"}
+              </button>
             </div>
           </div>
         </div>

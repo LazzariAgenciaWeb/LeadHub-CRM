@@ -35,6 +35,11 @@ model User {
   company   Company? @relation(fields: [companyId], references: [id])
   companyId String?
 
+  // SUPER_ADMIN: instâncias de WhatsApp que ele escolheu NÃO ver na visão
+  // global (/whatsapp sem impersonar). Só afeta a conta dele — impersonando,
+  // vê tudo do cliente. Default vazio = vê todas.
+  hiddenWaInstanceIds String[] @default([])
+
   ticketsCreated        Ticket[]               @relation("TicketCreatedBy")
   ticketsAssigned       Ticket[]               @relation("TicketAssignee")
   companyContact        CompanyContact?        @relation("ContactUser")

@@ -24,14 +24,24 @@ export async function getHiddenInstanceIds(session: any): Promise<string[]> {
 
   // Super admin do sistema pode filtrar por empresa; ainda assim NÃO vê as
   // privadas de outro dono (privacidade vale inclusive contra super admin).
-  const privates = await prisma.whatsappInstance.findMany({
-    where: {
-      ownerUserId: { not: null },
-      ...(isSuperAdmin ? {} : companyId ? { companyId } : {}),
-    },
-    select: { id: true, ownerUserId: true },
-  });
-  return privates.filter((p) => p.ownerUserId !== userId).map((p) => p.id);
+  const [privates, superPrefs] = await Promise.all([
+    prisma.whatsappInstance.findMany({
+      where: {
+        ownerUserId: { not: null },
+        ...(isSuperAdmin ? {} : companyId ? { companyId } : {}),
+      },
+      select: { id: true, ownerUserId: true },
+    }),
+    // SUPER_ADMIN na visão global: instâncias que ELE escolheu esconder
+    // (Filtros → "Instâncias visíveis"). Preferência pessoal, não segurança —
+    // impersonando um cliente o role vira ADMIN e isto não se aplica.
+    isSuperAdmin && userId
+      ? prisma.user.findUnique({ where: { id: userId }, select: { hiddenWaInstanceIds: true } })
+      : Promise.resolve(null),
+  ]);
+  const hidden = privates.filter((p) => p.ownerUserId !== userId).map((p) => p.id);
+  for (const id of superPrefs?.hiddenWaInstanceIds ?? []) if (!hidden.includes(id)) hidden.push(id);
+  return hidden;
 }
 
 type BlockedMode = "exclude" | "only" | "include";
