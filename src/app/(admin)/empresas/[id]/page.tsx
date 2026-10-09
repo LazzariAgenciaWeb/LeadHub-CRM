@@ -12,6 +12,8 @@ import CompanyCustomFields from "./CompanyCustomFields";
 import { getCompanyPlan } from "@/lib/limits";
 import { PLANS, ADDONS, formatPriceBRL } from "@/lib/plans";
 import { MODULES } from "@/lib/modules";
+import { getViewer, ticketVisibilityWhere, projectVisibilityWhere } from "@/lib/visibility";
+import { phoneMatchVariants } from "@/lib/phone-match";
 
 export default async function EmpresaDetailPage({
   params,
@@ -160,44 +162,135 @@ export default async function EmpresaDetailPage({
     NO_SUBSCRIPTION: { label: "Sem assinatura", cls: "text-slate-400 bg-slate-500/10 border-slate-500/20" },
   };
 
-  const [prospeccaoCount, leadsCount, oportunidadesCount, totalLeads, recentLeads, recentOportunidades, recentChamados] = await Promise.all([
-    prisma.lead.count({ where: { companyId: id, pipeline: "PROSPECCAO" } }),
-    prisma.lead.count({ where: { companyId: id, pipeline: "LEADS" } }),
-    prisma.lead.count({ where: { companyId: id, pipeline: "OPORTUNIDADES" } }),
-    prisma.lead.count({ where: { companyId: id } }),
-    prisma.lead.findMany({
-      where: { companyId: id, pipeline: { in: ["PROSPECCAO", "LEADS"] } },
-      orderBy: { createdAt: "desc" },
-      take: 10,
-      select: { id: true, name: true, phone: true, pipeline: true, pipelineStage: true, status: true, createdAt: true },
+  // ─── Relacionamento da agência com ESTE cliente ───────────────────────────
+  // O que aparece aqui é o que NÓS temos com o cliente — não os dados do
+  // painel dele. Projetos e chamados já apontam pro cliente (clientCompanyId).
+  // Negociação (Lead do CRM da agência) não tem esse vínculo, então o casamento
+  // é por: venda da esteira ligada ao cliente, telefone (empresa + contatos),
+  // e-mail e nome exato. Agência = parentCompany; pra empresa top-level vista
+  // pelo super admin, é a empresa do próprio super admin.
+  const superAdminCompanyId = (realSession?.user as any)?.companyId as string | undefined;
+  const agencyId = company.parentCompanyId ?? (isSuperAdmin ? superAdminCompanyId : undefined) ?? null;
+  const viewer = await getViewer(session);
+  const ticketVis = ticketVisibilityWhere(viewer);
+  const projectVis = projectVisibilityWhere(viewer);
+
+  const [salesRaw, projetosRaw, chamadosRaw] = await Promise.all([
+    prisma.sale.findMany({
+      where: { clientCompanyId: id },
+      orderBy: { closedAt: "desc" },
+      select: {
+        id: true, leadId: true, title: true, valueCents: true, kind: true, closedAt: true,
+        sellerName: true, contractStatus: true, billingStatus: true, productionStatus: true,
+        projectId: true,
+      },
     }),
-    prisma.lead.findMany({
-      where: { companyId: id, pipeline: "OPORTUNIDADES" },
-      orderBy: { createdAt: "desc" },
-      take: 10,
-      select: { id: true, name: true, phone: true, pipelineStage: true, value: true, createdAt: true },
+    prisma.setorClickupList.findMany({
+      where: { clientCompanyId: id, ...(projectVis ? { AND: [projectVis] } : {}) },
+      orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
+      select: {
+        id: true, name: true, type: true, status: true, dueDate: true, deliveredAt: true,
+        taskCount: true, taskCompleted: true, taskOverdue: true, createdAt: true,
+        setor: { select: { name: true } },
+        service: { select: { name: true } },
+      },
     }),
     prisma.ticket.findMany({
-      where: { companyId: id },
-      orderBy: { createdAt: "desc" },
-      take: 10,
-      select: { id: true, title: true, priority: true, status: true, ticketStage: true, createdAt: true },
+      where: {
+        clientCompanyId: id,
+        ...(realRole !== "SUPER_ADMIN" ? { isInternal: false } : {}),
+        ...(ticketVis ? { AND: [ticketVis] } : {}),
+      },
+      orderBy: [{ status: "asc" }, { dueDate: "asc" }, { createdAt: "desc" }],
+      take: 60,
+      select: {
+        id: true, title: true, priority: true, status: true, ticketStage: true,
+        dueDate: true, createdAt: true,
+        assignee: { select: { name: true } },
+        setor: { select: { name: true } },
+      },
     }),
   ]);
 
-  const wonStages = await prisma.pipelineStageConfig.findMany({
-    where: { companyId: id, pipeline: "OPORTUNIDADES", isFinal: true, NOT: [{ name: { contains: "Perdido" } }, { name: { contains: "❌" } }] },
-    select: { name: true },
-  });
-  const vendas = wonStages.length > 0
-    ? await prisma.lead.count({ where: { companyId: id, pipeline: "OPORTUNIDADES", pipelineStage: { in: wonStages.map(s => s.name) } } })
-    : 0;
+  const saleLeadIds = salesRaw.map((v) => v.leadId).filter((x): x is string => !!x);
+  const phoneVariants = phoneMatchVariants([
+    company.phone,
+    ...contacts.filter((c) => !c.isGroup).map((c) => c.phone),
+  ]);
+  const emailMatches = Array.from(new Set(
+    [company.email, ...contacts.map((c) => c.user?.email)]
+      .filter((e): e is string => !!e && e.includes("@"))
+      .map((e) => e.trim().toLowerCase()),
+  ));
+  const leadOr: any[] = [];
+  if (saleLeadIds.length)   leadOr.push({ id: { in: saleLeadIds } });
+  if (phoneVariants.length) leadOr.push({ phone: { in: phoneVariants } });
+  if (emailMatches.length)  leadOr.push({ email: { in: emailMatches, mode: "insensitive" } });
+  if (company.name.trim())  leadOr.push({ name: { equals: company.name.trim(), mode: "insensitive" } });
 
-  const pipelineFunnel = [
-    { label: "Prospectos",    value: prospeccaoCount,   color: "text-violet-400" },
-    { label: "Leads",         value: leadsCount,         color: "text-indigo-400" },
-    { label: "Oportunidades", value: oportunidadesCount, color: "text-amber-400"  },
-    { label: "Vendas",        value: vendas,             color: "text-green-400"  },
+  const negociacoesRaw = agencyId && agencyId !== id && leadOr.length > 0
+    ? await prisma.lead.findMany({
+        where: { companyId: agencyId, OR: leadOr },
+        orderBy: { updatedAt: "desc" },
+        take: 60,
+        select: {
+          id: true, name: true, phone: true, email: true, pipeline: true, pipelineStage: true,
+          status: true, value: true, wonAt: true, lostAt: true, createdAt: true, updatedAt: true,
+        },
+      })
+    : [];
+
+  const saleLeadSet = new Set(saleLeadIds);
+  const phoneSet = new Set(phoneVariants);
+  const emailSet = new Set(emailMatches);
+  const negociacoes = negociacoesRaw.map((l) => {
+    const outcome: "ABERTA" | "GANHA" | "PERDIDA" =
+      l.wonAt || l.status === "CLOSED" ? "GANHA" :
+      l.lostAt || l.status === "LOST"  ? "PERDIDA" : "ABERTA";
+    const matchedBy: "venda" | "telefone" | "e-mail" | "nome" =
+      saleLeadSet.has(l.id) ? "venda" :
+      phoneSet.has(l.phone) ? "telefone" :
+      l.email && emailSet.has(l.email.trim().toLowerCase()) ? "e-mail" : "nome";
+    return {
+      id: l.id, name: l.name, phone: l.phone, email: l.email, pipeline: l.pipeline,
+      pipelineStage: l.pipelineStage, value: l.value, outcome, matchedBy,
+      wonAt: l.wonAt?.toISOString() ?? null, lostAt: l.lostAt?.toISOString() ?? null,
+      createdAt: l.createdAt.toISOString(), updatedAt: l.updatedAt.toISOString(),
+    };
+  });
+  // Em aberto primeiro; dentro de cada grupo, a mexida mais recente no topo.
+  const OUTCOME_ORDER = { ABERTA: 0, GANHA: 1, PERDIDA: 2 } as const;
+  negociacoes.sort((a, b) => OUTCOME_ORDER[a.outcome] - OUTCOME_ORDER[b.outcome] || b.updatedAt.localeCompare(a.updatedAt));
+
+  const vendas = salesRaw.map((v) => ({
+    id: v.id, leadId: v.leadId, title: v.title, valueCents: v.valueCents, kind: v.kind,
+    closedAt: v.closedAt.toISOString(), sellerName: v.sellerName,
+    contractStatus: v.contractStatus, billingStatus: v.billingStatus, productionStatus: v.productionStatus,
+    projectId: v.projectId,
+  }));
+  const projetos = projetosRaw.map((pj) => ({
+    id: pj.id, name: pj.name, type: pj.type, status: pj.status,
+    dueDate: pj.dueDate?.toISOString() ?? null, deliveredAt: pj.deliveredAt?.toISOString() ?? null,
+    taskCount: pj.taskCount, taskCompleted: pj.taskCompleted, taskOverdue: pj.taskOverdue,
+    createdAt: pj.createdAt.toISOString(), setorName: pj.setor?.name ?? null, serviceName: pj.service?.name ?? null,
+  }));
+  const chamados = chamadosRaw.map((t) => ({
+    id: t.id, title: t.title, priority: t.priority, status: t.status, ticketStage: t.ticketStage,
+    dueDate: t.dueDate?.toISOString() ?? null, createdAt: t.createdAt.toISOString(),
+    assigneeName: t.assignee?.name ?? null, setorName: t.setor?.name ?? null,
+  }));
+
+  const negAbertas = negociacoes.filter((n) => n.outcome === "ABERTA").length;
+  const negGanhas  = negociacoes.filter((n) => n.outcome === "GANHA").length;
+  const vendasTotalCents = vendas.reduce((acc, v) => acc + v.valueCents, 0);
+  const projetosAbertos = projetos.filter((pj) => pj.status !== "ENTREGUE" && pj.status !== "CANCELADO").length;
+  const chamadosAbertos = chamados.filter((t) => t.status === "OPEN" || t.status === "IN_PROGRESS").length;
+
+  const relacionamento = [
+    { label: "Negociações em aberto", value: negAbertas,      color: "text-amber-400" },
+    { label: "Negociações ganhas",    value: negGanhas,       color: "text-green-400" },
+    { label: "Projetos em andamento", value: projetosAbertos, color: "text-indigo-400" },
+    { label: "Chamados em aberto",    value: chamadosAbertos, color: "text-orange-400" },
   ];
 
   // Usuários da empresa sem Contato vinculado (órfãos) → viram linhas "virtual:"
@@ -372,19 +465,26 @@ export default async function EmpresaDetailPage({
           </div>
         </div>
 
-        {/* Funil CRM */}
+        {/* Com este cliente — o que a agência tem em andamento com ele */}
         <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4">
-          <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Funil CRM</h3>
+          <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Com este cliente</h3>
           <div className="flex flex-col gap-2">
-            {pipelineFunnel.map((row) => (
+            {relacionamento.map((row) => (
               <div key={row.label} className="flex items-center justify-between">
                 <span className="text-slate-400 text-xs">{row.label}</span>
                 <span className={`font-bold text-sm ${row.color}`}>{row.value}</span>
               </div>
             ))}
             <div className="border-t border-[#1e2d45] pt-2 mt-1 flex items-center justify-between">
-              <span className="text-slate-400 text-xs font-semibold">Total</span>
-              <span className="text-white font-bold text-sm">{totalLeads}</span>
+              <span className="text-slate-400 text-xs font-semibold">Vendas fechadas</span>
+              <span className="text-white font-bold text-sm">
+                {vendas.length}
+                {vendasTotalCents > 0 && (
+                  <span className="text-green-400 text-xs font-semibold ml-1.5">
+                    R$ {(vendasTotalCents / 100).toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                  </span>
+                )}
+              </span>
             </div>
           </div>
         </div>
@@ -426,12 +526,10 @@ export default async function EmpresaDetailPage({
         <CompanyDetailTabs
           companyId={id}
           campaigns={company.campaigns as any}
-          recentLeads={recentLeads as any}
-          leadsCount={leadsCount}
-          prospeccaoCount={prospeccaoCount}
-          recentOportunidades={recentOportunidades as any}
-          oportunidadesCount={oportunidadesCount}
-          recentChamados={recentChamados as any}
+          negociacoes={negociacoes}
+          vendas={vendas}
+          projetos={projetos}
+          chamados={chamados}
           contacts={contactsWithUsers as any}
           isSuperAdmin={isSuperAdmin}
           isClientCompany={!!company.parentCompanyId}
