@@ -947,11 +947,14 @@ export default function TicketDetail({
     const isOut = msg.direction === "OUTBOUND";
     return (
       <div className={`flex gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+        {/* Na linha do tempo o marcador do trilho já identifica o canal — sem avatar. */}
+        {!showChannel && (
         <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
           isOut ? "bg-emerald-500/20 text-emerald-300" : "bg-[#1e2d45] text-slate-400"
         }`}>
           {isOut ? "→" : (msg.participantName?.charAt(0).toUpperCase() ?? "C")}
         </div>
+        )}
         <div className={`flex-1 min-w-0 ${isOut ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
           <div className={`flex items-center gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
             <span className={`text-[10px] font-medium ${isOut ? "text-emerald-400" : "text-slate-500"}`}>
@@ -997,11 +1000,13 @@ export default function TicketDetail({
     const isOut = em.direction === "OUT";
     return (
       <div className={`flex gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+        {!showChannel && (
         <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
           isOut ? "bg-indigo-500/20 text-indigo-300" : "bg-[#1e2d45] text-slate-400"
         }`}>
           <Mail className="w-3 h-3" />
         </div>
+        )}
         <div className={`flex-1 min-w-0 ${isOut ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
           <div className={`flex items-center gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
             <span className={`text-[10px] font-medium ${isOut ? "text-indigo-400" : "text-slate-500"}`}>
@@ -1085,7 +1090,7 @@ export default function TicketDetail({
                 <span className="text-[11px] text-slate-500 bg-white/5 px-2 py-0.5 rounded">{ticket.category}</span>
               )}
               {/* Messages count */}
-              <span className="text-slate-600 text-[11px]">💬 {messages.length} mensagen{messages.length !== 1 ? "s" : ""}</span>
+              <span className="text-slate-600 text-[11px] inline-flex items-center gap-1"><MessageSquare className="w-3 h-3" /> {messages.length} mensagen{messages.length !== 1 ? "s" : ""}</span>
             </div>
           </div>
           {/* Atalhos rápidos */}
@@ -1095,7 +1100,7 @@ export default function TicketDetail({
                 href={`/whatsapp?abrir=${encodeURIComponent(ticket.phone)}`}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-medium hover:bg-green-500/20 transition-colors"
               >
-                💬 WhatsApp
+                <MessageCircle className="w-3 h-3 inline -mt-0.5" /> WhatsApp
               </Link>
             )}
             {canManage && (
@@ -1176,7 +1181,7 @@ export default function TicketDetail({
             {canManage && (feedTab === "info" || feedTab === "all") && (
               publicToken ? (
                 <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3 flex items-center gap-2">
-                  <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wide flex-shrink-0">🔗 Link do cliente</span>
+                  <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wide flex-shrink-0 inline-flex items-center gap-1"><Link2 className="w-3 h-3" /> Link do cliente</span>
                   <input
                     readOnly
                     value={publicUrl ?? ""}
@@ -1221,7 +1226,7 @@ export default function TicketDetail({
                     disabled={togglingShare}
                     className="text-[10px] px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium disabled:opacity-40 transition-colors whitespace-nowrap"
                   >
-                    {togglingShare ? "Gerando..." : "🔗 Gerar link"}
+                    {togglingShare ? "Gerando..." : <span className="inline-flex items-center gap-1"><Link2 className="w-3 h-3" /> Gerar link</span>}
                   </button>
                 </div>
               )
@@ -1232,7 +1237,7 @@ export default function TicketDetail({
             {initialMsg && (feedTab === "info" || feedTab === "all" || feedTab === "messages") && (
               <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-indigo-400 text-[10px] font-bold uppercase tracking-wide">📋 Solicitação Original</span>
+                  <span className="text-indigo-400 text-[10px] font-bold uppercase tracking-wide inline-flex items-center gap-1"><FileText className="w-3 h-3" /> Solicitação Original</span>
                   <span className="text-slate-600 text-[10px]">— {initialMsg.authorName}</span>
                   <span className="text-slate-700 text-[10px] ml-auto font-mono">
                     {new Date(initialMsg.createdAt).toLocaleString("pt-BR")}
@@ -1357,7 +1362,7 @@ export default function TicketDetail({
                       return (
                         <div key={msg.id} className="bg-amber-500/5 border border-amber-500/20 rounded-lg px-4 py-3">
                           <div className="flex items-center gap-2 mb-1.5">
-                            <span className="text-amber-400 text-[10px] font-bold">🔒 Nota interna</span>
+                            <span className="text-amber-400 text-[10px] font-bold">Nota interna</span>
                             <span className="text-slate-600 text-[10px]">{msg.authorName}</span>
                             <span className="text-slate-700 text-[10px] ml-auto font-mono">
                               {new Date(msg.createdAt).toLocaleString("pt-BR")}
@@ -1614,7 +1619,7 @@ export default function TicketDetail({
                   <div className="space-y-1">
                     {draftUploads.map((d) => (
                       <div key={d.key} className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 flex items-center gap-2">
-                        <span className="text-xs">📎</span>
+                        <Paperclip className="w-3 h-3 text-slate-400 flex-shrink-0" />
                         <span className={`flex-1 min-w-0 truncate text-xs ${d.error ? "text-red-400" : "text-slate-200"}`}>
                           {d.name}{d.error ? ` — ${d.error}` : ""}
                         </span>
@@ -1635,7 +1640,7 @@ export default function TicketDetail({
                     {canManage && (
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" checked={isInternal} onChange={(e) => setIsInternal(e.target.checked)} className="w-3.5 h-3.5 rounded" />
-                        <span className="text-amber-400 text-xs">🔒 Nota interna</span>
+                        <span className="text-amber-400 text-xs inline-flex items-center gap-1"><Lock className="w-3 h-3" /> Nota interna</span>
                       </label>
                     )}
                     {storageEnabled ? (
@@ -1646,12 +1651,12 @@ export default function TicketDetail({
                           className="hidden"
                           onChange={(e) => { void pickStorageFiles(e.target.files); e.target.value = ""; }}
                         />
-                        📎 Anexar arquivo
+                        <Paperclip className="w-3 h-3 inline -mt-0.5" /> Anexar arquivo
                       </label>
                     ) : (
                       <label className="flex items-center gap-1 text-slate-500 text-xs hover:text-indigo-300 cursor-pointer transition-colors">
                         <input type="file" accept="image/*" className="hidden" onChange={(e) => pickFile(e.target.files?.[0] ?? null)} />
-                        📎 Anexar
+                        <Paperclip className="w-3 h-3 inline -mt-0.5" /> Anexar
                       </label>
                     )}
                     <span className="text-slate-700 text-xs">ou Ctrl+V cola imagem</span>
@@ -2194,7 +2199,7 @@ export default function TicketDetail({
                     title={a.contentType}
                     className="flex items-center gap-1.5 rounded-lg border border-[#1e2d45] bg-white/5 px-2.5 py-1 text-[11px] text-indigo-200 hover:bg-white/10 transition-colors"
                   >
-                    📎 <span className="truncate max-w-[200px]">{a.filename}</span>
+                    <Paperclip className="w-3 h-3 flex-shrink-0" /> <span className="truncate max-w-[200px]">{a.filename}</span>
                     <span className="text-slate-500">({Math.max(1, Math.round(a.size / 1024))} KB)</span>
                   </a>
                 ))}
@@ -2222,7 +2227,7 @@ export default function TicketDetail({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-[#1e2d45] flex-shrink-0">
-              <h2 className="text-white text-sm font-bold">🔗 Vincular ao chamado</h2>
+              <h2 className="text-white text-sm font-bold inline-flex items-center gap-1.5"><Link2 className="w-4 h-4" stroke={gradStroke("links")} /> Vincular ao chamado</h2>
               <button onClick={() => setLinkModalOpen(false)} className="text-slate-500 hover:text-white text-xl leading-none px-1">×</button>
             </div>
 
@@ -2236,7 +2241,7 @@ export default function TicketDetail({
                       : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white"
                   }`}
                 >
-                  📱 Conversa WhatsApp
+                  <MessageCircle className="w-3 h-3 inline -mt-0.5" /> Conversa WhatsApp
                 </button>
               )}
               <button
@@ -2247,7 +2252,7 @@ export default function TicketDetail({
                     : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white"
                 }`}
               >
-                📧 E-mail
+                <Mail className="w-3 h-3 inline -mt-0.5" /> E-mail
               </button>
             </div>
 
