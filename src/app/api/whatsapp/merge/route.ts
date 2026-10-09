@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 
@@ -20,7 +19,7 @@ import { assertModule } from "@/lib/billing";
  * 3. Lead de mergePhone (se existir E keepPhone já tiver lead) → deletado após transferir mensagens
  */
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const gate = await assertModule(session, "whatsapp");

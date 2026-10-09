@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 
@@ -16,7 +15,7 @@ const MIN_AHEAD_MS = 60_000;                // pelo menos 1 min no futuro
 const MAX_AHEAD_MS = 365 * 24 * 3600_000;   // no máximo 1 ano
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   const gate = await assertModule(session, "whatsapp");
   if (!gate.ok) return gate.response;
@@ -55,7 +54,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   const gate = await assertModule(session, "whatsapp");
   if (!gate.ok) return gate.response;

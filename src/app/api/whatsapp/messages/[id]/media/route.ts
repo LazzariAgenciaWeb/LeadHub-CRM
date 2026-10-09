@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { evolutionGetMediaBase64 } from "@/lib/evolution";
 
@@ -29,7 +28,7 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return new NextResponse("Não autorizado", { status: 401 });
 
   const userRole      = (session.user as any).role;

@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 
 // GET /api/whatsapp/participant-contact?phones=phone1,phone2,...
 // Retorna CompanyContacts para os telefones informados
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const gate = await assertModule(session, "whatsapp");
@@ -30,7 +29,7 @@ export async function GET(req: NextRequest) {
 // Upsert de contato (participante de grupo ou contato individual)
 // Também serve para mover um contato de empresa
 export async function PATCH(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const gate = await assertModule(session, "whatsapp");
