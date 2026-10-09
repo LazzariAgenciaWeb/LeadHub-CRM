@@ -156,12 +156,12 @@ export default async function MeuEspacoPage() {
         name: s.name || s.service?.name || "Serviço",
         tasks: p.internalTasks
           .filter((t) => t.projectServiceId === s.id)
-          .map((t) => ({ id: t.id, title: t.title, description: t.description ?? null, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient, updates: clientComments(t.comments).map((c) => ({ text: c.text, at: c.at, client: c.by === "client" })) })),
+          .map((t) => ({ id: t.id, title: t.title, description: t.description ?? null, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient, updates: clientComments(t.comments).filter((c) => c.text.trim()).map((c) => ({ text: c.text, at: c.at, client: c.by === "client" })) })),
       }));
       const svcIds = new Set(p.serviceSteps.map((s) => s.id));
       const loose = p.internalTasks
         .filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId))
-        .map((t) => ({ id: t.id, title: t.title, description: t.description ?? null, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient, updates: clientComments(t.comments).map((c) => ({ text: c.text, at: c.at, client: c.by === "client" })) }));
+        .map((t) => ({ id: t.id, title: t.title, description: t.description ?? null, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient, updates: clientComments(t.comments).filter((c) => c.text.trim()).map((c) => ({ text: c.text, at: c.at, client: c.by === "client" })) }));
       if (loose.length) services.push({ id: `loose:${p.id}`, name: "Outras tarefas", tasks: loose });
       return { id: p.id, name: p.name, color: PROJECT_TINT[i % PROJECT_TINT.length], services: services.filter((s) => s.tasks.length > 0) };
     });

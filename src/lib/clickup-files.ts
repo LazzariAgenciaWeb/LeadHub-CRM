@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import { prisma } from "./prisma";
-import { readComments, sanitizeComments, type TaskCommentAttachment } from "./checklist";
+import { readComments, sanitizeComments, CLICKUP_IMPORT_PREFIX, type TaskCommentAttachment } from "./checklist";
 import { Prisma } from "@/generated/prisma";
 import { getClickupSettings, fetchClickupTaskAttachments, uploadClickupAttachment, type ClickupAttachment } from "./clickup";
 import { putObject, getObjectBuffer, storageEnabled, S3_BUCKET, MAX_FILE_BYTES } from "./storage/s3";
@@ -98,7 +98,7 @@ export async function importClickupAttachments(
   if (snaps.length) {
     const fresh = await prisma.projectTask.findUnique({ where: { id: task.id }, select: { comments: true } });
     const next = [...readComments(fresh?.comments), {
-      text: `📥 Trazido do ClickUp (${snaps.length} arquivo${snaps.length > 1 ? "s" : ""})`,
+      text: `${CLICKUP_IMPORT_PREFIX} (${snaps.length} arquivo${snaps.length > 1 ? "s" : ""})`,
       at: new Date().toISOString(),
       attachments: snaps,
     }];

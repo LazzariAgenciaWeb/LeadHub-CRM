@@ -147,5 +147,13 @@ export function readComments(raw: unknown): TaskComment[] {
  * painel do cliente (/c/[token] e /meu-espaco).
  */
 export function clientComments(raw: unknown): TaskComment[] {
-  return readComments(raw).filter((c) => c.by === "client" || c.vis !== false);
+  return readComments(raw)
+    .filter((c) => c.by === "client" || c.vis !== false)
+    // Aviso operacional ("📥 Trazido do ClickUp") é da equipe: pro cliente o
+    // andamento aparece só com os arquivos. Não dá pra marcar como interno —
+    // aí os arquivos sumiriam do cliente junto.
+    .map((c) => (c.by !== "client" && c.text.startsWith(CLICKUP_IMPORT_PREFIX) ? { ...c, text: "" } : c));
 }
+
+/** Início do texto do andamento criado ao trazer anexos do ClickUp. */
+export const CLICKUP_IMPORT_PREFIX = "📥 Trazido do ClickUp";
