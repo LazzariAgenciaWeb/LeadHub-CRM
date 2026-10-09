@@ -4,6 +4,7 @@ import { authenticateAssistantToken } from "@/lib/personal-assistant/token-auth"
 import { userCanUseAssistant } from "@/lib/personal-assistant/access";
 import { sendAssistantMessage } from "@/lib/personal-assistant/whatsapp";
 import { logNoteEvent } from "@/lib/personal-assistant/note-events";
+import { findSimilarOpenNote, appendToNote } from "@/lib/personal-assistant/dedupe";
 import { parseTags } from "@/lib/personal-assistant/tags";
 import { sendPushToUser } from "@/lib/push";
 import { appUrl, fmtDateTime } from "@/lib/assistant-tools/types";
@@ -58,25 +59,30 @@ export async function POST(req: NextRequest) {
   }
 
   let noteId: string | null = null;
+  let appended = false;
   if (!onlyNotify) {
-    const me = await prisma.user.findUnique({ where: { id: auth.userId }, select: { companyId: true } });
-    const note = await prisma.assistantNote.create({
-      data: {
-        userId: auth.userId, companyId: me?.companyId ?? null, kind, title,
-        body: [text, link ? `Link: ${link}` : null].filter(Boolean).join("\n\n") || null,
-        dueAt, tags, source: "WEBHOOK",
-      },
-      select: { id: true },
-    });
-    noteId = note.id;
-    await logNoteEvent(note.id, "CREATED", "WEBHOOK", `rotina: ${source}`);
+    const fullBody = [text, link ? `Link: ${link}` : null].filter(Boolean).join("\n\n") || null;
+    // Mesmo assunto já aberto (rotina rodando de novo) → acrescenta, não duplica.
+    const similar = body?.forceNew === true ? null : await findSimilarOpenNote(auth.userId, title, { body: fullBody, kind });
+    if (similar) {
+      await appendToNote(similar.id, { title, body: fullBody, tags, dueAt, source: "WEBHOOK", sourceLabel: source });
+      noteId = similar.id; appended = true;
+    } else {
+      const me = await prisma.user.findUnique({ where: { id: auth.userId }, select: { companyId: true } });
+      const note = await prisma.assistantNote.create({
+        data: { userId: auth.userId, companyId: me?.companyId ?? null, kind, title, body: fullBody, dueAt, tags, source: "WEBHOOK" },
+        select: { id: true },
+      });
+      noteId = note.id;
+      await logNoteEvent(note.id, "CREATED", "WEBHOOK", `rotina: ${source}`);
+    }
   }
 
   let notified = false;
   if (notify) {
     const icon = kind === "TASK" ? "☑️" : kind === "REMINDER" ? "⏰" : kind === "IDEA" ? "💡" : "📥";
     const msg = [
-      `${icon} *${title}*`,
+      `${icon} *${title}*${appended ? " _(atualização de item já anotado)_" : ""}`,
       text,
       dueAt ? `_${fmtDateTime(dueAt)}_` : null,
       tags.length ? tags.map((t) => `#${t}`).join(" ") : null,
@@ -87,7 +93,7 @@ export async function POST(req: NextRequest) {
     await sendPushToUser(auth.userId, { title: `${icon} ${title}`, body: (text ?? source).slice(0, 120), url: link ?? appUrl("/assistente?aba=bloquinho"), tag: `assistant-inbox-${noteId ?? Date.now()}` });
   }
 
-  return NextResponse.json({ ok: true, noteId, notified, url: noteId ? appUrl("/assistente?aba=bloquinho") : null }, { status: 201 });
+  return NextResponse.json({ ok: true, noteId, appended, notified, url: noteId ? appUrl("/assistente?aba=bloquinho") : null }, { status: appended ? 200 : 201 });
 }
 
 export async function GET() {

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { type ToolDef, ok, fail, parseDate, fmtDateTime, appUrl } from "./types";
 import { logNoteEvent, describeEdit } from "@/lib/personal-assistant/note-events";
+import { findSimilarOpenNote, appendToNote } from "@/lib/personal-assistant/dedupe";
 
 /**
  * O "bloquinho": ideias, notas, lembretes e tarefas pessoais (AssistantNote).
@@ -17,10 +18,36 @@ function cleanTags(t: unknown): string[] {
   return [...new Set(t.filter((x) => typeof x === "string").map((x) => x.trim().toLowerCase().replace(/^#/, "")).filter(Boolean))].slice(0, 6);
 }
 
-export const anotar: ToolDef<{ kind?: "IDEA" | "NOTE"; title: string; body?: string; clientCompanyId?: string; tags?: string[] }> = {
+const FORCAR_PROP = { type: "boolean", description: "true = criar um item novo mesmo que já exista um do mesmo assunto (default: acrescenta ao existente)." } as const;
+
+/**
+ * Cria no bloquinho — ou, se já houver um item ABERTO do mesmo assunto,
+ * acrescenta o conteúdo novo nele (data + origem) em vez de duplicar.
+ */
+async function createOrAppend(ctx: { userId: string; companyId: string; channel: string }, input: {
+  kind: Kind; title: string; body?: string | null; dueAt?: Date | null; clientCompanyId?: string | null; tags?: string[]; forcarNovo?: boolean;
+}): Promise<{ created: boolean; id: string; title: string }> {
+  const title = input.title.trim();
+  const tags = cleanTags(input.tags);
+  if (!input.forcarNovo) {
+    const similar = await findSimilarOpenNote(ctx.userId, title, { body: input.body ?? null, clientCompanyId: input.clientCompanyId ?? null, kind: input.kind });
+    if (similar) {
+      await appendToNote(similar.id, { title, body: input.body ?? null, tags, dueAt: input.dueAt ?? null, source: ctx.channel });
+      return { created: false, id: similar.id, title: similar.title };
+    }
+  }
+  const n = await prisma.assistantNote.create({
+    data: { userId: ctx.userId, companyId: ctx.companyId, kind: input.kind, title, body: input.body?.trim() || null, dueAt: input.dueAt ?? null, source: ctx.channel, clientCompanyId: input.clientCompanyId ?? null, tags },
+    select: { id: true },
+  });
+  await logNoteEvent(n.id, "CREATED", ctx.channel);
+  return { created: true, id: n.id, title };
+}
+
+export const anotar: ToolDef<{ kind?: "IDEA" | "NOTE"; title: string; body?: string; clientCompanyId?: string; tags?: string[]; forcarNovo?: boolean }> = {
   name: "anotar",
   description:
-    "Guarda uma ideia (kind=IDEA) ou nota livre (kind=NOTE) no bloquinho do usuário. Use quando ele disser 'anota aí', 'tive uma ideia', 'lembrar que...' sem data. title = frase curta; body = o resto do conteúdo, se houver.",
+    "Guarda uma ideia (kind=IDEA) ou nota livre (kind=NOTE) no bloquinho do usuário. Use quando ele disser 'anota aí', 'tive uma ideia', 'lembrar que...' sem data. title = frase curta; body = o resto do conteúdo, se houver. Se já existir item aberto do mesmo assunto, o conteúdo é ACRESCENTADO nele (não duplica).",
   input_schema: {
     type: "object",
     properties: {
@@ -29,61 +56,64 @@ export const anotar: ToolDef<{ kind?: "IDEA" | "NOTE"; title: string; body?: str
       body: { type: "string" },
       clientCompanyId: { type: "string", description: "Se a nota for sobre um cliente específico" },
       tags: TAGS_PROP,
+      forcarNovo: FORCAR_PROP,
     },
     required: ["title"],
   },
   mutating: true,
   run: async (input, ctx) => {
     const kind: Kind = input.kind === "IDEA" ? "IDEA" : "NOTE";
-    const n = await prisma.assistantNote.create({
-      data: { userId: ctx.userId, companyId: ctx.companyId, kind, title: input.title.trim(), body: input.body?.trim() || null, source: ctx.channel, clientCompanyId: input.clientCompanyId ?? null, tags: cleanTags(input.tags) },
-      select: { id: true },
-    });
-    return ok(`${KIND_LABEL[kind]} guardada: "${input.title.trim()}"`, { data: { id: n.id }, link: appUrl("/assistente?aba=bloquinho") });
+    const r = await createOrAppend(ctx, { kind, title: input.title, body: input.body, clientCompanyId: input.clientCompanyId, tags: input.tags, forcarNovo: input.forcarNovo });
+    return ok(r.created ? `${KIND_LABEL[kind]} guardada: "${r.title}"` : `📎 Acrescentado ao item existente "${r.title}" (mesmo assunto).`, { data: { id: r.id, appended: !r.created }, link: appUrl("/assistente?aba=bloquinho") });
   },
 };
 
-export const criarLembrete: ToolDef<{ title: string; dueAt: string; body?: string; tags?: string[] }> = {
+export const criarLembrete: ToolDef<{ title: string; dueAt: string; body?: string; tags?: string[]; forcarNovo?: boolean }> = {
   name: "criar_lembrete",
   description:
-    "Cria um lembrete com data e hora (ISO 8601 com offset -03:00). Na hora marcada o usuário recebe a mensagem no WhatsApp e no app. Use pra 'me lembra de X às Y'. Se o usuário disser só o dia, assuma 09:00.",
+    "Cria um lembrete com data e hora (ISO 8601 com offset -03:00). Na hora marcada o usuário recebe a mensagem no WhatsApp e no app. Use pra 'me lembra de X às Y'. Se o usuário disser só o dia, assuma 09:00. Se já existir item aberto do mesmo assunto, acrescenta nele e antecipa o prazo se o novo for antes.",
   input_schema: {
     type: "object",
-    properties: { title: { type: "string" }, dueAt: { type: "string" }, body: { type: "string" }, tags: TAGS_PROP },
+    properties: { title: { type: "string" }, dueAt: { type: "string" }, body: { type: "string" }, tags: TAGS_PROP, forcarNovo: FORCAR_PROP },
     required: ["title", "dueAt"],
   },
   mutating: true,
   run: async (input, ctx) => {
     const due = parseDate(input.dueAt);
     if (!due) return fail("dueAt inválido.");
-    const n = await prisma.assistantNote.create({
-      data: { userId: ctx.userId, companyId: ctx.companyId, kind: "REMINDER", title: input.title.trim(), body: input.body?.trim() || null, dueAt: due, source: ctx.channel, tags: cleanTags(input.tags) },
-      select: { id: true },
-    });
-    await logNoteEvent(n.id, "CREATED", ctx.channel);
-    return ok(`⏰ Lembrete criado: "${input.title.trim()}" em ${fmtDateTime(due)}`, { data: { id: n.id } });
+    const r = await createOrAppend(ctx, { kind: "REMINDER", title: input.title, body: input.body, dueAt: due, tags: input.tags, forcarNovo: input.forcarNovo });
+    return ok(r.created ? `⏰ Lembrete criado: "${r.title}" em ${fmtDateTime(due)}` : `📎 Acrescentado ao item existente "${r.title}" (mesmo assunto); prazo ${fmtDateTime(due)} considerado.`, { data: { id: r.id, appended: !r.created } });
   },
 };
 
-export const criarTarefaPessoal: ToolDef<{ title: string; dueAt?: string; body?: string; clientCompanyId?: string; tags?: string[] }> = {
+export const criarTarefaPessoal: ToolDef<{ title: string; dueAt?: string; body?: string; clientCompanyId?: string; tags?: string[]; forcarNovo?: boolean }> = {
   name: "criar_tarefa_pessoal",
   description:
-    "Cria uma tarefa pessoal rápida (to-do do próprio usuário, fora de projetos e chamados). dueAt opcional (ISO 8601). Aparece na fila do dia. Prefira criar_chamado quando for demanda de cliente ou da equipe, e criar_tarefa_projeto quando pertencer a um projeto.",
+    "Cria uma tarefa pessoal rápida (to-do do próprio usuário, fora de projetos e chamados). dueAt opcional (ISO 8601). Aparece na fila do dia. Prefira criar_chamado quando for demanda de cliente ou da equipe, e criar_tarefa_projeto quando pertencer a um projeto. Se já existir item aberto do mesmo assunto, o conteúdo é ACRESCENTADO nele (não duplica).",
   input_schema: {
     type: "object",
-    properties: { title: { type: "string" }, dueAt: { type: "string" }, body: { type: "string" }, clientCompanyId: { type: "string" }, tags: TAGS_PROP },
+    properties: { title: { type: "string" }, dueAt: { type: "string" }, body: { type: "string" }, clientCompanyId: { type: "string" }, tags: TAGS_PROP, forcarNovo: FORCAR_PROP },
     required: ["title"],
   },
   mutating: true,
   run: async (input, ctx) => {
     const due = input.dueAt ? parseDate(input.dueAt) : null;
     if (input.dueAt && !due) return fail("dueAt inválido.");
-    const n = await prisma.assistantNote.create({
-      data: { userId: ctx.userId, companyId: ctx.companyId, kind: "TASK", title: input.title.trim(), body: input.body?.trim() || null, dueAt: due, source: ctx.channel, clientCompanyId: input.clientCompanyId ?? null, tags: cleanTags(input.tags) },
-      select: { id: true },
-    });
-    await logNoteEvent(n.id, "CREATED", ctx.channel);
-    return ok(`☑️ Tarefa pessoal criada: "${input.title.trim()}"${due ? ` · ${fmtDateTime(due)}` : ""}`, { data: { id: n.id } });
+    const r = await createOrAppend(ctx, { kind: "TASK", title: input.title, body: input.body, dueAt: due, clientCompanyId: input.clientCompanyId, tags: input.tags, forcarNovo: input.forcarNovo });
+    return ok(r.created ? `☑️ Tarefa pessoal criada: "${r.title}"${due ? ` · ${fmtDateTime(due)}` : ""}` : `📎 Acrescentado ao item existente "${r.title}" (mesmo assunto).`, { data: { id: r.id, appended: !r.created } });
+  },
+};
+
+export const acrescentarAoItem: ToolDef<{ id: string; texto: string; tags?: string[] }> = {
+  name: "acrescentar_ao_item",
+  description: "Acrescenta informação nova a um item existente do bloquinho (pelo id de listar_anotacoes), sem criar outro. Use quando surgir mais contexto sobre um assunto já anotado.",
+  input_schema: { type: "object", properties: { id: { type: "string" }, texto: { type: "string" }, tags: TAGS_PROP }, required: ["id", "texto"] },
+  mutating: true,
+  run: async ({ id, texto, tags }, ctx) => {
+    const n = await prisma.assistantNote.findFirst({ where: { id, userId: ctx.userId }, select: { id: true } });
+    if (!n) return fail("Item não encontrado.");
+    const r = await appendToNote(id, { body: texto, tags: cleanTags(tags), source: ctx.channel });
+    return ok(`📎 Acrescentado em "${r.title}".`);
   },
 };
 
@@ -188,4 +218,4 @@ export const excluirItem: ToolDef<{ id: string }> = {
   },
 };
 
-export const notasTools: ToolDef[] = [anotar, criarLembrete, criarTarefaPessoal, listarAnotacoes, editarItem, concluirItem, reabrirItem, excluirItem];
+export const notasTools: ToolDef[] = [anotar, criarLembrete, criarTarefaPessoal, listarAnotacoes, editarItem, acrescentarAoItem, concluirItem, reabrirItem, excluirItem];

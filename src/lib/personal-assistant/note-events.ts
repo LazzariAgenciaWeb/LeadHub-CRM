@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-export type NoteEventType = "CREATED" | "EDITED" | "DONE" | "REOPENED";
+export type NoteEventType = "CREATED" | "EDITED" | "APPENDED" | "DONE" | "REOPENED";
 
 /** Registra um evento no histórico do item do bloquinho (nunca lança). */
 export async function logNoteEvent(noteId: string, type: NoteEventType, source: string, detail?: string | null) {

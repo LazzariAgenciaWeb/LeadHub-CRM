@@ -83,6 +83,7 @@ function buildSystemPrompt(ctx: ToolContext, companyName: string, pending: { sum
     `- Antes de criar chamado/projeto/cobrança para um cliente, use buscar_cliente. Se não existir e o usuário deu o nome, crie (clientCompanyName).`,
     `- Datas: se o usuário não disser hora, use 09:00 para lembretes e fim do próximo dia útil (18:00) para prazos de chamado.`,
     `- "Anota", "ideia", "lembrar que" sem data → anotar. "Me lembra às/em" → criar_lembrete. "Tenho que / preciso fazer" → criar_tarefa_pessoal (ou criar_chamado se for demanda da equipe/cliente; criar_tarefa_projeto se citar um projeto).`,
+    `- Não duplique assunto: as ferramentas de criar já acrescentam ao item existente quando o assunto é o mesmo (a resposta diz "Acrescentado"). Se o usuário trouxer mais contexto sobre algo já anotado, use acrescentar_ao_item (ache o id com listar_anotacoes). Só use forcarNovo quando ele pedir explicitamente um item separado.`,
     `- "Feito", "concluí", "já resolvi" sobre um item do bloquinho → concluir_item; se o usuário contar COMO resolveu, passe em resultado. "Reabre" → reabrir_item.`,
     `- Itens do bloquinho aceitam etiquetas (tags) curtas: pessoal, financeiro, cliente, marketing, equipe, ideia… Aplique 1 a 3 pelo contexto sem perguntar; o usuário pode pedir "etiqueta X" ou "marca como financeiro".`,
     `- Depois de executar, confirme em UMA linha o que foi criado, com o link quando houver. Não repita o id.`,
