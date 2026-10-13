@@ -200,6 +200,25 @@ const EMPTY_ACC_FORM = {
   active: true,
 };
 
+/** Resultado da busca de negociações (seletor "vincular a lead"). */
+type LeadHit = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+  pipeline: string | null;
+  pipelineStage: string | null;
+  value: number | null;
+};
+
+const EMPTY_LEAD_FORM = { name: "", email: "", phone: "", pipeline: "LEADS", value: "" };
+
+const PIPELINE_LABEL: Record<string, string> = {
+  PROSPECCAO: "Prospecção",
+  LEADS: "Lead",
+  OPORTUNIDADES: "Oportunidade",
+};
+
 export default function EmailInbox() {
   const [folder, setFolder] = useState<FolderSel>("INBOX");
   // Caixas VISÍVEIS escolhidas pelo usuário (vazio = todas). Persistem no
@@ -262,6 +281,16 @@ export default function EmailInbox() {
   const [ticketForm, setTicketForm] = useState({ title: "", dueDate: "", priority: "MEDIUM" });
   const [ticketSaving, setTicketSaving] = useState(false);
   const [ticketErr, setTicketErr] = useState("");
+
+  // Vincular/criar lead ou oportunidade a partir do email
+  const [leadOpen, setLeadOpen] = useState(false);
+  const [leadQ, setLeadQ] = useState("");
+  const [leadHits, setLeadHits] = useState<LeadHit[]>([]);
+  const [leadSearching, setLeadSearching] = useState(false);
+  const [leadBusy, setLeadBusy] = useState(false);
+  const [leadErr, setLeadErr] = useState("");
+  const [leadNewOpen, setLeadNewOpen] = useState(false);
+  const [leadForm, setLeadForm] = useState({ ...EMPTY_LEAD_FORM });
 
   // Regras de remetente (blacklist/whitelist)
   const [rulesOpen, setRulesOpen] = useState(false);
@@ -581,6 +610,94 @@ export default function EmailInbox() {
       load({ silent: true });
     } finally {
       setTicketSaving(false);
+    }
+  }
+
+  // ── Vincular / criar lead ou oportunidade ────────────────────────────────
+
+  function startLinkLead(email: EmailFull) {
+    // Busca já começa pelo endereço do contato: se a negociação existe, ela
+    // aparece na primeira linha sem você digitar nada.
+    const contato = email.direction === "IN" ? email.fromEmail : email.toEmail.split(",")[0]?.trim() ?? "";
+    setLeadQ(contato);
+    setLeadForm({
+      ...EMPTY_LEAD_FORM,
+      name: email.fromName || contato.split("@")[0] || "",
+      email: contato,
+    });
+    setLeadHits([]);
+    setLeadErr("");
+    setLeadNewOpen(false);
+    setLeadOpen(true);
+  }
+
+  // Busca com debounce enquanto o seletor está aberto.
+  useEffect(() => {
+    if (!leadOpen) return;
+    const termo = leadQ.trim();
+    setLeadSearching(true);
+    const t = setTimeout(() => {
+      fetch(`/api/email/inbox/leads?q=${encodeURIComponent(termo)}`)
+        .then((r) => (r.ok ? r.json() : { leads: [] }))
+        .then((j) => setLeadHits(j.leads ?? []))
+        .catch(() => setLeadHits([]))
+        .finally(() => setLeadSearching(false));
+    }, 300);
+    return () => clearTimeout(t);
+  }, [leadQ, leadOpen]);
+
+  async function linkLead(leadId: string | null) {
+    if (!selected) return;
+    setLeadBusy(true);
+    setLeadErr("");
+    try {
+      const res = await fetch(`/api/email/inbox/${selected.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setLeadErr(j.error || "Falha ao alterar o vínculo"); return; }
+      setSelected((s) => (s ? { ...s, leadId: j.email?.leadId ?? null, lead: j.email?.lead ?? null } : s));
+      setLeadOpen(false);
+      setNotice(leadId
+        ? "E-mail vinculado à negociação ✓ — aparece na aba E-mails do lead"
+        : "Vínculo removido");
+      setTimeout(() => setNotice(""), 6000);
+      load({ silent: true });
+    } finally {
+      setLeadBusy(false);
+    }
+  }
+
+  async function createLeadFromEmail() {
+    if (!selected) return;
+    setLeadBusy(true);
+    setLeadErr("");
+    try {
+      const valor = parseFloat(leadForm.value.replace(",", "."));
+      const res = await fetch(`/api/email/inbox/${selected.id}/create-lead`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: leadForm.name.trim(),
+          email: leadForm.email.trim(),
+          phone: leadForm.phone.trim(),
+          pipeline: leadForm.pipeline,
+          value: Number.isFinite(valor) ? valor : undefined,
+        }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setLeadErr(j.error || "Falha ao criar a negociação"); return; }
+      setSelected((s) => (s ? { ...s, leadId: j.leadId, lead: j.lead } : s));
+      setLeadOpen(false);
+      const extras = Math.max(0, (j.linked ?? 1) - 1);
+      setNotice(`${PIPELINE_LABEL[leadForm.pipeline] ?? "Lead"} criada e vinculada ✓${
+        extras ? ` — ${extras} e-mail(s) do histórico também entraram` : ""}`);
+      setTimeout(() => setNotice(""), 8000);
+      load({ silent: true });
+    } finally {
+      setLeadBusy(false);
     }
   }
 
@@ -1410,6 +1527,11 @@ export default function EmailInbox() {
                         title="Confiável: tira de Spam/Descarte e nunca mais marca este remetente como golpe"
                         className="rounded-lg border border-emerald-500/30 p-1.5 text-emerald-300 hover:bg-emerald-500/10"><ShieldCheck size={14} /></button>
                     )}
+                    {!selected.lead && (
+                      <button onClick={() => startLinkLead(selected)}
+                        title="Vincular a um lead/oportunidade — ou criar um novo a partir deste email"
+                        className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><Target size={14} /></button>
+                    )}
                     {!selected.ticket && (
                       <button onClick={() => startCreateTicket(selected)} title="Criar chamado a partir deste email"
                         className="rounded-lg border border-white/10 p-1.5 text-sky-300 hover:bg-white/5"><LifeBuoy size={14} /></button>
@@ -1486,10 +1608,15 @@ export default function EmailInbox() {
                         </span>
                       )}
                       {selected.lead && (
-                        <Link href={`/crm/leads?lead=${selected.lead.id}`}
-                          className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">
-                          <Target size={10} /> {selected.lead.name || "Lead"}
-                        </Link>
+                        <span className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
+                          <Link href={`/crm/leads?lead=${selected.lead.id}`}
+                            title={`Abrir ${PIPELINE_LABEL[selected.lead.pipeline ?? ""] ?? "negociação"} no CRM`}
+                            className="flex items-center gap-1 hover:text-emerald-200">
+                            <Target size={10} /> {selected.lead.name || "Lead"}
+                          </Link>
+                          <button onClick={() => linkLead(null)} disabled={leadBusy}
+                            title="Desvincular desta negociação" className="text-emerald-300/60 hover:text-red-300 ml-0.5">×</button>
+                        </span>
                       )}
                       {selected.ticket && (
                         <Link href={`/chamados/${selected.ticket.id}`}
@@ -1783,6 +1910,103 @@ export default function EmailInbox() {
                 {sending ? "Enviando…" : "Enviar"}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: vincular o email a uma negociação — ou criar uma nova */}
+      {leadOpen && selected && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setLeadOpen(false)}>
+          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#0f1623] p-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="text-white text-sm font-semibold flex items-center gap-2">
+                <Target size={15} className="text-emerald-400" /> Lead / Oportunidade
+              </h3>
+              <button onClick={() => setLeadOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
+            </div>
+            <p className="text-[11px] text-slate-500 mb-3">
+              O email entra na aba <strong className="text-slate-400">E-mails da negociação</strong> e as respostas
+              futuras da conversa seguem pra lá também.
+            </p>
+
+            {/* Buscar negociação existente */}
+            <div className="relative">
+              <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+              <input value={leadQ} onChange={(e) => setLeadQ(e.target.value)} autoFocus
+                placeholder="Buscar por nome, email ou telefone"
+                className="w-full rounded-lg bg-white/5 border border-white/10 pl-8 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500" />
+            </div>
+
+            <div className="mt-2 max-h-52 overflow-y-auto divide-y divide-white/5 rounded-lg border border-white/5">
+              {leadSearching && leadHits.length === 0 && (
+                <p className="text-[11px] text-slate-500 px-3 py-2">Buscando…</p>
+              )}
+              {!leadSearching && leadHits.length === 0 && (
+                <p className="text-[11px] text-slate-500 px-3 py-2">
+                  Nenhuma negociação encontrada — crie uma abaixo.
+                </p>
+              )}
+              {leadHits.map((l) => (
+                <button key={l.id} onClick={() => linkLead(l.id)} disabled={leadBusy}
+                  className="w-full text-left px-3 py-2 hover:bg-white/5 disabled:opacity-50">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs text-white truncate">{l.name || l.email || l.phone || "Sem nome"}</span>
+                    {l.pipeline && (
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 flex-shrink-0">
+                        {PIPELINE_LABEL[l.pipeline] ?? l.pipeline}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[10px] text-slate-500 truncate block">
+                    {[l.email, l.phone, l.pipelineStage].filter(Boolean).join(" · ") || "—"}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            {/* Criar nova negociação com os dados do email */}
+            <button onClick={() => setLeadNewOpen((v) => !v)}
+              className="mt-3 flex items-center gap-1.5 text-[11px] text-emerald-300 hover:text-emerald-200">
+              {leadNewOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+              <Plus size={12} /> Criar nova a partir deste email
+            </button>
+
+            {leadNewOpen && (
+              <div className="mt-2 space-y-2 rounded-lg border border-white/5 p-2.5">
+                <div className="grid grid-cols-2 gap-2">
+                  <input value={leadForm.name} onChange={(e) => setLeadForm((f) => ({ ...f, name: e.target.value }))}
+                    placeholder="Nome / empresa"
+                    className="rounded-lg bg-white/5 border border-white/10 px-2.5 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500" />
+                  <input value={leadForm.phone} onChange={(e) => setLeadForm((f) => ({ ...f, phone: e.target.value }))}
+                    placeholder="Telefone (opcional)"
+                    className="rounded-lg bg-white/5 border border-white/10 px-2.5 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500" />
+                </div>
+                <input value={leadForm.email} onChange={(e) => setLeadForm((f) => ({ ...f, email: e.target.value }))}
+                  placeholder="E-mail do contato"
+                  className="w-full rounded-lg bg-white/5 border border-white/10 px-2.5 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500" />
+                <div className="grid grid-cols-2 gap-2">
+                  <select value={leadForm.pipeline} onChange={(e) => setLeadForm((f) => ({ ...f, pipeline: e.target.value }))}
+                    className="rounded-lg bg-white/5 border border-white/10 px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                    <option value="PROSPECCAO" className="bg-[#0f1623]">Prospecção</option>
+                    <option value="LEADS" className="bg-[#0f1623]">Lead</option>
+                    <option value="OPORTUNIDADES" className="bg-[#0f1623]">Oportunidade</option>
+                  </select>
+                  <input value={leadForm.value} onChange={(e) => setLeadForm((f) => ({ ...f, value: e.target.value }))}
+                    placeholder="Valor (opcional)" inputMode="decimal"
+                    className="rounded-lg bg-white/5 border border-white/10 px-2.5 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500" />
+                </div>
+                <p className="text-[10px] text-slate-500">
+                  Entra na primeira etapa do pipeline. Os outros e-mails trocados com este endereço que ainda não
+                  estão em negociação nenhuma vêm junto.
+                </p>
+                <button onClick={createLeadFromEmail} disabled={leadBusy || (!leadForm.name.trim() && !leadForm.phone.trim())}
+                  className="w-full rounded-lg bg-emerald-600 px-3 py-2 text-xs text-white hover:bg-emerald-500 disabled:opacity-50">
+                  {leadBusy ? "Criando…" : "Criar e vincular"}
+                </button>
+              </div>
+            )}
+
+            {leadErr && <p className="text-red-400 text-xs mt-2">{leadErr}</p>}
           </div>
         </div>
       )}

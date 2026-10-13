@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import SendEmailButton from "@/components/SendEmailButton";
+import { LeadEmailsPanel } from "../crm/LeadLinks";
 
 interface Lead {
   id: string;
@@ -215,6 +216,9 @@ export default function LeadsTable({
                   <div className="text-white">{selected.email}</div>
                 </div>
               )}
+              {/* Mesmo painel do CRM: e-mails da caixa ligados a esta
+                  negociação, com busca pra anexar outros. */}
+              <LeadEmailsPanel leadId={selected.id} leadEmail={selected.email ?? null} />
               <div>
                 <div className="text-slate-500 text-[11px] uppercase tracking-wide mb-1">Status</div>
                 <span className={`text-[12px] font-semibold px-2.5 py-1 rounded-full ${STATUS_CONFIG[selected.status]?.color ?? ""}`}>

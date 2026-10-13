@@ -91,8 +91,32 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.folder = folder;
   }
   if (body.seen !== undefined) data.seen = !!body.seen;
-  if (body.leadId !== undefined) data.leadId = body.leadId || null;
-  if (body.ticketId !== undefined) data.ticketId = body.ticketId || null;
+  // Vínculos: valida o dono antes de gravar — sem isso daria pra pendurar um
+  // email numa negociação/chamado de OUTRA empresa mandando o id na mão.
+  if (body.leadId !== undefined) {
+    if (body.leadId) {
+      const lead = await prisma.lead.findFirst({
+        where: { id: String(body.leadId), companyId: ctx.companyId },
+        select: { id: true },
+      });
+      if (!lead) return NextResponse.json({ error: "Lead não encontrado" }, { status: 404 });
+      data.leadId = lead.id;
+    } else {
+      data.leadId = null;
+    }
+  }
+  if (body.ticketId !== undefined) {
+    if (body.ticketId) {
+      const ticket = await prisma.ticket.findFirst({
+        where: { id: String(body.ticketId), companyId: ctx.companyId },
+        select: { id: true },
+      });
+      if (!ticket) return NextResponse.json({ error: "Chamado não encontrado" }, { status: 404 });
+      data.ticketId = ticket.id;
+    } else {
+      data.ticketId = null;
+    }
+  }
   // Tags: adiciona/remove uma tag da empresa (valida o dono antes).
   if (body.addTagId || body.removeTagId) {
     const tagId = String(body.addTagId || body.removeTagId);
@@ -110,7 +134,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const updated = await prisma.inboxEmail.update({
     where: { id },
     data,
-    select: { id: true, folder: true, seen: true, leadId: true, ticketId: true },
+    select: {
+      id: true, folder: true, seen: true, leadId: true, ticketId: true,
+      lead: { select: { id: true, name: true, email: true, pipeline: true } },
+      ticket: { select: { id: true, title: true } },
+    },
   });
 
   // ── Propagação entre cópias: o MESMO email pode existir em várias caixas
