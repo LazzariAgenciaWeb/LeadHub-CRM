@@ -139,7 +139,9 @@ export function ApprovalCard({
           <h3 className="text-white font-semibold text-sm">📣 Aprovação pelo WhatsApp</h3>
           <p className="text-slate-500 text-xs mt-0.5">
             {project.approvalGroupJid ? (
-              <>Grupo <span className="text-slate-300">{project.approvalGroupName ?? project.approvalGroupJid}</span> · lembra a cada {project.approvalReminderDays} dia{project.approvalReminderDays > 1 ? "s" : ""}, até {project.approvalMaxReminders}x</>
+              <>Grupo <span className="text-slate-300">{project.approvalGroupName ?? project.approvalGroupJid}</span> · {project.approvalMaxReminders > 0
+                ? <>lembra a cada {project.approvalReminderDays} dia{project.approvalReminderDays > 1 ? "s" : ""}, até {project.approvalMaxReminders}x</>
+                : "lembretes desligados"}</>
             ) : (
               "Escolha o grupo do cliente que recebe o link de cada peça."
             )}
@@ -191,10 +193,10 @@ export function ApprovalCard({
               no máximo
               <input type="number" min={0} max={10} value={max} onChange={(e) => setMax(Number(e.target.value))}
                 className="w-14 bg-[#0a0f1a] border border-[#1e2d45] rounded px-1.5 py-0.5 text-slate-200" />
-              lembretes
+              lembretes <span className="text-slate-600">(0 = desligado)</span>
             </label>
           </div>
-          <p className="text-[11px] text-slate-500">Lembretes só saem em dia útil, das 9h às 18h. Depois do último, o responsável pela tarefa é avisado.</p>
+          <p className="text-[11px] text-slate-500">Lembretes só saem em dia útil, das 9h às 18h. Depois do último, o responsável pela tarefa é avisado. Com 0, nenhum lembrete sai e ninguém é avisado.</p>
           {err && <div className="text-xs text-red-300">{err}</div>}
           <div className="flex items-center gap-2 justify-end">
             {project.approvalGroupJid && (
