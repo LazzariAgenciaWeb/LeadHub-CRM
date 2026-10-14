@@ -16,7 +16,10 @@ export interface BonificacaoData {
   colaboradores: { id: string; nome: string }[];
   recorrentes: { id: string; clienteId: string; cliente: string; label: string; tipo: string; amountCents: number; faturado: boolean }[];
   /** Serviços/vendas marcados como "não bonifica" — pra reverter sem ir ao cadastro. */
-  naoBonificam: { id: string; tipo: "contrato" | "venda"; clienteId: string; nome: string }[];
+  naoBonificam: {
+    id: string; tipo: "contrato" | "venda"; clienteId: string; nome: string;
+    amountCents: number;
+  }[];
   pontuais: {
     id: string; titulo: string; cliente: string | null; valorCents: number; entregueEm: string;
     responsavelId: string | null; responsavelNome: string | null;
@@ -68,6 +71,9 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   const [avulsoValor, setAvulsoValor] = useState("");
   const [busca, setBusca] = useState("");
   const [mostrarNaoBonificam, setMostrarNaoBonificam] = useState(false);
+  // Ordem da lista de excluídos: por nome pra achar um cliente específico,
+  // por valor pra revisar primeiro o que pesa mais no fechamento.
+  const [ordemNaoBonificam, setOrdemNaoBonificam] = useState<"nome" | "valor">("nome");
 
   if (!data) {
     return (
@@ -679,24 +685,58 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
             >
               {`${mostrarNaoBonificam ? "▾" : "▸"} ${data.naoBonificam.length} serviço(s) marcado(s) como "não bonifica"`}
             </button>
-            {mostrarNaoBonificam && (
-              <div className="mt-2 space-y-1">
-                {data.naoBonificam
-                  .filter((s) => casaBusca(s.nome))
-                  .map((s) => (
-                    <div key={s.id} className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-white/[0.02]">
-                      <span className="text-xs text-slate-500 truncate">{s.nome}</span>
-                      <button
-                        onClick={() => setBonifica(s, true)}
-                        disabled={ocupado === `svc-${s.id}`}
-                        className="px-2 py-1 rounded-md text-[11px] text-emerald-400/80 hover:bg-emerald-500/10 disabled:opacity-40 flex-shrink-0"
-                      >
-                        {ocupado === `svc-${s.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "voltar a bonificar"}
-                      </button>
+            {mostrarNaoBonificam && (() => {
+              const visiveis = [...data.naoBonificam.filter((s) => casaBusca(s.nome))].sort((a, b) =>
+                ordemNaoBonificam === "valor"
+                  ? b.amountCents - a.amountCents
+                  : a.nome.localeCompare(b.nome),
+              );
+              const total = visiveis.reduce((n, s) => n + s.amountCents, 0);
+              return (
+                <div className="mt-2">
+                  <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
+                    <div className="flex items-center gap-1">
+                      <span className="text-[11px] text-slate-600">ordenar por</span>
+                      {(["nome", "valor"] as const).map((o) => (
+                        <button
+                          key={o}
+                          onClick={() => setOrdemNaoBonificam(o)}
+                          className={`px-1.5 py-0.5 rounded text-[11px] border ${
+                            ordemNaoBonificam === o
+                              ? "border-indigo-500/40 bg-indigo-500/10 text-white"
+                              : "border-[#1e2d45] text-slate-500 hover:text-slate-300"
+                          }`}
+                        >
+                          {o === "nome" ? "nome" : "maior valor"}
+                        </button>
+                      ))}
                     </div>
-                  ))}
-              </div>
-            )}
+                    {/* Soma do que está fora do fechamento: ajuda a enxergar o
+                        peso do que foi excluído antes de revisar. */}
+                    <span className="text-[11px] text-slate-600">
+                      {visiveis.length} item(ns) · <b className="text-slate-400">{brlFromCents(total)}</b>
+                    </span>
+                  </div>
+                  <div className="space-y-1">
+                    {visiveis.map((s) => (
+                      <div key={s.id} className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-white/[0.02]">
+                        <span className="text-xs text-slate-500 truncate">{s.nome}</span>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <span className="text-xs text-slate-400 font-medium">{brlFromCents(s.amountCents)}</span>
+                          <button
+                            onClick={() => setBonifica(s, true)}
+                            disabled={ocupado === `svc-${s.id}`}
+                            className="px-2 py-1 rounded-md text-[11px] text-emerald-400/80 hover:bg-emerald-500/10 disabled:opacity-40"
+                          >
+                            {ocupado === `svc-${s.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "voltar a bonificar"}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         )}
       </div>

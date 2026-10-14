@@ -100,6 +100,7 @@ export default async function BonificacaoPage({
           tipo: "contrato" as const,
           clienteId: c.clientCompanyId,
           nome: `${nomeCliente.get(c.clientCompanyId) ?? "—"} · ${c.label}`,
+          amountCents: c.amountCents ?? 0,
         })),
       ...vendas
         .filter((v) => !v.bonusEligible)
@@ -108,8 +109,9 @@ export default async function BonificacaoPage({
           tipo: "venda" as const,
           clienteId: "",
           nome: `${v.clientCompany ? fmtCliente(v.clientCompany) : "—"} · ${v.title} (pontual)`,
+          amountCents: v.valueCents,
         })),
-    ].sort((a, b) => a.nome.localeCompare(b.nome)),
+    ],
     recorrentes: contratos
       // Serviço marcado como "não bonifica" sai da lista — é a hospedagem que
       // todo mês era ignorada à mão. Lançamento JÁ FEITO continua na lista de

@@ -6,7 +6,7 @@ import {
   Share2, BarChart3, Cloud, Box, Lock, Eye, EyeOff, Copy,
   Plus, Trash2, Pencil, ExternalLink, AlertTriangle, Check,
   KeyRound, ShieldCheck, Info, ChevronDown, ChevronRight,
-  Archive, RotateCcw, StickyNote, FileText,
+  Archive, RotateCcw, StickyNote, FileText, History, X,
 } from "lucide-react";
 import VaultVerifyModal from "./VaultVerifyModal";
 
@@ -94,6 +94,7 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
   const [showAssetModal, setShowAssetModal] = useState<{ asset: Asset | null } | null>(null);
   const [showCredModal, setShowCredModal] = useState<{ assetId: string; credential: Credential | null } | null>(null);
   const [showSecurityInfo, setShowSecurityInfo] = useState(false);
+  const [showAccessLogs, setShowAccessLogs] = useState(false);
 
   // Senhas reveladas em memória — never persist
   const [revealed, setRevealed] = useState<Record<string, string>>({});
@@ -313,6 +314,16 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
         <div className="flex items-center gap-2">
           {canDelete && (
             <button
+              onClick={() => setShowAccessLogs(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border bg-[#0a1220] border-[#1e2d45] text-slate-400 hover:text-slate-200"
+              title="Quem viu, copiou ou editou cada senha e nota"
+            >
+              <History className="w-3.5 h-3.5" />
+              Histórico de acessos
+            </button>
+          )}
+          {canDelete && (
+            <button
               onClick={() => setShowArchived((s) => !s)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border ${
                 showArchived
@@ -527,6 +538,9 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
       </div>
 
       {/* Modais */}
+      {showAccessLogs && (
+        <AccessLogsModal companyId={companyId} onClose={() => setShowAccessLogs(false)} />
+      )}
       {showAssetModal && (
         <AssetModal
           companyId={companyId}
@@ -1381,6 +1395,183 @@ function CredentialModal({
           <button onClick={onClose} className="px-4 py-2 rounded-lg bg-[#0a1220] border border-[#1e2d45] text-slate-300 text-sm hover:text-white">
             Cancelar
           </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Histórico de acessos (auditoria) ─────────────────────────────────────────
+
+interface AccessLogEntry {
+  id: string;
+  kind: "CREDENTIAL" | "NOTE";
+  action: string;
+  target: string;
+  context: string;
+  userName: string | null;
+  userRole: string | null;
+  ipAddress: string | null;
+  userAgent: string | null;
+  createdAt: string;
+}
+
+const ACTION_META: Record<string, { label: string; className: string }> = {
+  REVEAL:  { label: "Visualizou", className: "text-cyan-300 bg-cyan-500/10" },
+  COPY:    { label: "Copiou",     className: "text-indigo-300 bg-indigo-500/10" },
+  SHARE:   { label: "Compartilhou", className: "text-purple-300 bg-purple-500/10" },
+  EDIT:    { label: "Editou",     className: "text-amber-300 bg-amber-500/10" },
+  CREATE:  { label: "Criou",      className: "text-emerald-300 bg-emerald-500/10" },
+  DELETE:  { label: "Excluiu",    className: "text-red-300 bg-red-500/10" },
+  ARCHIVE: { label: "Arquivou",   className: "text-orange-300 bg-orange-500/10" },
+  RESTORE: { label: "Restaurou",  className: "text-teal-300 bg-teal-500/10" },
+};
+
+function AccessLogsModal({ companyId, onClose }: { companyId: string; onClose: () => void }) {
+  const [logs, setLogs] = useState<AccessLogEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userFilter, setUserFilter] = useState("");
+  const [actionFilter, setActionFilter] = useState("");
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await fetch(`/api/companies/${companyId}/vault/access-logs?limit=500`);
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.error || "Erro ao carregar histórico");
+        setLogs(j.logs);
+      } catch (e: any) {
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [companyId]);
+
+  const users = useMemo(
+    () => Array.from(new Set(logs.map((l) => l.userName).filter(Boolean) as string[])).sort(),
+    [logs],
+  );
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return logs.filter((l) =>
+      (!userFilter || l.userName === userFilter) &&
+      (!actionFilter || l.action === actionFilter) &&
+      (!q || l.target.toLowerCase().includes(q) || l.context.toLowerCase().includes(q)),
+    );
+  }, [logs, userFilter, actionFilter, search]);
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div
+        className="bg-[#0d1525] border border-[#1e2d45] rounded-2xl w-full max-w-4xl shadow-2xl max-h-[90vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between p-5 border-b border-[#1e2d45]">
+          <div>
+            <h3 className="text-white font-bold text-base flex items-center gap-2">
+              <History className="w-4 h-4 text-cyan-400" />
+              Histórico de acessos
+            </h3>
+            <p className="text-slate-500 text-[11px] mt-0.5">
+              Quem visualizou, copiou ou alterou senhas e notas deste cofre.
+            </p>
+          </div>
+          <button onClick={onClose} className="text-slate-500 hover:text-white">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="flex flex-wrap gap-2 px-5 pt-4">
+          <select
+            value={userFilter}
+            onChange={(e) => setUserFilter(e.target.value)}
+            className="bg-[#0a1220] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white"
+          >
+            <option value="">Todas as pessoas</option>
+            {users.map((u) => <option key={u} value={u}>{u}</option>)}
+          </select>
+          <select
+            value={actionFilter}
+            onChange={(e) => setActionFilter(e.target.value)}
+            className="bg-[#0a1220] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white"
+          >
+            <option value="">Todas as ações</option>
+            {Object.entries(ACTION_META).map(([k, m]) => <option key={k} value={k}>{m.label}</option>)}
+          </select>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar senha, ativo ou nota…"
+            className="flex-1 min-w-[180px] bg-[#0a1220] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600"
+          />
+        </div>
+
+        <div className="flex-1 overflow-auto p-5">
+          {loading ? (
+            <p className="text-center text-slate-500 text-sm py-10">Carregando…</p>
+          ) : error ? (
+            <p className="text-center text-red-400 text-sm py-10">{error}</p>
+          ) : filtered.length === 0 ? (
+            <p className="text-center text-slate-500 text-sm py-10">
+              {logs.length === 0 ? "Nenhum acesso registrado ainda." : "Nada encontrado com esses filtros."}
+            </p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="text-slate-500 text-left border-b border-[#1e2d45]">
+                    <th className="py-2 pr-3 font-semibold">Quando</th>
+                    <th className="py-2 pr-3 font-semibold">Quem</th>
+                    <th className="py-2 pr-3 font-semibold">Ação</th>
+                    <th className="py-2 pr-3 font-semibold">Item</th>
+                    <th className="py-2 font-semibold">IP</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#1e2d45]/50">
+                  {filtered.map((l) => {
+                    const meta = ACTION_META[l.action] ?? { label: l.action, className: "text-slate-300 bg-white/5" };
+                    return (
+                      <tr key={`${l.kind}-${l.id}`} className="hover:bg-white/[0.02]">
+                        <td className="py-2 pr-3 text-slate-400 whitespace-nowrap">
+                          {new Date(l.createdAt).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
+                        </td>
+                        <td className="py-2 pr-3">
+                          <span className="text-slate-200">{l.userName || "—"}</span>
+                          {l.userRole && <span className="text-slate-600 text-[10px] ml-1">{l.userRole}</span>}
+                        </td>
+                        <td className="py-2 pr-3">
+                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${meta.className}`}>
+                            {meta.label}
+                          </span>
+                        </td>
+                        <td className="py-2 pr-3">
+                          <div className="flex items-center gap-1.5">
+                            {l.kind === "NOTE"
+                              ? <FileText className="w-3 h-3 text-emerald-400 flex-shrink-0" />
+                              : <KeyRound className="w-3 h-3 text-slate-500 flex-shrink-0" />}
+                            <span className="text-slate-200 truncate">{l.target}</span>
+                          </div>
+                          <span className="text-slate-600 text-[10px] ml-[18px]">{l.context}</span>
+                        </td>
+                        <td className="py-2 text-slate-500 font-mono text-[11px] whitespace-nowrap" title={l.userAgent ?? undefined}>
+                          {l.ipAddress || "—"}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        <div className="px-5 py-3 border-t border-[#1e2d45] text-[10px] text-slate-600">
+          {filtered.length} de {logs.length} registro{logs.length !== 1 ? "s" : ""} · mostrando os 500 mais recentes
         </div>
       </div>
     </div>
