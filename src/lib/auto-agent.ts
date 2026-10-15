@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v22-retomada";
+export const AUTO_AGENT_REV = "v23-json-cortado";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -51,7 +51,12 @@ function recordRun(entry: Record<string, unknown>) {
 
 const DEBOUNCE_MS = 10_000;
 const HISTORY_LIMIT = 30;
-const MAX_REPLY_TOKENS = 500;
+// Teto da RESPOSTA INTEIRA (JSON com bolhas + resumo + nome...), não do
+// tamanho das mensagens — essas são limitadas pelo prompt e por
+// normalizeBubbles. Com 500 o "resumo" (que acumula tudo o que o lead contou)
+// estourava o teto nos leads mais ricos e o JSON chegava cortado: as bolhas
+// estavam prontas e o motor descartava tudo como "bad_json".
+const MAX_REPLY_TOKENS = 1500;
 const MAX_BUBBLE_CHARS = 200; // acima disso o motor quebra a bolha na marra
 
 // Palavra-gatilho default: contato digita SÓ isso numa conversa pausada
@@ -561,6 +566,7 @@ interface AgentDecision {
   nome: string | null; // nome do contato, se ele já informou na conversa
   agendarInicio: string | null; // ISO do slot escolhido (action AGENDAR)
   agendarEmail: string | null; // e-mail do contato pro convite (action AGENDAR)
+  truncated?: boolean; // JSON veio cortado e foi resgatado (resumo/nome descartados)
 }
 
 /**
@@ -570,8 +576,10 @@ interface AgentDecision {
  */
 function parseDecision(raw: string): AgentDecision | null {
   const start = raw.indexOf("{");
+  if (start === -1) return null;
   const end = raw.lastIndexOf("}");
-  if (start === -1 || end <= start) return null;
+  // Sem "}" depois do "{" = resposta cortada no teto de tokens → resgate.
+  if (end <= start) return salvageTruncatedDecision(raw.slice(start));
   try {
     const obj = JSON.parse(raw.slice(start, end + 1));
     const rawReply: unknown[] = Array.isArray(obj.reply) ? obj.reply : [obj.reply];
@@ -590,8 +598,51 @@ function parseDecision(raw: string): AgentDecision | null {
     const agendarEmail = typeof obj.agendarEmail === "string" && obj.agendarEmail.includes("@") ? obj.agendarEmail.trim() : null;
     return { replies, action, resumo, nome, agendarInicio, agendarEmail };
   } catch {
-    return null;
+    return salvageTruncatedDecision(raw.slice(start));
   }
+}
+
+/**
+ * Resgate de JSON CORTADO: o modelo escreve "reply" primeiro e o "resumo" por
+ * último, então quando a resposta estoura o teto quase sempre as bolhas já
+ * estão completas. Aproveita o que veio inteiro (bolhas, action, campos do
+ * agendamento) e descarta o resumo pela metade — melhor responder o contato
+ * sem atualizar o resumo do lead do que deixar a conversa morrer.
+ */
+function salvageTruncatedDecision(raw: string): AgentDecision | null {
+  const replyAt = raw.search(/"reply"\s*:\s*\[/);
+  if (replyAt === -1) return null;
+  let i = raw.indexOf("[", replyAt) + 1;
+  const strings: string[] = [];
+  while (i < raw.length) {
+    while (i < raw.length && /[\s,]/.test(raw[i])) i++;
+    if (raw[i] !== '"') break; // "]" (fim da lista) ou lixo
+    // Lê um literal de string JSON até a aspa de fechamento não escapada.
+    let j = i + 1;
+    while (j < raw.length && !(raw[j] === '"' && raw[j - 1] !== "\\")) j++;
+    if (j >= raw.length) break; // string cortada no meio → descarta só ela
+    try {
+      strings.push(JSON.parse(raw.slice(i, j + 1)));
+    } catch {
+      break;
+    }
+    i = j + 1;
+  }
+  const replies = normalizeBubbles(strings.map((r) => r.trim()).filter(Boolean));
+  const field = (name: string) => raw.match(new RegExp(`"${name}"\\s*:\\s*"([^"]*)"`))?.[1]?.trim() || null;
+  const action = (field("action") ?? "NONE").toUpperCase();
+  // Sem bolha nenhuma só vale se a action não precisa delas (ex.: AGENDAR).
+  if (!replies.length && action === "NONE") return null;
+  const agendarEmail = field("agendarEmail");
+  return {
+    replies,
+    action,
+    resumo: null,
+    nome: null,
+    agendarInicio: field("agendarInicio"),
+    agendarEmail: agendarEmail && agendarEmail.includes("@") ? agendarEmail : null,
+    truncated: true,
+  };
 }
 
 /**
@@ -1297,6 +1348,10 @@ async function runAutoAgentCore(
   }
 
   diag.modelAction = decision.action;
+  if (decision.truncated) {
+    diag.jsonCortado = true;
+    console.warn(`[AutoAgent] JSON cortado resgatado conv=${conv.id} (bolhas=${decision.replies.length}, action=${decision.action})`);
+  }
   diag.bolhas = decision.replies.length;
   if (decision.agendarInicio) diag.agendarInicio = decision.agendarInicio;
 
@@ -1312,6 +1367,19 @@ async function runAutoAgentCore(
     select: { id: true },
   });
   if (newer) return { ok: false, skipped: "human_replied_during_ai" };
+  // O CONTATO escreveu de novo enquanto a IA pensava: esta resposta foi feita
+  // sem a mensagem nova e, se saísse, a conversa passaria a constar como
+  // respondida — a rodada da mensagem nova (já agendada pelo debounce dela)
+  // pularia como "last_not_inbound" e a mensagem seria engolida. Descarta e
+  // deixa a próxima rodada responder tudo junto.
+  const newerInbound = await prisma.message.findFirst({
+    where: { conversationId: conv.id, direction: "INBOUND", receivedAt: { gt: last.receivedAt } },
+    select: { id: true },
+  });
+  if (newerInbound) {
+    scheduleAutoAgent(conv.id); // garante a rodada mesmo se o timer já tiver disparado
+    return { ok: false, skipped: "contato_escreveu_durante_ia" };
+  }
 
   // Lead desde o 1º contato: agente com rota "cria lead" registra o lead já
   // na primeira resposta e o atualiza a cada turno com o que coletou. Antes

@@ -26,7 +26,7 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v7-follow-texto-proprio";
+export const IG_AUTO_AGENT_REV = "v8-sem-pergunta-repetida";
 
 const DEBOUNCE_MS = 12_000;
 const HISTORY_LIMIT = 30;
@@ -397,6 +397,10 @@ Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenári
 - Pedir dado que já está no histórico (@ do perfil, nome do negócio, link).
 - Tratar um link/perfil enviado pelo contato como pedido de follow.
 - Prometer análise para depois sem entregar nada agora: entregue pelo menos um ponto concreto na hora.`,
+    `\n# NÃO PERGUNTE O QUE JÁ FOI RESPONDIDO
+- As mensagens marcadas [equipe] são NOSSAS (a abordagem de prospecção costuma ser uma delas). Uma pergunta feita ali JÁ FOI FEITA — se o contato respondeu, use a resposta e avance; NUNCA repita a pergunta, nem com outras palavras.
+- Antes de perguntar qualquer coisa, confira no histórico se o contato já disse aquilo. Respostas curtas contam ("os dois", "sim", "pelo Google").
+- Quando o contato manda várias mensagens seguidas (cumprimento + resposta), responda o CONTEÚDO, não só o cumprimento: no máximo um "bom dia" rápido e já siga a partir do que ele respondeu.`,
     `\n# FORMATO DA RESPOSTA\nResponda SOMENTE com um JSON válido, sem texto fora dele:\n{"reply": ["bolha 1", "bolha 2 (opcional)"], "action": "NONE"}\n- "reply": 1 a 3 bolhas CURTAS; resposta simples = 1 bolha; UMA pergunta no máximo, na última bolha; no máximo 1 emoji no total.\n- "action": "NONE" para continuar conversando; "HANDOFF" quando o contato pedir atendimento humano ou você não souber ajudar (nesse caso "reply" avisa que alguém do time vai assumir).\n- Se não houver nada útil a dizer, responda {"reply": [], "action": "NONE"}.`,
   ]
     .filter(Boolean)
@@ -405,11 +409,15 @@ Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenári
   const chat: ChatMessage[] = [{ role: "system", content: system }];
   for (const m of history) {
     if (!m.text?.trim()) continue;
-    if (m.direction === "IN") chat.push({ role: "user", content: m.text });
-    else {
-      const prefix = m.source === "EXTERNAL" || m.source === "AGENT" ? "[equipe] " : "";
-      chat.push({ role: "assistant", content: prefix + m.text });
-    }
+    const role: ChatMessage["role"] = m.direction === "IN" ? "user" : "assistant";
+    const prefix = m.direction === "OUT" && (m.source === "EXTERNAL" || m.source === "AGENT") ? "[equipe] " : "";
+    const content = prefix + m.text;
+    // Mensagens seguidas do mesmo lado viram UM turno: "Oie bom dia" +
+    // "Tudo bem?" + "Os dois" é uma fala só. Em turnos separados o modelo
+    // respondia o cumprimento e deixava a resposta de verdade pra trás.
+    const prev = chat[chat.length - 1];
+    if (prev && prev.role === role && chat.length > 1) prev.content += "\n" + content;
+    else chat.push({ role, content });
   }
 
   const result = await runAssistant({
@@ -431,6 +439,18 @@ Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenári
     select: { lastDirection: true, aiMode: true },
   });
   if (!fresh || fresh.lastDirection !== "IN" || fresh.aiMode !== "ACTIVE") return skip("respondida_durante_ia");
+  // O contato escreveu de novo enquanto a IA pensava: a resposta pronta não
+  // leva em conta a mensagem nova e, se saísse, deixaria a conversa como
+  // respondida — a rodada da mensagem nova pularia ("ja_respondida") e ela
+  // seria engolida. Descarta e reagenda pra responder tudo junto.
+  const newerIn = await prisma.igMessage.findFirst({
+    where: { conversationId: conv.id, direction: "IN", createdAt: { gt: lastIn.createdAt } },
+    select: { id: true },
+  });
+  if (newerIn) {
+    scheduleIgAutoAgent(conv.id);
+    return skip("contato_escreveu_durante_ia");
+  }
 
   for (const bubble of decision.reply) {
     try {
