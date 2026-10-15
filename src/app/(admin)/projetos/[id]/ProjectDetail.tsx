@@ -1738,6 +1738,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
         approval={task.approval}
         hasGroup={hasApprovalGroup}
         onStatus={setTaskStatus}
+        hasHighlights={comments.some((c: any) => c.by !== "client" && c.hl && c.text?.trim())}
       />
 
       {/* Linha única de metadados: datas + prazo + toggles (Cliente vê / ClickUp).

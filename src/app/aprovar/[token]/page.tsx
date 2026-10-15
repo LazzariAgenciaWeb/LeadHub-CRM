@@ -144,7 +144,8 @@ async function load(token: string) {
   // se o ajuste atendeu antes de aprovar a versão nova.
   const current = new Set(files.map((f) => f.id));
   const seenPrev = new Set<string>();
-  const previous: ApprovalFile[] = task.approvalRound > 1
+  // Rodada só de texto (legenda depois das fotos) não traz fotos velhas de volta.
+  const previous: ApprovalFile[] = task.approvalRound > 1 && files.length > 0
     ? comments
         .filter((c) => c.by !== "client")
         .flatMap((c) => c.attachments ?? [])

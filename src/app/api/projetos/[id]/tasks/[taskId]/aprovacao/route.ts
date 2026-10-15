@@ -79,7 +79,12 @@ export async function POST(
   // anexo. Mas SÓ quando a tarefa não tem arquivo nenhum — tarefa de arte sem
   // versão nova não pode virar "aprove este texto".
   const descricao = task.description?.trim() ?? "";
-  if (!fileIds.length) {
+  // Textos que a equipe destacou (📌) no andamento — legenda, roteiro… Sem
+  // arquivo novo, eles sozinhos formam a rodada: é como se aprova a legenda
+  // depois que as fotos já foram aprovadas.
+  const textos = readComments(task.comments).filter((c) => c.by !== "client" && c.hl && c.text?.trim());
+  const onlyText = !fileIds.length && textos.length > 0;
+  if (!fileIds.length && !onlyText) {
     const temArquivo = (await collectApprovalFiles(task)).ids.length > 0;
     if (temArquivo) {
       return NextResponse.json(
@@ -154,7 +159,7 @@ export async function POST(
         : []),
       // fromText = arquivos desta rodada (ids) — a linha do tempo do cliente
       // mostra as miniaturas do que foi enviado em cada versão.
-      { taskId, projectId: id, type: "APPROVAL_SENT", fromText: fileIds.join(","), toText: `Rodada ${round}${sameRound ? " · reenviada" : ""}${send ? " · no grupo" : " · link gerado"}`, authorId: userId ?? null, authorName: userName ?? null },
+      { taskId, projectId: id, type: "APPROVAL_SENT", fromText: fileIds.join(","), toText: `Rodada ${round}${onlyText ? " · só texto" : ""}${sameRound ? " · reenviada" : ""}${send ? " · no grupo" : " · link gerado"}`, authorId: userId ?? null, authorName: userName ?? null },
     ],
   }).catch(() => {});
 
@@ -165,7 +170,7 @@ export async function POST(
         companyId: agencyId,
         instanceId,
         phone:  task.project.approvalGroupJid!,
-        body:   sendMessageText({ title: task.title, round, token }),
+        body:   sendMessageText({ title: task.title, round, token, onlyText }),
         sendAt: now,
         kind:   "approval",
         meta:   { taskId, projectId: id, round, userId: userId ?? null },
@@ -178,6 +183,7 @@ export async function POST(
     ok: true,
     url: approvalUrl(token),
     round,
+    onlyText,
     delivery,
     ...(delivery === "failed" ? { warning: "O link foi gerado, mas o WhatsApp não enviou. Copie e mande à mão." } : {}),
   });

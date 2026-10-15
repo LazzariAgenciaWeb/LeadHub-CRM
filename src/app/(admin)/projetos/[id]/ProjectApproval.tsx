@@ -268,7 +268,7 @@ export function ApprovalCard({
 }
 
 export function TaskApprovalBar({
-  projectId, taskId, status, approval, hasGroup, onStatus,
+  projectId, taskId, status, approval, hasGroup, onStatus, hasHighlights = false,
 }: {
   projectId: string;
   taskId: string;
@@ -276,6 +276,8 @@ export function TaskApprovalBar({
   approval: TaskApproval | null;
   hasGroup: boolean;
   onStatus: (s: string) => void;
+  /** Há texto destacado (📌) no andamento — permite mandar só ele, mesmo com a peça já aprovada. */
+  hasHighlights?: boolean;
 }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
@@ -298,17 +300,22 @@ export function TaskApprovalBar({
     setToken(t);
     if (!viaGroup) {
       await navigator.clipboard.writeText(d.url).catch(() => {});
-      setMsg({ ok: true, text: `Link da versão ${d.round} copiado. Cole no WhatsApp do cliente.` });
+      setMsg({ ok: true, text: d.onlyText ? "Link do texto copiado. Cole no WhatsApp do cliente." : `Link da versão ${d.round} copiado. Cole no WhatsApp do cliente.` });
     } else if (d.warning) {
       setMsg({ ok: false, text: d.warning });
     } else {
-      setMsg({ ok: true, text: `Versão ${d.round} enviada no grupo.` });
+      setMsg({ ok: true, text: d.onlyText ? "Texto enviado pra aprovação no grupo (sem as fotos)." : `Versão ${d.round} enviada no grupo.` });
     }
     router.refresh();
   }
 
   const waiting = status === "AGUARDANDO_CLIENTE" && approval?.sentAt;
-  const label = !approval ? "Enviar pra aprovação" : waiting ? "Reenviar" : "Enviar nova versão";
+  // Peça aprovada trava o envio — a não ser que haja texto destacado (📌)
+  // esperando aprovação, como a legenda depois das fotos.
+  const textoAposAprovar = status === "APROVADO" && hasHighlights;
+  const locked = status === "APROVADO" && !hasHighlights;
+  const label = textoAposAprovar ? "Enviar texto pra aprovação"
+    : !approval ? "Enviar pra aprovação" : waiting ? "Reenviar" : "Enviar nova versão";
 
   return (
     <div className="shrink-0 mb-2 flex items-center gap-2 flex-wrap text-[11px] bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5">
@@ -329,7 +336,7 @@ export function TaskApprovalBar({
         <button
           type="button"
           onClick={() => send(false)}
-          disabled={busy || status === "APROVADO"}
+          disabled={busy || locked}
           className="text-slate-400 hover:text-white disabled:opacity-40"
           title="Abre a rodada e copia o link, sem mandar no grupo"
         >
@@ -338,7 +345,7 @@ export function TaskApprovalBar({
         <button
           type="button"
           onClick={() => send(true)}
-          disabled={busy || !hasGroup || status === "APROVADO"}
+          disabled={busy || !hasGroup || locked}
           title={hasGroup ? "Manda o link no grupo do cliente" : "Configure o grupo em Aprovação pelo WhatsApp, no projeto"}
           className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-500/15 border border-amber-500/40 text-amber-200 font-semibold hover:bg-amber-500/25 disabled:opacity-40"
         >

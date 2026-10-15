@@ -424,6 +424,15 @@ export default function AprovarClient(p: Props) {
               </>
             )}
           </>
+        ) : p.highlights.length > 0 ? (
+          // Rodada só de texto (ex.: legenda depois das fotos aprovadas): o
+          // texto destacado É a peça.
+          <div className="card texto">
+            <h3>📌 Texto para aprovação</h3>
+            {p.highlights.map((h, i) => (
+              <div key={i} className="hlitem pre" style={{ color: "var(--ink)" }}>{h.text}</div>
+            ))}
+          </div>
         ) : p.description?.trim() ? (
           <div className="card texto">
             <h3>Conteúdo para aprovação</h3>
@@ -435,7 +444,7 @@ export default function AprovarClient(p: Props) {
 
           </div>
           <div className="cinfo">
-        {p.highlights.length > 0 && (
+        {p.highlights.length > 0 && p.files.length > 0 && (
           <div className="card hlbox">
             <h3>📌 Para aprovar</h3>
             {p.highlights.map((h, i) => (

@@ -78,8 +78,11 @@ export async function collectApprovalFiles(
  * envio, pra versão anterior não voltar misturada.
  */
 export async function pieceFileIds(task: { id: string; comments: unknown; approvalRound: number; approvalFileIds: unknown }): Promise<string[]> {
-  const saved = readFileIds(task.approvalFileIds);
-  return task.approvalRound <= 1 || !saved.length ? (await collectApprovalFiles(task)).ids : saved;
+  // Da 2ª rodada em diante vale a lista gravada no envio — inclusive VAZIA:
+  // rodada só de texto (legenda depois das fotos aprovadas) não reabre as fotos,
+  // senão um ajuste na legenda marcaria as artes aprovadas como "alteração".
+  if (task.approvalRound > 1 && Array.isArray(task.approvalFileIds)) return readFileIds(task.approvalFileIds);
+  return (await collectApprovalFiles(task)).ids;
 }
 
 const collator = new Intl.Collator("pt-BR", { numeric: true, sensitivity: "base" });
@@ -112,10 +115,10 @@ export async function resolveGroupInstanceId(agencyCompanyId: string, groupJid: 
 const fmtDia = (d: Date) =>
   d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", timeZone: SYSTEM_TIMEZONE });
 
-export function sendMessageText(t: { title: string; round: number; token: string }): string {
-  const versao = t.round > 1 ? `\n_Versão ${t.round}, já com os ajustes pedidos._\n` : "";
+export function sendMessageText(t: { title: string; round: number; token: string; onlyText?: boolean }): string {
+  const versao = !t.onlyText && t.round > 1 ? `\n_Versão ${t.round}, já com os ajustes pedidos._\n` : "";
   return [
-    `📣 *Peça pronta pra aprovação*`,
+    t.onlyText ? `📣 *Texto pronto pra aprovação*` : `📣 *Peça pronta pra aprovação*`,
     `*${t.title}*`,
     versao,
     `Veja e aprove por aqui 👇`,
