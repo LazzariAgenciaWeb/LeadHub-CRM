@@ -166,7 +166,8 @@ interface Conversation {
 function describeAiResult(code: string | null | undefined): { text: string; warn: boolean } | null {
   if (!code) return null;
   if (code.startsWith("ok:")) {
-    if (code.endsWith(":sem_envio")) return { text: "leu a conversa e não viu nada pendente", warn: false };
+    if (code === "ok:NONE:sem_envio") return { text: "leu a conversa e não viu nada pendente", warn: false };
+    if (code.endsWith(":sem_envio")) return { text: "passou pro time sem mandar mensagem ao contato", warn: true };
     if (code === "ok:NONE") return { text: "respondeu", warn: false };
     if (code === "ok:AGENDAR") return { text: "agendou a reunião", warn: false };
     return { text: "respondeu e passou pro time", warn: false };

@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v23-json-cortado";
+export const AUTO_AGENT_REV = "v24-aviso-encaminhamento";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -1461,6 +1461,21 @@ async function runAutoAgentCore(
     return { ok: true, action, replied: true };
   }
   if (action !== "NONE") {
+    const route = routes.find((r) => r.intent.toUpperCase() === action) ?? null;
+
+    // Encaminhar SEM falar nada com o contato parece abandono: ele mandou o
+    // dado que pedimos e ficou no vácuo, enquanto do nosso lado o chamado já
+    // estava aberto. O prompt pede pra avisar, mas o modelo às vezes devolve
+    // "reply" vazio junto da action — aqui o motor garante o fechamento.
+    if (!replied && !conv.isGroup) {
+      const destino = route ? `pro time ${route.label ?? route.setor.name}` : "pro nosso time";
+      const confirmacao = route?.createTicket
+        ? `Anotado! ✅ Registrei seu pedido e passei ${destino} dar uma olhada — a gente te retorna por aqui.`
+        : `Anotado! ✅ Passei ${destino} dar uma olhada — a gente te retorna por aqui.`;
+      if (await sendBotText(botSender, confirmacao)) replied = true;
+      diag.avisoEncaminhamento = true;
+    }
+
     // Aviso de pausa (configurável) — a despedida do bot ensina o gatilho de
     // reativação, com link wa.me que preenche a palavra sozinho (contato só
     // toca e envia). Enviado ANTES de rotear: o roteamento seta a conversa
@@ -1481,8 +1496,6 @@ async function runAutoAgentCore(
       await new Promise((r) => setTimeout(r, 1500));
       await sendBotText(botSender, notice);
     }
-
-    const route = routes.find((r) => r.intent.toUpperCase() === action) ?? null;
 
     if (route) {
       await routeConversation({
