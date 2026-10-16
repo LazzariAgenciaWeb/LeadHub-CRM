@@ -1646,6 +1646,21 @@ exports.Prisma.InboxEmailScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.EmailDraftScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  userId: 'userId',
+  accountId: 'accountId',
+  replyToId: 'replyToId',
+  toEmail: 'toEmail',
+  ccEmail: 'ccEmail',
+  bccEmail: 'bccEmail',
+  subject: 'subject',
+  textBody: 'textBody',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.InboxSenderRuleScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -2689,6 +2704,7 @@ exports.Prisma.ModelName = {
   EmailUnsubscribe: 'EmailUnsubscribe',
   EmailAccount: 'EmailAccount',
   InboxEmail: 'InboxEmail',
+  EmailDraft: 'EmailDraft',
   InboxSenderRule: 'InboxSenderRule',
   InboxEmailAttachment: 'InboxEmailAttachment',
   InboxEmailTag: 'InboxEmailTag',

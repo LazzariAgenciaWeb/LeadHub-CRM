@@ -428,6 +428,7 @@ model Company {
   inboxEmails              InboxEmail[]
   inboxSenderRules         InboxSenderRule[]
   inboxEmailTags           InboxEmailTag[]
+  emailDrafts              EmailDraft[]
   // Campos personalizados definidos por este tenant — aplicam-se às próprias
   // empresas-cliente (sub-empresas) e à própria empresa.
   companyFieldDefs         CompanyCustomFieldDef[]    @relation("CompanyFieldDefOwner")
@@ -3633,6 +3634,35 @@ model InboxEmail {
 //           ou manualmente na tela de regras.
 //   ALLOW — remetente confiável: nunca cai no spam automático.
 // Uma regra por remetente (o tipo define o comportamento).
+/// Email em construção. Salvo sozinho enquanto a pessoa escreve, pra ninguém
+/// perder o texto ao sair pra buscar uma informação e voltar depois.
+/// Rascunho é PESSOAL (filtra por userId) e fica fora de InboxEmail de
+/// propósito: não entra em contagem de pasta, triagem IA, agrupamento de
+/// cópias nem sugestão de destinatário.
+/// accountId / replyToId são ids soltos (sem FK) — se a conta sair ou o email
+/// original for apagado, o rascunho continua existindo e a UI reescolhe a conta.
+/// Anexo NÃO fica salvo: o arquivo vive no navegador até o envio.
+model EmailDraft {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  userId    String?
+
+  accountId String? // conta remetente escolhida
+  replyToId String? // InboxEmail que está sendo respondido
+
+  toEmail  String @default("")
+  ccEmail  String @default("")
+  bccEmail String @default("")
+  subject  String @default("")
+  textBody String @default("") @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([companyId, userId, updatedAt])
+}
+
 model InboxSenderRule {
   id        String  @id @default(cuid())
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)

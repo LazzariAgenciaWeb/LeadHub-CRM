@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
@@ -8,6 +8,7 @@ import {
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
   Tag as TagIcon, ListChecks, Info, Globe, ChevronDown, ChevronRight, Link2,
   Layers, Eye, EyeOff, Maximize2, PanelLeftClose, PanelLeftOpen, Lock, MessagesSquare,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 import { EMAIL_BUCKETS, bucketOf, type EmailBucket, type EmailBucketFilter } from "@/lib/email-buckets";
@@ -16,8 +17,22 @@ import RecipientInput from "./RecipientInput";
 import { analyzeAttachment, analyzeLinks, type EmailLink } from "@/lib/email-threat-scan";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
-// Seleção da coluna esquerda: pastas reais + pseudo-pasta "Todos" (busca geral).
-type FolderSel = Folder | "ALL";
+// Seleção da coluna esquerda: pastas reais + pseudo-pastas "Todos" (busca
+// geral) e "Rascunhos" (emails em construção, que não vivem em InboxEmail).
+type FolderSel = Folder | "ALL" | "DRAFTS";
+
+/** Email em construção, salvo sozinho pelo compositor. */
+type Draft = {
+  id: string;
+  accountId: string | null;
+  replyToId: string | null;
+  toEmail: string;
+  ccEmail: string;
+  bccEmail: string;
+  subject: string;
+  textBody: string;
+  updatedAt: string;
+};
 
 type SenderRule = { id: string; fromEmail: string; type: "BLOCK" | "ALLOW"; createdAt: string };
 
@@ -267,6 +282,22 @@ export default function EmailInbox() {
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
 
+  // Rascunhos: o compositor salva sozinho enquanto você escreve.
+  const [drafts, setDrafts] = useState<Draft[]>([]);
+  const [draftsLoading, setDraftsLoading] = useState(false);
+  const [draftId, setDraftId] = useState<string | null>(null);
+  const [draftSaving, setDraftSaving] = useState(false);
+  const [draftSavedAt, setDraftSavedAt] = useState<string | null>(null);
+  // Conteúdo com que o compositor abriu — só salva depois que MUDA algo
+  // (abrir "Responder" já vem com destinatário e assunto preenchidos, e isso
+  // sozinho não é rascunho).
+  const composeInit = useRef("");
+  // Id vigente e fila de salvamento: dois salvamentos em paralelo criariam
+  // dois rascunhos pro mesmo email, então eles entram em fila e o segundo
+  // já usa o id criado pelo primeiro.
+  const draftIdRef = useRef<string | null>(null);
+  const draftQueue = useRef<Promise<unknown>>(Promise.resolve());
+
   // Triagem IA
   const [aiAuto, setAiAuto] = useState<boolean | null>(null); // null = carregando
   // Descarte/golpe vão pro Spam sozinhos em vez de ficar entulhando a Entrada.
@@ -348,13 +379,15 @@ export default function EmailInbox() {
   const load = useCallback(async (opts?: { silent?: boolean }) => {
     if (!opts?.silent) setLoading(true);
     try {
-      const params = new URLSearchParams({ folder });
+      // "Rascunhos" não é pasta de email: pede ALL só pra manter contadores,
+      // caixas e tags em dia, e a lista de emails fica vazia.
+      const params = new URLSearchParams({ folder: folder === "DRAFTS" ? "ALL" : folder });
       if (q.trim()) params.set("q", q.trim());
       if (visibleAccounts.length) params.set("accountIds", visibleAccounts.join(","));
       if (tagFilter) params.set("tagId", tagFilter);
       if (bucketFilter) params.set("bucket", bucketFilter);
       const res = await fetch(`/api/email/inbox?${params}`).then((r) => r.json());
-      setEmails(res.emails || []);
+      setEmails(folder === "DRAFTS" ? [] : res.emails || []);
       setCounts(res.counts || {});
       setUnseen(res.unseen || 0);
       setAccounts(res.accounts || []);
@@ -485,9 +518,126 @@ export default function EmailInbox() {
     }
   }
 
+  // ── Rascunhos ────────────────────────────────────────────────────────────
+  // Regra: o rascunho nasce no primeiro toque de teclado (não ao abrir), é
+  // salvo a cada ~1,2s de pausa, é salvo de novo ao fechar o compositor e
+  // morre quando o email é enviado ou descartado à mão.
+
+  const composeKey = (c: typeof compose) =>
+    JSON.stringify([c.to, c.cc, c.bcc, c.subject, c.text, c.accountId, c.replyToId]);
+
+  const loadDrafts = useCallback(async (opts?: { silent?: boolean }) => {
+    if (!opts?.silent) setDraftsLoading(true);
+    try {
+      const res = await fetch("/api/email/inbox/drafts");
+      if (!res.ok) return;
+      const j = await res.json();
+      setDrafts(j.drafts ?? []);
+    } catch {} finally {
+      if (!opts?.silent) setDraftsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { loadDrafts({ silent: true }); }, [loadDrafts]);
+
+  const saveDraft = useCallback((c: typeof compose) => {
+    const run = async (): Promise<string | null> => {
+      setDraftSaving(true);
+      try {
+        const res = await fetch("/api/email/inbox/drafts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: draftIdRef.current,
+            accountId: c.accountId || null, replyToId: c.replyToId,
+            to: c.to, cc: c.cc, bcc: c.bcc, subject: c.subject, text: c.text,
+          }),
+        });
+        if (!res.ok) return null;
+        const j = await res.json();
+        draftIdRef.current = j.id;
+        setDraftId(j.id);
+        setDraftSavedAt(j.savedAt ?? new Date().toISOString());
+        composeInit.current = composeKey(c);
+        loadDrafts({ silent: true });
+        return j.id as string;
+      } catch {
+        return null;
+      } finally {
+        setDraftSaving(false);
+      }
+    };
+    const next = draftQueue.current.then(run, run);
+    draftQueue.current = next;
+    return next;
+  }, [loadDrafts]);
+
+  // Salvamento automático: 1,2s depois da última tecla.
+  useEffect(() => {
+    if (!composeOpen) return;
+    const vazio = !compose.to.trim() && !compose.cc.trim() && !compose.bcc.trim() &&
+      !compose.subject.trim() && !compose.text.trim();
+    if (vazio) return;
+    if (composeKey(compose) === composeInit.current) return; // nada mudou
+    const t = setTimeout(() => { saveDraft(compose); }, 1200);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [compose, composeOpen, draftId, saveDraft]);
+
+  async function deleteDraft(id: string, opts?: { silent?: boolean }) {
+    await fetch(`/api/email/inbox/drafts?id=${id}`, { method: "DELETE" }).catch(() => null);
+    setDrafts((prev) => prev.filter((d) => d.id !== id));
+    if (!opts?.silent) {
+      setNotice("Rascunho descartado");
+      setTimeout(() => setNotice(""), 4000);
+    }
+  }
+
+  // Fechar o compositor nunca perde texto: salva antes de sair.
+  async function closeCompose() {
+    const mudou = composeKey(compose) !== composeInit.current;
+    const temAlgo = !!(compose.to.trim() || compose.cc.trim() || compose.bcc.trim() ||
+      compose.subject.trim() || compose.text.trim());
+    setComposeOpen(false);
+    if (mudou && temAlgo) {
+      const id = await saveDraft(compose);
+      if (id) {
+        setNotice("Rascunho salvo ✓ — continue em Rascunhos, na coluna da esquerda");
+        setTimeout(() => setNotice(""), 7000);
+      }
+    }
+  }
+
+  function openDraft(d: Draft) {
+    // Se a conta do rascunho saiu do ar, cai pra primeira ativa.
+    const accountId = accounts.some((a) => a.id === d.accountId && a.active)
+      ? (d.accountId as string)
+      : accounts.find((a) => a.active)?.id ?? "";
+    const c = {
+      to: d.toEmail, cc: d.ccEmail, bcc: d.bccEmail,
+      subject: d.subject, text: d.textBody,
+      replyToId: d.replyToId, accountId,
+    };
+    setCompose(c);
+    composeInit.current = composeKey(c);
+    draftIdRef.current = d.id;
+    setDraftId(d.id);
+    setDraftSavedAt(d.updatedAt);
+    setShowCcBcc(!!(d.ccEmail || d.bccEmail));
+    setAiInstructions("");
+    setComposeAtts([]);
+    setSendErr("");
+    setComposeOpen(true);
+  }
+
   function startCompose() {
     const firstActive = accounts.find((a) => a.active);
-    setCompose({ to: "", cc: "", bcc: "", subject: "", text: "", replyToId: null, accountId: firstActive?.id ?? "" });
+    const c = { to: "", cc: "", bcc: "", subject: "", text: "", replyToId: null as string | null, accountId: firstActive?.id ?? "" };
+    setCompose(c);
+    composeInit.current = composeKey(c);
+    draftIdRef.current = null;
+    setDraftId(null);
+    setDraftSavedAt(null);
     setShowCcBcc(false);
     setAiInstructions("");
     setComposeAtts([]);
@@ -519,7 +669,12 @@ export default function EmailInbox() {
     const subject = email.subject.toLowerCase().startsWith("re:") ? email.subject : `Re: ${email.subject}`;
     // Resposta sai pela conta que recebeu o email original.
     const accountId = email.accountId ?? accounts.find((a) => a.active)?.id ?? "";
-    setCompose({ to, cc: "", bcc: "", subject, text: "", replyToId: email.id, accountId });
+    const c = { to, cc: "", bcc: "", subject, text: "", replyToId: email.id as string | null, accountId };
+    setCompose(c);
+    composeInit.current = composeKey(c);
+    draftIdRef.current = null;
+    setDraftId(null);
+    setDraftSavedAt(null);
     setShowCcBcc(false);
     setAiInstructions("");
     setComposeAtts([]);
@@ -570,6 +725,11 @@ export default function EmailInbox() {
       const j = await res.json();
       if (!res.ok) { setSendErr(j.error || "Falha ao enviar"); return; }
       setComposeOpen(false);
+      // Enviou: o rascunho cumpriu o papel e sai de cena.
+      if (draftIdRef.current) { await deleteDraft(draftIdRef.current, { silent: true }); }
+      draftIdRef.current = null;
+      setDraftId(null);
+      setDraftSavedAt(null);
       setNotice("Email enviado ✓");
       setTimeout(() => setNotice(""), 5000);
       load({ silent: true });
@@ -1223,6 +1383,12 @@ export default function EmailInbox() {
               className={`p-2 rounded-lg ${folder === "ALL" ? "bg-violet-500/20 text-violet-200" : "text-violet-300/70 hover:bg-violet-500/10"}`}>
               <Layers size={15} />
             </button>
+            <button onClick={() => { setFolder("DRAFTS"); setSelected(null); loadDrafts(); }}
+              title={`Rascunhos${drafts.length ? ` (${drafts.length})` : ""}`}
+              className={`relative p-2 rounded-lg ${folder === "DRAFTS" ? "bg-amber-500/20 text-amber-200" : "text-amber-300/70 hover:bg-amber-500/10"}`}>
+              <FileText size={15} />
+              {drafts.length > 0 && <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-amber-400" />}
+            </button>
             {(visibleAccounts.length > 0 || tagFilter) && (
               <span title="Filtro de caixa ou tag ativo — expanda pra ver" className="mt-1 w-1.5 h-1.5 rounded-full bg-amber-400" />
             )}
@@ -1302,6 +1468,18 @@ export default function EmailInbox() {
             </span>
           </button>
 
+          {/* Rascunhos — emails em construção (salvos sozinhos) */}
+          <button onClick={() => { setFolder("DRAFTS"); setSelected(null); loadDrafts(); }}
+            title="E-mails que você começou a escrever e ainda não enviou — salvos automaticamente"
+            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm whitespace-nowrap border border-dashed ${
+              folder === "DRAFTS"
+                ? "bg-amber-500/20 text-amber-200 border-amber-500/40"
+                : "text-amber-300/80 border-amber-500/25 hover:bg-amber-500/10"}`}>
+            <FileText size={15} />
+            <span className="flex-1 text-left">Rascunhos</span>
+            {drafts.length > 0 && <span className="text-[10px] text-amber-300/70">{drafts.length}</span>}
+          </button>
+
           {/* Tags — colapsável */}
           {tags.length > 0 && (
             <>
@@ -1347,6 +1525,17 @@ export default function EmailInbox() {
 
         {/* Lista */}
         <div className="rounded-xl border border-white/10 bg-white/5 flex flex-col min-h-0 min-w-0">
+          {folder === "DRAFTS" ? (
+            <div className="p-2 border-b border-white/10 flex items-center justify-between gap-2">
+              <span className="text-[11px] text-amber-200/80 flex items-center gap-1.5">
+                <FileText size={12} /> Salvos automaticamente enquanto você escreve
+              </span>
+              <button onClick={startCompose} disabled={noAccounts}
+                className="flex items-center gap-1 rounded-lg border border-white/10 px-2 py-1 text-[10px] text-slate-300 hover:bg-white/5 disabled:opacity-40">
+                <PenSquare size={11} /> novo
+              </button>
+            </div>
+          ) : (
           <div className="p-2 border-b border-white/10 space-y-2">
             <div className="flex items-center gap-2">
               <input type="checkbox" title="Selecionar todos"
@@ -1416,9 +1605,56 @@ export default function EmailInbox() {
               </div>
             )}
           </div>
+          )}
           <div className="flex-1 overflow-y-auto">
-            {loading && <p className="p-3 text-slate-500 text-sm">Carregando…</p>}
-            {!loading && emails.length === 0 && (
+            {folder === "DRAFTS" && (
+              <>
+                {draftsLoading && <p className="p-3 text-slate-500 text-sm">Carregando…</p>}
+                {!draftsLoading && drafts.length === 0 && (
+                  <p className="p-3 text-slate-500 text-sm leading-relaxed">
+                    Nenhum rascunho. Comece a escrever um email — ele aparece aqui sozinho, e você pode
+                    sair pra buscar uma informação e voltar pra terminar.
+                  </p>
+                )}
+                {drafts.map((d) => {
+                  const conta = accounts.find((a) => a.id === d.accountId);
+                  return (
+                    <div key={d.id} onClick={() => openDraft(d)} role="button" tabIndex={0}
+                      onKeyDown={(ev) => { if (ev.key === "Enter") openDraft(d); }}
+                      className="flex gap-2 w-full text-left px-3 py-2.5 border-b border-white/5 hover:bg-white/5 cursor-pointer">
+                      <FileText size={13} className="text-amber-300/70 mt-1 flex-shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start gap-2">
+                          <span className="text-sm text-slate-300 truncate flex-1">
+                            {d.toEmail || <span className="text-slate-500">sem destinatário</span>}
+                          </span>
+                          <span className="text-[10px] text-slate-500 flex-shrink-0 mt-0.5">{fmtDate(d.updatedAt)}</span>
+                        </div>
+                        <p className="text-xs text-slate-200 truncate">{d.subject || "(sem assunto)"}</p>
+                        <p className="text-[11px] text-slate-500 truncate">
+                          {d.textBody.trim().slice(0, 140) || "—"}
+                        </p>
+                        <div className="flex flex-wrap items-center gap-1 mt-0.5">
+                          {d.replyToId && (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300">resposta</span>
+                          )}
+                          {conta && (
+                            <span className={`flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded ${accountColor(conta.id)}`}>
+                              <AtSign size={9} /> {accountName(conta)}
+                            </span>
+                          )}
+                          <button onClick={(ev) => { ev.stopPropagation(); deleteDraft(d.id); }}
+                            title="Descartar este rascunho"
+                            className="ml-auto text-[10px] text-slate-500 hover:text-red-300">descartar</button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+            {loading && folder !== "DRAFTS" && <p className="p-3 text-slate-500 text-sm">Carregando…</p>}
+            {!loading && folder !== "DRAFTS" && emails.length === 0 && (
               <p className="p-3 text-slate-500 text-sm">Nenhum email nesta pasta.</p>
             )}
             {emails.map((e) => (
@@ -1819,11 +2055,17 @@ export default function EmailInbox() {
 
       {/* Modal: compor/responder */}
       {composeOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setComposeOpen(false)}>
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={closeCompose}>
           <div className="w-full max-w-lg rounded-xl border border-white/10 bg-[#0f1623] p-4" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-white text-sm font-semibold">{compose.replyToId ? "Responder" : "Novo email"}</h3>
-              <button onClick={() => setComposeOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
+              <h3 className="text-white text-sm font-semibold flex items-center gap-2">
+                {compose.replyToId ? "Responder" : "Novo email"}
+                {draftId && (
+                  <span className="text-[10px] font-normal px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300">rascunho</span>
+                )}
+              </h3>
+              <button onClick={closeCompose} title="Fechar (o rascunho é salvo)"
+                className="text-slate-400 hover:text-white"><X size={16} /></button>
             </div>
             <div className="space-y-2">
               {activeAccounts.length > 0 && (
@@ -1898,15 +2140,32 @@ export default function EmailInbox() {
                   </span>
                 ))}
                 {composeAtts.length > 0 && (
-                  <span className="text-[10px] text-slate-500">máx 5 arquivos · 8MB no total</span>
+                  <span className="text-[10px] text-slate-500">
+                    máx 5 arquivos · 8MB no total · anexo não fica guardado no rascunho
+                  </span>
                 )}
               </div>
             </div>
             {sendErr && <p className="text-red-400 text-xs mt-2">{sendErr}</p>}
-            <div className="flex justify-end gap-2 mt-3">
-              <button onClick={() => setComposeOpen(false)} className="rounded-lg border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/5">Cancelar</button>
+            <div className="flex items-center gap-2 mt-3">
+              {/* Estado do rascunho: deixa claro que dá pra fechar sem perder nada */}
+              <span className="text-[10px] text-slate-500 flex-1 min-w-0 truncate">
+                {draftSaving
+                  ? "Salvando rascunho…"
+                  : draftSavedAt
+                    ? `Rascunho salvo ${fmtDate(draftSavedAt)} — pode fechar e voltar depois`
+                    : "O rascunho é salvo sozinho assim que você começar a escrever"}
+              </span>
+              {draftId && (
+                <button onClick={() => { deleteDraft(draftId); draftIdRef.current = null; setDraftId(null); setDraftSavedAt(null); setComposeOpen(false); }}
+                  title="Apagar este rascunho e fechar"
+                  className="rounded-lg border border-white/10 px-3 py-2 text-xs text-slate-400 hover:text-red-300 hover:bg-white/5 flex-shrink-0">
+                  Descartar
+                </button>
+              )}
+              <button onClick={closeCompose} className="rounded-lg border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/5 flex-shrink-0">Fechar</button>
               <button onClick={send} disabled={sending}
-                className="rounded-lg bg-indigo-500 px-4 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50">
+                className="rounded-lg bg-indigo-500 px-4 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50 flex-shrink-0">
                 {sending ? "Enviando…" : "Enviar"}
               </button>
             </div>
