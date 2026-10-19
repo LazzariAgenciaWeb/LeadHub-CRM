@@ -8,10 +8,20 @@ import { useSearchParams } from "next/navigation";
 interface ExecutedAction { tool: string; ok: boolean; message: string; link?: string }
 interface ChatMsg { role: "user" | "assistant"; content: string; actions?: ExecutedAction[]; transcribed?: boolean }
 interface Pending { id: string; summary: string }
-interface FilaItem { id: string; kind: string; title: string; sub?: string; when?: string | null; overdue?: boolean; link?: string }
-interface Fila { esperandoPorMim: FilaItem[]; hoje: FilaItem[]; followUps: FilaItem[]; semProximaAcao: FilaItem[]; financeiro: FilaItem[]; bloquinho: FilaItem[]; generatedAt: string }
+type Quadrant = "fazer" | "agendar" | "delegar" | "eliminar";
+interface FilaItem { id: string; kind: string; title: string; sub?: string; when?: string | null; overdue?: boolean; link?: string; quadrant?: Quadrant; noteId?: string; fromRoutine?: boolean }
+interface Fila { esperandoPorMim: FilaItem[]; hoje: FilaItem[]; atrasadosAntigos: FilaItem[]; followUps: FilaItem[]; semProximaAcao: FilaItem[]; financeiro: FilaItem[]; bloquinho: FilaItem[]; generatedAt: string }
+interface CompanyUser { id: string; name: string }
+const QUAD: Record<Quadrant, { icon: string; label: string; hint: string; cls: string }> = {
+  fazer:    { icon: "🔥", label: "Fazer",    hint: "importante e urgente",     cls: "bg-red-500/15 text-red-300 border-red-500/30" },
+  agendar:  { icon: "📅", label: "Agendar",  hint: "importante, sem urgência", cls: "bg-indigo-500/15 text-indigo-300 border-indigo-500/30" },
+  delegar:  { icon: "👉", label: "Delegar",  hint: "urgente, não precisa ser você", cls: "bg-amber-500/15 text-amber-300 border-amber-500/30" },
+  eliminar: { icon: "🗑️", label: "Eliminar", hint: "nem importante nem urgente", cls: "bg-slate-500/15 text-slate-400 border-slate-500/30" },
+};
+const quadrantOf = (n: { important?: boolean; urgent?: boolean }): Quadrant => (n.important ?? true) ? ((n.urgent ?? false) ? "fazer" : "agendar") : ((n.urgent ?? false) ? "delegar" : "eliminar");
+function plusDays(d: number, hour = 9): string { const x = new Date(); x.setDate(x.getDate() + d); x.setHours(hour, 0, 0, 0); return x.toISOString(); }
 interface NoteEvent { id: string; type: "CREATED" | "EDITED" | "DONE" | "REOPENED" | string; detail: string | null; source: string; createdAt: string }
-interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[] }
+interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[]; important?: boolean; urgent?: boolean; archivedAt?: string | null; source?: string }
 
 const EVENT_LABEL: Record<string, string> = { CREATED: "criado", EDITED: "editado", APPENDED: "acrescentado", DONE: "concluído", REOPENED: "reaberto" };
 const SOURCE_LABEL: Record<string, string> = { APP: "no app", WHATSAPP: "pelo WhatsApp", MCP: "pelo Claude", WEBHOOK: "por rotina externa" };
@@ -54,7 +64,8 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
 }) {
   const usd = (v: number) => `US$ ${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: v < 0.1 ? 4 : 2 })}`;
   const search = useSearchParams();
-  const [tab, setTab] = useState<"fila" | "bloquinho">(search.get("aba") === "bloquinho" ? "bloquinho" : "fila");
+  const aba = search.get("aba");
+  const [tab, setTab] = useState<"fila" | "bloquinho" | "entrada">(aba === "bloquinho" ? "bloquinho" : aba === "entrada" ? "entrada" : "fila");
 
   /* ── chat ── */
   const [history, setHistory] = useState<ChatMsg[]>([]);
@@ -82,15 +93,39 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   const [tagFilter, setTagFilter] = useState<string | null>(null);
   const [noteTags, setNoteTags] = useState("");
   const [openNote, setOpenNote] = useState<string | null>(null);
+  const [showArchived, setShowArchived] = useState(false);
+  const [quadFilter, setQuadFilter] = useState<Quadrant | null>(null);
+  const [kindFilter, setKindFilter] = useState<string | null>(null);
+  const [matrixView, setMatrixView] = useState(false);
+  const [users, setUsers] = useState<CompanyUser[]>([]);
+  const [triage, setTriage] = useState(false);
+  const [noteMore, setNoteMore] = useState(false);
 
   const loadFila = useCallback(async () => {
     setFilaLoading(true);
     try { const r = await fetch("/api/assistente/fila"); if (r.ok) setFila(await r.json()); } finally { setFilaLoading(false); }
   }, []);
   const loadNotes = useCallback(async () => {
-    const r = await fetch(`/api/assistente/notas${showDone ? "?done=1" : ""}`); if (r.ok) setNotes(await r.json());
-  }, [showDone]);
+    const qs = new URLSearchParams();
+    if (showDone) qs.set("done", "1");
+    if (showArchived) qs.set("archived", "all");
+    const r = await fetch(`/api/assistente/notas?${qs}`); if (r.ok) setNotes(await r.json());
+  }, [showDone, showArchived]);
   useEffect(() => { loadNotes(); }, [loadNotes]);
+  useEffect(() => { fetch("/api/assistente/usuarios").then(async (r) => { if (r.ok) setUsers(await r.json()); }).catch(() => {}); }, []);
+
+  /** Ações rápidas de um item (lista, entrada, fila e triagem). */
+  async function quick(id: string, op: "done" | "reopen" | "tomorrow" | "week" | "nodate" | "archive" | "unarchive" | "delete" | { set: Partial<{ important: boolean; urgent: boolean }> } | { delegate: string }) {
+    let r: Response;
+    if (op === "delete") { if (!confirm("Excluir este item?")) return; r = await fetch(`/api/assistente/notas/${id}`, { method: "DELETE" }); }
+    else if (typeof op === "object" && "delegate" in op) r = await fetch(`/api/assistente/notas/${id}/delegar`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ assigneeId: op.delegate }) });
+    else {
+      const patch = op === "done" ? { done: true } : op === "reopen" ? { done: false } : op === "tomorrow" ? { dueAt: plusDays(1) } : op === "week" ? { dueAt: plusDays(7) } : op === "nodate" ? { dueAt: null } : op === "archive" ? { archived: true } : op === "unarchive" ? { archived: false } : op.set;
+      r = await fetch(`/api/assistente/notas/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) });
+    }
+    if (r.ok) { loadNotes(); loadFila(); }
+    else { const j = await r.json().catch(() => ({})); alert(j.error ?? "Falhou"); }
+  }
 
   async function saveNote(id: string, patch: Partial<Pick<Note, "title" | "body" | "dueAt" | "kind" | "tags">>) {
     const r = await fetch(`/api/assistente/notas/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) });
@@ -182,9 +217,17 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   }
 
   const firstName = userName.split(" ")[0];
-  const allTags = [...new Set(notes.flatMap((n) => n.tags ?? []))].sort();
-  const visibleNotes = tagFilter ? notes.filter((n) => (n.tags ?? []).includes(tagFilter)) : notes;
+  const isRoutine = (n: Note) => n.source === "MCP" || n.source === "WEBHOOK";
+  const myNotes = notes.filter((n) => !isRoutine(n));
+  const inboxNotes = notes.filter(isRoutine);
+  const pool = tab === "entrada" ? inboxNotes : myNotes;
+  const allTags = [...new Set(pool.flatMap((n) => n.tags ?? []))].sort();
+  const visibleNotes = pool
+    .filter((n) => !tagFilter || (n.tags ?? []).includes(tagFilter))
+    .filter((n) => !quadFilter || quadrantOf(n) === quadFilter)
+    .filter((n) => !kindFilter || n.kind === kindFilter);
   const totalFila = fila ? fila.esperandoPorMim.length + fila.hoje.length + fila.followUps.length + fila.semProximaAcao.length + fila.financeiro.length : 0;
+  const openCount = (arr: Note[]) => arr.filter((n) => !n.done && !n.archivedAt).length;
 
   return (
     <div className="min-h-screen bg-[#080b12] text-white p-6 space-y-5">
@@ -306,21 +349,30 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
           </div>
         </div>
 
-        {/* ── Fila / Bloquinho ── */}
+        {/* ── Fila / Bloquinho / Entrada ── */}
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center gap-1 bg-[#0f1623] border border-[#1e2d45] rounded-xl p-1">
-            <button onClick={() => setTab("fila")} className={`flex-1 text-xs font-semibold py-2 rounded-lg transition-colors ${tab === "fila" ? "bg-fuchsia-600/20 text-white border border-fuchsia-500/30" : "text-slate-400 hover:text-white"}`}>
-              Fila do dia {fila ? <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-[#1a2535] text-slate-300">{totalFila}</span> : null}
-            </button>
-            <button onClick={() => setTab("bloquinho")} className={`flex-1 text-xs font-semibold py-2 rounded-lg transition-colors ${tab === "bloquinho" ? "bg-fuchsia-600/20 text-white border border-fuchsia-500/30" : "text-slate-400 hover:text-white"}`}>
-              Bloquinho <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-[#1a2535] text-slate-300">{notes.filter((n) => !n.done).length}</span>
-            </button>
+            {([
+              ["fila", "Fila do dia", fila ? totalFila : null],
+              ["bloquinho", "Bloquinho", openCount(myNotes)],
+              ["entrada", "Entrada", openCount(inboxNotes)],
+            ] as [typeof tab, string, number | null][]).map(([key, label, count]) => (
+              <button key={key} onClick={() => { setTab(key); setQuadFilter(null); setKindFilter(null); setTagFilter(null); }} className={`flex-1 text-xs font-semibold py-2 rounded-lg transition-colors ${tab === key ? "bg-fuchsia-600/20 text-white border border-fuchsia-500/30" : "text-slate-400 hover:text-white"}`}>
+                {label} {count !== null && <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-[#1a2535] text-slate-300">{count}</span>}
+              </button>
+            ))}
           </div>
 
           {tab === "fila" && (
             <div className="space-y-3">
               {filaLoading && !fila && <div className="text-xs text-slate-500 px-1">Montando a fila…</div>}
-              {fila && totalFila === 0 && <div className="bg-[#0f1623] border border-emerald-500/25 rounded-xl p-4 text-sm text-emerald-200">Nada pedindo ação agora. ✅</div>}
+              {fila && totalFila === 0 && fila.atrasadosAntigos.length === 0 && <div className="bg-[#0f1623] border border-emerald-500/25 rounded-xl p-4 text-sm text-emerald-200">Nada pedindo ação agora. ✅</div>}
+              {fila && fila.atrasadosAntigos.length > 0 && (
+                <div className="bg-[#0f1623] border border-amber-500/30 rounded-xl p-3 flex items-center justify-between gap-3">
+                  <div className="text-xs text-amber-200"><b>{fila.atrasadosAntigos.length}</b> atrasado(s) há mais de 7 dias. Não estão em "Hoje" de propósito: decida o destino de cada um.</div>
+                  <button onClick={() => setTriage(true)} className="text-xs px-3 py-1.5 rounded-lg bg-amber-500 text-black font-semibold hover:bg-amber-400 whitespace-nowrap">Triagem →</button>
+                </div>
+              )}
               {fila && ([
                 ["⏳ Esperando por você", fila.esperandoPorMim],
                 ["📅 Hoje", fila.hoje],
@@ -333,14 +385,22 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                     <h3 className="text-sm font-semibold text-white">{title}</h3>
                     <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/25">{items.length}</span>
                   </div>
-                  <div className="space-y-1.5 max-h-[240px] overflow-y-auto pr-0.5">
+                  <div className="space-y-1.5 max-h-[260px] overflow-y-auto pr-0.5">
                     {items.map((it) => (
-                      <a key={it.id} href={it.link ? it.link.replace(/^https?:\/\/[^/]+/, "") : "#"} className="flex items-start gap-2 px-2.5 py-2 rounded-lg bg-[#131c2c] hover:bg-[#182234] border border-transparent hover:border-[#253449] transition-colors">
-                        <div className="flex-1 min-w-0">
+                      <div key={it.id} className="group flex items-start gap-2 px-2.5 py-2 rounded-lg bg-[#131c2c] hover:bg-[#182234] border border-transparent hover:border-[#253449] transition-colors">
+                        {it.quadrant && <span title={QUAD[it.quadrant].hint} className="text-xs leading-none mt-0.5">{QUAD[it.quadrant].icon}</span>}
+                        <a href={it.link ? it.link.replace(/^https?:\/\/[^/]+/, "") : "#"} className="flex-1 min-w-0">
                           <div className={`text-xs truncate ${it.overdue ? "text-red-300" : "text-slate-200"}`}>{it.overdue ? "⚠️ " : ""}{it.title}</div>
-                          {(it.sub || it.when) && <div className="text-[10px] text-slate-500 truncate">{it.sub}{it.sub && it.when ? " · " : ""}{fmtWhen(it.when)}</div>}
-                        </div>
-                      </a>
+                          {(it.sub || it.when) && <div className="text-[10px] text-slate-500 truncate">{it.sub}{it.sub && it.when ? " · " : ""}{fmtWhen(it.when)}{it.fromRoutine ? " · rotina" : ""}</div>}
+                        </a>
+                        {it.noteId && (
+                          <div className="hidden group-hover:flex items-center gap-1 flex-shrink-0">
+                            <button onClick={() => quick(it.noteId!, "done")} title="Feito" className="text-[11px] px-1.5 py-0.5 rounded bg-emerald-600/30 text-emerald-200 hover:bg-emerald-600/50">✓</button>
+                            <button onClick={() => quick(it.noteId!, "tomorrow")} title="Adiar pra amanhã" className="text-[11px] px-1.5 py-0.5 rounded bg-[#1a2535] text-slate-300 hover:text-white">+1d</button>
+                            <button onClick={() => quick(it.noteId!, "week")} title="Adiar 7 dias" className="text-[11px] px-1.5 py-0.5 rounded bg-[#1a2535] text-slate-300 hover:text-white">+7d</button>
+                          </div>
+                        )}
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -349,64 +409,149 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
             </div>
           )}
 
-          {tab === "bloquinho" && (
+          {(tab === "bloquinho" || tab === "entrada") && (
             <div className="space-y-3">
-              <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-3 space-y-2">
-                <div className="flex gap-2">
-                  <select value={noteKind} onChange={(e) => setNoteKind(e.target.value as any)} className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-2 text-xs text-white">
-                    <option value="TASK">☑️ Tarefa</option><option value="IDEA">💡 Ideia</option><option value="NOTE">📝 Nota</option><option value="REMINDER">⏰ Lembrete</option>
-                  </select>
-                  <input value={noteInput} onChange={(e) => setNoteInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") addNote(); }} placeholder="Anotar rápido…" className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-fuchsia-500/50" />
-                  <button onClick={addNote} disabled={!noteInput.trim()} className="px-3 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white text-xs disabled:opacity-40">+</button>
-                </div>
-                <div className="flex gap-2">
-                  {(noteKind === "REMINDER" || noteKind === "TASK") && (
-                    <input type="datetime-local" value={noteDue} onChange={(e) => setNoteDue(e.target.value)} className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-slate-300" />
+              {tab === "bloquinho" ? (
+                <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-3 space-y-2">
+                  <div className="flex gap-2">
+                    <select value={noteKind} onChange={(e) => setNoteKind(e.target.value as any)} className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-2 text-xs text-white">
+                      <option value="TASK">☑️</option><option value="IDEA">💡</option><option value="NOTE">📝</option><option value="REMINDER">⏰</option>
+                    </select>
+                    <input value={noteInput} onChange={(e) => setNoteInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") addNote(); }} placeholder="Anotar rápido e seguir…" autoFocus className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-fuchsia-500/50" />
+                    <button onClick={() => setNoteMore((v) => !v)} title="Prazo e etiquetas" className={`px-2 rounded-lg border text-xs ${noteMore ? "border-fuchsia-500/40 text-white" : "border-[#1e2d45] text-slate-400 hover:text-white"}`}>⋯</button>
+                    <button onClick={addNote} disabled={!noteInput.trim()} className="px-3 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white text-xs disabled:opacity-40">+</button>
+                  </div>
+                  {noteMore && (
+                    <div className="flex gap-2">
+                      <input type="datetime-local" value={noteDue} onChange={(e) => setNoteDue(e.target.value)} className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-slate-300" />
+                      <input value={noteTags} onChange={(e) => setNoteTags(e.target.value)} placeholder="etiquetas: pessoal, financeiro…" className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-slate-300 placeholder-slate-600" />
+                    </div>
                   )}
-                  <input value={noteTags} onChange={(e) => setNoteTags(e.target.value)} placeholder="etiquetas: pessoal, financeiro…" className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-slate-300 placeholder-slate-600" />
                 </div>
+              ) : (
+                <div className="text-[11px] text-slate-500 px-1">O que chegou das rotinas (Gmail, reels, alertas, Claude). Trie: ✓ feito · ⏩ adiar · 👉 delegar · 🗄️ arquivar. Diga no chat "sempre que chegar X, faça Y" pra automatizar.</div>
+              )}
+
+              {/* Matriz de Eisenhower — filtro + visão */}
+              <div className="flex flex-wrap items-center gap-1.5 px-1">
+                <button onClick={() => setQuadFilter(null)} className={`text-[10px] px-2 py-0.5 rounded-full border ${!quadFilter ? "bg-fuchsia-600/25 border-fuchsia-500/40 text-white" : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>todos</button>
+                {(Object.keys(QUAD) as Quadrant[]).map((q) => {
+                  const n = pool.filter((x) => !x.done && !x.archivedAt && quadrantOf(x) === q).length;
+                  return <button key={q} onClick={() => setQuadFilter(quadFilter === q ? null : q)} title={QUAD[q].hint} className={`text-[10px] px-2 py-0.5 rounded-full border ${quadFilter === q ? QUAD[q].cls : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>{QUAD[q].icon} {QUAD[q].label} {n > 0 && <span className="opacity-70">{n}</span>}</button>;
+                })}
+                <span className="flex-1" />
+                <button onClick={() => setMatrixView((v) => !v)} className={`text-[10px] px-2 py-0.5 rounded-full border ${matrixView ? "bg-fuchsia-600/25 border-fuchsia-500/40 text-white" : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>⊞ matriz</button>
               </div>
-              <div className="flex items-center justify-between px-1">
-                <span className="text-[11px] text-slate-500">Clique num item pra ler tudo e editar.</span>
-                <label className="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer">
-                  <input type="checkbox" checked={showDone} onChange={(e) => setShowDone(e.target.checked)} className="accent-fuchsia-500" /> mostrar concluídas
-                </label>
+              <div className="flex flex-wrap items-center gap-1.5 px-1">
+                {(["TASK", "REMINDER", "IDEA", "NOTE"] as const).map((k) => {
+                  const n = pool.filter((x) => !x.done && !x.archivedAt && x.kind === k).length;
+                  return n > 0 && <button key={k} onClick={() => setKindFilter(kindFilter === k ? null : k)} className={`text-[10px] px-2 py-0.5 rounded-full border ${kindFilter === k ? "bg-fuchsia-600/25 border-fuchsia-500/40 text-white" : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>{KIND_ICON[k]} {KIND_LABEL[k]} {n}</button>;
+                })}
+                {allTags.slice(0, 8).map((t) => (
+                  <button key={t} onClick={() => setTagFilter(tagFilter === t ? null : t)} className={`text-[10px] px-2 py-0.5 rounded-full border ${tagFilter === t ? "bg-fuchsia-600/25 border-fuchsia-500/40 text-white" : "bg-[#131c2c] border-[#253449] text-slate-500 hover:text-white"}`}>#{t}</button>
+                ))}
+                <span className="flex-1" />
+                <label className="flex items-center gap-1 text-[10px] text-slate-500 cursor-pointer"><input type="checkbox" checked={showDone} onChange={(e) => setShowDone(e.target.checked)} className="accent-fuchsia-500" /> concluídas</label>
+                <label className="flex items-center gap-1 text-[10px] text-slate-500 cursor-pointer"><input type="checkbox" checked={showArchived} onChange={(e) => setShowArchived(e.target.checked)} className="accent-fuchsia-500" /> arquivadas</label>
               </div>
-              {allTags.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 px-1">
-                  <button onClick={() => setTagFilter(null)} className={`text-[10px] px-2 py-0.5 rounded-full border ${!tagFilter ? "bg-fuchsia-600/25 border-fuchsia-500/40 text-white" : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>todas</button>
-                  {allTags.map((t) => (
-                    <button key={t} onClick={() => setTagFilter(tagFilter === t ? null : t)} className={`text-[10px] px-2 py-0.5 rounded-full border ${tagFilter === t ? "bg-fuchsia-600/25 border-fuchsia-500/40 text-white" : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>#{t}</button>
+
+              {matrixView ? (
+                <div className="grid grid-cols-2 gap-2">
+                  {(Object.keys(QUAD) as Quadrant[]).map((q) => {
+                    const items = visibleNotes.filter((n) => !n.done && !n.archivedAt && quadrantOf(n) === q);
+                    return (
+                      <div key={q} className={`rounded-xl border p-2 min-h-[140px] ${QUAD[q].cls.replace(/text-[^ ]+/, "")}`}>
+                        <div className="text-[11px] font-semibold text-white mb-1">{QUAD[q].icon} {QUAD[q].label} <span className="text-slate-400 font-normal">· {QUAD[q].hint}</span></div>
+                        <div className="space-y-1 max-h-[300px] overflow-y-auto">
+                          {items.length === 0 && <div className="text-[10px] text-slate-500 px-1">—</div>}
+                          {items.map((n) => (
+                            <button key={n.id} onClick={() => { setMatrixView(false); setOpenNote(n.id); }} className="w-full text-left text-[11px] text-slate-200 px-2 py-1 rounded bg-[#0f1623]/70 hover:bg-[#182234] truncate">{KIND_ICON[n.kind]} {n.title}</button>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-2 space-y-1 max-h-[600px] overflow-y-auto">
+                  {visibleNotes.length === 0 && <div className="text-xs text-slate-500 px-2 py-3">{tab === "entrada" ? "Nada chegou das rotinas." : quadFilter || tagFilter || kindFilter ? "Nada com esse filtro." : "Bloquinho vazio. Anote acima ou mande \"anota: …\" no WhatsApp."}</div>}
+                  {visibleNotes.map((n) => (
+                    <NoteItem
+                      key={n.id}
+                      note={n}
+                      users={users}
+                      open={openNote === n.id}
+                      onToggleOpen={() => setOpenNote(openNote === n.id ? null : n.id)}
+                      onToggleDone={(doneNote) => toggleNote(n, doneNote)}
+                      onDelete={() => { if (confirm("Excluir este item?")) deleteNote(n); }}
+                      onSave={(patch) => saveNote(n.id, patch)}
+                      onQuick={(op) => quick(n.id, op)}
+                    />
                   ))}
                 </div>
               )}
-              <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-2 space-y-1 max-h-[560px] overflow-y-auto">
-                {visibleNotes.length === 0 && <div className="text-xs text-slate-500 px-2 py-3">{tagFilter ? "Nada com essa etiqueta." : "Bloquinho vazio. Mande \"anota: …\" no chat ou no WhatsApp."}</div>}
-                {visibleNotes.map((n) => (
-                  <NoteItem
-                    key={n.id}
-                    note={n}
-                    open={openNote === n.id}
-                    onToggleOpen={() => setOpenNote(openNote === n.id ? null : n.id)}
-                    onToggleDone={(doneNote) => toggleNote(n, doneNote)}
-                    onDelete={() => { if (confirm("Excluir este item?")) deleteNote(n); }}
-                    onSave={(patch) => saveNote(n.id, patch)}
-                  />
-                ))}
-              </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* ── Triagem dos atrasados antigos ── */}
+      {triage && fila && (
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-start justify-center p-4 overflow-y-auto" onClick={() => setTriage(false)}>
+          <div className="w-full max-w-3xl bg-[#0f1623] border border-[#1e2d45] rounded-2xl mt-6" onClick={(e) => e.stopPropagation()}>
+            <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+              <div>
+                <h2 className="font-bold">Triagem · {fila.atrasadosAntigos.length} atrasado(s) há mais de 7 dias</h2>
+                <p className="text-xs text-slate-500">Pra cada um: já fiz · adiar · delegar · arquivar. O que sobrar continua aqui.</p>
+              </div>
+              <button onClick={() => setTriage(false)} className="text-slate-400 hover:text-white">✕</button>
+            </div>
+            <div className="p-3 space-y-1 max-h-[70vh] overflow-y-auto">
+              {fila.atrasadosAntigos.length === 0 && <div className="text-sm text-emerald-200 px-2 py-4">Tudo triado. ✅</div>}
+              {fila.atrasadosAntigos.map((it) => (
+                <div key={it.id} className="flex flex-wrap items-center gap-2 px-3 py-2 rounded-lg bg-[#131c2c]">
+                  {it.quadrant && <span title={QUAD[it.quadrant].hint} className="text-xs">{QUAD[it.quadrant].icon}</span>}
+                  <a href={it.link ? it.link.replace(/^https?:\/\/[^/]+/, "") : "#"} className="flex-1 min-w-[200px]">
+                    <div className="text-xs text-slate-200 truncate">{it.title}</div>
+                    <div className="text-[10px] text-slate-500">{it.sub}{it.sub ? " · " : ""}venceu {fmtWhen(it.when)}{it.fromRoutine ? " · rotina" : ""}</div>
+                  </a>
+                  {it.noteId ? (
+                    <div className="flex items-center gap-1 flex-wrap">
+                      <button onClick={() => quick(it.noteId!, "done")} className="text-[11px] px-2 py-1 rounded bg-emerald-600/30 text-emerald-200 hover:bg-emerald-600/50">✓ feito</button>
+                      <button onClick={() => quick(it.noteId!, "tomorrow")} className="text-[11px] px-2 py-1 rounded bg-[#1a2535] text-slate-300 hover:text-white">amanhã</button>
+                      <button onClick={() => quick(it.noteId!, "week")} className="text-[11px] px-2 py-1 rounded bg-[#1a2535] text-slate-300 hover:text-white">+7d</button>
+                      <button onClick={() => quick(it.noteId!, "nodate")} className="text-[11px] px-2 py-1 rounded bg-[#1a2535] text-slate-300 hover:text-white" title="Tira o prazo: fica no bloquinho sem entrar em Hoje">sem prazo</button>
+                      {users.length > 0 && (
+                        <select defaultValue="" onChange={(e) => { if (e.target.value) quick(it.noteId!, { delegate: e.target.value }); }} className="text-[11px] px-1.5 py-1 rounded bg-amber-500/15 border border-amber-500/30 text-amber-200">
+                          <option value="">👉 delegar…</option>
+                          {users.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
+                        </select>
+                      )}
+                      <button onClick={() => quick(it.noteId!, "archive")} className="text-[11px] px-2 py-1 rounded bg-[#1a2535] text-slate-400 hover:text-white">🗄️</button>
+                    </div>
+                  ) : (
+                    <a href={it.link ? it.link.replace(/^https?:\/\/[^/]+/, "") : "#"} className="text-[11px] px-2 py-1 rounded bg-[#1a2535] text-slate-300 hover:text-white">abrir →</a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 /** Item do bloquinho: fechado mostra resumo; aberto mostra tudo e permite editar. */
-function NoteItem({ note, open, onToggleOpen, onToggleDone, onDelete, onSave }: {
-  note: Note; open: boolean; onToggleOpen: () => void; onToggleDone: (doneNote?: string) => void; onDelete: () => void;
+type QuickOp = "done" | "reopen" | "tomorrow" | "week" | "nodate" | "archive" | "unarchive" | "delete" | { set: Partial<{ important: boolean; urgent: boolean }> } | { delegate: string };
+
+function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onSave, onQuick }: {
+  note: Note; users: CompanyUser[]; open: boolean; onToggleOpen: () => void; onToggleDone: (doneNote?: string) => void; onDelete: () => void;
   onSave: (patch: Partial<Pick<Note, "title" | "body" | "dueAt" | "kind" | "tags">>) => Promise<boolean>;
+  onQuick: (op: QuickOp) => void;
 }) {
+  const q = quadrantOf(note);
+  const overdue = !!note.dueAt && !note.done && new Date(note.dueAt) < new Date();
   const [editing, setEditing] = useState(false);
   const [concluding, setConcluding] = useState(false);
   const [doneNote, setDoneNote] = useState("");
@@ -427,22 +572,47 @@ function NoteItem({ note, open, onToggleOpen, onToggleDone, onDelete, onSave }: 
   }
 
   return (
-    <div className={`rounded-lg border transition-colors ${open ? "bg-[#131c2c] border-fuchsia-500/30" : "bg-[#131c2c] border-transparent hover:border-[#253449]"} ${note.done ? "opacity-60" : ""}`}>
+    <div className={`group rounded-lg border transition-colors ${open ? "bg-[#131c2c] border-fuchsia-500/30" : "bg-[#131c2c] border-transparent hover:border-[#253449]"} ${note.done || note.archivedAt ? "opacity-60" : ""}`}>
       <div className="flex items-start gap-2 px-2.5 py-2">
         <button onClick={() => { if (note.done) onToggleDone(); else { if (!open) onToggleOpen(); setConcluding(true); } }} title={note.done ? "Reabrir" : "Concluir"} className="text-sm leading-none mt-0.5 flex-shrink-0">{note.done ? "✅" : KIND_ICON[note.kind] ?? "•"}</button>
         <button onClick={onToggleOpen} className="flex-1 min-w-0 text-left">
-          <div className={`text-xs ${note.done ? "line-through text-slate-500" : "text-slate-200"} ${open ? "" : "truncate"}`}>{note.title}</div>
-          {!open && !!(note.body || note.dueAt || note.tags?.length) && <div className="text-[10px] text-slate-500 truncate">{KIND_LABEL[note.kind]}{note.dueAt ? ` · ${fmtWhen(note.dueAt)}` : ""}{note.tags?.length ? ` · ${note.tags.map((t) => `#${t}`).join(" ")}` : ""}{note.body ? ` · ${note.body}` : ""}</div>}
+          <div className={`text-xs ${note.done ? "line-through text-slate-500" : overdue ? "text-red-300" : "text-slate-200"} ${open ? "" : "truncate"}`}>{note.archivedAt ? "🗄️ " : ""}{note.title}</div>
+          {!open && <div className="text-[10px] text-slate-500 truncate"><span title={QUAD[q].hint}>{QUAD[q].icon}</span>{note.dueAt ? ` · ${overdue ? "⚠️ " : ""}${fmtWhen(note.dueAt)}` : ""}{note.tags?.length ? ` · ${note.tags.map((t) => `#${t}`).join(" ")}` : ""}{note.body ? ` · ${note.body}` : ""}</div>}
         </button>
+        {!note.done && !note.archivedAt && (
+          <div className="hidden group-hover:flex items-center gap-1 flex-shrink-0">
+            <button onClick={() => onQuick("tomorrow")} title="Adiar pra amanhã 9h" className="text-[10px] px-1.5 py-0.5 rounded bg-[#1a2535] text-slate-300 hover:text-white">+1d</button>
+            <button onClick={() => onQuick("week")} title="Adiar 7 dias" className="text-[10px] px-1.5 py-0.5 rounded bg-[#1a2535] text-slate-300 hover:text-white">+7d</button>
+            <button onClick={() => onQuick("archive")} title="Arquivar (guardar sem ocupar espaço)" className="text-[10px] px-1.5 py-0.5 rounded bg-[#1a2535] text-slate-300 hover:text-white">🗄️</button>
+          </div>
+        )}
         <button onClick={onDelete} className="text-slate-600 hover:text-red-400 text-xs flex-shrink-0" title="Excluir">✕</button>
       </div>
 
       {open && !editing && (
         <div className="px-2.5 pb-2.5 space-y-2">
           <div className="text-[10px] text-slate-500 flex flex-wrap items-center gap-1">
-            <span>{KIND_LABEL[note.kind]}{note.dueAt ? ` · ${fmtWhen(note.dueAt)}` : ""} · criado {fmtWhen(note.createdAt)}</span>
+            <span>{KIND_LABEL[note.kind]}{note.dueAt ? ` · ${fmtWhen(note.dueAt)}` : ""} · criado {fmtWhen(note.createdAt)}{note.source && SOURCE_LABEL[note.source] ? ` ${SOURCE_LABEL[note.source]}` : ""}</span>
             {(note.tags ?? []).map((t) => <span key={t} className="px-1.5 py-0.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/25 text-fuchsia-200">#{t}</span>)}
           </div>
+          {/* Matriz de Eisenhower: dois toggles + ação do quadrante */}
+          {!note.done && (
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className={`text-[10px] px-2 py-0.5 rounded-full border ${QUAD[q].cls}`} title={QUAD[q].hint}>{QUAD[q].icon} {QUAD[q].label}</span>
+              <button onClick={() => onQuick({ set: { important: !(note.important ?? true) } })} className={`text-[10px] px-2 py-0.5 rounded-full border ${(note.important ?? true) ? "bg-fuchsia-600/20 border-fuchsia-500/40 text-white" : "bg-[#0f1623] border-[#253449] text-slate-500"}`}>importante</button>
+              <button onClick={() => onQuick({ set: { urgent: !(note.urgent ?? false) } })} className={`text-[10px] px-2 py-0.5 rounded-full border ${(note.urgent ?? false) ? "bg-fuchsia-600/20 border-fuchsia-500/40 text-white" : "bg-[#0f1623] border-[#253449] text-slate-500"}`}>urgente</button>
+              <span className="flex-1" />
+              {q === "delegar" && users.length > 0 && (
+                <select defaultValue="" onChange={(e) => { if (e.target.value) onQuick({ delegate: e.target.value }); }} className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-200">
+                  <option value="">👉 delegar pra…</option>
+                  {users.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
+                </select>
+              )}
+              {q === "eliminar" && !note.archivedAt && <button onClick={() => onQuick("archive")} className="text-[10px] px-2 py-0.5 rounded-full bg-slate-500/15 border border-slate-500/30 text-slate-300 hover:text-white">🗄️ arquivar</button>}
+              {q === "agendar" && !note.dueAt && <button onClick={() => onQuick("week")} className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-200 hover:text-white">📅 marcar pra daqui 7 dias</button>}
+              {note.archivedAt && <button onClick={() => onQuick("unarchive")} className="text-[10px] px-2 py-0.5 rounded-full bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">📂 desarquivar</button>}
+            </div>
+          )}
           {note.body && <div className="text-xs text-slate-300 whitespace-pre-wrap break-words bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2">{note.body}</div>}
           {note.done && note.doneNote && (
             <div className="text-xs text-emerald-200 whitespace-pre-wrap break-words bg-emerald-500/10 border border-emerald-500/25 rounded-lg px-3 py-2">

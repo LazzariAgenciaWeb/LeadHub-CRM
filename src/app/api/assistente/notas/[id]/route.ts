@@ -19,6 +19,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (body.done && typeof body?.doneNote === "string") data.doneNote = body.doneNote.trim() || null;
   }
   if (typeof body?.title === "string" && body.title.trim()) data.title = body.title.trim();
+  if (typeof body?.important === "boolean") data.important = body.important;
+  if (typeof body?.urgent === "boolean") data.urgent = body.urgent;
+  if (typeof body?.archived === "boolean") data.archivedAt = body.archived ? new Date() : null;
   if (typeof body?.kind === "string" && ["IDEA", "NOTE", "REMINDER", "TASK"].includes(body.kind)) data.kind = body.kind;
   if (body?.tags !== undefined) data.tags = parseTags(body.tags);
   if (body?.body !== undefined) data.body = typeof body.body === "string" ? body.body.trim() || null : null;
@@ -29,6 +32,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const row = await prisma.assistantNote.update({ where: { id }, data });
   if (data.done === true) await logNoteEvent(id, "DONE", "APP", data.doneNote ?? null);
   else if (data.done === false) await logNoteEvent(id, "REOPENED", "APP");
+  else if (typeof body?.archived === "boolean") await logNoteEvent(id, "EDITED", "APP", body.archived ? "arquivado" : "desarquivado");
   else await logNoteEvent(id, "EDITED", "APP", describeEdit(data));
   return NextResponse.json(row);
 }

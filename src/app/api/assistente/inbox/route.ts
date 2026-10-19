@@ -4,7 +4,7 @@ import { authenticateAssistantToken } from "@/lib/personal-assistant/token-auth"
 import { userCanUseAssistant } from "@/lib/personal-assistant/access";
 import { sendAssistantMessage } from "@/lib/personal-assistant/whatsapp";
 import { logNoteEvent } from "@/lib/personal-assistant/note-events";
-import { findSimilarOpenNote, appendToNote } from "@/lib/personal-assistant/dedupe";
+import { intakeNote } from "@/lib/personal-assistant/intake";
 import { parseTags } from "@/lib/personal-assistant/tags";
 import { sendPushToUser } from "@/lib/push";
 import { appUrl, fmtDateTime } from "@/lib/assistant-tools/types";
@@ -60,29 +60,23 @@ export async function POST(req: NextRequest) {
 
   let noteId: string | null = null;
   let appended = false;
+  let intakeAction: string | null = null;
+  let intakeMessage: string | null = null;
   if (!onlyNotify) {
     const fullBody = [text, link ? `Link: ${link}` : null].filter(Boolean).join("\n\n") || null;
-    // Mesmo assunto já aberto (rotina rodando de novo) → acrescenta, não duplica.
-    const similar = body?.forceNew === true ? null : await findSimilarOpenNote(auth.userId, title, { body: fullBody, kind });
-    if (similar) {
-      await appendToNote(similar.id, { title, body: fullBody, tags, dueAt, source: "WEBHOOK", sourceLabel: source });
-      noteId = similar.id; appended = true;
-    } else {
-      const me = await prisma.user.findUnique({ where: { id: auth.userId }, select: { companyId: true } });
-      const note = await prisma.assistantNote.create({
-        data: { userId: auth.userId, companyId: me?.companyId ?? null, kind, title, body: fullBody, dueAt, tags, source: "WEBHOOK" },
-        select: { id: true },
-      });
-      noteId = note.id;
-      await logNoteEvent(note.id, "CREATED", "WEBHOOK", `rotina: ${source}`);
-    }
+    const me = await prisma.user.findUnique({ where: { id: auth.userId }, select: { companyId: true, name: true } });
+    const r = await intakeNote(
+      { userId: auth.userId, companyId: me?.companyId ?? null, userName: me?.name ?? "Usuário", channel: "WEBHOOK", sourceLabel: source },
+      { kind, title, body: fullBody, dueAt, tags, important: typeof body?.important === "boolean" ? body.important : undefined, urgent: typeof body?.urgent === "boolean" ? body.urgent : undefined, forceNew: body?.forceNew === true },
+    );
+    noteId = r.id; appended = r.action === "appended"; intakeAction = r.action; intakeMessage = r.message;
   }
 
   let notified = false;
   if (notify) {
     const icon = kind === "TASK" ? "☑️" : kind === "REMINDER" ? "⏰" : kind === "IDEA" ? "💡" : "📥";
     const msg = [
-      `${icon} *${title}*${appended ? " _(atualização de item já anotado)_" : ""}`,
+      `${icon} *${title}*${appended ? " _(atualização de item já anotado)_" : intakeAction === "resolved" ? " _(resolveu um item pendente ✅)_" : intakeAction === "delegated" ? " _(delegado por regra 👉)_" : intakeAction === "archived" || intakeAction === "done" ? " _(tratado por regra)_" : ""}`,
       text,
       dueAt ? `_${fmtDateTime(dueAt)}_` : null,
       tags.length ? tags.map((t) => `#${t}`).join(" ") : null,
@@ -93,7 +87,7 @@ export async function POST(req: NextRequest) {
     await sendPushToUser(auth.userId, { title: `${icon} ${title}`, body: (text ?? source).slice(0, 120), url: link ?? appUrl("/assistente?aba=bloquinho"), tag: `assistant-inbox-${noteId ?? Date.now()}` });
   }
 
-  return NextResponse.json({ ok: true, noteId, appended, notified, url: noteId ? appUrl("/assistente?aba=bloquinho") : null }, { status: appended ? 200 : 201 });
+  return NextResponse.json({ ok: true, noteId, action: intakeAction, message: intakeMessage, appended, notified, url: noteId ? appUrl("/assistente?aba=bloquinho") : null }, { status: intakeAction === "created" ? 201 : 200 });
 }
 
 export async function GET() {

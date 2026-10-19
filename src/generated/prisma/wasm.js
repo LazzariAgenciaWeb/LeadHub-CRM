@@ -161,6 +161,9 @@ exports.Prisma.AssistantNoteScalarFieldEnum = {
   clientCompanyId: 'clientCompanyId',
   tags: 'tags',
   doneNote: 'doneNote',
+  important: 'important',
+  urgent: 'urgent',
+  archivedAt: 'archivedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -2138,6 +2141,21 @@ exports.Prisma.InternalIpScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AssistantRuleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  pattern: 'pattern',
+  action: 'action',
+  assigneeId: 'assigneeId',
+  important: 'important',
+  urgent: 'urgent',
+  tags: 'tags',
+  note: 'note',
+  hits: 'hits',
+  lastHitAt: 'lastHitAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2738,7 +2756,8 @@ exports.Prisma.ModelName = {
   McpOAuthClient: 'McpOAuthClient',
   McpOAuthCode: 'McpOAuthCode',
   McpOAuthToken: 'McpOAuthToken',
-  InternalIp: 'InternalIp'
+  InternalIp: 'InternalIp',
+  AssistantRule: 'AssistantRule'
 };
 
 /**

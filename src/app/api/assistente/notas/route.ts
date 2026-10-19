@@ -15,10 +15,19 @@ export async function GET(req: NextRequest) {
   if (!auth.ok) return auth.response;
   const kind = req.nextUrl.searchParams.get("kind");
   const includeDone = req.nextUrl.searchParams.get("done") === "1";
+  const archived = req.nextUrl.searchParams.get("archived"); // "1" = só arquivados; "all" = todos
+  const origem = req.nextUrl.searchParams.get("origem"); // "meu" | "rotinas"
   const tag = req.nextUrl.searchParams.get("tag")?.trim().toLowerCase();
   const rows = await prisma.assistantNote.findMany({
-    where: { userId: auth.userId, ...(kind && KINDS.has(kind) ? { kind } : {}), ...(includeDone ? {} : { done: false }), ...(tag ? { tags: { has: tag } } : {}) },
-    orderBy: [{ done: "asc" }, { dueAt: "asc" }, { createdAt: "desc" }],
+    where: {
+      userId: auth.userId,
+      ...(kind && KINDS.has(kind) ? { kind } : {}),
+      ...(includeDone ? {} : { done: false }),
+      ...(archived === "1" ? { archivedAt: { not: null } } : archived === "all" ? {} : { archivedAt: null }),
+      ...(origem === "meu" ? { source: { in: ["APP", "WHATSAPP"] } } : origem === "rotinas" ? { source: { in: ["MCP", "WEBHOOK"] } } : {}),
+      ...(tag ? { tags: { has: tag } } : {}),
+    },
+    orderBy: [{ done: "asc" }, { urgent: "desc" }, { important: "desc" }, { dueAt: { sort: "asc", nulls: "last" } }, { createdAt: "desc" }],
     take: 200,
     include: { events: { orderBy: { createdAt: "asc" }, select: { id: true, type: true, detail: true, source: true, createdAt: true } } },
   });
@@ -37,7 +46,11 @@ export async function POST(req: NextRequest) {
   if (dueAt && Number.isNaN(dueAt.getTime())) return NextResponse.json({ error: "dueAt inválido" }, { status: 400 });
   const me = await prisma.user.findUnique({ where: { id: auth.userId }, select: { companyId: true } });
   const row = await prisma.assistantNote.create({
-    data: { userId: auth.userId, companyId: me?.companyId ?? null, kind, title, body: typeof body?.body === "string" ? body.body.trim() || null : null, dueAt, source: "APP", tags: parseTags(body?.tags) },
+    data: {
+      userId: auth.userId, companyId: me?.companyId ?? null, kind, title, body: typeof body?.body === "string" ? body.body.trim() || null : null, dueAt, source: "APP", tags: parseTags(body?.tags),
+      important: typeof body?.important === "boolean" ? body.important : true,
+      urgent: typeof body?.urgent === "boolean" ? body.urgent : (!!dueAt && dueAt.getTime() - Date.now() < 48 * 3600_000),
+    },
   });
   await logNoteEvent(row.id, "CREATED", "APP");
   return NextResponse.json(row, { status: 201 });

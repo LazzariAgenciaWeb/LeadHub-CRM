@@ -685,6 +685,11 @@ export type McpOAuthToken = $Result.DefaultSelection<Prisma.$McpOAuthTokenPayloa
  * 
  */
 export type InternalIp = $Result.DefaultSelection<Prisma.$InternalIpPayload>
+/**
+ * Model AssistantRule
+ * 
+ */
+export type AssistantRule = $Result.DefaultSelection<Prisma.$AssistantRulePayload>
 
 /**
  * Enums
@@ -2952,6 +2957,16 @@ export class PrismaClient<
     * ```
     */
   get internalIp(): Prisma.InternalIpDelegate<ExtArgs>;
+
+  /**
+   * `prisma.assistantRule`: Exposes CRUD operations for the **AssistantRule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssistantRules
+    * const assistantRules = await prisma.assistantRule.findMany()
+    * ```
+    */
+  get assistantRule(): Prisma.AssistantRuleDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -3525,7 +3540,8 @@ export namespace Prisma {
     McpOAuthClient: 'McpOAuthClient',
     McpOAuthCode: 'McpOAuthCode',
     McpOAuthToken: 'McpOAuthToken',
-    InternalIp: 'InternalIp'
+    InternalIp: 'InternalIp',
+    AssistantRule: 'AssistantRule'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3541,7 +3557,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp"
+      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -12855,6 +12871,76 @@ export namespace Prisma {
           }
         }
       }
+      AssistantRule: {
+        payload: Prisma.$AssistantRulePayload<ExtArgs>
+        fields: Prisma.AssistantRuleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssistantRuleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssistantRuleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload>
+          }
+          findFirst: {
+            args: Prisma.AssistantRuleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssistantRuleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload>
+          }
+          findMany: {
+            args: Prisma.AssistantRuleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload>[]
+          }
+          create: {
+            args: Prisma.AssistantRuleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload>
+          }
+          createMany: {
+            args: Prisma.AssistantRuleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssistantRuleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload>[]
+          }
+          delete: {
+            args: Prisma.AssistantRuleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload>
+          }
+          update: {
+            args: Prisma.AssistantRuleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload>
+          }
+          deleteMany: {
+            args: Prisma.AssistantRuleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssistantRuleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssistantRuleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRulePayload>
+          }
+          aggregate: {
+            args: Prisma.AssistantRuleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssistantRule>
+          }
+          groupBy: {
+            args: Prisma.AssistantRuleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssistantRuleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssistantRuleCountArgs<ExtArgs>
+            result: $Utils.Optional<AssistantRuleCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -13053,6 +13139,7 @@ export namespace Prisma {
     assistantNotes: number
     assistantTurns: number
     assistantPending: number
+    assistantRules: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13093,6 +13180,7 @@ export namespace Prisma {
     assistantNotes?: boolean | UserCountOutputTypeCountAssistantNotesArgs
     assistantTurns?: boolean | UserCountOutputTypeCountAssistantTurnsArgs
     assistantPending?: boolean | UserCountOutputTypeCountAssistantPendingArgs
+    assistantRules?: boolean | UserCountOutputTypeCountAssistantRulesArgs
   }
 
   // Custom InputTypes
@@ -13363,6 +13451,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAssistantPendingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AssistantPendingActionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAssistantRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantRuleWhereInput
   }
 
 
@@ -16096,6 +16191,7 @@ export namespace Prisma {
     assistantNotes?: boolean | User$assistantNotesArgs<ExtArgs>
     assistantTurns?: boolean | User$assistantTurnsArgs<ExtArgs>
     assistantPending?: boolean | User$assistantPendingArgs<ExtArgs>
+    assistantRules?: boolean | User$assistantRulesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -16189,6 +16285,7 @@ export namespace Prisma {
     assistantNotes?: boolean | User$assistantNotesArgs<ExtArgs>
     assistantTurns?: boolean | User$assistantTurnsArgs<ExtArgs>
     assistantPending?: boolean | User$assistantPendingArgs<ExtArgs>
+    assistantRules?: boolean | User$assistantRulesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16238,6 +16335,7 @@ export namespace Prisma {
       assistantNotes: Prisma.$AssistantNotePayload<ExtArgs>[]
       assistantTurns: Prisma.$AssistantTurnPayload<ExtArgs>[]
       assistantPending: Prisma.$AssistantPendingActionPayload<ExtArgs>[]
+      assistantRules: Prisma.$AssistantRulePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -16665,6 +16763,7 @@ export namespace Prisma {
     assistantNotes<T extends User$assistantNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantNotePayload<ExtArgs>, T, "findMany"> | Null>
     assistantTurns<T extends User$assistantTurnsArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantTurnsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantTurnPayload<ExtArgs>, T, "findMany"> | Null>
     assistantPending<T extends User$assistantPendingArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantPendingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPendingActionPayload<ExtArgs>, T, "findMany"> | Null>
+    assistantRules<T extends User$assistantRulesArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17818,6 +17917,26 @@ export namespace Prisma {
   }
 
   /**
+   * User.assistantRules
+   */
+  export type User$assistantRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    where?: AssistantRuleWhereInput
+    orderBy?: AssistantRuleOrderByWithRelationInput | AssistantRuleOrderByWithRelationInput[]
+    cursor?: AssistantRuleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantRuleScalarFieldEnum | AssistantRuleScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17856,6 +17975,9 @@ export namespace Prisma {
     source: string | null
     clientCompanyId: string | null
     doneNote: string | null
+    important: boolean | null
+    urgent: boolean | null
+    archivedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17874,6 +17996,9 @@ export namespace Prisma {
     source: string | null
     clientCompanyId: string | null
     doneNote: string | null
+    important: boolean | null
+    urgent: boolean | null
+    archivedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17893,6 +18018,9 @@ export namespace Prisma {
     clientCompanyId: number
     tags: number
     doneNote: number
+    important: number
+    urgent: number
+    archivedAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -17913,6 +18041,9 @@ export namespace Prisma {
     source?: true
     clientCompanyId?: true
     doneNote?: true
+    important?: true
+    urgent?: true
+    archivedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -17931,6 +18062,9 @@ export namespace Prisma {
     source?: true
     clientCompanyId?: true
     doneNote?: true
+    important?: true
+    urgent?: true
+    archivedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -17950,6 +18084,9 @@ export namespace Prisma {
     clientCompanyId?: true
     tags?: true
     doneNote?: true
+    important?: true
+    urgent?: true
+    archivedAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -18042,6 +18179,9 @@ export namespace Prisma {
     clientCompanyId: string | null
     tags: string[]
     doneNote: string | null
+    important: boolean
+    urgent: boolean
+    archivedAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: AssistantNoteCountAggregateOutputType | null
@@ -18078,6 +18218,9 @@ export namespace Prisma {
     clientCompanyId?: boolean
     tags?: boolean
     doneNote?: boolean
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -18100,6 +18243,9 @@ export namespace Prisma {
     clientCompanyId?: boolean
     tags?: boolean
     doneNote?: boolean
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -18120,6 +18266,9 @@ export namespace Prisma {
     clientCompanyId?: boolean
     tags?: boolean
     doneNote?: boolean
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -18154,6 +18303,9 @@ export namespace Prisma {
       clientCompanyId: string | null
       tags: string[]
       doneNote: string | null
+      important: boolean
+      urgent: boolean
+      archivedAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["assistantNote"]>
@@ -18565,6 +18717,9 @@ export namespace Prisma {
     readonly clientCompanyId: FieldRef<"AssistantNote", 'String'>
     readonly tags: FieldRef<"AssistantNote", 'String[]'>
     readonly doneNote: FieldRef<"AssistantNote", 'String'>
+    readonly important: FieldRef<"AssistantNote", 'Boolean'>
+    readonly urgent: FieldRef<"AssistantNote", 'Boolean'>
+    readonly archivedAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly createdAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly updatedAt: FieldRef<"AssistantNote", 'DateTime'>
   }
@@ -160354,6 +160509,1053 @@ export namespace Prisma {
 
 
   /**
+   * Model AssistantRule
+   */
+
+  export type AggregateAssistantRule = {
+    _count: AssistantRuleCountAggregateOutputType | null
+    _avg: AssistantRuleAvgAggregateOutputType | null
+    _sum: AssistantRuleSumAggregateOutputType | null
+    _min: AssistantRuleMinAggregateOutputType | null
+    _max: AssistantRuleMaxAggregateOutputType | null
+  }
+
+  export type AssistantRuleAvgAggregateOutputType = {
+    hits: number | null
+  }
+
+  export type AssistantRuleSumAggregateOutputType = {
+    hits: number | null
+  }
+
+  export type AssistantRuleMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    pattern: string | null
+    action: string | null
+    assigneeId: string | null
+    important: boolean | null
+    urgent: boolean | null
+    note: string | null
+    hits: number | null
+    lastHitAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type AssistantRuleMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    pattern: string | null
+    action: string | null
+    assigneeId: string | null
+    important: boolean | null
+    urgent: boolean | null
+    note: string | null
+    hits: number | null
+    lastHitAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type AssistantRuleCountAggregateOutputType = {
+    id: number
+    userId: number
+    pattern: number
+    action: number
+    assigneeId: number
+    important: number
+    urgent: number
+    tags: number
+    note: number
+    hits: number
+    lastHitAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AssistantRuleAvgAggregateInputType = {
+    hits?: true
+  }
+
+  export type AssistantRuleSumAggregateInputType = {
+    hits?: true
+  }
+
+  export type AssistantRuleMinAggregateInputType = {
+    id?: true
+    userId?: true
+    pattern?: true
+    action?: true
+    assigneeId?: true
+    important?: true
+    urgent?: true
+    note?: true
+    hits?: true
+    lastHitAt?: true
+    createdAt?: true
+  }
+
+  export type AssistantRuleMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    pattern?: true
+    action?: true
+    assigneeId?: true
+    important?: true
+    urgent?: true
+    note?: true
+    hits?: true
+    lastHitAt?: true
+    createdAt?: true
+  }
+
+  export type AssistantRuleCountAggregateInputType = {
+    id?: true
+    userId?: true
+    pattern?: true
+    action?: true
+    assigneeId?: true
+    important?: true
+    urgent?: true
+    tags?: true
+    note?: true
+    hits?: true
+    lastHitAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AssistantRuleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantRule to aggregate.
+     */
+    where?: AssistantRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantRules to fetch.
+     */
+    orderBy?: AssistantRuleOrderByWithRelationInput | AssistantRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssistantRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssistantRules
+    **/
+    _count?: true | AssistantRuleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssistantRuleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssistantRuleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssistantRuleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssistantRuleMaxAggregateInputType
+  }
+
+  export type GetAssistantRuleAggregateType<T extends AssistantRuleAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssistantRule]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssistantRule[P]>
+      : GetScalarType<T[P], AggregateAssistantRule[P]>
+  }
+
+
+
+
+  export type AssistantRuleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantRuleWhereInput
+    orderBy?: AssistantRuleOrderByWithAggregationInput | AssistantRuleOrderByWithAggregationInput[]
+    by: AssistantRuleScalarFieldEnum[] | AssistantRuleScalarFieldEnum
+    having?: AssistantRuleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssistantRuleCountAggregateInputType | true
+    _avg?: AssistantRuleAvgAggregateInputType
+    _sum?: AssistantRuleSumAggregateInputType
+    _min?: AssistantRuleMinAggregateInputType
+    _max?: AssistantRuleMaxAggregateInputType
+  }
+
+  export type AssistantRuleGroupByOutputType = {
+    id: string
+    userId: string
+    pattern: string
+    action: string
+    assigneeId: string | null
+    important: boolean | null
+    urgent: boolean | null
+    tags: string[]
+    note: string | null
+    hits: number
+    lastHitAt: Date | null
+    createdAt: Date
+    _count: AssistantRuleCountAggregateOutputType | null
+    _avg: AssistantRuleAvgAggregateOutputType | null
+    _sum: AssistantRuleSumAggregateOutputType | null
+    _min: AssistantRuleMinAggregateOutputType | null
+    _max: AssistantRuleMaxAggregateOutputType | null
+  }
+
+  type GetAssistantRuleGroupByPayload<T extends AssistantRuleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssistantRuleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssistantRuleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssistantRuleGroupByOutputType[P]>
+            : GetScalarType<T[P], AssistantRuleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssistantRuleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    pattern?: boolean
+    action?: boolean
+    assigneeId?: boolean
+    important?: boolean
+    urgent?: boolean
+    tags?: boolean
+    note?: boolean
+    hits?: boolean
+    lastHitAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantRule"]>
+
+  export type AssistantRuleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    pattern?: boolean
+    action?: boolean
+    assigneeId?: boolean
+    important?: boolean
+    urgent?: boolean
+    tags?: boolean
+    note?: boolean
+    hits?: boolean
+    lastHitAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantRule"]>
+
+  export type AssistantRuleSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    pattern?: boolean
+    action?: boolean
+    assigneeId?: boolean
+    important?: boolean
+    urgent?: boolean
+    tags?: boolean
+    note?: boolean
+    hits?: boolean
+    lastHitAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type AssistantRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AssistantRuleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AssistantRulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssistantRule"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      pattern: string
+      action: string
+      assigneeId: string | null
+      important: boolean | null
+      urgent: boolean | null
+      tags: string[]
+      note: string | null
+      hits: number
+      lastHitAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["assistantRule"]>
+    composites: {}
+  }
+
+  type AssistantRuleGetPayload<S extends boolean | null | undefined | AssistantRuleDefaultArgs> = $Result.GetResult<Prisma.$AssistantRulePayload, S>
+
+  type AssistantRuleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssistantRuleFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssistantRuleCountAggregateInputType | true
+    }
+
+  export interface AssistantRuleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssistantRule'], meta: { name: 'AssistantRule' } }
+    /**
+     * Find zero or one AssistantRule that matches the filter.
+     * @param {AssistantRuleFindUniqueArgs} args - Arguments to find a AssistantRule
+     * @example
+     * // Get one AssistantRule
+     * const assistantRule = await prisma.assistantRule.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssistantRuleFindUniqueArgs>(args: SelectSubset<T, AssistantRuleFindUniqueArgs<ExtArgs>>): Prisma__AssistantRuleClient<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AssistantRule that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssistantRuleFindUniqueOrThrowArgs} args - Arguments to find a AssistantRule
+     * @example
+     * // Get one AssistantRule
+     * const assistantRule = await prisma.assistantRule.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssistantRuleFindUniqueOrThrowArgs>(args: SelectSubset<T, AssistantRuleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssistantRuleClient<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AssistantRule that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRuleFindFirstArgs} args - Arguments to find a AssistantRule
+     * @example
+     * // Get one AssistantRule
+     * const assistantRule = await prisma.assistantRule.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssistantRuleFindFirstArgs>(args?: SelectSubset<T, AssistantRuleFindFirstArgs<ExtArgs>>): Prisma__AssistantRuleClient<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AssistantRule that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRuleFindFirstOrThrowArgs} args - Arguments to find a AssistantRule
+     * @example
+     * // Get one AssistantRule
+     * const assistantRule = await prisma.assistantRule.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssistantRuleFindFirstOrThrowArgs>(args?: SelectSubset<T, AssistantRuleFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssistantRuleClient<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AssistantRules that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRuleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssistantRules
+     * const assistantRules = await prisma.assistantRule.findMany()
+     * 
+     * // Get first 10 AssistantRules
+     * const assistantRules = await prisma.assistantRule.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assistantRuleWithIdOnly = await prisma.assistantRule.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssistantRuleFindManyArgs>(args?: SelectSubset<T, AssistantRuleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AssistantRule.
+     * @param {AssistantRuleCreateArgs} args - Arguments to create a AssistantRule.
+     * @example
+     * // Create one AssistantRule
+     * const AssistantRule = await prisma.assistantRule.create({
+     *   data: {
+     *     // ... data to create a AssistantRule
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssistantRuleCreateArgs>(args: SelectSubset<T, AssistantRuleCreateArgs<ExtArgs>>): Prisma__AssistantRuleClient<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AssistantRules.
+     * @param {AssistantRuleCreateManyArgs} args - Arguments to create many AssistantRules.
+     * @example
+     * // Create many AssistantRules
+     * const assistantRule = await prisma.assistantRule.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssistantRuleCreateManyArgs>(args?: SelectSubset<T, AssistantRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssistantRules and returns the data saved in the database.
+     * @param {AssistantRuleCreateManyAndReturnArgs} args - Arguments to create many AssistantRules.
+     * @example
+     * // Create many AssistantRules
+     * const assistantRule = await prisma.assistantRule.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssistantRules and only return the `id`
+     * const assistantRuleWithIdOnly = await prisma.assistantRule.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssistantRuleCreateManyAndReturnArgs>(args?: SelectSubset<T, AssistantRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AssistantRule.
+     * @param {AssistantRuleDeleteArgs} args - Arguments to delete one AssistantRule.
+     * @example
+     * // Delete one AssistantRule
+     * const AssistantRule = await prisma.assistantRule.delete({
+     *   where: {
+     *     // ... filter to delete one AssistantRule
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssistantRuleDeleteArgs>(args: SelectSubset<T, AssistantRuleDeleteArgs<ExtArgs>>): Prisma__AssistantRuleClient<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AssistantRule.
+     * @param {AssistantRuleUpdateArgs} args - Arguments to update one AssistantRule.
+     * @example
+     * // Update one AssistantRule
+     * const assistantRule = await prisma.assistantRule.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssistantRuleUpdateArgs>(args: SelectSubset<T, AssistantRuleUpdateArgs<ExtArgs>>): Prisma__AssistantRuleClient<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AssistantRules.
+     * @param {AssistantRuleDeleteManyArgs} args - Arguments to filter AssistantRules to delete.
+     * @example
+     * // Delete a few AssistantRules
+     * const { count } = await prisma.assistantRule.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssistantRuleDeleteManyArgs>(args?: SelectSubset<T, AssistantRuleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssistantRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRuleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssistantRules
+     * const assistantRule = await prisma.assistantRule.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssistantRuleUpdateManyArgs>(args: SelectSubset<T, AssistantRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AssistantRule.
+     * @param {AssistantRuleUpsertArgs} args - Arguments to update or create a AssistantRule.
+     * @example
+     * // Update or create a AssistantRule
+     * const assistantRule = await prisma.assistantRule.upsert({
+     *   create: {
+     *     // ... data to create a AssistantRule
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssistantRule we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssistantRuleUpsertArgs>(args: SelectSubset<T, AssistantRuleUpsertArgs<ExtArgs>>): Prisma__AssistantRuleClient<$Result.GetResult<Prisma.$AssistantRulePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AssistantRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRuleCountArgs} args - Arguments to filter AssistantRules to count.
+     * @example
+     * // Count the number of AssistantRules
+     * const count = await prisma.assistantRule.count({
+     *   where: {
+     *     // ... the filter for the AssistantRules we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssistantRuleCountArgs>(
+      args?: Subset<T, AssistantRuleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssistantRuleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssistantRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRuleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssistantRuleAggregateArgs>(args: Subset<T, AssistantRuleAggregateArgs>): Prisma.PrismaPromise<GetAssistantRuleAggregateType<T>>
+
+    /**
+     * Group by AssistantRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRuleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssistantRuleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssistantRuleGroupByArgs['orderBy'] }
+        : { orderBy?: AssistantRuleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssistantRuleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssistantRuleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssistantRule model
+   */
+  readonly fields: AssistantRuleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssistantRule.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssistantRuleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssistantRule model
+   */ 
+  interface AssistantRuleFieldRefs {
+    readonly id: FieldRef<"AssistantRule", 'String'>
+    readonly userId: FieldRef<"AssistantRule", 'String'>
+    readonly pattern: FieldRef<"AssistantRule", 'String'>
+    readonly action: FieldRef<"AssistantRule", 'String'>
+    readonly assigneeId: FieldRef<"AssistantRule", 'String'>
+    readonly important: FieldRef<"AssistantRule", 'Boolean'>
+    readonly urgent: FieldRef<"AssistantRule", 'Boolean'>
+    readonly tags: FieldRef<"AssistantRule", 'String[]'>
+    readonly note: FieldRef<"AssistantRule", 'String'>
+    readonly hits: FieldRef<"AssistantRule", 'Int'>
+    readonly lastHitAt: FieldRef<"AssistantRule", 'DateTime'>
+    readonly createdAt: FieldRef<"AssistantRule", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssistantRule findUnique
+   */
+  export type AssistantRuleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRule to fetch.
+     */
+    where: AssistantRuleWhereUniqueInput
+  }
+
+  /**
+   * AssistantRule findUniqueOrThrow
+   */
+  export type AssistantRuleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRule to fetch.
+     */
+    where: AssistantRuleWhereUniqueInput
+  }
+
+  /**
+   * AssistantRule findFirst
+   */
+  export type AssistantRuleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRule to fetch.
+     */
+    where?: AssistantRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantRules to fetch.
+     */
+    orderBy?: AssistantRuleOrderByWithRelationInput | AssistantRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantRules.
+     */
+    cursor?: AssistantRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantRules.
+     */
+    distinct?: AssistantRuleScalarFieldEnum | AssistantRuleScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantRule findFirstOrThrow
+   */
+  export type AssistantRuleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRule to fetch.
+     */
+    where?: AssistantRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantRules to fetch.
+     */
+    orderBy?: AssistantRuleOrderByWithRelationInput | AssistantRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantRules.
+     */
+    cursor?: AssistantRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantRules.
+     */
+    distinct?: AssistantRuleScalarFieldEnum | AssistantRuleScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantRule findMany
+   */
+  export type AssistantRuleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRules to fetch.
+     */
+    where?: AssistantRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantRules to fetch.
+     */
+    orderBy?: AssistantRuleOrderByWithRelationInput | AssistantRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssistantRules.
+     */
+    cursor?: AssistantRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantRules.
+     */
+    skip?: number
+    distinct?: AssistantRuleScalarFieldEnum | AssistantRuleScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantRule create
+   */
+  export type AssistantRuleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssistantRule.
+     */
+    data: XOR<AssistantRuleCreateInput, AssistantRuleUncheckedCreateInput>
+  }
+
+  /**
+   * AssistantRule createMany
+   */
+  export type AssistantRuleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssistantRules.
+     */
+    data: AssistantRuleCreateManyInput | AssistantRuleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssistantRule createManyAndReturn
+   */
+  export type AssistantRuleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AssistantRules.
+     */
+    data: AssistantRuleCreateManyInput | AssistantRuleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssistantRule update
+   */
+  export type AssistantRuleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssistantRule.
+     */
+    data: XOR<AssistantRuleUpdateInput, AssistantRuleUncheckedUpdateInput>
+    /**
+     * Choose, which AssistantRule to update.
+     */
+    where: AssistantRuleWhereUniqueInput
+  }
+
+  /**
+   * AssistantRule updateMany
+   */
+  export type AssistantRuleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssistantRules.
+     */
+    data: XOR<AssistantRuleUpdateManyMutationInput, AssistantRuleUncheckedUpdateManyInput>
+    /**
+     * Filter which AssistantRules to update
+     */
+    where?: AssistantRuleWhereInput
+  }
+
+  /**
+   * AssistantRule upsert
+   */
+  export type AssistantRuleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssistantRule to update in case it exists.
+     */
+    where: AssistantRuleWhereUniqueInput
+    /**
+     * In case the AssistantRule found by the `where` argument doesn't exist, create a new AssistantRule with this data.
+     */
+    create: XOR<AssistantRuleCreateInput, AssistantRuleUncheckedCreateInput>
+    /**
+     * In case the AssistantRule was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssistantRuleUpdateInput, AssistantRuleUncheckedUpdateInput>
+  }
+
+  /**
+   * AssistantRule delete
+   */
+  export type AssistantRuleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+    /**
+     * Filter which AssistantRule to delete.
+     */
+    where: AssistantRuleWhereUniqueInput
+  }
+
+  /**
+   * AssistantRule deleteMany
+   */
+  export type AssistantRuleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantRules to delete
+     */
+    where?: AssistantRuleWhereInput
+  }
+
+  /**
+   * AssistantRule without action
+   */
+  export type AssistantRuleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRule
+     */
+    select?: AssistantRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRuleInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -160409,6 +161611,9 @@ export namespace Prisma {
     clientCompanyId: 'clientCompanyId',
     tags: 'tags',
     doneNote: 'doneNote',
+    important: 'important',
+    urgent: 'urgent',
+    archivedAt: 'archivedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -162782,6 +163987,24 @@ export namespace Prisma {
   export type InternalIpScalarFieldEnum = (typeof InternalIpScalarFieldEnum)[keyof typeof InternalIpScalarFieldEnum]
 
 
+  export const AssistantRuleScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    pattern: 'pattern',
+    action: 'action',
+    assigneeId: 'assigneeId',
+    important: 'important',
+    urgent: 'urgent',
+    tags: 'tags',
+    note: 'note',
+    hits: 'hits',
+    lastHitAt: 'lastHitAt',
+    createdAt: 'createdAt'
+  };
+
+  export type AssistantRuleScalarFieldEnum = (typeof AssistantRuleScalarFieldEnum)[keyof typeof AssistantRuleScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -163743,6 +164966,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteListRelationFilter
     assistantTurns?: AssistantTurnListRelationFilter
     assistantPending?: AssistantPendingActionListRelationFilter
+    assistantRules?: AssistantRuleListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -163807,6 +165031,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteOrderByRelationAggregateInput
     assistantTurns?: AssistantTurnOrderByRelationAggregateInput
     assistantPending?: AssistantPendingActionOrderByRelationAggregateInput
+    assistantRules?: AssistantRuleOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -163874,6 +165099,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteListRelationFilter
     assistantTurns?: AssistantTurnListRelationFilter
     assistantPending?: AssistantPendingActionListRelationFilter
+    assistantRules?: AssistantRuleListRelationFilter
   }, "id" | "email" | "passwordResetToken" | "mcpTokenHash">
 
   export type UserOrderByWithAggregationInput = {
@@ -163948,6 +165174,9 @@ export namespace Prisma {
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
     doneNote?: StringNullableFilter<"AssistantNote"> | string | null
+    important?: BoolFilter<"AssistantNote"> | boolean
+    urgent?: BoolFilter<"AssistantNote"> | boolean
+    archivedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -163969,6 +165198,9 @@ export namespace Prisma {
     clientCompanyId?: SortOrderInput | SortOrder
     tags?: SortOrder
     doneNote?: SortOrderInput | SortOrder
+    important?: SortOrder
+    urgent?: SortOrder
+    archivedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -163993,6 +165225,9 @@ export namespace Prisma {
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
     doneNote?: StringNullableFilter<"AssistantNote"> | string | null
+    important?: BoolFilter<"AssistantNote"> | boolean
+    urgent?: BoolFilter<"AssistantNote"> | boolean
+    archivedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -164014,6 +165249,9 @@ export namespace Prisma {
     clientCompanyId?: SortOrderInput | SortOrder
     tags?: SortOrder
     doneNote?: SortOrderInput | SortOrder
+    important?: SortOrder
+    urgent?: SortOrder
+    archivedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AssistantNoteCountOrderByAggregateInput
@@ -164039,6 +165277,9 @@ export namespace Prisma {
     clientCompanyId?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
     doneNote?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
+    important?: BoolWithAggregatesFilter<"AssistantNote"> | boolean
+    urgent?: BoolWithAggregatesFilter<"AssistantNote"> | boolean
+    archivedAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
   }
@@ -176859,6 +178100,98 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"InternalIp"> | Date | string
   }
 
+  export type AssistantRuleWhereInput = {
+    AND?: AssistantRuleWhereInput | AssistantRuleWhereInput[]
+    OR?: AssistantRuleWhereInput[]
+    NOT?: AssistantRuleWhereInput | AssistantRuleWhereInput[]
+    id?: StringFilter<"AssistantRule"> | string
+    userId?: StringFilter<"AssistantRule"> | string
+    pattern?: StringFilter<"AssistantRule"> | string
+    action?: StringFilter<"AssistantRule"> | string
+    assigneeId?: StringNullableFilter<"AssistantRule"> | string | null
+    important?: BoolNullableFilter<"AssistantRule"> | boolean | null
+    urgent?: BoolNullableFilter<"AssistantRule"> | boolean | null
+    tags?: StringNullableListFilter<"AssistantRule">
+    note?: StringNullableFilter<"AssistantRule"> | string | null
+    hits?: IntFilter<"AssistantRule"> | number
+    lastHitAt?: DateTimeNullableFilter<"AssistantRule"> | Date | string | null
+    createdAt?: DateTimeFilter<"AssistantRule"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type AssistantRuleOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pattern?: SortOrder
+    action?: SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    important?: SortOrderInput | SortOrder
+    urgent?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    note?: SortOrderInput | SortOrder
+    hits?: SortOrder
+    lastHitAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AssistantRuleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AssistantRuleWhereInput | AssistantRuleWhereInput[]
+    OR?: AssistantRuleWhereInput[]
+    NOT?: AssistantRuleWhereInput | AssistantRuleWhereInput[]
+    userId?: StringFilter<"AssistantRule"> | string
+    pattern?: StringFilter<"AssistantRule"> | string
+    action?: StringFilter<"AssistantRule"> | string
+    assigneeId?: StringNullableFilter<"AssistantRule"> | string | null
+    important?: BoolNullableFilter<"AssistantRule"> | boolean | null
+    urgent?: BoolNullableFilter<"AssistantRule"> | boolean | null
+    tags?: StringNullableListFilter<"AssistantRule">
+    note?: StringNullableFilter<"AssistantRule"> | string | null
+    hits?: IntFilter<"AssistantRule"> | number
+    lastHitAt?: DateTimeNullableFilter<"AssistantRule"> | Date | string | null
+    createdAt?: DateTimeFilter<"AssistantRule"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AssistantRuleOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pattern?: SortOrder
+    action?: SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    important?: SortOrderInput | SortOrder
+    urgent?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    note?: SortOrderInput | SortOrder
+    hits?: SortOrder
+    lastHitAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AssistantRuleCountOrderByAggregateInput
+    _avg?: AssistantRuleAvgOrderByAggregateInput
+    _max?: AssistantRuleMaxOrderByAggregateInput
+    _min?: AssistantRuleMinOrderByAggregateInput
+    _sum?: AssistantRuleSumOrderByAggregateInput
+  }
+
+  export type AssistantRuleScalarWhereWithAggregatesInput = {
+    AND?: AssistantRuleScalarWhereWithAggregatesInput | AssistantRuleScalarWhereWithAggregatesInput[]
+    OR?: AssistantRuleScalarWhereWithAggregatesInput[]
+    NOT?: AssistantRuleScalarWhereWithAggregatesInput | AssistantRuleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AssistantRule"> | string
+    userId?: StringWithAggregatesFilter<"AssistantRule"> | string
+    pattern?: StringWithAggregatesFilter<"AssistantRule"> | string
+    action?: StringWithAggregatesFilter<"AssistantRule"> | string
+    assigneeId?: StringNullableWithAggregatesFilter<"AssistantRule"> | string | null
+    important?: BoolNullableWithAggregatesFilter<"AssistantRule"> | boolean | null
+    urgent?: BoolNullableWithAggregatesFilter<"AssistantRule"> | boolean | null
+    tags?: StringNullableListFilter<"AssistantRule">
+    note?: StringNullableWithAggregatesFilter<"AssistantRule"> | string | null
+    hits?: IntWithAggregatesFilter<"AssistantRule"> | number
+    lastHitAt?: DateTimeNullableWithAggregatesFilter<"AssistantRule"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AssistantRule"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -176920,6 +178253,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -176983,6 +178317,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -177046,6 +178381,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -177109,6 +178445,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -177196,6 +178533,9 @@ export namespace Prisma {
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAssistantNotesInput
@@ -177217,6 +178557,9 @@ export namespace Prisma {
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: AssistantNoteEventUncheckedCreateNestedManyWithoutNoteInput
@@ -177236,6 +178579,9 @@ export namespace Prisma {
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: BoolFieldUpdateOperationsInput | boolean
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAssistantNotesNestedInput
@@ -177257,6 +178603,9 @@ export namespace Prisma {
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: BoolFieldUpdateOperationsInput | boolean
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: AssistantNoteEventUncheckedUpdateManyWithoutNoteNestedInput
@@ -177277,6 +178626,9 @@ export namespace Prisma {
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -177295,6 +178647,9 @@ export namespace Prisma {
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: BoolFieldUpdateOperationsInput | boolean
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -177314,6 +178669,9 @@ export namespace Prisma {
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: BoolFieldUpdateOperationsInput | boolean
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -191640,6 +192998,110 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssistantRuleCreateInput = {
+    id?: string
+    pattern: string
+    action: string
+    assigneeId?: string | null
+    important?: boolean | null
+    urgent?: boolean | null
+    tags?: AssistantRuleCreatetagsInput | string[]
+    note?: string | null
+    hits?: number
+    lastHitAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAssistantRulesInput
+  }
+
+  export type AssistantRuleUncheckedCreateInput = {
+    id?: string
+    userId: string
+    pattern: string
+    action: string
+    assigneeId?: string | null
+    important?: boolean | null
+    urgent?: boolean | null
+    tags?: AssistantRuleCreatetagsInput | string[]
+    note?: string | null
+    hits?: number
+    lastHitAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AssistantRuleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pattern?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    urgent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tags?: AssistantRuleUpdatetagsInput | string[]
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    hits?: IntFieldUpdateOperationsInput | number
+    lastHitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAssistantRulesNestedInput
+  }
+
+  export type AssistantRuleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    pattern?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    urgent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tags?: AssistantRuleUpdatetagsInput | string[]
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    hits?: IntFieldUpdateOperationsInput | number
+    lastHitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRuleCreateManyInput = {
+    id?: string
+    userId: string
+    pattern: string
+    action: string
+    assigneeId?: string | null
+    important?: boolean | null
+    urgent?: boolean | null
+    tags?: AssistantRuleCreatetagsInput | string[]
+    note?: string | null
+    hits?: number
+    lastHitAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AssistantRuleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pattern?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    urgent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tags?: AssistantRuleUpdatetagsInput | string[]
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    hits?: IntFieldUpdateOperationsInput | number
+    lastHitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRuleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    pattern?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    urgent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tags?: AssistantRuleUpdatetagsInput | string[]
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    hits?: IntFieldUpdateOperationsInput | number
+    lastHitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -191920,6 +193382,12 @@ export namespace Prisma {
     none?: AssistantPendingActionWhereInput
   }
 
+  export type AssistantRuleListRelationFilter = {
+    every?: AssistantRuleWhereInput
+    some?: AssistantRuleWhereInput
+    none?: AssistantRuleWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -192046,6 +193514,10 @@ export namespace Prisma {
   }
 
   export type AssistantPendingActionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssistantRuleOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -192241,6 +193713,9 @@ export namespace Prisma {
     clientCompanyId?: SortOrder
     tags?: SortOrder
     doneNote?: SortOrder
+    important?: SortOrder
+    urgent?: SortOrder
+    archivedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -192259,6 +193734,9 @@ export namespace Prisma {
     source?: SortOrder
     clientCompanyId?: SortOrder
     doneNote?: SortOrder
+    important?: SortOrder
+    urgent?: SortOrder
+    archivedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -192277,6 +193755,9 @@ export namespace Prisma {
     source?: SortOrder
     clientCompanyId?: SortOrder
     doneNote?: SortOrder
+    important?: SortOrder
+    urgent?: SortOrder
+    archivedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -201504,6 +202985,57 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type AssistantRuleCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pattern?: SortOrder
+    action?: SortOrder
+    assigneeId?: SortOrder
+    important?: SortOrder
+    urgent?: SortOrder
+    tags?: SortOrder
+    note?: SortOrder
+    hits?: SortOrder
+    lastHitAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AssistantRuleAvgOrderByAggregateInput = {
+    hits?: SortOrder
+  }
+
+  export type AssistantRuleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pattern?: SortOrder
+    action?: SortOrder
+    assigneeId?: SortOrder
+    important?: SortOrder
+    urgent?: SortOrder
+    note?: SortOrder
+    hits?: SortOrder
+    lastHitAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AssistantRuleMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pattern?: SortOrder
+    action?: SortOrder
+    assigneeId?: SortOrder
+    important?: SortOrder
+    urgent?: SortOrder
+    note?: SortOrder
+    hits?: SortOrder
+    lastHitAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AssistantRuleSumOrderByAggregateInput = {
+    hits?: SortOrder
+  }
+
   export type UserCreatehiddenWaInstanceIdsInput = {
     set: string[]
   }
@@ -201785,6 +203317,13 @@ export namespace Prisma {
     connect?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
   }
 
+  export type AssistantRuleCreateNestedManyWithoutUserInput = {
+    create?: XOR<AssistantRuleCreateWithoutUserInput, AssistantRuleUncheckedCreateWithoutUserInput> | AssistantRuleCreateWithoutUserInput[] | AssistantRuleUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantRuleCreateOrConnectWithoutUserInput | AssistantRuleCreateOrConnectWithoutUserInput[]
+    createMany?: AssistantRuleCreateManyUserInputEnvelope
+    connect?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -202054,6 +203593,13 @@ export namespace Prisma {
     connectOrCreate?: AssistantPendingActionCreateOrConnectWithoutUserInput | AssistantPendingActionCreateOrConnectWithoutUserInput[]
     createMany?: AssistantPendingActionCreateManyUserInputEnvelope
     connect?: AssistantPendingActionWhereUniqueInput | AssistantPendingActionWhereUniqueInput[]
+  }
+
+  export type AssistantRuleUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AssistantRuleCreateWithoutUserInput, AssistantRuleUncheckedCreateWithoutUserInput> | AssistantRuleCreateWithoutUserInput[] | AssistantRuleUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantRuleCreateOrConnectWithoutUserInput | AssistantRuleCreateOrConnectWithoutUserInput[]
+    createMany?: AssistantRuleCreateManyUserInputEnvelope
+    connect?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -202637,6 +204183,20 @@ export namespace Prisma {
     deleteMany?: AssistantPendingActionScalarWhereInput | AssistantPendingActionScalarWhereInput[]
   }
 
+  export type AssistantRuleUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AssistantRuleCreateWithoutUserInput, AssistantRuleUncheckedCreateWithoutUserInput> | AssistantRuleCreateWithoutUserInput[] | AssistantRuleUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantRuleCreateOrConnectWithoutUserInput | AssistantRuleCreateOrConnectWithoutUserInput[]
+    upsert?: AssistantRuleUpsertWithWhereUniqueWithoutUserInput | AssistantRuleUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AssistantRuleCreateManyUserInputEnvelope
+    set?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
+    disconnect?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
+    delete?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
+    connect?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
+    update?: AssistantRuleUpdateWithWhereUniqueWithoutUserInput | AssistantRuleUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AssistantRuleUpdateManyWithWhereWithoutUserInput | AssistantRuleUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AssistantRuleScalarWhereInput | AssistantRuleScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -203173,6 +204733,20 @@ export namespace Prisma {
     update?: AssistantPendingActionUpdateWithWhereUniqueWithoutUserInput | AssistantPendingActionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AssistantPendingActionUpdateManyWithWhereWithoutUserInput | AssistantPendingActionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AssistantPendingActionScalarWhereInput | AssistantPendingActionScalarWhereInput[]
+  }
+
+  export type AssistantRuleUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AssistantRuleCreateWithoutUserInput, AssistantRuleUncheckedCreateWithoutUserInput> | AssistantRuleCreateWithoutUserInput[] | AssistantRuleUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AssistantRuleCreateOrConnectWithoutUserInput | AssistantRuleCreateOrConnectWithoutUserInput[]
+    upsert?: AssistantRuleUpsertWithWhereUniqueWithoutUserInput | AssistantRuleUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AssistantRuleCreateManyUserInputEnvelope
+    set?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
+    disconnect?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
+    delete?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
+    connect?: AssistantRuleWhereUniqueInput | AssistantRuleWhereUniqueInput[]
+    update?: AssistantRuleUpdateWithWhereUniqueWithoutUserInput | AssistantRuleUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AssistantRuleUpdateManyWithWhereWithoutUserInput | AssistantRuleUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AssistantRuleScalarWhereInput | AssistantRuleScalarWhereInput[]
   }
 
   export type AssistantNoteCreatetagsInput = {
@@ -214317,6 +215891,29 @@ export namespace Prisma {
     update?: XOR<XOR<McpOAuthClientUpdateToOneWithWhereWithoutTokensInput, McpOAuthClientUpdateWithoutTokensInput>, McpOAuthClientUncheckedUpdateWithoutTokensInput>
   }
 
+  export type AssistantRuleCreatetagsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutAssistantRulesInput = {
+    create?: XOR<UserCreateWithoutAssistantRulesInput, UserUncheckedCreateWithoutAssistantRulesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantRulesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AssistantRuleUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutAssistantRulesNestedInput = {
+    create?: XOR<UserCreateWithoutAssistantRulesInput, UserUncheckedCreateWithoutAssistantRulesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantRulesInput
+    upsert?: UserUpsertWithoutAssistantRulesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssistantRulesInput, UserUpdateWithoutAssistantRulesInput>, UserUncheckedUpdateWithoutAssistantRulesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -217468,6 +219065,9 @@ export namespace Prisma {
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: AssistantNoteEventCreateNestedManyWithoutNoteInput
@@ -217487,6 +219087,9 @@ export namespace Prisma {
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: AssistantNoteEventUncheckedCreateNestedManyWithoutNoteInput
@@ -217559,6 +219162,44 @@ export namespace Prisma {
 
   export type AssistantPendingActionCreateManyUserInputEnvelope = {
     data: AssistantPendingActionCreateManyUserInput | AssistantPendingActionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssistantRuleCreateWithoutUserInput = {
+    id?: string
+    pattern: string
+    action: string
+    assigneeId?: string | null
+    important?: boolean | null
+    urgent?: boolean | null
+    tags?: AssistantRuleCreatetagsInput | string[]
+    note?: string | null
+    hits?: number
+    lastHitAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AssistantRuleUncheckedCreateWithoutUserInput = {
+    id?: string
+    pattern: string
+    action: string
+    assigneeId?: string | null
+    important?: boolean | null
+    urgent?: boolean | null
+    tags?: AssistantRuleCreatetagsInput | string[]
+    note?: string | null
+    hits?: number
+    lastHitAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AssistantRuleCreateOrConnectWithoutUserInput = {
+    where: AssistantRuleWhereUniqueInput
+    create: XOR<AssistantRuleCreateWithoutUserInput, AssistantRuleUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssistantRuleCreateManyUserInputEnvelope = {
+    data: AssistantRuleCreateManyUserInput | AssistantRuleCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -219016,6 +220657,9 @@ export namespace Prisma {
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
     doneNote?: StringNullableFilter<"AssistantNote"> | string | null
+    important?: BoolFilter<"AssistantNote"> | boolean
+    urgent?: BoolFilter<"AssistantNote"> | boolean
+    archivedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
   }
@@ -219080,6 +220724,40 @@ export namespace Prisma {
     resolvedAt?: DateTimeNullableFilter<"AssistantPendingAction"> | Date | string | null
   }
 
+  export type AssistantRuleUpsertWithWhereUniqueWithoutUserInput = {
+    where: AssistantRuleWhereUniqueInput
+    update: XOR<AssistantRuleUpdateWithoutUserInput, AssistantRuleUncheckedUpdateWithoutUserInput>
+    create: XOR<AssistantRuleCreateWithoutUserInput, AssistantRuleUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssistantRuleUpdateWithWhereUniqueWithoutUserInput = {
+    where: AssistantRuleWhereUniqueInput
+    data: XOR<AssistantRuleUpdateWithoutUserInput, AssistantRuleUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AssistantRuleUpdateManyWithWhereWithoutUserInput = {
+    where: AssistantRuleScalarWhereInput
+    data: XOR<AssistantRuleUpdateManyMutationInput, AssistantRuleUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AssistantRuleScalarWhereInput = {
+    AND?: AssistantRuleScalarWhereInput | AssistantRuleScalarWhereInput[]
+    OR?: AssistantRuleScalarWhereInput[]
+    NOT?: AssistantRuleScalarWhereInput | AssistantRuleScalarWhereInput[]
+    id?: StringFilter<"AssistantRule"> | string
+    userId?: StringFilter<"AssistantRule"> | string
+    pattern?: StringFilter<"AssistantRule"> | string
+    action?: StringFilter<"AssistantRule"> | string
+    assigneeId?: StringNullableFilter<"AssistantRule"> | string | null
+    important?: BoolNullableFilter<"AssistantRule"> | boolean | null
+    urgent?: BoolNullableFilter<"AssistantRule"> | boolean | null
+    tags?: StringNullableListFilter<"AssistantRule">
+    note?: StringNullableFilter<"AssistantRule"> | string | null
+    hits?: IntFilter<"AssistantRule"> | number
+    lastHitAt?: DateTimeNullableFilter<"AssistantRule"> | Date | string | null
+    createdAt?: DateTimeFilter<"AssistantRule"> | Date | string
+  }
+
   export type UserCreateWithoutAssistantNotesInput = {
     id?: string
     name: string
@@ -219140,6 +220818,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantNotesInput = {
@@ -219202,6 +220881,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantNotesInput = {
@@ -219306,6 +220986,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantNotesInput = {
@@ -219368,6 +221049,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AssistantNoteEventUpsertWithWhereUniqueWithoutNoteInput = {
@@ -219412,6 +221094,9 @@ export namespace Prisma {
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAssistantNotesInput
@@ -219432,6 +221117,9 @@ export namespace Prisma {
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -219466,6 +221154,9 @@ export namespace Prisma {
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: BoolFieldUpdateOperationsInput | boolean
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAssistantNotesNestedInput
@@ -219486,6 +221177,9 @@ export namespace Prisma {
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: BoolFieldUpdateOperationsInput | boolean
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -219550,6 +221244,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantTurnsInput = {
@@ -219612,6 +221307,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantTurnsInput = {
@@ -219690,6 +221386,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantTurnsInput = {
@@ -219752,6 +221449,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAssistantPendingInput = {
@@ -219814,6 +221512,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantPendingInput = {
@@ -219876,6 +221575,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantPendingInput = {
@@ -219954,6 +221654,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantPendingInput = {
@@ -220016,6 +221717,7 @@ export namespace Prisma {
     uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutQuickRepliesInput = {
@@ -220359,6 +222061,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutQuickRepliesInput = {
@@ -220421,6 +222124,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutQuickRepliesInput = {
@@ -220786,6 +222490,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuickRepliesInput = {
@@ -220848,6 +222553,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutVaultChallengesInput = {
@@ -220910,6 +222616,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -220972,6 +222679,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -221050,6 +222758,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -221112,6 +222821,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -221174,6 +222884,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -221236,6 +222947,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -221314,6 +223026,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -221376,6 +223089,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -221438,6 +223152,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -221500,6 +223215,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -221578,6 +223294,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -221640,6 +223357,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -222269,6 +223987,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -222331,6 +224050,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -236358,6 +238078,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksAssignedInput = {
@@ -236420,6 +238141,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksAssignedInput = {
@@ -236487,6 +238209,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksCreatedInput = {
@@ -236549,6 +238272,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksCreatedInput = {
@@ -237037,6 +238761,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksAssignedInput = {
@@ -237099,6 +238824,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutTasksCreatedInput = {
@@ -237172,6 +238898,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksCreatedInput = {
@@ -237234,6 +238961,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LeadCreateWithoutCommentsInput = {
@@ -238385,6 +240113,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -238447,6 +240176,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -238812,6 +240542,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -238874,6 +240605,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutOwnedInstancesInput = {
@@ -238936,6 +240668,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOwnedInstancesInput = {
@@ -238998,6 +240731,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOwnedInstancesInput = {
@@ -239643,6 +241377,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedInstancesInput = {
@@ -239705,6 +241440,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutWhatsappInstancesInput = {
@@ -240697,6 +242433,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -240759,6 +242496,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -241422,6 +243160,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -241484,6 +243223,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -242202,6 +243942,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -242264,6 +244005,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -242993,6 +244735,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -243055,6 +244798,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -245128,6 +246872,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -245190,6 +246935,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -245538,6 +247284,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -245600,6 +247347,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -246337,6 +248085,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -246399,6 +248148,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -246759,6 +248509,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -246821,6 +248572,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -250285,6 +252037,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksAssignedInput = {
@@ -250347,6 +252100,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksAssignedInput = {
@@ -250414,6 +252168,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksCreatedInput = {
@@ -250476,6 +252231,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksCreatedInput = {
@@ -250804,6 +252560,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksAssignedInput = {
@@ -250866,6 +252623,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutProjectTasksCreatedInput = {
@@ -250939,6 +252697,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksCreatedInput = {
@@ -251001,6 +252760,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectMaterialUpsertWithWhereUniqueWithoutTaskInput = {
@@ -251914,6 +253674,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketAccessInput = {
@@ -251976,6 +253737,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketAccessInput = {
@@ -252123,6 +253885,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketAccessInput = {
@@ -252185,6 +253948,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutAccessUsersInput = {
@@ -252332,6 +254096,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectAccessInput = {
@@ -252394,6 +254159,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectAccessInput = {
@@ -252563,6 +254329,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectAccessInput = {
@@ -252625,6 +254392,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutTaskStatesInput = {
@@ -253124,6 +254892,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -253186,6 +254955,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -253355,6 +255125,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -253417,6 +255188,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutMaterialsInput = {
@@ -253916,6 +255688,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -253978,6 +255751,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -254135,6 +255909,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -254197,6 +255972,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -274443,6 +276219,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -274505,6 +276282,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -274895,6 +276673,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -274957,6 +276736,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutRewardRedemptionsInput = {
@@ -275343,6 +277123,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -275405,6 +277186,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -275764,6 +277546,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -275826,6 +277609,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -276175,6 +277959,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -276237,6 +278022,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -276596,6 +278382,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -276658,6 +278445,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -277007,6 +278795,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -277069,6 +278858,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -277428,6 +279218,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -277490,6 +279281,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -278407,6 +280199,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -278469,6 +280262,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -278547,6 +280341,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -278609,6 +280404,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotifPreferencesInput = {
@@ -278671,6 +280467,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotifPreferencesInput = {
@@ -278733,6 +280530,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotifPreferencesInput = {
@@ -278811,6 +280609,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotifPreferencesInput = {
@@ -278873,6 +280672,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutEmailConfigInput = {
@@ -280457,6 +282257,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEmailCampaignsCreatedInput = {
@@ -280519,6 +282320,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEmailCampaignsCreatedInput = {
@@ -281085,6 +282887,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailCampaignsCreatedInput = {
@@ -281147,6 +282950,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmailRecipientUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -288236,6 +290040,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantCalendarsInput = {
@@ -288298,6 +290103,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantCalendarsInput = {
@@ -288523,6 +290329,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantsCreatedInput = {
@@ -288585,6 +290392,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantsCreatedInput = {
@@ -288950,6 +290758,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantCalendarsInput = {
@@ -289012,6 +290821,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutAssistantsInput = {
@@ -289221,6 +291031,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantsCreatedInput = {
@@ -289283,6 +291094,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutScheduledMessagesInput = {
@@ -295718,6 +297530,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBonusesInput = {
@@ -295780,6 +297593,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBonusesInput = {
@@ -296279,6 +298093,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBonusesInput = {
@@ -296341,6 +298156,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutMonthlyTargetsInput = {
@@ -298655,6 +300471,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimePunchesInput = {
@@ -298717,6 +300534,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimePunchesInput = {
@@ -299082,6 +300900,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimePunchesInput = {
@@ -299144,6 +300963,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutWorkScheduleDaysInput = {
@@ -299487,6 +301307,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWorkScheduleDaysInput = {
@@ -299549,6 +301370,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWorkScheduleDaysInput = {
@@ -299914,6 +301736,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkScheduleDaysInput = {
@@ -299976,6 +301799,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutTimeOffEntriesInput = {
@@ -300319,6 +302143,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimeOffEntriesInput = {
@@ -300381,6 +302206,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimeOffEntriesInput = {
@@ -300448,6 +302274,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimeOffsCreatedInput = {
@@ -300510,6 +302337,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimeOffsCreatedInput = {
@@ -300875,6 +302703,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeOffEntriesInput = {
@@ -300937,6 +302766,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutTimeOffsCreatedInput = {
@@ -301010,6 +302840,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeOffsCreatedInput = {
@@ -301072,6 +302903,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutPunchAdjustRequestsInput = {
@@ -301415,6 +303247,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPunchAdjustRequestsInput = {
@@ -301477,6 +303310,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPunchAdjustRequestsInput = {
@@ -301544,6 +303378,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPunchAdjustsReviewedInput = {
@@ -301606,6 +303441,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPunchAdjustsReviewedInput = {
@@ -301971,6 +303807,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPunchAdjustRequestsInput = {
@@ -302033,6 +303870,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutPunchAdjustsReviewedInput = {
@@ -302106,6 +303944,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPunchAdjustsReviewedInput = {
@@ -302168,6 +304007,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutTimesheetSignaturesInput = {
@@ -302511,6 +304351,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimesheetSignaturesInput = {
@@ -302573,6 +304414,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimesheetSignaturesInput = {
@@ -302938,6 +304780,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimesheetSignaturesInput = {
@@ -303000,6 +304843,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutStorageObjectsInput = {
@@ -303565,6 +305409,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUploadedFilesInput = {
@@ -303627,6 +305472,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
     assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
     assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+    assistantRules?: AssistantRuleUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUploadedFilesInput = {
@@ -304238,6 +306084,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUploadedFilesInput = {
@@ -304300,6 +306147,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutLibraryItemsInput = {
@@ -305181,6 +307029,274 @@ export namespace Prisma {
     codes?: McpOAuthCodeUncheckedUpdateManyWithoutClientNestedInput
   }
 
+  export type UserCreateWithoutAssistantRulesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
+    linkedSuperAdminId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAssistantRulesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    hiddenWaInstanceIds?: UserCreatehiddenWaInstanceIdsInput | string[]
+    linkedSuperAdminId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    assistantGroupJid?: string | null
+    assistantInstanceId?: string | null
+    mcpTokenHash?: string | null
+    mcpTokenCreatedAt?: Date | string | null
+    mcpTokenLastUsedAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+    uploadedFiles?: StorageObjectUncheckedCreateNestedManyWithoutUploadedByInput
+    assistantNotes?: AssistantNoteUncheckedCreateNestedManyWithoutUserInput
+    assistantTurns?: AssistantTurnUncheckedCreateNestedManyWithoutUserInput
+    assistantPending?: AssistantPendingActionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAssistantRulesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssistantRulesInput, UserUncheckedCreateWithoutAssistantRulesInput>
+  }
+
+  export type UserUpsertWithoutAssistantRulesInput = {
+    update: XOR<UserUpdateWithoutAssistantRulesInput, UserUncheckedUpdateWithoutAssistantRulesInput>
+    create: XOR<UserCreateWithoutAssistantRulesInput, UserUncheckedCreateWithoutAssistantRulesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssistantRulesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssistantRulesInput, UserUncheckedUpdateWithoutAssistantRulesInput>
+  }
+
+  export type UserUpdateWithoutAssistantRulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
+    linkedSuperAdminId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssistantRulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    hiddenWaInstanceIds?: UserUpdatehiddenWaInstanceIdsInput | string[]
+    linkedSuperAdminId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assistantGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+    uploadedFiles?: StorageObjectUncheckedUpdateManyWithoutUploadedByNestedInput
+    assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
+    assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
+    assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type TicketCreateManyCreatedByInput = {
     id?: string
     title: string
@@ -305748,6 +307864,9 @@ export namespace Prisma {
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
+    important?: boolean
+    urgent?: boolean
+    archivedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -305770,6 +307889,20 @@ export namespace Prisma {
     expiresAt: Date | string
     createdAt?: Date | string
     resolvedAt?: Date | string | null
+  }
+
+  export type AssistantRuleCreateManyUserInput = {
+    id?: string
+    pattern: string
+    action: string
+    assigneeId?: string | null
+    important?: boolean | null
+    urgent?: boolean | null
+    tags?: AssistantRuleCreatetagsInput | string[]
+    note?: string | null
+    hits?: number
+    lastHitAt?: Date | string | null
+    createdAt?: Date | string
   }
 
   export type TicketUpdateWithoutCreatedByInput = {
@@ -307509,6 +309642,9 @@ export namespace Prisma {
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: BoolFieldUpdateOperationsInput | boolean
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: AssistantNoteEventUpdateManyWithoutNoteNestedInput
@@ -307528,6 +309664,9 @@ export namespace Prisma {
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: BoolFieldUpdateOperationsInput | boolean
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: AssistantNoteEventUncheckedUpdateManyWithoutNoteNestedInput
@@ -307547,6 +309686,9 @@ export namespace Prisma {
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: BoolFieldUpdateOperationsInput | boolean
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -307609,6 +309751,48 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantRuleUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pattern?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    urgent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tags?: AssistantRuleUpdatetagsInput | string[]
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    hits?: IntFieldUpdateOperationsInput | number
+    lastHitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRuleUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pattern?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    urgent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tags?: AssistantRuleUpdatetagsInput | string[]
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    hits?: IntFieldUpdateOperationsInput | number
+    lastHitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRuleUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pattern?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    important?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    urgent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tags?: AssistantRuleUpdatetagsInput | string[]
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    hits?: IntFieldUpdateOperationsInput | number
+    lastHitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AssistantNoteEventCreateManyNoteInput = {
@@ -309419,6 +311603,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -309481,6 +311666,7 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+    assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -320759,6 +322945,10 @@ export namespace Prisma {
      * @deprecated Use InternalIpDefaultArgs instead
      */
     export type InternalIpArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InternalIpDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssistantRuleDefaultArgs instead
+     */
+    export type AssistantRuleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantRuleDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

@@ -17,11 +17,17 @@ export interface FilaItem {
   when?: Date | null;
   overdue?: boolean;
   link?: string;
+  /** Matriz de Eisenhower (itens do bloquinho; os demais recebem um default). */
+  quadrant?: "fazer" | "agendar" | "delegar" | "eliminar";
+  /** id da AssistantNote, quando o item é do bloquinho (ações rápidas na UI). */
+  noteId?: string;
+  fromRoutine?: boolean;
 }
 
 export interface FilaDoDia {
   esperandoPorMim: FilaItem[];   // WhatsApp sem resposta + chamados meus
-  hoje: FilaItem[];              // tarefas (lead/projeto/pessoal) e lembretes com prazo até hoje
+  hoje: FilaItem[];              // tarefas (lead/projeto/pessoal) e lembretes com prazo até hoje (atraso ≤ 7 dias)
+  atrasadosAntigos: FilaItem[];  // prazo vencido há mais de 7 dias — pra triagem, não pra "hoje"
   followUps: FilaItem[];         // retornos vencidos + leads esfriando
   semProximaAcao: FilaItem[];    // projetos ativos sem tarefa aberta
   financeiro: FilaItem[];        // atrasadas + a faturar
@@ -70,9 +76,9 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
       orderBy: { dueDate: "asc" }, take: 20,
     }),
     prisma.assistantNote.findMany({
-      where: { userId, done: false },
-      select: { id: true, kind: true, title: true, dueAt: true, createdAt: true },
-      orderBy: [{ dueAt: "asc" }, { createdAt: "desc" }], take: 40,
+      where: { userId, done: false, archivedAt: null },
+      select: { id: true, kind: true, title: true, dueAt: true, createdAt: true, important: true, urgent: true, source: true },
+      orderBy: [{ urgent: "desc" }, { important: "desc" }, { dueAt: { sort: "asc", nulls: "last" } }, { createdAt: "desc" }], take: 80,
     }),
     prisma.setorClickupList.findMany({
       where: {
@@ -117,14 +123,24 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
     esperandoPorMim.push({ id: t.id, kind: "chamado", title: t.title, sub: t.clientCompany?.name ?? (t.type === "INTERNAL" ? "interno" : undefined), when: t.dueDate, overdue: !!t.dueDate && t.dueDate < now, link: appUrl(`/chamados/${t.id}`) });
   }
 
+  // "Hoje" = prazo até hoje, mas atrasado há mais de 7 dias vai pra uma lista
+  // separada (atrasadosAntigos) — senão a fila vira um cemitério de prazos
+  // vencidos e o que é de hoje some no meio. Ordem: fazer (importante+urgente)
+  // → demais, e dentro disso pelo prazo.
+  const oldCut = new Date(now); oldCut.setDate(oldCut.getDate() - 7);
   const hoje: FilaItem[] = [];
-  for (const t of leadTasks) hoje.push({ id: t.id, kind: "tarefa", title: t.title, sub: `Lead ${t.lead.name ?? fmtPhone(t.lead.phone)}`, when: t.dueAt, overdue: t.dueAt < now, link: leadHref(t.lead) });
-  for (const t of projTasks) hoje.push({ id: t.id, kind: "tarefa", title: t.title, sub: `Projeto ${t.project.name}`, when: t.dueDate, overdue: !!t.dueDate && t.dueDate < now, link: appUrl(`/projetos/${t.project.id}`) });
+  const atrasadosAntigos: FilaItem[] = [];
+  const pushDue = (it: FilaItem) => ((it.when && it.when < oldCut) ? atrasadosAntigos : hoje).push(it);
+  for (const t of leadTasks) pushDue({ id: t.id, kind: "tarefa", title: t.title, sub: `Lead ${t.lead.name ?? fmtPhone(t.lead.phone)}`, when: t.dueAt, overdue: t.dueAt < now, link: leadHref(t.lead), quadrant: "fazer" });
+  for (const t of projTasks) pushDue({ id: t.id, kind: "tarefa", title: t.title, sub: `Projeto ${t.project.name}`, when: t.dueDate, overdue: !!t.dueDate && t.dueDate < now, link: appUrl(`/projetos/${t.project.id}`), quadrant: "fazer" });
   for (const n of notes) {
     if (!n.dueAt || n.dueAt > todayEnd) continue;
-    hoje.push({ id: n.id, kind: n.kind === "REMINDER" ? "lembrete" : "pessoal", title: n.title, when: n.dueAt, overdue: n.dueAt < now, link: appUrl("/assistente?aba=bloquinho") });
+    pushDue({ id: n.id, kind: n.kind === "REMINDER" ? "lembrete" : "pessoal", title: n.title, when: n.dueAt, overdue: n.dueAt < now, link: appUrl("/assistente?aba=bloquinho"), quadrant: quadrantOf(n.important, n.urgent), noteId: n.id, fromRoutine: n.source === "MCP" || n.source === "WEBHOOK" });
   }
-  hoje.sort((a, b) => (a.when?.getTime() ?? 0) - (b.when?.getTime() ?? 0));
+  const QORDER: Record<string, number> = { fazer: 0, delegar: 1, agendar: 2, eliminar: 3 };
+  const byQuadThenWhen = (a: FilaItem, b: FilaItem) => (QORDER[a.quadrant ?? "fazer"] - QORDER[b.quadrant ?? "fazer"]) || ((a.when?.getTime() ?? 0) - (b.when?.getTime() ?? 0));
+  hoje.sort(byQuadThenWhen);
+  atrasadosAntigos.sort(byQuadThenWhen);
 
   const followUps: FilaItem[] = [];
   for (const l of cal.leadsFollowUp.slice(0, 10)) followUps.push({ id: l.id, kind: "followup", title: `Retornar para ${l.name ?? fmtPhone(l.phone)}`, when: (l as any).expectedReturnAt, overdue: true, link: leadHref(l) });
@@ -135,7 +151,14 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
   }));
 
   const financeiro: FilaItem[] = [];
-  for (const i of overdueInv) financeiro.push({ id: i.id, kind: "financeiro", title: `${i.clientCompany.name}: ${(i.amountCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} atrasado`, sub: i.description, when: i.dueDate, overdue: true, link: appUrl(`/empresas/${i.clientCompany.id}?aba=financeiro`) });
+  const brlFmt = (c: number) => (c / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  if (overdueInv.length > 3) {
+    // Muitas atrasadas = uma linha só, senão a fila vira o relatório financeiro.
+    const total = overdueInv.reduce((a, i) => a + i.amountCents, 0);
+    financeiro.push({ id: "atrasadas", kind: "financeiro", title: `${overdueInv.length} cobranças atrasadas · ${brlFmt(total)}`, sub: overdueInv.slice(0, 3).map((i) => i.clientCompany.name).join(", ") + "…", overdue: true, link: appUrl("/financeiro"), quadrant: "delegar" });
+  } else {
+    for (const i of overdueInv) financeiro.push({ id: i.id, kind: "financeiro", title: `${i.clientCompany.name}: ${brlFmt(i.amountCents)} atrasado`, sub: i.description, when: i.dueDate, overdue: true, link: appUrl(`/empresas/${i.clientCompany.id}?aba=financeiro`), quadrant: "delegar" });
+  }
   if (services.length) {
     const { dueInMonth } = await import("@/app/(admin)/financeiro/lib");
     const billedSet = new Set(billed.map((b) => b.clientServiceId));
@@ -147,9 +170,13 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
   const bloquinho: FilaItem[] = notes
     .filter((n) => !n.dueAt || n.dueAt > todayEnd)
     .slice(0, 12)
-    .map((n) => ({ id: n.id, kind: n.kind === "REMINDER" ? "lembrete" : "pessoal", title: `${n.kind === "IDEA" ? "💡 " : n.kind === "NOTE" ? "📝 " : n.kind === "REMINDER" ? "⏰ " : "☑️ "}${n.title}`, when: n.dueAt, link: appUrl("/assistente?aba=bloquinho") }));
+    .map((n) => ({ id: n.id, kind: n.kind === "REMINDER" ? "lembrete" : "pessoal", title: `${n.kind === "IDEA" ? "💡 " : n.kind === "NOTE" ? "📝 " : n.kind === "REMINDER" ? "⏰ " : "☑️ "}${n.title}`, when: n.dueAt, link: appUrl("/assistente?aba=bloquinho"), quadrant: quadrantOf(n.important, n.urgent), noteId: n.id }));
 
-  return { esperandoPorMim, hoje, followUps, semProximaAcao, financeiro, bloquinho, generatedAt: now.toISOString() };
+  return { esperandoPorMim, hoje, atrasadosAntigos, followUps, semProximaAcao, financeiro, bloquinho, generatedAt: now.toISOString() };
+}
+
+export function quadrantOf(important: boolean, urgent: boolean): "fazer" | "agendar" | "delegar" | "eliminar" {
+  return important ? (urgent ? "fazer" : "agendar") : (urgent ? "delegar" : "eliminar");
 }
 
 /** Texto compacto da fila (WhatsApp / contexto da IA). */
@@ -162,6 +189,7 @@ export function formatFila(f: FilaDoDia, opts?: { max?: number }): string {
     return `*${title}* (${items.length})\n${lines.join("\n")}`;
   };
   const blocks = [
+    f.atrasadosAntigos.length ? `*⚠️ ${f.atrasadosAntigos.length} atrasado(s) há mais de 7 dias* — vale uma triagem: feito, adiar, delegar ou arquivar.` : null,
     sec("⏳ Esperando por você", f.esperandoPorMim),
     sec("📅 Hoje", f.hoje),
     sec("🔁 Follow-ups", f.followUps),

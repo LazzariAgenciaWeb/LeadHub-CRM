@@ -45,7 +45,7 @@ export interface SimilarNote { id: string; title: string; body: string | null; t
 export async function findSimilarOpenNote(userId: string, title: string, opts?: { body?: string | null; clientCompanyId?: string | null; kind?: string }): Promise<SimilarNote | null> {
   const since = new Date(Date.now() - LOOKBACK_DAYS * 86400_000);
   const candidates = await prisma.assistantNote.findMany({
-    where: { userId, done: false, createdAt: { gte: since } },
+    where: { userId, done: false, archivedAt: null, createdAt: { gte: since } },
     select: { id: true, title: true, body: true, tags: true, dueAt: true, kind: true, clientCompanyId: true },
     orderBy: { updatedAt: "desc" },
     take: 300,

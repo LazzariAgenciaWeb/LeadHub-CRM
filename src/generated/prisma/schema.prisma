@@ -102,6 +102,7 @@ model User {
   assistantNotes      AssistantNote[]
   assistantTurns      AssistantTurn[]
   assistantPending    AssistantPendingAction[]
+  assistantRules      AssistantRule[]
 
   @@index([companyId])
   @@index([assistantGroupJid])
@@ -128,12 +129,20 @@ model AssistantNote {
   clientCompanyId String? // opcional: sobre qual cliente é
   tags            String[]             @default([]) // etiquetas livres: pessoal, financeiro, cliente…
   doneNote        String?              @db.Text // o que foi feito na conclusão (opcional)
+  // Matriz de Eisenhower: importante × urgente. Quadrantes: fazer (ambos),
+  // agendar (importante, não urgente), delegar (urgente, não importante),
+  // eliminar (nenhum). Inferido pela IA, editável.
+  important       Boolean              @default(true)
+  urgent          Boolean              @default(false)
+  // Arquivado: guardado sem ocupar o bloquinho (ideia/nota que não vira ação).
+  archivedAt      DateTime?
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
   events          AssistantNoteEvent[]
 
   @@index([userId, kind, done])
   @@index([kind, done, dueAt])
+  @@index([userId, archivedAt])
 }
 
 // Histórico do item do bloquinho: quando foi criado, editado, concluído ou
@@ -4789,4 +4798,25 @@ model InternalIp {
 
   @@unique([companyId, ip])
   @@index([ip])
+}
+
+// Regra "sempre que…" do bloquinho: item que chega (rotina, webhook, chat)
+// casando o padrão já entra tratado — delegado, arquivado, concluído ou
+// classificado na matriz. Evita triar o mesmo aviso todo mês.
+model AssistantRule {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pattern    String // trecho normalizado (minúsculo, sem acento) a casar no título/corpo
+  action     String // DONE | ARCHIVE | DELEGATE | CLASSIFY
+  assigneeId String? // DELEGATE: responsável do chamado interno
+  important  Boolean?
+  urgent     Boolean?
+  tags       String[]  @default([])
+  note       String? // observação ("fatura mensal — Kelly paga")
+  hits       Int       @default(0)
+  lastHitAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
 }
