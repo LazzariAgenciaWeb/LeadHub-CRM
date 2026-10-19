@@ -30,7 +30,8 @@ export type IntakeResult =
 const RESOLVE_RE = /\b(pag[oa]s?|quitad[oa]s?|confirmad[oa]s?|resolvid[oa]s?|renovad[oa]s?|conclu[ií]d[oa]s?|liberad[oa]s?|aprovad[oa]s?|cancelad[oa]s?|regularizad[oa]s?|religad[oa]s?|reativad[oa]s?|comprovante)\b/;
 const ARRIVE_RE = /\b(chegou|nova fatura|fatura recebida|vence|vencimento|pendente|aguardando|alerta|aviso|lembrete)\b/;
 
-export async function intakeNote(ctx: IntakeCtx, draft: IntakeDraft): Promise<IntakeResult> {
+export async function intakeNote(ctx: IntakeCtx, draftIn: IntakeDraft): Promise<IntakeResult> {
+  let draft = draftIn;
   const title = draft.title.trim();
   const body = draft.body?.trim() || null;
   const tags = [...new Set((draft.tags ?? []).map((t) => t.trim().toLowerCase().replace(/^#/, "")).filter(Boolean))].slice(0, 6);
@@ -39,10 +40,21 @@ export async function intakeNote(ctx: IntakeCtx, draft: IntakeDraft): Promise<In
   const link = appUrl("/assistente?aba=bloquinho");
 
   // ── 1. Regras do usuário ──────────────────────────────────────────────────
+  // Casa no texto OU numa etiqueta (ex.: regra "financeiro" pega tudo com #financeiro).
+  // INFO ("só avisar") vale só pro que vem de rotinas (MCP/webhook): o que o
+  // usuário anota com a mesma etiqueta continua sendo tarefa dele.
+  const fromRoutine = ctx.channel === "MCP" || ctx.channel === "WEBHOOK";
   const rules = await prisma.assistantRule.findMany({ where: { userId: ctx.userId } });
-  const rule = rules.find((r) => r.pattern && text.includes(r.pattern));
+  const rule = rules.find((r) => r.pattern && (text.includes(r.pattern) || tags.includes(r.pattern)) && (r.action !== "INFO" || fromRoutine));
   let important = draft.important ?? true;
   let urgent = draft.urgent ?? (!!draft.dueAt && draft.dueAt.getTime() - now.getTime() < 48 * 3600_000);
+  if (rule?.action === "INFO") {
+    // Aviso: vira lembrete SEM prazo (fica no bloquinho pra consulta, não entra
+    // na fila nem cobra ação). Segue o fluxo normal (acrescenta/resolve/cria).
+    draft = { ...draft, kind: "REMINDER", dueAt: null };
+    urgent = false;
+    if (!tags.includes("aviso")) tags.push("aviso");
+  }
   if (rule) {
     await prisma.assistantRule.update({ where: { id: rule.id }, data: { hits: { increment: 1 }, lastHitAt: now } }).catch(() => {});
     if (rule.important !== null) important = rule.important;
