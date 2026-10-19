@@ -5119,7 +5119,13 @@ export default function WhatsappManager({
                             })()}
                             <div className={`flex items-center gap-1.5 mt-1 flex-wrap ${isOut || isOursInGroup ? "justify-end" : "justify-start"}`}>
                               <span className={`text-[10px] ${isOut || isOursInGroup ? "text-indigo-200/60" : "text-slate-600"}`}>
-                                {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+                                {/* dd/mm + hora no próprio balão — o separador de
+                                    data some ao rolar e dava trabalho saber de
+                                    quando era cada mensagem. */}
+                                {new Date(msg.receivedAt).toLocaleString("pt-BR", {
+                                  day: "2-digit", month: "2-digit",
+                                  hour: "2-digit", minute: "2-digit",
+                                }).replace(",", " ·")}
                               </span>
                               {ackIcon}
                               {deliveryUnconfirmed && (
