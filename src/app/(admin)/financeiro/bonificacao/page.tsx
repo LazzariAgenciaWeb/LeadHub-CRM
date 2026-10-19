@@ -84,11 +84,33 @@ export default async function BonificacaoPage({
 
   const faturados = new Set(faturas.map((f) => f.clientServiceId).filter(Boolean) as string[]);
 
+  // Fechamento desta competência e quantos lançamentos de contrato o mês
+  // anterior tem pra replicar — o botão só aparece quando há o que copiar.
+  const [fechamento, replicaveis] = await Promise.all([
+    prisma.bonusClosure.findUnique({
+      where: { companyId_month: { companyId: agencyId, month } },
+      select: { closedAt: true, closedBy: true, totalCents: true, qtd: true },
+    }),
+    prisma.bonus.count({
+      where: { companyId: agencyId, month: shiftMonth(month, -1), clientServiceId: { not: null } },
+    }),
+  ]);
+
   const data: BonificacaoData = {
     month,
     prevMonth: shiftMonth(month, -1),
     nextMonth: shiftMonth(month, 1),
     colaboradores: colaboradores.map((u) => ({ id: u.id, nome: u.name ?? u.email })),
+    fechamento: fechamento
+      ? {
+          closedAt: fechamento.closedAt.toISOString(),
+          closedBy: fechamento.closedBy,
+          totalCents: fechamento.totalCents,
+          qtd: fechamento.qtd,
+        }
+      : null,
+    replicaveisMesAnterior: replicaveis,
+    podeReabrir: isAdmin,
     // Serviços tirados do fechamento — visíveis dobrados no fim da lista,
     // senão "marquei sem querer" não tem caminho de volta fora do cadastro.
     naoBonificam: [

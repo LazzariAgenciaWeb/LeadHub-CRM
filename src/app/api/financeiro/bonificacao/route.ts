@@ -27,6 +27,29 @@ async function autorizar() {
   return { agencyId };
 }
 
+/**
+ * Competência encerrada é somente leitura. Devolve a resposta de recusa
+ * pronta, ou null quando o mês está aberto. Mora num lugar só porque as três
+ * operações (lançar, editar, excluir) precisam da mesma trava — esquecer uma
+ * delas é exatamente o buraco que o encerramento veio fechar.
+ */
+async function competenciaFechada(agencyId: string, month: string) {
+  const f = await prisma.bonusClosure.findUnique({
+    where: { companyId_month: { companyId: agencyId, month } },
+    select: { closedAt: true, closedBy: true },
+  });
+  if (!f) return null;
+  return NextResponse.json(
+    {
+      error:
+        `A bonificação de ${month} foi encerrada em ${f.closedAt.toLocaleDateString("pt-BR")}` +
+        (f.closedBy ? ` por ${f.closedBy}` : "") +
+        ". Reabra a competência para alterar.",
+    },
+    { status: 423 },
+  );
+}
+
 const centavos = (v: unknown) => {
   const n = Math.round(Number(v));
   return Number.isFinite(n) && n >= 0 ? n : 0;
@@ -46,6 +69,8 @@ export async function POST(req: NextRequest) {
   if (!/^\d{4}-\d{2}$/.test(month)) {
     return NextResponse.json({ error: "Competência inválida" }, { status: 400 });
   }
+  const fechada = await competenciaFechada(auth.agencyId, month);
+  if (fechada) return fechada;
 
   const saleId = body?.saleId ? String(body.saleId) : null;
   const clientServiceId = body?.clientServiceId ? String(body.clientServiceId) : null;
@@ -148,6 +173,17 @@ export async function PATCH(req: NextRequest) {
   });
   if (!atual) return NextResponse.json({ error: "Bonificação não encontrada" }, { status: 404 });
 
+  // Encerrar congela os VALORES, não o pagamento: o fechamento acontece num
+  // mês e a bonificação sai no seguinte, então marcar "pago" depois de
+  // encerrar é o fluxo normal. Qualquer outro campo, com o mês fechado, é
+  // recusado.
+  const mexeEmValor =
+    body?.amountCents !== undefined || body?.serviceValueCents !== undefined || body?.notes !== undefined;
+  if (mexeEmValor) {
+    const fechada = await competenciaFechada(auth.agencyId, atual.month);
+    if (fechada) return fechada;
+  }
+
   const data: Record<string, unknown> = {};
   if (body?.amountCents !== undefined) data.amountCents = centavos(body.amountCents);
   if (body?.serviceValueCents !== undefined) data.serviceValueCents = centavos(body.serviceValueCents);
@@ -165,6 +201,14 @@ export async function DELETE(req: NextRequest) {
   const auth = await autorizar();
   if ("erro" in auth) return auth.erro;
   const id = req.nextUrl.searchParams.get("id") ?? "";
+  const alvo = await prisma.bonus.findFirst({
+    where: { id, companyId: auth.agencyId },
+    select: { month: true },
+  });
+  if (!alvo) return NextResponse.json({ ok: true, removidos: 0 });
+  const fechada = await competenciaFechada(auth.agencyId, alvo.month);
+  if (fechada) return fechada;
+
   const r = await prisma.bonus.deleteMany({ where: { id, companyId: auth.agencyId } });
   return NextResponse.json({ ok: true, removidos: r.count });
 }

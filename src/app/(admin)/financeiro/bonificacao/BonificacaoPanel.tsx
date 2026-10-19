@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Award, ChevronLeft, ChevronRight, Plus, Check, Trash2, X, Loader2, Repeat, Package,
+  Lock, Unlock, Copy,
 } from "lucide-react";
 import FinanceiroTabs from "../FinanceiroTabs";
 import { brlFromCents, monthLabel } from "../lib";
@@ -14,6 +15,12 @@ export interface BonificacaoData {
   prevMonth: string;
   nextMonth: string;
   colaboradores: { id: string; nome: string }[];
+  /** Encerramento da competência — presente = mês somente leitura. */
+  fechamento: { closedAt: string; closedBy: string | null; totalCents: number; qtd: number } | null;
+  /** Lançamentos de contrato no mês anterior, disponíveis pra replicar. */
+  replicaveisMesAnterior: number;
+  /** Reabrir é desfazer uma conferência — só administrador. */
+  podeReabrir: boolean;
   recorrentes: { id: string; clienteId: string; cliente: string; label: string; tipo: string; amountCents: number; faturado: boolean }[];
   /** Serviços/vendas marcados como "não bonifica" — pra reverter sem ir ao cadastro. */
   naoBonificam: {
@@ -53,6 +60,8 @@ const input =
 export default function BonificacaoPanel({ data }: { data: BonificacaoData | null }) {
   const router = useRouter();
   const [erro, setErro] = useState("");
+  // Resultado de ação que deu certo (ex.: "12 copiados") — separado do erro
+  // pra não aparecer no banner vermelho.
   const [aviso, setAviso] = useState("");
   // Pontual com a data de entrega aberta pra edição.
   const [redatando, setRedatando] = useState<string | null>(null);
@@ -229,8 +238,93 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
 
   async function remover(id: string) {
     setOcupado(id);
-    await fetch(`/api/financeiro/bonificacao?id=${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/financeiro/bonificacao?id=${id}`, { method: "DELETE" });
     setOcupado(null);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      setErro(e.error ?? "Não foi possível remover.");
+      return;
+    }
+    router.refresh();
+  }
+
+  // ── Fechamento da competência ──────────────────────────────────────────
+  const fechado = !!data.fechamento;
+
+  async function encerrar() {
+    const aberto = porColaborador.reduce((n, c) => n + (c.total - c.pago), 0);
+    const semValor = data!.lancados.filter((b) => !b.amountCents).length;
+    // Avisa o que costuma passar batido antes de trancar: lançamento ainda
+    // sem valor de bonificação vira zero congelado.
+    const avisos = [
+      semValor > 0 && `${semValor} lançamento(s) ainda SEM valor de bonificação`,
+      aberto > 0 && `${brlFromCents(aberto)} ainda não marcado como pago (dá pra marcar depois)`,
+    ].filter(Boolean);
+    const msg =
+      `Encerrar a bonificação de ${monthLabel(data!.month)}?\n\n` +
+      `Depois de encerrada não aceita lançamento novo, edição de valor nem exclusão. ` +
+      `Marcar como pago continua liberado.` +
+      (avisos.length ? `\n\nAtenção:\n• ${avisos.join("\n• ")}` : "");
+    if (!confirm(msg)) return;
+
+    setOcupado("fechar");
+    setErro("");
+    const res = await fetch("/api/financeiro/bonificacao/fechar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ month: data!.month }),
+    });
+    setOcupado(null);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      setErro(e.error ?? "Não foi possível encerrar.");
+      return;
+    }
+    router.refresh();
+  }
+
+  async function reabrir() {
+    if (!confirm(`Reabrir a bonificação de ${monthLabel(data!.month)}? Fica registrado no histórico do financeiro.`)) return;
+    setOcupado("fechar");
+    setErro("");
+    const res = await fetch(`/api/financeiro/bonificacao/fechar?month=${data!.month}`, { method: "DELETE" });
+    setOcupado(null);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      setErro(e.error ?? "Não foi possível reabrir.");
+      return;
+    }
+    router.refresh();
+  }
+
+  // ── Replicar o mês anterior ────────────────────────────────────────────
+  async function replicarAnterior() {
+    if (!confirm(
+      `Copiar os lançamentos de CONTRATO do mês anterior para ${monthLabel(data!.month)}?\n\n` +
+      `Mesmo colaborador, mesmo valor de serviço e de bonificação. Venda pontual e avulso não são ` +
+      `copiados (seriam pagamento em dobro). Contrato encerrado ou que não vence neste mês fica de fora.`,
+    )) return;
+
+    setOcupado("replicar");
+    setErro("");
+    const res = await fetch("/api/financeiro/bonificacao/duplicar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ month: data!.month }),
+    });
+    setOcupado(null);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      setErro(e.error ?? "Não foi possível replicar.");
+      return;
+    }
+    const r = await res.json();
+    const partes = [
+      `${r.copiados} lançamento(s) copiado(s) · ${brlFromCents(r.totalCents)}`,
+      r.jaExistia > 0 && `${r.jaExistia} já existia(m) neste mês`,
+      r.foraDoMes > 0 && `${r.foraDoMes} de contrato que não vale neste mês`,
+    ].filter(Boolean);
+    setAviso(partes.join(" · "));
     router.refresh();
   }
 
@@ -305,7 +399,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
             {l.pagoEm && ` · pago ${mesCurto(l.pagoEm)}`}
             {/* Desfazer sem descer até a lista — mas só enquanto não foi pago:
                 lançamento pago é histórico, apaga-se lá em cima, com intenção. */}
-            {!l.pago && (
+            {!l.pago && !fechado && (
               <button
                 onClick={() => remover(l.id)}
                 disabled={ocupado === l.id}
@@ -325,6 +419,9 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   // dentro do render é um tipo novo a cada tecla digitada — o React remontava
   // o input e o foco sumia no meio da digitação do valor.
   function formLancar(origem: { saleId?: string; clientServiceId?: string }, chave: string, valorPadraoCents: number, presetQuem?: string | null) {
+    // Competência encerrada não aceita lançamento novo — o botão some em vez
+    // de abrir um formulário que a API vai recusar.
+    if (fechado) return null;
     if (abrindo !== chave) {
       return (
         <button
@@ -410,6 +507,59 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
         </div>
       )}
 
+      {/* Situação da competência. Encerrada = somente leitura (baixa de
+          pagamento continua livre). Aberta = dá pra replicar o mês anterior e,
+          ao terminar a conferência, encerrar. */}
+      {fechado ? (
+        <div className="bg-slate-500/10 border border-slate-500/30 rounded-xl px-5 py-3 flex items-center justify-between gap-3 flex-wrap">
+          <span className="text-sm text-slate-200 flex items-center gap-2">
+            <Lock className="w-4 h-4 text-slate-400" />
+            <span>
+              <b>Competência encerrada</b>
+              <span className="text-slate-400">
+                {" em "}{new Date(data.fechamento!.closedAt).toLocaleDateString("pt-BR")}
+                {data.fechamento!.closedBy && ` por ${data.fechamento!.closedBy}`}
+                {" · "}{data.fechamento!.qtd} lançamento(s) · {brlFromCents(data.fechamento!.totalCents)}
+              </span>
+            </span>
+          </span>
+          <span className="flex items-center gap-3">
+            <span className="text-[11px] text-slate-500">Somente leitura — marcar como pago segue liberado.</span>
+            {data.podeReabrir && (
+              <button
+                onClick={reabrir}
+                disabled={ocupado === "fechar"}
+                className="px-2.5 py-1.5 rounded-lg border border-slate-500/40 text-slate-300 hover:text-white hover:border-slate-400 text-xs disabled:opacity-40 flex items-center gap-1.5"
+              >
+                <Unlock className="w-3 h-3" /> Reabrir
+              </button>
+            )}
+          </span>
+        </div>
+      ) : (
+        <div className="flex items-center justify-end gap-2 flex-wrap">
+          {data.replicaveisMesAnterior > 0 && (
+            <button
+              onClick={replicarAnterior}
+              disabled={ocupado === "replicar"}
+              title="Copia os lançamentos de contrato do mês anterior — mesmo colaborador e valor"
+              className="px-3 py-2 rounded-lg border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20 text-sm flex items-center gap-1.5 disabled:opacity-40"
+            >
+              {ocupado === "replicar" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Copy className="w-3.5 h-3.5" />}
+              Replicar mês anterior ({data.replicaveisMesAnterior})
+            </button>
+          )}
+          <button
+            onClick={encerrar}
+            disabled={ocupado === "fechar" || data.lancados.length === 0}
+            title={data.lancados.length === 0 ? "Nada lançado pra encerrar" : "Trava a competência contra lançamento e edição"}
+            className="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm flex items-center gap-1.5 disabled:opacity-40"
+          >
+            <Lock className="w-3.5 h-3.5" /> Encerrar competência
+          </button>
+        </div>
+      )}
+
       {/* Fechamento do mês — meta de ENTREGA por colaborador. O fundo do
           quadro enche com o valor de serviço lançado e muda de cor ao cruzar
           a faixa (0–3k âmbar, 3–7k azul, 7–10k+ verde); a % sobre o salário
@@ -470,7 +620,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
       <div className={card}>
         <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
           <h2 className="text-white font-semibold text-sm">Lançamentos ({data.lancados.length})</h2>
-          {!avulsoAberto && (
+          {!avulsoAberto && !fechado && (
             <button
               onClick={() => { setAvulsoAberto(true); setQuem(""); setErro(""); }}
               className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 text-xs hover:bg-indigo-500/20"
@@ -548,7 +698,8 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                         if (novo !== b.serviceValueCents) alterar(b.id, { serviceValueCents: novo });
                       }}
                       placeholder="0,00"
-                      className={input + " w-24 text-right text-slate-300"}
+                      disabled={fechado}
+                      className={input + " w-24 text-right text-slate-300 disabled:opacity-60 disabled:cursor-not-allowed"}
                     />
                   </label>
                   {/* A bonificação é digitada aqui: é o número que você calcula
@@ -562,7 +713,8 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                         if (novo !== b.amountCents) alterar(b.id, { amountCents: novo });
                       }}
                       placeholder="0,00"
-                      className={input + ` w-24 text-right ${b.pago ? "text-emerald-400" : "text-amber-400"}`}
+                      disabled={fechado}
+                      className={input + ` w-24 text-right disabled:opacity-60 disabled:cursor-not-allowed ${b.pago ? "text-emerald-400" : "text-amber-400"}`}
                     />
                   </label>
                   {b.pagoEm && (
@@ -577,9 +729,11 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                     />
                     pago
                   </label>
-                  <button onClick={() => remover(b.id)} className="text-slate-600 hover:text-red-400">
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                  {!fechado && (
+                    <button onClick={() => remover(b.id)} className="text-slate-600 hover:text-red-400">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

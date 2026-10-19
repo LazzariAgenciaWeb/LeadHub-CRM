@@ -1944,6 +1944,18 @@ exports.Prisma.SaleScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BonusClosureScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  month: 'month',
+  totalCents: 'totalCents',
+  qtd: 'qtd',
+  closedAt: 'closedAt',
+  closedBy: 'closedBy',
+  reopenedAt: 'reopenedAt',
+  reopenedBy: 'reopenedBy'
+};
+
 exports.Prisma.BonusScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -2741,6 +2753,7 @@ exports.Prisma.ModelName = {
   FinanceLog: 'FinanceLog',
   ClientInvoice: 'ClientInvoice',
   Sale: 'Sale',
+  BonusClosure: 'BonusClosure',
   Bonus: 'Bonus',
   MonthlyTarget: 'MonthlyTarget',
   VideoCategory: 'VideoCategory',

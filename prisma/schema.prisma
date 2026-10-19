@@ -451,6 +451,7 @@ model Company {
   clientInvoices           ClientInvoice[]            @relation("ClientInvoiceClient")
   monthlyTargets           MonthlyTarget[]
   bonuses                  Bonus[]
+  bonusClosures            BonusClosure[] // competências de bonificação encerradas
   salesAsAgency            Sale[]                     @relation("SaleAgency")
   salesAsClient            Sale[]                     @relation("SaleClient")
   trackingLinks            TrackingLink[]
@@ -4385,6 +4386,33 @@ model Sale {
 //                     está ativo, entregue ou não.
 // Por isso `month` é obrigatório mesmo na venda pontual: é a competência em que
 // aquele pagamento entra, e é a chave que impede pagar duas vezes o mesmo mês.
+// Fechamento da bonificação de UMA competência. Encerrado, o mês vira
+// somente leitura: não aceita lançamento novo, edição de valor nem exclusão.
+//
+// Existe porque "marcar como pago" nunca trancou nada — a trava de
+// duplicidade é por (origem, colaborador, mês) e não cobre lançamento avulso
+// nem impede mexer no que já foi pago. Sem o encerramento, um lançamento
+// tardio num mês já pago passava despercebido e virava pagamento em dobro.
+model BonusClosure {
+  id        String   @id @default(cuid())
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  month     String // competência "YYYY-MM"
+
+  // Retrato do que foi fechado: serve de conferência contra o que a lista
+  // mostra hoje, caso alguém reabra e altere.
+  totalCents Int @default(0)
+  qtd        Int @default(0)
+
+  closedAt   DateTime @default(now())
+  closedBy   String? // nome de quem encerrou
+  reopenedAt DateTime? // último reabrir, pra auditoria do vai-e-vem
+  reopenedBy String?
+
+  @@unique([companyId, month])
+  @@index([companyId, closedAt])
+}
+
 model Bonus {
   id        String  @id @default(cuid())
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)

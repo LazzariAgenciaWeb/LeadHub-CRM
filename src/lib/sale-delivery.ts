@@ -17,6 +17,12 @@ export interface ResultadoRedatacao {
   pagosMantidos: number;
   /** Nomes que não foram movidos por já terem lançamento desta venda no mês novo. */
   conflitos: string[];
+  /**
+   * Competência encerrada (de origem ou de destino) que impediu a mudança.
+   * Mover tiraria valor de um fechamento já conferido, ou colocaria valor
+   * novo nele — os dois desfazem o que o encerramento garante.
+   */
+  bloqueadoPorFechamento?: string;
 }
 
 const competencia = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
@@ -31,6 +37,17 @@ export async function moverBonificacaoDaVenda(
   const mesAntigo = competencia(entregaAntes);
   const mesNovo = competencia(entregaDepois);
   if (mesAntigo === mesNovo) return undefined;
+
+  const venda = await prisma.sale.findUnique({ where: { id: saleId }, select: { companyId: true } });
+  if (venda) {
+    const fechada = await prisma.bonusClosure.findFirst({
+      where: { companyId: venda.companyId, month: { in: [mesAntigo, mesNovo] } },
+      select: { month: true },
+    });
+    if (fechada) {
+      return { movidos: 0, pagosMantidos: 0, conflitos: [], bloqueadoPorFechamento: fechada.month };
+    }
+  }
 
   const doMesAntigo = await prisma.bonus.findMany({
     where: { saleId, month: mesAntigo },

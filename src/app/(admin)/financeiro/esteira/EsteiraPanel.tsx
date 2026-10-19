@@ -222,8 +222,15 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
     if (updated.warning) setErr(updated.warning);
     // Redatar a entrega move a bonificação junto; o que não pôde ir precisa
     // ser dito, senão parece que foi e o valor fica somando no mês antigo.
-    const bon = updated.bonificacao as { movidos: number; pagosMantidos: number; conflitos: string[] } | undefined;
-    if (bon && (bon.pagosMantidos > 0 || bon.conflitos.length > 0)) {
+    const bon = updated.bonificacao as
+      | { movidos: number; pagosMantidos: number; conflitos: string[]; bloqueadoPorFechamento?: string }
+      | undefined;
+    if (bon?.bloqueadoPorFechamento) {
+      setErr(
+        `Data de entrega alterada, mas a bonificação NÃO foi movida: a competência ${bon.bloqueadoPorFechamento} ` +
+          `está encerrada. Reabra-a na aba Bonificação se o lançamento precisar mudar de mês.`,
+      );
+    } else if (bon && (bon.pagosMantidos > 0 || bon.conflitos.length > 0)) {
       const partes: string[] = [];
       if (bon.movidos) partes.push(`${bon.movidos} lançamento(s) de bonificação movido(s) pro novo mês`);
       if (bon.pagosMantidos) partes.push(`${bon.pagosMantidos} já pago(s) ficou(aram) no mês original`);
