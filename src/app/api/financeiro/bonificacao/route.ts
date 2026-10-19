@@ -188,9 +188,20 @@ export async function PATCH(req: NextRequest) {
   if (body?.amountCents !== undefined) data.amountCents = centavos(body.amountCents);
   if (body?.serviceValueCents !== undefined) data.serviceValueCents = centavos(body.serviceValueCents);
   if (body?.notes !== undefined) data.notes = body.notes ? String(body.notes) : null;
+  // Data do pagamento: a informada, quando vem. Sem ela, marcar "pago" usava
+  // sempre HOJE — e quem dá baixa com atraso (pagou em setembro, marcou em
+  // outubro) ficava com o pagamento no mês errado.
+  const informada = body?.paidAt ? new Date(String(body.paidAt)) : null;
+  const dataPagto = informada && !isNaN(informada.getTime()) ? informada : null;
+
   // A data acompanha o estado: desmarcar limpa, pra não sobrar data de
   // pagamento em bonificação que voltou a pendente.
-  if (body?.paid !== undefined) data.paidAt = body.paid ? (atual.paidAt ?? new Date()) : null;
+  if (body?.paid !== undefined) {
+    data.paidAt = body.paid ? (dataPagto ?? atual.paidAt ?? new Date()) : null;
+  } else if (dataPagto && atual.paidAt) {
+    // Corrigir a data de quem já está pago, sem mexer no status.
+    data.paidAt = dataPagto;
+  }
 
   const atualizado = await prisma.bonus.update({ where: { id: atual.id }, data });
   return NextResponse.json(atualizado);

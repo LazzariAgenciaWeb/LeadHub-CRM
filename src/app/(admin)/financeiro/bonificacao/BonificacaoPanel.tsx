@@ -80,6 +80,20 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   const [avulsoValor, setAvulsoValor] = useState("");
   const [busca, setBusca] = useState("");
   const [mostrarNaoBonificam, setMostrarNaoBonificam] = useState(false);
+  // Data do pagamento da bonificação. Agosto sai em setembro: marcar "pago"
+  // gravava sempre HOJE, e quem dava baixa com atraso ficava com o pagamento
+  // no mês errado. Padrão: 1º dia do mês seguinte à competência — ou hoje, se
+  // esse dia ainda não chegou. Editável; vale pro check e pra baixa em lote.
+  const [dataPagto, setDataPagto] = useState(() => {
+    const hoje = new Date();
+    let alvo = hoje;
+    if (data) {
+      const [y, m] = data.month.split("-").map(Number);
+      const mesSeguinte = new Date(y, m, 1); // `m` (1-12) já é o índice do mês seguinte
+      if (mesSeguinte <= hoje) alvo = mesSeguinte;
+    }
+    return `${alvo.getFullYear()}-${String(alvo.getMonth() + 1).padStart(2, "0")}-${String(alvo.getDate()).padStart(2, "0")}`;
+  });
   // Ordem da lista de excluídos: por nome pra achar um cliente específico,
   // por valor pra revisar primeiro o que pesa mais no fechamento.
   const [ordemNaoBonificam, setOrdemNaoBonificam] = useState<"nome" | "valor">("nome");
@@ -250,6 +264,38 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
 
   // ── Fechamento da competência ──────────────────────────────────────────
   const fechado = !!data.fechamento;
+
+  // ── Data do pagamento ──────────────────────────────────────────────────
+  // (o estado `dataPagto` mora antes do retorno antecipado — regra dos hooks)
+  // Meio-dia local: "2026-09-01" puro vira meia-noite UTC e aparece como
+  // 31/08 no fuso de Brasília.
+  const comoData = (d: string) => `${d}T12:00:00`;
+  const pendentesDePagto = data.lancados.filter((b) => !b.pago);
+
+  async function pagarEmLote() {
+    if (!dataPagto) { setErro("Informe a data do pagamento."); return; }
+    const total = pendentesDePagto.reduce((n, b) => n + b.amountCents, 0);
+    if (!confirm(
+      `Marcar ${pendentesDePagto.length} lançamento(s) pendente(s) (${brlFromCents(total)}) como pagos em ` +
+      `${new Date(comoData(dataPagto)).toLocaleDateString("pt-BR")}?`,
+    )) return;
+    setOcupado("pagar");
+    setErro("");
+    const res = await fetch("/api/financeiro/bonificacao/pagar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ month: data!.month, paidAt: comoData(dataPagto) }),
+    });
+    setOcupado(null);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      setErro(e.error ?? "Não foi possível dar baixa.");
+      return;
+    }
+    const r = await res.json();
+    setAviso(`${r.pagos} lançamento(s) marcado(s) como pagos.`);
+    router.refresh();
+  }
 
   async function encerrar() {
     const aberto = porColaborador.reduce((n, c) => n + (c.total - c.pago), 0);
@@ -620,14 +666,39 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
       <div className={card}>
         <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
           <h2 className="text-white font-semibold text-sm">Lançamentos ({data.lancados.length})</h2>
-          {!avulsoAberto && !fechado && (
-            <button
-              onClick={() => { setAvulsoAberto(true); setQuem(""); setErro(""); }}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 text-xs hover:bg-indigo-500/20"
-            >
-              <Plus className="w-3 h-3" /> Lançar avulso
-            </button>
-          )}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Data do pagamento: usada no check "pago" de cada linha e na
+                baixa em lote. Funciona com a competência encerrada. */}
+            {data.lancados.length > 0 && (
+              <label className="flex items-center gap-1.5">
+                <span className="text-[11px] text-slate-500">pago em</span>
+                <input
+                  type="date"
+                  value={dataPagto}
+                  onChange={(e) => setDataPagto(e.target.value)}
+                  className={input + " w-[140px] text-xs"}
+                />
+              </label>
+            )}
+            {pendentesDePagto.length > 0 && (
+              <button
+                onClick={pagarEmLote}
+                disabled={ocupado === "pagar" || !dataPagto}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 text-xs hover:bg-emerald-500/20 disabled:opacity-40"
+              >
+                {ocupado === "pagar" ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />}
+                Marcar {pendentesDePagto.length} pendente(s) como pagos
+              </button>
+            )}
+            {!avulsoAberto && !fechado && (
+              <button
+                onClick={() => { setAvulsoAberto(true); setQuem(""); setErro(""); }}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 text-xs hover:bg-indigo-500/20"
+              >
+                <Plus className="w-3 h-3" /> Lançar avulso
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Serviço que não está na esteira nem nos contratos — lançado à mão. */}
@@ -717,14 +788,31 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                       className={input + ` w-24 text-right disabled:opacity-60 disabled:cursor-not-allowed ${b.pago ? "text-emerald-400" : "text-amber-400"}`}
                     />
                   </label>
-                  {b.pagoEm && (
-                    <span className="text-[11px] text-emerald-400/70">pago em {mesCurto(b.pagoEm)}</span>
+                  {/* Pago: a data vira campo editável, pra corrigir quando a
+                      baixa foi dada depois do pagamento real. */}
+                  {b.pago && b.pagoEm && (
+                    <input
+                      type="date"
+                      key={b.pagoEm}
+                      defaultValue={b.pagoEm.slice(0, 10)}
+                      onBlur={(e) => {
+                        if (e.target.value && e.target.value !== b.pagoEm!.slice(0, 10)) {
+                          alterar(b.id, { paidAt: comoData(e.target.value) });
+                        }
+                      }}
+                      title="Data em que a bonificação foi paga"
+                      className={input + " w-[132px] text-emerald-400 text-xs"}
+                    />
                   )}
                   <label className="flex items-center gap-1.5 text-xs text-slate-400 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={b.pago}
-                      onChange={(e) => alterar(b.id, { paid: e.target.checked })}
+                      // Marcar usa a data do campo "Data do pagamento" do
+                      // cabeçalho, não o dia de hoje.
+                      onChange={(e) =>
+                        alterar(b.id, e.target.checked ? { paid: true, paidAt: comoData(dataPagto) } : { paid: false })
+                      }
                       className="accent-emerald-500"
                     />
                     pago
