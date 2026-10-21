@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Trash2, Pencil, X, Boxes } from "lucide-react";
+import { Plus, Trash2, Pencil, X, Boxes, Info } from "lucide-react";
 
 type Detail = { label: string; value: string };
 type Item = {
@@ -57,6 +57,8 @@ export default function CompanyContractedServices({
   // Motivo obrigatório ao encerrar/reabrir — vai pra trilha de auditoria do
   // financeiro, senão a conferência não sabe por que o contrato saiu/voltou.
   const [fMotivo, setFMotivo] = useState("");
+  // Explicação do campo "Renovação / próximo ciclo", aberta pelo ícone ⓘ.
+  const [ajudaRenovacao, setAjudaRenovacao] = useState(false);
 
   function openNew() {
     setEditing("new"); setErr("");
@@ -243,7 +245,7 @@ export default function CompanyContractedServices({
               // Trimestral e anual precisam de âncora pra saber em QUAL mês caem.
               <p className="text-xs text-amber-400/90">
                 Contrato {fCiclo === "ANUAL" ? "anual" : "trimestral"}: preencha a
-                &ldquo;Renovação / vencimento&rdquo; abaixo — é ela que define em quais meses a cobrança cai.
+                &ldquo;Renovação / próximo ciclo&rdquo; abaixo — é ela que define em quais meses a cobrança cai.
               </p>
             )}
           </div>
@@ -280,12 +282,58 @@ export default function CompanyContractedServices({
               <input type="date" value={fFim} onChange={(e) => setFFim(e.target.value)} className={input + " mt-1"} />
             </div>
             <div>
-              <label className="text-slate-400 text-xs">Renovação / próximo ciclo</label>
+              <label className="text-slate-400 text-xs flex items-center gap-1">
+                Renovação / próximo ciclo
+                {/* Clique (não hover): tooltip de hover não abre no celular. */}
+                <button
+                  type="button"
+                  onClick={() => setAjudaRenovacao((v) => !v)}
+                  title="Para que serve este campo?"
+                  aria-label="Para que serve este campo?"
+                  aria-expanded={ajudaRenovacao}
+                  className={`transition-colors ${ajudaRenovacao ? "text-indigo-300" : "text-slate-500 hover:text-indigo-300"}`}
+                >
+                  <Info className="w-3.5 h-3.5" />
+                </button>
+              </label>
               <input type="date" value={fRenews} onChange={(e) => setFRenews(e.target.value)} className={input + " mt-1"} />
               {fRecorrente && fCiclo !== "MENSAL" && (
                 <p className="text-[10px] text-slate-600 mt-1">Define em quais meses a cobrança cai.</p>
               )}
             </div>
+            {/* Explicação do campo de renovação — ocupa a linha inteira pra
+                caber o texto sem espremer os campos ao lado. */}
+            {ajudaRenovacao && (
+              <div className="sm:col-span-3 rounded-lg border border-indigo-500/25 bg-indigo-500/5 px-3 py-2.5 text-xs text-slate-300 space-y-1.5">
+                <p className="text-indigo-200 font-medium">Para que serve &ldquo;Renovação / próximo ciclo&rdquo;</p>
+                <p>
+                  É a <b>âncora da cobrança</b>: diz ao Financeiro em <b>qual mês</b> este contrato entra na
+                  fila &ldquo;A faturar&rdquo;.
+                </p>
+                <ul className="list-disc pl-4 space-y-1 text-slate-400">
+                  <li>
+                    <b className="text-slate-300">Trimestral e anual — obrigatório.</b> O contrato cai na fila no mês
+                    desta data e depois a cada 3 ou 12 meses. Sem ela, ele não aparece pra faturar.
+                  </li>
+                  <li>
+                    <b className="text-slate-300">Mensal — opcional.</b> O mensal já é cobrado todo mês; aqui a data
+                    serve só como lembrete de quando o contrato renova.
+                  </li>
+                  <li>
+                    <b className="text-slate-300">Data no futuro = &ldquo;já faturado até lá&rdquo;.</b> Um anual com
+                    renovação em 15/08/2027 não aparece em agosto/2026 — evita cobrar a anuidade duas vezes.
+                  </li>
+                  <li>
+                    <b className="text-slate-300">Fature no mês em que a cobrança vence.</b> Se você emite em agosto
+                    pra receber em setembro, use setembro: o vencimento da cobrança cai dentro do mês desta data.
+                  </li>
+                  <li>
+                    <b className="text-slate-300">Não é o fim do contrato.</b> Pra encerrar, use o status
+                    &ldquo;Encerrado&rdquo; e o campo &ldquo;Encerrado em&rdquo;.
+                  </li>
+                </ul>
+              </div>
+            )}
             <div>
               <label className="text-slate-400 text-xs">Link / acesso</label>
               <input value={fUrl} onChange={(e) => setFUrl(e.target.value)} placeholder="https://…" className={input + " mt-1"} />
