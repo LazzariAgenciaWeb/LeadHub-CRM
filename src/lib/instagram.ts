@@ -36,7 +36,7 @@ export interface IgMessagingEvent {
   sender?: { id: string };
   recipient?: { id: string };
   timestamp?: number;
-  message?: { mid?: string; text?: string; is_echo?: boolean; quick_reply?: { payload?: string } };
+  message?: { mid?: string; text?: string; is_echo?: boolean; quick_reply?: { payload?: string }; attachments?: unknown[] };
   postback?: { mid?: string; title?: string; payload?: string };
   reaction?: { mid?: string; action?: string };
 }
@@ -199,6 +199,29 @@ export async function getUserFollowStatus(igsid: string, token: string): Promise
   if (!r.ok) return null;
   const j: any = await r.json().catch(() => null);
   return j && typeof j.is_user_follow_business === "boolean" ? j.is_user_follow_business : null;
+}
+
+/**
+ * Texto de dentro de um card (template com botões, carrossel) — é como robôs de
+ * atendimento mandam o menu ("Escolha uma das opções para prosseguir"). Fica em
+ * attachments[].payload, não em message.text; sem isso a inbox mostrava "—" e o
+ * agente não sabia que tinha recebido nada. Best-effort: junta title/subtitle/
+ * text que aparecerem no payload.
+ */
+function attachmentText(attachments: unknown): string | null {
+  if (!Array.isArray(attachments)) return null;
+  const found: string[] = [];
+  const walk = (v: unknown, depth: number) => {
+    if (depth > 6 || !v || typeof v !== "object") return;
+    for (const [k, val] of Object.entries(v as Record<string, unknown>)) {
+      if ((k === "title" || k === "subtitle" || k === "text") && typeof val === "string" && val.trim()) {
+        if (!found.includes(val.trim())) found.push(val.trim());
+      } else if (typeof val === "object") walk(val, depth + 1);
+    }
+  };
+  for (const a of attachments) walk((a as any)?.payload ?? a, 0);
+  const text = found.join("\n").slice(0, 1000);
+  return text || null;
 }
 
 /** Busca nome/username do participante de um DM (User Profile API). Best-effort. */
@@ -631,7 +654,7 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
     username,
     direction: "IN",
     source: payload ? "AUTOMATION" : "ORGANIC",
-    text: msg.message?.text ?? (payload ? `[botão] ${payload}` : null),
+    text: msg.message?.text ?? attachmentText(msg.message?.attachments) ?? (payload ? `[botão] ${payload}` : null),
     mid: msg.message?.mid ?? null,
   }).catch((e) => {
     console.error("[IG] persist inbound:", e?.message);

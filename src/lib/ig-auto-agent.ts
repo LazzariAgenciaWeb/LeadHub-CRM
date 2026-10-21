@@ -26,7 +26,19 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v8-sem-pergunta-repetida";
+export const IG_AUTO_AGENT_REV = "v9-robo-do-contato";
+
+/**
+ * Resposta automática do RÔBO de atendimento do contato (menus de opções,
+ * "vamos te transferir", aviso de fora do horário). Não é a pessoa falando.
+ */
+const AUTO_REPLY_RE =
+  /(apert(e|ar|a)|cli(que|car|ca)|to(que|car|ca)|selecion(e|ar)|escolh(a|er)|digit(e|ar))\s+(em\s+)?(uma\s+das|um\s+dos|a|o|um|uma)?\s*(op[çc]|n[úu]mero|bot[ãa]o)|transferi(r|mos|remos)?\s+(voc[êe]\s+|lhe\s+)?(para|pra)\s+(um|o|uma|a)\s+(humano|atendente)|falar com (o|um|nosso) atendente|mensagem autom[áa]tica|resposta autom[áa]tica|assistente virtual|fora do (nosso )?hor[áa]rio de atendimento|bem-vindo\(a\)|estaremos (aqui|[àa] disposi[çc][ãa]o)/i;
+
+/** Texto vazio ou só pontuação ("—", ".") — o card sem texto que a inbox mostra como "—". */
+function isPlaceholderText(t: string): boolean {
+  return !t || /^[\s\-–—.·•]*$/.test(t);
+}
 
 const DEBOUNCE_MS = 12_000;
 const HISTORY_LIMIT = 30;
@@ -250,6 +262,20 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
   if (!lastIn) return skip("sem_mensagem_do_contato");
   if (Date.now() - lastIn.createdAt.getTime() > WINDOW_24H_MS) return skip("fora_janela_24h");
 
+  // O que o contato mandou desde a nossa última fala.
+  const lastOutIdx = history.map((m) => m.direction).lastIndexOf("OUT");
+  const pendingIn = history.slice(lastOutIdx + 1).filter((m) => m.direction === "IN");
+  const pendingTexts = pendingIn.map((m) => (m.text ?? "").trim()).filter((t) => !isPlaceholderText(t));
+  // Só mensagem SEM TEXTO (card de menu/botão, figurinha, mídia): o histórico
+  // descarta essas, então o modelo recebia uma conversa terminando na NOSSA
+  // fala e escrevia a próxima — a do contato ("Oi! Sim, sou eu que cuido do
+  // Patrolão"). Sem texto novo, não há o que responder: o time vê na inbox.
+  if (!pendingTexts.length) return skip("sem_texto_do_contato");
+  // Quem respondeu foi o ROBÔ de atendimento do contato ("aperte uma das
+  // opções", "vamos te transferir para um humano"). Conversar com ele gera
+  // loop e falas sem sentido; esperar a pessoa de verdade aparecer.
+  if (pendingTexts.every((t) => AUTO_REPLY_RE.test(t))) return skip("contato_e_robo");
+
   // Follow status (best-effort) — o manual da empresa decide o que fazer com isso.
   const follows = await getUserFollowStatus(conv.participantId, token);
 
@@ -363,7 +389,8 @@ Você também não sabe de que setores, mercados ou assuntos técnicos o Diego e
 1. FOLLOW — NÃO peça follow por conta própria: o sistema cuida disso sozinho (checa de verdade se a pessoa segue e manda o pedido oficial com botão). Se você está sendo chamado, é porque esse passo já foi resolvido — vá direto pro passo 2.
 2. ENTREGA — com o follow feito (ou já existente), entregue o diagnóstico: 2-3 achados concretos dos ACHADOS DA EQUIPE, com as suas palavras, um por bolha, simples e direto. Sem enrolação e sem prometer pra depois.
 3. CONVITE — logo depois de entregar, puxe para a sessão gratuita de diagnóstico${assistant.schedulingLink?.trim() ? " (mande o link de agendamento)" : ""}, conectando com o que você acabou de mostrar.
-Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenário.`;
+Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenário.
+Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "manda"), isso É lead quente: entregue o básico (só o que está nos ACHADOS) e já convide pra conversa. NUNCA responda "quem vê é o Diego" nem passe pro humano nesse momento — o convite pra conversa É o próximo passo.`;
 
   // @ enviado pelo contato (link ou menção) — o modelo pedia o @ que já tinha
   // sido informado, ou tratava o link como pedido de follow.
@@ -373,6 +400,7 @@ Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenári
     : "";
 
   const system = [
+    `QUEM É QUEM: você fala PELA NOSSA EMPRESA (o lado que mandou a abordagem — mensagens "assistant" e as marcadas [equipe]). O contato é a pessoa/negócio que recebeu a abordagem. NUNCA escreva como se fosse o contato (ex.: "sou eu que cuido do negócio", "quero ver o que vocês encontraram") — essas falas são DELE, não suas.`,
     `Você atende o DIRECT DO INSTAGRAM de uma empresa. Estilo: mensagens curtas de chat (1 a 3 bolhas de no máximo ~2 frases), tom humano e natural, no idioma do contato.`,
     continuityBlock,
     notLeadBlock,
@@ -407,10 +435,18 @@ Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenári
     .join("\n");
 
   const chat: ChatMessage[] = [{ role: "system", content: system }];
+  // Resposta automática do robô do contato no meio de falas reais vai
+  // marcada — o modelo responde a pessoa, não o menu.
+  const botTag = (t: string) => (AUTO_REPLY_RE.test(t) ? "[resposta automática do robô do contato] " : "");
   for (const m of history) {
     if (!m.text?.trim()) continue;
     const role: ChatMessage["role"] = m.direction === "IN" ? "user" : "assistant";
-    const prefix = m.direction === "OUT" && (m.source === "EXTERNAL" || m.source === "AGENT") ? "[equipe] " : "";
+    const prefix =
+      m.direction === "OUT" && (m.source === "EXTERNAL" || m.source === "AGENT")
+        ? "[equipe] "
+        : m.direction === "IN"
+          ? botTag(m.text)
+          : "";
     const content = prefix + m.text;
     // Mensagens seguidas do mesmo lado viram UM turno: "Oie bom dia" +
     // "Tudo bem?" + "Os dois" é uma fala só. Em turnos separados o modelo
@@ -419,6 +455,10 @@ Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenári
     if (prev && prev.role === role && chat.length > 1) prev.content += "\n" + content;
     else chat.push({ role, content });
   }
+
+  // Trava final: o último turno TEM que ser do contato. Se for nosso, o
+  // modelo "continua o diálogo" escrevendo a fala do outro lado.
+  if (chat[chat.length - 1]?.role !== "user") return skip("ultimo_turno_nao_e_do_contato");
 
   const result = await runAssistant({
     companyId: conv.companyId,
