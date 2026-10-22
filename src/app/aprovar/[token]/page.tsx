@@ -3,9 +3,21 @@ import { prisma } from "@/lib/prisma";
 import { clientComments } from "@/lib/checklist";
 import { appBaseUrl, pieceFileIds } from "@/lib/approval";
 import { fileVisibleToClient } from "@/lib/client-task-files";
+import { getObjectBuffer } from "@/lib/storage/s3";
 import AprovarClient, { type ApprovalFile } from "./AprovarClient";
 
 export const dynamic = "force-dynamic";
+
+// Teto só contra arquivo absurdo (log, dump) — matéria de blog tem 10–40 KB.
+// NUNCA corta: acima disso o slide oferece o arquivo inteiro em "Abrir arquivo".
+const MAX_TEXT_BYTES = 2_000_000;
+
+/** .md/.markdown → "md"; .txt/text/plain → "txt". O navegador nem sempre manda o mime do .md. */
+function textKindOf(fileName: string, mimeType: string): "md" | "txt" | null {
+  if (/\.(md|markdown)$/i.test(fileName) || /markdown/i.test(mimeType)) return "md";
+  if (/\.txt$/i.test(fileName) || /^text\/plain/i.test(mimeType)) return "txt";
+  return null;
+}
 
 async function load(token: string) {
   const task = await prisma.projectTask.findUnique({
@@ -34,17 +46,33 @@ async function load(token: string) {
   const objs = ids.length
     ? await prisma.storageObject.findMany({
         where:  { id: { in: ids }, projectTaskId: task.id, status: "READY" },
-        select: { id: true, fileName: true, mimeType: true },
+        select: { id: true, fileName: true, mimeType: true, key: true, size: true },
       })
     : [];
   const byId = new Map(objs.map((o) => [o.id, o]));
   const meta = new Map((version?.attachments ?? []).map((a) => [a.id, a]));
-  const files: ApprovalFile[] = ids
+  const files: ApprovalFile[] = await Promise.all(ids
     .filter((id) => byId.has(id) && fileVisibleToClient(task.comments, id))
-    .map((id) => {
+    .map(async (id) => {
       const o = byId.get(id)!;
-      return { id, fileName: o.fileName, mimeType: o.mimeType, status: meta.get(id)?.status ?? null, note: meta.get(id)?.note ?? null };
-    });
+      const f: ApprovalFile = { id, fileName: o.fileName, mimeType: o.mimeType, status: meta.get(id)?.status ?? null, note: meta.get(id)?.note ?? null };
+      // Matéria de blog / texto (.md, .txt): lê o conteúdo INTEIRO pra ler no
+      // próprio link, sem baixar.
+      const kind = textKindOf(o.fileName, o.mimeType);
+      if (kind && (o.size ?? 0) <= MAX_TEXT_BYTES) {
+        try {
+          const buf = await getObjectBuffer(o.key);
+          if (buf.length <= MAX_TEXT_BYTES) {
+            // .txt do Bloco de Notas antigo vem em Latin-1: em UTF-8 os acentos
+            // virariam "�". Se aparecer caractere inválido, relê como Latin-1.
+            const utf = buf.toString("utf8");
+            f.text = (utf.includes("\uFFFD") ? buf.toString("latin1") : utf).replace(/^\uFEFF/, "");
+            f.textKind = kind;
+          }
+        } catch { /* sem conteúdo: cai no "Abrir arquivo", com o arquivo inteiro */ }
+      }
+      return f;
+    }));
 
   // Links da peça (pasta do Drive, Canva…): seção LINKS da tarefa + links
   // dos andamentos visíveis. Só http(s), sem repetir.

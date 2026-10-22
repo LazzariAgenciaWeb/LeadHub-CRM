@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { MarkdownDoc } from "@/components/MarkdownDoc";
 
 /**
  * Tela do CLIENTE pra aprovar uma peça pelo link do WhatsApp (sem login).
@@ -9,7 +10,12 @@ import Link from "next/link";
  * lembrado no aparelho pra não digitar toda vez.
  */
 
-export type ApprovalFile = { id: string; fileName: string; mimeType: string; status: string | null; note: string | null };
+export type ApprovalFile = {
+  id: string; fileName: string; mimeType: string; status: string | null; note: string | null;
+  /** Conteúdo de .md/.txt (matéria de blog), lido no servidor pra ler no link. */
+  text?: string;
+  textKind?: "md" | "txt";
+};
 
 type Props = {
   token: string;
@@ -156,6 +162,27 @@ input.f:focus,textarea.f:focus{outline:none;border-color:var(--accent)}
 .links{margin-top:22px;display:flex;flex-direction:column;gap:8px;font-size:13px}
 .links a{color:var(--ink2)}
 a.open{color:var(--accent);font-size:13px;font-weight:600}
+.slide.read{background:#F6F5F1;align-items:stretch;justify-content:stretch}
+.paper{width:100%;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:44px 22px 70px;color:#1C1C1E;
+  font-size:16px;line-height:1.7;text-align:left}
+.paper.txt{white-space:pre-wrap;word-break:break-word}
+.paper h1,.paper h2,.paper h3,.paper h4{line-height:1.3;margin:1.2em 0 .45em;color:#0E0E10;letter-spacing:-.01em}
+.paper h1{font-size:26px;margin-top:.2em}.paper h2{font-size:21px}.paper h3{font-size:18px}.paper h4{font-size:16px}
+.paper p{margin:0 0 1em}.paper ul,.paper ol{margin:0 0 1em;padding-left:1.4em}.paper li{margin:.25em 0}
+.paper a{color:#2952CC;text-decoration:underline}
+.paper blockquote{margin:0 0 1em;padding:.4em 1em;border-left:3px solid #C9C6BC;color:#45454A;background:rgba(0,0,0,.03)}
+.paper code{font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:rgba(0,0,0,.06);padding:.1em .35em;border-radius:4px}
+.paper pre{background:#ECEAE3;padding:12px 14px;border-radius:8px;overflow-x:auto;margin:0 0 1em}.paper pre code{background:none;padding:0}
+.paper hr{border:0;border-top:1px solid #D8D5CC;margin:1.6em 0}
+.paper img{max-width:100%;height:auto;border-radius:8px;margin:.4em 0}
+.paper .in{max-width:720px;margin:0 auto}
+.slide .full{position:absolute;right:10px;bottom:10px;z-index:3;font-size:12px;font-weight:700;padding:7px 12px;border-radius:999px;
+  background:#1C1C1E;color:#fff;border:0;cursor:pointer}
+.reader{position:fixed;inset:0;z-index:60;background:#F6F5F1;display:flex;flex-direction:column}
+.reader .rbar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #DEDBD2;background:#EFEDE7;color:#1C1C1E}
+.reader .rbar b{flex:1;min-width:0;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reader .rbar button{font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;border:0;background:#1C1C1E;color:#fff;cursor:pointer}
+.reader .paper{flex:1;height:auto;padding-bottom:40px}
 `;
 
 // Cor da agência vira o acento da tela; o texto em cima dela (botão aprovar)
@@ -200,6 +227,9 @@ export default function AprovarClient(p: Props) {
   const [idx, setIdx] = useState(0);
   // Formato detectado pela proporção da imagem: vertical 9:16 = Stories, o resto = Feed.
   const [fmtOf, setFmtOf] = useState<Record<string, "story" | "feed">>({});
+  // Matéria de blog aberta em tela cheia (id do arquivo).
+  const [readId, setReadId] = useState<string | null>(null);
+  const reading = readId ? p.files.find((x) => x.id === readId) ?? null : null;
   const carRef = useRef<HTMLDivElement>(null);
 
   const pending = status === "AGUARDANDO_CLIENTE" && !done;
@@ -326,6 +356,17 @@ export default function AprovarClient(p: Props) {
   return (
     <div className="ap" style={brandVars(p.brand.color)}>
       <style>{STYLE}</style>
+      {reading?.text !== undefined && reading && (
+        <div className="reader" role="dialog" aria-label={reading.fileName}>
+          <div className="rbar">
+            <b>{reading.fileName.replace(/\.[a-z0-9]{2,8}$/i, "")}</b>
+            <button type="button" onClick={() => setReadId(null)}>Fechar</button>
+          </div>
+          {reading.textKind === "md"
+            ? <div className="paper"><MarkdownDoc text={reading.text} className="in" /></div>
+            : <div className="paper txt"><div className="in">{reading.text}</div></div>}
+        </div>
+      )}
       <div className="apw">
         <div className="brandbar">
           {p.brand.logoUrl
@@ -369,14 +410,21 @@ export default function AprovarClient(p: Props) {
             <div className="carw">
             <div className="car" ref={carRef} onScroll={onScroll}>
               {p.files.map((f, i) => (
-                <div className="slide" key={f.id}>
+                <div className={`slide${f.text !== undefined ? " read" : ""}`} key={f.id}>
                   <div className="tags">
                     {p.files.length > 1 && <span className="tag">{i + 1}/{p.files.length}</span>}
                     {fmtOf[f.id] && <span className={`tag ${fmtOf[f.id]}`}>{fmtOf[f.id] === "story" ? "Stories" : "Feed"}</span>}
                   </div>
                   <a className="dl" href={`${fileUrl(f.id)}?download=1`} download={f.fileName} aria-label={`Baixar ${f.fileName}`}>⬇ Baixar</a>
-                  <div className="wm">{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</div>
-                  {f.mimeType.startsWith("image/") ? (
+                  {f.text === undefined && <div className="wm">{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</div>}
+                  {f.text !== undefined ? (
+                    <>
+                      {f.textKind === "md"
+                        ? <div className="paper"><MarkdownDoc text={f.text} className="in" /></div>
+                        : <div className="paper txt"><div className="in">{f.text}</div></div>}
+                      <button type="button" className="full" onClick={() => setReadId(f.id)}>⤢ Ler em tela cheia</button>
+                    </>
+                  ) : f.mimeType.startsWith("image/") ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={fileUrl(f.id)}
