@@ -23,7 +23,9 @@
     "test:html-sanitize": "tsx scripts/test-html-sanitize.ts",
     "test:email-contacts": "tsx scripts/test-email-contacts.ts",
     "prepare": "git config core.hooksPath scripts/git-hooks 2>/dev/null || true",
-    "postinstall": "echo 'Build pre-compilado incluido no repositorio'"
+    "postinstall": "echo 'Build pre-compilado incluido no repositorio'",
+    "test:email-mime": "tsx scripts/test-email-mime.ts",
+    "test:email-forward": "tsx scripts/test-email-forward.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
