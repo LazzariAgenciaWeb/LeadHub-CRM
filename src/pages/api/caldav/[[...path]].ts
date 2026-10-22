@@ -96,6 +96,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const loadStored = async () => ((await prisma.user.findUnique({ where: { id: userId }, select: { caldavProps: true } }))?.caldavProps ?? {}) as Record<string, string>;
   const body = ["PROPFIND", "REPORT", "PUT", "PROPPATCH"].includes(method) ? await readBody(req) : "";
   (res as unknown as { _davBody?: string })._davBody = body.slice(0, 600);
+  if (body && method !== "PUT") console.log(`[caldav-body] ${method} ${req.url} ${body.replace(/\s+/g, " ").slice(0, 1500)}`);
   const depth = String(req.headers.depth ?? "0");
 
   // ── raiz / principal / home ───────────────────────────────────────────────
