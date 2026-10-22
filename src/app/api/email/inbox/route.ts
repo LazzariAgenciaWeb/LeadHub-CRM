@@ -5,6 +5,7 @@ import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { bucketOf, bucketWhere, isEmailBucketFilter } from "@/lib/email-buckets";
 import { groupEmailCopies } from "@/lib/email-group";
+import { groupEmailCases } from "@/lib/email-cases";
 import type { InboxEmailFolder, Prisma } from "@/generated/prisma";
 
 const FOLDERS: InboxEmailFolder[] = ["INBOX", "IMPORTANT", "SENT", "ARCHIVE", "SPAM", "TRASH"];
@@ -162,8 +163,15 @@ export async function GET(req: NextRequest) {
   for (const g of grouped) counts[g.folder] += g.messageId === null ? g._count._all : 1;
   const unseenCount = unseen.reduce((acc, r) => acc + (r.messageId === null ? r._count._all : 1), 0);
 
-  // Colapsa as cópias do mesmo email numa linha só (ver email-group.ts).
-  const emails = groupEmailCopies(rawEmails, take);
+  // Colapsa as cópias do mesmo email numa linha só (ver email-group.ts) e
+  // depois junta as mensagens do mesmo CASO — aviso, lembrete, renovação e
+  // fatura do mesmo domínio viram uma linha (ver email-cases.ts).
+  // Não agrupa caso quando a lista é de um lead/chamado nem quando há busca
+  // por texto: ali a pessoa quer ver cada mensagem que casou.
+  const copias = groupEmailCopies(rawEmails, rawTake);
+  const emails = (!leadId && !ticketId && !q ? groupEmailCases(copias) : copias.map((c) => ({
+    ...c, caseIds: [c.id], caseCount: 1, caseMembers: [] as typeof copias,
+  }))).slice(0, take);
 
   const tagCounts: Record<string, number> = { __none: noTagCount };
   for (const t of tagCountRows) tagCounts[t.id] = t._count.emails;

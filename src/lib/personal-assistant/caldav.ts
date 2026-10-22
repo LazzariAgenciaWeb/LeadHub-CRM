@@ -53,7 +53,7 @@ export type SyncNote = { id: string; title: string; body: string | null; dueAt: 
 
 export const resourceName = (n: { id: string; caldavUid: string | null }) => n.caldavUid ?? n.id;
 export const hrefOf = (n: { id: string; caldavUid: string | null }) => `${COLLECTION}/${encodeURIComponent(resourceName(n))}.ics`;
-export const etagOf = (n: { updatedAt: Date }) => `"${n.updatedAt.getTime().toString(36)}"`;
+export const etagOf = (n: { updatedAt: Date }) => `"2-${n.updatedAt.getTime().toString(36)}"`;
 
 /**
  * Estado da lista: CTag (muda quando qualquer item muda, entra ou sai) e
@@ -66,12 +66,12 @@ export async function collectionState(userId: string): Promise<{ ctag: string; s
     prisma.assistantNote.count({ where: syncedWhere(userId) }),
   ]);
   const ms = agg._max.updatedAt?.getTime() ?? 0;
-  return { ctag: `"${count}-${ms.toString(36)}"`, syncToken: `${SYNC_TOKEN_PREFIX}${ms}-${count}` };
+  return { ctag: `"2-${count}-${ms.toString(36)}"`, syncToken: `${SYNC_TOKEN_PREFIX}${ms}-${count}` };
 }
-export const SYNC_TOKEN_PREFIX = "http://gohub.app/ns/sync/";
+export const SYNC_TOKEN_PREFIX = "http://gohub.app/ns/sync2/"; // v2: invalida os tokens de quando o multiget voltava vazio
 /** Instante embutido no sync-token (null = token vazio/desconhecido). */
 export function syncTokenTime(token: string): number | null {
-  const m = token.trim().match(/\/sync\/(\d+)-\d+$/);
+  const m = token.trim().match(/\/sync2\/(\d+)-\d+$/);
   return m ? Number(m[1]) : null;
 }
 

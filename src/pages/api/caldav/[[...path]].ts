@@ -149,7 +149,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const wantsData = /calendar-data/i.test(body);
       if (/sync-collection/i.test(body)) {
         // RFC 6578: com token → só o que mudou desde então (+ o que saiu da lista como 404); sem token → tudo.
-        const given = body.match(/<(?:[\w-]+:)?sync-token>([^<]*)<\/(?:[\w-]+:)?sync-token>/i)?.[1]?.trim() ?? "";
+        const given = body.match(/<(?:[\w-]+:)?sync-token\b[^>]*>([^<]*)<\/(?:[\w-]+:)?sync-token>/i)?.[1]?.trim() ?? "";
         const since = given ? syncTokenTime(given) : null;
         if (given && since === null) {
           return send(res, 403, '<?xml version="1.0" encoding="utf-8"?><d:error xmlns:d="DAV:"><d:valid-sync-token/></d:error>');
@@ -168,7 +168,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return send(res, 207, multistatus(out, `<d:sync-token>${xmlEscape(state.syncToken)}</d:sync-token>\n`));
       }
       if (/calendar-multiget/i.test(body)) {
-        const names = [...body.matchAll(/<(?:[\w-]+:)?href>([^<]+)<\/(?:[\w-]+:)?href>/gi)]
+        const names = [...body.matchAll(/<(?:[\w-]+:)?href\b[^>]*>([^<]+)<\/(?:[\w-]+:)?href>/gi)]
           .map((m) => decodeURIComponent(m[1].trim().split("/").pop() ?? "").replace(/\.ics$/i, "")).filter(Boolean);
         notes = names.length ? await prisma.assistantNote.findMany({ where: { userId, OR: [{ id: { in: names } }, { caldavUid: { in: names } }] }, select: NOTE_SELECT }) : [];
       } else if (/calendar-query/i.test(body)) {
