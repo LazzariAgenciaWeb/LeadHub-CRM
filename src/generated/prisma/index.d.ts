@@ -18176,6 +18176,8 @@ export namespace Prisma {
     remindedAt: Date | null
     source: string | null
     caldavUid: string | null
+    caldavIcs: string | null
+    caldavIcsAt: Date | null
     clientCompanyId: string | null
     doneNote: string | null
     important: boolean | null
@@ -18198,6 +18200,8 @@ export namespace Prisma {
     remindedAt: Date | null
     source: string | null
     caldavUid: string | null
+    caldavIcs: string | null
+    caldavIcsAt: Date | null
     clientCompanyId: string | null
     doneNote: string | null
     important: boolean | null
@@ -18220,6 +18224,8 @@ export namespace Prisma {
     remindedAt: number
     source: number
     caldavUid: number
+    caldavIcs: number
+    caldavIcsAt: number
     clientCompanyId: number
     tags: number
     doneNote: number
@@ -18245,6 +18251,8 @@ export namespace Prisma {
     remindedAt?: true
     source?: true
     caldavUid?: true
+    caldavIcs?: true
+    caldavIcsAt?: true
     clientCompanyId?: true
     doneNote?: true
     important?: true
@@ -18267,6 +18275,8 @@ export namespace Prisma {
     remindedAt?: true
     source?: true
     caldavUid?: true
+    caldavIcs?: true
+    caldavIcsAt?: true
     clientCompanyId?: true
     doneNote?: true
     important?: true
@@ -18289,6 +18299,8 @@ export namespace Prisma {
     remindedAt?: true
     source?: true
     caldavUid?: true
+    caldavIcs?: true
+    caldavIcsAt?: true
     clientCompanyId?: true
     tags?: true
     doneNote?: true
@@ -18385,6 +18397,8 @@ export namespace Prisma {
     remindedAt: Date | null
     source: string
     caldavUid: string | null
+    caldavIcs: string | null
+    caldavIcsAt: Date | null
     clientCompanyId: string | null
     tags: string[]
     doneNote: string | null
@@ -18425,6 +18439,8 @@ export namespace Prisma {
     remindedAt?: boolean
     source?: boolean
     caldavUid?: boolean
+    caldavIcs?: boolean
+    caldavIcsAt?: boolean
     clientCompanyId?: boolean
     tags?: boolean
     doneNote?: boolean
@@ -18451,6 +18467,8 @@ export namespace Prisma {
     remindedAt?: boolean
     source?: boolean
     caldavUid?: boolean
+    caldavIcs?: boolean
+    caldavIcsAt?: boolean
     clientCompanyId?: boolean
     tags?: boolean
     doneNote?: boolean
@@ -18475,6 +18493,8 @@ export namespace Prisma {
     remindedAt?: boolean
     source?: boolean
     caldavUid?: boolean
+    caldavIcs?: boolean
+    caldavIcsAt?: boolean
     clientCompanyId?: boolean
     tags?: boolean
     doneNote?: boolean
@@ -18513,6 +18533,8 @@ export namespace Prisma {
       remindedAt: Date | null
       source: string
       caldavUid: string | null
+      caldavIcs: string | null
+      caldavIcsAt: Date | null
       clientCompanyId: string | null
       tags: string[]
       doneNote: string | null
@@ -18928,6 +18950,8 @@ export namespace Prisma {
     readonly remindedAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly source: FieldRef<"AssistantNote", 'String'>
     readonly caldavUid: FieldRef<"AssistantNote", 'String'>
+    readonly caldavIcs: FieldRef<"AssistantNote", 'String'>
+    readonly caldavIcsAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly clientCompanyId: FieldRef<"AssistantNote", 'String'>
     readonly tags: FieldRef<"AssistantNote", 'String[]'>
     readonly doneNote: FieldRef<"AssistantNote", 'String'>
@@ -163840,6 +163864,8 @@ export namespace Prisma {
     remindedAt: 'remindedAt',
     source: 'source',
     caldavUid: 'caldavUid',
+    caldavIcs: 'caldavIcs',
+    caldavIcsAt: 'caldavIcsAt',
     clientCompanyId: 'clientCompanyId',
     tags: 'tags',
     doneNote: 'doneNote',
@@ -167445,6 +167471,8 @@ export namespace Prisma {
     remindedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     source?: StringFilter<"AssistantNote"> | string
     caldavUid?: StringNullableFilter<"AssistantNote"> | string | null
+    caldavIcs?: StringNullableFilter<"AssistantNote"> | string | null
+    caldavIcsAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
     doneNote?: StringNullableFilter<"AssistantNote"> | string | null
@@ -167470,6 +167498,8 @@ export namespace Prisma {
     remindedAt?: SortOrderInput | SortOrder
     source?: SortOrder
     caldavUid?: SortOrderInput | SortOrder
+    caldavIcs?: SortOrderInput | SortOrder
+    caldavIcsAt?: SortOrderInput | SortOrder
     clientCompanyId?: SortOrderInput | SortOrder
     tags?: SortOrder
     doneNote?: SortOrderInput | SortOrder
@@ -167498,6 +167528,8 @@ export namespace Prisma {
     remindedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     source?: StringFilter<"AssistantNote"> | string
     caldavUid?: StringNullableFilter<"AssistantNote"> | string | null
+    caldavIcs?: StringNullableFilter<"AssistantNote"> | string | null
+    caldavIcsAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
     doneNote?: StringNullableFilter<"AssistantNote"> | string | null
@@ -167523,6 +167555,8 @@ export namespace Prisma {
     remindedAt?: SortOrderInput | SortOrder
     source?: SortOrder
     caldavUid?: SortOrderInput | SortOrder
+    caldavIcs?: SortOrderInput | SortOrder
+    caldavIcsAt?: SortOrderInput | SortOrder
     clientCompanyId?: SortOrderInput | SortOrder
     tags?: SortOrder
     doneNote?: SortOrderInput | SortOrder
@@ -167552,6 +167586,8 @@ export namespace Prisma {
     remindedAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
     source?: StringWithAggregatesFilter<"AssistantNote"> | string
     caldavUid?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
+    caldavIcs?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
+    caldavIcsAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
     clientCompanyId?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
     doneNote?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
@@ -180983,6 +181019,8 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     caldavUid?: string | null
+    caldavIcs?: string | null
+    caldavIcsAt?: Date | string | null
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
@@ -181008,6 +181046,8 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     caldavUid?: string | null
+    caldavIcs?: string | null
+    caldavIcsAt?: Date | string | null
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
@@ -181031,6 +181071,8 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     caldavUid?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcs?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
@@ -181056,6 +181098,8 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     caldavUid?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcs?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
@@ -181080,6 +181124,8 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     caldavUid?: string | null
+    caldavIcs?: string | null
+    caldavIcsAt?: Date | string | null
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
@@ -181102,6 +181148,8 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     caldavUid?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcs?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
@@ -181125,6 +181173,8 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     caldavUid?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcs?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196399,6 +196449,8 @@ export namespace Prisma {
     remindedAt?: SortOrder
     source?: SortOrder
     caldavUid?: SortOrder
+    caldavIcs?: SortOrder
+    caldavIcsAt?: SortOrder
     clientCompanyId?: SortOrder
     tags?: SortOrder
     doneNote?: SortOrder
@@ -196422,6 +196474,8 @@ export namespace Prisma {
     remindedAt?: SortOrder
     source?: SortOrder
     caldavUid?: SortOrder
+    caldavIcs?: SortOrder
+    caldavIcsAt?: SortOrder
     clientCompanyId?: SortOrder
     doneNote?: SortOrder
     important?: SortOrder
@@ -196444,6 +196498,8 @@ export namespace Prisma {
     remindedAt?: SortOrder
     source?: SortOrder
     caldavUid?: SortOrder
+    caldavIcs?: SortOrder
+    caldavIcsAt?: SortOrder
     clientCompanyId?: SortOrder
     doneNote?: SortOrder
     important?: SortOrder
@@ -221873,6 +221929,8 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     caldavUid?: string | null
+    caldavIcs?: string | null
+    caldavIcsAt?: Date | string | null
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
@@ -221896,6 +221954,8 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     caldavUid?: string | null
+    caldavIcs?: string | null
+    caldavIcsAt?: Date | string | null
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
@@ -223469,6 +223529,8 @@ export namespace Prisma {
     remindedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     source?: StringFilter<"AssistantNote"> | string
     caldavUid?: StringNullableFilter<"AssistantNote"> | string | null
+    caldavIcs?: StringNullableFilter<"AssistantNote"> | string | null
+    caldavIcsAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     clientCompanyId?: StringNullableFilter<"AssistantNote"> | string | null
     tags?: StringNullableListFilter<"AssistantNote">
     doneNote?: StringNullableFilter<"AssistantNote"> | string | null
@@ -223915,6 +223977,8 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     caldavUid?: string | null
+    caldavIcs?: string | null
+    caldavIcsAt?: Date | string | null
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
@@ -223939,6 +224003,8 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     caldavUid?: string | null
+    caldavIcs?: string | null
+    caldavIcsAt?: Date | string | null
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
@@ -223977,6 +224043,8 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     caldavUid?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcs?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
@@ -224001,6 +224069,8 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     caldavUid?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcs?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
@@ -312000,6 +312070,8 @@ export namespace Prisma {
     remindedAt?: Date | string | null
     source?: string
     caldavUid?: string | null
+    caldavIcs?: string | null
+    caldavIcsAt?: Date | string | null
     clientCompanyId?: string | null
     tags?: AssistantNoteCreatetagsInput | string[]
     doneNote?: string | null
@@ -313779,6 +313851,8 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     caldavUid?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcs?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
@@ -313802,6 +313876,8 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     caldavUid?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcs?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
@@ -313825,6 +313901,8 @@ export namespace Prisma {
     remindedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: StringFieldUpdateOperationsInput | string
     caldavUid?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcs?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavIcsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: AssistantNoteUpdatetagsInput | string[]
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null

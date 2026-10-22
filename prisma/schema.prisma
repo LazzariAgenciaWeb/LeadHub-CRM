@@ -133,6 +133,11 @@ model AssistantNote {
   source          String    @default("APP") // APP | WHATSAPP | MCP | WEBHOOK | IPHONE
   // Nome do recurso no CalDAV (Lembretes do iPhone) quando o item nasceu lá.
   caldavUid       String?
+  // Lembrete exatamente como o iPhone gravou (com os campos internos dele) e quando.
+  // Enquanto o GoHub não mexer no item, devolvemos esse texto igual — senão o
+  // iOS vê "mudança", recarrega a lista e tira o usuário da tela.
+  caldavIcs       String?   @db.Text
+  caldavIcsAt     DateTime?
   clientCompanyId String?   // opcional: sobre qual cliente é
   tags            String[]  @default([]) // etiquetas livres: pessoal, financeiro, cliente…
   doneNote        String?   @db.Text // o que foi feito na conclusão (opcional)

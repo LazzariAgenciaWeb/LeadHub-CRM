@@ -214,7 +214,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const created = await prisma.assistantNote.create({
         data: {
           userId, companyId: auth.companyId, kind: todo.dueAt ? "REMINDER" : "TASK", title: todo.title, body: todo.body, dueAt: todo.dueAt,
-          source: "IPHONE", caldavUid: name, important: true, urgent: !!todo.dueAt && todo.dueAt.getTime() - now.getTime() < 48 * 3600_000,
+          source: "IPHONE", caldavUid: name, caldavIcs: body, caldavIcsAt: now, important: true, urgent: !!todo.dueAt && todo.dueAt.getTime() - now.getTime() < 48 * 3600_000,
           ...(todo.completed ? { done: true, doneAt: todo.completedAt ?? now } : {}),
         },
         select: NOTE_SELECT,
@@ -232,9 +232,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (doneChanged) Object.assign(data, todo.completed ? { done: true, doneAt: todo.completedAt ?? now } : { done: false, doneAt: null });
     if (existing.archivedAt) data.archivedAt = null;
 
-    const updated = Object.keys(data).length
-      ? await prisma.assistantNote.update({ where: { id: existing.id }, data, select: NOTE_SELECT })
-      : existing;
+    // Guarda sempre o texto do iPhone (mesmo sem mudança de conteúdo) pra devolver igual depois.
+    const updated = await prisma.assistantNote.update({ where: { id: existing.id }, data: { ...data, caldavIcs: body, caldavIcsAt: new Date() }, select: NOTE_SELECT });
     if (doneChanged) await logNoteEvent(existing.id, todo.completed ? "DONE" : "REOPENED", "IPHONE", todo.completed ? "concluído no iPhone" : "reaberto no iPhone");
     const edited = ["title", "body", "dueAt"].filter((k) => k in data);
     if (edited.length) await logNoteEvent(existing.id, "EDITED", "IPHONE", `alterou ${edited.map((k) => ({ title: "título", body: "texto", dueAt: "data" })[k]).join(", ")} no iPhone`);

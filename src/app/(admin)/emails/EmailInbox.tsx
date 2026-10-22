@@ -8,7 +8,7 @@ import {
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
   Tag as TagIcon, ListChecks, Info, Globe, ChevronDown, ChevronRight, Link2,
   Layers, Eye, EyeOff, Maximize2, PanelLeftClose, PanelLeftOpen, Lock, MessagesSquare,
-  FileText, Forward,
+  FileText, Forward, CheckCheck,
   type LucideIcon,
 } from "lucide-react";
 import { EMAIL_BUCKETS, bucketOf, type EmailBucket, type EmailBucketFilter } from "@/lib/email-buckets";
@@ -82,6 +82,10 @@ type EmailRow = {
   /** Caixas onde este mesmo email está (cópias agrupadas numa linha só). */
   boxes?: NonNullable<AccountRef>[];
   copies?: number;
+  /** Mensagens do MESMO CASO colapsadas nesta linha (ver email-cases.ts). */
+  caseIds?: string[];
+  caseCount?: number;
+  caseMembers?: EmailRow[];
   lead: { id: string; name: string | null } | null;
   ticket: { id: string; title: string } | null;
 };
@@ -289,6 +293,10 @@ export default function EmailInbox() {
   const [fwdRelated, setFwdRelated] = useState(0);
   const [fwdLoading, setFwdLoading] = useState(false);
   const [fwdMode, setFwdMode] = useState(false);
+  // Casos expandidos na lista e o caso do email aberto no leitor.
+  const [openCases, setOpenCases] = useState<string[]>([]);
+  const [selectedCaseIds, setSelectedCaseIds] = useState<string[]>([]);
+  const [resolving, setResolving] = useState(false);
 
   // Rascunhos: o compositor salva sozinho enquanto você escreve.
   const [drafts, setDrafts] = useState<Draft[]>([]);
@@ -427,6 +435,7 @@ export default function EmailInbox() {
     setDetailLoading(true);
     setSelected(null);
     setLinksOpen(false);
+    setSelectedCaseIds(row.caseIds?.length ? row.caseIds : [row.id]);
     try {
       const res = await fetch(`/api/email/inbox/${row.id}`).then((r) => r.json());
       if (res.email) {
@@ -475,6 +484,7 @@ export default function EmailInbox() {
   /** Abre outro email da conversa sem piscar a tela. */
   async function openEmailById(id: string) {
     setDetailLoading(true);
+    setSelectedCaseIds([id]);
     try {
       const res = await fetch(`/api/email/inbox/${id}`).then((r) => r.json());
       if (res.email) {
@@ -940,6 +950,48 @@ export default function EmailInbox() {
   }
 
   // ── Seleção múltipla / ações em lote ─────────────────────────────────────
+
+  // Marca/desmarca um conjunto de uma vez (linha de caso).
+  function toggleSelectMany(ids: string[]) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      const todosMarcados = ids.every((id) => next.has(id));
+      for (const id of ids) {
+        if (todosMarcados) next.delete(id);
+        else next.add(id);
+      }
+      return next;
+    });
+  }
+
+  // Resolver o CASO: este email, as cópias dele, as outras mensagens do mesmo
+  // assunto e a conversa (inclui o que você encaminhou e a resposta de quem
+  // executou). Quem decide o que entra é o servidor.
+  async function resolveCase(destino: "ARCHIVE" | "TRASH" = "ARCHIVE") {
+    if (!selected) return;
+    setResolving(true);
+    try {
+      const res = await fetch(`/api/email/inbox/${selected.id}/resolve-case`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ folder: destino }),
+      });
+      const j = await res.json();
+      if (!res.ok) {
+        setNotice(j.error || "Não foi possível resolver o caso");
+        setTimeout(() => setNotice(""), 6000);
+        return;
+      }
+      setSelected(null);
+      setNotice(j.resolvidos > 1
+        ? `${j.resolvidos} mensagens deste assunto ${destino === "TRASH" ? "foram pra lixeira" : "resolvidas"} ✓ — cópias, mensagens ligadas e a conversa do encaminhamento`
+        : destino === "TRASH" ? "Descartado ✓" : "Resolvido ✓");
+      setTimeout(() => setNotice(""), 9000);
+      load({ silent: true });
+    } finally {
+      setResolving(false);
+    }
+  }
 
   function toggleSelect(id: string) {
     setSelectedIds((prev) => {
@@ -1739,9 +1791,13 @@ export default function EmailInbox() {
               <div key={e.id} onClick={() => openEmail(e)} role="button" tabIndex={0}
                 onKeyDown={(ev) => { if (ev.key === "Enter") openEmail(e); }}
                 className={`flex gap-2 w-full text-left px-3 py-2.5 border-b border-white/5 hover:bg-white/5 cursor-pointer ${selected?.id === e.id ? "bg-white/10" : ""}`}>
-                <input type="checkbox" checked={selectedIds.has(e.id)}
-                  onChange={() => toggleSelect(e.id)}
+                <input type="checkbox"
+                  checked={(e.caseIds ?? [e.id]).every((cid) => selectedIds.has(cid))}
+                  // Linha de caso: marcar seleciona as mensagens todas — ação
+                  // em lote vale pro caso inteiro, não só pra mais recente.
+                  onChange={() => toggleSelectMany(e.caseIds ?? [e.id])}
                   onClick={(ev) => ev.stopPropagation()}
+                  title={(e.caseCount ?? 1) > 1 ? `Seleciona as ${e.caseCount} mensagens deste assunto` : undefined}
                   className="accent-indigo-500 flex-shrink-0 mt-1" />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start gap-2">
@@ -1806,7 +1862,41 @@ export default function EmailInbox() {
                     ))}
                     {e.lead && <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0">lead</span>}
                     {e.ticket && <span className="text-[9px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 flex-shrink-0">chamado</span>}
+                    {/* Caso: aviso, lembrete, renovação e fatura do mesmo
+                        domínio/boleto numa linha só. */}
+                    {(e.caseCount ?? 1) > 1 && (
+                      <button
+                        onClick={(ev) => {
+                          ev.stopPropagation();
+                          setOpenCases((prev) => prev.includes(e.id) ? prev.filter((x) => x !== e.id) : [...prev, e.id]);
+                        }}
+                        title={`${e.caseCount} mensagens deste mesmo assunto — clique pra ver. Resolver aqui resolve todas.`}
+                        className="flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded bg-violet-500/20 text-violet-200 hover:bg-violet-500/30 flex-shrink-0">
+                        {openCases.includes(e.id) ? <ChevronDown size={9} /> : <ChevronRight size={9} />}
+                        <Layers size={9} /> +{(e.caseCount ?? 1) - 1}
+                      </button>
+                    )}
                   </div>
+                  {/* Mensagens do caso, abertas sob a linha */}
+                  {openCases.includes(e.id) && (e.caseMembers?.length ?? 0) > 0 && (
+                    <div className="mt-1.5 ml-1 border-l border-violet-500/30 pl-2 space-y-1">
+                      {e.caseMembers!.map((m) => (
+                        <div key={m.id} onClick={(ev) => { ev.stopPropagation(); openEmail(m); }}
+                          role="button" tabIndex={0}
+                          onKeyDown={(ev) => { if (ev.key === "Enter") { ev.stopPropagation(); openEmail(m); } }}
+                          className={`rounded px-1.5 py-1 hover:bg-white/5 cursor-pointer ${selected?.id === m.id ? "bg-white/10" : ""}`}>
+                          <div className="flex items-center gap-2">
+                            {!m.seen && <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />}
+                            <span className={`text-[11px] truncate flex-1 ${m.seen ? "text-slate-400" : "text-slate-200"}`}>
+                              {m.subject || "(sem assunto)"}
+                            </span>
+                            <span className="text-[9px] text-slate-500 flex-shrink-0">{fmtDate(m.sentAt)}</span>
+                          </div>
+                          <p className="text-[10px] text-slate-500 truncate">{m.fromName || m.fromEmail}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -1856,8 +1946,18 @@ export default function EmailInbox() {
                         className="rounded-lg border border-white/10 p-1.5 text-sky-300 hover:bg-white/5"><LifeBuoy size={14} /></button>
                     )}
                     {(selected.folder === "INBOX" || selected.folder === "IMPORTANT") && (
-                      <button onClick={() => moveTo(selected.id, "ARCHIVE")} title="Resolvido (arquivar)"
+                      <button onClick={() => moveTo(selected.id, "ARCHIVE")} title="Resolvido (arquiva só este email e as cópias dele)"
                         className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><Check size={14} /></button>
+                    )}
+                    {(selected.folder === "INBOX" || selected.folder === "IMPORTANT") && (
+                      <button onClick={() => resolveCase("ARCHIVE")} disabled={resolving}
+                        title="Resolver o caso: arquiva este email, as outras mensagens do mesmo assunto (aviso, lembrete, fatura…) e a conversa inteira — inclusive o que você encaminhou e a resposta de quem executou"
+                        className="flex items-center gap-1 rounded-lg border border-violet-500/40 bg-violet-500/10 px-2 py-1.5 text-violet-200 hover:bg-violet-500/20 disabled:opacity-40">
+                        <CheckCheck size={14} />
+                        <span className="text-[10px]">
+                          caso{selectedCaseIds.length > 1 ? ` (${selectedCaseIds.length})` : ""}
+                        </span>
+                      </button>
                     )}
                     {selected.folder !== "IMPORTANT" && selected.folder !== "SENT" && (
                       <button onClick={() => moveTo(selected.id, "IMPORTANT")} title="Marcar como importante"

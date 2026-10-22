@@ -48,8 +48,8 @@ export function syncedWhere(userId: string) {
   };
 }
 
-export const NOTE_SELECT = { id: true, title: true, body: true, dueAt: true, done: true, doneAt: true, tags: true, important: true, urgent: true, updatedAt: true, createdAt: true, caldavUid: true } as const;
-export type SyncNote = { id: string; title: string; body: string | null; dueAt: Date | null; done: boolean; doneAt: Date | null; tags: string[]; important: boolean; urgent: boolean; updatedAt: Date; createdAt: Date; caldavUid: string | null };
+export const NOTE_SELECT = { id: true, title: true, body: true, dueAt: true, done: true, doneAt: true, tags: true, important: true, urgent: true, updatedAt: true, createdAt: true, caldavUid: true, caldavIcs: true, caldavIcsAt: true } as const;
+export type SyncNote = { id: string; title: string; body: string | null; dueAt: Date | null; done: boolean; doneAt: Date | null; tags: string[]; important: boolean; urgent: boolean; updatedAt: Date; createdAt: Date; caldavUid: string | null; caldavIcs: string | null; caldavIcsAt: Date | null };
 
 export const resourceName = (n: { id: string; caldavUid: string | null }) => n.caldavUid ?? n.id;
 export const hrefOf = (n: { id: string; caldavUid: string | null }) => `${COLLECTION}/${encodeURIComponent(resourceName(n))}.ics`;
@@ -95,6 +95,8 @@ function fold(line: string): string {
 }
 
 export function noteToIcs(n: SyncNote): string {
+  // Sem mudança no GoHub desde a última gravação do iPhone → devolve o que ele mandou, byte a byte.
+  if (n.caldavIcs && n.caldavIcsAt && n.updatedAt.getTime() - n.caldavIcsAt.getTime() < 3000) return n.caldavIcs;
   const uid = resourceName(n);
   // iOS: 1 = alta, 5 = média, 9 = baixa — espelha a matriz de Eisenhower.
   const priority = n.important ? (n.urgent ? 1 : 5) : 9;

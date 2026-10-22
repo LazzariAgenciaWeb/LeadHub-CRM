@@ -161,6 +161,8 @@ exports.Prisma.AssistantNoteScalarFieldEnum = {
   remindedAt: 'remindedAt',
   source: 'source',
   caldavUid: 'caldavUid',
+  caldavIcs: 'caldavIcs',
+  caldavIcsAt: 'caldavIcsAt',
   clientCompanyId: 'clientCompanyId',
   tags: 'tags',
   doneNote: 'doneNote',
