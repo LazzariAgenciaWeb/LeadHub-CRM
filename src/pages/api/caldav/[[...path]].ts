@@ -29,12 +29,17 @@ async function readBody(req: NextApiRequest): Promise<string> {
 }
 
 function send(res: NextApiResponse, status: number, body = "", type = "application/xml; charset=utf-8") {
+  if (body && status === 207) console.log(`[caldav-resp] ${status} ${body.replace(/\s+/g, " ").slice(0, 3500)}`);
   res.setHeader("DAV", "1, 2, 3, calendar-access");
   if (body) res.setHeader("Content-Type", type);
   res.status(status).send(body);
 }
 
-const PRIVS = "<d:current-user-privilege-set>" + ["read", "write", "write-content", "write-properties", "bind", "unbind", "read-current-user-privilege-set", "all"].map((p) => `<d:privilege><d:${p}/></d:privilege>`).join("") + "</d:current-user-privilege-set>";
+const privs = (list: string[]) => "<d:current-user-privilege-set>" + list.map((p) => `<d:privilege><d:${p}/></d:privilege>`).join("") + "</d:current-user-privilege-set>";
+// Lista: pode criar/editar/apagar lembretes. Home: só leitura — sem "bind", senão o
+// iOS tenta criar listas novas (MKCALENDAR) e a conta entra em erro.
+const PRIVS = privs(["read", "write", "write-content", "write-properties", "bind", "unbind", "read-current-user-privilege-set"]);
+const HOME_PRIVS = privs(["read", "read-current-user-privilege-set"]);
 
 function collectionProps({ ctag, syncToken }: { ctag: string; syncToken: string }, stored: Record<string, string> = {}) {
   // O que o cliente gravou (cor, ordem, nome) tem precedência sobre o padrão.
@@ -100,6 +105,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (body && method !== "PUT") console.log(`[caldav-body] ${method} ${req.url} ${body.replace(/\s+/g, " ").slice(0, 4000)}`);
   const depth = String(req.headers.depth ?? "0");
 
+  // Só existe a lista "GoHub": criar listas novas é recusado com motivo (403), não 404.
+  if (method === "MKCALENDAR" || method === "MKCOL") {
+    return send(res, 403, '<?xml version="1.0" encoding="utf-8"?><d:error xmlns:d="DAV:"><d:need-privileges/></d:error>');
+  }
+
   // ── raiz / principal / home ───────────────────────────────────────────────
   if (parts.length === 0 || parts[0] === "principal" || (parts[0] === "cal" && parts.length === 1)) {
     if (method !== "PROPFIND") return send(res, method === "GET" ? 200 : 405, method === "GET" ? "GoHub CalDAV" : "", "text/plain; charset=utf-8");
@@ -108,7 +118,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (parts[0] === "principal") {
       return send(res, 207, multistatus([{ href: PRINCIPAL, props: `<d:resourcetype><d:principal/></d:resourcetype><d:displayname>GoHub</d:displayname>${common}<c:calendar-user-address-set><d:href>mailto:${xmlEscape(auth.email)}</d:href></c:calendar-user-address-set>` }]));
     }
-    const out = [{ href: HOME, props: `<d:resourcetype><d:collection/></d:resourcetype>${common}${PRIVS}` }];
+    const out = [{ href: HOME, props: `<d:resourcetype><d:collection/></d:resourcetype>${common}${HOME_PRIVS}` }];
     if (depth !== "0") out.push({ href: COLLECTION, props: collectionProps(await collectionState(userId), await loadStored()) });
     return send(res, 207, multistatus(out));
   }
