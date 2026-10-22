@@ -12,6 +12,7 @@ import MarketingDashboardWidget from "./MarketingDashboardWidget";
 import PontoWidget from "./PontoWidget";
 import { getCompanyPlan } from "@/lib/limits";
 import { getLeadFollowUps, STALE_AFTER_DAYS } from "@/lib/calendar-data";
+import { isTerminalMessage } from "@/lib/whatsapp";
 
 // Sem cache — ranking, conquistas e progresso atualizam imediatamente
 // quando alguém pontua em outras páginas.
@@ -231,6 +232,8 @@ export default async function DashboardPage() {
     ]);
 
     if (!lastMsg || lastMsg.direction !== "INBOUND") continue;
+    // "obrigado", "👍", "bom fim de semana" não é esperar resposta.
+    if (isTerminalMessage(lastMsg.body ?? "")) continue;
 
     // Visibilidade por instância: grupos passam pra todos; pessoais só pra
     // usuários com permissão na instância (admin/super_admin: instanceIds=null → passa).

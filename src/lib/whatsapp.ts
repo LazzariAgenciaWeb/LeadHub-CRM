@@ -36,6 +36,25 @@ const INTENT_KEYWORDS = new Set([
 ]);
 const INTENT_PHRASES = ["bom dia", "boa tarde", "boa noite", "por que", "uma duvida"];
 
+// Despedidas que costumam vir junto do agradecimento ("obrigado, bom fim de
+// semana", "combinado, até amanhã 🙏"). Só contam como encerramento se o resto
+// da mensagem também for cortesia — ver isFarewellMessage.
+const FAREWELL_PHRASES = [
+  "bom final de semana", "bom fim de semana", "otimo final de semana", "otimo fim de semana", "bom feriado",
+  "boa semana", "otima semana", "bom descanso", "bom trabalho", "boa sorte", "bom almoco", "boa viagem",
+  "fica com deus", "fique com deus", "vai com deus", "deus abencoe", "deus te abencoe", "deus abencoe voce",
+  "ate amanha", "ate segunda", "ate a proxima", "ate breve", "ate mais tarde", "ate logo mais", "ate depois",
+  "pra voce tambem", "para voce tambem", "pra vc tambem", "pra vc tbm", "igualmente",
+  "muito obrigado", "muito obrigada", "obrigado pela atencao", "obrigada pela atencao", "agradeco a atencao",
+  "boa tarde", "boa noite", "bom dia", "tudo certo", "ta otimo", "esta otimo", "ficou otimo", "ficou top", "ficou lindo", "ficou show",
+];
+const FAREWELL_WORDS = new Set([
+  "combinado", "certo", "certinho", "entendido", "anotado", "otimo", "otima", "maravilha", "excelente", "massa", "legal", "lindo", "linda",
+  "show", "top", "perfeito", "perfeita", "joia", "sucesso", "amem", "bjs", "beijos", "bj", "abs", "abraco", "abracos", "grato", "grata",
+  "disponha", "nada", "por", "de", "e", "a", "o", "pra", "voce", "vc", "tbm", "tambem", "sim", "aham", "uhum", "isso", "rs", "kk", "kkk", "kkkk", "haha",
+  "senhor", "senhora", "sr", "sra", "dr", "dra", "querida", "querido", "lindeza",
+]);
+
 function normalizeForMatch(s: string): string {
   return s.toLowerCase()
     .normalize("NFD").replace(/[̀-ͯ]/g, "")
@@ -48,6 +67,37 @@ function isOnlyEmojiOrPunctuation(s: string): boolean {
   const trimmed = s.trim();
   if (!trimmed) return false;
   return /^[\s\p{Extended_Pictographic}‍️\u{1F1E6}-\u{1F1FF}\u{1F3FB}-\u{1F3FF}!.,?;:]+$/u.test(trimmed);
+}
+
+/**
+ * Despedida/agradecimento um pouco mais longo que o detector curto aceita:
+ * "Obrigado, bom final de semana!", "Combinado, até amanhã 🙏",
+ * "Perfeito Diego, muito obrigada pela atenção". Regra: sem "?", até 120
+ * caracteres, sem palavra de intenção, e depois de tirar as frases de
+ * despedida não sobra nada além de cortesia — com pelo menos um sinal real
+ * de encerramento (agradecimento/ok ou frase de despedida que não seja
+ * só saudação). "Boa noite" sozinho NÃO é despedida (pode ser início de conversa).
+ */
+function isFarewellMessage(body: string): boolean {
+  const trimmed = body.trim();
+  if (!trimmed || trimmed.length > 120 || trimmed.includes("?")) return false;
+  let norm = normalizeForMatch(trimmed.replace(/[\p{Extended_Pictographic}\u200d\ufe0f\u{1F3FB}-\u{1F3FF}]/gu, " "));
+  // Saudação no INÍCIO = começo de conversa ("bom dia, obrigado" → novo contato);
+  // no fim é despedida ("obrigado, boa noite").
+  if (!norm || /^(bom dia|boa tarde|boa noite)\b/.test(norm)) return false;
+  let closing = false;
+  for (const p of [...FAREWELL_PHRASES].sort((a, b) => b.length - a.length)) {
+    if (norm.includes(p)) {
+      if (!["boa tarde", "boa noite", "bom dia"].includes(p)) closing = true;
+      norm = norm.split(p).join(" ");
+    }
+  }
+  const tokens = norm.split(" ").filter(Boolean);
+  if (tokens.some((t) => INTENT_KEYWORDS.has(t))) return false;
+  if (tokens.some((t) => TERMINAL_PHRASES.has(t))) closing = true;
+  // Sobra só cortesia (ou um nome próprio curto: "valeu Diego") → encerramento.
+  const leftovers = tokens.filter((t) => !TERMINAL_PHRASES.has(t) && !TERMINAL_FILLERS.has(t) && !FAREWELL_WORDS.has(t));
+  return closing && leftovers.length <= 1 && leftovers.every((t) => t.length <= 12);
 }
 
 /**
@@ -67,12 +117,13 @@ function isOnlyEmojiOrPunctuation(s: string): boolean {
 export function isTerminalMessage(body: string): boolean {
   if (!body) return false;
   const trimmed = body.trim();
-  if (trimmed.length === 0 || trimmed.length > 30) return false;
-  if (trimmed.includes("?")) return false;
+  if (trimmed.length === 0 || trimmed.includes("?")) return false;
+  if (trimmed.length > 30) return isFarewellMessage(trimmed);
   if (isOnlyEmojiOrPunctuation(trimmed)) return true;
   const norm = normalizeForMatch(trimmed);
   if (!norm) return false;
-  if (INTENT_PHRASES.some((p) => norm.includes(p))) return false;
+  // "bom dia"/"boa tarde" = saudação; só passa se for despedida ("obrigado, boa noite").
+  if (INTENT_PHRASES.some((p) => norm.includes(p))) return isFarewellMessage(trimmed);
   if (TERMINAL_PHRASES.has(norm)) return true;
   const tokens = norm.split(" ").filter(Boolean);
   if (tokens.length === 0 || tokens.length > 5) return false;
@@ -84,7 +135,7 @@ export function isTerminalMessage(body: string): boolean {
   }
   // Caso 2: mensagem curta (≤25 chars) com pelo menos 1 token terminal
   if (trimmed.length <= 25 && tokens.some((t) => TERMINAL_PHRASES.has(t))) return true;
-  return false;
+  return isFarewellMessage(trimmed);
 }
 
 /** Snapshot mínimo da Conversation existente, suficiente pra decidir transições. */
@@ -145,9 +196,18 @@ export function decideConversationUpdate(args: {
     (now.getTime() - existing.closedAt.getTime()) < TERMINAL_REPLY_WINDOW_MS &&
     isTerminalMessage(body);
 
+  // Já respondemos (bola com o cliente) e ele só agradeceu/se despediu:
+  // continua WAITING_CUSTOMER — não é "esperando resposta nossa".
+  const isCourtesyAfterReply =
+    direction === "INBOUND" &&
+    existing?.status === "WAITING_CUSTOMER" &&
+    isTerminalMessage(body);
+
   let newStatus: ConversationStatus;
   if (isTerminalAfterClose) {
     newStatus = "CLOSED";
+  } else if (isCourtesyAfterReply) {
+    newStatus = "WAITING_CUSTOMER";
   } else if (direction === "INBOUND") {
     newStatus = "OPEN";
   } else if (existing?.status === "SCHEDULED") {

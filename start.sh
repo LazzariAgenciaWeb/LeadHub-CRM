@@ -56,6 +56,17 @@ node /app/node_modules/prisma/build/index.js db push --skip-generate --accept-da
   echo "[Backfill modo atendimento] $RES"
 ) &
 
+# Backfill de despedidas (2026-10-22): conversa em que o cliente só agradeceu/
+# se despediu DEPOIS da nossa resposta deixa de contar como "esperando resposta".
+# Idempotente.
+(
+  sleep 30
+  echo "[Backfill despedidas] iniciando..."
+  RES=$(curl -s -X POST "http://localhost:3000/api/admin/backfill-despedidas" \
+    ${CRON_SECRET:+-H "Authorization: Bearer ${CRON_SECRET}"} --max-time 300 2>&1)
+  echo "[Backfill despedidas] $RES"
+) &
+
 # Backfill do integrationId nos dados de marketing (2026-09-08): as tabelas de
 # GA4/Search Console/Meu Negócio passaram a carregar QUAL conexão gerou cada
 # linha (é o que permite 2+ propriedades por empresa). O `db push` cria a coluna

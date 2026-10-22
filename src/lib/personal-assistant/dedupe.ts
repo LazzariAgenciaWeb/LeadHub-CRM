@@ -20,11 +20,31 @@ function tokens(s: string): Set<string> {
   return new Set(normalizeText(s).split(" ").filter((t) => t.length >= 3 && !STOP.has(t)));
 }
 
+// Palavras de ação/financeiro que aparecem em quase todo aviso de cobrança —
+// contam no Jaccard, mas sozinhas NÃO provam mesmo assunto ("Pagar Hosting
+// Machine — vence 22/10" ≠ "Pagar amoreira.com.br — vence 13/10").
+const GENERIC = new Set(["pagar", "pago", "paga", "pagamento", "vence", "vencimento", "venceu", "vencida", "fatura", "boleto", "cobranca", "renovar", "renovacao", "renovado", "dominio", "dominios", "confirmar", "confirmado", "resolver", "checar", "conferir", "aberto", "aberta", "pendente", "pendencia", "congelado", "dias", "valor", "aviso", "alerta", "recebida", "recebido", "status", "registro", "cliente", "acesso", "conta", "atualizar", "corrigir", "enviar"]);
+
+/** Identificadores fortes: domínios e números de 4+ dígitos (fatura, chamado, conta). */
+function identifiers(s: string): Set<string> {
+  const n = normalizeText(s);
+  const out = new Set<string>();
+  for (const m of n.matchAll(/\b[a-z0-9-]{2,}(?:\.[a-z0-9-]{2,})*\.(?:com|net|org|br|io|app|dev|tech|site|online|store)(?:\.br)?\b/g)) out.add(m[0].replace(/^www\./, ""));
+  for (const m of n.matchAll(/\b\d{4,}\b/g)) out.add(m[0]);
+  return out;
+}
+
 /** 0..1 — Jaccard de tokens + bônus por um título conter o outro. */
 export function similarity(a: string, b: string): number {
   const na = normalizeText(a), nb = normalizeText(b);
   if (!na || !nb) return 0;
   if (na === nb) return 1;
+  // Domínio/número de fatura: em comum = mesmo assunto; diferentes = assuntos diferentes.
+  const ia = identifiers(a), ib = identifiers(b);
+  if (ia.size && ib.size) {
+    for (const x of ia) if (ib.has(x)) return 0.9;
+    return 0.1;
+  }
   if ((na.length >= 12 && nb.includes(na)) || (nb.length >= 12 && na.includes(nb))) return 0.9;
   const ta = tokens(a), tb = tokens(b);
   if (ta.size === 0 || tb.size === 0) return 0;
@@ -33,7 +53,12 @@ export function similarity(a: string, b: string): number {
   const union = ta.size + tb.size - inter;
   const j = inter / union;
   // dois tokens fortes em comum já é indício (ex.: "proposta clinica", "banner padaria")
-  return inter >= 2 ? Math.max(j, 0.5) : j;
+  let strong = 0;
+  for (const t of ta) if (tb.has(t) && !GENERIC.has(t) && !/^\d+$/.test(t)) strong++;
+  // Nome grudado x separado ("OpçãoTelecom" x "Opção Telecom") vale como 2 em comum.
+  const glued = (x: string, y: string) => { const w = y.split(" "); for (let i = 0; i + 1 < w.length; i++) if (w[i].length >= 3 && w[i + 1].length >= 3 && x.split(" ").includes(w[i] + w[i + 1])) return true; return false; };
+  if (strong < 2 && (glued(na, nb) || glued(nb, na))) return Math.max(j, 0.6);
+  return strong >= 2 ? Math.max(j, 0.5) : Math.min(j, strong === 0 ? 0.35 : 1);
 }
 
 const THRESHOLD = 0.5;

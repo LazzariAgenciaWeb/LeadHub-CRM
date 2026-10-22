@@ -98,7 +98,8 @@ export async function GET() {
     // Status real vem da Conversation. Conversa CLOSED ou SCHEDULED não é
     // "não respondida" — foi atendida ou tem retorno marcado.
     const convStatus = conversation?.status;
-    if (convStatus === "CLOSED" || convStatus === "SCHEDULED") continue;
+    // WAITING_CUSTOMER com última msg do cliente = ele só agradeceu/se despediu.
+    if (convStatus === "CLOSED" || convStatus === "SCHEDULED" || convStatus === "WAITING_CUSTOMER") continue;
 
     // Sem Conversation (telefones legados): cai pro attendanceStatus do Lead
     if (!conversation && lead?.attendanceStatus) {

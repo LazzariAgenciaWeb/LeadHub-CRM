@@ -33,6 +33,15 @@ const SOURCE_LABEL: Record<string, string> = { APP: "no app", WHATSAPP: "pelo Wh
 const KIND_ICON: Record<string, string> = { IDEA: "💡", NOTE: "📝", REMINDER: "⏰", TASK: "☑️" };
 const KIND_LABEL: Record<string, string> = { IDEA: "Ideia", NOTE: "Nota", REMINDER: "Lembrete", TASK: "Tarefa" };
 
+/** Links pra fora do assistente (conversa, chamado, lead…) abrem em nova aba —
+ *  assim o assistente fica aberto e não precisa voltar toda vez. */
+function linkProps(link?: string | null): { href: string; target?: string; rel?: string } {
+  if (!link) return { href: "#" };
+  let href = link;
+  try { if (/^https?:/.test(link)) { const u = new URL(link); href = u.pathname + u.search + u.hash; } } catch {}
+  return href.startsWith("/assistente") ? { href } : { href, target: "_blank", rel: "noopener" };
+}
+
 function fmtWhen(iso?: string | null) {
   if (!iso) return "";
   const d = new Date(iso);
@@ -49,11 +58,11 @@ function RichText({ text }: { text: string }) {
         const md = p.match(/^\[([^\]]+)\]\(((?:https?:\/\/|\/)[^)\s]+)\)$/);
         if (md) {
           let href = md[2]; try { if (/^https?:/.test(href)) { const u = new URL(href); href = u.pathname + u.search; } } catch {}
-          return <a key={i} href={href} className="text-indigo-300 underline hover:text-indigo-200">{md[1]}</a>;
+          return <a key={i} {...linkProps(href)} className="text-indigo-300 underline hover:text-indigo-200">{md[1]}</a>;
         }
         if (/^https?:\/\//.test(p)) {
           let href = p; try { const u = new URL(p); href = u.pathname + u.search; } catch {}
-          return <a key={i} href={href} className="text-indigo-300 underline hover:text-indigo-200">{p.replace(/^https?:\/\/[^/]+/, "")}</a>;
+          return <a key={i} {...linkProps(href)} className="text-indigo-300 underline hover:text-indigo-200">{p.replace(/^https?:\/\/[^/]+/, "")}</a>;
         }
         if (/^\*\*[^*]+\*\*$/.test(p)) return <b key={i} className="text-white">{p.slice(2, -2)}</b>;
         return <span key={i}>{p}</span>;
@@ -343,7 +352,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                     {items.map((it) => (
                       <div key={it.id} className="group flex items-start gap-2 px-2.5 py-2 rounded-lg bg-[#131c2c] hover:bg-[#182234] border border-transparent hover:border-[#253449] transition-colors">
                         {it.quadrant && <span title={QUAD[it.quadrant].hint} className="text-xs leading-none mt-0.5">{QUAD[it.quadrant].icon}</span>}
-                        <a href={it.link ? it.link.replace(/^https?:\/\/[^/]+/, "") : "#"} className="flex-1 min-w-0">
+                        <a {...linkProps(it.link)} onClick={(e) => { const n = it.noteId && notes.find((x) => x.id === it.noteId); if (n) { e.preventDefault(); openFromMatrix(n); } }} className="flex-1 min-w-0">
                           <div className={`text-xs truncate ${it.overdue ? "text-red-300" : "text-slate-200"}`}>{it.overdue ? "⚠️ " : ""}{it.title}</div>
                           {(it.sub || it.when) && <div className="text-[10px] text-slate-500 truncate">{it.sub}{it.sub && it.when ? " · " : ""}{fmtWhen(it.when)}{it.fromRoutine ? " · rotina" : ""}</div>}
                         </a>
@@ -461,7 +470,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
               {fila.atrasadosAntigos.map((it) => (
                 <div key={it.id} className="flex flex-wrap items-center gap-2 px-3 py-2 rounded-lg bg-[#131c2c]">
                   {it.quadrant && <span title={QUAD[it.quadrant].hint} className="text-xs">{QUAD[it.quadrant].icon}</span>}
-                  <a href={it.link ? it.link.replace(/^https?:\/\/[^/]+/, "") : "#"} className="flex-1 min-w-[200px]">
+                  <a {...linkProps(it.link)} className="flex-1 min-w-[200px]">
                     <div className="text-xs text-slate-200 truncate">{it.title}</div>
                     <div className="text-[10px] text-slate-500">{it.sub}{it.sub ? " · " : ""}venceu {fmtWhen(it.when)}{it.fromRoutine ? " · rotina" : ""}</div>
                   </a>
@@ -480,7 +489,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                       <button onClick={() => quick(it.noteId!, "archive")} className="text-[11px] px-2 py-1 rounded bg-[#1a2535] text-slate-400 hover:text-white">🗄️</button>
                     </div>
                   ) : (
-                    <a href={it.link ? it.link.replace(/^https?:\/\/[^/]+/, "") : "#"} className="text-[11px] px-2 py-1 rounded bg-[#1a2535] text-slate-300 hover:text-white">abrir →</a>
+                    <a {...linkProps(it.link)} className="text-[11px] px-2 py-1 rounded bg-[#1a2535] text-slate-300 hover:text-white">abrir →</a>
                   )}
                 </div>
               ))}
@@ -536,7 +545,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                           <div key={j} className={`flex items-center gap-2 text-xs px-3 py-2 rounded-lg border ${a.ok ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-200" : "bg-red-500/10 border-red-500/25 text-red-200"}`}>
                             <span>{a.ok ? "✅" : "❌"}</span>
                             <span className="flex-1 truncate">{a.message}</span>
-                            {a.link && <a href={a.link.replace(/^https?:\/\/[^/]+/, "")} className="px-2 py-0.5 rounded bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">Abrir</a>}
+                            {a.link && <a {...linkProps(a.link)} className="px-2 py-0.5 rounded bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">Abrir</a>}
                           </div>
                         ))}
                       </div>

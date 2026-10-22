@@ -27,7 +27,7 @@ export type IntakeResult =
   | { action: "delegated"; id: string; title: string; message: string; ticketId: string }
   | { action: "done"; id: string; title: string; message: string };
 
-const RESOLVE_RE = /\b(pag[oa]s?|quitad[oa]s?|confirmad[oa]s?|resolvid[oa]s?|renovad[oa]s?|conclu[ií]d[oa]s?|liberad[oa]s?|aprovad[oa]s?|cancelad[oa]s?|regularizad[oa]s?|religad[oa]s?|reativad[oa]s?|comprovante)\b/;
+const RESOLVE_RE = /\b(pag[oa]s?|quitad[oa]s?|confirmad[oa]s?|resolvid[oa]s?|renovad[oa]s?|conclu[ií]d[oa]s?|liberad[oa]s?|aprovad[oa]s?|cancelad[oa]s?|regularizad[oa]s?|religad[oa]s?|reativad[oa]s?|comprovante|agendad[oa]s?|programad[oa]s?|efetuad[oa]s?|realizad[oa]s?|baixad[oa]s?|feito|quitacao)\b/;
 const ARRIVE_RE = /\b(chegou|nova fatura|fatura recebida|vence|vencimento|pendente|aguardando|alerta|aviso|lembrete)\b/;
 
 export async function intakeNote(ctx: IntakeCtx, draftIn: IntakeDraft): Promise<IntakeResult> {

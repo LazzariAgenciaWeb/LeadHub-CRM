@@ -185,11 +185,17 @@ function scenarioIndividual() {
     expect(conversation.firstResponseAt !== null, true, "firstResponseAt registrado");
   });
 
+  step("A2b. João só agradece (despedida depois da nossa resposta)", () => {
+    const { conversation } = ingestEvolution(makeWebhook(jid, false, "Ok, obrigado! Bom final de semana"));
+    showState(jid);
+    expect(conversation.status, "WAITING_CUSTOMER", "Despedida não vira 'esperando resposta nossa'");
+  });
+
   step("A3. João responde com a info", () => {
     const { conversation } = ingestEvolution(makeWebhook(jid, false, "É o pedido 12345, está atrasado"));
     showState(jid);
     expect(conversation.status, "OPEN", "Volta pra OPEN — bola está com a gente");
-    expect(conversation.unreadCount, 1, "unreadCount = 1 (Maria precisa ver)");
+    expect(conversation.unreadCount, 2, "unreadCount = 2 (despedida + info — Maria precisa ver)");
   });
 
   step("A4. Maria finaliza o atendimento", () => {
@@ -308,6 +314,14 @@ function scenarioTerminalEdgeCases() {
     ["bom dia, obrigado", false, "saudação invalida (novo contato)"],
     ["obrigado, mas tenho outra duvida", false, "tem palavra de intenção"],
     ["agradeço", true, "palavra unica do whitelist"],
+    // Despedidas mais longas (isFarewellMessage)
+    ["Obrigado, bom final de semana!", true, "agradecimento + despedida"],
+    ["Combinado, até amanhã 🙏", true, "combinado + até amanhã"],
+    ["Perfeito Diego, muito obrigada pela atenção", true, "com nome próprio"],
+    ["Obrigado, boa noite", true, "saudação no FIM = despedida"],
+    ["Boa noite", false, "saudação sozinha = início de conversa"],
+    ["Obrigado, mas quando vocês conseguem entregar", false, "pergunta implícita"],
+    ["Amanhã te mando o comprovante, obrigado", false, "compromisso novo"],
   ];
   for (const [body, expected, label] of cases) {
     const got = isTerminalMessage(body);
