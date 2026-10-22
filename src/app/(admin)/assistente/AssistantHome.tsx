@@ -76,7 +76,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   spend?: { todayUSD: number; monthUSD: number; todayCalls: number; model: string | null } | null;
 }) {
   const usd = (v: number) => `US$ ${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: v < 0.1 ? 4 : 2 })}`;
-  const search = useSearchParams();
+  const search = useSearchParams()!; // nunca nulo no App Router (o tipo vira nullable porque existe src/pages)
   const aba = search.get("aba");
   const [tab, setTab] = useState<"fila" | "bloquinho" | "entrada">(aba === "bloquinho" ? "bloquinho" : aba === "entrada" ? "entrada" : "fila");
 

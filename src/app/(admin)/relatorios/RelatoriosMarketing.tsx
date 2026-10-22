@@ -25,7 +25,7 @@ export default function RelatoriosMarketing({
   companies: { id: string; name: string }[];
 }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!; // nunca nulo no App Router (o tipo vira nullable porque existe src/pages)
   const [companyId, setCompanyId] = useState(selectedCompanyId);
 
   function changeCompany(newId: string) {

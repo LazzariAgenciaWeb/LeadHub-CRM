@@ -30,7 +30,7 @@ const SECTIONS: Section[] = [
 
 export default function RelatoriosNav({ active }: { active: string }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!; // nunca nulo no App Router (o tipo vira nullable porque existe src/pages)
 
   function go(key: string) {
     const params = new URLSearchParams(searchParams.toString());

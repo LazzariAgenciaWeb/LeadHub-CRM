@@ -138,7 +138,7 @@ export default function CompanyIntegrations({
   platformFilter?: "google" | "meta" | "all";
 }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!; // nunca nulo no App Router (o tipo vira nullable porque existe src/pages)
   const [integrations, setIntegrations] = useState<Integration[]>([]);
   const [canWrite, setCanWrite] = useState(false);
   const [loading, setLoading] = useState(true);

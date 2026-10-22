@@ -15,7 +15,7 @@ const SOURCES = [
 
 export default function NovaCampanhaPage() {
   const router = useRouter();
-  const params = useParams();
+  const params = useParams()!;
   const companyId = params.id as string;
 
   const [loading, setLoading] = useState(false);

@@ -10,7 +10,7 @@ type Props = {
 
 export default function ImpersonationViewSwitcher({ currentUserId, users }: Props) {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!; // nunca nulo no App Router (o tipo vira nullable porque existe src/pages)
 
   function switchTo(userId: string) {
     const params = new URLSearchParams(searchParams.toString());

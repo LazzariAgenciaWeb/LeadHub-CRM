@@ -12,7 +12,7 @@ const navItems = [
 ];
 
 export default function MobileBottomNav() {
-  const pathname = usePathname();
+  const pathname = usePathname()!; // nunca nulo no App Router (o tipo vira nullable porque existe src/pages)
 
   return (
     <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#0f1623] border-t border-[#1e2d45] flex safe-area-pb">

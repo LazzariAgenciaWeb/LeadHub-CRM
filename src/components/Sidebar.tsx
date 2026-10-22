@@ -28,9 +28,9 @@ interface Company {
 }
 
 export default function Sidebar({ session, onClose, isClient = false }: SidebarProps) {
-  const pathname = usePathname();
+  const pathname = usePathname()!; // nunca nulo no App Router (o tipo vira nullable porque existe src/pages)
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!; // nunca nulo no App Router (o tipo vira nullable porque existe src/pages)
   const _isSuperAdmin = isSuperAdmin(session);
   const _isAdmin = isAdmin(session);
   const role = (session.user as any)?.role;
