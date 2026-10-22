@@ -60,6 +60,20 @@ async function findByName(userId: string, name: string) {
   return prisma.assistantNote.findFirst({ where: { userId, OR: [{ id: name }, { caldavUid: name }] }, select: { ...NOTE_SELECT, archivedAt: true } });
 }
 
+/** Registra cada pedido (diagnóstico da sincronização) quando a resposta termina. */
+function logRequest(req: NextApiRequest, res: NextApiResponse, method: string, userId: string | null) {
+  const basic = (req.headers.authorization ?? "").match(/^Basic\s+(.+)$/i);
+  const username = basic ? Buffer.from(basic[1], "base64").toString("utf8").split(":")[0] : null;
+  res.on("finish", () => {
+    const detail = (res as unknown as { _davBody?: string })._davBody || null;
+    console.log(`[caldav] ${method} ${req.url} depth=${req.headers.depth ?? "-"} → ${res.statusCode} user=${username ?? "-"} ua=${(req.headers["user-agent"] ?? "").slice(0, 60)}`);
+    prisma.caldavRequestLog.create({
+      data: { userId, username, method, path: (req.url ?? "").slice(0, 300), depth: req.headers.depth ? String(req.headers.depth) : null, status: res.statusCode, userAgent: (req.headers["user-agent"] ?? "").slice(0, 200) || null, detail },
+    }).catch(() => {});
+    if (Math.random() < 0.05) prisma.caldavRequestLog.deleteMany({ where: { createdAt: { lt: new Date(Date.now() - 3 * 86400_000) } } }).catch(() => {});
+  });
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const method = (req.method ?? "GET").toUpperCase();
   const parts = ([] as string[]).concat(req.query.path ?? []).map((p) => decodeURIComponent(p));
@@ -70,12 +84,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const auth = await authenticateCaldav(req.headers.authorization);
+  logRequest(req, res, method, auth?.userId ?? null);
   if (!auth) {
     res.setHeader("WWW-Authenticate", 'Basic realm="GoHub"');
     return send(res, 401, "Autenticação necessária", "text/plain; charset=utf-8");
   }
   const { userId } = auth;
   const body = ["PROPFIND", "REPORT", "PUT", "PROPPATCH"].includes(method) ? await readBody(req) : "";
+  (res as unknown as { _davBody?: string })._davBody = body.slice(0, 600);
   const depth = String(req.headers.depth ?? "0");
 
   // ── raiz / principal / home ───────────────────────────────────────────────

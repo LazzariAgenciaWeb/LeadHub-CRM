@@ -2170,6 +2170,19 @@ exports.Prisma.AssistantRuleScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CaldavRequestLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  username: 'username',
+  method: 'method',
+  path: 'path',
+  depth: 'depth',
+  status: 'status',
+  userAgent: 'userAgent',
+  detail: 'detail',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2772,7 +2785,8 @@ exports.Prisma.ModelName = {
   McpOAuthCode: 'McpOAuthCode',
   McpOAuthToken: 'McpOAuthToken',
   InternalIp: 'InternalIp',
-  AssistantRule: 'AssistantRule'
+  AssistantRule: 'AssistantRule',
+  CaldavRequestLog: 'CaldavRequestLog'
 };
 
 /**

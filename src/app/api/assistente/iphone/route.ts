@@ -30,7 +30,13 @@ export async function GET() {
   const auth = await requireAssistantUser();
   if (!auth.ok) return auth.response;
   const u = await prisma.user.findUnique({ where: { id: auth.userId }, select: { caldavPasswordHash: true, email: true } });
-  return NextResponse.json({ hasPassword: !!u?.caldavPasswordHash, server: host(), username: u?.email });
+  // Últimos pedidos do iPhone (inclui tentativas com senha errada, pelo e-mail usado).
+  const atividade = await prisma.caldavRequestLog.findMany({
+    where: { OR: [{ userId: auth.userId }, ...(u?.email ? [{ username: { equals: u.email, mode: "insensitive" as const } }] : [])] },
+    orderBy: { createdAt: "desc" }, take: 25,
+    select: { method: true, path: true, depth: true, status: true, createdAt: true },
+  });
+  return NextResponse.json({ hasPassword: !!u?.caldavPasswordHash, server: host(), username: u?.email, atividade });
 }
 
 export async function DELETE() {

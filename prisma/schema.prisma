@@ -4854,3 +4854,20 @@ model AssistantRule {
 
   @@index([userId])
 }
+
+/// Diagnóstico da sincronização dos Lembretes do iPhone (CalDAV): últimos pedidos.
+/// Mostrado em Meu Perfil → Lembretes do iPhone. Podado para ~3 dias.
+model CaldavRequestLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  username  String?
+  method    String
+  path      String
+  depth     String?
+  status    Int
+  userAgent String?
+  detail    String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}

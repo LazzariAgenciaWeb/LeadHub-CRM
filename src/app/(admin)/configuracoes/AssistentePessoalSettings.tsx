@@ -218,7 +218,8 @@ export default function AssistentePessoalSettings({
 
 /** Lembretes do iPhone: o GoHub vira uma conta CalDAV com a lista "GoHub". */
 function IPhoneRemindersCard() {
-  const [state, setState] = useState<{ hasPassword: boolean; server: string; username: string } | null>(null);
+  const [state, setState] = useState<{ hasPassword: boolean; server: string; username: string; atividade?: { method: string; path: string; depth: string | null; status: number; createdAt: string }[] } | null>(null);
+  const [showLog, setShowLog] = useState(false);
   const [fresh, setFresh] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
@@ -264,6 +265,23 @@ function IPhoneRemindersCard() {
             <button onClick={gerar} disabled={busy} className="text-xs px-3 py-1.5 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white disabled:opacity-40">{busy ? "Gerando…" : state?.hasPassword ? "Gerar nova senha" : "Conectar iPhone"}</button>
           </div>
         </div>
+        {state?.hasPassword && !fresh && (
+          <div className="text-[11px] text-slate-500">
+            {state.atividade?.length
+              ? <>Última conversa com o iPhone: {new Date(state.atividade[0].createdAt).toLocaleString("pt-BR")} {state.atividade[0].status === 401 ? <span className="text-red-300">· senha recusada — confira usuário/senha no iPhone</span> : state.atividade[0].status >= 400 ? <span className="text-amber-300">· erro {state.atividade[0].status}</span> : <span className="text-emerald-300">· ok</span>}</>
+              : "O iPhone ainda não conversou com o GoHub. Confira a conta em Ajustes e abra o app Lembretes."}
+            {!!state.atividade?.length && <button onClick={() => setShowLog((v) => !v)} className="ml-2 underline hover:text-slate-300">{showLog ? "esconder detalhes" : "ver detalhes"}</button>}
+            {showLog && (
+              <div className="mt-2 font-mono text-[10px] bg-[#0a1120] border border-[#1e2d45] rounded-lg p-2 max-h-56 overflow-y-auto space-y-0.5">
+                {state.atividade!.map((a, i) => (
+                  <div key={i} className={a.status >= 400 ? "text-red-300" : "text-slate-400"}>
+                    {new Date(a.createdAt).toLocaleTimeString("pt-BR")} {a.method} {a.path.replace("/api/caldav", "") || "/"} {a.depth ? `d${a.depth}` : ""} → {a.status}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {fresh && state && (
           <div className="space-y-3 rounded-lg border border-fuchsia-500/25 bg-fuchsia-500/5 p-3">
             <div className="space-y-1.5">

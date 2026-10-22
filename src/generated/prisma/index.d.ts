@@ -695,6 +695,12 @@ export type InternalIp = $Result.DefaultSelection<Prisma.$InternalIpPayload>
  * 
  */
 export type AssistantRule = $Result.DefaultSelection<Prisma.$AssistantRulePayload>
+/**
+ * Model CaldavRequestLog
+ * Diagnóstico da sincronização dos Lembretes do iPhone (CalDAV): últimos pedidos.
+ * Mostrado em Meu Perfil → Lembretes do iPhone. Podado para ~3 dias.
+ */
+export type CaldavRequestLog = $Result.DefaultSelection<Prisma.$CaldavRequestLogPayload>
 
 /**
  * Enums
@@ -2982,6 +2988,16 @@ export class PrismaClient<
     * ```
     */
   get assistantRule(): Prisma.AssistantRuleDelegate<ExtArgs>;
+
+  /**
+   * `prisma.caldavRequestLog`: Exposes CRUD operations for the **CaldavRequestLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CaldavRequestLogs
+    * const caldavRequestLogs = await prisma.caldavRequestLog.findMany()
+    * ```
+    */
+  get caldavRequestLog(): Prisma.CaldavRequestLogDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -3557,7 +3573,8 @@ export namespace Prisma {
     McpOAuthCode: 'McpOAuthCode',
     McpOAuthToken: 'McpOAuthToken',
     InternalIp: 'InternalIp',
-    AssistantRule: 'AssistantRule'
+    AssistantRule: 'AssistantRule',
+    CaldavRequestLog: 'CaldavRequestLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3573,7 +3590,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule"
+      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -13024,6 +13041,76 @@ export namespace Prisma {
           count: {
             args: Prisma.AssistantRuleCountArgs<ExtArgs>
             result: $Utils.Optional<AssistantRuleCountAggregateOutputType> | number
+          }
+        }
+      }
+      CaldavRequestLog: {
+        payload: Prisma.$CaldavRequestLogPayload<ExtArgs>
+        fields: Prisma.CaldavRequestLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CaldavRequestLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CaldavRequestLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload>
+          }
+          findFirst: {
+            args: Prisma.CaldavRequestLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CaldavRequestLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload>
+          }
+          findMany: {
+            args: Prisma.CaldavRequestLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload>[]
+          }
+          create: {
+            args: Prisma.CaldavRequestLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload>
+          }
+          createMany: {
+            args: Prisma.CaldavRequestLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CaldavRequestLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload>[]
+          }
+          delete: {
+            args: Prisma.CaldavRequestLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload>
+          }
+          update: {
+            args: Prisma.CaldavRequestLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.CaldavRequestLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CaldavRequestLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CaldavRequestLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CaldavRequestLogPayload>
+          }
+          aggregate: {
+            args: Prisma.CaldavRequestLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCaldavRequestLog>
+          }
+          groupBy: {
+            args: Prisma.CaldavRequestLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CaldavRequestLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CaldavRequestLogCountArgs<ExtArgs>
+            result: $Utils.Optional<CaldavRequestLogCountAggregateOutputType> | number
           }
         }
       }
@@ -162718,6 +162805,978 @@ export namespace Prisma {
 
 
   /**
+   * Model CaldavRequestLog
+   */
+
+  export type AggregateCaldavRequestLog = {
+    _count: CaldavRequestLogCountAggregateOutputType | null
+    _avg: CaldavRequestLogAvgAggregateOutputType | null
+    _sum: CaldavRequestLogSumAggregateOutputType | null
+    _min: CaldavRequestLogMinAggregateOutputType | null
+    _max: CaldavRequestLogMaxAggregateOutputType | null
+  }
+
+  export type CaldavRequestLogAvgAggregateOutputType = {
+    status: number | null
+  }
+
+  export type CaldavRequestLogSumAggregateOutputType = {
+    status: number | null
+  }
+
+  export type CaldavRequestLogMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    username: string | null
+    method: string | null
+    path: string | null
+    depth: string | null
+    status: number | null
+    userAgent: string | null
+    detail: string | null
+    createdAt: Date | null
+  }
+
+  export type CaldavRequestLogMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    username: string | null
+    method: string | null
+    path: string | null
+    depth: string | null
+    status: number | null
+    userAgent: string | null
+    detail: string | null
+    createdAt: Date | null
+  }
+
+  export type CaldavRequestLogCountAggregateOutputType = {
+    id: number
+    userId: number
+    username: number
+    method: number
+    path: number
+    depth: number
+    status: number
+    userAgent: number
+    detail: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CaldavRequestLogAvgAggregateInputType = {
+    status?: true
+  }
+
+  export type CaldavRequestLogSumAggregateInputType = {
+    status?: true
+  }
+
+  export type CaldavRequestLogMinAggregateInputType = {
+    id?: true
+    userId?: true
+    username?: true
+    method?: true
+    path?: true
+    depth?: true
+    status?: true
+    userAgent?: true
+    detail?: true
+    createdAt?: true
+  }
+
+  export type CaldavRequestLogMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    username?: true
+    method?: true
+    path?: true
+    depth?: true
+    status?: true
+    userAgent?: true
+    detail?: true
+    createdAt?: true
+  }
+
+  export type CaldavRequestLogCountAggregateInputType = {
+    id?: true
+    userId?: true
+    username?: true
+    method?: true
+    path?: true
+    depth?: true
+    status?: true
+    userAgent?: true
+    detail?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CaldavRequestLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CaldavRequestLog to aggregate.
+     */
+    where?: CaldavRequestLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CaldavRequestLogs to fetch.
+     */
+    orderBy?: CaldavRequestLogOrderByWithRelationInput | CaldavRequestLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CaldavRequestLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CaldavRequestLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CaldavRequestLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CaldavRequestLogs
+    **/
+    _count?: true | CaldavRequestLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CaldavRequestLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CaldavRequestLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CaldavRequestLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CaldavRequestLogMaxAggregateInputType
+  }
+
+  export type GetCaldavRequestLogAggregateType<T extends CaldavRequestLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateCaldavRequestLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCaldavRequestLog[P]>
+      : GetScalarType<T[P], AggregateCaldavRequestLog[P]>
+  }
+
+
+
+
+  export type CaldavRequestLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CaldavRequestLogWhereInput
+    orderBy?: CaldavRequestLogOrderByWithAggregationInput | CaldavRequestLogOrderByWithAggregationInput[]
+    by: CaldavRequestLogScalarFieldEnum[] | CaldavRequestLogScalarFieldEnum
+    having?: CaldavRequestLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CaldavRequestLogCountAggregateInputType | true
+    _avg?: CaldavRequestLogAvgAggregateInputType
+    _sum?: CaldavRequestLogSumAggregateInputType
+    _min?: CaldavRequestLogMinAggregateInputType
+    _max?: CaldavRequestLogMaxAggregateInputType
+  }
+
+  export type CaldavRequestLogGroupByOutputType = {
+    id: string
+    userId: string | null
+    username: string | null
+    method: string
+    path: string
+    depth: string | null
+    status: number
+    userAgent: string | null
+    detail: string | null
+    createdAt: Date
+    _count: CaldavRequestLogCountAggregateOutputType | null
+    _avg: CaldavRequestLogAvgAggregateOutputType | null
+    _sum: CaldavRequestLogSumAggregateOutputType | null
+    _min: CaldavRequestLogMinAggregateOutputType | null
+    _max: CaldavRequestLogMaxAggregateOutputType | null
+  }
+
+  type GetCaldavRequestLogGroupByPayload<T extends CaldavRequestLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CaldavRequestLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CaldavRequestLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CaldavRequestLogGroupByOutputType[P]>
+            : GetScalarType<T[P], CaldavRequestLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CaldavRequestLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    username?: boolean
+    method?: boolean
+    path?: boolean
+    depth?: boolean
+    status?: boolean
+    userAgent?: boolean
+    detail?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["caldavRequestLog"]>
+
+  export type CaldavRequestLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    username?: boolean
+    method?: boolean
+    path?: boolean
+    depth?: boolean
+    status?: boolean
+    userAgent?: boolean
+    detail?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["caldavRequestLog"]>
+
+  export type CaldavRequestLogSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    username?: boolean
+    method?: boolean
+    path?: boolean
+    depth?: boolean
+    status?: boolean
+    userAgent?: boolean
+    detail?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $CaldavRequestLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CaldavRequestLog"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string | null
+      username: string | null
+      method: string
+      path: string
+      depth: string | null
+      status: number
+      userAgent: string | null
+      detail: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["caldavRequestLog"]>
+    composites: {}
+  }
+
+  type CaldavRequestLogGetPayload<S extends boolean | null | undefined | CaldavRequestLogDefaultArgs> = $Result.GetResult<Prisma.$CaldavRequestLogPayload, S>
+
+  type CaldavRequestLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CaldavRequestLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CaldavRequestLogCountAggregateInputType | true
+    }
+
+  export interface CaldavRequestLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CaldavRequestLog'], meta: { name: 'CaldavRequestLog' } }
+    /**
+     * Find zero or one CaldavRequestLog that matches the filter.
+     * @param {CaldavRequestLogFindUniqueArgs} args - Arguments to find a CaldavRequestLog
+     * @example
+     * // Get one CaldavRequestLog
+     * const caldavRequestLog = await prisma.caldavRequestLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CaldavRequestLogFindUniqueArgs>(args: SelectSubset<T, CaldavRequestLogFindUniqueArgs<ExtArgs>>): Prisma__CaldavRequestLogClient<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CaldavRequestLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CaldavRequestLogFindUniqueOrThrowArgs} args - Arguments to find a CaldavRequestLog
+     * @example
+     * // Get one CaldavRequestLog
+     * const caldavRequestLog = await prisma.caldavRequestLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CaldavRequestLogFindUniqueOrThrowArgs>(args: SelectSubset<T, CaldavRequestLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CaldavRequestLogClient<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CaldavRequestLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CaldavRequestLogFindFirstArgs} args - Arguments to find a CaldavRequestLog
+     * @example
+     * // Get one CaldavRequestLog
+     * const caldavRequestLog = await prisma.caldavRequestLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CaldavRequestLogFindFirstArgs>(args?: SelectSubset<T, CaldavRequestLogFindFirstArgs<ExtArgs>>): Prisma__CaldavRequestLogClient<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CaldavRequestLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CaldavRequestLogFindFirstOrThrowArgs} args - Arguments to find a CaldavRequestLog
+     * @example
+     * // Get one CaldavRequestLog
+     * const caldavRequestLog = await prisma.caldavRequestLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CaldavRequestLogFindFirstOrThrowArgs>(args?: SelectSubset<T, CaldavRequestLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__CaldavRequestLogClient<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CaldavRequestLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CaldavRequestLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CaldavRequestLogs
+     * const caldavRequestLogs = await prisma.caldavRequestLog.findMany()
+     * 
+     * // Get first 10 CaldavRequestLogs
+     * const caldavRequestLogs = await prisma.caldavRequestLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const caldavRequestLogWithIdOnly = await prisma.caldavRequestLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CaldavRequestLogFindManyArgs>(args?: SelectSubset<T, CaldavRequestLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CaldavRequestLog.
+     * @param {CaldavRequestLogCreateArgs} args - Arguments to create a CaldavRequestLog.
+     * @example
+     * // Create one CaldavRequestLog
+     * const CaldavRequestLog = await prisma.caldavRequestLog.create({
+     *   data: {
+     *     // ... data to create a CaldavRequestLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends CaldavRequestLogCreateArgs>(args: SelectSubset<T, CaldavRequestLogCreateArgs<ExtArgs>>): Prisma__CaldavRequestLogClient<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CaldavRequestLogs.
+     * @param {CaldavRequestLogCreateManyArgs} args - Arguments to create many CaldavRequestLogs.
+     * @example
+     * // Create many CaldavRequestLogs
+     * const caldavRequestLog = await prisma.caldavRequestLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CaldavRequestLogCreateManyArgs>(args?: SelectSubset<T, CaldavRequestLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CaldavRequestLogs and returns the data saved in the database.
+     * @param {CaldavRequestLogCreateManyAndReturnArgs} args - Arguments to create many CaldavRequestLogs.
+     * @example
+     * // Create many CaldavRequestLogs
+     * const caldavRequestLog = await prisma.caldavRequestLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CaldavRequestLogs and only return the `id`
+     * const caldavRequestLogWithIdOnly = await prisma.caldavRequestLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CaldavRequestLogCreateManyAndReturnArgs>(args?: SelectSubset<T, CaldavRequestLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CaldavRequestLog.
+     * @param {CaldavRequestLogDeleteArgs} args - Arguments to delete one CaldavRequestLog.
+     * @example
+     * // Delete one CaldavRequestLog
+     * const CaldavRequestLog = await prisma.caldavRequestLog.delete({
+     *   where: {
+     *     // ... filter to delete one CaldavRequestLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CaldavRequestLogDeleteArgs>(args: SelectSubset<T, CaldavRequestLogDeleteArgs<ExtArgs>>): Prisma__CaldavRequestLogClient<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CaldavRequestLog.
+     * @param {CaldavRequestLogUpdateArgs} args - Arguments to update one CaldavRequestLog.
+     * @example
+     * // Update one CaldavRequestLog
+     * const caldavRequestLog = await prisma.caldavRequestLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CaldavRequestLogUpdateArgs>(args: SelectSubset<T, CaldavRequestLogUpdateArgs<ExtArgs>>): Prisma__CaldavRequestLogClient<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CaldavRequestLogs.
+     * @param {CaldavRequestLogDeleteManyArgs} args - Arguments to filter CaldavRequestLogs to delete.
+     * @example
+     * // Delete a few CaldavRequestLogs
+     * const { count } = await prisma.caldavRequestLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CaldavRequestLogDeleteManyArgs>(args?: SelectSubset<T, CaldavRequestLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CaldavRequestLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CaldavRequestLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CaldavRequestLogs
+     * const caldavRequestLog = await prisma.caldavRequestLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CaldavRequestLogUpdateManyArgs>(args: SelectSubset<T, CaldavRequestLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CaldavRequestLog.
+     * @param {CaldavRequestLogUpsertArgs} args - Arguments to update or create a CaldavRequestLog.
+     * @example
+     * // Update or create a CaldavRequestLog
+     * const caldavRequestLog = await prisma.caldavRequestLog.upsert({
+     *   create: {
+     *     // ... data to create a CaldavRequestLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CaldavRequestLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CaldavRequestLogUpsertArgs>(args: SelectSubset<T, CaldavRequestLogUpsertArgs<ExtArgs>>): Prisma__CaldavRequestLogClient<$Result.GetResult<Prisma.$CaldavRequestLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CaldavRequestLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CaldavRequestLogCountArgs} args - Arguments to filter CaldavRequestLogs to count.
+     * @example
+     * // Count the number of CaldavRequestLogs
+     * const count = await prisma.caldavRequestLog.count({
+     *   where: {
+     *     // ... the filter for the CaldavRequestLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends CaldavRequestLogCountArgs>(
+      args?: Subset<T, CaldavRequestLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CaldavRequestLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CaldavRequestLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CaldavRequestLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CaldavRequestLogAggregateArgs>(args: Subset<T, CaldavRequestLogAggregateArgs>): Prisma.PrismaPromise<GetCaldavRequestLogAggregateType<T>>
+
+    /**
+     * Group by CaldavRequestLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CaldavRequestLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CaldavRequestLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CaldavRequestLogGroupByArgs['orderBy'] }
+        : { orderBy?: CaldavRequestLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CaldavRequestLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCaldavRequestLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CaldavRequestLog model
+   */
+  readonly fields: CaldavRequestLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CaldavRequestLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CaldavRequestLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CaldavRequestLog model
+   */ 
+  interface CaldavRequestLogFieldRefs {
+    readonly id: FieldRef<"CaldavRequestLog", 'String'>
+    readonly userId: FieldRef<"CaldavRequestLog", 'String'>
+    readonly username: FieldRef<"CaldavRequestLog", 'String'>
+    readonly method: FieldRef<"CaldavRequestLog", 'String'>
+    readonly path: FieldRef<"CaldavRequestLog", 'String'>
+    readonly depth: FieldRef<"CaldavRequestLog", 'String'>
+    readonly status: FieldRef<"CaldavRequestLog", 'Int'>
+    readonly userAgent: FieldRef<"CaldavRequestLog", 'String'>
+    readonly detail: FieldRef<"CaldavRequestLog", 'String'>
+    readonly createdAt: FieldRef<"CaldavRequestLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CaldavRequestLog findUnique
+   */
+  export type CaldavRequestLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+    /**
+     * Filter, which CaldavRequestLog to fetch.
+     */
+    where: CaldavRequestLogWhereUniqueInput
+  }
+
+  /**
+   * CaldavRequestLog findUniqueOrThrow
+   */
+  export type CaldavRequestLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+    /**
+     * Filter, which CaldavRequestLog to fetch.
+     */
+    where: CaldavRequestLogWhereUniqueInput
+  }
+
+  /**
+   * CaldavRequestLog findFirst
+   */
+  export type CaldavRequestLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+    /**
+     * Filter, which CaldavRequestLog to fetch.
+     */
+    where?: CaldavRequestLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CaldavRequestLogs to fetch.
+     */
+    orderBy?: CaldavRequestLogOrderByWithRelationInput | CaldavRequestLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CaldavRequestLogs.
+     */
+    cursor?: CaldavRequestLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CaldavRequestLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CaldavRequestLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CaldavRequestLogs.
+     */
+    distinct?: CaldavRequestLogScalarFieldEnum | CaldavRequestLogScalarFieldEnum[]
+  }
+
+  /**
+   * CaldavRequestLog findFirstOrThrow
+   */
+  export type CaldavRequestLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+    /**
+     * Filter, which CaldavRequestLog to fetch.
+     */
+    where?: CaldavRequestLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CaldavRequestLogs to fetch.
+     */
+    orderBy?: CaldavRequestLogOrderByWithRelationInput | CaldavRequestLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CaldavRequestLogs.
+     */
+    cursor?: CaldavRequestLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CaldavRequestLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CaldavRequestLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CaldavRequestLogs.
+     */
+    distinct?: CaldavRequestLogScalarFieldEnum | CaldavRequestLogScalarFieldEnum[]
+  }
+
+  /**
+   * CaldavRequestLog findMany
+   */
+  export type CaldavRequestLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+    /**
+     * Filter, which CaldavRequestLogs to fetch.
+     */
+    where?: CaldavRequestLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CaldavRequestLogs to fetch.
+     */
+    orderBy?: CaldavRequestLogOrderByWithRelationInput | CaldavRequestLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CaldavRequestLogs.
+     */
+    cursor?: CaldavRequestLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CaldavRequestLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CaldavRequestLogs.
+     */
+    skip?: number
+    distinct?: CaldavRequestLogScalarFieldEnum | CaldavRequestLogScalarFieldEnum[]
+  }
+
+  /**
+   * CaldavRequestLog create
+   */
+  export type CaldavRequestLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+    /**
+     * The data needed to create a CaldavRequestLog.
+     */
+    data: XOR<CaldavRequestLogCreateInput, CaldavRequestLogUncheckedCreateInput>
+  }
+
+  /**
+   * CaldavRequestLog createMany
+   */
+  export type CaldavRequestLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CaldavRequestLogs.
+     */
+    data: CaldavRequestLogCreateManyInput | CaldavRequestLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CaldavRequestLog createManyAndReturn
+   */
+  export type CaldavRequestLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CaldavRequestLogs.
+     */
+    data: CaldavRequestLogCreateManyInput | CaldavRequestLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CaldavRequestLog update
+   */
+  export type CaldavRequestLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+    /**
+     * The data needed to update a CaldavRequestLog.
+     */
+    data: XOR<CaldavRequestLogUpdateInput, CaldavRequestLogUncheckedUpdateInput>
+    /**
+     * Choose, which CaldavRequestLog to update.
+     */
+    where: CaldavRequestLogWhereUniqueInput
+  }
+
+  /**
+   * CaldavRequestLog updateMany
+   */
+  export type CaldavRequestLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CaldavRequestLogs.
+     */
+    data: XOR<CaldavRequestLogUpdateManyMutationInput, CaldavRequestLogUncheckedUpdateManyInput>
+    /**
+     * Filter which CaldavRequestLogs to update
+     */
+    where?: CaldavRequestLogWhereInput
+  }
+
+  /**
+   * CaldavRequestLog upsert
+   */
+  export type CaldavRequestLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+    /**
+     * The filter to search for the CaldavRequestLog to update in case it exists.
+     */
+    where: CaldavRequestLogWhereUniqueInput
+    /**
+     * In case the CaldavRequestLog found by the `where` argument doesn't exist, create a new CaldavRequestLog with this data.
+     */
+    create: XOR<CaldavRequestLogCreateInput, CaldavRequestLogUncheckedCreateInput>
+    /**
+     * In case the CaldavRequestLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CaldavRequestLogUpdateInput, CaldavRequestLogUncheckedUpdateInput>
+  }
+
+  /**
+   * CaldavRequestLog delete
+   */
+  export type CaldavRequestLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+    /**
+     * Filter which CaldavRequestLog to delete.
+     */
+    where: CaldavRequestLogWhereUniqueInput
+  }
+
+  /**
+   * CaldavRequestLog deleteMany
+   */
+  export type CaldavRequestLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CaldavRequestLogs to delete
+     */
+    where?: CaldavRequestLogWhereInput
+  }
+
+  /**
+   * CaldavRequestLog without action
+   */
+  export type CaldavRequestLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CaldavRequestLog
+     */
+    select?: CaldavRequestLogSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -165182,6 +166241,22 @@ export namespace Prisma {
   };
 
   export type AssistantRuleScalarFieldEnum = (typeof AssistantRuleScalarFieldEnum)[keyof typeof AssistantRuleScalarFieldEnum]
+
+
+  export const CaldavRequestLogScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    username: 'username',
+    method: 'method',
+    path: 'path',
+    depth: 'depth',
+    status: 'status',
+    userAgent: 'userAgent',
+    detail: 'detail',
+    createdAt: 'createdAt'
+  };
+
+  export type CaldavRequestLogScalarFieldEnum = (typeof CaldavRequestLogScalarFieldEnum)[keyof typeof CaldavRequestLogScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -179460,6 +180535,85 @@ export namespace Prisma {
     hits?: IntWithAggregatesFilter<"AssistantRule"> | number
     lastHitAt?: DateTimeNullableWithAggregatesFilter<"AssistantRule"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AssistantRule"> | Date | string
+  }
+
+  export type CaldavRequestLogWhereInput = {
+    AND?: CaldavRequestLogWhereInput | CaldavRequestLogWhereInput[]
+    OR?: CaldavRequestLogWhereInput[]
+    NOT?: CaldavRequestLogWhereInput | CaldavRequestLogWhereInput[]
+    id?: StringFilter<"CaldavRequestLog"> | string
+    userId?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    username?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    method?: StringFilter<"CaldavRequestLog"> | string
+    path?: StringFilter<"CaldavRequestLog"> | string
+    depth?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    status?: IntFilter<"CaldavRequestLog"> | number
+    userAgent?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    detail?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    createdAt?: DateTimeFilter<"CaldavRequestLog"> | Date | string
+  }
+
+  export type CaldavRequestLogOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    username?: SortOrderInput | SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    depth?: SortOrderInput | SortOrder
+    status?: SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    detail?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CaldavRequestLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CaldavRequestLogWhereInput | CaldavRequestLogWhereInput[]
+    OR?: CaldavRequestLogWhereInput[]
+    NOT?: CaldavRequestLogWhereInput | CaldavRequestLogWhereInput[]
+    userId?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    username?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    method?: StringFilter<"CaldavRequestLog"> | string
+    path?: StringFilter<"CaldavRequestLog"> | string
+    depth?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    status?: IntFilter<"CaldavRequestLog"> | number
+    userAgent?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    detail?: StringNullableFilter<"CaldavRequestLog"> | string | null
+    createdAt?: DateTimeFilter<"CaldavRequestLog"> | Date | string
+  }, "id">
+
+  export type CaldavRequestLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    username?: SortOrderInput | SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    depth?: SortOrderInput | SortOrder
+    status?: SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    detail?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: CaldavRequestLogCountOrderByAggregateInput
+    _avg?: CaldavRequestLogAvgOrderByAggregateInput
+    _max?: CaldavRequestLogMaxOrderByAggregateInput
+    _min?: CaldavRequestLogMinOrderByAggregateInput
+    _sum?: CaldavRequestLogSumOrderByAggregateInput
+  }
+
+  export type CaldavRequestLogScalarWhereWithAggregatesInput = {
+    AND?: CaldavRequestLogScalarWhereWithAggregatesInput | CaldavRequestLogScalarWhereWithAggregatesInput[]
+    OR?: CaldavRequestLogScalarWhereWithAggregatesInput[]
+    NOT?: CaldavRequestLogScalarWhereWithAggregatesInput | CaldavRequestLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CaldavRequestLog"> | string
+    userId?: StringNullableWithAggregatesFilter<"CaldavRequestLog"> | string | null
+    username?: StringNullableWithAggregatesFilter<"CaldavRequestLog"> | string | null
+    method?: StringWithAggregatesFilter<"CaldavRequestLog"> | string
+    path?: StringWithAggregatesFilter<"CaldavRequestLog"> | string
+    depth?: StringNullableWithAggregatesFilter<"CaldavRequestLog"> | string | null
+    status?: IntWithAggregatesFilter<"CaldavRequestLog"> | number
+    userAgent?: StringNullableWithAggregatesFilter<"CaldavRequestLog"> | string | null
+    detail?: StringNullableWithAggregatesFilter<"CaldavRequestLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CaldavRequestLog"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -194473,6 +195627,97 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CaldavRequestLogCreateInput = {
+    id?: string
+    userId?: string | null
+    username?: string | null
+    method: string
+    path: string
+    depth?: string | null
+    status: number
+    userAgent?: string | null
+    detail?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CaldavRequestLogUncheckedCreateInput = {
+    id?: string
+    userId?: string | null
+    username?: string | null
+    method: string
+    path: string
+    depth?: string | null
+    status: number
+    userAgent?: string | null
+    detail?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CaldavRequestLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    method?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    depth?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: IntFieldUpdateOperationsInput | number
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CaldavRequestLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    method?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    depth?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: IntFieldUpdateOperationsInput | number
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CaldavRequestLogCreateManyInput = {
+    id?: string
+    userId?: string | null
+    username?: string | null
+    method: string
+    path: string
+    depth?: string | null
+    status: number
+    userAgent?: string | null
+    detail?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CaldavRequestLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    method?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    depth?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: IntFieldUpdateOperationsInput | number
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CaldavRequestLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    method?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    depth?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: IntFieldUpdateOperationsInput | number
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -204472,6 +205717,53 @@ export namespace Prisma {
 
   export type AssistantRuleSumOrderByAggregateInput = {
     hits?: SortOrder
+  }
+
+  export type CaldavRequestLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    username?: SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    depth?: SortOrder
+    status?: SortOrder
+    userAgent?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CaldavRequestLogAvgOrderByAggregateInput = {
+    status?: SortOrder
+  }
+
+  export type CaldavRequestLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    username?: SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    depth?: SortOrder
+    status?: SortOrder
+    userAgent?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CaldavRequestLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    username?: SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    depth?: SortOrder
+    status?: SortOrder
+    userAgent?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CaldavRequestLogSumOrderByAggregateInput = {
+    status?: SortOrder
   }
 
   export type UserCreatehiddenWaInstanceIdsInput = {
@@ -325668,6 +326960,10 @@ export namespace Prisma {
      * @deprecated Use AssistantRuleDefaultArgs instead
      */
     export type AssistantRuleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantRuleDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CaldavRequestLogDefaultArgs instead
+     */
+    export type CaldavRequestLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CaldavRequestLogDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
