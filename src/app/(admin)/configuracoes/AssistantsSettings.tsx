@@ -757,9 +757,9 @@ export default function AssistantsSettings({
                       className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
                     />
                     <p className="text-slate-600 text-[11px] mt-1.5">
-                      Vale pra conversa que parou com <strong className="text-slate-400">a gente falando por último</strong> (a pessoa mandou a 1ª mensagem e sumiu, ou desistiu no meio).
+                      Vale só pra conversa que parou com <strong className="text-slate-400">o próprio agente falando por último</strong> (a pessoa sumiu no meio da qualificação).
                       Sai <strong className="text-slate-400">uma única mensagem</strong> por sumiço, sempre dentro do horário de atendimento, e só até 7 dias de silêncio.
-                      Não mexe em conversa concluída, pausada de vez ou com retorno já agendado.
+                      Se um atendente assumiu a conversa, o resgate não entra — nem em conversa concluída, pausada de vez ou com retorno já agendado.
                     </p>
                   </div>
 

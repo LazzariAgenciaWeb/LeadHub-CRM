@@ -156,7 +156,9 @@ export async function runRevivalSweep(): Promise<{ checked: number; sent: number
         instanceId: inst.id,
         isGroup: false,
         status: { not: "CLOSED" },
-        aiMode: { not: "OFF" }, // desligar o robô na conversa também desliga o resgate
+        // Só resgata conversa que ainda é do agente: com humano atendendo
+        // (PAUSED_HUMAN) ou robô desligado (OFF) o resgate fica fora.
+        aiMode: "ACTIVE",
         lastMessageDirection: "OUTBOUND", // nós falamos por último
         scheduledReturnAt: null, // já tem retorno agendado pelo time: não atropela
         lastMessageAt: {
@@ -173,6 +175,19 @@ export async function runRevivalSweep(): Promise<{ checked: number; sent: number
       if (sent >= REVIVAL_MAX_PER_RUN) break;
       checked++;
       try {
+        // A última fala tem de ser do AGENTE. lastMessageDirection="OUTBOUND"
+        // também é verdade quando quem respondeu foi um atendente (painel ou
+        // celular) — resgatar aí é atropelar o atendimento humano. A cortesia
+        // ("já já alguém te responde") também não conta: ali quem deve somos
+        // nós, o contato não abandonou nada.
+        const lastMsg = await prisma.message.findFirst({
+          where: { conversationId: conv.id },
+          orderBy: { receivedAt: "desc" },
+          select: { direction: true, rawPayload: true },
+        });
+        const lastRaw = lastMsg?.rawPayload as any;
+        if (!lastMsg || lastMsg.direction !== "OUTBOUND" || !lastRaw?.autoAgent || lastRaw?.courtesy) continue;
+
         // Uma retomada por episódio de silêncio: se já mandamos depois da
         // última fala do contato, não insiste (senão vira cobrança semanal).
         const lastIn = await prisma.message.findFirst({
