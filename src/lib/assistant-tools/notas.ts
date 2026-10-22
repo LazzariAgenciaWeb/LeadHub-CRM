@@ -146,7 +146,7 @@ export const listarAnotacoes: ToolDef<{ kind?: Kind; incluirConcluidas?: boolean
         ...(input.query ? { OR: [{ title: { contains: input.query, mode: "insensitive" } }, { body: { contains: input.query, mode: "insensitive" } }] } : {}),
         ...(input.tag ? { tags: { has: input.tag.trim().toLowerCase() } } : {}),
         ...(input.quadrante ? { important: input.quadrante === "fazer" || input.quadrante === "agendar", urgent: input.quadrante === "fazer" || input.quadrante === "delegar" } : {}),
-        ...(input.origem === "meu" ? { source: { in: ["APP", "WHATSAPP"] } } : input.origem === "rotinas" ? { source: { in: ["MCP", "WEBHOOK"] } } : {}),
+        ...(input.origem === "meu" ? { source: { in: ["APP", "WHATSAPP", "IPHONE"] } } : input.origem === "rotinas" ? { source: { in: ["MCP", "WEBHOOK"] } } : {}),
         ...(input.atrasadas ? { dueAt: { lt: ctx.now } } : {}),
       },
       orderBy: [{ done: "asc" }, { dueAt: { sort: "asc", nulls: "last" } }, { createdAt: "desc" }],

@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
       ...(kind && KINDS.has(kind) ? { kind } : {}),
       ...(includeDone ? {} : { done: false }),
       ...(archived === "1" ? { archivedAt: { not: null } } : archived === "all" ? {} : { archivedAt: null }),
-      ...(origem === "meu" ? { source: { in: ["APP", "WHATSAPP"] } } : origem === "rotinas" ? { source: { in: ["MCP", "WEBHOOK"] } } : {}),
+      ...(origem === "meu" ? { source: { in: ["APP", "WHATSAPP", "IPHONE"] } } : origem === "rotinas" ? { source: { in: ["MCP", "WEBHOOK"] } } : {}),
       ...(tag ? { tags: { has: tag } } : {}),
     },
     orderBy: [{ done: "asc" }, { urgent: "desc" }, { important: "desc" }, { dueAt: { sort: "asc", nulls: "last" } }, { createdAt: "desc" }],

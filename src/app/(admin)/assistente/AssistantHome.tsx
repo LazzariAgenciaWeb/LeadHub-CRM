@@ -28,7 +28,7 @@ interface NoteEvent { id: string; type: "CREATED" | "EDITED" | "DONE" | "REOPENE
 interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[]; important?: boolean; urgent?: boolean; archivedAt?: string | null; source?: string }
 
 const EVENT_LABEL: Record<string, string> = { CREATED: "criado", EDITED: "editado", APPENDED: "acrescentado", DONE: "concluído", REOPENED: "reaberto" };
-const SOURCE_LABEL: Record<string, string> = { APP: "no app", WHATSAPP: "pelo WhatsApp", MCP: "pelo Claude", WEBHOOK: "por rotina externa" };
+const SOURCE_LABEL: Record<string, string> = { APP: "no app", WHATSAPP: "pelo WhatsApp", MCP: "pelo Claude", WEBHOOK: "por rotina externa", IPHONE: "no iPhone" };
 
 const KIND_ICON: Record<string, string> = { IDEA: "💡", NOTE: "📝", REMINDER: "⏰", TASK: "☑️" };
 const KIND_LABEL: Record<string, string> = { IDEA: "Ideia", NOTE: "Nota", REMINDER: "Lembrete", TASK: "Tarefa" };

@@ -142,6 +142,7 @@ exports.Prisma.UserScalarFieldEnum = {
   assistantGroupJid: 'assistantGroupJid',
   assistantInstanceId: 'assistantInstanceId',
   mcpTokenHash: 'mcpTokenHash',
+  caldavPasswordHash: 'caldavPasswordHash',
   mcpTokenCreatedAt: 'mcpTokenCreatedAt',
   mcpTokenLastUsedAt: 'mcpTokenLastUsedAt'
 };
@@ -158,6 +159,7 @@ exports.Prisma.AssistantNoteScalarFieldEnum = {
   doneAt: 'doneAt',
   remindedAt: 'remindedAt',
   source: 'source',
+  caldavUid: 'caldavUid',
   clientCompanyId: 'clientCompanyId',
   tags: 'tags',
   doneNote: 'doneNote',

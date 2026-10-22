@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Meu Perfil → Assistente pessoal:
  *  1. Vincular grupo do WhatsApp (pareamento por código)
  *  2. Token pessoal pra conectar o Claude via MCP
+ *  3. Lembretes do iPhone (conta CalDAV, sincroniza nos dois sentidos)
  */
 export default function AssistentePessoalSettings({
   initialLinked,
@@ -209,6 +210,77 @@ export default function AssistentePessoalSettings({
           )}
         </div>
       </section>
+
+      <IPhoneRemindersCard />
     </>
+  );
+}
+
+/** Lembretes do iPhone: o GoHub vira uma conta CalDAV com a lista "GoHub". */
+function IPhoneRemindersCard() {
+  const [state, setState] = useState<{ hasPassword: boolean; server: string; username: string } | null>(null);
+  const [fresh, setFresh] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
+  useEffect(() => { fetch("/api/assistente/iphone").then(async (r) => { if (r.ok) setState(await r.json()); }).catch(() => {}); }, []);
+
+  async function gerar() {
+    if (state?.hasPassword && !confirm("Gerar uma nova senha desconecta o iPhone até você trocar a senha lá. Continuar?")) return;
+    setBusy(true);
+    try {
+      const r = await fetch("/api/assistente/iphone", { method: "POST" });
+      const j = await r.json();
+      if (!r.ok) { alert(j.error ?? "Falhou"); return; }
+      setFresh(j.password); setState({ hasPassword: true, server: j.server, username: j.username });
+    } finally { setBusy(false); }
+  }
+  async function desconectar() {
+    if (!confirm("Desconectar? O iPhone para de sincronizar com o GoHub.")) return;
+    await fetch("/api/assistente/iphone", { method: "DELETE" });
+    setFresh(null); setState((s) => (s ? { ...s, hasPassword: false } : s));
+  }
+  const copy = (v: string, k: string) => { navigator.clipboard.writeText(v); setCopied(k); setTimeout(() => setCopied(null), 1500); };
+  const field = (label: string, value: string, k: string) => (
+    <div className="flex items-center gap-2">
+      <span className="w-20 text-[11px] text-slate-500">{label}</span>
+      <code className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white font-mono break-all">{value}</code>
+      <button onClick={() => copy(value, k)} className="text-xs px-2 py-1 rounded bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">{copied === k ? "Copiado!" : "Copiar"}</button>
+    </div>
+  );
+
+  return (
+    <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
+      <div className="px-5 py-4 border-b border-[#1e2d45]">
+        <h2 className="text-white font-bold text-sm">📱 Lembretes do iPhone</h2>
+        <p className="text-slate-500 text-xs mt-0.5">
+          Suas tarefas e lembretes do bloquinho aparecem numa lista <b>GoHub</b> no app Lembretes. Concluiu, editou, criou ou apagou num lado, reflete no outro. Avisos (#aviso), ideias e notas ficam só no GoHub.
+        </p>
+      </div>
+      <div className="px-5 py-4 space-y-3">
+        <div className="flex items-center justify-between gap-3">
+          <div className="text-xs text-slate-400">{state?.hasPassword ? "✅ Senha do iPhone ativa" : "Nenhum iPhone conectado."}</div>
+          <div className="flex gap-2">
+            {state?.hasPassword && <button onClick={desconectar} className="text-xs px-3 py-1.5 rounded-lg border border-[#1e2d45] text-slate-400 hover:text-red-300">Desconectar</button>}
+            <button onClick={gerar} disabled={busy} className="text-xs px-3 py-1.5 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white disabled:opacity-40">{busy ? "Gerando…" : state?.hasPassword ? "Gerar nova senha" : "Conectar iPhone"}</button>
+          </div>
+        </div>
+        {fresh && state && (
+          <div className="space-y-3 rounded-lg border border-fuchsia-500/25 bg-fuchsia-500/5 p-3">
+            <div className="space-y-1.5">
+              {field("Servidor", state.server, "srv")}
+              {field("Usuário", state.username, "usr")}
+              {field("Senha", fresh, "pwd")}
+            </div>
+            <div className="text-[11px] text-amber-200">A senha aparece só agora. Se perder, é só gerar outra.</div>
+            <ol className="text-[11px] text-slate-300 space-y-1 list-decimal pl-4">
+              <li>No iPhone: <b>Ajustes → Apps → Lembretes → Contas de Lembretes → Adicionar Conta</b> (em iOS mais antigo: Ajustes → Calendário → Contas → Adicionar Conta).</li>
+              <li>Toque em <b>Outra → Adicionar Conta CalDAV</b>.</li>
+              <li>Cole <b>Servidor</b>, <b>Usuário</b> e <b>Senha</b> acima e toque em Seguinte. Deixe <b>Lembretes</b> ligado.</li>
+              <li>Abra o app Lembretes: a lista <b>GoHub</b> aparece em alguns segundos.</li>
+            </ol>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

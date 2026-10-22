@@ -97,6 +97,8 @@ model User {
   // Token pessoal pra conectar o Claude (MCP). Guardamos só o hash sha256 —
   // o token em texto puro é exibido uma única vez ao gerar.
   mcpTokenHash        String?                  @unique
+  // Senha própria dos Lembretes do iPhone (CalDAV) — só o hash sha256.
+  caldavPasswordHash  String?                  @unique
   mcpTokenCreatedAt   DateTime?
   mcpTokenLastUsedAt  DateTime?
   assistantNotes      AssistantNote[]
@@ -125,7 +127,9 @@ model AssistantNote {
   done            Boolean              @default(false)
   doneAt          DateTime?
   remindedAt      DateTime? // lembrete já disparado (WhatsApp/push)
-  source          String               @default("APP") // APP | WHATSAPP | MCP
+  source          String               @default("APP") // APP | WHATSAPP | MCP | WEBHOOK | IPHONE
+  // Nome do recurso no CalDAV (Lembretes do iPhone) quando o item nasceu lá.
+  caldavUid       String?
   clientCompanyId String? // opcional: sobre qual cliente é
   tags            String[]             @default([]) // etiquetas livres: pessoal, financeiro, cliente…
   doneNote        String?              @db.Text // o que foi feito na conclusão (opcional)
@@ -142,6 +146,7 @@ model AssistantNote {
 
   @@index([userId, kind, done])
   @@index([kind, done, dueAt])
+  @@index([userId, caldavUid])
   @@index([userId, archivedAt])
 }
 
