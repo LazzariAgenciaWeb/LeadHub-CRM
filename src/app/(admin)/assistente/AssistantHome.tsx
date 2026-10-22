@@ -18,6 +18,10 @@ const QUAD: Record<Quadrant, { icon: string; label: string; hint: string; cls: s
   delegar:  { icon: "👉", label: "Delegar",  hint: "urgente, não precisa ser você", cls: "bg-amber-500/15 text-amber-300 border-amber-500/30" },
   eliminar: { icon: "🗑️", label: "Eliminar", hint: "nem importante nem urgente", cls: "bg-slate-500/15 text-slate-400 border-slate-500/30" },
 };
+const QUAD_FLAGS: Record<Quadrant, { important: boolean; urgent: boolean }> = {
+  fazer: { important: true, urgent: true }, agendar: { important: true, urgent: false },
+  delegar: { important: false, urgent: true }, eliminar: { important: false, urgent: false },
+};
 const quadrantOf = (n: { important?: boolean; urgent?: boolean }): Quadrant => (n.important ?? true) ? ((n.urgent ?? false) ? "fazer" : "agendar") : ((n.urgent ?? false) ? "delegar" : "eliminar");
 function plusDays(d: number, hour = 9): string { const x = new Date(); x.setDate(x.getDate() + d); x.setHours(hour, 0, 0, 0); return x.toISOString(); }
 interface NoteEvent { id: string; type: "CREATED" | "EDITED" | "DONE" | "REOPENED" | string; detail: string | null; source: string; createdAt: string }
@@ -96,7 +100,8 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   const [showArchived, setShowArchived] = useState(false);
   const [quadFilter, setQuadFilter] = useState<Quadrant | null>(null);
   const [kindFilter, setKindFilter] = useState<string | null>(null);
-  const [matrixView, setMatrixView] = useState(false);
+  const [matrixSrc, setMatrixSrc] = useState<MatrixSrc>("meu");
+  const [chatOpen, setChatOpen] = useState(false);
   const [users, setUsers] = useState<CompanyUser[]>([]);
   const [triage, setTriage] = useState(false);
   const [noteMore, setNoteMore] = useState(false);
@@ -143,7 +148,17 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
     loadFila(); loadNotes();
   }, [loadFila, loadNotes]);
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [history, sending]);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [history, sending, chatOpen]);
+  useEffect(() => { if (chatOpen) setTimeout(() => inputRef.current?.focus(), 50); }, [chatOpen]);
+  // Ctrl/⌘ K abre o assistente; Esc fecha (menos durante a gravação)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); setChatOpen(true); }
+      else if (e.key === "Escape" && recRef.current?.state !== "recording") setChatOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   async function send(text: string, transcribed = false) {
     const t = text.trim();
@@ -217,6 +232,13 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   }
 
   const firstName = userName.split(" ")[0];
+  /** Clique num card da matriz: abre o item na lista da esquerda. */
+  function openFromMatrix(n: Note) {
+    setTab(isRoutine(n) ? "entrada" : "bloquinho");
+    setQuadFilter(null); setKindFilter(null); setTagFilter(null);
+    setOpenNote(n.id);
+    setTimeout(() => document.getElementById(`note-${n.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
+  }
   const isRoutine = (n: Note) => n.source === "MCP" || n.source === "WEBHOOK";
   const myNotes = notes.filter((n) => !isRoutine(n));
   const inboxNotes = notes.filter(isRoutine);
@@ -264,93 +286,25 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
         <div className="px-4 py-3 rounded-xl border border-red-500/30 bg-red-500/10 text-red-200 text-sm">Seu usuário não está vinculado a uma empresa — o assistente não tem onde agir.</div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start">
-        {/* ── Chat ── */}
-        <div className="lg:col-span-3 bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden flex flex-col" style={{ minHeight: 560 }}>
-          <div className="px-5 py-4 space-y-4 flex-1 overflow-y-auto" style={{ maxHeight: 620 }}>
-            {history.length === 0 && !sending && (
-              <div className="text-slate-500 text-sm py-6 space-y-3">
-                <p className="text-slate-300">Oi, {firstName}. Exemplos do que dá pra fazer:</p>
-                <div className="grid sm:grid-cols-2 gap-2">
-                  {[
-                    "O que tenho pra hoje?",
-                    "Anota: ideia de reels pro cliente Padaria sobre promoção de sexta",
-                    "Me lembra amanhã às 9h de cobrar a aprovação da arte da Ótica",
-                    "Abre chamado pra Clínica Sorriso: revisar banner do site, quinta 15h",
-                    "Cria uma tarefa no projeto Site da Padaria: enviar wireframe, sexta",
-                    "Como está o cliente Ótica Visão?",
-                  ].map((ex) => (
-                    <button key={ex} onClick={() => send(ex)} className="text-left text-xs px-3 py-2 rounded-lg bg-[#131c2c] border border-[#1e2d45] text-slate-300 hover:border-fuchsia-500/40 hover:text-white transition-colors">{ex}</button>
-                  ))}
-                </div>
-              </div>
-            )}
-            {history.map((m, i) => (
-              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                {m.role === "assistant" && <div className="w-6 h-6 rounded-full bg-fuchsia-600/30 border border-fuchsia-500/40 flex items-center justify-center text-xs mr-2 flex-shrink-0 mt-1">🤖</div>}
-                <div className={`max-w-[85%] space-y-2`}>
-                  <div className={`rounded-xl px-4 py-3 text-sm ${m.role === "user" ? "bg-indigo-600 text-white rounded-tr-sm" : "bg-[#162033] border border-[#1e2d45] text-slate-200 rounded-tl-sm"}`}>
-                    {m.transcribed && <div className="text-[10px] text-indigo-200/80 mb-1">🎙️ transcrito do áudio</div>}
-                    <RichText text={m.content} />
-                  </div>
-                  {m.actions && m.actions.length > 0 && (
-                    <div className="space-y-1">
-                      {m.actions.map((a, j) => (
-                        <div key={j} className={`flex items-center gap-2 text-xs px-3 py-2 rounded-lg border ${a.ok ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-200" : "bg-red-500/10 border-red-500/25 text-red-200"}`}>
-                          <span>{a.ok ? "✅" : "❌"}</span>
-                          <span className="flex-1 truncate">{a.message}</span>
-                          {a.link && <a href={a.link.replace(/^https?:\/\/[^/]+/, "")} className="px-2 py-0.5 rounded bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">Abrir</a>}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-            {pending && (
-              <div className="ml-8 px-4 py-3 rounded-xl border border-amber-500/40 bg-amber-500/10 space-y-2">
-                <div className="text-xs font-semibold text-amber-200">Confirmação necessária</div>
-                <div className="text-sm text-amber-100">{pending.summary}</div>
-                <div className="flex gap-2">
-                  <button onClick={() => resolvePending("confirm")} disabled={sending} className="text-xs px-3 py-1.5 rounded-lg bg-amber-500 text-black font-semibold hover:bg-amber-400 disabled:opacity-40">Confirmar</button>
-                  <button onClick={() => resolvePending("cancel")} disabled={sending} className="text-xs px-3 py-1.5 rounded-lg border border-[#1e2d45] text-slate-300 hover:text-white disabled:opacity-40">Cancelar</button>
-                </div>
-              </div>
-            )}
-            {(sending || transcribing) && (
-              <div className="flex items-center gap-2 text-xs text-slate-500 ml-8">
-                <span className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full animate-bounce" /><span className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full animate-bounce [animation-delay:150ms]" /><span className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full animate-bounce [animation-delay:300ms]" />
-                {transcribing ? "transcrevendo…" : "pensando…"}
-              </div>
-            )}
-            {chatErr && <p className="text-xs text-red-400 text-center">{chatErr}</p>}
-            <div ref={bottomRef} />
-          </div>
-          <div className="px-4 py-3 border-t border-[#1e2d45] flex items-end gap-2">
-            <button
-              onClick={toggleRecording}
-              disabled={sending || transcribing}
-              title={recording ? "Parar e enviar" : "Gravar áudio"}
-              className={`flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl border transition-colors ${recording ? "bg-red-600 border-red-500 text-white animate-pulse" : "bg-[#161f30] border-[#1e2d45] text-slate-300 hover:text-white hover:border-fuchsia-500/50"} disabled:opacity-40`}
-            >
-              {recording ? "■" : "🎙️"}
-            </button>
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input); } }}
-              rows={1}
-              placeholder={recording ? "Gravando… clique em ■ pra enviar" : "Escreva ou grave: \"me lembra…\", \"abre chamado…\", \"anota…\", \"o que tenho hoje?\""}
-              className="flex-1 bg-[#0a1120] border border-[#1e2d45] rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-600 resize-none focus:outline-none focus:border-fuchsia-500/50"
-              style={{ minHeight: 40, maxHeight: 120 }}
-            />
-            <button onClick={() => send(input)} disabled={sending || !input.trim()} className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-fuchsia-600 hover:bg-fuchsia-500 disabled:opacity-40 text-white">➤</button>
-          </div>
-        </div>
+      {/* ── Acesso ao assistente (o chat abre num modal) ── */}
+      <div className="flex items-center gap-2 bg-gradient-to-r from-fuchsia-600/20 via-fuchsia-600/10 to-indigo-600/10 border border-fuchsia-500/35 rounded-2xl p-2 pl-4 shadow-lg shadow-fuchsia-900/10">
+        <span className="text-lg">🤖</span>
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter" && input.trim()) { e.preventDefault(); setChatOpen(true); send(input); } }}
+          placeholder={`${firstName}, fale ou escreva: "me lembra…", "anota…", "abre chamado…", "o que tenho hoje?"`}
+          className="flex-1 min-w-0 bg-transparent text-sm text-white placeholder-slate-400 focus:outline-none py-2"
+        />
+        {pending && <button onClick={() => setChatOpen(true)} className="text-[11px] px-2.5 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 whitespace-nowrap">⚠️ confirmar</button>}
+        {history.length > 0 && <button onClick={() => setChatOpen(true)} title="Abrir a conversa" className="hidden sm:block text-[11px] px-2.5 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white whitespace-nowrap">💬 conversa</button>}
+        <button onClick={() => { setChatOpen(true); toggleRecording(); }} disabled={sending || transcribing} title="Gravar áudio" className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-[#161f30] border border-[#1e2d45] text-slate-200 hover:border-fuchsia-500/50 disabled:opacity-40">🎙️</button>
+        <button onClick={() => { setChatOpen(true); if (input.trim()) send(input); }} title="Abrir o assistente (Ctrl/⌘ K)" className="h-10 flex-shrink-0 px-4 rounded-xl bg-fuchsia-600 hover:bg-fuchsia-500 text-white text-sm font-semibold whitespace-nowrap">{input.trim() ? "Enviar ➤" : "Abrir"}</button>
+      </div>
 
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* ── Fila / Bloquinho / Entrada ── */}
-        <div className="lg:col-span-2 space-y-3">
+        <div className="lg:col-span-5 space-y-3">
           <div className="flex items-center gap-1 bg-[#0f1623] border border-[#1e2d45] rounded-xl p-1">
             {([
               ["fila", "Fila do dia", fila ? totalFila : null],
@@ -439,8 +393,6 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                   const n = pool.filter((x) => !x.done && !x.archivedAt && quadrantOf(x) === q).length;
                   return <button key={q} onClick={() => setQuadFilter(quadFilter === q ? null : q)} title={QUAD[q].hint} className={`text-[10px] px-2 py-0.5 rounded-full border ${quadFilter === q ? QUAD[q].cls : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>{QUAD[q].icon} {QUAD[q].label} {n > 0 && <span className="opacity-70">{n}</span>}</button>;
                 })}
-                <span className="flex-1" />
-                <button onClick={() => setMatrixView((v) => !v)} className={`text-[10px] px-2 py-0.5 rounded-full border ${matrixView ? "bg-fuchsia-600/25 border-fuchsia-500/40 text-white" : "bg-[#131c2c] border-[#253449] text-slate-400 hover:text-white"}`}>⊞ matriz</button>
               </div>
               <div className="flex flex-wrap items-center gap-1.5 px-1">
                 {(["TASK", "REMINDER", "IDEA", "NOTE"] as const).map((k) => {
@@ -455,43 +407,41 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                 <label className="flex items-center gap-1 text-[10px] text-slate-500 cursor-pointer"><input type="checkbox" checked={showArchived} onChange={(e) => setShowArchived(e.target.checked)} className="accent-fuchsia-500" /> arquivadas</label>
               </div>
 
-              {matrixView ? (
-                <div className="grid grid-cols-2 gap-2">
-                  {(Object.keys(QUAD) as Quadrant[]).map((q) => {
-                    const items = visibleNotes.filter((n) => !n.done && !n.archivedAt && quadrantOf(n) === q);
-                    return (
-                      <div key={q} className={`rounded-xl border p-2 min-h-[140px] ${QUAD[q].cls.replace(/text-[^ ]+/, "")}`}>
-                        <div className="text-[11px] font-semibold text-white mb-1">{QUAD[q].icon} {QUAD[q].label} <span className="text-slate-400 font-normal">· {QUAD[q].hint}</span></div>
-                        <div className="space-y-1 max-h-[300px] overflow-y-auto">
-                          {items.length === 0 && <div className="text-[10px] text-slate-500 px-1">—</div>}
-                          {items.map((n) => (
-                            <button key={n.id} onClick={() => { setMatrixView(false); setOpenNote(n.id); }} className="w-full text-left text-[11px] text-slate-200 px-2 py-1 rounded bg-[#0f1623]/70 hover:bg-[#182234] truncate">{KIND_ICON[n.kind]} {n.title}</button>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-2 space-y-1 max-h-[600px] overflow-y-auto">
-                  {visibleNotes.length === 0 && <div className="text-xs text-slate-500 px-2 py-3">{tab === "entrada" ? "Nada chegou das rotinas." : quadFilter || tagFilter || kindFilter ? "Nada com esse filtro." : "Bloquinho vazio. Anote acima ou mande \"anota: …\" no WhatsApp."}</div>}
-                  {visibleNotes.map((n) => (
-                    <NoteItem
-                      key={n.id}
-                      note={n}
-                      users={users}
-                      open={openNote === n.id}
-                      onToggleOpen={() => setOpenNote(openNote === n.id ? null : n.id)}
-                      onToggleDone={(doneNote) => toggleNote(n, doneNote)}
-                      onDelete={() => { if (confirm("Excluir este item?")) deleteNote(n); }}
-                      onSave={(patch) => saveNote(n.id, patch)}
-                      onQuick={(op) => quick(n.id, op)}
-                    />
-                  ))}
-                </div>
-              )}
+              <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-2 space-y-1 max-h-[600px] overflow-y-auto">
+                {visibleNotes.length === 0 && <div className="text-xs text-slate-500 px-2 py-3">{tab === "entrada" ? "Nada chegou das rotinas." : quadFilter || tagFilter || kindFilter ? "Nada com esse filtro." : "Bloquinho vazio. Anote acima ou mande \"anota: …\" no WhatsApp."}</div>}
+                {visibleNotes.map((n) => (
+                  <div key={n.id} id={`note-${n.id}`}><NoteItem
+                    note={n}
+                    users={users}
+                    open={openNote === n.id}
+                    onToggleOpen={() => setOpenNote(openNote === n.id ? null : n.id)}
+                    onToggleDone={(doneNote) => toggleNote(n, doneNote)}
+                    onDelete={() => { if (confirm("Excluir este item?")) deleteNote(n); }}
+                    onSave={(patch) => saveNote(n.id, patch)}
+                    onQuick={(op) => quick(n.id, op)}
+                  /></div>
+                ))}
+              </div>
             </div>
           )}
+        </div>
+
+        {/* ── Matriz de Eisenhower ── */}
+        <div className="lg:col-span-7 lg:sticky lg:top-4">
+          <EisenhowerMatrix
+            notes={notes.filter((n) => !n.done && !n.archivedAt && (matrixSrc === "tudo" || (matrixSrc === "rotinas") === isRoutine(n)))}
+            src={matrixSrc}
+            onSrc={setMatrixSrc}
+            onOpen={openFromMatrix}
+            onMove={(id, q) => {
+              const set = QUAD_FLAGS[q];
+              setNotes((ns) => ns.map((n) => (n.id === id ? { ...n, ...set } : n)));
+              quick(id, { set });
+            }}
+            onQuick={(id, op) => quick(id, op)}
+            onFilter={(q) => { if (tab === "fila") setTab(matrixSrc === "rotinas" ? "entrada" : "bloquinho"); setQuadFilter(quadFilter === q ? null : q); }}
+            activeFilter={tab === "fila" ? null : quadFilter}
+          />
         </div>
       </div>
 
@@ -538,6 +488,196 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
           </div>
         </div>
       )}
+
+      {/* ── Chat (modal) ── */}
+      {chatOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex justify-end" onClick={() => { if (!recording) setChatOpen(false); }}>
+          <div className="w-full max-w-2xl h-full bg-[#0f1623] border-l border-[#1e2d45] flex flex-col shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="px-5 py-3 border-b border-[#1e2d45] flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="w-7 h-7 rounded-lg bg-fuchsia-600/30 border border-fuchsia-500/40 flex items-center justify-center text-sm">🤖</span>
+                <div>
+                  <div className="text-sm font-semibold">Assistente</div>
+                  <div className="text-[10px] text-slate-500">Esc fecha · Ctrl/⌘ K abre · o que ele criar aparece na hora na lista e na matriz</div>
+                </div>
+              </div>
+              <button onClick={() => setChatOpen(false)} className="text-slate-400 hover:text-white px-2">✕</button>
+            </div>
+
+            <div className="px-5 py-4 space-y-4 flex-1 overflow-y-auto">
+              {history.length === 0 && !sending && (
+                <div className="text-slate-500 text-sm py-6 space-y-3">
+                  <p className="text-slate-300">Oi, {firstName}. Exemplos do que dá pra fazer:</p>
+                  <div className="grid sm:grid-cols-2 gap-2">
+                    {[
+                      "O que tenho pra hoje?",
+                      "Anota: ideia de reels pro cliente Padaria sobre promoção de sexta",
+                      "Me lembra amanhã às 9h de cobrar a aprovação da arte da Ótica",
+                      "Abre chamado pra Clínica Sorriso: revisar banner do site, quinta 15h",
+                      "Cria uma tarefa no projeto Site da Padaria: enviar wireframe, sexta",
+                      "Como está o cliente Ótica Visão?",
+                    ].map((ex) => (
+                      <button key={ex} onClick={() => send(ex)} className="text-left text-xs px-3 py-2 rounded-lg bg-[#131c2c] border border-[#1e2d45] text-slate-300 hover:border-fuchsia-500/40 hover:text-white transition-colors">{ex}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {history.map((m, i) => (
+                <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                  {m.role === "assistant" && <div className="w-6 h-6 rounded-full bg-fuchsia-600/30 border border-fuchsia-500/40 flex items-center justify-center text-xs mr-2 flex-shrink-0 mt-1">🤖</div>}
+                  <div className={`max-w-[85%] space-y-2`}>
+                    <div className={`rounded-xl px-4 py-3 text-sm ${m.role === "user" ? "bg-indigo-600 text-white rounded-tr-sm" : "bg-[#162033] border border-[#1e2d45] text-slate-200 rounded-tl-sm"}`}>
+                      {m.transcribed && <div className="text-[10px] text-indigo-200/80 mb-1">🎙️ transcrito do áudio</div>}
+                      <RichText text={m.content} />
+                    </div>
+                    {m.actions && m.actions.length > 0 && (
+                      <div className="space-y-1">
+                        {m.actions.map((a, j) => (
+                          <div key={j} className={`flex items-center gap-2 text-xs px-3 py-2 rounded-lg border ${a.ok ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-200" : "bg-red-500/10 border-red-500/25 text-red-200"}`}>
+                            <span>{a.ok ? "✅" : "❌"}</span>
+                            <span className="flex-1 truncate">{a.message}</span>
+                            {a.link && <a href={a.link.replace(/^https?:\/\/[^/]+/, "")} className="px-2 py-0.5 rounded bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white">Abrir</a>}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {pending && (
+                <div className="ml-8 px-4 py-3 rounded-xl border border-amber-500/40 bg-amber-500/10 space-y-2">
+                  <div className="text-xs font-semibold text-amber-200">Confirmação necessária</div>
+                  <div className="text-sm text-amber-100">{pending.summary}</div>
+                  <div className="flex gap-2">
+                    <button onClick={() => resolvePending("confirm")} disabled={sending} className="text-xs px-3 py-1.5 rounded-lg bg-amber-500 text-black font-semibold hover:bg-amber-400 disabled:opacity-40">Confirmar</button>
+                    <button onClick={() => resolvePending("cancel")} disabled={sending} className="text-xs px-3 py-1.5 rounded-lg border border-[#1e2d45] text-slate-300 hover:text-white disabled:opacity-40">Cancelar</button>
+                  </div>
+                </div>
+              )}
+              {(sending || transcribing) && (
+                <div className="flex items-center gap-2 text-xs text-slate-500 ml-8">
+                  <span className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full animate-bounce" /><span className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full animate-bounce [animation-delay:150ms]" /><span className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full animate-bounce [animation-delay:300ms]" />
+                  {transcribing ? "transcrevendo…" : "pensando…"}
+                </div>
+              )}
+              {chatErr && <p className="text-xs text-red-400 text-center">{chatErr}</p>}
+              <div ref={bottomRef} />
+            </div>
+            <div className="px-4 py-3 border-t border-[#1e2d45] flex items-end gap-2">
+              <button
+                onClick={toggleRecording}
+                disabled={sending || transcribing}
+                title={recording ? "Parar e enviar" : "Gravar áudio"}
+                className={`flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl border transition-colors ${recording ? "bg-red-600 border-red-500 text-white animate-pulse" : "bg-[#161f30] border-[#1e2d45] text-slate-300 hover:text-white hover:border-fuchsia-500/50"} disabled:opacity-40`}
+              >
+                {recording ? "■" : "🎙️"}
+              </button>
+              <textarea
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input); } }}
+                rows={1}
+                placeholder={recording ? "Gravando… clique em ■ pra enviar" : "Escreva ou grave: \"me lembra…\", \"abre chamado…\", \"anota…\", \"o que tenho hoje?\""}
+                className="flex-1 bg-[#0a1120] border border-[#1e2d45] rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-600 resize-none focus:outline-none focus:border-fuchsia-500/50"
+                style={{ minHeight: 40, maxHeight: 120 }}
+              />
+              <button onClick={() => send(input)} disabled={sending || !input.trim()} className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-fuchsia-600 hover:bg-fuchsia-500 disabled:opacity-40 text-white">➤</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Acesso flutuante (quando a barra do topo sai da tela) */}
+      {!chatOpen && (
+        <button onClick={() => setChatOpen(true)} title="Assistente (Ctrl/⌘ K)" className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-2xl bg-fuchsia-600 hover:bg-fuchsia-500 text-2xl shadow-xl shadow-fuchsia-900/40 flex items-center justify-center">
+          🤖{pending && <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-amber-400 border-2 border-[#080b12]" />}
+        </button>
+      )}
+    </div>
+  );
+}
+
+/* ── Matriz de Eisenhower (visão) ─────────────────────────────────────────── */
+type MatrixSrc = "meu" | "rotinas" | "tudo";
+const MATRIX_ORDER: Quadrant[] = ["fazer", "agendar", "delegar", "eliminar"]; // linhas: importante/não · colunas: urgente/não
+
+function EisenhowerMatrix({ notes, src, onSrc, onOpen, onMove, onQuick, onFilter, activeFilter }: {
+  notes: Note[]; src: MatrixSrc; onSrc: (s: MatrixSrc) => void;
+  onOpen: (n: Note) => void; onMove: (id: string, q: Quadrant) => void;
+  onQuick: (id: string, op: QuickOp) => void; onFilter: (q: Quadrant) => void; activeFilter: Quadrant | null;
+}) {
+  const [over, setOver] = useState<Quadrant | null>(null);
+  const [now] = useState(() => Date.now());
+  const byQuad = (q: Quadrant) => notes
+    .filter((n) => quadrantOf(n) === q)
+    .sort((a, b) => (a.dueAt ? new Date(a.dueAt).getTime() : Infinity) - (b.dueAt ? new Date(b.dueAt).getTime() : Infinity));
+
+  return (
+    <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-3 space-y-2">
+      <div className="flex items-center justify-between gap-2">
+        <div>
+          <h3 className="text-sm font-semibold">Matriz de Eisenhower</h3>
+          <p className="text-[10px] text-slate-500">Arraste um item pra outro quadrante · clique pra abrir na lista</p>
+        </div>
+        <div className="flex items-center gap-0.5 bg-[#131c2c] border border-[#1e2d45] rounded-lg p-0.5">
+          {([["meu", "Bloquinho"], ["rotinas", "Entrada"], ["tudo", "Tudo"]] as [MatrixSrc, string][]).map(([k, label]) => (
+            <button key={k} onClick={() => onSrc(k)} className={`text-[10px] px-2 py-1 rounded-md ${src === k ? "bg-fuchsia-600/25 text-white" : "text-slate-400 hover:text-white"}`}>{label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-[18px_1fr_1fr] gap-2">
+        <div />
+        <div className="text-[10px] uppercase tracking-wider text-slate-500 text-center">Urgente</div>
+        <div className="text-[10px] uppercase tracking-wider text-slate-500 text-center">Não urgente</div>
+        {MATRIX_ORDER.map((q, i) => {
+          const items = byQuad(q);
+          return [
+            i % 2 === 0 && (
+              <div key={`${q}-axis`} className="flex items-center justify-center">
+                <span className="text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap [writing-mode:vertical-rl] rotate-180">{i === 0 ? "Importante" : "Não importante"}</span>
+              </div>
+            ),
+            <div
+              key={q}
+              onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; if (over !== q) setOver(q); }}
+              onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setOver((o) => (o === q ? null : o)); }}
+              onDrop={(e) => { e.preventDefault(); setOver(null); const id = e.dataTransfer.getData("text/plain"); if (id) onMove(id, q); }}
+              className={`rounded-xl border p-2 flex flex-col min-h-[220px] transition-colors ${QUAD[q].cls.replace(/text-[^ ]+/, "")} ${over === q ? "ring-2 ring-fuchsia-400/60" : ""}`}
+            >
+              <button onClick={() => onFilter(q)} title="Filtrar a lista por este quadrante" className={`flex items-center justify-between gap-2 mb-1.5 text-left ${activeFilter === q ? "underline underline-offset-4" : ""}`}>
+                <span className="text-xs font-semibold text-white">{QUAD[q].icon} {QUAD[q].label} <span className="text-[10px] text-slate-400 font-normal hidden xl:inline">· {QUAD[q].hint}</span></span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-black/25 text-slate-200 tabular-nums">{items.length}</span>
+              </button>
+              <div className="space-y-1 overflow-y-auto max-h-[300px] pr-0.5 flex-1">
+                {items.length === 0 && <div className="text-[10px] text-slate-500 px-1 py-2">{over === q ? "Solte aqui" : "—"}</div>}
+                {items.map((n) => {
+                  const late = !!n.dueAt && new Date(n.dueAt).getTime() < now;
+                  return (
+                    <div
+                      key={n.id}
+                      draggable
+                      onDragStart={(e) => { e.dataTransfer.setData("text/plain", n.id); e.dataTransfer.effectAllowed = "move"; }}
+                      className="group flex items-start gap-1.5 px-2 py-1.5 rounded-lg bg-[#0f1623]/80 hover:bg-[#182234] border border-transparent hover:border-[#253449] cursor-grab active:cursor-grabbing"
+                    >
+                      <span className="text-[11px] leading-none mt-0.5">{KIND_ICON[n.kind] ?? "•"}</span>
+                      <button onClick={() => onOpen(n)} className="flex-1 min-w-0 text-left">
+                        <div className={`text-[11px] leading-snug line-clamp-2 ${late ? "text-red-300" : "text-slate-200"}`}>{n.title}</div>
+                        {(n.dueAt || n.tags?.length) ? <div className="text-[9px] text-slate-500 truncate">{n.dueAt ? `${late ? "⚠️ " : ""}${fmtWhen(n.dueAt)}` : ""}{n.dueAt && n.tags?.length ? " · " : ""}{(n.tags ?? []).slice(0, 2).map((t) => `#${t}`).join(" ")}</div> : null}
+                      </button>
+                      <div className="hidden group-hover:flex items-center gap-0.5 flex-shrink-0">
+                        <button onClick={() => onQuick(n.id, "done")} title="Feito" className="text-[10px] px-1 py-0.5 rounded bg-emerald-600/30 text-emerald-200 hover:bg-emerald-600/50">✓</button>
+                        {q === "eliminar" && <button onClick={() => onQuick(n.id, "archive")} title="Arquivar" className="text-[10px] px-1 py-0.5 rounded bg-[#1a2535] text-slate-300 hover:text-white">🗄️</button>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>,
+          ];
+        })}
+      </div>
     </div>
   );
 }
