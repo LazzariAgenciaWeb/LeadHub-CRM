@@ -55,13 +55,24 @@ export const resourceName = (n: { id: string; caldavUid: string | null }) => n.c
 export const hrefOf = (n: { id: string; caldavUid: string | null }) => `${COLLECTION}/${encodeURIComponent(resourceName(n))}.ics`;
 export const etagOf = (n: { updatedAt: Date }) => `"${n.updatedAt.getTime().toString(36)}"`;
 
-/** CTag da lista: muda sempre que qualquer item do usuário muda (ou entra/sai). */
-export async function collectionCtag(userId: string): Promise<string> {
+/**
+ * Estado da lista: CTag (muda quando qualquer item muda, entra ou sai) e
+ * sync-token (RFC 6578) — o app Lembretes do iOS 27 só baixa os itens via
+ * REPORT sync-collection. O token carrega o instante da última mudança.
+ */
+export async function collectionState(userId: string): Promise<{ ctag: string; syncToken: string }> {
   const [agg, count] = await Promise.all([
     prisma.assistantNote.aggregate({ where: { userId }, _max: { updatedAt: true } }),
     prisma.assistantNote.count({ where: syncedWhere(userId) }),
   ]);
-  return `"${count}-${(agg._max.updatedAt?.getTime() ?? 0).toString(36)}"`;
+  const ms = agg._max.updatedAt?.getTime() ?? 0;
+  return { ctag: `"${count}-${ms.toString(36)}"`, syncToken: `${SYNC_TOKEN_PREFIX}${ms}-${count}` };
+}
+export const SYNC_TOKEN_PREFIX = "http://gohub.app/ns/sync/";
+/** Instante embutido no sync-token (null = token vazio/desconhecido). */
+export function syncTokenTime(token: string): number | null {
+  const m = token.trim().match(/\/sync\/(\d+)-\d+$/);
+  return m ? Number(m[1]) : null;
 }
 
 /* ── iCalendar ───────────────────────────────────────────────────────────── */
@@ -159,11 +170,13 @@ export function parseVtodo(ics: string): ParsedTodo | null {
 
 export const xmlEscape = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-export function multistatus(responses: { href: string; props: string }[]): string {
+export function multistatus(responses: { href: string; props?: string; gone?: boolean }[], tail = ""): string {
   return `<?xml version="1.0" encoding="utf-8"?>
 <d:multistatus xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:ical="http://apple.com/ns/ical/">
-${responses.map((r) => `<d:response><d:href>${xmlEscape(r.href)}</d:href><d:propstat><d:prop>${r.props}</d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response>`).join("\n")}
-</d:multistatus>`;
+${responses.map((r) => r.gone
+    ? `<d:response><d:href>${xmlEscape(r.href)}</d:href><d:status>HTTP/1.1 404 Not Found</d:status></d:response>`
+    : `<d:response><d:href>${xmlEscape(r.href)}</d:href><d:propstat><d:prop>${r.props ?? ""}</d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response>`).join("\n")}
+${tail}</d:multistatus>`;
 }
 
 /* ── PROPPATCH (propriedades livres que o cliente grava na lista) ────────── */

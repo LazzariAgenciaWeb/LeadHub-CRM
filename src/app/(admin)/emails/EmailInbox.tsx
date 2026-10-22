@@ -8,13 +8,14 @@ import {
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
   Tag as TagIcon, ListChecks, Info, Globe, ChevronDown, ChevronRight, Link2,
   Layers, Eye, EyeOff, Maximize2, PanelLeftClose, PanelLeftOpen, Lock, MessagesSquare,
-  FileText,
+  FileText, Forward,
   type LucideIcon,
 } from "lucide-react";
 import { EMAIL_BUCKETS, bucketOf, type EmailBucket, type EmailBucketFilter } from "@/lib/email-buckets";
 import SignatureEditor from "./SignatureEditor";
 import RecipientInput from "./RecipientInput";
 import { analyzeAttachment, analyzeLinks, type EmailLink } from "@/lib/email-threat-scan";
+import { guessContentType } from "@/lib/email-attachment-type";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
 // Seleção da coluna esquerda: pastas reais + pseudo-pastas "Todos" (busca
@@ -281,6 +282,13 @@ export default function EmailInbox() {
   const [composeAtts, setComposeAtts] = useState<{ filename: string; contentType: string; contentBase64: string; size: number }[]>([]);
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
+  // Encaminhar: anexos do email original oferecidos e os que vão junto.
+  // O arquivo não é baixado pelo navegador — o servidor busca no IMAP.
+  const [fwdAtts, setFwdAtts] = useState<EmailAttachment[]>([]);
+  const [fwdPicked, setFwdPicked] = useState<string[]>([]);
+  const [fwdRelated, setFwdRelated] = useState(0);
+  const [fwdLoading, setFwdLoading] = useState(false);
+  const [fwdMode, setFwdMode] = useState(false);
 
   // Rascunhos: o compositor salva sozinho enquanto você escreve.
   const [drafts, setDrafts] = useState<Draft[]>([]);
@@ -626,6 +634,10 @@ export default function EmailInbox() {
     setShowCcBcc(!!(d.ccEmail || d.bccEmail));
     setAiInstructions("");
     setComposeAtts([]);
+    setFwdAtts([]);
+    setFwdPicked([]);
+    setFwdRelated(0);
+    setFwdMode(false);
     setSendErr("");
     setComposeOpen(true);
   }
@@ -641,6 +653,10 @@ export default function EmailInbox() {
     setShowCcBcc(false);
     setAiInstructions("");
     setComposeAtts([]);
+    setFwdAtts([]);
+    setFwdPicked([]);
+    setFwdRelated(0);
+    setFwdMode(false);
     setSendErr("");
     setComposeOpen(true);
   }
@@ -659,7 +675,15 @@ export default function EmailInbox() {
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
-      next.push({ filename: file.name, contentType: file.type || "application/octet-stream", contentBase64, size: file.size });
+      // Tipo genérico (navegador que não informou) vira o tipo real pela
+      // extensão — anexo marcado como octet-stream não abre em parte dos
+      // clientes de email.
+      next.push({
+        filename: file.name,
+        contentType: guessContentType(file.name, file.type),
+        contentBase64,
+        size: file.size,
+      });
     }
     setComposeAtts(next);
   }
@@ -678,8 +702,59 @@ export default function EmailInbox() {
     setShowCcBcc(false);
     setAiInstructions("");
     setComposeAtts([]);
+    setFwdAtts([]);
+    setFwdPicked([]);
+    setFwdRelated(0);
+    setFwdMode(false);
     setSendErr("");
     setComposeOpen(true);
+  }
+
+  // Encaminhar: o corpo (original + mensagens ligadas) é montado no servidor,
+  // que sabe converter HTML em texto e enxerga a conversa inteira.
+  async function startForward(email: EmailFull) {
+    setFwdLoading(true);
+    try {
+      const res = await fetch(`/api/email/inbox/${email.id}/forward`);
+      const j = await res.json();
+      if (!res.ok) {
+        setNotice(j.error || "Não foi possível preparar o encaminhamento");
+        setTimeout(() => setNotice(""), 6000);
+        return;
+      }
+      const accountId = email.accountId ?? accounts.find((a) => a.active)?.id ?? "";
+      const c = {
+        to: "", cc: "", bcc: "",
+        subject: j.subject as string,
+        text: j.text as string,
+        // Mantém o encaminhamento na mesma conversa (e herda lead/chamado do
+        // original): quando a pessoa responder "está pronto", a resposta cai
+        // nesse mesmo fio.
+        replyToId: email.id as string | null,
+        accountId,
+      };
+      setCompose(c);
+      composeInit.current = composeKey(c);
+      draftIdRef.current = null;
+      setDraftId(null);
+      setDraftSavedAt(null);
+      setShowCcBcc(false);
+      setAiInstructions("");
+      setComposeAtts([]);
+    setFwdAtts([]);
+    setFwdPicked([]);
+    setFwdRelated(0);
+    setFwdMode(false);
+      // Anexos do original vêm marcados: encaminhar sem o anexo é o caso raro.
+      setFwdAtts(j.attachments ?? []);
+      setFwdPicked((j.attachments ?? []).slice(0, 5).map((a: EmailAttachment) => a.id));
+      setFwdRelated(j.related ?? 0);
+      setFwdMode(true);
+      setSendErr("");
+      setComposeOpen(true);
+    } finally {
+      setFwdLoading(false);
+    }
   }
 
   async function aiWrite() {
@@ -719,7 +794,10 @@ export default function EmailInbox() {
         body: JSON.stringify({
           ...compose,
           accountId: compose.accountId || null,
-          attachments: composeAtts.map(({ filename, contentType, contentBase64 }) => ({ filename, contentType, contentBase64 })),
+          // `size` vai junto: a rota compara com o que decodificou e recusa
+          // anexo que chegou cortado (era isso que virava "anexo não abre").
+          attachments: composeAtts.map(({ filename, contentType, contentBase64, size }) => ({ filename, contentType, contentBase64, size })),
+          forwardAttachmentIds: fwdPicked,
         }),
       });
       const j = await res.json();
@@ -1753,6 +1831,11 @@ export default function EmailInbox() {
                       className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Maximize2 size={14} /></button>
                     <button onClick={() => startReply(selected)} title="Responder"
                       className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Reply size={14} /></button>
+                    <button onClick={() => startForward(selected)} disabled={fwdLoading}
+                      title="Encaminhar — vai com os anexos e com as outras mensagens ligadas a este assunto"
+                      className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5 disabled:opacity-40">
+                      <Forward size={14} />
+                    </button>
                     <button onClick={toggleSeen} title={selected.seen ? "Marcar como não lido" : "Marcar como lido"}
                       className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5">
                       {selected.seen ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -2039,6 +2122,10 @@ export default function EmailInbox() {
                   className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5">
                   <Reply size={13} /> Responder
                 </button>
+                <button onClick={() => { setReaderExpanded(false); startForward(selected); }} disabled={fwdLoading}
+                  className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5 disabled:opacity-40">
+                  <Forward size={13} /> Encaminhar
+                </button>
                 <button onClick={() => setReaderExpanded(false)} className="text-slate-400 hover:text-white p-1.5"><X size={18} /></button>
               </div>
             </div>
@@ -2059,7 +2146,7 @@ export default function EmailInbox() {
           <div className="w-full max-w-lg rounded-xl border border-white/10 bg-[#0f1623] p-4" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white text-sm font-semibold flex items-center gap-2">
-                {compose.replyToId ? "Responder" : "Novo email"}
+                {fwdMode ? "Encaminhar" : compose.replyToId ? "Responder" : "Novo email"}
                 {draftId && (
                   <span className="text-[10px] font-normal px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300">rascunho</span>
                 )}
@@ -2125,6 +2212,33 @@ export default function EmailInbox() {
               <textarea value={compose.text} onChange={(e) => setCompose((c) => ({ ...c, text: e.target.value }))}
                 placeholder="Mensagem… (a assinatura da conta entra sozinha no final)" rows={8}
                 className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-y" />
+              {/* Anexos do email encaminhado: o servidor busca no IMAP na hora
+                  do envio — o navegador não baixa nem reenvia nada. */}
+              {fwdAtts.length > 0 && (
+                <div className="rounded-lg border border-white/10 bg-white/5 p-2 space-y-1.5">
+                  <p className="text-[10px] text-slate-500">
+                    Anexos do email original {fwdRelated > 0 && `· a conversa (${fwdRelated} mensagem${fwdRelated > 1 ? "s" : ""} ligada${fwdRelated > 1 ? "s" : ""}) já está no corpo`}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {fwdAtts.map((a) => {
+                      const on = fwdPicked.includes(a.id);
+                      return (
+                        <button key={a.id}
+                          onClick={() => setFwdPicked((prev) => prev.includes(a.id)
+                            ? prev.filter((x) => x !== a.id)
+                            : prev.length >= 5 ? prev : [...prev, a.id])}
+                          title={on ? "Vai junto — clique pra não enviar" : "Clique pra enviar este anexo também"}
+                          className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] ${
+                            on ? "border-indigo-500/40 bg-indigo-500/15 text-indigo-100" : "border-white/10 text-slate-400 hover:bg-white/5"}`}>
+                          {on ? <Check size={10} /> : <Plus size={10} />}
+                          <span className="truncate max-w-[150px]">{a.filename}</span>
+                          <span className="text-slate-500">({fmtSize(a.size)})</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               <div className="flex flex-wrap items-center gap-1.5">
                 <label className="flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1 text-[11px] text-slate-300 hover:bg-white/5 cursor-pointer">
                   📎 Anexar

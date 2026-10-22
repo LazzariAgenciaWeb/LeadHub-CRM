@@ -3,7 +3,8 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
-import { sendInboxEmail } from "@/lib/imap-inbox";
+import { sendInboxEmail, downloadEmailAttachment } from "@/lib/imap-inbox";
+import { guessContentType } from "@/lib/email-attachment-type";
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
@@ -60,15 +61,69 @@ export async function POST(req: NextRequest) {
   const rawAtts = Array.isArray(body?.attachments) ? body.attachments : [];
   if (rawAtts.length > 5) return NextResponse.json({ error: "Máximo de 5 anexos por email" }, { status: 400 });
   let totalBytes = 0;
-  const attachments = rawAtts.map((a: any) => {
+  const attachments: { filename: string; contentType: string; contentBase64: string }[] = [];
+  for (const a of rawAtts) {
     const contentBase64 = String(a?.contentBase64 ?? "");
-    totalBytes += Math.floor(contentBase64.length * 0.75);
-    return {
-      filename: String(a?.filename ?? "anexo").slice(0, 200),
-      contentType: String(a?.contentType ?? "application/octet-stream"),
+    if (!contentBase64) continue;
+    const filename = String(a?.filename ?? "anexo").slice(0, 200);
+    // Integridade: base64 cortado no caminho (limite de proxy, conexão que
+    // caiu no meio do upload) é decodificado em SILÊNCIO por Buffer.from —
+    // o anexo chega "inteiro" aos olhos do servidor e não abre no cliente.
+    // Com o tamanho declarado pelo navegador, isso vira erro na hora.
+    const bytes = Buffer.from(contentBase64, "base64");
+    const declarado = Number(a?.size ?? 0);
+    if (declarado > 0 && Math.abs(bytes.length - declarado) > 2) {
+      return NextResponse.json(
+        { error: `O anexo "${filename}" chegou incompleto (${bytes.length} de ${declarado} bytes). Tente anexar de novo.` },
+        { status: 400 },
+      );
+    }
+    totalBytes += bytes.length;
+    attachments.push({
+      filename,
+      // Tipo genérico vira o tipo real pela extensão: Outlook e alguns
+      // webmails não abrem anexo marcado como octet-stream.
+      contentType: guessContentType(filename, a?.contentType),
       contentBase64,
-    };
-  }).filter((a: any) => a.contentBase64);
+    });
+  }
+
+  // Anexos do email ENCAMINHADO: o arquivo não está no LeadHub, vive no
+  // servidor IMAP. Buscamos aqui pra não obrigar o navegador a baixar e
+  // reenviar o que ele já tem do outro lado.
+  const fwdIds: string[] = Array.isArray(body?.forwardAttachmentIds)
+    ? body.forwardAttachmentIds.map(String).slice(0, 5)
+    : [];
+  if (fwdIds.length) {
+    if (attachments.length + fwdIds.length > 5) {
+      return NextResponse.json({ error: "Máximo de 5 anexos por email" }, { status: 400 });
+    }
+    for (const attId of fwdIds) {
+      const att = await prisma.inboxEmailAttachment.findFirst({
+        where: { id: attId, email: { companyId } },
+        select: { id: true, filename: true, email: { select: { accountId: true } } },
+      });
+      if (!att) return NextResponse.json({ error: "Anexo do original não encontrado" }, { status: 404 });
+      // Mesma restrição de setor do download direto.
+      if (allowed && (!att.email.accountId || !allowed.includes(att.email.accountId))) {
+        return NextResponse.json({ error: "Anexo do original não encontrado" }, { status: 404 });
+      }
+      const file = await downloadEmailAttachment(companyId, attId);
+      if (!file) {
+        return NextResponse.json(
+          { error: `Não foi possível buscar o anexo "${att.filename}" no servidor de email. Desmarque-o pra encaminhar sem ele.` },
+          { status: 400 },
+        );
+      }
+      totalBytes += file.buffer.length;
+      attachments.push({
+        filename: file.filename,
+        contentType: guessContentType(file.filename, file.contentType),
+        contentBase64: file.buffer.toString("base64"),
+      });
+    }
+  }
+
   if (totalBytes > 8 * 1024 * 1024) {
     return NextResponse.json({ error: "Anexos passam de 8MB no total" }, { status: 400 });
   }

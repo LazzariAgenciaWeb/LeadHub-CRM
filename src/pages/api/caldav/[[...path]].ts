@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/lib/prisma";
 import { logNoteEvent } from "@/lib/personal-assistant/note-events";
 import {
-  CALDAV_BASE, COLLECTION, NOTE_SELECT, authenticateCaldav, collectionCtag, etagOf, hrefOf, multistatus,
+  CALDAV_BASE, COLLECTION, NOTE_SELECT, authenticateCaldav, collectionState, etagOf, syncTokenTime, hrefOf, multistatus,
   noteToIcs, parsePropPatch, parseVtodo, propPatchResponse, syncedWhere, xmlEscape, type SyncNote,
 } from "@/lib/personal-assistant/caldav";
 
@@ -36,7 +36,7 @@ function send(res: NextApiResponse, status: number, body = "", type = "applicati
 
 const PRIVS = "<d:current-user-privilege-set>" + ["read", "write", "write-content", "write-properties", "bind", "unbind", "read-current-user-privilege-set", "all"].map((p) => `<d:privilege><d:${p}/></d:privilege>`).join("") + "</d:current-user-privilege-set>";
 
-function collectionProps(ctag: string, stored: Record<string, string> = {}) {
+function collectionProps({ ctag, syncToken }: { ctag: string; syncToken: string }, stored: Record<string, string> = {}) {
   // O que o cliente gravou (cor, ordem, nome) tem precedência sobre o padrão.
   const mine = (key: string, xml: string) => (stored[key] ? "" : xml);
   return [
@@ -46,10 +46,11 @@ function collectionProps(ctag: string, stored: Record<string, string> = {}) {
     '<c:supported-calendar-component-set><c:comp name="VTODO"/></c:supported-calendar-component-set>',
     `<cs:getctag>${xmlEscape(ctag)}</cs:getctag>`,
     `<d:getetag>${xmlEscape(ctag)}</d:getetag>`,
+    `<d:sync-token>${xmlEscape(syncToken)}</d:sync-token>`,
     mine("{http://apple.com/ns/ical/}calendar-color", "<ical:calendar-color>#C026D3FF</ical:calendar-color>"),
     `<d:owner><d:href>${PRINCIPAL}</d:href></d:owner>`,
     `<d:current-user-principal><d:href>${PRINCIPAL}</d:href></d:current-user-principal>`,
-    "<d:supported-report-set><d:supported-report><d:report><c:calendar-multiget/></d:report></d:supported-report><d:supported-report><d:report><c:calendar-query/></d:report></d:supported-report></d:supported-report-set>",
+    "<d:supported-report-set><d:supported-report><d:report><c:calendar-multiget/></d:report></d:supported-report><d:supported-report><d:report><c:calendar-query/></d:report></d:supported-report><d:supported-report><d:report><d:sync-collection/></d:report></d:supported-report></d:supported-report-set>",
     PRIVS,
   ].join("");
 }
@@ -96,7 +97,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const loadStored = async () => ((await prisma.user.findUnique({ where: { id: userId }, select: { caldavProps: true } }))?.caldavProps ?? {}) as Record<string, string>;
   const body = ["PROPFIND", "REPORT", "PUT", "PROPPATCH"].includes(method) ? await readBody(req) : "";
   (res as unknown as { _davBody?: string })._davBody = body.slice(0, 600);
-  if (body && method !== "PUT") console.log(`[caldav-body] ${method} ${req.url} ${body.replace(/\s+/g, " ").slice(0, 1500)}`);
+  if (body && method !== "PUT") console.log(`[caldav-body] ${method} ${req.url} ${body.replace(/\s+/g, " ").slice(0, 4000)}`);
   const depth = String(req.headers.depth ?? "0");
 
   // ── raiz / principal / home ───────────────────────────────────────────────
@@ -108,7 +109,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return send(res, 207, multistatus([{ href: PRINCIPAL, props: `<d:resourcetype><d:principal/></d:resourcetype><d:displayname>GoHub</d:displayname>${common}<c:calendar-user-address-set><d:href>mailto:${xmlEscape(auth.email)}</d:href></c:calendar-user-address-set>` }]));
     }
     const out = [{ href: HOME, props: `<d:resourcetype><d:collection/></d:resourcetype>${common}${PRIVS}` }];
-    if (depth !== "0") out.push({ href: COLLECTION, props: collectionProps(await collectionCtag(userId), await loadStored()) });
+    if (depth !== "0") out.push({ href: COLLECTION, props: collectionProps(await collectionState(userId), await loadStored()) });
     return send(res, 207, multistatus(out));
   }
 
@@ -126,7 +127,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return send(res, 207, propPatchResponse(COLLECTION, patched));
     }
     if (method === "PROPFIND") {
-      const out = [{ href: COLLECTION, props: collectionProps(await collectionCtag(userId), await loadStored()) }];
+      const out = [{ href: COLLECTION, props: collectionProps(await collectionState(userId), await loadStored()) }];
       if (depth !== "0") {
         const notes = await prisma.assistantNote.findMany({ where: syncedWhere(userId), select: NOTE_SELECT, take: 500 });
         for (const n of notes) out.push({ href: hrefOf(n), props: itemProps(n, false) });
@@ -135,6 +136,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     if (method === "REPORT") {
       let notes: SyncNote[];
+      const wantsData = /calendar-data/i.test(body);
+      if (/sync-collection/i.test(body)) {
+        // RFC 6578: com token → só o que mudou desde então (+ o que saiu da lista como 404); sem token → tudo.
+        const given = body.match(/<(?:[\w-]+:)?sync-token>([^<]*)<\/(?:[\w-]+:)?sync-token>/i)?.[1]?.trim() ?? "";
+        const since = given ? syncTokenTime(given) : null;
+        if (given && since === null) {
+          return send(res, 403, '<?xml version="1.0" encoding="utf-8"?><d:error xmlns:d="DAV:"><d:valid-sync-token/></d:error>');
+        }
+        const state = await collectionState(userId);
+        const current = await prisma.assistantNote.findMany({
+          where: { ...syncedWhere(userId), ...(since !== null ? { updatedAt: { gt: new Date(since) } } : {}) },
+          select: NOTE_SELECT, take: 500,
+        });
+        const out: { href: string; props?: string; gone?: boolean }[] = current.map((n) => ({ href: hrefOf(n), props: itemProps(n, wantsData) }));
+        if (since !== null) {
+          const keep = new Set(current.map((n) => n.id));
+          const left = await prisma.assistantNote.findMany({ where: { userId, updatedAt: { gt: new Date(since) } }, select: { id: true, caldavUid: true }, take: 500 });
+          for (const n of left) if (!keep.has(n.id)) out.push({ href: hrefOf(n), gone: true });
+        }
+        return send(res, 207, multistatus(out, `<d:sync-token>${xmlEscape(state.syncToken)}</d:sync-token>\n`));
+      }
       if (/calendar-multiget/i.test(body)) {
         const names = [...body.matchAll(/<(?:[\w-]+:)?href>([^<]+)<\/(?:[\w-]+:)?href>/gi)]
           .map((m) => decodeURIComponent(m[1].trim().split("/").pop() ?? "").replace(/\.ics$/i, "")).filter(Boolean);
