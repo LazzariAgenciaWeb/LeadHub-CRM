@@ -49,7 +49,6 @@ function collectionProps({ ctag, syncToken }: { ctag: string; syncToken: string 
     mine("{DAV:}displayname", "<d:displayname>GoHub</d:displayname>"),
     '<c:supported-calendar-component-set><c:comp name="VTODO"/></c:supported-calendar-component-set>',
     `<cs:getctag>${xmlEscape(ctag)}</cs:getctag>`,
-    `<d:getetag>${xmlEscape(ctag)}</d:getetag>`,
     `<d:sync-token>${xmlEscape(syncToken)}</d:sync-token>`,
     mine("{http://apple.com/ns/ical/}calendar-color", "<ical:calendar-color>#C026D3FF</ical:calendar-color>"),
     `<d:owner><d:href>${PRINCIPAL}</d:href></d:owner>`,
