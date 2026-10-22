@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { logNoteEvent } from "@/lib/personal-assistant/note-events";
 import {
   CALDAV_BASE, COLLECTION, NOTE_SELECT, authenticateCaldav, collectionCtag, etagOf, hrefOf, multistatus,
-  noteToIcs, parseVtodo, syncedWhere, xmlEscape, type SyncNote,
+  noteToIcs, parsePropPatch, parseVtodo, propPatchResponse, syncedWhere, xmlEscape, type SyncNote,
 } from "@/lib/personal-assistant/caldav";
 
 /**
@@ -36,14 +36,17 @@ function send(res: NextApiResponse, status: number, body = "", type = "applicati
 
 const PRIVS = "<d:current-user-privilege-set>" + ["read", "write", "write-content", "write-properties", "bind", "unbind", "read-current-user-privilege-set", "all"].map((p) => `<d:privilege><d:${p}/></d:privilege>`).join("") + "</d:current-user-privilege-set>";
 
-function collectionProps(ctag: string) {
+function collectionProps(ctag: string, stored: Record<string, string> = {}) {
+  // O que o cliente gravou (cor, ordem, nome) tem precedência sobre o padrão.
+  const mine = (key: string, xml: string) => (stored[key] ? "" : xml);
   return [
+    ...Object.values(stored),
     "<d:resourcetype><d:collection/><c:calendar/></d:resourcetype>",
-    "<d:displayname>GoHub</d:displayname>",
+    mine("{DAV:}displayname", "<d:displayname>GoHub</d:displayname>"),
     '<c:supported-calendar-component-set><c:comp name="VTODO"/></c:supported-calendar-component-set>',
     `<cs:getctag>${xmlEscape(ctag)}</cs:getctag>`,
     `<d:getetag>${xmlEscape(ctag)}</d:getetag>`,
-    "<ical:calendar-color>#C026D3FF</ical:calendar-color>",
+    mine("{http://apple.com/ns/ical/}calendar-color", "<ical:calendar-color>#C026D3FF</ical:calendar-color>"),
     `<d:owner><d:href>${PRINCIPAL}</d:href></d:owner>`,
     `<d:current-user-principal><d:href>${PRINCIPAL}</d:href></d:current-user-principal>`,
     "<d:supported-report-set><d:supported-report><d:report><c:calendar-multiget/></d:report></d:supported-report><d:supported-report><d:report><c:calendar-query/></d:report></d:supported-report></d:supported-report-set>",
@@ -90,6 +93,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return send(res, 401, "Autenticação necessária", "text/plain; charset=utf-8");
   }
   const { userId } = auth;
+  const loadStored = async () => ((await prisma.user.findUnique({ where: { id: userId }, select: { caldavProps: true } }))?.caldavProps ?? {}) as Record<string, string>;
   const body = ["PROPFIND", "REPORT", "PUT", "PROPPATCH"].includes(method) ? await readBody(req) : "";
   (res as unknown as { _davBody?: string })._davBody = body.slice(0, 600);
   const depth = String(req.headers.depth ?? "0");
@@ -103,7 +107,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return send(res, 207, multistatus([{ href: PRINCIPAL, props: `<d:resourcetype><d:principal/></d:resourcetype><d:displayname>GoHub</d:displayname>${common}<c:calendar-user-address-set><d:href>mailto:${xmlEscape(auth.email)}</d:href></c:calendar-user-address-set>` }]));
     }
     const out = [{ href: HOME, props: `<d:resourcetype><d:collection/></d:resourcetype>${common}${PRIVS}` }];
-    if (depth !== "0") out.push({ href: COLLECTION, props: collectionProps(await collectionCtag(userId)) });
+    if (depth !== "0") out.push({ href: COLLECTION, props: collectionProps(await collectionCtag(userId), await loadStored()) });
     return send(res, 207, multistatus(out));
   }
 
@@ -111,9 +115,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // ── a lista ───────────────────────────────────────────────────────────────
   if (parts.length === 2) {
-    if (method === "PROPPATCH") return send(res, 207, multistatus([{ href: COLLECTION, props: "" }])); // cor/ordem: aceita e ignora
+    if (method === "PROPPATCH") {
+      // Cor/ordem/nome da lista: guarda e confirma cada propriedade (sem isso o iOS repete e não sincroniza).
+      const patched = parsePropPatch(body);
+      const stored = await loadStored();
+      for (const p of patched) { if (p.xml) stored[p.key] = p.xml; else delete stored[p.key]; }
+      await prisma.user.update({ where: { id: userId }, data: { caldavProps: stored } });
+      console.log(`[caldav] PROPPATCH props: ${patched.map((p) => p.key).join(", ") || "(nenhuma)"}`);
+      return send(res, 207, propPatchResponse(COLLECTION, patched));
+    }
     if (method === "PROPFIND") {
-      const out = [{ href: COLLECTION, props: collectionProps(await collectionCtag(userId)) }];
+      const out = [{ href: COLLECTION, props: collectionProps(await collectionCtag(userId), await loadStored()) }];
       if (depth !== "0") {
         const notes = await prisma.assistantNote.findMany({ where: syncedWhere(userId), select: NOTE_SELECT, take: 500 });
         for (const n of notes) out.push({ href: hrefOf(n), props: itemProps(n, false) });

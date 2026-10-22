@@ -143,6 +143,7 @@ exports.Prisma.UserScalarFieldEnum = {
   assistantInstanceId: 'assistantInstanceId',
   mcpTokenHash: 'mcpTokenHash',
   caldavPasswordHash: 'caldavPasswordHash',
+  caldavProps: 'caldavProps',
   mcpTokenCreatedAt: 'mcpTokenCreatedAt',
   mcpTokenLastUsedAt: 'mcpTokenLastUsedAt'
 };
@@ -2188,12 +2189,12 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -2202,15 +2203,15 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.UserRole = exports.$Enums.UserRole = {
   SUPER_ADMIN: 'SUPER_ADMIN',

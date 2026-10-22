@@ -16124,6 +16124,7 @@ export namespace Prisma {
     assistantInstanceId: number
     mcpTokenHash: number
     caldavPasswordHash: number
+    caldavProps: number
     mcpTokenCreatedAt: number
     mcpTokenLastUsedAt: number
     _all: number
@@ -16199,6 +16200,7 @@ export namespace Prisma {
     assistantInstanceId?: true
     mcpTokenHash?: true
     caldavPasswordHash?: true
+    caldavProps?: true
     mcpTokenCreatedAt?: true
     mcpTokenLastUsedAt?: true
     _all?: true
@@ -16297,6 +16299,7 @@ export namespace Prisma {
     assistantInstanceId: string | null
     mcpTokenHash: string | null
     caldavPasswordHash: string | null
+    caldavProps: JsonValue | null
     mcpTokenCreatedAt: Date | null
     mcpTokenLastUsedAt: Date | null
     _count: UserCountAggregateOutputType | null
@@ -16339,6 +16342,7 @@ export namespace Prisma {
     assistantInstanceId?: boolean
     mcpTokenHash?: boolean
     caldavPasswordHash?: boolean
+    caldavProps?: boolean
     mcpTokenCreatedAt?: boolean
     mcpTokenLastUsedAt?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
@@ -16406,6 +16410,7 @@ export namespace Prisma {
     assistantInstanceId?: boolean
     mcpTokenHash?: boolean
     caldavPasswordHash?: boolean
+    caldavProps?: boolean
     mcpTokenCreatedAt?: boolean
     mcpTokenLastUsedAt?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
@@ -16432,6 +16437,7 @@ export namespace Prisma {
     assistantInstanceId?: boolean
     mcpTokenHash?: boolean
     caldavPasswordHash?: boolean
+    caldavProps?: boolean
     mcpTokenCreatedAt?: boolean
     mcpTokenLastUsedAt?: boolean
   }
@@ -16550,6 +16556,7 @@ export namespace Prisma {
       assistantInstanceId: string | null
       mcpTokenHash: string | null
       caldavPasswordHash: string | null
+      caldavProps: Prisma.JsonValue | null
       mcpTokenCreatedAt: Date | null
       mcpTokenLastUsedAt: Date | null
     }, ExtArgs["result"]["user"]>
@@ -17006,6 +17013,7 @@ export namespace Prisma {
     readonly assistantInstanceId: FieldRef<"User", 'String'>
     readonly mcpTokenHash: FieldRef<"User", 'String'>
     readonly caldavPasswordHash: FieldRef<"User", 'String'>
+    readonly caldavProps: FieldRef<"User", 'Json'>
     readonly mcpTokenCreatedAt: FieldRef<"User", 'DateTime'>
     readonly mcpTokenLastUsedAt: FieldRef<"User", 'DateTime'>
   }
@@ -163811,6 +163819,7 @@ export namespace Prisma {
     assistantInstanceId: 'assistantInstanceId',
     mcpTokenHash: 'mcpTokenHash',
     caldavPasswordHash: 'caldavPasswordHash',
+    caldavProps: 'caldavProps',
     mcpTokenCreatedAt: 'mcpTokenCreatedAt',
     mcpTokenLastUsedAt: 'mcpTokenLastUsedAt'
   };
@@ -166267,19 +166276,19 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const JsonNullValueInput: {
-    JsonNull: typeof JsonNull
-  };
-
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
   export const NullableJsonNullValueInput: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -166290,14 +166299,6 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull,
@@ -166305,6 +166306,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -167179,6 +167188,7 @@ export namespace Prisma {
     assistantInstanceId?: StringNullableFilter<"User"> | string | null
     mcpTokenHash?: StringNullableFilter<"User"> | string | null
     caldavPasswordHash?: StringNullableFilter<"User"> | string | null
+    caldavProps?: JsonNullableFilter<"User">
     mcpTokenCreatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     mcpTokenLastUsedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
@@ -167245,6 +167255,7 @@ export namespace Prisma {
     assistantInstanceId?: SortOrderInput | SortOrder
     mcpTokenHash?: SortOrderInput | SortOrder
     caldavPasswordHash?: SortOrderInput | SortOrder
+    caldavProps?: SortOrderInput | SortOrder
     mcpTokenCreatedAt?: SortOrderInput | SortOrder
     mcpTokenLastUsedAt?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
@@ -167314,6 +167325,7 @@ export namespace Prisma {
     lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     assistantGroupJid?: StringNullableFilter<"User"> | string | null
     assistantInstanceId?: StringNullableFilter<"User"> | string | null
+    caldavProps?: JsonNullableFilter<"User">
     mcpTokenCreatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     mcpTokenLastUsedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
@@ -167380,6 +167392,7 @@ export namespace Prisma {
     assistantInstanceId?: SortOrderInput | SortOrder
     mcpTokenHash?: SortOrderInput | SortOrder
     caldavPasswordHash?: SortOrderInput | SortOrder
+    caldavProps?: SortOrderInput | SortOrder
     mcpTokenCreatedAt?: SortOrderInput | SortOrder
     mcpTokenLastUsedAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -167411,6 +167424,7 @@ export namespace Prisma {
     assistantInstanceId?: StringNullableWithAggregatesFilter<"User"> | string | null
     mcpTokenHash?: StringNullableWithAggregatesFilter<"User"> | string | null
     caldavPasswordHash?: StringNullableWithAggregatesFilter<"User"> | string | null
+    caldavProps?: JsonNullableWithAggregatesFilter<"User">
     mcpTokenCreatedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     mcpTokenLastUsedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
@@ -180636,6 +180650,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -180702,6 +180717,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -180766,6 +180782,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -180832,6 +180849,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -180897,6 +180915,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
   }
@@ -180921,6 +180940,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -180946,6 +180966,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -195796,6 +195817,28 @@ export namespace Prisma {
     notIn?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
     not?: NestedEnumRankingCategoryFilter<$PrismaModel> | $Enums.RankingCategory
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type CompanyNullableRelationFilter = {
     is?: CompanyWhereInput | null
@@ -196158,6 +196201,7 @@ export namespace Prisma {
     assistantInstanceId?: SortOrder
     mcpTokenHash?: SortOrder
     caldavPasswordHash?: SortOrder
+    caldavProps?: SortOrder
     mcpTokenCreatedAt?: SortOrder
     mcpTokenLastUsedAt?: SortOrder
   }
@@ -196300,6 +196344,31 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRankingCategoryFilter<$PrismaModel>
     _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type UserRelationFilter = {
@@ -197845,28 +197914,6 @@ export namespace Prisma {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
-  export type JsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type TrackingLinkNullableRelationFilter = {
     is?: TrackingLinkWhereInput | null
@@ -198091,31 +198138,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type TagCompanyIdNameCompoundUniqueInput = {
@@ -218880,6 +218902,28 @@ export namespace Prisma {
     _min?: NestedEnumRankingCategoryFilter<$PrismaModel>
     _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
   export type NestedJsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -219070,28 +219114,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumCustomFieldTypeFilter<$PrismaModel = never> = {
@@ -223571,6 +223593,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -223636,6 +223659,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -223741,6 +223765,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -223806,6 +223831,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -224005,6 +224031,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -224070,6 +224097,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -224149,6 +224177,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -224214,6 +224243,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -224277,6 +224307,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -224342,6 +224373,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -224421,6 +224453,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -224486,6 +224519,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -224832,6 +224866,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -224897,6 +224932,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -225265,6 +225301,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -225330,6 +225367,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -225393,6 +225431,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -225458,6 +225497,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -225537,6 +225577,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -225602,6 +225643,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -225665,6 +225707,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -225730,6 +225773,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -225809,6 +225853,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -225874,6 +225919,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -225937,6 +225983,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -226002,6 +226049,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -226081,6 +226129,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -226146,6 +226195,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -226780,6 +226830,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
@@ -226844,6 +226895,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -231143,6 +231195,7 @@ export namespace Prisma {
     assistantInstanceId?: StringNullableFilter<"User"> | string | null
     mcpTokenHash?: StringNullableFilter<"User"> | string | null
     caldavPasswordHash?: StringNullableFilter<"User"> | string | null
+    caldavProps?: JsonNullableFilter<"User">
     mcpTokenCreatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     mcpTokenLastUsedAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
@@ -240969,6 +241022,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -241034,6 +241088,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -241102,6 +241157,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -241167,6 +241223,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -241658,6 +241715,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -241723,6 +241781,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -241797,6 +241856,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -241862,6 +241922,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -243020,6 +243081,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -243085,6 +243147,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -243453,6 +243516,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -243518,6 +243582,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -243581,6 +243646,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -243646,6 +243712,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -244294,6 +244361,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -244359,6 +244427,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -245356,6 +245425,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -245421,6 +245491,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -246087,6 +246158,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -246152,6 +246224,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -246875,6 +246948,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -246940,6 +247014,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -247672,6 +247747,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -247737,6 +247813,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -249819,6 +249896,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -249884,6 +249962,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -250235,6 +250314,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -250300,6 +250380,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
@@ -251040,6 +251121,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -251105,6 +251187,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -251468,6 +251551,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -251533,6 +251617,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -255006,6 +255091,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -255071,6 +255157,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -255139,6 +255226,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -255204,6 +255292,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -255533,6 +255622,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -255598,6 +255688,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -255672,6 +255763,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -255737,6 +255829,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -256651,6 +256744,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -256716,6 +256810,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -256864,6 +256959,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -256929,6 +257025,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -257077,6 +257174,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -257142,6 +257240,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -257312,6 +257411,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -257377,6 +257477,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -257877,6 +257978,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -257942,6 +258044,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -258112,6 +258215,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -258177,6 +258281,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -258677,6 +258782,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -258742,6 +258848,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -258900,6 +259007,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -258965,6 +259073,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -279340,6 +279449,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -279405,6 +279515,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -279798,6 +279909,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -279863,6 +279975,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -280252,6 +280365,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -280317,6 +280431,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -280679,6 +280794,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -280744,6 +280860,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -281096,6 +281213,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -281161,6 +281279,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -281523,6 +281642,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -281588,6 +281708,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -281940,6 +282061,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -282005,6 +282127,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -282367,6 +282490,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -282432,6 +282556,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -283356,6 +283481,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -283421,6 +283547,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -283500,6 +283627,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -283565,6 +283693,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -283628,6 +283757,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -283693,6 +283823,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -283772,6 +283903,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -283837,6 +283969,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -285432,6 +285565,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -285497,6 +285631,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -286066,6 +286201,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -286131,6 +286267,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -293259,6 +293396,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -293324,6 +293462,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -293550,6 +293689,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -293615,6 +293755,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -293983,6 +294124,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -294048,6 +294190,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -294258,6 +294401,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -294323,6 +294467,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -301361,6 +301506,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -301426,6 +301572,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -301928,6 +302075,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -301993,6 +302141,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -304322,6 +304471,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -304387,6 +304537,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -304755,6 +304906,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -304820,6 +304972,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -305166,6 +305319,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -305231,6 +305385,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -305599,6 +305754,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -305664,6 +305820,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -306010,6 +306167,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -306075,6 +306233,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -306143,6 +306302,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -306208,6 +306368,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -306576,6 +306737,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -306641,6 +306803,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -306715,6 +306878,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -306780,6 +306944,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -307126,6 +307291,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -307191,6 +307357,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -307259,6 +307426,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -307324,6 +307492,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -307692,6 +307861,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -307757,6 +307927,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -307831,6 +308002,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -307896,6 +308068,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -308242,6 +308415,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -308307,6 +308481,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -308675,6 +308850,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -308740,6 +308916,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -309308,6 +309485,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -309373,6 +309551,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -309987,6 +310166,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -310052,6 +310232,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -310998,6 +311179,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
@@ -311063,6 +311245,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
@@ -311142,6 +311325,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
@@ -311207,6 +311391,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -313852,6 +314037,7 @@ export namespace Prisma {
     assistantInstanceId?: string | null
     mcpTokenHash?: string | null
     caldavPasswordHash?: string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: Date | string | null
     mcpTokenLastUsedAt?: Date | string | null
   }
@@ -315534,6 +315720,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
@@ -315598,6 +315785,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -315662,6 +315850,7 @@ export namespace Prisma {
     assistantInstanceId?: NullableStringFieldUpdateOperationsInput | string | null
     mcpTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     caldavPasswordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    caldavProps?: NullableJsonNullValueInput | InputJsonValue
     mcpTokenCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mcpTokenLastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }

@@ -165,3 +165,50 @@ export function multistatus(responses: { href: string; props: string }[]): strin
 ${responses.map((r) => `<d:response><d:href>${xmlEscape(r.href)}</d:href><d:propstat><d:prop>${r.props}</d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response>`).join("\n")}
 </d:multistatus>`;
 }
+
+/* ── PROPPATCH (propriedades livres que o cliente grava na lista) ────────── */
+
+export interface PatchedProp { key: string; ns: string; name: string; xml: string | null } // xml null = remover
+
+/**
+ * Lê um PROPPATCH: cada propriedade de <set>/<remove> vira {chave "{ns}nome",
+ * XML pronto pra devolver no PROPFIND}. O iOS grava cor/ordem da lista e só
+ * segue pra baixar os lembretes se cada propriedade voltar confirmada.
+ */
+export function parsePropPatch(body: string): PatchedProp[] {
+  const nsMap: Record<string, string> = {};
+  for (const m of body.matchAll(/xmlns(?::([\w-]+))?="([^"]*)"/g)) nsMap[m[1] ?? ""] = m[2];
+  const out: PatchedProp[] = [];
+  for (const block of body.matchAll(/<(?:[\w-]+:)?(set|remove)\b[^>]*>([\s\S]*?)<\/(?:[\w-]+:)?\1>/g)) {
+    const isSet = block[1] === "set";
+    const prop = block[2].match(/<(?:[\w-]+:)?prop\b[^>]*>([\s\S]*)<\/(?:[\w-]+:)?prop>/);
+    if (!prop) continue;
+    const inner = prop[1];
+    // varre os filhos de 1º nível de <prop>
+    const tagRe = /<(\/?)(?:([\w-]+):)?([\w-]+)([^>]*?)(\/?)>/g;
+    let depth = 0, start = -1, cur: { prefix: string; name: string; attrs: string } | null = null;
+    for (let m = tagRe.exec(inner); m; m = tagRe.exec(inner)) {
+      const [whole, closing, prefix = "", name, attrs, selfClose] = m;
+      if (!closing && depth === 0) {
+        cur = { prefix, name, attrs }; start = m.index;
+        if (selfClose) { push(cur, ""); cur = null; continue; }
+        depth = 1; continue;
+      }
+      if (closing) { depth--; if (depth === 0 && cur) { push(cur, inner.slice(start + inner.slice(start).indexOf(">") + 1, m.index)); cur = null; } }
+      else if (!selfClose) depth++;
+      void whole;
+    }
+    function push(c: { prefix: string; name: string; attrs: string }, value: string) {
+      const ns = nsMap[c.prefix] ?? "DAV:";
+      const xml = isSet ? `<${c.name} xmlns="${xmlEscape(ns)}">${value}</${c.name}>` : null;
+      out.push({ key: `{${ns}}${c.name}`, ns, name: c.name, xml });
+    }
+  }
+  return out;
+}
+
+export function propPatchResponse(href: string, props: PatchedProp[]): string {
+  const els = props.map((p) => `<${p.name} xmlns="${xmlEscape(p.ns)}"/>`).join("");
+  return `<?xml version="1.0" encoding="utf-8"?>
+<d:multistatus xmlns:d="DAV:"><d:response><d:href>${xmlEscape(href)}</d:href><d:propstat><d:prop>${els}</d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>`;
+}

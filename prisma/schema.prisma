@@ -99,6 +99,8 @@ model User {
   mcpTokenHash         String?   @unique
   // Senha própria dos Lembretes do iPhone (CalDAV) — só o hash sha256.
   caldavPasswordHash String?  @unique
+  // Propriedades que o iPhone grava na lista (cor, ordem…) — "dead properties" do WebDAV.
+  caldavProps        Json?
   mcpTokenCreatedAt    DateTime?
   mcpTokenLastUsedAt   DateTime?
   assistantNotes       AssistantNote[]
