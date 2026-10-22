@@ -29,7 +29,6 @@ async function readBody(req: NextApiRequest): Promise<string> {
 }
 
 function send(res: NextApiResponse, status: number, body = "", type = "application/xml; charset=utf-8") {
-  if (body && status === 207) console.log(`[caldav-resp] ${status} ${body.replace(/\s+/g, " ").slice(0, 3500)}`);
   res.setHeader("DAV", "1, 2, 3, calendar-access");
   if (body) res.setHeader("Content-Type", type);
   res.status(status).send(body);
@@ -102,7 +101,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const loadStored = async () => ((await prisma.user.findUnique({ where: { id: userId }, select: { caldavProps: true } }))?.caldavProps ?? {}) as Record<string, string>;
   const body = ["PROPFIND", "REPORT", "PUT", "PROPPATCH"].includes(method) ? await readBody(req) : "";
   (res as unknown as { _davBody?: string })._davBody = body.slice(0, 600);
-  if (body && method !== "PUT") console.log(`[caldav-body] ${method} ${req.url} ${body.replace(/\s+/g, " ").slice(0, 4000)}`);
   const depth = String(req.headers.depth ?? "0");
 
   // Só existe a lista "GoHub": criar listas novas é recusado com motivo (403), não 404.
