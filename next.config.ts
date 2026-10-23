@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Não anunciar o framework no header (x-powered-by: Next.js) — só ajuda scanner.
+  poweredByHeader: false,
   // Ferramenta interna: nada deve ser indexado por buscadores.
   // Header vale para TODAS as respostas (páginas, APIs, arquivos, imagens, PDFs).
   // Descoberta CalDAV (Lembretes do iPhone): o iOS procura /.well-known/caldav.
