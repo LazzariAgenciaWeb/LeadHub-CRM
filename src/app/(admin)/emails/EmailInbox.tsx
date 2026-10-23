@@ -45,9 +45,23 @@ type ThreadMsg = {
   fromEmail: string;
   fromName: string | null;
   toEmail: string;
+  subject?: string;
   snippet: string;
   sentAt: string;
+  /** Por que está aqui: conversa, mesmo caso, ou agrupado à mão. */
+  reason?: "THREAD" | "CASE" | "MANUAL";
+  caseId?: string | null;
   _count?: { attachments: number };
+};
+
+/** Etiqueta de cada motivo no painel de relacionados. */
+const REASON_BADGE: Record<string, { label: string; cls: string; title: string }> = {
+  THREAD: { label: "conversa", cls: "bg-indigo-500/20 text-indigo-300",
+    title: "Mesma conversa: resposta ou encaminhamento encadeado" },
+  CASE:   { label: "mesmo assunto", cls: "bg-violet-500/20 text-violet-200",
+    title: "Mesmo remetente e mesmo identificador no assunto (domínio, boleto)" },
+  MANUAL: { label: "agrupado", cls: "bg-amber-500/20 text-amber-200",
+    title: "Você agrupou estes emails à mão" },
 };
 
 type EmailTag = { id: string; name: string; color: string; count?: number };
@@ -300,6 +314,9 @@ export default function EmailInbox() {
   const [fwdMode, setFwdMode] = useState(false);
   // Rastrear abertura do que eu envio. Lembrado no navegador.
   const [trackOpen, setTrackOpen] = useState(true);
+  // Colapsar mensagens do mesmo caso numa linha só. Padrão desligado: a lista
+  // mostra cada email, e o parentesco aparece ao abrir.
+  const [groupCases, setGroupCases] = useState(false);
   // Casos expandidos na lista e o caso do email aberto no leitor.
   const [openCases, setOpenCases] = useState<string[]>([]);
   const [selectedCaseIds, setSelectedCaseIds] = useState<string[]>([]);
@@ -379,6 +396,7 @@ export default function EmailInbox() {
       setSideCollapsed(localStorage.getItem("leadhub.emails.sideCollapsed") === "1");
       const t = localStorage.getItem("leadhub.emails.trackOpen");
       if (t !== null) setTrackOpen(t === "1");
+      setGroupCases(localStorage.getItem("leadhub.emails.groupCases") === "1");
     } catch {}
     setVisibleLoaded(true);
   }, []);
@@ -411,6 +429,7 @@ export default function EmailInbox() {
       if (visibleAccounts.length) params.set("accountIds", visibleAccounts.join(","));
       if (tagFilter) params.set("tagId", tagFilter);
       if (bucketFilter) params.set("bucket", bucketFilter);
+      if (groupCases) params.set("group", "1");
       const res = await fetch(`/api/email/inbox?${params}`).then((r) => r.json());
       setEmails(folder === "DRAFTS" ? [] : res.emails || []);
       setCounts(res.counts || {});
@@ -421,7 +440,7 @@ export default function EmailInbox() {
     } finally {
       if (!opts?.silent) setLoading(false);
     }
-  }, [folder, q, visibleAccounts, tagFilter, bucketFilter]);
+  }, [folder, q, visibleAccounts, tagFilter, bucketFilter, groupCases]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -1491,6 +1510,18 @@ export default function EmailInbox() {
           <span className={`w-1.5 h-1.5 rounded-full ${autoSpam ? "bg-emerald-400" : "bg-slate-600"}`} />
           Limpar Entrada: {autoSpam === null ? "…" : autoSpam ? "ligada" : "desligada"}
         </button>
+        <button onClick={() => setGroupCases((v) => {
+            try { localStorage.setItem("leadhub.emails.groupCases", v ? "0" : "1"); } catch {}
+            return !v;
+          })}
+          title={groupCases
+            ? "Mensagens do mesmo assunto (aviso, lembrete, fatura do mesmo domínio) aparecem numa linha só, com o número das outras. Clique pra listar cada uma."
+            : "Desligado: a lista mostra cada email, e o parentesco aparece ao abrir. Clique pra juntar numa linha só."}
+          className={`flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[11px] border ${
+            groupCases ? "border-violet-500/40 bg-violet-500/15 text-violet-200" : "border-white/10 text-slate-500 hover:bg-white/5"}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${groupCases ? "bg-emerald-400" : "bg-slate-600"}`} />
+          <Layers size={11} /> Juntar na lista: {groupCases ? "ligado" : "desligado"}
+        </button>
       </div>
 
 
@@ -1705,6 +1736,13 @@ export default function EmailInbox() {
                   <option value="" className="bg-[#0f1623]">classificar…</option>
                   {EMAIL_BUCKETS.map((k) => <option key={k} value={k} className="bg-[#0f1623]">{BUCKET_BADGE[k].chip}</option>)}
                 </select>
+                {selectedIds.size > 1 && (
+                  <button onClick={() => bulkAction("GROUP_CASE")} disabled={bulkBusy}
+                    title="Agrupar: estes emails passam a andar juntos — aparecem um no painel do outro e resolver um resolve todos"
+                    className="flex items-center gap-1 rounded-lg border border-amber-500/30 px-2 py-1.5 text-[10px] text-amber-200 hover:bg-amber-500/10 disabled:opacity-40">
+                    <Layers size={13} /> agrupar
+                  </button>
+                )}
                 <button onClick={() => trustSenders([...selectedIds], "os remetentes selecionados")} disabled={bulkBusy}
                   title="Confiável: tira de Spam/Descarte e nunca mais marca esses remetentes como golpe"
                   className="rounded-lg border border-emerald-500/30 p-1.5 text-emerald-300 hover:bg-emerald-500/10 disabled:opacity-40"><ShieldCheck size={13} /></button>
@@ -1978,7 +2016,7 @@ export default function EmailInbox() {
                         className="flex items-center gap-1 rounded-lg border border-violet-500/40 bg-violet-500/10 px-2 py-1.5 text-violet-200 hover:bg-violet-500/20 disabled:opacity-40">
                         <CheckCheck size={14} />
                         <span className="text-[10px]">
-                          caso{selectedCaseIds.length > 1 ? ` (${selectedCaseIds.length})` : ""}
+                          caso{thread.length > 1 ? ` (${thread.length})` : selectedCaseIds.length > 1 ? ` (${selectedCaseIds.length})` : ""}
                         </span>
                       </button>
                     )}
@@ -2130,7 +2168,8 @@ export default function EmailInbox() {
                   <button onClick={() => setThreadOpen((v) => !v)}
                     className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-white">
                     {threadOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-                    <MessagesSquare size={12} /> Conversa · {thread.length} mensagens
+                    <MessagesSquare size={12} /> Conversa e relacionados · {thread.length} mensagens
+                    <span className="text-slate-600">— resolver aqui resolve todas</span>
                   </button>
                   {threadOpen && (
                     <ol className="mt-1.5 space-y-1 max-h-[22vh] overflow-y-auto pr-1">
@@ -2153,7 +2192,18 @@ export default function EmailInbox() {
                                   </span>
                                   <span className="text-[10px] text-slate-600 flex-shrink-0">{fmtDate(m.sentAt)}</span>
                                   {(m._count?.attachments ?? 0) > 0 && <span className="text-[10px] flex-shrink-0">📎</span>}
+                                  {m.reason && m.reason !== "THREAD" && (
+                                    <span title={REASON_BADGE[m.reason].title}
+                                      className={`text-[9px] px-1 py-0.5 rounded flex-shrink-0 ${REASON_BADGE[m.reason].cls}`}>
+                                      {REASON_BADGE[m.reason].label}
+                                    </span>
+                                  )}
+                                  {m.folder === "ARCHIVE" && (
+                                    <span title="Já resolvido" className="text-[9px] text-emerald-400 flex-shrink-0">✓</span>
+                                  )}
                                 </span>
+                                {/* Assunto importa quando a mensagem é de OUTRO assunto do mesmo caso */}
+                                <span className="block text-[10px] text-slate-400 truncate">{m.subject || "(sem assunto)"}</span>
                                 <span className="block text-[10px] text-slate-500 truncate">{m.snippet || "—"}</span>
                               </span>
                             </button>

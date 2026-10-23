@@ -52,10 +52,18 @@ export function senderDomain(email: string | null | undefined): string {
 /**
  * Identificadores do assunto, em ordem de confiança: nome de domínio primeiro
  * (é o que amarra o caso do registro.br), depois número longo.
+ *
+ * `ignorar` tira da jogada o domínio do PRÓPRIO remetente: "Registro.br -
+ * Renovacao de dominio - expopalotina.com.br" tem dois domínios, e o que
+ * identifica o caso é o segundo. Sem isso, essa mensagem ficava sozinha
+ * enquanto as outras quatro do mesmo domínio se juntavam.
  */
-export function caseTokens(subject: string | null | undefined): string[] {
+export function caseTokens(subject: string | null | undefined, ignorar?: string | null): string[] {
   const s = (subject ?? "").toLowerCase();
-  const dominios = [...s.matchAll(DOMINIO_NO_ASSUNTO)].map((m) => m[1]);
+  const fora = (ignorar ?? "").toLowerCase().trim();
+  const dominios = [...s.matchAll(DOMINIO_NO_ASSUNTO)]
+    .map((m) => m[1])
+    .filter((d) => !fora || (d !== fora && !fora.endsWith(`.${d}`) && !d.endsWith(`.${fora}`)));
   const numeros = [...s.matchAll(NUMERO_LONGO)].map((m) => m[0]);
   return [...new Set([...dominios, ...numeros])];
 }
@@ -79,7 +87,7 @@ export function caseKeyOf(e: CaseableEmail): string | null {
   // (registro.br manda de hostmaster@, cobranca@, avisos@…).
   const quem = !dominio || PUBLIC_EMAIL_DOMAINS.has(dominio) ? from : dominio;
 
-  const token = caseTokens(e.subject)[0];
+  const token = caseTokens(e.subject, dominio)[0];
   if (token) return `${quem}|#${token}`;
 
   const assunto = normalizeSubject(e.subject);

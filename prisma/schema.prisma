@@ -3627,6 +3627,11 @@ model InboxEmail {
   // IA nunca sobrescreve e usa esses emails como exemplo do que é certo.
   aiLocked Boolean @default(false)
 
+  // Assunto agrupado À MÃO: você marca os emails e eles passam a andar
+  // juntos (aparecem um no outro e resolvem juntos), mesmo quando a regra
+  // automática não liga — ver email-cases.ts e email-related.ts.
+  caseId String?
+
   // Tags livres da empresa (classificação manual, m2m implícito).
   tags InboxEmailTag[] @relation("InboxEmailTags")
 
@@ -3656,6 +3661,7 @@ model InboxEmail {
   @@index([companyId, messageId])
   @@index([companyId, inReplyTo])
   @@index([companyId, folder, sentAt])
+  @@index([companyId, caseId])
   @@index([companyId, seen])
   @@index([leadId])
   @@index([ticketId])

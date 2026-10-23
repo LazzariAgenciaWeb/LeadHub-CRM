@@ -61,6 +61,27 @@ ok("caseIds traz todas", registro[0].caseIds.join(",") === "fatura,renov,lembret
 ok("domínio diferente ficou de fora", registro[1].id === "outro" && registro[1].caseCount === 1);
 ok("email de outro remetente intacto", registro[2].id === "cliente" && registro[2].caseCount === 1);
 
+// ── Caso real (print do Diego, 23/10/2026): 5 mensagens do registro.br
+//    sobre expopalotina.com.br. A terceira traz "Registro.br -" no começo do
+//    assunto, e o domínio do próprio remetente não pode virar identificador.
+const expo = groupEmailCases([
+  row("confirmacao", "pagamento@registro.br", "Confirmacao de pagamento - expopalotina.com.br", 0),
+  row("fatura", "pagamento@registro.br", "Fatura de registro - expopalotina.com.br", 1),
+  row("renovacao", "hostmaster@registro.br", "Registro.br - Renovacao de dominio - expopalotina.com.br", 1),
+  row("lembrete", "pagamento@registro.br", "Lembrete de renovacao - expopalotina.com.br", 21),
+  row("aviso", "pagamento@registro.br", "Aviso de renovacao - expopalotina.com.br", 36),
+]);
+ok("as 5 do registro.br viram um caso só", expo.length === 1, `veio ${expo.length}`);
+ok("inclusive a que começa com o nome do remetente no assunto",
+  expo[0]?.caseIds.includes("renovacao"));
+ok("domínio do próprio remetente não vira identificador",
+  caseTokens("Registro.br - Renovacao de dominio - expopalotina.com.br", "registro.br")[0] === "expopalotina.com.br");
+ok("outro domínio do mesmo remetente continua separado",
+  groupEmailCases([
+    row("a", "pagamento@registro.br", "Fatura de registro - expopalotina.com.br", 0),
+    row("b", "pagamento@registro.br", "Fatura de registro - gohub.com.br", 0),
+  ]).length === 2);
+
 // ── Janela ──
 const velho = groupEmailCases([
   row("agora", "cobranca@registro.br", "Fatura azz.com.br", 0),

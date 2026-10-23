@@ -170,7 +170,11 @@ export async function GET(req: NextRequest) {
   // Não agrupa caso quando a lista é de um lead/chamado nem quando há busca
   // por texto: ali a pessoa quer ver cada mensagem que casou.
   const copias = groupEmailCopies(rawEmails, rawTake);
-  const emails = (!leadId && !ticketId && !q ? groupEmailCases(copias) : copias.map((c) => ({
+  // Colapsar o caso numa linha só é OPCIONAL (interruptor na tela): o padrão
+  // é listar cada email, e o parentesco aparece ao abrir — foi o que o uso
+  // pediu. Nunca colapsa em busca nem em lista de lead/chamado.
+  const agrupar = sp.get("group") === "1" && !leadId && !ticketId && !q;
+  const emails = (agrupar ? groupEmailCases(copias) : copias.map((c) => ({
     ...c, caseIds: [c.id], caseCount: 1, caseMembers: [] as typeof copias,
   }))).slice(0, take);
 

@@ -4,8 +4,7 @@ import { assertModule } from "@/lib/billing";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { findCopyIds } from "@/lib/email-copies";
-import { loadEmailThread } from "@/lib/email-thread";
-import { caseKeyOf, CASE_WINDOW_DAYS, senderDomain, PUBLIC_EMAIL_DOMAINS } from "@/lib/email-cases";
+import { relatedEmailIds } from "@/lib/email-related";
 
 // POST /api/email/inbox/[id]/resolve-case   { folder?: "ARCHIVE" | "TRASH" }
 // Resolve a COISA, não a mensagem. Arquiva (ou descarta) de uma vez:
@@ -43,42 +42,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   });
   if (!email) return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
 
-  const ids = new Set<string>([email.id]);
+  // Uma fonte só pro que anda junto (conversa + caso + agrupado à mão) —
+  // a mesma que o painel do leitor mostra, pra tela e ação não discordarem.
+  const ids = new Set<string>([email.id, ...(await relatedEmailIds(companyId, email.id, allowed)).keys()]);
 
-  // 1. Cópias do próprio email em outras caixas (inclusive as que este
-  //    usuário não enxerga: resolveu pra empresa).
+  // Cópias do próprio email em outras caixas, inclusive as que este usuário
+  // não enxerga: resolveu pra empresa.
   for (const cid of await findCopyIds(companyId, [email])) ids.add(cid);
-
-  // 2. Conversa: encadeamento + mesmo assunto. É o que traz o encaminhamento
-  //    e a resposta de quem executou.
-  const thread = await loadEmailThread(companyId, email.id, allowed);
-  for (const m of thread ?? []) ids.add(m.id);
-
-  // 3. Mesmo caso: mesma chave (remetente + identificador do assunto) dentro
-  //    da janela. A chave é calculada em memória, então buscamos os
-  //    candidatos do mesmo remetente/domínio na janela e filtramos.
-  const chave = caseKeyOf(email);
-  if (chave) {
-    const dominio = senderDomain(email.fromEmail);
-    const porDominio = !!dominio && !PUBLIC_EMAIL_DOMAINS.has(dominio);
-    const desde = new Date(email.sentAt.getTime() - CASE_WINDOW_DAYS * 86_400_000);
-    const ate = new Date(email.sentAt.getTime() + CASE_WINDOW_DAYS * 86_400_000);
-
-    const candidatos = await prisma.inboxEmail.findMany({
-      where: {
-        companyId,
-        direction: "IN",
-        folder: { in: [...ABERTOS] },
-        sentAt: { gte: desde, lte: ate },
-        ...(porDominio
-          ? { fromEmail: { endsWith: `@${dominio}`, mode: "insensitive" } }
-          : { fromEmail: { equals: email.fromEmail, mode: "insensitive" } }),
-      },
-      select: { id: true, fromEmail: true, subject: true, sentAt: true },
-      take: 200,
-    });
-    for (const c of candidatos) if (caseKeyOf(c) === chave) ids.add(c.id);
-  }
 
   // Cópias das mensagens que entraram pelo caso/conversa também vão junto.
   const extras = await prisma.inboxEmail.findMany({

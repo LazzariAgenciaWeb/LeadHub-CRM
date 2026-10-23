@@ -122853,6 +122853,7 @@ export namespace Prisma {
     aiSummary: string | null
     suspicious: boolean | null
     aiLocked: boolean | null
+    caseId: string | null
     seen: boolean | null
     sentAt: Date | null
     trackToken: string | null
@@ -122887,6 +122888,7 @@ export namespace Prisma {
     aiSummary: string | null
     suspicious: boolean | null
     aiLocked: boolean | null
+    caseId: string | null
     seen: boolean | null
     sentAt: Date | null
     trackToken: string | null
@@ -122922,6 +122924,7 @@ export namespace Prisma {
     suspicious: number
     suspiciousReasons: number
     aiLocked: number
+    caseId: number
     seen: number
     sentAt: number
     trackToken: number
@@ -122968,6 +122971,7 @@ export namespace Prisma {
     aiSummary?: true
     suspicious?: true
     aiLocked?: true
+    caseId?: true
     seen?: true
     sentAt?: true
     trackToken?: true
@@ -123002,6 +123006,7 @@ export namespace Prisma {
     aiSummary?: true
     suspicious?: true
     aiLocked?: true
+    caseId?: true
     seen?: true
     sentAt?: true
     trackToken?: true
@@ -123037,6 +123042,7 @@ export namespace Prisma {
     suspicious?: true
     suspiciousReasons?: true
     aiLocked?: true
+    caseId?: true
     seen?: true
     sentAt?: true
     trackToken?: true
@@ -123159,6 +123165,7 @@ export namespace Prisma {
     suspicious: boolean
     suspiciousReasons: string[]
     aiLocked: boolean
+    caseId: string | null
     seen: boolean
     sentAt: Date
     trackToken: string | null
@@ -123213,6 +123220,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: boolean
     aiLocked?: boolean
+    caseId?: boolean
     seen?: boolean
     sentAt?: boolean
     trackToken?: boolean
@@ -123255,6 +123263,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: boolean
     aiLocked?: boolean
+    caseId?: boolean
     seen?: boolean
     sentAt?: boolean
     trackToken?: boolean
@@ -123294,6 +123303,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: boolean
     aiLocked?: boolean
+    caseId?: boolean
     seen?: boolean
     sentAt?: boolean
     trackToken?: boolean
@@ -123355,6 +123365,7 @@ export namespace Prisma {
       suspicious: boolean
       suspiciousReasons: string[]
       aiLocked: boolean
+      caseId: string | null
       seen: boolean
       sentAt: Date
       trackToken: string | null
@@ -123786,6 +123797,7 @@ export namespace Prisma {
     readonly suspicious: FieldRef<"InboxEmail", 'Boolean'>
     readonly suspiciousReasons: FieldRef<"InboxEmail", 'String[]'>
     readonly aiLocked: FieldRef<"InboxEmail", 'Boolean'>
+    readonly caseId: FieldRef<"InboxEmail", 'String'>
     readonly seen: FieldRef<"InboxEmail", 'Boolean'>
     readonly sentAt: FieldRef<"InboxEmail", 'DateTime'>
     readonly trackToken: FieldRef<"InboxEmail", 'String'>
@@ -165691,6 +165703,7 @@ export namespace Prisma {
     suspicious: 'suspicious',
     suspiciousReasons: 'suspiciousReasons',
     aiLocked: 'aiLocked',
+    caseId: 'caseId',
     seen: 'seen',
     sentAt: 'sentAt',
     trackToken: 'trackToken',
@@ -177155,6 +177168,7 @@ export namespace Prisma {
     suspicious?: BoolFilter<"InboxEmail"> | boolean
     suspiciousReasons?: StringNullableListFilter<"InboxEmail">
     aiLocked?: BoolFilter<"InboxEmail"> | boolean
+    caseId?: StringNullableFilter<"InboxEmail"> | string | null
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
     trackToken?: StringNullableFilter<"InboxEmail"> | string | null
@@ -177196,6 +177210,7 @@ export namespace Prisma {
     suspicious?: SortOrder
     suspiciousReasons?: SortOrder
     aiLocked?: SortOrder
+    caseId?: SortOrderInput | SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     trackToken?: SortOrderInput | SortOrder
@@ -177242,6 +177257,7 @@ export namespace Prisma {
     suspicious?: BoolFilter<"InboxEmail"> | boolean
     suspiciousReasons?: StringNullableListFilter<"InboxEmail">
     aiLocked?: BoolFilter<"InboxEmail"> | boolean
+    caseId?: StringNullableFilter<"InboxEmail"> | string | null
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
     openedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
@@ -177282,6 +177298,7 @@ export namespace Prisma {
     suspicious?: SortOrder
     suspiciousReasons?: SortOrder
     aiLocked?: SortOrder
+    caseId?: SortOrderInput | SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     trackToken?: SortOrderInput | SortOrder
@@ -177325,6 +177342,7 @@ export namespace Prisma {
     suspicious?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
     suspiciousReasons?: StringNullableListFilter<"InboxEmail">
     aiLocked?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
+    caseId?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     seen?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeWithAggregatesFilter<"InboxEmail"> | Date | string
     trackToken?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
@@ -191935,6 +191953,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -191976,6 +191995,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -192009,6 +192029,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192050,6 +192071,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192087,6 +192109,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -192118,6 +192141,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192153,6 +192177,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -203733,6 +203758,7 @@ export namespace Prisma {
     suspicious?: SortOrder
     suspiciousReasons?: SortOrder
     aiLocked?: SortOrder
+    caseId?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     trackToken?: SortOrder
@@ -203772,6 +203798,7 @@ export namespace Prisma {
     aiSummary?: SortOrder
     suspicious?: SortOrder
     aiLocked?: SortOrder
+    caseId?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     trackToken?: SortOrder
@@ -203806,6 +203833,7 @@ export namespace Prisma {
     aiSummary?: SortOrder
     suspicious?: SortOrder
     aiLocked?: SortOrder
+    caseId?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     trackToken?: SortOrder
@@ -227980,6 +228008,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -228019,6 +228048,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -231990,6 +232020,7 @@ export namespace Prisma {
     suspicious?: BoolFilter<"InboxEmail"> | boolean
     suspiciousReasons?: StringNullableListFilter<"InboxEmail">
     aiLocked?: BoolFilter<"InboxEmail"> | boolean
+    caseId?: StringNullableFilter<"InboxEmail"> | string | null
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
     trackToken?: StringNullableFilter<"InboxEmail"> | string | null
@@ -236884,6 +236915,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -236923,6 +236955,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -250908,6 +250941,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -250947,6 +250981,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -287940,6 +287975,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -287979,6 +288015,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -290691,6 +290728,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -290731,6 +290769,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -290779,6 +290818,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -290819,6 +290859,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -291134,6 +291175,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -291174,6 +291216,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -314595,6 +314638,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -317021,6 +317065,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -317060,6 +317105,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -317096,6 +317142,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -321092,6 +321139,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -321466,6 +321514,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -321505,6 +321554,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -321541,6 +321591,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -322553,6 +322604,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -322694,6 +322746,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -322733,6 +322786,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -322769,6 +322823,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325593,6 +325648,7 @@ export namespace Prisma {
     suspicious?: boolean
     suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
     aiLocked?: boolean
+    caseId?: string | null
     seen?: boolean
     sentAt: Date | string
     trackToken?: string | null
@@ -325630,6 +325686,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325669,6 +325726,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325705,6 +325763,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325814,6 +325873,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325854,6 +325914,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325890,6 +325951,7 @@ export namespace Prisma {
     suspicious?: BoolFieldUpdateOperationsInput | boolean
     suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackToken?: NullableStringFieldUpdateOperationsInput | string | null

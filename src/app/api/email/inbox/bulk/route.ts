@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { deleteEmailFromServer } from "@/lib/imap-inbox";
 import { applyTrust } from "@/lib/email-trust";
 import { findCopyIds } from "@/lib/email-copies";
+import { randomUUID } from "crypto";
 import type { InboxEmailFolder } from "@/generated/prisma";
 
 const MAX_IDS = 100;
@@ -17,7 +18,8 @@ const FOLDER_ACTIONS: Record<string, InboxEmailFolder> = {
 // { ids: string[], action: "INBOX"|"IMPORTANT"|"ARCHIVE"|"SPAM"|"TRASH"
 //                        | "DELETE_SERVER" | "ADD_TAG" | "REMOVE_TAG"
 //                        | "MARK_READ" | "MARK_UNREAD"
-//                        | "SET_BUCKET" (bucket: RESOLVER|INFO|DESCARTE) | "TRUST", tagId? }
+//                        | "SET_BUCKET" (bucket: RESOLVER|INFO|DESCARTE) | "TRUST"
+//                        | "GROUP_CASE" | "UNGROUP_CASE", tagId? }
 // Ações em lote sobre emails selecionados. SPAM aplica blacklist por remetente
 // (mesmo efeito do PATCH individual). DELETE_SERVER: exclusão definitiva —
 // apaga do servidor IMAP (best-effort, com verificação de Message-ID) e do LeadHub.
@@ -86,6 +88,39 @@ export async function POST(req: NextRequest) {
     }
     const r = await applyTrust(companyId, { fromEmail: { in: senders } });
     return NextResponse.json({ ok: true, affected: validIds.length, senders: senders.length, ...r });
+  }
+
+  // ── Agrupar à mão: estes emails passam a andar juntos ──────────────────
+  // Aparecem um no painel do outro e "resolver o caso" resolve todos. Serve
+  // pro que a regra automática não liga (remetentes diferentes, assunto sem
+  // identificador em comum). Reaproveita o grupo que já existir na seleção —
+  // marcar mais um email num caso existente só o anexa.
+  if (action === "GROUP_CASE") {
+    const comGrupo = await prisma.inboxEmail.findMany({
+      where: { id: { in: allIds }, companyId, caseId: { not: null } },
+      orderBy: { sentAt: "asc" },
+      select: { caseId: true },
+      take: 1,
+    });
+    const caseId = comGrupo[0]?.caseId ?? `case_${randomUUID()}`;
+    // Quem já está no grupo escolhido traz os colegas dele junto.
+    const doGrupo = await prisma.inboxEmail.findMany({
+      where: { companyId, caseId }, select: { id: true },
+    });
+    const alvo = [...new Set([...allIds, ...doGrupo.map((e) => e.id)])];
+    const r = await prisma.inboxEmail.updateMany({
+      where: { id: { in: alvo }, companyId },
+      data: { caseId },
+    });
+    return NextResponse.json({ ok: true, caseId, affected: r.count });
+  }
+
+  if (action === "UNGROUP_CASE") {
+    const r = await prisma.inboxEmail.updateMany({
+      where: { id: { in: allIds }, companyId },
+      data: { caseId: null },
+    });
+    return NextResponse.json({ ok: true, affected: r.count });
   }
 
   // ── Lido / não lido em massa ──
