@@ -24,6 +24,7 @@ import { sendCompanyMail } from "./company-email";
 import { scanEmailThreats } from "./email-threat-scan";
 import { htmlToPlainText, looksLikeHtml, sanitizeSignatureHtml } from "./html-sanitize";
 import { pickSenderRule, senderRuleCandidates } from "./email-trust";
+import { newTrackToken, injectOpenPixel } from "./email-open-tracking";
 import type { EmailAccount, InboxEmailFolder } from "@/generated/prisma";
 
 export interface EmailAccountInput {
@@ -818,6 +819,8 @@ export interface SendInboxEmailInput {
   replyToId?: string | null;
   leadId?: string | null;
   ticketId?: string | null;
+  /** Rastrear abertura: põe o pixel no HTML que sai (ver email-open-tracking). */
+  track?: boolean;
 }
 
 /**
@@ -875,6 +878,12 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
     (sigHtml ? `<br/><br/><div style="color:#555">--</div>${sigHtml}` : "") +
     `</div>`;
 
+  // Rastreio de abertura: o pixel vai SÓ no HTML que sai. A cópia gravada
+  // aqui (e lida no leitor do GoHub, num iframe que carrega imagem) fica sem
+  // ele — senão abrir o próprio enviado contaria como abertura do destinatário.
+  const trackToken = input.track ? newTrackToken() : null;
+  const htmlEnviado = trackToken ? injectOpenPixel(html, trackToken) : html;
+
   // Anexos do upload → formato do nodemailer.
   const mailAttachments = (input.attachments ?? []).map((a) => ({
     filename: a.filename,
@@ -899,7 +908,7 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
       cc: input.cc?.trim() || undefined,
       bcc: input.bcc?.trim() || undefined,
       subject: input.subject.trim(),
-      html,
+      html: htmlEnviado,
       text,
       headers: Object.keys(headers).length ? headers : undefined,
       attachments: mailAttachments.length ? mailAttachments : undefined,
@@ -932,7 +941,7 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
       cc: input.cc?.trim() || undefined,
       bcc: input.bcc?.trim() || undefined,
       subject: input.subject.trim(),
-      html,
+      html: htmlEnviado,
       text,
       headers: Object.keys(headers).length ? headers : undefined,
       attachments: mailAttachments.length ? mailAttachments : undefined,
@@ -961,6 +970,7 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
       inReplyTo,
       leadId,
       ticketId,
+      trackToken,
       seen: true,
       sentAt: new Date(),
     },

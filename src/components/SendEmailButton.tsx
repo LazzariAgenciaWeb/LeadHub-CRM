@@ -29,11 +29,14 @@ export default function SendEmailButton({ to, leadId, ticketId, defaultSubject, 
   const [sending, setSending] = useState(false);
   const [err, setErr] = useState("");
   const [okMsg, setOkMsg] = useState("");
+  // Rastrear abertura: mesma preferência da caixa de email (Atender → E-mail).
+  const [trackOpen, setTrackOpen] = useState(true);
 
   function openModal() {
     setForm({ to, subject: defaultSubject ?? "", text: "" });
     setErr("");
     setOkMsg("");
+    lerPreferencia();
     setOpen(true);
     // Contas da empresa pro seletor "De" (1ª ativa como default).
     fetch("/api/email/inbox/accounts")
@@ -46,6 +49,14 @@ export default function SendEmailButton({ to, leadId, ticketId, defaultSubject, 
       .catch(() => setAccounts([]));
   }
 
+  // Mesma preferência usada na caixa de email.
+  function lerPreferencia() {
+    try {
+      const t = localStorage.getItem("leadhub.emails.trackOpen");
+      if (t !== null) setTrackOpen(t === "1");
+    } catch {}
+  }
+
   async function send() {
     setSending(true);
     setErr("");
@@ -53,7 +64,13 @@ export default function SendEmailButton({ to, leadId, ticketId, defaultSubject, 
       const res = await fetch("/api/email/inbox/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, accountId: accountId || null, leadId: leadId ?? null, ticketId: ticketId ?? null }),
+        body: JSON.stringify({
+          ...form,
+          accountId: accountId || null,
+          leadId: leadId ?? null,
+          ticketId: ticketId ?? null,
+          track: trackOpen,
+        }),
       });
       const j = await res.json();
       if (!res.ok) { setErr(j.error || "Falha ao enviar"); return; }
@@ -111,6 +128,19 @@ export default function SendEmailButton({ to, leadId, ticketId, defaultSubject, 
             </div>
             {err && <p className="text-red-400 text-xs mt-2">{err}</p>}
             {okMsg && <p className="text-emerald-400 text-xs mt-2">{okMsg}</p>}
+            <button
+              onClick={() => setTrackOpen((v) => {
+                try { localStorage.setItem("leadhub.emails.trackOpen", v ? "0" : "1"); } catch {}
+                return !v;
+              })}
+              title={trackOpen
+                ? "Um pixel invisível avisa quando a pessoa abrir (a abertura entra na timeline do lead). 'Não abriu' não prova nada: muitos clientes bloqueiam imagem."
+                : "Desligado: você não saberá se o email foi aberto."}
+              className={`mt-2 flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-lg border ${
+                trackOpen ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200" : "border-white/10 text-slate-500 hover:bg-white/5"}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${trackOpen ? "bg-emerald-400" : "bg-slate-600"}`} />
+              Avisar quando abrir: {trackOpen ? "ligado" : "desligado"}
+            </button>
             <p className="text-[10px] text-slate-500 mt-2">
               Sai pelo SMTP da empresa e fica registrado em Atender → E-mail, vinculado a este {ticketId ? "chamado" : "lead"}.
             </p>

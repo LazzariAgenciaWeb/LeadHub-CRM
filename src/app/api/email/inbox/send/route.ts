@@ -154,6 +154,8 @@ export async function POST(req: NextRequest) {
       replyToId: body?.replyToId ?? null,
       leadId,
       ticketId,
+      // Rastreio de abertura: pedido por envio (a UI tem o interruptor).
+      track: body?.track === true,
     });
     return NextResponse.json({ ok: true, id: record.id });
   } catch (e: any) {

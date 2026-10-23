@@ -34,6 +34,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       subject: true, textBody: true, htmlBody: true,
       inReplyTo: true, seen: true, sentAt: true,
       aiImportance: true, aiSummary: true, suspicious: true, suspiciousReasons: true, aiLocked: true,
+      openedAt: true, lastOpenedAt: true, openCount: true, trackToken: true,
       leadId: true, ticketId: true, accountId: true,
       tags: { select: { id: true, name: true, color: true } },
       attachments: { select: { id: true, filename: true, contentType: true, size: true } },
@@ -55,7 +56,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       await prisma.inboxEmail.updateMany({ where: { id: { in: copyIds } }, data: { seen: true } });
     }
   }
-  return NextResponse.json({ email: { ...email, seen: true } });
+  // Idem listagem: manda `tracked`, nunca o token do pixel.
+  const { trackToken, ...semToken } = email;
+  return NextResponse.json({ email: { ...semToken, tracked: !!trackToken, seen: true } });
 }
 
 // PATCH /api/email/inbox/[id]  { folder?, seen?, leadId?, ticketId? }

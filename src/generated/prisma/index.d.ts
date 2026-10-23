@@ -122821,10 +122821,12 @@ export namespace Prisma {
 
   export type InboxEmailAvgAggregateOutputType = {
     imapUid: number | null
+    openCount: number | null
   }
 
   export type InboxEmailSumAggregateOutputType = {
     imapUid: number | null
+    openCount: number | null
   }
 
   export type InboxEmailMinAggregateOutputType = {
@@ -122853,6 +122855,10 @@ export namespace Prisma {
     aiLocked: boolean | null
     seen: boolean | null
     sentAt: Date | null
+    trackToken: string | null
+    openedAt: Date | null
+    lastOpenedAt: Date | null
+    openCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -122883,6 +122889,10 @@ export namespace Prisma {
     aiLocked: boolean | null
     seen: boolean | null
     sentAt: Date | null
+    trackToken: string | null
+    openedAt: Date | null
+    lastOpenedAt: Date | null
+    openCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -122914,6 +122924,10 @@ export namespace Prisma {
     aiLocked: number
     seen: number
     sentAt: number
+    trackToken: number
+    openedAt: number
+    lastOpenedAt: number
+    openCount: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -122922,10 +122936,12 @@ export namespace Prisma {
 
   export type InboxEmailAvgAggregateInputType = {
     imapUid?: true
+    openCount?: true
   }
 
   export type InboxEmailSumAggregateInputType = {
     imapUid?: true
+    openCount?: true
   }
 
   export type InboxEmailMinAggregateInputType = {
@@ -122954,6 +122970,10 @@ export namespace Prisma {
     aiLocked?: true
     seen?: true
     sentAt?: true
+    trackToken?: true
+    openedAt?: true
+    lastOpenedAt?: true
+    openCount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -122984,6 +123004,10 @@ export namespace Prisma {
     aiLocked?: true
     seen?: true
     sentAt?: true
+    trackToken?: true
+    openedAt?: true
+    lastOpenedAt?: true
+    openCount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -123015,6 +123039,10 @@ export namespace Prisma {
     aiLocked?: true
     seen?: true
     sentAt?: true
+    trackToken?: true
+    openedAt?: true
+    lastOpenedAt?: true
+    openCount?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -123133,6 +123161,10 @@ export namespace Prisma {
     aiLocked: boolean
     seen: boolean
     sentAt: Date
+    trackToken: string | null
+    openedAt: Date | null
+    lastOpenedAt: Date | null
+    openCount: number
     createdAt: Date
     updatedAt: Date
     _count: InboxEmailCountAggregateOutputType | null
@@ -123183,6 +123215,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt?: boolean
+    trackToken?: boolean
+    openedAt?: boolean
+    lastOpenedAt?: boolean
+    openCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -123221,6 +123257,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt?: boolean
+    trackToken?: boolean
+    openedAt?: boolean
+    lastOpenedAt?: boolean
+    openCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -123256,6 +123296,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt?: boolean
+    trackToken?: boolean
+    openedAt?: boolean
+    lastOpenedAt?: boolean
+    openCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -123313,6 +123357,10 @@ export namespace Prisma {
       aiLocked: boolean
       seen: boolean
       sentAt: Date
+      trackToken: string | null
+      openedAt: Date | null
+      lastOpenedAt: Date | null
+      openCount: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["inboxEmail"]>
@@ -123740,6 +123788,10 @@ export namespace Prisma {
     readonly aiLocked: FieldRef<"InboxEmail", 'Boolean'>
     readonly seen: FieldRef<"InboxEmail", 'Boolean'>
     readonly sentAt: FieldRef<"InboxEmail", 'DateTime'>
+    readonly trackToken: FieldRef<"InboxEmail", 'String'>
+    readonly openedAt: FieldRef<"InboxEmail", 'DateTime'>
+    readonly lastOpenedAt: FieldRef<"InboxEmail", 'DateTime'>
+    readonly openCount: FieldRef<"InboxEmail", 'Int'>
     readonly createdAt: FieldRef<"InboxEmail", 'DateTime'>
     readonly updatedAt: FieldRef<"InboxEmail", 'DateTime'>
   }
@@ -165641,6 +165693,10 @@ export namespace Prisma {
     aiLocked: 'aiLocked',
     seen: 'seen',
     sentAt: 'sentAt',
+    trackToken: 'trackToken',
+    openedAt: 'openedAt',
+    lastOpenedAt: 'lastOpenedAt',
+    openCount: 'openCount',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -177101,6 +177157,10 @@ export namespace Prisma {
     aiLocked?: BoolFilter<"InboxEmail"> | boolean
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
+    trackToken?: StringNullableFilter<"InboxEmail"> | string | null
+    openedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
+    lastOpenedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
+    openCount?: IntFilter<"InboxEmail"> | number
     createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
     updatedAt?: DateTimeFilter<"InboxEmail"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -177138,6 +177198,10 @@ export namespace Prisma {
     aiLocked?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
+    trackToken?: SortOrderInput | SortOrder
+    openedAt?: SortOrderInput | SortOrder
+    lastOpenedAt?: SortOrderInput | SortOrder
+    openCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
@@ -177150,6 +177214,7 @@ export namespace Prisma {
 
   export type InboxEmailWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    trackToken?: string
     accountId_messageId?: InboxEmailAccountIdMessageIdCompoundUniqueInput
     AND?: InboxEmailWhereInput | InboxEmailWhereInput[]
     OR?: InboxEmailWhereInput[]
@@ -177179,6 +177244,9 @@ export namespace Prisma {
     aiLocked?: BoolFilter<"InboxEmail"> | boolean
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
+    openedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
+    lastOpenedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
+    openCount?: IntFilter<"InboxEmail"> | number
     createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
     updatedAt?: DateTimeFilter<"InboxEmail"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -177187,7 +177255,7 @@ export namespace Prisma {
     ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
     tags?: InboxEmailTagListRelationFilter
     attachments?: InboxEmailAttachmentListRelationFilter
-  }, "id" | "accountId_messageId">
+  }, "id" | "trackToken" | "accountId_messageId">
 
   export type InboxEmailOrderByWithAggregationInput = {
     id?: SortOrder
@@ -177216,6 +177284,10 @@ export namespace Prisma {
     aiLocked?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
+    trackToken?: SortOrderInput | SortOrder
+    openedAt?: SortOrderInput | SortOrder
+    lastOpenedAt?: SortOrderInput | SortOrder
+    openCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: InboxEmailCountOrderByAggregateInput
@@ -177255,6 +177327,10 @@ export namespace Prisma {
     aiLocked?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
     seen?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeWithAggregatesFilter<"InboxEmail"> | Date | string
+    trackToken?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
+    openedAt?: DateTimeNullableWithAggregatesFilter<"InboxEmail"> | Date | string | null
+    lastOpenedAt?: DateTimeNullableWithAggregatesFilter<"InboxEmail"> | Date | string | null
+    openCount?: IntWithAggregatesFilter<"InboxEmail"> | number
     createdAt?: DateTimeWithAggregatesFilter<"InboxEmail"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"InboxEmail"> | Date | string
   }
@@ -191861,6 +191937,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutInboxEmailsInput
@@ -191898,6 +191978,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
@@ -191927,6 +192011,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
@@ -191964,6 +192052,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
@@ -191997,6 +192089,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -192024,6 +192120,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -192055,6 +192155,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -203631,12 +203735,17 @@ export namespace Prisma {
     aiLocked?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
+    trackToken?: SortOrder
+    openedAt?: SortOrder
+    lastOpenedAt?: SortOrder
+    openCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type InboxEmailAvgOrderByAggregateInput = {
     imapUid?: SortOrder
+    openCount?: SortOrder
   }
 
   export type InboxEmailMaxOrderByAggregateInput = {
@@ -203665,6 +203774,10 @@ export namespace Prisma {
     aiLocked?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
+    trackToken?: SortOrder
+    openedAt?: SortOrder
+    lastOpenedAt?: SortOrder
+    openCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -203695,12 +203808,17 @@ export namespace Prisma {
     aiLocked?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
+    trackToken?: SortOrder
+    openedAt?: SortOrder
+    lastOpenedAt?: SortOrder
+    openCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type InboxEmailSumOrderByAggregateInput = {
     imapUid?: SortOrder
+    openCount?: SortOrder
   }
 
   export type EnumInboxEmailDirectionWithAggregatesFilter<$PrismaModel = never> = {
@@ -227864,6 +227982,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
@@ -227899,6 +228021,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
@@ -231866,6 +231992,10 @@ export namespace Prisma {
     aiLocked?: BoolFilter<"InboxEmail"> | boolean
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
+    trackToken?: StringNullableFilter<"InboxEmail"> | string | null
+    openedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
+    lastOpenedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
+    openCount?: IntFilter<"InboxEmail"> | number
     createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
     updatedAt?: DateTimeFilter<"InboxEmail"> | Date | string
   }
@@ -236756,6 +236886,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutInboxEmailsInput
@@ -236791,6 +236925,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
@@ -250772,6 +250910,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutInboxEmailsInput
@@ -250807,6 +250949,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
@@ -287796,6 +287942,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutInboxEmailsInput
@@ -287831,6 +287981,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
@@ -290539,6 +290693,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutInboxEmailsInput
@@ -290575,6 +290733,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
@@ -290619,6 +290781,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
@@ -290655,6 +290821,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
@@ -290966,6 +291136,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutInboxEmailsInput
@@ -291002,6 +291176,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     attachments?: InboxEmailAttachmentUncheckedCreateNestedManyWithoutEmailInput
@@ -314419,6 +314597,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -316841,6 +317023,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
@@ -316876,6 +317062,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
@@ -316908,6 +317098,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -320900,6 +321094,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -321270,6 +321468,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
@@ -321305,6 +321507,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
@@ -321337,6 +321543,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -322345,6 +322555,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -322482,6 +322696,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
@@ -322517,6 +322735,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
@@ -322549,6 +322771,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -325369,6 +325595,10 @@ export namespace Prisma {
     aiLocked?: boolean
     seen?: boolean
     sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -325402,6 +325632,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
@@ -325437,6 +325671,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
@@ -325469,6 +325707,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -325574,6 +325816,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
@@ -325610,6 +325856,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attachments?: InboxEmailAttachmentUncheckedUpdateManyWithoutEmailNestedInput
@@ -325642,6 +325892,10 @@ export namespace Prisma {
     aiLocked?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

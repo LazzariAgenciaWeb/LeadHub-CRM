@@ -117,6 +117,7 @@ export async function GET(req: NextRequest) {
         fromEmail: true, fromName: true, toEmail: true,
         subject: true, snippet: true, seen: true, sentAt: true,
         aiImportance: true, aiSummary: true, suspicious: true, aiLocked: true,
+        openedAt: true, openCount: true, trackToken: true,
         leadId: true, ticketId: true, accountId: true,
         tags: { select: { id: true, name: true, color: true } },
         _count: { select: { attachments: true } },
@@ -180,8 +181,12 @@ export async function GET(req: NextRequest) {
   const bucketCounts: Record<string, number> = { RESOLVER: 0, INFO: 0, DESCARTE: 0, NONE: 0 };
   for (const row of bucketRows) bucketCounts[bucketOf(row) ?? "NONE"] += row._count._all;
 
+  // O token do pixel nunca vai pro navegador (quem tiver o token consegue
+  // registrar abertura). A tela só precisa saber SE o email foi rastreado.
+  const emailsOut = emails.map(({ trackToken, ...e }) => ({ ...e, tracked: !!trackToken }));
+
   return NextResponse.json({
-    emails,
+    emails: emailsOut,
     counts,
     unseen: unseenCount,
     accounts: allowed ? accounts.filter((a) => allowed.includes(a.id)) : accounts,

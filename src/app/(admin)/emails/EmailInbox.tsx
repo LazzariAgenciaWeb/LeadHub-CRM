@@ -82,6 +82,10 @@ type EmailRow = {
   /** Caixas onde este mesmo email está (cópias agrupadas numa linha só). */
   boxes?: NonNullable<AccountRef>[];
   copies?: number;
+  /** Rastreio de abertura (só em enviado): se tem pixel e o que já voltou. */
+  tracked?: boolean;
+  openedAt?: string | null;
+  openCount?: number;
   /** Mensagens do MESMO CASO colapsadas nesta linha (ver email-cases.ts). */
   caseIds?: string[];
   caseCount?: number;
@@ -91,6 +95,7 @@ type EmailRow = {
 };
 
 type EmailFull = EmailRow & {
+  lastOpenedAt?: string | null;
   textBody: string | null;
   htmlBody: string | null;
   attachments: EmailAttachment[];
@@ -293,6 +298,8 @@ export default function EmailInbox() {
   const [fwdRelated, setFwdRelated] = useState(0);
   const [fwdLoading, setFwdLoading] = useState(false);
   const [fwdMode, setFwdMode] = useState(false);
+  // Rastrear abertura do que eu envio. Lembrado no navegador.
+  const [trackOpen, setTrackOpen] = useState(true);
   // Casos expandidos na lista e o caso do email aberto no leitor.
   const [openCases, setOpenCases] = useState<string[]>([]);
   const [selectedCaseIds, setSelectedCaseIds] = useState<string[]>([]);
@@ -370,6 +377,8 @@ export default function EmailInbox() {
       const saved = localStorage.getItem("leadhub.emails.visibleAccounts");
       if (saved) setVisibleAccounts(JSON.parse(saved));
       setSideCollapsed(localStorage.getItem("leadhub.emails.sideCollapsed") === "1");
+      const t = localStorage.getItem("leadhub.emails.trackOpen");
+      if (t !== null) setTrackOpen(t === "1");
     } catch {}
     setVisibleLoaded(true);
   }, []);
@@ -808,6 +817,7 @@ export default function EmailInbox() {
           // anexo que chegou cortado (era isso que virava "anexo não abre").
           attachments: composeAtts.map(({ filename, contentType, contentBase64, size }) => ({ filename, contentType, contentBase64, size })),
           forwardAttachmentIds: fwdPicked,
+          track: trackOpen,
         }),
       });
       const j = await res.json();
@@ -1860,6 +1870,19 @@ export default function EmailInbox() {
                         {accountName(b)}
                       </span>
                     ))}
+                    {e.direction === "OUT" && e.tracked && (
+                      e.openedAt ? (
+                        <span title={`Aberto ${fmtDate(e.openedAt)}${(e.openCount ?? 0) > 1 ? ` · ${e.openCount}×` : ""}`}
+                          className="flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0">
+                          <Eye size={9} /> aberto
+                        </span>
+                      ) : (
+                        <span title="Sem registro de abertura — pode ter sido lido com as imagens bloqueadas"
+                          className="flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-slate-500 flex-shrink-0">
+                          <EyeOff size={9} /> não aberto
+                        </span>
+                      )
+                    )}
                     {e.lead && <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0">lead</span>}
                     {e.ticket && <span className="text-[9px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 flex-shrink-0">chamado</span>}
                     {/* Caso: aviso, lembrete, renovação e fatura do mesmo
@@ -1991,10 +2014,30 @@ export default function EmailInbox() {
                     )}
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-400 break-all">
-                    Para: <span className="text-slate-300">{selected.toEmail}</span>
-                    <span className="text-slate-600"> · {fmtDate(selected.sentAt)}</span>
-                  </p>
+                  <div className="text-xs text-slate-400 break-all">
+                    <p>
+                      Para: <span className="text-slate-300">{selected.toEmail}</span>
+                      <span className="text-slate-600"> · {fmtDate(selected.sentAt)}</span>
+                    </p>
+                    {/* Abertura: só aparece em email enviado com rastreio */}
+                    {selected.tracked && (
+                      selected.openedAt ? (
+                        <p className="text-[11px] text-emerald-300 flex items-center gap-1 mt-0.5"
+                          title={`Primeira abertura em ${fmtDate(selected.openedAt)}${
+                            selected.lastOpenedAt && selected.lastOpenedAt !== selected.openedAt
+                              ? `, última em ${fmtDate(selected.lastOpenedAt)}` : ""
+                            }. O Apple Mail com Proteção de Privacidade carrega imagens na entrega, então uma abertura logo após o envio pode não ser leitura de verdade.`}>
+                          <Eye size={11} /> Aberto {fmtDate(selected.openedAt)}
+                          {(selected.openCount ?? 0) > 1 && ` · ${selected.openCount}×`}
+                        </p>
+                      ) : (
+                        <p className="text-[11px] text-slate-500 flex items-center gap-1 mt-0.5"
+                          title="Ninguém carregou o pixel ainda. Atenção: Outlook e vários apps bloqueiam imagem por padrão — pode ter sido lido sem registrar.">
+                          <EyeOff size={11} /> Sem registro de abertura
+                        </p>
+                      )
+                    )}
+                  </div>
                 )}
                 {selected.aiSummary && (
                   <p className="text-[11px] text-indigo-200/80 flex items-start gap-1">
@@ -2361,6 +2404,21 @@ export default function EmailInbox() {
               </div>
             </div>
             {sendErr && <p className="text-red-400 text-xs mt-2">{sendErr}</p>}
+            {/* Rastreio de abertura: por mensagem, lembrado no navegador */}
+            <button
+              onClick={() => setTrackOpen((v) => {
+                try { localStorage.setItem("leadhub.emails.trackOpen", v ? "0" : "1"); } catch {}
+                return !v;
+              })}
+              title={trackOpen
+                ? "Um pixel invisível avisa quando o destinatário abrir. 'Abriu' é confiável; 'não abriu' não prova nada — muitos clientes de email bloqueiam imagem. Clique pra desligar."
+                : "Desligado: você não saberá se o email foi aberto. Clique pra ligar."}
+              className={`mt-2 flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-lg border ${
+                trackOpen ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200" : "border-white/10 text-slate-500 hover:bg-white/5"}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${trackOpen ? "bg-emerald-400" : "bg-slate-600"}`} />
+              {trackOpen ? <Eye size={11} /> : <EyeOff size={11} />}
+              Avisar quando abrir: {trackOpen ? "ligado" : "desligado"}
+            </button>
             <div className="flex items-center gap-2 mt-3">
               {/* Estado do rascunho: deixa claro que dá pra fechar sem perder nada */}
               <span className="text-[10px] text-slate-500 flex-1 min-w-0 truncate">

@@ -26,7 +26,8 @@
     "postinstall": "echo 'Build pre-compilado incluido no repositorio'",
     "test:email-mime": "tsx scripts/test-email-mime.ts",
     "test:email-forward": "tsx scripts/test-email-forward.ts",
-    "test:email-cases": "tsx scripts/test-email-cases.ts"
+    "test:email-cases": "tsx scripts/test-email-cases.ts",
+    "test:email-open-tracking": "tsx scripts/test-email-open-tracking.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

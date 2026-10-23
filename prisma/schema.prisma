@@ -3635,6 +3635,17 @@ model InboxEmail {
   seen   Boolean  @default(false)
   sentAt DateTime // data do header Date (recebidos) ou do envio (enviados)
 
+  // ─── Rastreio de abertura (só em ENVIADO, e só quando pedido no envio) ───
+  // Pixel 1x1 com este token no HTML que SAI (a cópia guardada aqui vai sem
+  // ele, senão abrir o próprio enviado no GoHub contaria como abertura).
+  // Vale como sinal positivo: "abriu" é confiável, "não abriu" não prova nada
+  // — cliente de email que bloqueia imagem não dispara o pixel, e o Apple Mail
+  // com Privacidade pré-carrega imagem na entrega (pode marcar na hora).
+  trackToken   String?   @unique
+  openedAt     DateTime? // primeira abertura
+  lastOpenedAt DateTime?
+  openCount    Int       @default(0)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 

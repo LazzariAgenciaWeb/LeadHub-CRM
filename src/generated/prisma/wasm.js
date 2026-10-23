@@ -1650,6 +1650,10 @@ exports.Prisma.InboxEmailScalarFieldEnum = {
   aiLocked: 'aiLocked',
   seen: 'seen',
   sentAt: 'sentAt',
+  trackToken: 'trackToken',
+  openedAt: 'openedAt',
+  lastOpenedAt: 'lastOpenedAt',
+  openCount: 'openCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
