@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v24-aviso-encaminhamento";
+export const AUTO_AGENT_REV = "v25-retomada-segura";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -57,7 +57,9 @@ const HISTORY_LIMIT = 30;
 // estourava o teto nos leads mais ricos e o JSON chegava cortado: as bolhas
 // estavam prontas e o motor descartava tudo como "bad_json".
 const MAX_REPLY_TOKENS = 1500;
-const MAX_BUBBLE_CHARS = 200; // acima disso o motor quebra a bolha na marra
+const MAX_BUBBLE_CHARS = 200;
+// E-mail de exemplo/placeholder que o modelo copia do formato do JSON.
+const PLACEHOLDER_EMAIL_RE = /@(example|exemplo|email|e-mail|teste|test|dominio|domain|seudominio|suaempresa|empresa)\.(com|com\.br|br|org|net)$/i; // acima disso o motor quebra a bolha na marra
 
 // Palavra-gatilho default: contato digita SÓ isso numa conversa pausada
 // (humano assumiu) → bot reativa. Configurável por agente (reactivationWord);
@@ -1109,6 +1111,27 @@ async function runAutoAgentCore(
     // o histórico e decide se há algo pendente. Grupo fica de fora: lá o
     // agente só entra pela sentinela.
     if (conv.isGroup) return { ok: false, skipped: "retomada_em_grupo" };
+    // Só há o que retomar se o CONTATO está esperando: a última fala dele
+    // não teve resposta de ninguém do time. Aviso da sentinela/resgate não
+    // conta como resposta. Se quem falou por último foi um atendente, o
+    // agente só volta a ficar de plantão — antes ele lia a mensagem do
+    // atendente como se fosse dele e "seguia o passo": chegou a AGENDAR uma
+    // reunião que ninguém tinha pedido (o atendente só tinha sugerido).
+    const lastInbound = await prisma.message.findFirst({
+      where: { conversationId: conv.id, direction: "INBOUND" },
+      orderBy: { receivedAt: "desc" },
+      select: { receivedAt: true },
+    });
+    if (!lastInbound) return { ok: false, skipped: "retomada_nada_pendente" };
+    const answeredAfter = await prisma.message.findMany({
+      where: { conversationId: conv.id, direction: "OUTBOUND", receivedAt: { gt: lastInbound.receivedAt } },
+      select: { rawPayload: true },
+    });
+    const someoneAnswered = answeredAfter.some((m) => {
+      const raw = m.rawPayload as any;
+      return !(raw?.courtesy || raw?.revival);
+    });
+    if (someoneAnswered) return { ok: false, skipped: "retomada_nada_pendente" };
   } else if (last.direction !== "INBOUND") {
     return { ok: false, skipped: "last_not_inbound" };
   }
@@ -1450,15 +1473,23 @@ async function runAutoAgentCore(
 
   // 2) Executar a action
   const action = decision.action;
+  // Agendar exige o CONTATO escolhendo o horário agora. Na continuação e na
+  // retomada a rodada não nasceu de um pedido dele — reunião criada aí é
+  // reunião que ninguém marcou (evento real na agenda + Meet enviado).
+  if (action === "AGENDAR" && (continuation || resume)) {
+    diag.agendarBloqueado = continuation ? "continuacao" : "retomada";
+    return { ok: false, skipped: "agendar_sem_pedido_do_contato" };
+  }
   if (action === "AGENDAR") {
     // Resgate: se o modelo esquecer os campos do JSON, o motor resolve o slot
     // pelo TEXTO da última mensagem do contato ("seg 03/08 09:00", "3/8 as 9")
     // e o e-mail por regex no histórico recente.
     const inboundDesc = [...history].reverse().filter((m) => m.direction === "INBOUND");
     const fallbackText = inboundDesc[0]?.body ?? null;
-    const fallbackEmail = inboundDesc
-      .map((m) => m.body.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i)?.[0] ?? null)
-      .find(Boolean) ?? null;
+    const inboundEmails = inboundDesc
+      .flatMap((m) => m.body.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi) ?? [])
+      .map((e) => e.toLowerCase());
+    const fallbackEmail = inboundEmails[0] ?? null;
 
     await handleBooking({
       conversationId: conv.id,
@@ -1470,6 +1501,7 @@ async function runAutoAgentCore(
       decision,
       fallbackText,
       fallbackEmail,
+      inboundEmails,
       diag,
       routes: routes.map((r) => ({ intent: r.intent, setorId: r.setorId, setorName: r.setor.name, createLead: r.createLead, createTicket: r.createTicket })),
     });
@@ -1700,10 +1732,12 @@ async function handleBooking(args: {
   decision: AgentDecision;
   fallbackText: string | null;
   fallbackEmail: string | null;
+  /** Todo e-mail que o CONTATO escreveu na conversa — o único que vale do JSON. */
+  inboundEmails: string[];
   diag: Record<string, unknown>;
   routes: { intent: string; setorId: string; setorName: string; createLead: boolean }[];
 }): Promise<void> {
-  const { conversationId, companyId, phone, setorId, sender, scheduling, decision, fallbackText, fallbackEmail, diag, routes } = args;
+  const { conversationId, companyId, phone, setorId, sender, scheduling, decision, fallbackText, fallbackEmail, inboundEmails, diag, routes } = args;
 
   // Sem contexto de agenda o modelo não deveria emitir AGENDAR — handoff defensivo.
   if (!scheduling) {
@@ -1768,7 +1802,17 @@ async function handleBooking(args: {
 
   // E-mail: o que veio no JSON; senão o que o contato digitou no histórico;
   // senão o cadastrado no Lead.
-  const attendeeEmail = decision.agendarEmail ?? fallbackEmail ?? lead?.email ?? null;
+  //
+  // O modelo INVENTA e-mail quando não tem um (já mandou "anderson@example.com"
+  // e respondeu "o convite também foi pro seu e-mail"). Do JSON só vale o que o
+  // contato escreveu de fato ou o que está no cadastro; domínio de exemplo
+  // nunca vale.
+  const known = new Set([...inboundEmails, ...(lead?.email ? [lead.email.toLowerCase()] : [])]);
+  const real = (e: string | null | undefined) =>
+    e && !PLACEHOLDER_EMAIL_RE.test(e) ? e : null;
+  const modelEmail = decision.agendarEmail && known.has(decision.agendarEmail.toLowerCase()) ? decision.agendarEmail : null;
+  if (decision.agendarEmail && !modelEmail) diag.emailDescartado = decision.agendarEmail;
+  const attendeeEmail = real(modelEmail) ?? real(fallbackEmail) ?? real(lead?.email) ?? null;
 
   let booked;
   try {

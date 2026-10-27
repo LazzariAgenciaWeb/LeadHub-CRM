@@ -180,6 +180,8 @@ function describeAiResult(code: string | null | undefined): { text: string; warn
     last_not_inbound: { text: "nada pendente do contato", warn: false },
     human_replied_during_ai: { text: "um atendente respondeu enquanto ela pensava", warn: false },
     paused_during_ai: { text: "foi pausada enquanto pensava", warn: false },
+    retomada_nada_pendente: { text: "reativada — a última fala já foi respondida, ela espera a próxima mensagem do contato", warn: false },
+    agendar_sem_pedido_do_contato: { text: "tentou agendar sem o contato ter pedido — bloqueado", warn: true },
     contato_escreveu_durante_ia: { text: "o contato mandou outra mensagem enquanto ela pensava — respondeu tudo junto na rodada seguinte", warn: false },
     ai_QUOTA: { text: "cota de IA da empresa esgotada", warn: true },
     ai_NO_CONFIG: { text: "IA sem configuração (chave/modelo)", warn: true },
