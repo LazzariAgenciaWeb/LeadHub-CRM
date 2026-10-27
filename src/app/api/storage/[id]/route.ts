@@ -16,12 +16,20 @@ async function load(session: any, id: string) {
   const auth = await authorizeTarget(session, target);
   if (!auth.ok) return { error: auth.error, status: auth.status };
   // Cliente na biblioteca: só abre o que a agência liberou pra ele.
-  if (auth.asClient) {
+  if (auth.asClient && target.kind === "library") {
     const item = await prisma.clientLibraryItem.findUnique({
       where: { storageObjectId: obj.id },
       select: { visibleToClient: true },
     });
     if (!item?.visibleToClient) return { error: "Arquivo não encontrado", status: 404 as const };
+  }
+  // Cliente no chamado: anexo de mensagem INTERNA da equipe nunca abre pra ele.
+  if (auth.asClient && target.kind === "ticket" && obj.ticketMessageId) {
+    const msg = await prisma.ticketMessage.findUnique({
+      where: { id: obj.ticketMessageId },
+      select: { isInternal: true },
+    });
+    if (!msg || msg.isInternal) return { error: "Arquivo não encontrado", status: 404 as const };
   }
   return { obj, asClient: !!auth.asClient };
 }

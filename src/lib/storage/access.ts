@@ -61,6 +61,11 @@ export async function authorizeTarget(
     });
     if (!ticket) return { ok: false, status: 404, error: "Chamado não encontrado" };
     if (role !== "SUPER_ADMIN" && ticket.companyId !== userCompanyId) {
+      // Cliente do chamado (Meu Espaço): só LÊ, e só chamado não interno. Se o
+      // arquivo é de uma mensagem interna, a rota do arquivo barra (asClient).
+      if (!opts.write && userCompanyId && ticket.clientCompanyId === userCompanyId && !ticket.isInternal) {
+        return { ok: true, companyId: ticket.companyId, target, asClient: true };
+      }
       return { ok: false, status: 403, error: "Sem permissão" };
     }
     const viewer = await getViewer(session);

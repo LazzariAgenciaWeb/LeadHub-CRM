@@ -4,8 +4,48 @@ import { useState } from "react";
 
 type Ticket = { id: string; title: string; category: string | null; status: string; createdAt: string };
 type Service = { id: string; name: string; description: string | null };
-type Msg = { id: string; body: string; authorName: string; mine: boolean; createdAt: string };
-type Detail = { id: string; title: string; category: string | null; status: string; createdAt: string; messages: Msg[] };
+type TFile = { id: string; fileName: string; mimeType: string; url: string };
+type Msg = {
+  id: string; body: string; authorName: string; mine: boolean; createdAt: string;
+  media?: { url: string; mimeType: string } | null;
+  files?: TFile[];
+};
+type Detail = { id: string; title: string; category: string | null; status: string; createdAt: string; messages: Msg[]; files?: TFile[] };
+
+// Prints e anexos do chamado: imagem vira miniatura (abre inteira ao clicar),
+// o resto vira link pro arquivo.
+function Anexos({ media, files, align }: { media?: Msg["media"]; files?: TFile[]; align: "flex-start" | "flex-end" }) {
+  const imgs = [
+    ...(media && media.mimeType.startsWith("image/") ? [{ key: "media", url: media.url, name: "print" }] : []),
+    ...(files ?? []).filter((f) => f.mimeType.startsWith("image/")).map((f) => ({ key: f.id, url: f.url, name: f.fileName })),
+  ];
+  const outros = [
+    ...(media && !media.mimeType.startsWith("image/") ? [{ key: "media", url: media.url, name: "Arquivo" }] : []),
+    ...(files ?? []).filter((f) => !f.mimeType.startsWith("image/")).map((f) => ({ key: f.id, url: f.url, name: f.fileName })),
+  ];
+  if (!imgs.length && !outros.length) return null;
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: align, marginTop: 6 }}>
+      {imgs.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: align }}>
+          {imgs.map((im) => (
+            <a key={im.key} href={im.url} target="_blank" rel="noopener noreferrer" title={im.name}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={im.url} alt={im.name} loading="lazy"
+                style={{ display: "block", maxWidth: 240, maxHeight: 200, borderRadius: 10, border: "1px solid rgba(255,255,255,.12)", objectFit: "cover" }} />
+            </a>
+          ))}
+        </div>
+      )}
+      {outros.map((f) => (
+        <a key={f.key} href={f.url} target="_blank" rel="noopener noreferrer"
+          style={{ fontSize: 12.5, color: "#AFC0FF", textDecoration: "none", padding: "6px 10px", borderRadius: 9, border: "1px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.04)" }}>
+          📎 {f.name}
+        </a>
+      ))}
+    </div>
+  );
+}
 
 const ST: Record<string, { label: string; tone: string }> = {
   OPEN:        { label: "Aberto",        tone: "info" },
@@ -197,17 +237,26 @@ export default function MeuEspacoInteracoes({
                     <span className={`pill ${(ST[detail.status] ?? { tone: "muted" }).tone}`}>{(ST[detail.status] ?? { label: detail.status }).label}</span>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 12, maxHeight: "42vh", overflowY: "auto", paddingRight: 4 }}>
+                    {!!detail.files?.length && (
+                      <div>
+                        <div style={{ fontSize: 11, color: "#727A8C", margin: "0 2px 3px" }}>Arquivos do chamado</div>
+                        <Anexos files={detail.files} align="flex-start" />
+                      </div>
+                    )}
                     {detail.messages.map((m) => (
                       <div key={m.id} style={{ alignSelf: m.mine ? "flex-end" : "flex-start", maxWidth: "86%" }}>
                         <div style={{ fontSize: 11, color: "#727A8C", margin: "0 2px 3px", textAlign: m.mine ? "right" : "left" }}>
                           {m.mine ? "Você" : m.authorName} · {fmtDT(m.createdAt)}
                         </div>
-                        <div style={{
-                          background: m.mine ? "linear-gradient(135deg,#6E86FF,#9B7BFF)" : "rgba(255,255,255,.06)",
-                          color: m.mine ? "#fff" : "#E7EAF3",
-                          border: m.mine ? "none" : "1px solid rgba(255,255,255,.10)",
-                          borderRadius: 13, padding: "9px 13px", fontSize: 13.5, lineHeight: 1.5, whiteSpace: "pre-wrap",
-                        }}>{m.body}</div>
+                        {m.body.trim() && (
+                          <div style={{
+                            background: m.mine ? "linear-gradient(135deg,#6E86FF,#9B7BFF)" : "rgba(255,255,255,.06)",
+                            color: m.mine ? "#fff" : "#E7EAF3",
+                            border: m.mine ? "none" : "1px solid rgba(255,255,255,.10)",
+                            borderRadius: 13, padding: "9px 13px", fontSize: 13.5, lineHeight: 1.5, whiteSpace: "pre-wrap",
+                          }}>{m.body}</div>
+                        )}
+                        <Anexos media={m.media} files={m.files} align={m.mine ? "flex-end" : "flex-start"} />
                       </div>
                     ))}
                   </div>

@@ -10,7 +10,8 @@ import { prisma } from "@/lib/prisma";
  * `<img src>` e o browser baixa só quando renderiza, cacheando localmente.
  *
  * Auth: precisa estar logado e ser da mesma empresa do ticket
- * (SUPER_ADMIN passa direto).
+ * (SUPER_ADMIN passa direto) — ou ser o CLIENTE do chamado (Meu Espaço), desde
+ * que nem o chamado nem a mensagem sejam internos.
  */
 export async function GET(
   _req: NextRequest,
@@ -28,14 +29,17 @@ export async function GET(
     select: {
       mediaBase64: true,
       mediaType:   true,
-      ticket:      { select: { companyId: true } },
+      isInternal:  true,
+      ticket:      { select: { companyId: true, clientCompanyId: true, isInternal: true } },
     },
   });
 
   if (!msg)             return new NextResponse("Não encontrado", { status: 404 });
   if (!msg.mediaBase64) return new NextResponse("Sem mídia",      { status: 404 });
 
-  if (userRole !== "SUPER_ADMIN" && msg.ticket.companyId !== userCompanyId) {
+  const isClientOfTicket = !!userCompanyId && msg.ticket.clientCompanyId === userCompanyId
+    && !msg.ticket.isInternal && !msg.isInternal;
+  if (userRole !== "SUPER_ADMIN" && msg.ticket.companyId !== userCompanyId && !isClientOfTicket) {
     return new NextResponse("Não autorizado", { status: 403 });
   }
 
