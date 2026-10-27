@@ -4956,6 +4956,12 @@ model BioPage {
   // Vazio = texto padrão do sistema.
   consentText     String? @db.Text
 
+  // Indicação: a empresa se cadastrou pelo selo "Feito com GoHub" desta outra
+  // página (/comecar?ref=slug). Mede quantos cadastros cada página traz.
+  referredBy   BioPage?  @relation("BioReferral", fields: [referredById], references: [id], onDelete: SetNull)
+  referredById String?
+  referrals    BioPage[] @relation("BioReferral")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

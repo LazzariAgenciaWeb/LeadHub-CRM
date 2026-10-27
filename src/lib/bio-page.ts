@@ -286,3 +286,51 @@ export function parseBioEditorInput(body: unknown): Parsed {
     },
   };
 }
+
+// ─── Cadastro público (/comecar) ─────────────────────────────────────────────
+
+export const BIO_SIGNUP_SOURCE = "pagina-negocio-cadastro";
+export const BIO_PASSWORD_MIN = 8;
+
+/** Ramos comuns de PME de serviço local — "Outro" abre campo livre. */
+export const BIO_SEGMENTS = [
+  "Saúde e bem-estar", "Odontologia", "Beleza e estética", "Pet", "Alimentação",
+  "Educação", "Advocacia e contabilidade", "Construção e reformas", "Automotivo",
+  "Imobiliária", "Moda e varejo", "Eventos e fotografia",
+] as const;
+
+export interface BioSignupInput {
+  businessName: string;
+  segment: string;
+  city: string;
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  ref: string | null;
+}
+
+/** `phone` sai normalizado (só dígitos com DDI). Telefone é validado por quem chama. */
+export function parseBioSignup(body: unknown, normalizePhone: (raw: string) => string):
+  { ok: true; data: BioSignupInput } | { ok: false; error: string } {
+  const b = (body ?? {}) as Record<string, unknown>;
+  const businessName = text(b.businessName, 80);
+  if (!businessName || businessName.length < 2) return { ok: false, error: "Informe o nome do seu negócio." };
+  const segment = text(b.segment, 60);
+  if (!segment) return { ok: false, error: "Escolha o ramo do negócio." };
+  const city = text(b.city, 60);
+  if (!city || city.length < 2) return { ok: false, error: "Informe a cidade." };
+  const name = text(b.name, 80);
+  if (!name || name.length < 2) return { ok: false, error: "Informe seu nome." };
+  const email = (text(b.email, 200) ?? "").toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { ok: false, error: "E-mail inválido." };
+  const phone = normalizePhone(String(b.phone ?? ""));
+  if (!/^\d{12,15}$/.test(phone)) return { ok: false, error: "Informe o WhatsApp com DDD." };
+  const password = typeof b.password === "string" ? b.password : "";
+  if (password.length < BIO_PASSWORD_MIN) return { ok: false, error: `A senha precisa de pelo menos ${BIO_PASSWORD_MIN} caracteres.` };
+  if (password.length > 200) return { ok: false, error: "Senha longa demais." };
+  if (b.acceptTerms !== true) return { ok: false, error: "É preciso aceitar os termos para criar a conta." };
+  const refRaw = typeof b.ref === "string" ? b.ref.trim().toLowerCase() : "";
+  const ref = refRaw && !bioSlugProblem(refRaw) ? refRaw : null;
+  return { ok: true, data: { businessName, segment, city, name, email, phone, password, ref } };
+}

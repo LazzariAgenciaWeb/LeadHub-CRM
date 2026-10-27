@@ -37,6 +37,10 @@ export const SOURCE_META: Record<string, SourceMeta> = {
   // no banco); pro usuário SEMPRE exibimos o rótulo de produto "LeadHub Prospecta".
   serpapi:             { label: "LeadHub Prospecta", icon: "🎯", color: "indigo" },
   "prospecta leadhub": { label: "LeadHub Prospecta", icon: "🎯", color: "indigo" },
+  // Página do Negócio: contato deixado na página pública do cliente, e a
+  // empresa que se cadastrou no grátis (lead da agência).
+  "pagina-negocio":          { label: "Página do Negócio", icon: "📄", color: "cyan" },
+  "pagina-negocio-cadastro": { label: "Cadastro Página",   icon: "🚀", color: "violet" },
 };
 
 export function getSourceMeta(source: string | null | undefined): SourceMeta {

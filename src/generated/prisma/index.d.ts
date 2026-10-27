@@ -16527,6 +16527,7 @@ export namespace Prisma {
    */
 
   export type BioPageCountOutputType = {
+    referrals: number
     blocks: number
     questions: number
     submissions: number
@@ -16534,6 +16535,7 @@ export namespace Prisma {
   }
 
   export type BioPageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    referrals?: boolean | BioPageCountOutputTypeCountReferralsArgs
     blocks?: boolean | BioPageCountOutputTypeCountBlocksArgs
     questions?: boolean | BioPageCountOutputTypeCountQuestionsArgs
     submissions?: boolean | BioPageCountOutputTypeCountSubmissionsArgs
@@ -16549,6 +16551,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the BioPageCountOutputType
      */
     select?: BioPageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BioPageCountOutputType without action
+   */
+  export type BioPageCountOutputTypeCountReferralsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioPageWhereInput
   }
 
   /**
@@ -164482,6 +164491,7 @@ export namespace Prisma {
     quizCta: string | null
     thankYouMessage: string | null
     consentText: string | null
+    referredById: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -164504,6 +164514,7 @@ export namespace Prisma {
     quizCta: string | null
     thankYouMessage: string | null
     consentText: string | null
+    referredById: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -164526,6 +164537,7 @@ export namespace Prisma {
     quizCta: number
     thankYouMessage: number
     consentText: number
+    referredById: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -164550,6 +164562,7 @@ export namespace Prisma {
     quizCta?: true
     thankYouMessage?: true
     consentText?: true
+    referredById?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -164572,6 +164585,7 @@ export namespace Prisma {
     quizCta?: true
     thankYouMessage?: true
     consentText?: true
+    referredById?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -164594,6 +164608,7 @@ export namespace Prisma {
     quizCta?: true
     thankYouMessage?: true
     consentText?: true
+    referredById?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -164689,6 +164704,7 @@ export namespace Prisma {
     quizCta: string | null
     thankYouMessage: string | null
     consentText: string | null
+    referredById: string | null
     createdAt: Date
     updatedAt: Date
     _count: BioPageCountAggregateOutputType | null
@@ -164728,9 +164744,12 @@ export namespace Prisma {
     quizCta?: boolean
     thankYouMessage?: boolean
     consentText?: boolean
+    referredById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    referredBy?: boolean | BioPage$referredByArgs<ExtArgs>
+    referrals?: boolean | BioPage$referralsArgs<ExtArgs>
     blocks?: boolean | BioPage$blocksArgs<ExtArgs>
     questions?: boolean | BioPage$questionsArgs<ExtArgs>
     submissions?: boolean | BioPage$submissionsArgs<ExtArgs>
@@ -164756,9 +164775,11 @@ export namespace Prisma {
     quizCta?: boolean
     thankYouMessage?: boolean
     consentText?: boolean
+    referredById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    referredBy?: boolean | BioPage$referredByArgs<ExtArgs>
   }, ExtArgs["result"]["bioPage"]>
 
   export type BioPageSelectScalar = {
@@ -164779,12 +164800,15 @@ export namespace Prisma {
     quizCta?: boolean
     thankYouMessage?: boolean
     consentText?: boolean
+    referredById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
   export type BioPageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    referredBy?: boolean | BioPage$referredByArgs<ExtArgs>
+    referrals?: boolean | BioPage$referralsArgs<ExtArgs>
     blocks?: boolean | BioPage$blocksArgs<ExtArgs>
     questions?: boolean | BioPage$questionsArgs<ExtArgs>
     submissions?: boolean | BioPage$submissionsArgs<ExtArgs>
@@ -164793,12 +164817,15 @@ export namespace Prisma {
   }
   export type BioPageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    referredBy?: boolean | BioPage$referredByArgs<ExtArgs>
   }
 
   export type $BioPagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "BioPage"
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
+      referredBy: Prisma.$BioPagePayload<ExtArgs> | null
+      referrals: Prisma.$BioPagePayload<ExtArgs>[]
       blocks: Prisma.$BioBlockPayload<ExtArgs>[]
       questions: Prisma.$BioQuestionPayload<ExtArgs>[]
       submissions: Prisma.$BioSubmissionPayload<ExtArgs>[]
@@ -164822,6 +164849,7 @@ export namespace Prisma {
       quizCta: string | null
       thankYouMessage: string | null
       consentText: string | null
+      referredById: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["bioPage"]>
@@ -165189,6 +165217,8 @@ export namespace Prisma {
   export interface Prisma__BioPageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    referredBy<T extends BioPage$referredByArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$referredByArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    referrals<T extends BioPage$referralsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$referralsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findMany"> | Null>
     blocks<T extends BioPage$blocksArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$blocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "findMany"> | Null>
     questions<T extends BioPage$questionsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "findMany"> | Null>
     submissions<T extends BioPage$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findMany"> | Null>
@@ -165239,6 +165269,7 @@ export namespace Prisma {
     readonly quizCta: FieldRef<"BioPage", 'String'>
     readonly thankYouMessage: FieldRef<"BioPage", 'String'>
     readonly consentText: FieldRef<"BioPage", 'String'>
+    readonly referredById: FieldRef<"BioPage", 'String'>
     readonly createdAt: FieldRef<"BioPage", 'DateTime'>
     readonly updatedAt: FieldRef<"BioPage", 'DateTime'>
   }
@@ -165556,6 +165587,41 @@ export namespace Prisma {
      * Filter which BioPages to delete
      */
     where?: BioPageWhereInput
+  }
+
+  /**
+   * BioPage.referredBy
+   */
+  export type BioPage$referredByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    where?: BioPageWhereInput
+  }
+
+  /**
+   * BioPage.referrals
+   */
+  export type BioPage$referralsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    where?: BioPageWhereInput
+    orderBy?: BioPageOrderByWithRelationInput | BioPageOrderByWithRelationInput[]
+    cursor?: BioPageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BioPageScalarFieldEnum | BioPageScalarFieldEnum[]
   }
 
   /**
@@ -172311,6 +172377,7 @@ export namespace Prisma {
     quizCta: 'quizCta',
     thankYouMessage: 'thankYouMessage',
     consentText: 'consentText',
+    referredById: 'referredById',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -186856,9 +186923,12 @@ export namespace Prisma {
     quizCta?: StringNullableFilter<"BioPage"> | string | null
     thankYouMessage?: StringNullableFilter<"BioPage"> | string | null
     consentText?: StringNullableFilter<"BioPage"> | string | null
+    referredById?: StringNullableFilter<"BioPage"> | string | null
     createdAt?: DateTimeFilter<"BioPage"> | Date | string
     updatedAt?: DateTimeFilter<"BioPage"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    referredBy?: XOR<BioPageNullableRelationFilter, BioPageWhereInput> | null
+    referrals?: BioPageListRelationFilter
     blocks?: BioBlockListRelationFilter
     questions?: BioQuestionListRelationFilter
     submissions?: BioSubmissionListRelationFilter
@@ -186883,9 +186953,12 @@ export namespace Prisma {
     quizCta?: SortOrderInput | SortOrder
     thankYouMessage?: SortOrderInput | SortOrder
     consentText?: SortOrderInput | SortOrder
+    referredById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
+    referredBy?: BioPageOrderByWithRelationInput
+    referrals?: BioPageOrderByRelationAggregateInput
     blocks?: BioBlockOrderByRelationAggregateInput
     questions?: BioQuestionOrderByRelationAggregateInput
     submissions?: BioSubmissionOrderByRelationAggregateInput
@@ -186913,9 +186986,12 @@ export namespace Prisma {
     quizCta?: StringNullableFilter<"BioPage"> | string | null
     thankYouMessage?: StringNullableFilter<"BioPage"> | string | null
     consentText?: StringNullableFilter<"BioPage"> | string | null
+    referredById?: StringNullableFilter<"BioPage"> | string | null
     createdAt?: DateTimeFilter<"BioPage"> | Date | string
     updatedAt?: DateTimeFilter<"BioPage"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    referredBy?: XOR<BioPageNullableRelationFilter, BioPageWhereInput> | null
+    referrals?: BioPageListRelationFilter
     blocks?: BioBlockListRelationFilter
     questions?: BioQuestionListRelationFilter
     submissions?: BioSubmissionListRelationFilter
@@ -186940,6 +187016,7 @@ export namespace Prisma {
     quizCta?: SortOrderInput | SortOrder
     thankYouMessage?: SortOrderInput | SortOrder
     consentText?: SortOrderInput | SortOrder
+    referredById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BioPageCountOrderByAggregateInput
@@ -186968,6 +187045,7 @@ export namespace Prisma {
     quizCta?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
     thankYouMessage?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
     consentText?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    referredById?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BioPage"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BioPage"> | Date | string
   }
@@ -202525,6 +202603,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
+    referredBy?: BioPageCreateNestedOneWithoutReferralsInput
+    referrals?: BioPageCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockCreateNestedManyWithoutPageInput
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
@@ -202549,8 +202629,10 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
@@ -202577,6 +202659,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
+    referrals?: BioPageUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
@@ -202601,8 +202685,10 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
@@ -202627,6 +202713,7 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -202670,6 +202757,7 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -213183,6 +213271,12 @@ export namespace Prisma {
     not?: NestedEnumBioTemplateFilter<$PrismaModel> | $Enums.BioTemplate
   }
 
+  export type BioPageListRelationFilter = {
+    every?: BioPageWhereInput
+    some?: BioPageWhereInput
+    none?: BioPageWhereInput
+  }
+
   export type BioBlockListRelationFilter = {
     every?: BioBlockWhereInput
     some?: BioBlockWhereInput
@@ -213199,6 +213293,10 @@ export namespace Prisma {
     every?: BioEventWhereInput
     some?: BioEventWhereInput
     none?: BioEventWhereInput
+  }
+
+  export type BioPageOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type BioBlockOrderByRelationAggregateInput = {
@@ -213231,6 +213329,7 @@ export namespace Prisma {
     quizCta?: SortOrder
     thankYouMessage?: SortOrder
     consentText?: SortOrder
+    referredById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -213253,6 +213352,7 @@ export namespace Prisma {
     quizCta?: SortOrder
     thankYouMessage?: SortOrder
     consentText?: SortOrder
+    referredById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -213275,6 +213375,7 @@ export namespace Prisma {
     quizCta?: SortOrder
     thankYouMessage?: SortOrder
     consentText?: SortOrder
+    referredById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -226534,6 +226635,19 @@ export namespace Prisma {
     connect?: CompanyWhereUniqueInput
   }
 
+  export type BioPageCreateNestedOneWithoutReferralsInput = {
+    create?: XOR<BioPageCreateWithoutReferralsInput, BioPageUncheckedCreateWithoutReferralsInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutReferralsInput
+    connect?: BioPageWhereUniqueInput
+  }
+
+  export type BioPageCreateNestedManyWithoutReferredByInput = {
+    create?: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput> | BioPageCreateWithoutReferredByInput[] | BioPageUncheckedCreateWithoutReferredByInput[]
+    connectOrCreate?: BioPageCreateOrConnectWithoutReferredByInput | BioPageCreateOrConnectWithoutReferredByInput[]
+    createMany?: BioPageCreateManyReferredByInputEnvelope
+    connect?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
+  }
+
   export type BioBlockCreateNestedManyWithoutPageInput = {
     create?: XOR<BioBlockCreateWithoutPageInput, BioBlockUncheckedCreateWithoutPageInput> | BioBlockCreateWithoutPageInput[] | BioBlockUncheckedCreateWithoutPageInput[]
     connectOrCreate?: BioBlockCreateOrConnectWithoutPageInput | BioBlockCreateOrConnectWithoutPageInput[]
@@ -226560,6 +226674,13 @@ export namespace Prisma {
     connectOrCreate?: BioEventCreateOrConnectWithoutPageInput | BioEventCreateOrConnectWithoutPageInput[]
     createMany?: BioEventCreateManyPageInputEnvelope
     connect?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+  }
+
+  export type BioPageUncheckedCreateNestedManyWithoutReferredByInput = {
+    create?: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput> | BioPageCreateWithoutReferredByInput[] | BioPageUncheckedCreateWithoutReferredByInput[]
+    connectOrCreate?: BioPageCreateOrConnectWithoutReferredByInput | BioPageCreateOrConnectWithoutReferredByInput[]
+    createMany?: BioPageCreateManyReferredByInputEnvelope
+    connect?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
   }
 
   export type BioBlockUncheckedCreateNestedManyWithoutPageInput = {
@@ -226600,6 +226721,30 @@ export namespace Prisma {
     upsert?: CompanyUpsertWithoutBioPageInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutBioPageInput, CompanyUpdateWithoutBioPageInput>, CompanyUncheckedUpdateWithoutBioPageInput>
+  }
+
+  export type BioPageUpdateOneWithoutReferralsNestedInput = {
+    create?: XOR<BioPageCreateWithoutReferralsInput, BioPageUncheckedCreateWithoutReferralsInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutReferralsInput
+    upsert?: BioPageUpsertWithoutReferralsInput
+    disconnect?: BioPageWhereInput | boolean
+    delete?: BioPageWhereInput | boolean
+    connect?: BioPageWhereUniqueInput
+    update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutReferralsInput, BioPageUpdateWithoutReferralsInput>, BioPageUncheckedUpdateWithoutReferralsInput>
+  }
+
+  export type BioPageUpdateManyWithoutReferredByNestedInput = {
+    create?: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput> | BioPageCreateWithoutReferredByInput[] | BioPageUncheckedCreateWithoutReferredByInput[]
+    connectOrCreate?: BioPageCreateOrConnectWithoutReferredByInput | BioPageCreateOrConnectWithoutReferredByInput[]
+    upsert?: BioPageUpsertWithWhereUniqueWithoutReferredByInput | BioPageUpsertWithWhereUniqueWithoutReferredByInput[]
+    createMany?: BioPageCreateManyReferredByInputEnvelope
+    set?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
+    disconnect?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
+    delete?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
+    connect?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
+    update?: BioPageUpdateWithWhereUniqueWithoutReferredByInput | BioPageUpdateWithWhereUniqueWithoutReferredByInput[]
+    updateMany?: BioPageUpdateManyWithWhereWithoutReferredByInput | BioPageUpdateManyWithWhereWithoutReferredByInput[]
+    deleteMany?: BioPageScalarWhereInput | BioPageScalarWhereInput[]
   }
 
   export type BioBlockUpdateManyWithoutPageNestedInput = {
@@ -226656,6 +226801,20 @@ export namespace Prisma {
     update?: BioEventUpdateWithWhereUniqueWithoutPageInput | BioEventUpdateWithWhereUniqueWithoutPageInput[]
     updateMany?: BioEventUpdateManyWithWhereWithoutPageInput | BioEventUpdateManyWithWhereWithoutPageInput[]
     deleteMany?: BioEventScalarWhereInput | BioEventScalarWhereInput[]
+  }
+
+  export type BioPageUncheckedUpdateManyWithoutReferredByNestedInput = {
+    create?: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput> | BioPageCreateWithoutReferredByInput[] | BioPageUncheckedCreateWithoutReferredByInput[]
+    connectOrCreate?: BioPageCreateOrConnectWithoutReferredByInput | BioPageCreateOrConnectWithoutReferredByInput[]
+    upsert?: BioPageUpsertWithWhereUniqueWithoutReferredByInput | BioPageUpsertWithWhereUniqueWithoutReferredByInput[]
+    createMany?: BioPageCreateManyReferredByInputEnvelope
+    set?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
+    disconnect?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
+    delete?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
+    connect?: BioPageWhereUniqueInput | BioPageWhereUniqueInput[]
+    update?: BioPageUpdateWithWhereUniqueWithoutReferredByInput | BioPageUpdateWithWhereUniqueWithoutReferredByInput[]
+    updateMany?: BioPageUpdateManyWithWhereWithoutReferredByInput | BioPageUpdateManyWithWhereWithoutReferredByInput[]
+    deleteMany?: BioPageScalarWhereInput | BioPageScalarWhereInput[]
   }
 
   export type BioBlockUncheckedUpdateManyWithoutPageNestedInput = {
@@ -236862,6 +237021,8 @@ export namespace Prisma {
     consentText?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    referredBy?: BioPageCreateNestedOneWithoutReferralsInput
+    referrals?: BioPageCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockCreateNestedManyWithoutPageInput
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
@@ -236885,8 +237046,10 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
@@ -240563,6 +240726,8 @@ export namespace Prisma {
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
+    referrals?: BioPageUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
@@ -240586,8 +240751,10 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
@@ -320557,6 +320724,129 @@ export namespace Prisma {
     create: XOR<CompanyCreateWithoutBioPageInput, CompanyUncheckedCreateWithoutBioPageInput>
   }
 
+  export type BioPageCreateWithoutReferralsInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBioPageInput
+    referredBy?: BioPageCreateNestedOneWithoutReferralsInput
+    blocks?: BioBlockCreateNestedManyWithoutPageInput
+    questions?: BioQuestionCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+    events?: BioEventCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateWithoutReferralsInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    referredById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
+    questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+    events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageCreateOrConnectWithoutReferralsInput = {
+    where: BioPageWhereUniqueInput
+    create: XOR<BioPageCreateWithoutReferralsInput, BioPageUncheckedCreateWithoutReferralsInput>
+  }
+
+  export type BioPageCreateWithoutReferredByInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBioPageInput
+    referrals?: BioPageCreateNestedManyWithoutReferredByInput
+    blocks?: BioBlockCreateNestedManyWithoutPageInput
+    questions?: BioQuestionCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+    events?: BioEventCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateWithoutReferredByInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
+    blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
+    questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+    events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageCreateOrConnectWithoutReferredByInput = {
+    where: BioPageWhereUniqueInput
+    create: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput>
+  }
+
+  export type BioPageCreateManyReferredByInputEnvelope = {
+    data: BioPageCreateManyReferredByInput | BioPageCreateManyReferredByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BioBlockCreateWithoutPageInput = {
     id?: string
     type?: $Enums.BioBlockType
@@ -321000,6 +321290,113 @@ export namespace Prisma {
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
+  export type BioPageUpsertWithoutReferralsInput = {
+    update: XOR<BioPageUpdateWithoutReferralsInput, BioPageUncheckedUpdateWithoutReferralsInput>
+    create: XOR<BioPageCreateWithoutReferralsInput, BioPageUncheckedCreateWithoutReferralsInput>
+    where?: BioPageWhereInput
+  }
+
+  export type BioPageUpdateToOneWithWhereWithoutReferralsInput = {
+    where?: BioPageWhereInput
+    data: XOR<BioPageUpdateWithoutReferralsInput, BioPageUncheckedUpdateWithoutReferralsInput>
+  }
+
+  export type BioPageUpdateWithoutReferralsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
+    blocks?: BioBlockUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+    events?: BioEventUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateWithoutReferralsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUpsertWithWhereUniqueWithoutReferredByInput = {
+    where: BioPageWhereUniqueInput
+    update: XOR<BioPageUpdateWithoutReferredByInput, BioPageUncheckedUpdateWithoutReferredByInput>
+    create: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput>
+  }
+
+  export type BioPageUpdateWithWhereUniqueWithoutReferredByInput = {
+    where: BioPageWhereUniqueInput
+    data: XOR<BioPageUpdateWithoutReferredByInput, BioPageUncheckedUpdateWithoutReferredByInput>
+  }
+
+  export type BioPageUpdateManyWithWhereWithoutReferredByInput = {
+    where: BioPageScalarWhereInput
+    data: XOR<BioPageUpdateManyMutationInput, BioPageUncheckedUpdateManyWithoutReferredByInput>
+  }
+
+  export type BioPageScalarWhereInput = {
+    AND?: BioPageScalarWhereInput | BioPageScalarWhereInput[]
+    OR?: BioPageScalarWhereInput[]
+    NOT?: BioPageScalarWhereInput | BioPageScalarWhereInput[]
+    id?: StringFilter<"BioPage"> | string
+    companyId?: StringFilter<"BioPage"> | string
+    slug?: StringFilter<"BioPage"> | string
+    template?: EnumBioTemplateFilter<"BioPage"> | $Enums.BioTemplate
+    title?: StringFilter<"BioPage"> | string
+    headline?: StringNullableFilter<"BioPage"> | string | null
+    about?: StringNullableFilter<"BioPage"> | string | null
+    avatarUrl?: StringNullableFilter<"BioPage"> | string | null
+    coverUrl?: StringNullableFilter<"BioPage"> | string | null
+    accentColor?: StringNullableFilter<"BioPage"> | string | null
+    published?: BoolFilter<"BioPage"> | boolean
+    publishedAt?: DateTimeNullableFilter<"BioPage"> | Date | string | null
+    quizEnabled?: BoolFilter<"BioPage"> | boolean
+    quizTitle?: StringNullableFilter<"BioPage"> | string | null
+    quizCta?: StringNullableFilter<"BioPage"> | string | null
+    thankYouMessage?: StringNullableFilter<"BioPage"> | string | null
+    consentText?: StringNullableFilter<"BioPage"> | string | null
+    referredById?: StringNullableFilter<"BioPage"> | string | null
+    createdAt?: DateTimeFilter<"BioPage"> | Date | string
+    updatedAt?: DateTimeFilter<"BioPage"> | Date | string
+  }
+
   export type BioBlockUpsertWithWhereUniqueWithoutPageInput = {
     where: BioBlockWhereUniqueInput
     update: XOR<BioBlockUpdateWithoutPageInput, BioBlockUncheckedUpdateWithoutPageInput>
@@ -321134,6 +321531,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
+    referredBy?: BioPageCreateNestedOneWithoutReferralsInput
+    referrals?: BioPageCreateNestedManyWithoutReferredByInput
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
@@ -321157,8 +321556,10 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
@@ -321200,6 +321601,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
+    referrals?: BioPageUpdateManyWithoutReferredByNestedInput
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
@@ -321223,8 +321626,10 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
@@ -321250,6 +321655,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
+    referredBy?: BioPageCreateNestedOneWithoutReferralsInput
+    referrals?: BioPageCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
@@ -321273,8 +321680,10 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
@@ -321316,6 +321725,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
+    referrals?: BioPageUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
@@ -321339,8 +321750,10 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
@@ -321366,6 +321779,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
+    referredBy?: BioPageCreateNestedOneWithoutReferralsInput
+    referrals?: BioPageCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockCreateNestedManyWithoutPageInput
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
@@ -321389,8 +321804,10 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
@@ -321551,6 +321968,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
+    referrals?: BioPageUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
@@ -321574,8 +321993,10 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
@@ -321726,6 +322147,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
+    referredBy?: BioPageCreateNestedOneWithoutReferralsInput
+    referrals?: BioPageCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockCreateNestedManyWithoutPageInput
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
@@ -321749,8 +322172,10 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
     blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
@@ -321792,6 +322217,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
+    referrals?: BioPageUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
@@ -321815,8 +322242,10 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
     blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
@@ -337026,6 +337455,28 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BioPageCreateManyReferredByInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BioBlockCreateManyPageInput = {
     id?: string
     type?: $Enums.BioBlockType
@@ -337080,6 +337531,82 @@ export namespace Prisma {
     utmMedium?: string | null
     utmCampaign?: string | null
     createdAt?: Date | string
+  }
+
+  export type BioPageUpdateWithoutReferredByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    referrals?: BioPageUpdateManyWithoutReferredByNestedInput
+    blocks?: BioBlockUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+    events?: BioEventUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateWithoutReferredByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
+    blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateManyWithoutReferredByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BioBlockUpdateWithoutPageInput = {

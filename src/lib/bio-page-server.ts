@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { sendMail } from "@/lib/email";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import {
   BIO_DEFAULT_QUESTIONS,
+  BIO_PUBLIC_PATH,
+  BIO_SIGNUP_SOURCE,
   bioSlugProblem,
   slugifyBio,
   type BioEditorInput,
+  type BioSignupInput,
 } from "@/lib/bio-page";
 
 // Lado servidor da Página do Negócio: quem pode editar, criação do rascunho
@@ -190,4 +195,163 @@ export async function saveBioPage(pageId: string, data: BioEditorInput) {
         : prisma.bioQuestion.create({ data: { pageId, ...fields } });
     }),
   ]);
+}
+
+// ─── Cadastro público ────────────────────────────────────────────────────────
+
+/**
+ * Agência dona da linha Página: as empresas do cadastro grátis nascem como
+ * sub-empresa dela e cada cadastro vira lead no CRM dela. PAGINA_AGENCY_COMPANY_ID
+ * manda; sem ele, a empresa-raiz com mais clientes (a agência, na prática).
+ */
+export async function resolveAgencyCompanyId(): Promise<string | null> {
+  const fromEnv = process.env.PAGINA_AGENCY_COMPANY_ID?.trim();
+  if (fromEnv) {
+    const ok = await prisma.company.findUnique({ where: { id: fromEnv }, select: { id: true } });
+    if (ok) return ok.id;
+    console.error("[pagina] PAGINA_AGENCY_COMPANY_ID não existe:", fromEnv);
+  }
+  const roots = await prisma.company.findMany({
+    where: { parentCompanyId: null, status: "ACTIVE" },
+    select: { id: true, _count: { select: { subCompanies: true } } },
+  });
+  roots.sort((a, b) => b._count.subCompanies - a._count.subCompanies);
+  return roots[0]?.id ?? null;
+}
+
+export class EmailTakenError extends Error {}
+
+function publicBase(): string {
+  return (process.env.NEXT_PUBLIC_BASE_URL ?? process.env.NEXTAUTH_URL ?? "http://localhost:3000").replace(/\/+$/, "");
+}
+
+async function freeCompanySlug(seed: string): Promise<string> {
+  const base = slugifyBio(seed) || "empresa";
+  for (let n = 1; n < 500; n++) {
+    const candidate = n === 1 ? base : `${base}-${n}`;
+    const taken = await prisma.company.findUnique({ where: { slug: candidate }, select: { id: true } });
+    if (!taken) return candidate;
+  }
+  return `${base}-${Date.now().toString(36)}`;
+}
+
+/**
+ * Cria a conta do cadastro grátis: empresa (sub da agência) + assinatura
+ * PAGINA + usuário ADMIN + rascunho da página. Devolve o endereço da página.
+ */
+export async function createBioSignup(input: BioSignupInput, agencyId: string | null) {
+  const taken = await prisma.user.findFirst({
+    where: { email: { equals: input.email, mode: "insensitive" } },
+    select: { id: true },
+  });
+  if (taken) throw new EmailTakenError();
+
+  const referrer = input.ref
+    ? await prisma.bioPage.findUnique({ where: { slug: input.ref }, select: { id: true } })
+    : null;
+  const password = await bcrypt.hash(input.password, 10);
+  const slug = await freeCompanySlug(input.businessName);
+
+  const company = await prisma.$transaction(async (tx) => {
+    const c = await tx.company.create({
+      data: {
+        name: input.businessName,
+        slug,
+        segment: input.segment,
+        phone: input.phone,
+        email: input.email,
+        parentCompanyId: agencyId,
+      },
+      select: { id: true },
+    });
+    await tx.subscription.create({ data: { companyId: c.id, plan: "PAGINA", status: "ACTIVE" } });
+    await tx.user.create({
+      data: { name: input.name, email: input.email, password, role: "ADMIN", companyId: c.id },
+    });
+    return c;
+  }).catch((e: { code?: string }) => {
+    // Duas abas mandando o mesmo e-mail ao mesmo tempo: a unique do User decide.
+    if (e?.code === "P2002") throw new EmailTakenError();
+    throw e;
+  });
+
+  const pageId = await ensureBioPage(company.id);
+  const page = await prisma.bioPage.update({
+    where: { id: pageId },
+    data: { headline: `${input.segment} em ${input.city}`, referredById: referrer?.id ?? null },
+    select: { slug: true },
+  });
+  return { companyId: company.id, pageSlug: page.slug, referred: !!referrer };
+}
+
+/** Lead no CRM da agência: quem se cadastra no grátis é quem tem interesse em site. */
+export async function recordSignupLead(agencyId: string, input: BioSignupInput, pageSlug: string, req: { ip: string | null; userAgent: string | null }) {
+  const lines = [
+    "Cadastrou-se na Página do Negócio (grátis).",
+    `Negócio: ${input.businessName} — ${input.segment} — ${input.city}`,
+    `Página: ${publicBase()}${BIO_PUBLIC_PATH}/${pageSlug}`,
+    input.ref ? `Veio pelo selo da página /p/${input.ref}` : null,
+  ].filter(Boolean);
+  const note = lines.join("\n");
+
+  const existing = await prisma.lead.findFirst({
+    where: { companyId: agencyId, phone: input.phone },
+    orderBy: { createdAt: "desc" },
+    select: { id: true, notes: true, email: true },
+  });
+  if (existing) {
+    await prisma.lead.update({
+      where: { id: existing.id },
+      data: {
+        email: existing.email || input.email,
+        notes: existing.notes ? `${existing.notes}\n\n${note}` : note,
+      },
+    });
+    return;
+  }
+  const firstStage = await prisma.pipelineStageConfig.findFirst({
+    where: { companyId: agencyId, pipeline: "LEADS" },
+    orderBy: { order: "asc" },
+    select: { name: true },
+  });
+  await prisma.lead.create({
+    data: {
+      companyId: agencyId,
+      name: input.name,
+      phone: input.phone,
+      email: input.email,
+      source: BIO_SIGNUP_SOURCE,
+      status: "NEW",
+      pipeline: "LEADS",
+      pipelineStage: firstStage?.name ?? null,
+      notes: note,
+      clientIp: req.ip,
+      clientUserAgent: req.userAgent,
+    },
+  });
+}
+
+function esc(s: string): string {
+  return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+}
+
+export async function sendBioWelcome(input: BioSignupInput, pageSlug: string) {
+  const base = publicBase();
+  const editor = `${base}/pagina`;
+  const pageUrl = `${base}${BIO_PUBLIC_PATH}/${pageSlug}`;
+  const first = esc(input.name.split(" ")[0] ?? "");
+  await sendMail({
+    to: input.email,
+    subject: "Sua Página do Negócio está pronta para montar",
+    html: `
+      <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:520px;margin:0 auto;color:#1f2733">
+        <h2 style="margin:0 0 6px">Bem-vindo${first ? `, ${first}` : ""}!</h2>
+        <p style="color:#5b6470;font-size:14px;line-height:1.6">A página de <strong>${esc(input.businessName)}</strong> já foi criada como rascunho. Em poucos minutos você coloca foto, serviços e as perguntas que transformam visita em contato — e publica.</p>
+        <p style="margin:22px 0">
+          <a href="${editor}" style="background:linear-gradient(135deg,#6E86FF,#9B7BFF);color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 22px;border-radius:10px;display:inline-block">Montar minha página</a>
+        </p>
+        <p style="color:#5b6470;font-size:14px;line-height:1.6">Depois de publicar, ela fica neste endereço — é o link que vai na bio do Instagram e no WhatsApp:<br><a href="${pageUrl}" style="color:#4f46e5">${pageUrl}</a></p>
+        <p style="color:#8a929e;font-size:12.5px;line-height:1.6">Para entrar de novo, use este e-mail (${esc(input.email)}) e a senha que você criou. Esqueceu? Use "Esqueci minha senha" na tela de login.</p>
+      </div>`,
+  });
 }

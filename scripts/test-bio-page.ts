@@ -2,7 +2,8 @@
  * Página do Negócio: endereço da página e o corte de contatos visíveis no
  * plano grátis. Rodar: npm run test:bio-page
  */
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER } from "../src/lib/plans";
 
 let falhas = 0;
@@ -61,6 +62,20 @@ ok("endereço reservado é recusado", !parseBioEditorInput({ ...base, slug: "adm
 ok("sem nome é recusado", !parseBioEditorInput({ ...base, title: "  " }).ok);
 ok("imagem precisa ser http(s)", !parseBioEditorInput({ ...base, avatarUrl: "data:image/png;base64,xx" }).ok);
 ok("mais de 5 perguntas é recusado", !parseBioEditorInput({ ...base, questions: Array(6).fill({ text: "P?", options: ["a", "b"] }) }).ok);
+
+// ── Cadastro público ──
+const signup = {
+  businessName: "Pet Feliz", segment: "Pet", city: "Maripá", name: "Ana", email: "ANA@Exemplo.com ",
+  phone: "(44) 99999-0001", password: "segredo123", acceptTerms: true, ref: "clinica-sorriso",
+};
+const sOk = parseBioSignup(signup, normalizeWaPhone);
+ok("cadastro válido passa", sOk.ok);
+ok("e-mail sai minúsculo e sem espaço", sOk.ok && sOk.data.email === "ana@exemplo.com");
+ok("telefone sai com DDI", sOk.ok && sOk.data.phone === "5544999990001");
+ok("sem aceitar termos é recusado", !parseBioSignup({ ...signup, acceptTerms: false }, normalizeWaPhone).ok);
+ok("senha curta é recusada", !parseBioSignup({ ...signup, password: "123" }, normalizeWaPhone).ok);
+ok("telefone sem DDD é recusado", !parseBioSignup({ ...signup, phone: "99999-0001" }, normalizeWaPhone).ok);
+ok("indicação inválida é ignorada", (() => { const r = parseBioSignup({ ...signup, ref: "admin" }, normalizeWaPhone); return r.ok && r.data.ref === null; })());
 
 // ── Catálogo ──
 ok("Página e Starter liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));
