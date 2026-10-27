@@ -53,3 +53,59 @@ export function visibleLeadCount(total: number, limit: number): { visible: numbe
   if (limit < 0 || total <= limit) return { visible: total, hidden: 0 };
   return { visible: limit, hidden: total - limit };
 }
+
+/** Eventos que o navegador pode registrar. LEAD só nasce no servidor, junto do envio. */
+export const BIO_CLIENT_EVENTS = ["VIEW", "CLICK", "QUIZ_START", "QUIZ_COMPLETE"] as const;
+export type BioClientEvent = (typeof BIO_CLIENT_EVENTS)[number];
+
+export function isBioClientEvent(v: unknown): v is BioClientEvent {
+  return typeof v === "string" && (BIO_CLIENT_EVENTS as readonly string[]).includes(v);
+}
+
+export const BIO_DEFAULT_QUIZ_TITLE = "Responda rapidinho e a gente te indica o melhor caminho";
+export const BIO_DEFAULT_QUIZ_CTA = "Começar";
+export const BIO_DEFAULT_THANK_YOU = "Recebemos seu contato! Em breve a gente fala com você.";
+
+export function bioDefaultConsent(ownerName: string): string {
+  return `Ao enviar, você concorda que ${ownerName} guarde seus dados e entre em contato para falar sobre o que você respondeu. Seus dados não são compartilhados com mais ninguém.`;
+}
+
+/**
+ * Link que o dono da página cadastrou → href seguro. Só http(s), mailto e tel;
+ * "javascript:", "data:" e afins viram null (o botão nem aparece). Sem esquema
+ * ("meusite.com.br") ganha https://.
+ */
+export function safeBioHref(raw: string | null | undefined): string | null {
+  const v = String(raw ?? "").trim();
+  if (!v) return null;
+  if (/^(mailto|tel):/i.test(v)) return v;
+  const withScheme = /^[a-z][a-z0-9+.-]*:/i.test(v) ? v : `https://${v.replace(/^\/+/, "")}`;
+  try {
+    const url = new URL(withScheme);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
+/** #RRGGBB válido ou a cor padrão. Evita CSS arbitrário vindo do banco. */
+export function bioAccent(color: string | null | undefined, fallback = "#4f46e5"): string {
+  return color && /^#[0-9a-f]{6}$/i.test(color) ? color : fallback;
+}
+
+function clip(v: unknown, max: number): string | null {
+  const s = typeof v === "string" ? v.trim() : "";
+  return s ? s.slice(0, max) : null;
+}
+
+/** Campos de origem que o navegador manda junto de evento e envio (todos opcionais). */
+export function bioTrackingFields(body: Record<string, unknown>) {
+  return {
+    visitorId: clip(body.visitorId, 64),
+    referrer: clip(body.referrer, 1000),
+    utmSource: clip(body.utmSource, 120),
+    utmMedium: clip(body.utmMedium, 120),
+    utmCampaign: clip(body.utmCampaign, 200),
+  };
+}
