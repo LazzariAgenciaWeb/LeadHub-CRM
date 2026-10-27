@@ -25,6 +25,30 @@ function fmt(d: Date) {
   });
 }
 
+type Item = { key: string; url: string; name: string };
+
+// Print vira imagem (abre inteira ao clicar); outros arquivos, link.
+function Anexos({ imgs, outros }: { imgs: Item[]; outros: Item[] }) {
+  if (!imgs.length && !outros.length) return null;
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 10 }}>
+      {imgs.map((im) => (
+        <a key={im.key} href={im.url} target="_blank" rel="noopener noreferrer" title={im.name}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={im.url} alt={im.name} loading="lazy"
+            style={{ display: "block", maxWidth: "100%", maxHeight: 420, borderRadius: 10, border: "1px solid #1E2D45" }} />
+        </a>
+      ))}
+      {outros.map((f) => (
+        <a key={f.key} href={f.url} target="_blank" rel="noopener noreferrer"
+          style={{ fontSize: 13, color: "#93C5FD", textDecoration: "none", padding: "7px 11px", borderRadius: 9, border: "1px solid #1E2D45", background: "#0C1220", alignSelf: "flex-start" }}>
+          📎 {f.name}
+        </a>
+      ))}
+    </div>
+  );
+}
+
 export default async function AcompanharChamado({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
 
@@ -35,10 +59,14 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
       company:       { select: { name: true } },
       clientCompany: { select: { name: true } },
       assignee:      { select: { name: true } },
+      id: true,
       messages: {
         where: { isInternal: false },
         orderBy: { createdAt: "asc" },
-        select: { id: true, body: true, authorName: true, authorRole: true, createdAt: true },
+        select: {
+          id: true, body: true, authorName: true, authorRole: true, createdAt: true, mediaType: true,
+          attachments: { where: { status: "READY" }, orderBy: { createdAt: "asc" }, select: { id: true, fileName: true, mimeType: true } },
+        },
       },
     },
   });
@@ -52,6 +80,23 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
   }
 
   const st = STATUS[ticket.status] ?? STATUS.OPEN;
+
+  // Prints: imagem embutida antiga (sem carregar o base64 aqui — vem pela rota
+  // de mídia) + arquivos do storage. As rotas aceitam ?t=<token> deste link.
+  const [withMedia, ticketFiles] = await Promise.all([
+    prisma.ticketMessage.findMany({
+      where:  { ticketId: ticket.id, isInternal: false, mediaBase64: { not: null } },
+      select: { id: true },
+    }),
+    prisma.storageObject.findMany({
+      where:   { ticketId: ticket.id, ticketMessageId: null, status: "READY" },
+      orderBy: { createdAt: "asc" },
+      select:  { id: true, fileName: true, mimeType: true },
+    }),
+  ]);
+  const mediaIds = new Set(withMedia.map((m) => m.id));
+  const t = encodeURIComponent(token);
+  const fileUrl = (fid: string) => `/api/storage/${fid}?t=${t}`;
 
   return (
     <div style={{ minHeight: "100vh", background: "#06070C", color: "#E2E8F0", fontFamily: "system-ui,sans-serif", padding: "32px 16px" }}>
@@ -77,6 +122,15 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
           {ticket.dueDate && <span>Previsão: {fmt(ticket.dueDate)}</span>}
         </div>
 
+        {ticketFiles.length > 0 && (
+          <>
+            <p style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 1, color: "#64748B", margin: "0 0 10px" }}>Arquivos do chamado</p>
+            <Anexos imgs={ticketFiles.filter((f) => f.mimeType.startsWith("image/")).map((f) => ({ key: f.id, url: fileUrl(f.id), name: f.fileName }))}
+              outros={ticketFiles.filter((f) => !f.mimeType.startsWith("image/")).map((f) => ({ key: f.id, url: fileUrl(f.id), name: f.fileName }))} />
+            <div style={{ height: 22 }} />
+          </>
+        )}
+
         {/* Andamento */}
         <p style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 1, color: "#64748B", margin: "0 0 10px" }}>Andamento</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -98,7 +152,21 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
                 <p style={{ margin: 0, fontSize: 11, color: "#64748B" }}>
                   {m.authorName} · {fmt(m.createdAt)}
                 </p>
-                <p style={{ margin: "6px 0 0", fontSize: 14, whiteSpace: "pre-wrap", lineHeight: 1.5 }}>{m.body}</p>
+                {m.body.trim() && (
+                  <p style={{ margin: "6px 0 0", fontSize: 14, whiteSpace: "pre-wrap", lineHeight: 1.5 }}>{m.body}</p>
+                )}
+                <Anexos
+                  imgs={[
+                    ...(mediaIds.has(m.id) && (m.mediaType ?? "image/").startsWith("image/")
+                      ? [{ key: "media", url: `/api/tickets/messages/${m.id}/media?t=${t}`, name: "print" }] : []),
+                    ...m.attachments.filter((a) => a.mimeType.startsWith("image/")).map((a) => ({ key: a.id, url: fileUrl(a.id), name: a.fileName })),
+                  ]}
+                  outros={[
+                    ...(mediaIds.has(m.id) && !(m.mediaType ?? "image/").startsWith("image/")
+                      ? [{ key: "media", url: `/api/tickets/messages/${m.id}/media?t=${t}`, name: "Arquivo" }] : []),
+                    ...m.attachments.filter((a) => !a.mimeType.startsWith("image/")).map((a) => ({ key: a.id, url: fileUrl(a.id), name: a.fileName })),
+                  ]}
+                />
               </div>
             );
           })}

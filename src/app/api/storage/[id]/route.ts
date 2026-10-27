@@ -34,22 +34,49 @@ async function load(session: any, id: string) {
   return { obj, asClient: !!auth.asClient };
 }
 
+// Página pública de acompanhamento do chamado (/acompanhar/[token], sem login):
+// o link libera os arquivos DAQUELE chamado — nunca de mensagem interna.
+async function loadByTicketToken(id: string, token: string) {
+  const obj = await prisma.storageObject.findUnique({ where: { id } });
+  if (!obj || obj.status !== "READY" || !obj.ticketId) return null;
+  const ticket = await prisma.ticket.findUnique({ where: { id: obj.ticketId }, select: { publicToken: true } });
+  if (!ticket?.publicToken || ticket.publicToken !== token) return null;
+  if (obj.ticketMessageId) {
+    const msg = await prisma.ticketMessage.findUnique({ where: { id: obj.ticketMessageId }, select: { isInternal: true } });
+    if (!msg || msg.isInternal) return null;
+  }
+  return obj;
+}
+
 // GET /api/storage/[id]            → abre (preview quando seguro)
 // GET /api/storage/[id]?download=1 → força download
+// GET /api/storage/[id]?t=<token>  → página pública do chamado, sem login
 // Redireciona pra uma URL assinada de curta duração no MinIO.
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
+  const download = req.nextUrl.searchParams.get("download") === "1";
+
+  const token = req.nextUrl.searchParams.get("t");
+  if (token) {
+    const obj = await loadByTicketToken(id, token);
+    if (obj) {
+      const url = await presignDownload(obj.key, obj.fileName, { download: download || !INLINE_OK.test(obj.mimeType) });
+      const res = NextResponse.redirect(url, 302);
+      res.headers.set("Cache-Control", "private, no-store");
+      return res;
+    }
+  }
+
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
-  const { id } = await params;
   const r = await load(session, id);
   if ("error" in r) return NextResponse.json({ error: r.error }, { status: r.status });
 
-  const download = req.nextUrl.searchParams.get("download") === "1" || !INLINE_OK.test(r.obj.mimeType);
-  const url = await presignDownload(r.obj.key, r.obj.fileName, { download });
+  const url = await presignDownload(r.obj.key, r.obj.fileName, { download: download || !INLINE_OK.test(r.obj.mimeType) });
   const res = NextResponse.redirect(url, 302);
   res.headers.set("Cache-Control", "private, no-store");
   return res;
