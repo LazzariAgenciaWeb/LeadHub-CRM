@@ -87,12 +87,13 @@ export default function LayoutShell({ children, session, banner, isClient = fals
         {banner}
 
         {/* Área de conteúdo — com padding-bottom no mobile para não ficar atrás da bottom nav */}
-        <main className="flex-1 overflow-y-auto pb-16 lg:pb-0">
+        <main className={`flex-1 overflow-y-auto lg:pb-0 ${(session.user as any)?.pageOnly ? "pb-0" : "pb-16"}`}>
           {children}
         </main>
 
         {/* Bottom nav mobile */}
-        <MobileBottomNav />
+        {/* Cliente da linha Página só tem o editor — atalhos do sistema não fazem sentido. */}
+        {!(session.user as any)?.pageOnly && <MobileBottomNav />}
       </div>
 
       {/* Toast global de novos badges (polling silencioso) */}

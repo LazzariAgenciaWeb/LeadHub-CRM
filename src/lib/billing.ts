@@ -43,7 +43,8 @@ export type ModuleName =
   | "emailInbox"
   | "instagram"
   | "espacoCliente"
-  | "videos";
+  | "videos"
+  | "paginaNegocio";
 
 export type ModuleGateResult =
   | { ok: true }

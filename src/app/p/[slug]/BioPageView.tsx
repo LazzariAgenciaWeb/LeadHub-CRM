@@ -128,7 +128,11 @@ function NetworkIcon({ network, className }: { network: string | null; className
 
 // ─── Página ──────────────────────────────────────────────────────────────────
 
-export default function BioPageView({ data }: { data: BioViewData }) {
+/**
+ * `preview`: dentro do editor. Não registra evento nem envia contato, e o
+ * detalhe do serviço abre dentro da moldura em vez de cobrir a tela toda.
+ */
+export default function BioPageView({ data, preview = false }: { data: BioViewData; preview?: boolean }) {
   const { slug, accent, quiz } = data;
   const accentStyle = { "--accent": accent } as CSSProperties;
 
@@ -141,16 +145,17 @@ export default function BioPageView({ data }: { data: BioViewData }) {
 
   // Uma visita por aba — recarregar a página não infla o número.
   useEffect(() => {
+    if (preview) return;
     const key = `gh_bio_view:${slug}`;
     try {
       if (sessionStorage.getItem(key)) return;
       sessionStorage.setItem(key, "1");
     } catch { /* sem storage: registra mesmo assim */ }
     track(slug, "VIEW");
-  }, [slug]);
+  }, [slug, preview]);
 
   function clickBlock(b: BioViewBlock) {
-    track(slug, "CLICK", { blockId: b.id });
+    if (!preview) track(slug, "CLICK", { blockId: b.id });
   }
 
   function interestFromService() {
@@ -159,7 +164,7 @@ export default function BioPageView({ data }: { data: BioViewData }) {
   }
 
   return (
-    <div style={accentStyle} className="min-h-screen bg-[#f4f5f7] text-slate-900">
+    <div style={accentStyle} className={`relative bg-[#f4f5f7] text-slate-900 ${preview ? "min-h-full" : "min-h-screen"}`}>
       <div className="mx-auto w-full max-w-md px-4 pb-12">
         {/* ── Topo ── */}
         <header className="relative">
@@ -211,7 +216,7 @@ export default function BioPageView({ data }: { data: BioViewData }) {
         )}
 
         {/* ── Perguntas: o próximo passo vem primeiro ── */}
-        {quiz && <Quiz ref={quizRef} slug={slug} quiz={quiz} accent={accent} />}
+        {quiz && <Quiz ref={quizRef} slug={slug} quiz={quiz} accent={accent} preview={preview} />}
 
         {/* ── Links ── */}
         {links.length > 0 && (
@@ -294,6 +299,7 @@ export default function BioPageView({ data }: { data: BioViewData }) {
         <ServiceSheet
           block={openService}
           hasQuiz={!!quiz}
+          preview={preview}
           onClose={() => setOpenService(null)}
           onInterest={interestFromService}
         />
@@ -305,10 +311,11 @@ export default function BioPageView({ data }: { data: BioViewData }) {
 // ─── Detalhe do serviço ──────────────────────────────────────────────────────
 
 function ServiceSheet({
-  block, hasQuiz, onClose, onInterest,
+  block, hasQuiz, preview, onClose, onInterest,
 }: {
   block: BioViewBlock;
   hasQuiz: boolean;
+  preview: boolean;
   onClose: () => void;
   onInterest: () => void;
 }) {
@@ -319,7 +326,7 @@ function ServiceSheet({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center" onClick={onClose}>
+    <div className={`${preview ? "absolute" : "fixed"} inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center`} onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
@@ -376,12 +383,13 @@ interface QuizHandle { start: () => void }
 type Step = { kind: "intro" } | { kind: "question"; index: number } | { kind: "form" } | { kind: "done" };
 
 function Quiz({
-  ref, slug, quiz, accent,
+  ref, slug, quiz, accent, preview,
 }: {
   ref: React.Ref<QuizHandle>;
   slug: string;
   quiz: NonNullable<BioViewData["quiz"]>;
   accent: string;
+  preview: boolean;
 }) {
   const { questions } = quiz;
   const [step, setStep] = useState<Step>({ kind: "intro" });
@@ -389,7 +397,7 @@ function Quiz({
   const boxRef = useRef<HTMLDivElement>(null);
 
   function start() {
-    if (step.kind === "intro") track(slug, "QUIZ_START");
+    if (step.kind === "intro" && !preview) track(slug, "QUIZ_START");
     if (step.kind !== "done") setStep(questions.length > 0 ? { kind: "question", index: 0 } : { kind: "form" });
     boxRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
@@ -402,7 +410,7 @@ function Quiz({
     if (index + 1 < questions.length) {
       setStep({ kind: "question", index: index + 1 });
     } else {
-      track(slug, "QUIZ_COMPLETE");
+      if (!preview) track(slug, "QUIZ_COMPLETE");
       setStep({ kind: "form" });
     }
   }
@@ -476,6 +484,7 @@ function Quiz({
                 slug={slug}
                 consent={quiz.consent}
                 accent={accent}
+                preview={preview}
                 answers={questions.filter((q) => answers[q.id]).map((q) => ({ questionId: q.id, answer: answers[q.id] }))}
                 onDone={() => setStep({ kind: "done" })}
               />
@@ -497,11 +506,12 @@ function Quiz({
 }
 
 function ContactForm({
-  slug, consent, accent, answers, onDone,
+  slug, consent, accent, preview, answers, onDone,
 }: {
   slug: string;
   consent: string;
   accent: string;
+  preview: boolean;
   answers: { questionId: string; answer: string }[];
   onDone: () => void;
 }) {
@@ -520,6 +530,8 @@ function ContactForm({
     if (name.trim().length < 2) return setError("Informe seu nome.");
     if (phone.replace(/\D/g, "").length < 10) return setError("Informe um telefone com DDD.");
     if (!agreed) return setError("Marque que concorda com o uso dos dados.");
+    // Na prévia do editor o envio é de mentira — não cria lead.
+    if (preview) return onDone();
 
     setSending(true);
     try {

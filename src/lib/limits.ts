@@ -202,9 +202,15 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
  * Aplica AND lógico entre features da sub e do pai. Feature está ON na sub
  * apenas se está ON tanto na própria sub quanto no pai (pai = teto).
  */
+// Fora do teto: a Página do Negócio é outra linha de produto (planos
+// PAGINA/STARTER), vendida direto pro cliente — não é recurso que a agência
+// repassa do plano dela.
+const CEILING_EXEMPT: (keyof PlanFeatures)[] = ["paginaNegocio"];
+
 function applyParentFeatureCeiling(sub: PlanFeatures, parent: PlanFeatures): PlanFeatures {
   const out: PlanFeatures = { ...sub };
   for (const k of Object.keys(out) as (keyof PlanFeatures)[]) {
+    if (CEILING_EXEMPT.includes(k)) continue;
     out[k] = out[k] === true && parent[k] === true;
   }
   return out;

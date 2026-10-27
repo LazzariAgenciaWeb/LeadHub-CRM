@@ -2,7 +2,7 @@
  * Página do Negócio: endereço da página e o corte de contatos visíveis no
  * plano grátis. Rodar: npm run test:bio-page
  */
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER } from "../src/lib/plans";
 
 let falhas = 0;
@@ -38,6 +38,29 @@ ok("mailto e tel passam", safeBioHref("mailto:a@b.com") === "mailto:a@b.com" && 
 ok("vazio não vira link", safeBioHref("  ") === null && safeBioHref(null) === null);
 ok("cor inválida cai no padrão", bioAccent("red;background:url(x)") === "#4f46e5" && bioAccent("#E11D48") === "#E11D48");
 ok("LEAD não pode vir do navegador", !isBioClientEvent("LEAD") && isBioClientEvent("CLICK"));
+
+// ── Editor ──
+const base = {
+  slug: "clinica-sorriso", title: "Clínica Sorriso", template: "VITRINE",
+  blocks: [
+    { type: "LINK", title: "Site", url: "clinica.com.br" },
+    { type: "SERVICE", title: "Clareamento", priceLabel: "R$ 490" },
+    { type: "SOCIAL", title: "Instagram", url: "instagram.com/x", network: "instagram" },
+  ],
+  questions: [{ text: "O que procura?", options: ["Estética", "Urgência", "Estética", " "] }],
+};
+const okParse = parseBioEditorInput(base);
+ok("página válida passa", okParse.ok);
+ok("resposta repetida/vazia é descartada", okParse.ok && okParse.data.questions[0].options.length === 2);
+ok("serviço pode ficar sem link", okParse.ok && okParse.data.blocks[1].url === null);
+ok("rede social de serviço é ignorada", okParse.ok && okParse.data.blocks[1].network === null);
+ok("link sem endereço é recusado", !parseBioEditorInput({ ...base, blocks: [{ type: "LINK", title: "Site" }] }).ok);
+ok("link javascript: é recusado", !parseBioEditorInput({ ...base, blocks: [{ type: "LINK", title: "X", url: "javascript:alert(1)" }] }).ok);
+ok("pergunta com 1 resposta é recusada", !parseBioEditorInput({ ...base, questions: [{ text: "Oi?", options: ["Sim"] }] }).ok);
+ok("endereço reservado é recusado", !parseBioEditorInput({ ...base, slug: "admin" }).ok);
+ok("sem nome é recusado", !parseBioEditorInput({ ...base, title: "  " }).ok);
+ok("imagem precisa ser http(s)", !parseBioEditorInput({ ...base, avatarUrl: "data:image/png;base64,xx" }).ok);
+ok("mais de 5 perguntas é recusado", !parseBioEditorInput({ ...base, questions: Array(6).fill({ text: "P?", options: ["a", "b"] }) }).ok);
 
 // ── Catálogo ──
 ok("Página e Starter liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));

@@ -15,6 +15,8 @@ export default async function ClienteLayout({ children }: { children: React.Reac
   const companyId = (session.user as any)?.companyId as string | undefined;
   const role = (session.user as any)?.role as string | undefined;
   if (!companyId || role === "SUPER_ADMIN") redirect("/dashboard");
+  // Linha Página do Negócio não tem portal de serviços — a casa dele é o editor.
+  if ((session.user as any)?.pageOnly) redirect("/pagina");
 
   const company = await prisma.company.findUnique({
     where: { id: companyId },

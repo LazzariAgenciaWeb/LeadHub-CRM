@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 import { getCompanyPlan } from "./limits";
+import { PAGE_LINE_TIERS } from "./plans";
 
 // Quando o usuário está em múltiplos setores, fazemos UNIÃO (OR) das
 // permissões — basta um setor liberar para o usuário ter a permissão.
@@ -144,10 +145,12 @@ export const authOptions: NextAuthOptions = {
         let cofreEnabled = false;
         let caixaEmailFeat = false;
         let assistentePessoalFeat = false;
+        let paginaNegocioFeat = false;
         if (user.companyId) {
           try {
             const ctx = await getCompanyPlan(user.companyId);
             assistentePessoalFeat = ctx.effectiveFeatures.assistentePessoal;
+            paginaNegocioFeat = ctx.effectiveFeatures.paginaNegocio;
             pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
             pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
             pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
@@ -185,6 +188,7 @@ export const authOptions: NextAuthOptions = {
             videos:      (user.company as any)?.moduleVideos ?? false,
             cofre:       cofreEnabled,
             assistentePessoal: assistentePessoalFeat,
+            paginaNegocio: paginaNegocioFeat,
             crmPipelineProspeccao:    pipelineProspeccao,
             crmPipelineLeads:         pipelineLeads,
             crmPipelineOportunidades: pipelineOportunidades,
@@ -260,10 +264,14 @@ export const authOptions: NextAuthOptions = {
               let cofreEnabled = false;
               let caixaEmailFeat = false;
               let assistentePessoalFeat = false;
+              let paginaNegocioFeat = false;
+              let pageOnly = false;
               if (dbUser.companyId) {
                 try {
                   const ctx = await getCompanyPlan(dbUser.companyId);
                   assistentePessoalFeat = ctx.effectiveFeatures.assistentePessoal;
+                  paginaNegocioFeat = ctx.effectiveFeatures.paginaNegocio;
+                  pageOnly = PAGE_LINE_TIERS.includes(ctx.tier);
                   pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
                   pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
                   pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
@@ -274,6 +282,8 @@ export const authOptions: NextAuthOptions = {
                 }
               }
 
+              // Linha Página do Negócio: o cliente enxerga só o editor da página.
+              (session.user as any).pageOnly = pageOnly;
               (session.user as any).modules = {
                 ai:          (dbUser.company as any)?.moduleAI          ?? false,
                 crm:         dbUser.company?.moduleCrm                  ?? true,
@@ -292,6 +302,7 @@ export const authOptions: NextAuthOptions = {
                 videos:      (dbUser.company as any)?.moduleVideos      ?? false,
                 cofre:       cofreEnabled,
                 assistentePessoal: assistentePessoalFeat,
+                paginaNegocio: paginaNegocioFeat,
                 crmPipelineProspeccao:    pipelineProspeccao,
                 crmPipelineLeads:         pipelineLeads,
                 crmPipelineOportunidades: pipelineOportunidades,

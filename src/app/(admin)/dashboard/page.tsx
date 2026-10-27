@@ -2,6 +2,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import CRMCharts from "./CRMCharts";
 import UnansweredWidget from "./UnansweredWidget";
 import AtendimentoStats from "./AtendimentoStats";
@@ -21,6 +22,8 @@ export const revalidate = 0;
 
 export default async function DashboardPage() {
   const session = await getEffectiveSession();
+  // Cliente da linha Página do Negócio não tem painel — a casa dele é o editor.
+  if ((session?.user as any)?.pageOnly) redirect("/pagina");
   const isSuperAdmin = (session?.user as any)?.role === "SUPER_ADMIN";
   const companyId = (session?.user as any)?.companyId as string | undefined;
   const userId    = (session?.user as any)?.id as string;

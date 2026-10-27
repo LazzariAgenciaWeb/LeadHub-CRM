@@ -58,6 +58,8 @@ export interface UserModules {
   cofre: boolean;
   // Assistente pessoal — PlanFeatures.assistentePessoal (só por exceção).
   assistentePessoal: boolean;
+  // Página do Negócio (link na bio) — PlanFeatures.paginaNegocio.
+  paginaNegocio: boolean;
   // Sub-pipelines do CRM (granularidade por pipeline). Vêm de PlanFeatures
   // efetivas (plan + customFeatures), populadas no session callback do auth.
   crmPipelineProspeccao: boolean;
@@ -121,6 +123,7 @@ const ALL_MODULES: UserModules = {
   videos: true,
   cofre: true,
   assistentePessoal: true,
+  paginaNegocio: true,
   crmPipelineProspeccao: true, crmPipelineLeads: true, crmPipelineOportunidades: true,
 };
 
@@ -131,6 +134,7 @@ const DEFAULT_MODULES: UserModules = {
   videos: false,
   cofre: false,
   assistentePessoal: false,
+  paginaNegocio: false,
   crmPipelineProspeccao: false, crmPipelineLeads: true, crmPipelineOportunidades: false,
 };
 

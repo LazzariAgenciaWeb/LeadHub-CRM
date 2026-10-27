@@ -10,7 +10,7 @@ import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays, Clock,
-  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, MonitorPlay, Ticket, Lock, Wallet, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, LayoutTemplate, MonitorPlay, Ticket, Lock, Wallet, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -177,8 +177,12 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
   // usuários/setores também precisa abrir a tela de configurações).
   const showConfig = _isAdmin || can(session, "canViewConfig") || can(session, "canManageUsers");
 
+  // Linha Página do Negócio (planos PAGINA/STARTER): o cliente só tem o editor
+  // da página. Recorta o menu inteiro pra esse item, sem cadeados do resto.
+  const pageOnly = !_isSuperAdmin && !!(session.user as any)?.pageOnly;
+
   // "Visão Geral" (home do dashboard) é link fixo no topo — não entra em grupo.
-  const overviewShow = true;
+  const overviewShow = !pageOnly;
 
   // Menu organizado por ETAPA da jornada (padrão RD Station), espelhando a
   // taxonomia do plans.ts: Atrair → Atender → Vender → Analisar → Gestão → Sistema.
@@ -192,6 +196,8 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
         { href: "/links",           Icon: Link2,       label: "Links",            grad: "links",     lockModule: "links",     perm: _isAdmin || can(session, "canViewLinks") },
         { href: "/instagram",       Icon: Camera,      label: "Instagram",        grad: "marketing", lockModule: "instagram", perm: _isAdmin },
         { href: "/campanhas/email", Icon: Mail,        label: "E-mail Marketing", grad: "email",     lockModule: "campanhas", perm: _isAdmin || can(session, "canViewCampanhas") },
+        // Sem cadeado: é outra linha de produto, não upgrade dos planos de gestão.
+        { href: "/pagina",          Icon: LayoutTemplate, label: "Página do Negócio", grad: "links", perm: _isAdmin && hasModule(session, "paginaNegocio") },
       ],
     },
     {
@@ -243,6 +249,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     .map((g) => {
       const items: NavItem[] = [];
       for (const i of g.items) {
+        if (pageOnly && i.href !== "/pagina") continue;
         // Área interna da agência: some pra empresa-cliente, com ou sem
         // permissão. Não vira cadeado porque não há o que contratar.
         if (i.agencyOnly && isClient) continue;
@@ -287,8 +294,9 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
           {_isSuperAdmin ? "Administração" : "Menu"}
         </div>
 
-        {/* Atalho da Área do Cliente — só pra empresas cliente (sub-company) */}
-        {isClient && (
+        {/* Atalho da Área do Cliente — só pra empresas cliente (sub-company).
+            Linha Página não tem portal: /meu-espaco devolve pro editor. */}
+        {isClient && !pageOnly && (
           <Link
             href="/meu-espaco"
             className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-semibold mb-1.5 transition-all border ${

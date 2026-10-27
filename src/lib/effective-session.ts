@@ -3,6 +3,7 @@ import { authOptions } from "./auth";
 import { cookies } from "next/headers";
 import { prisma } from "./prisma";
 import { getCompanyPlan } from "./limits";
+import { PAGE_LINE_TIERS } from "@/lib/plans";
 
 export const IMPERSONATE_COOKIE = "x-impersonate";
 // 30 dias — sair da impersonação é ação explícita (banner), não expiração.
@@ -70,10 +71,14 @@ export async function getEffectiveSession() {
   let pipelineOportunidades = false;
   let caixaEmailFeat = false;
   let assistentePessoalFeat = false;
+  let paginaNegocioFeat = false;
+  let pageOnly = false;
   try {
     const ctx = await getCompanyPlan(companyId);
     cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
     assistentePessoalFeat = ctx.effectiveFeatures.assistentePessoal;
+    paginaNegocioFeat = ctx.effectiveFeatures.paginaNegocio;
+    pageOnly = PAGE_LINE_TIERS.includes(ctx.tier);
     pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
     pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
     pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
@@ -92,6 +97,8 @@ export async function getEffectiveSession() {
       ...(linked ? { id: linked.id, name: linked.name, email: linked.email } : {}),
       role: "ADMIN",
       companyId,
+      // Mesmo recorte do cliente da linha Página: o super admin vê o que ele vê.
+      pageOnly,
       // Reflect the company's actual enabled modules. Espelha o auth.ts real:
       // top-level + sub-pipelines do CRM. Faltando qualquer chave aqui faz a
       // sidebar esconder o item correspondente durante impersonação.
@@ -113,6 +120,7 @@ export async function getEffectiveSession() {
         videos:      (company as any).moduleVideos ?? false,
         cofre:       cofreEnabled,
         assistentePessoal: assistentePessoalFeat,
+        paginaNegocio: paginaNegocioFeat,
         crmPipelineProspeccao:    pipelineProspeccao,
         crmPipelineLeads:         pipelineLeads,
         crmPipelineOportunidades: pipelineOportunidades,
