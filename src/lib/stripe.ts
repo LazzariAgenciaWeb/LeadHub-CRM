@@ -12,7 +12,7 @@
  */
 
 import Stripe from "stripe";
-import { PLAN_ORDER, LEGACY_TIERS, INTERNAL_TIERS, type PlanTier } from "./plans";
+import { PLAN_ORDER, LEGACY_TIERS, INTERNAL_TIERS, PAGE_LINE_TIERS, type PlanTier } from "./plans";
 
 let _client: Stripe | null = null;
 
@@ -39,7 +39,7 @@ export function planForPriceId(priceId: string): PlanTier | null {
   // Deriva do catálogo em vez de uma lista escrita à mão. A lista anterior
   // esquecia ORGANIZATION (plano vendável) e carregava CRESCIMENTO (legado):
   // uma assinatura de ORGANIZATION voltava null e o webhook gravava FREE.
-  const tiers: PlanTier[] = [...PLAN_ORDER, ...LEGACY_TIERS, ...INTERNAL_TIERS];
+  const tiers: PlanTier[] = [...PLAN_ORDER, ...LEGACY_TIERS, ...INTERNAL_TIERS, ...PAGE_LINE_TIERS];
   for (const tier of tiers) {
     const m = process.env[`STRIPE_PRICE_${tier}_MONTHLY`];
     const a = process.env[`STRIPE_PRICE_${tier}_ANNUAL`];

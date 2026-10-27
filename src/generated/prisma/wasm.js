@@ -2191,6 +2191,88 @@ exports.Prisma.CaldavRequestLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.BioPageScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  slug: 'slug',
+  template: 'template',
+  title: 'title',
+  headline: 'headline',
+  about: 'about',
+  avatarUrl: 'avatarUrl',
+  coverUrl: 'coverUrl',
+  accentColor: 'accentColor',
+  published: 'published',
+  publishedAt: 'publishedAt',
+  quizEnabled: 'quizEnabled',
+  quizTitle: 'quizTitle',
+  quizCta: 'quizCta',
+  thankYouMessage: 'thankYouMessage',
+  consentText: 'consentText',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BioBlockScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  type: 'type',
+  title: 'title',
+  description: 'description',
+  url: 'url',
+  imageUrl: 'imageUrl',
+  priceLabel: 'priceLabel',
+  network: 'network',
+  order: 'order',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BioQuestionScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  text: 'text',
+  options: 'options',
+  order: 'order',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BioSubmissionScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  leadId: 'leadId',
+  answers: 'answers',
+  name: 'name',
+  phone: 'phone',
+  email: 'email',
+  consent: 'consent',
+  visitorId: 'visitorId',
+  referrer: 'referrer',
+  utmSource: 'utmSource',
+  utmMedium: 'utmMedium',
+  utmCampaign: 'utmCampaign',
+  clientIp: 'clientIp',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BioEventScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  kind: 'kind',
+  blockId: 'blockId',
+  targetLabel: 'targetLabel',
+  visitorId: 'visitorId',
+  referrer: 'referrer',
+  utmSource: 'utmSource',
+  utmMedium: 'utmMedium',
+  utmCampaign: 'utmCampaign',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2454,6 +2536,8 @@ exports.IgMsgSource = exports.$Enums.IgMsgSource = {
 exports.PlanTier = exports.$Enums.PlanTier = {
   FREE: 'FREE',
   TRIAL: 'TRIAL',
+  PAGINA: 'PAGINA',
+  STARTER: 'STARTER',
   ORGANIZATION: 'ORGANIZATION',
   ESSENCIAL: 'ESSENCIAL',
   MARKETING: 'MARKETING',
@@ -2658,6 +2742,25 @@ exports.PunchAdjustStatus = exports.$Enums.PunchAdjustStatus = {
   REJEITADO: 'REJEITADO'
 };
 
+exports.BioTemplate = exports.$Enums.BioTemplate = {
+  CARTAO: 'CARTAO',
+  VITRINE: 'VITRINE'
+};
+
+exports.BioBlockType = exports.$Enums.BioBlockType = {
+  LINK: 'LINK',
+  SERVICE: 'SERVICE',
+  SOCIAL: 'SOCIAL'
+};
+
+exports.BioEventKind = exports.$Enums.BioEventKind = {
+  VIEW: 'VIEW',
+  CLICK: 'CLICK',
+  QUIZ_START: 'QUIZ_START',
+  QUIZ_COMPLETE: 'QUIZ_COMPLETE',
+  LEAD: 'LEAD'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   AssistantNote: 'AssistantNote',
@@ -2794,7 +2897,12 @@ exports.Prisma.ModelName = {
   McpOAuthToken: 'McpOAuthToken',
   InternalIp: 'InternalIp',
   AssistantRule: 'AssistantRule',
-  CaldavRequestLog: 'CaldavRequestLog'
+  CaldavRequestLog: 'CaldavRequestLog',
+  BioPage: 'BioPage',
+  BioBlock: 'BioBlock',
+  BioQuestion: 'BioQuestion',
+  BioSubmission: 'BioSubmission',
+  BioEvent: 'BioEvent'
 };
 
 /**

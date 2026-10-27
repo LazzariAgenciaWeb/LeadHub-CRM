@@ -701,6 +701,31 @@ export type AssistantRule = $Result.DefaultSelection<Prisma.$AssistantRulePayloa
  * Mostrado em Meu Perfil → Lembretes do iPhone. Podado para ~3 dias.
  */
 export type CaldavRequestLog = $Result.DefaultSelection<Prisma.$CaldavRequestLogPayload>
+/**
+ * Model BioPage
+ * 
+ */
+export type BioPage = $Result.DefaultSelection<Prisma.$BioPagePayload>
+/**
+ * Model BioBlock
+ * 
+ */
+export type BioBlock = $Result.DefaultSelection<Prisma.$BioBlockPayload>
+/**
+ * Model BioQuestion
+ * 
+ */
+export type BioQuestion = $Result.DefaultSelection<Prisma.$BioQuestionPayload>
+/**
+ * Model BioSubmission
+ * 
+ */
+export type BioSubmission = $Result.DefaultSelection<Prisma.$BioSubmissionPayload>
+/**
+ * Model BioEvent
+ * 
+ */
+export type BioEvent = $Result.DefaultSelection<Prisma.$BioEventPayload>
 
 /**
  * Enums
@@ -1036,6 +1061,8 @@ export type IgMsgSource = (typeof IgMsgSource)[keyof typeof IgMsgSource]
 export const PlanTier: {
   FREE: 'FREE',
   TRIAL: 'TRIAL',
+  PAGINA: 'PAGINA',
+  STARTER: 'STARTER',
   ORGANIZATION: 'ORGANIZATION',
   ESSENCIAL: 'ESSENCIAL',
   MARKETING: 'MARKETING',
@@ -1302,6 +1329,34 @@ export const PunchAdjustStatus: {
 
 export type PunchAdjustStatus = (typeof PunchAdjustStatus)[keyof typeof PunchAdjustStatus]
 
+
+export const BioTemplate: {
+  CARTAO: 'CARTAO',
+  VITRINE: 'VITRINE'
+};
+
+export type BioTemplate = (typeof BioTemplate)[keyof typeof BioTemplate]
+
+
+export const BioBlockType: {
+  LINK: 'LINK',
+  SERVICE: 'SERVICE',
+  SOCIAL: 'SOCIAL'
+};
+
+export type BioBlockType = (typeof BioBlockType)[keyof typeof BioBlockType]
+
+
+export const BioEventKind: {
+  VIEW: 'VIEW',
+  CLICK: 'CLICK',
+  QUIZ_START: 'QUIZ_START',
+  QUIZ_COMPLETE: 'QUIZ_COMPLETE',
+  LEAD: 'LEAD'
+};
+
+export type BioEventKind = (typeof BioEventKind)[keyof typeof BioEventKind]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -1515,6 +1570,18 @@ export const TimeOffType: typeof $Enums.TimeOffType
 export type PunchAdjustStatus = $Enums.PunchAdjustStatus
 
 export const PunchAdjustStatus: typeof $Enums.PunchAdjustStatus
+
+export type BioTemplate = $Enums.BioTemplate
+
+export const BioTemplate: typeof $Enums.BioTemplate
+
+export type BioBlockType = $Enums.BioBlockType
+
+export const BioBlockType: typeof $Enums.BioBlockType
+
+export type BioEventKind = $Enums.BioEventKind
+
+export const BioEventKind: typeof $Enums.BioEventKind
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2998,6 +3065,56 @@ export class PrismaClient<
     * ```
     */
   get caldavRequestLog(): Prisma.CaldavRequestLogDelegate<ExtArgs>;
+
+  /**
+   * `prisma.bioPage`: Exposes CRUD operations for the **BioPage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BioPages
+    * const bioPages = await prisma.bioPage.findMany()
+    * ```
+    */
+  get bioPage(): Prisma.BioPageDelegate<ExtArgs>;
+
+  /**
+   * `prisma.bioBlock`: Exposes CRUD operations for the **BioBlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BioBlocks
+    * const bioBlocks = await prisma.bioBlock.findMany()
+    * ```
+    */
+  get bioBlock(): Prisma.BioBlockDelegate<ExtArgs>;
+
+  /**
+   * `prisma.bioQuestion`: Exposes CRUD operations for the **BioQuestion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BioQuestions
+    * const bioQuestions = await prisma.bioQuestion.findMany()
+    * ```
+    */
+  get bioQuestion(): Prisma.BioQuestionDelegate<ExtArgs>;
+
+  /**
+   * `prisma.bioSubmission`: Exposes CRUD operations for the **BioSubmission** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BioSubmissions
+    * const bioSubmissions = await prisma.bioSubmission.findMany()
+    * ```
+    */
+  get bioSubmission(): Prisma.BioSubmissionDelegate<ExtArgs>;
+
+  /**
+   * `prisma.bioEvent`: Exposes CRUD operations for the **BioEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BioEvents
+    * const bioEvents = await prisma.bioEvent.findMany()
+    * ```
+    */
+  get bioEvent(): Prisma.BioEventDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -3574,7 +3691,12 @@ export namespace Prisma {
     McpOAuthToken: 'McpOAuthToken',
     InternalIp: 'InternalIp',
     AssistantRule: 'AssistantRule',
-    CaldavRequestLog: 'CaldavRequestLog'
+    CaldavRequestLog: 'CaldavRequestLog',
+    BioPage: 'BioPage',
+    BioBlock: 'BioBlock',
+    BioQuestion: 'BioQuestion',
+    BioSubmission: 'BioSubmission',
+    BioEvent: 'BioEvent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3590,7 +3712,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog"
+      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -13114,6 +13236,356 @@ export namespace Prisma {
           }
         }
       }
+      BioPage: {
+        payload: Prisma.$BioPagePayload<ExtArgs>
+        fields: Prisma.BioPageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BioPageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BioPageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload>
+          }
+          findFirst: {
+            args: Prisma.BioPageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BioPageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload>
+          }
+          findMany: {
+            args: Prisma.BioPageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload>[]
+          }
+          create: {
+            args: Prisma.BioPageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload>
+          }
+          createMany: {
+            args: Prisma.BioPageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BioPageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload>[]
+          }
+          delete: {
+            args: Prisma.BioPageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload>
+          }
+          update: {
+            args: Prisma.BioPageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload>
+          }
+          deleteMany: {
+            args: Prisma.BioPageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BioPageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BioPageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioPagePayload>
+          }
+          aggregate: {
+            args: Prisma.BioPageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBioPage>
+          }
+          groupBy: {
+            args: Prisma.BioPageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BioPageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BioPageCountArgs<ExtArgs>
+            result: $Utils.Optional<BioPageCountAggregateOutputType> | number
+          }
+        }
+      }
+      BioBlock: {
+        payload: Prisma.$BioBlockPayload<ExtArgs>
+        fields: Prisma.BioBlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BioBlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BioBlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload>
+          }
+          findFirst: {
+            args: Prisma.BioBlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BioBlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload>
+          }
+          findMany: {
+            args: Prisma.BioBlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload>[]
+          }
+          create: {
+            args: Prisma.BioBlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload>
+          }
+          createMany: {
+            args: Prisma.BioBlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BioBlockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload>[]
+          }
+          delete: {
+            args: Prisma.BioBlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload>
+          }
+          update: {
+            args: Prisma.BioBlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.BioBlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BioBlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BioBlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioBlockPayload>
+          }
+          aggregate: {
+            args: Prisma.BioBlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBioBlock>
+          }
+          groupBy: {
+            args: Prisma.BioBlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BioBlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BioBlockCountArgs<ExtArgs>
+            result: $Utils.Optional<BioBlockCountAggregateOutputType> | number
+          }
+        }
+      }
+      BioQuestion: {
+        payload: Prisma.$BioQuestionPayload<ExtArgs>
+        fields: Prisma.BioQuestionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BioQuestionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BioQuestionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload>
+          }
+          findFirst: {
+            args: Prisma.BioQuestionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BioQuestionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload>
+          }
+          findMany: {
+            args: Prisma.BioQuestionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload>[]
+          }
+          create: {
+            args: Prisma.BioQuestionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload>
+          }
+          createMany: {
+            args: Prisma.BioQuestionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BioQuestionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload>[]
+          }
+          delete: {
+            args: Prisma.BioQuestionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload>
+          }
+          update: {
+            args: Prisma.BioQuestionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload>
+          }
+          deleteMany: {
+            args: Prisma.BioQuestionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BioQuestionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BioQuestionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioQuestionPayload>
+          }
+          aggregate: {
+            args: Prisma.BioQuestionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBioQuestion>
+          }
+          groupBy: {
+            args: Prisma.BioQuestionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BioQuestionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BioQuestionCountArgs<ExtArgs>
+            result: $Utils.Optional<BioQuestionCountAggregateOutputType> | number
+          }
+        }
+      }
+      BioSubmission: {
+        payload: Prisma.$BioSubmissionPayload<ExtArgs>
+        fields: Prisma.BioSubmissionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BioSubmissionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BioSubmissionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload>
+          }
+          findFirst: {
+            args: Prisma.BioSubmissionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BioSubmissionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload>
+          }
+          findMany: {
+            args: Prisma.BioSubmissionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload>[]
+          }
+          create: {
+            args: Prisma.BioSubmissionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload>
+          }
+          createMany: {
+            args: Prisma.BioSubmissionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BioSubmissionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload>[]
+          }
+          delete: {
+            args: Prisma.BioSubmissionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload>
+          }
+          update: {
+            args: Prisma.BioSubmissionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload>
+          }
+          deleteMany: {
+            args: Prisma.BioSubmissionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BioSubmissionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BioSubmissionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioSubmissionPayload>
+          }
+          aggregate: {
+            args: Prisma.BioSubmissionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBioSubmission>
+          }
+          groupBy: {
+            args: Prisma.BioSubmissionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BioSubmissionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BioSubmissionCountArgs<ExtArgs>
+            result: $Utils.Optional<BioSubmissionCountAggregateOutputType> | number
+          }
+        }
+      }
+      BioEvent: {
+        payload: Prisma.$BioEventPayload<ExtArgs>
+        fields: Prisma.BioEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BioEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BioEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload>
+          }
+          findFirst: {
+            args: Prisma.BioEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BioEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload>
+          }
+          findMany: {
+            args: Prisma.BioEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload>[]
+          }
+          create: {
+            args: Prisma.BioEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload>
+          }
+          createMany: {
+            args: Prisma.BioEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BioEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload>[]
+          }
+          delete: {
+            args: Prisma.BioEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload>
+          }
+          update: {
+            args: Prisma.BioEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.BioEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BioEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BioEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioEventPayload>
+          }
+          aggregate: {
+            args: Prisma.BioEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBioEvent>
+          }
+          groupBy: {
+            args: Prisma.BioEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BioEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BioEventCountArgs<ExtArgs>
+            result: $Utils.Optional<BioEventCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -14574,6 +15046,7 @@ export namespace Prisma {
 
   export type LeadCountOutputType = {
     igConversations: number
+    bioSubmissions: number
     messages: number
     comments: number
     activities: number
@@ -14586,6 +15059,7 @@ export namespace Prisma {
 
   export type LeadCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     igConversations?: boolean | LeadCountOutputTypeCountIgConversationsArgs
+    bioSubmissions?: boolean | LeadCountOutputTypeCountBioSubmissionsArgs
     messages?: boolean | LeadCountOutputTypeCountMessagesArgs
     comments?: boolean | LeadCountOutputTypeCountCommentsArgs
     activities?: boolean | LeadCountOutputTypeCountActivitiesArgs
@@ -14612,6 +15086,13 @@ export namespace Prisma {
    */
   export type LeadCountOutputTypeCountIgConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: IgConversationWhereInput
+  }
+
+  /**
+   * LeadCountOutputType without action
+   */
+  export type LeadCountOutputTypeCountBioSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioSubmissionWhereInput
   }
 
   /**
@@ -16038,6 +16519,64 @@ export namespace Prisma {
    */
   export type McpOAuthClientCountOutputTypeCountTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: McpOAuthTokenWhereInput
+  }
+
+
+  /**
+   * Count Type BioPageCountOutputType
+   */
+
+  export type BioPageCountOutputType = {
+    blocks: number
+    questions: number
+    submissions: number
+    events: number
+  }
+
+  export type BioPageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blocks?: boolean | BioPageCountOutputTypeCountBlocksArgs
+    questions?: boolean | BioPageCountOutputTypeCountQuestionsArgs
+    submissions?: boolean | BioPageCountOutputTypeCountSubmissionsArgs
+    events?: boolean | BioPageCountOutputTypeCountEventsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BioPageCountOutputType without action
+   */
+  export type BioPageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPageCountOutputType
+     */
+    select?: BioPageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BioPageCountOutputType without action
+   */
+  export type BioPageCountOutputTypeCountBlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioBlockWhereInput
+  }
+
+  /**
+   * BioPageCountOutputType without action
+   */
+  export type BioPageCountOutputTypeCountQuestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioQuestionWhereInput
+  }
+
+  /**
+   * BioPageCountOutputType without action
+   */
+  export type BioPageCountOutputTypeCountSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioSubmissionWhereInput
+  }
+
+  /**
+   * BioPageCountOutputType without action
+   */
+  export type BioPageCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioEventWhereInput
   }
 
 
@@ -26758,6 +27297,7 @@ export namespace Prisma {
     salesAsAgency?: boolean | Company$salesAsAgencyArgs<ExtArgs>
     salesAsClient?: boolean | Company$salesAsClientArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
+    bioPage?: boolean | Company$bioPageArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
     setores?: boolean | Company$setoresArgs<ExtArgs>
@@ -26953,6 +27493,7 @@ export namespace Prisma {
     salesAsAgency?: boolean | Company$salesAsAgencyArgs<ExtArgs>
     salesAsClient?: boolean | Company$salesAsClientArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
+    bioPage?: boolean | Company$bioPageArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
     setores?: boolean | Company$setoresArgs<ExtArgs>
@@ -27054,6 +27595,7 @@ export namespace Prisma {
       salesAsAgency: Prisma.$SalePayload<ExtArgs>[]
       salesAsClient: Prisma.$SalePayload<ExtArgs>[]
       trackingLinks: Prisma.$TrackingLinkPayload<ExtArgs>[]
+      bioPage: Prisma.$BioPagePayload<ExtArgs> | null
       pipelineStages: Prisma.$PipelineStageConfigPayload<ExtArgs>[]
       contacts: Prisma.$CompanyContactPayload<ExtArgs>[]
       setores: Prisma.$SetorPayload<ExtArgs>[]
@@ -27558,6 +28100,7 @@ export namespace Prisma {
     salesAsAgency<T extends Company$salesAsAgencyArgs<ExtArgs> = {}>(args?: Subset<T, Company$salesAsAgencyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany"> | Null>
     salesAsClient<T extends Company$salesAsClientArgs<ExtArgs> = {}>(args?: Subset<T, Company$salesAsClientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany"> | Null>
     trackingLinks<T extends Company$trackingLinksArgs<ExtArgs> = {}>(args?: Subset<T, Company$trackingLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findMany"> | Null>
+    bioPage<T extends Company$bioPageArgs<ExtArgs> = {}>(args?: Subset<T, Company$bioPageArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     pipelineStages<T extends Company$pipelineStagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$pipelineStagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findMany"> | Null>
     contacts<T extends Company$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Company$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findMany"> | Null>
     setores<T extends Company$setoresArgs<ExtArgs> = {}>(args?: Subset<T, Company$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findMany"> | Null>
@@ -28790,6 +29333,21 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TrackingLinkScalarFieldEnum | TrackingLinkScalarFieldEnum[]
+  }
+
+  /**
+   * Company.bioPage
+   */
+  export type Company$bioPageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    where?: BioPageWhereInput
   }
 
   /**
@@ -33585,6 +34143,7 @@ export namespace Prisma {
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
     igConversations?: boolean | Lead$igConversationsArgs<ExtArgs>
+    bioSubmissions?: boolean | Lead$bioSubmissionsArgs<ExtArgs>
     promotedViaEmailCampaign?: boolean | Lead$promotedViaEmailCampaignArgs<ExtArgs>
     conversation?: boolean | Lead$conversationArgs<ExtArgs>
     sale?: boolean | Lead$saleArgs<ExtArgs>
@@ -33703,6 +34262,7 @@ export namespace Prisma {
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
     igConversations?: boolean | Lead$igConversationsArgs<ExtArgs>
+    bioSubmissions?: boolean | Lead$bioSubmissionsArgs<ExtArgs>
     promotedViaEmailCampaign?: boolean | Lead$promotedViaEmailCampaignArgs<ExtArgs>
     conversation?: boolean | Lead$conversationArgs<ExtArgs>
     sale?: boolean | Lead$saleArgs<ExtArgs>
@@ -33731,6 +34291,7 @@ export namespace Prisma {
       campaign: Prisma.$CampaignPayload<ExtArgs> | null
       trackingLink: Prisma.$TrackingLinkPayload<ExtArgs> | null
       igConversations: Prisma.$IgConversationPayload<ExtArgs>[]
+      bioSubmissions: Prisma.$BioSubmissionPayload<ExtArgs>[]
       promotedViaEmailCampaign: Prisma.$EmailCampaignPayload<ExtArgs> | null
       conversation: Prisma.$ConversationPayload<ExtArgs> | null
       sale: Prisma.$SalePayload<ExtArgs> | null
@@ -34156,6 +34717,7 @@ export namespace Prisma {
     campaign<T extends Lead$campaignArgs<ExtArgs> = {}>(args?: Subset<T, Lead$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     trackingLink<T extends Lead$trackingLinkArgs<ExtArgs> = {}>(args?: Subset<T, Lead$trackingLinkArgs<ExtArgs>>): Prisma__TrackingLinkClient<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     igConversations<T extends Lead$igConversationsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$igConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgConversationPayload<ExtArgs>, T, "findMany"> | Null>
+    bioSubmissions<T extends Lead$bioSubmissionsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$bioSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findMany"> | Null>
     promotedViaEmailCampaign<T extends Lead$promotedViaEmailCampaignArgs<ExtArgs> = {}>(args?: Subset<T, Lead$promotedViaEmailCampaignArgs<ExtArgs>>): Prisma__EmailCampaignClient<$Result.GetResult<Prisma.$EmailCampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     conversation<T extends Lead$conversationArgs<ExtArgs> = {}>(args?: Subset<T, Lead$conversationArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     sale<T extends Lead$saleArgs<ExtArgs> = {}>(args?: Subset<T, Lead$saleArgs<ExtArgs>>): Prisma__SaleClient<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
@@ -34605,6 +35167,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: IgConversationScalarFieldEnum | IgConversationScalarFieldEnum[]
+  }
+
+  /**
+   * Lead.bioSubmissions
+   */
+  export type Lead$bioSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    where?: BioSubmissionWhereInput
+    orderBy?: BioSubmissionOrderByWithRelationInput | BioSubmissionOrderByWithRelationInput[]
+    cursor?: BioSubmissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BioSubmissionScalarFieldEnum | BioSubmissionScalarFieldEnum[]
   }
 
   /**
@@ -163873,6 +164455,5354 @@ export namespace Prisma {
 
 
   /**
+   * Model BioPage
+   */
+
+  export type AggregateBioPage = {
+    _count: BioPageCountAggregateOutputType | null
+    _min: BioPageMinAggregateOutputType | null
+    _max: BioPageMaxAggregateOutputType | null
+  }
+
+  export type BioPageMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    slug: string | null
+    template: $Enums.BioTemplate | null
+    title: string | null
+    headline: string | null
+    about: string | null
+    avatarUrl: string | null
+    coverUrl: string | null
+    accentColor: string | null
+    published: boolean | null
+    publishedAt: Date | null
+    quizEnabled: boolean | null
+    quizTitle: string | null
+    quizCta: string | null
+    thankYouMessage: string | null
+    consentText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioPageMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    slug: string | null
+    template: $Enums.BioTemplate | null
+    title: string | null
+    headline: string | null
+    about: string | null
+    avatarUrl: string | null
+    coverUrl: string | null
+    accentColor: string | null
+    published: boolean | null
+    publishedAt: Date | null
+    quizEnabled: boolean | null
+    quizTitle: string | null
+    quizCta: string | null
+    thankYouMessage: string | null
+    consentText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioPageCountAggregateOutputType = {
+    id: number
+    companyId: number
+    slug: number
+    template: number
+    title: number
+    headline: number
+    about: number
+    avatarUrl: number
+    coverUrl: number
+    accentColor: number
+    published: number
+    publishedAt: number
+    quizEnabled: number
+    quizTitle: number
+    quizCta: number
+    thankYouMessage: number
+    consentText: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BioPageMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    slug?: true
+    template?: true
+    title?: true
+    headline?: true
+    about?: true
+    avatarUrl?: true
+    coverUrl?: true
+    accentColor?: true
+    published?: true
+    publishedAt?: true
+    quizEnabled?: true
+    quizTitle?: true
+    quizCta?: true
+    thankYouMessage?: true
+    consentText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioPageMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    slug?: true
+    template?: true
+    title?: true
+    headline?: true
+    about?: true
+    avatarUrl?: true
+    coverUrl?: true
+    accentColor?: true
+    published?: true
+    publishedAt?: true
+    quizEnabled?: true
+    quizTitle?: true
+    quizCta?: true
+    thankYouMessage?: true
+    consentText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioPageCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    slug?: true
+    template?: true
+    title?: true
+    headline?: true
+    about?: true
+    avatarUrl?: true
+    coverUrl?: true
+    accentColor?: true
+    published?: true
+    publishedAt?: true
+    quizEnabled?: true
+    quizTitle?: true
+    quizCta?: true
+    thankYouMessage?: true
+    consentText?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BioPageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioPage to aggregate.
+     */
+    where?: BioPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioPages to fetch.
+     */
+    orderBy?: BioPageOrderByWithRelationInput | BioPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BioPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioPages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BioPages
+    **/
+    _count?: true | BioPageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BioPageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BioPageMaxAggregateInputType
+  }
+
+  export type GetBioPageAggregateType<T extends BioPageAggregateArgs> = {
+        [P in keyof T & keyof AggregateBioPage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBioPage[P]>
+      : GetScalarType<T[P], AggregateBioPage[P]>
+  }
+
+
+
+
+  export type BioPageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioPageWhereInput
+    orderBy?: BioPageOrderByWithAggregationInput | BioPageOrderByWithAggregationInput[]
+    by: BioPageScalarFieldEnum[] | BioPageScalarFieldEnum
+    having?: BioPageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BioPageCountAggregateInputType | true
+    _min?: BioPageMinAggregateInputType
+    _max?: BioPageMaxAggregateInputType
+  }
+
+  export type BioPageGroupByOutputType = {
+    id: string
+    companyId: string
+    slug: string
+    template: $Enums.BioTemplate
+    title: string
+    headline: string | null
+    about: string | null
+    avatarUrl: string | null
+    coverUrl: string | null
+    accentColor: string | null
+    published: boolean
+    publishedAt: Date | null
+    quizEnabled: boolean
+    quizTitle: string | null
+    quizCta: string | null
+    thankYouMessage: string | null
+    consentText: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BioPageCountAggregateOutputType | null
+    _min: BioPageMinAggregateOutputType | null
+    _max: BioPageMaxAggregateOutputType | null
+  }
+
+  type GetBioPageGroupByPayload<T extends BioPageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BioPageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BioPageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BioPageGroupByOutputType[P]>
+            : GetScalarType<T[P], BioPageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BioPageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    slug?: boolean
+    template?: boolean
+    title?: boolean
+    headline?: boolean
+    about?: boolean
+    avatarUrl?: boolean
+    coverUrl?: boolean
+    accentColor?: boolean
+    published?: boolean
+    publishedAt?: boolean
+    quizEnabled?: boolean
+    quizTitle?: boolean
+    quizCta?: boolean
+    thankYouMessage?: boolean
+    consentText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    blocks?: boolean | BioPage$blocksArgs<ExtArgs>
+    questions?: boolean | BioPage$questionsArgs<ExtArgs>
+    submissions?: boolean | BioPage$submissionsArgs<ExtArgs>
+    events?: boolean | BioPage$eventsArgs<ExtArgs>
+    _count?: boolean | BioPageCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioPage"]>
+
+  export type BioPageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    slug?: boolean
+    template?: boolean
+    title?: boolean
+    headline?: boolean
+    about?: boolean
+    avatarUrl?: boolean
+    coverUrl?: boolean
+    accentColor?: boolean
+    published?: boolean
+    publishedAt?: boolean
+    quizEnabled?: boolean
+    quizTitle?: boolean
+    quizCta?: boolean
+    thankYouMessage?: boolean
+    consentText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioPage"]>
+
+  export type BioPageSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    slug?: boolean
+    template?: boolean
+    title?: boolean
+    headline?: boolean
+    about?: boolean
+    avatarUrl?: boolean
+    coverUrl?: boolean
+    accentColor?: boolean
+    published?: boolean
+    publishedAt?: boolean
+    quizEnabled?: boolean
+    quizTitle?: boolean
+    quizCta?: boolean
+    thankYouMessage?: boolean
+    consentText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BioPageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    blocks?: boolean | BioPage$blocksArgs<ExtArgs>
+    questions?: boolean | BioPage$questionsArgs<ExtArgs>
+    submissions?: boolean | BioPage$submissionsArgs<ExtArgs>
+    events?: boolean | BioPage$eventsArgs<ExtArgs>
+    _count?: boolean | BioPageCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BioPageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $BioPagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BioPage"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      blocks: Prisma.$BioBlockPayload<ExtArgs>[]
+      questions: Prisma.$BioQuestionPayload<ExtArgs>[]
+      submissions: Prisma.$BioSubmissionPayload<ExtArgs>[]
+      events: Prisma.$BioEventPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      slug: string
+      template: $Enums.BioTemplate
+      title: string
+      headline: string | null
+      about: string | null
+      avatarUrl: string | null
+      coverUrl: string | null
+      accentColor: string | null
+      published: boolean
+      publishedAt: Date | null
+      quizEnabled: boolean
+      quizTitle: string | null
+      quizCta: string | null
+      thankYouMessage: string | null
+      consentText: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bioPage"]>
+    composites: {}
+  }
+
+  type BioPageGetPayload<S extends boolean | null | undefined | BioPageDefaultArgs> = $Result.GetResult<Prisma.$BioPagePayload, S>
+
+  type BioPageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BioPageFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BioPageCountAggregateInputType | true
+    }
+
+  export interface BioPageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BioPage'], meta: { name: 'BioPage' } }
+    /**
+     * Find zero or one BioPage that matches the filter.
+     * @param {BioPageFindUniqueArgs} args - Arguments to find a BioPage
+     * @example
+     * // Get one BioPage
+     * const bioPage = await prisma.bioPage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BioPageFindUniqueArgs>(args: SelectSubset<T, BioPageFindUniqueArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BioPage that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BioPageFindUniqueOrThrowArgs} args - Arguments to find a BioPage
+     * @example
+     * // Get one BioPage
+     * const bioPage = await prisma.bioPage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BioPageFindUniqueOrThrowArgs>(args: SelectSubset<T, BioPageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BioPage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioPageFindFirstArgs} args - Arguments to find a BioPage
+     * @example
+     * // Get one BioPage
+     * const bioPage = await prisma.bioPage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BioPageFindFirstArgs>(args?: SelectSubset<T, BioPageFindFirstArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BioPage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioPageFindFirstOrThrowArgs} args - Arguments to find a BioPage
+     * @example
+     * // Get one BioPage
+     * const bioPage = await prisma.bioPage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BioPageFindFirstOrThrowArgs>(args?: SelectSubset<T, BioPageFindFirstOrThrowArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BioPages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioPageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BioPages
+     * const bioPages = await prisma.bioPage.findMany()
+     * 
+     * // Get first 10 BioPages
+     * const bioPages = await prisma.bioPage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bioPageWithIdOnly = await prisma.bioPage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BioPageFindManyArgs>(args?: SelectSubset<T, BioPageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BioPage.
+     * @param {BioPageCreateArgs} args - Arguments to create a BioPage.
+     * @example
+     * // Create one BioPage
+     * const BioPage = await prisma.bioPage.create({
+     *   data: {
+     *     // ... data to create a BioPage
+     *   }
+     * })
+     * 
+     */
+    create<T extends BioPageCreateArgs>(args: SelectSubset<T, BioPageCreateArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BioPages.
+     * @param {BioPageCreateManyArgs} args - Arguments to create many BioPages.
+     * @example
+     * // Create many BioPages
+     * const bioPage = await prisma.bioPage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BioPageCreateManyArgs>(args?: SelectSubset<T, BioPageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BioPages and returns the data saved in the database.
+     * @param {BioPageCreateManyAndReturnArgs} args - Arguments to create many BioPages.
+     * @example
+     * // Create many BioPages
+     * const bioPage = await prisma.bioPage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BioPages and only return the `id`
+     * const bioPageWithIdOnly = await prisma.bioPage.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BioPageCreateManyAndReturnArgs>(args?: SelectSubset<T, BioPageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BioPage.
+     * @param {BioPageDeleteArgs} args - Arguments to delete one BioPage.
+     * @example
+     * // Delete one BioPage
+     * const BioPage = await prisma.bioPage.delete({
+     *   where: {
+     *     // ... filter to delete one BioPage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BioPageDeleteArgs>(args: SelectSubset<T, BioPageDeleteArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BioPage.
+     * @param {BioPageUpdateArgs} args - Arguments to update one BioPage.
+     * @example
+     * // Update one BioPage
+     * const bioPage = await prisma.bioPage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BioPageUpdateArgs>(args: SelectSubset<T, BioPageUpdateArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BioPages.
+     * @param {BioPageDeleteManyArgs} args - Arguments to filter BioPages to delete.
+     * @example
+     * // Delete a few BioPages
+     * const { count } = await prisma.bioPage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BioPageDeleteManyArgs>(args?: SelectSubset<T, BioPageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BioPages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioPageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BioPages
+     * const bioPage = await prisma.bioPage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BioPageUpdateManyArgs>(args: SelectSubset<T, BioPageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BioPage.
+     * @param {BioPageUpsertArgs} args - Arguments to update or create a BioPage.
+     * @example
+     * // Update or create a BioPage
+     * const bioPage = await prisma.bioPage.upsert({
+     *   create: {
+     *     // ... data to create a BioPage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BioPage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BioPageUpsertArgs>(args: SelectSubset<T, BioPageUpsertArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BioPages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioPageCountArgs} args - Arguments to filter BioPages to count.
+     * @example
+     * // Count the number of BioPages
+     * const count = await prisma.bioPage.count({
+     *   where: {
+     *     // ... the filter for the BioPages we want to count
+     *   }
+     * })
+    **/
+    count<T extends BioPageCountArgs>(
+      args?: Subset<T, BioPageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BioPageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BioPage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioPageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BioPageAggregateArgs>(args: Subset<T, BioPageAggregateArgs>): Prisma.PrismaPromise<GetBioPageAggregateType<T>>
+
+    /**
+     * Group by BioPage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioPageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BioPageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BioPageGroupByArgs['orderBy'] }
+        : { orderBy?: BioPageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BioPageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBioPageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BioPage model
+   */
+  readonly fields: BioPageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BioPage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BioPageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    blocks<T extends BioPage$blocksArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$blocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "findMany"> | Null>
+    questions<T extends BioPage$questionsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "findMany"> | Null>
+    submissions<T extends BioPage$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findMany"> | Null>
+    events<T extends BioPage$eventsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BioPage model
+   */ 
+  interface BioPageFieldRefs {
+    readonly id: FieldRef<"BioPage", 'String'>
+    readonly companyId: FieldRef<"BioPage", 'String'>
+    readonly slug: FieldRef<"BioPage", 'String'>
+    readonly template: FieldRef<"BioPage", 'BioTemplate'>
+    readonly title: FieldRef<"BioPage", 'String'>
+    readonly headline: FieldRef<"BioPage", 'String'>
+    readonly about: FieldRef<"BioPage", 'String'>
+    readonly avatarUrl: FieldRef<"BioPage", 'String'>
+    readonly coverUrl: FieldRef<"BioPage", 'String'>
+    readonly accentColor: FieldRef<"BioPage", 'String'>
+    readonly published: FieldRef<"BioPage", 'Boolean'>
+    readonly publishedAt: FieldRef<"BioPage", 'DateTime'>
+    readonly quizEnabled: FieldRef<"BioPage", 'Boolean'>
+    readonly quizTitle: FieldRef<"BioPage", 'String'>
+    readonly quizCta: FieldRef<"BioPage", 'String'>
+    readonly thankYouMessage: FieldRef<"BioPage", 'String'>
+    readonly consentText: FieldRef<"BioPage", 'String'>
+    readonly createdAt: FieldRef<"BioPage", 'DateTime'>
+    readonly updatedAt: FieldRef<"BioPage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BioPage findUnique
+   */
+  export type BioPageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    /**
+     * Filter, which BioPage to fetch.
+     */
+    where: BioPageWhereUniqueInput
+  }
+
+  /**
+   * BioPage findUniqueOrThrow
+   */
+  export type BioPageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    /**
+     * Filter, which BioPage to fetch.
+     */
+    where: BioPageWhereUniqueInput
+  }
+
+  /**
+   * BioPage findFirst
+   */
+  export type BioPageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    /**
+     * Filter, which BioPage to fetch.
+     */
+    where?: BioPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioPages to fetch.
+     */
+    orderBy?: BioPageOrderByWithRelationInput | BioPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioPages.
+     */
+    cursor?: BioPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioPages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioPages.
+     */
+    distinct?: BioPageScalarFieldEnum | BioPageScalarFieldEnum[]
+  }
+
+  /**
+   * BioPage findFirstOrThrow
+   */
+  export type BioPageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    /**
+     * Filter, which BioPage to fetch.
+     */
+    where?: BioPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioPages to fetch.
+     */
+    orderBy?: BioPageOrderByWithRelationInput | BioPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioPages.
+     */
+    cursor?: BioPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioPages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioPages.
+     */
+    distinct?: BioPageScalarFieldEnum | BioPageScalarFieldEnum[]
+  }
+
+  /**
+   * BioPage findMany
+   */
+  export type BioPageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    /**
+     * Filter, which BioPages to fetch.
+     */
+    where?: BioPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioPages to fetch.
+     */
+    orderBy?: BioPageOrderByWithRelationInput | BioPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BioPages.
+     */
+    cursor?: BioPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioPages.
+     */
+    skip?: number
+    distinct?: BioPageScalarFieldEnum | BioPageScalarFieldEnum[]
+  }
+
+  /**
+   * BioPage create
+   */
+  export type BioPageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BioPage.
+     */
+    data: XOR<BioPageCreateInput, BioPageUncheckedCreateInput>
+  }
+
+  /**
+   * BioPage createMany
+   */
+  export type BioPageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BioPages.
+     */
+    data: BioPageCreateManyInput | BioPageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BioPage createManyAndReturn
+   */
+  export type BioPageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BioPages.
+     */
+    data: BioPageCreateManyInput | BioPageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BioPage update
+   */
+  export type BioPageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BioPage.
+     */
+    data: XOR<BioPageUpdateInput, BioPageUncheckedUpdateInput>
+    /**
+     * Choose, which BioPage to update.
+     */
+    where: BioPageWhereUniqueInput
+  }
+
+  /**
+   * BioPage updateMany
+   */
+  export type BioPageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BioPages.
+     */
+    data: XOR<BioPageUpdateManyMutationInput, BioPageUncheckedUpdateManyInput>
+    /**
+     * Filter which BioPages to update
+     */
+    where?: BioPageWhereInput
+  }
+
+  /**
+   * BioPage upsert
+   */
+  export type BioPageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BioPage to update in case it exists.
+     */
+    where: BioPageWhereUniqueInput
+    /**
+     * In case the BioPage found by the `where` argument doesn't exist, create a new BioPage with this data.
+     */
+    create: XOR<BioPageCreateInput, BioPageUncheckedCreateInput>
+    /**
+     * In case the BioPage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BioPageUpdateInput, BioPageUncheckedUpdateInput>
+  }
+
+  /**
+   * BioPage delete
+   */
+  export type BioPageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+    /**
+     * Filter which BioPage to delete.
+     */
+    where: BioPageWhereUniqueInput
+  }
+
+  /**
+   * BioPage deleteMany
+   */
+  export type BioPageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioPages to delete
+     */
+    where?: BioPageWhereInput
+  }
+
+  /**
+   * BioPage.blocks
+   */
+  export type BioPage$blocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    where?: BioBlockWhereInput
+    orderBy?: BioBlockOrderByWithRelationInput | BioBlockOrderByWithRelationInput[]
+    cursor?: BioBlockWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BioBlockScalarFieldEnum | BioBlockScalarFieldEnum[]
+  }
+
+  /**
+   * BioPage.questions
+   */
+  export type BioPage$questionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    where?: BioQuestionWhereInput
+    orderBy?: BioQuestionOrderByWithRelationInput | BioQuestionOrderByWithRelationInput[]
+    cursor?: BioQuestionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BioQuestionScalarFieldEnum | BioQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * BioPage.submissions
+   */
+  export type BioPage$submissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    where?: BioSubmissionWhereInput
+    orderBy?: BioSubmissionOrderByWithRelationInput | BioSubmissionOrderByWithRelationInput[]
+    cursor?: BioSubmissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BioSubmissionScalarFieldEnum | BioSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * BioPage.events
+   */
+  export type BioPage$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    where?: BioEventWhereInput
+    orderBy?: BioEventOrderByWithRelationInput | BioEventOrderByWithRelationInput[]
+    cursor?: BioEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BioEventScalarFieldEnum | BioEventScalarFieldEnum[]
+  }
+
+  /**
+   * BioPage without action
+   */
+  export type BioPageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioPage
+     */
+    select?: BioPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioPageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BioBlock
+   */
+
+  export type AggregateBioBlock = {
+    _count: BioBlockCountAggregateOutputType | null
+    _avg: BioBlockAvgAggregateOutputType | null
+    _sum: BioBlockSumAggregateOutputType | null
+    _min: BioBlockMinAggregateOutputType | null
+    _max: BioBlockMaxAggregateOutputType | null
+  }
+
+  export type BioBlockAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type BioBlockSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type BioBlockMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    type: $Enums.BioBlockType | null
+    title: string | null
+    description: string | null
+    url: string | null
+    imageUrl: string | null
+    priceLabel: string | null
+    network: string | null
+    order: number | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioBlockMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    type: $Enums.BioBlockType | null
+    title: string | null
+    description: string | null
+    url: string | null
+    imageUrl: string | null
+    priceLabel: string | null
+    network: string | null
+    order: number | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioBlockCountAggregateOutputType = {
+    id: number
+    pageId: number
+    type: number
+    title: number
+    description: number
+    url: number
+    imageUrl: number
+    priceLabel: number
+    network: number
+    order: number
+    active: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BioBlockAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type BioBlockSumAggregateInputType = {
+    order?: true
+  }
+
+  export type BioBlockMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    type?: true
+    title?: true
+    description?: true
+    url?: true
+    imageUrl?: true
+    priceLabel?: true
+    network?: true
+    order?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioBlockMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    type?: true
+    title?: true
+    description?: true
+    url?: true
+    imageUrl?: true
+    priceLabel?: true
+    network?: true
+    order?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioBlockCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    type?: true
+    title?: true
+    description?: true
+    url?: true
+    imageUrl?: true
+    priceLabel?: true
+    network?: true
+    order?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BioBlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioBlock to aggregate.
+     */
+    where?: BioBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioBlocks to fetch.
+     */
+    orderBy?: BioBlockOrderByWithRelationInput | BioBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BioBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BioBlocks
+    **/
+    _count?: true | BioBlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BioBlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BioBlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BioBlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BioBlockMaxAggregateInputType
+  }
+
+  export type GetBioBlockAggregateType<T extends BioBlockAggregateArgs> = {
+        [P in keyof T & keyof AggregateBioBlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBioBlock[P]>
+      : GetScalarType<T[P], AggregateBioBlock[P]>
+  }
+
+
+
+
+  export type BioBlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioBlockWhereInput
+    orderBy?: BioBlockOrderByWithAggregationInput | BioBlockOrderByWithAggregationInput[]
+    by: BioBlockScalarFieldEnum[] | BioBlockScalarFieldEnum
+    having?: BioBlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BioBlockCountAggregateInputType | true
+    _avg?: BioBlockAvgAggregateInputType
+    _sum?: BioBlockSumAggregateInputType
+    _min?: BioBlockMinAggregateInputType
+    _max?: BioBlockMaxAggregateInputType
+  }
+
+  export type BioBlockGroupByOutputType = {
+    id: string
+    pageId: string
+    type: $Enums.BioBlockType
+    title: string
+    description: string | null
+    url: string | null
+    imageUrl: string | null
+    priceLabel: string | null
+    network: string | null
+    order: number
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: BioBlockCountAggregateOutputType | null
+    _avg: BioBlockAvgAggregateOutputType | null
+    _sum: BioBlockSumAggregateOutputType | null
+    _min: BioBlockMinAggregateOutputType | null
+    _max: BioBlockMaxAggregateOutputType | null
+  }
+
+  type GetBioBlockGroupByPayload<T extends BioBlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BioBlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BioBlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BioBlockGroupByOutputType[P]>
+            : GetScalarType<T[P], BioBlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BioBlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    type?: boolean
+    title?: boolean
+    description?: boolean
+    url?: boolean
+    imageUrl?: boolean
+    priceLabel?: boolean
+    network?: boolean
+    order?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioBlock"]>
+
+  export type BioBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    type?: boolean
+    title?: boolean
+    description?: boolean
+    url?: boolean
+    imageUrl?: boolean
+    priceLabel?: boolean
+    network?: boolean
+    order?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioBlock"]>
+
+  export type BioBlockSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    type?: boolean
+    title?: boolean
+    description?: boolean
+    url?: boolean
+    imageUrl?: boolean
+    priceLabel?: boolean
+    network?: boolean
+    order?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BioBlockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }
+  export type BioBlockIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }
+
+  export type $BioBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BioBlock"
+    objects: {
+      page: Prisma.$BioPagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      type: $Enums.BioBlockType
+      title: string
+      description: string | null
+      url: string | null
+      imageUrl: string | null
+      priceLabel: string | null
+      network: string | null
+      order: number
+      active: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bioBlock"]>
+    composites: {}
+  }
+
+  type BioBlockGetPayload<S extends boolean | null | undefined | BioBlockDefaultArgs> = $Result.GetResult<Prisma.$BioBlockPayload, S>
+
+  type BioBlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BioBlockFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BioBlockCountAggregateInputType | true
+    }
+
+  export interface BioBlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BioBlock'], meta: { name: 'BioBlock' } }
+    /**
+     * Find zero or one BioBlock that matches the filter.
+     * @param {BioBlockFindUniqueArgs} args - Arguments to find a BioBlock
+     * @example
+     * // Get one BioBlock
+     * const bioBlock = await prisma.bioBlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BioBlockFindUniqueArgs>(args: SelectSubset<T, BioBlockFindUniqueArgs<ExtArgs>>): Prisma__BioBlockClient<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BioBlock that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BioBlockFindUniqueOrThrowArgs} args - Arguments to find a BioBlock
+     * @example
+     * // Get one BioBlock
+     * const bioBlock = await prisma.bioBlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BioBlockFindUniqueOrThrowArgs>(args: SelectSubset<T, BioBlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BioBlockClient<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BioBlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioBlockFindFirstArgs} args - Arguments to find a BioBlock
+     * @example
+     * // Get one BioBlock
+     * const bioBlock = await prisma.bioBlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BioBlockFindFirstArgs>(args?: SelectSubset<T, BioBlockFindFirstArgs<ExtArgs>>): Prisma__BioBlockClient<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BioBlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioBlockFindFirstOrThrowArgs} args - Arguments to find a BioBlock
+     * @example
+     * // Get one BioBlock
+     * const bioBlock = await prisma.bioBlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BioBlockFindFirstOrThrowArgs>(args?: SelectSubset<T, BioBlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__BioBlockClient<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BioBlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioBlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BioBlocks
+     * const bioBlocks = await prisma.bioBlock.findMany()
+     * 
+     * // Get first 10 BioBlocks
+     * const bioBlocks = await prisma.bioBlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bioBlockWithIdOnly = await prisma.bioBlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BioBlockFindManyArgs>(args?: SelectSubset<T, BioBlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BioBlock.
+     * @param {BioBlockCreateArgs} args - Arguments to create a BioBlock.
+     * @example
+     * // Create one BioBlock
+     * const BioBlock = await prisma.bioBlock.create({
+     *   data: {
+     *     // ... data to create a BioBlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends BioBlockCreateArgs>(args: SelectSubset<T, BioBlockCreateArgs<ExtArgs>>): Prisma__BioBlockClient<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BioBlocks.
+     * @param {BioBlockCreateManyArgs} args - Arguments to create many BioBlocks.
+     * @example
+     * // Create many BioBlocks
+     * const bioBlock = await prisma.bioBlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BioBlockCreateManyArgs>(args?: SelectSubset<T, BioBlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BioBlocks and returns the data saved in the database.
+     * @param {BioBlockCreateManyAndReturnArgs} args - Arguments to create many BioBlocks.
+     * @example
+     * // Create many BioBlocks
+     * const bioBlock = await prisma.bioBlock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BioBlocks and only return the `id`
+     * const bioBlockWithIdOnly = await prisma.bioBlock.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BioBlockCreateManyAndReturnArgs>(args?: SelectSubset<T, BioBlockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BioBlock.
+     * @param {BioBlockDeleteArgs} args - Arguments to delete one BioBlock.
+     * @example
+     * // Delete one BioBlock
+     * const BioBlock = await prisma.bioBlock.delete({
+     *   where: {
+     *     // ... filter to delete one BioBlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BioBlockDeleteArgs>(args: SelectSubset<T, BioBlockDeleteArgs<ExtArgs>>): Prisma__BioBlockClient<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BioBlock.
+     * @param {BioBlockUpdateArgs} args - Arguments to update one BioBlock.
+     * @example
+     * // Update one BioBlock
+     * const bioBlock = await prisma.bioBlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BioBlockUpdateArgs>(args: SelectSubset<T, BioBlockUpdateArgs<ExtArgs>>): Prisma__BioBlockClient<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BioBlocks.
+     * @param {BioBlockDeleteManyArgs} args - Arguments to filter BioBlocks to delete.
+     * @example
+     * // Delete a few BioBlocks
+     * const { count } = await prisma.bioBlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BioBlockDeleteManyArgs>(args?: SelectSubset<T, BioBlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BioBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioBlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BioBlocks
+     * const bioBlock = await prisma.bioBlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BioBlockUpdateManyArgs>(args: SelectSubset<T, BioBlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BioBlock.
+     * @param {BioBlockUpsertArgs} args - Arguments to update or create a BioBlock.
+     * @example
+     * // Update or create a BioBlock
+     * const bioBlock = await prisma.bioBlock.upsert({
+     *   create: {
+     *     // ... data to create a BioBlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BioBlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BioBlockUpsertArgs>(args: SelectSubset<T, BioBlockUpsertArgs<ExtArgs>>): Prisma__BioBlockClient<$Result.GetResult<Prisma.$BioBlockPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BioBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioBlockCountArgs} args - Arguments to filter BioBlocks to count.
+     * @example
+     * // Count the number of BioBlocks
+     * const count = await prisma.bioBlock.count({
+     *   where: {
+     *     // ... the filter for the BioBlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends BioBlockCountArgs>(
+      args?: Subset<T, BioBlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BioBlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BioBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioBlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BioBlockAggregateArgs>(args: Subset<T, BioBlockAggregateArgs>): Prisma.PrismaPromise<GetBioBlockAggregateType<T>>
+
+    /**
+     * Group by BioBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioBlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BioBlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BioBlockGroupByArgs['orderBy'] }
+        : { orderBy?: BioBlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BioBlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBioBlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BioBlock model
+   */
+  readonly fields: BioBlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BioBlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BioBlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends BioPageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BioPageDefaultArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BioBlock model
+   */ 
+  interface BioBlockFieldRefs {
+    readonly id: FieldRef<"BioBlock", 'String'>
+    readonly pageId: FieldRef<"BioBlock", 'String'>
+    readonly type: FieldRef<"BioBlock", 'BioBlockType'>
+    readonly title: FieldRef<"BioBlock", 'String'>
+    readonly description: FieldRef<"BioBlock", 'String'>
+    readonly url: FieldRef<"BioBlock", 'String'>
+    readonly imageUrl: FieldRef<"BioBlock", 'String'>
+    readonly priceLabel: FieldRef<"BioBlock", 'String'>
+    readonly network: FieldRef<"BioBlock", 'String'>
+    readonly order: FieldRef<"BioBlock", 'Int'>
+    readonly active: FieldRef<"BioBlock", 'Boolean'>
+    readonly createdAt: FieldRef<"BioBlock", 'DateTime'>
+    readonly updatedAt: FieldRef<"BioBlock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BioBlock findUnique
+   */
+  export type BioBlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which BioBlock to fetch.
+     */
+    where: BioBlockWhereUniqueInput
+  }
+
+  /**
+   * BioBlock findUniqueOrThrow
+   */
+  export type BioBlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which BioBlock to fetch.
+     */
+    where: BioBlockWhereUniqueInput
+  }
+
+  /**
+   * BioBlock findFirst
+   */
+  export type BioBlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which BioBlock to fetch.
+     */
+    where?: BioBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioBlocks to fetch.
+     */
+    orderBy?: BioBlockOrderByWithRelationInput | BioBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioBlocks.
+     */
+    cursor?: BioBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioBlocks.
+     */
+    distinct?: BioBlockScalarFieldEnum | BioBlockScalarFieldEnum[]
+  }
+
+  /**
+   * BioBlock findFirstOrThrow
+   */
+  export type BioBlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which BioBlock to fetch.
+     */
+    where?: BioBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioBlocks to fetch.
+     */
+    orderBy?: BioBlockOrderByWithRelationInput | BioBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioBlocks.
+     */
+    cursor?: BioBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioBlocks.
+     */
+    distinct?: BioBlockScalarFieldEnum | BioBlockScalarFieldEnum[]
+  }
+
+  /**
+   * BioBlock findMany
+   */
+  export type BioBlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which BioBlocks to fetch.
+     */
+    where?: BioBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioBlocks to fetch.
+     */
+    orderBy?: BioBlockOrderByWithRelationInput | BioBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BioBlocks.
+     */
+    cursor?: BioBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioBlocks.
+     */
+    skip?: number
+    distinct?: BioBlockScalarFieldEnum | BioBlockScalarFieldEnum[]
+  }
+
+  /**
+   * BioBlock create
+   */
+  export type BioBlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BioBlock.
+     */
+    data: XOR<BioBlockCreateInput, BioBlockUncheckedCreateInput>
+  }
+
+  /**
+   * BioBlock createMany
+   */
+  export type BioBlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BioBlocks.
+     */
+    data: BioBlockCreateManyInput | BioBlockCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BioBlock createManyAndReturn
+   */
+  export type BioBlockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BioBlocks.
+     */
+    data: BioBlockCreateManyInput | BioBlockCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BioBlock update
+   */
+  export type BioBlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BioBlock.
+     */
+    data: XOR<BioBlockUpdateInput, BioBlockUncheckedUpdateInput>
+    /**
+     * Choose, which BioBlock to update.
+     */
+    where: BioBlockWhereUniqueInput
+  }
+
+  /**
+   * BioBlock updateMany
+   */
+  export type BioBlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BioBlocks.
+     */
+    data: XOR<BioBlockUpdateManyMutationInput, BioBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which BioBlocks to update
+     */
+    where?: BioBlockWhereInput
+  }
+
+  /**
+   * BioBlock upsert
+   */
+  export type BioBlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BioBlock to update in case it exists.
+     */
+    where: BioBlockWhereUniqueInput
+    /**
+     * In case the BioBlock found by the `where` argument doesn't exist, create a new BioBlock with this data.
+     */
+    create: XOR<BioBlockCreateInput, BioBlockUncheckedCreateInput>
+    /**
+     * In case the BioBlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BioBlockUpdateInput, BioBlockUncheckedUpdateInput>
+  }
+
+  /**
+   * BioBlock delete
+   */
+  export type BioBlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+    /**
+     * Filter which BioBlock to delete.
+     */
+    where: BioBlockWhereUniqueInput
+  }
+
+  /**
+   * BioBlock deleteMany
+   */
+  export type BioBlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioBlocks to delete
+     */
+    where?: BioBlockWhereInput
+  }
+
+  /**
+   * BioBlock without action
+   */
+  export type BioBlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioBlock
+     */
+    select?: BioBlockSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioBlockInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BioQuestion
+   */
+
+  export type AggregateBioQuestion = {
+    _count: BioQuestionCountAggregateOutputType | null
+    _avg: BioQuestionAvgAggregateOutputType | null
+    _sum: BioQuestionSumAggregateOutputType | null
+    _min: BioQuestionMinAggregateOutputType | null
+    _max: BioQuestionMaxAggregateOutputType | null
+  }
+
+  export type BioQuestionAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type BioQuestionSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type BioQuestionMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    text: string | null
+    order: number | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioQuestionMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    text: string | null
+    order: number | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioQuestionCountAggregateOutputType = {
+    id: number
+    pageId: number
+    text: number
+    options: number
+    order: number
+    active: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BioQuestionAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type BioQuestionSumAggregateInputType = {
+    order?: true
+  }
+
+  export type BioQuestionMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    text?: true
+    order?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioQuestionMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    text?: true
+    order?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioQuestionCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    text?: true
+    options?: true
+    order?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BioQuestionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioQuestion to aggregate.
+     */
+    where?: BioQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioQuestions to fetch.
+     */
+    orderBy?: BioQuestionOrderByWithRelationInput | BioQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BioQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BioQuestions
+    **/
+    _count?: true | BioQuestionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BioQuestionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BioQuestionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BioQuestionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BioQuestionMaxAggregateInputType
+  }
+
+  export type GetBioQuestionAggregateType<T extends BioQuestionAggregateArgs> = {
+        [P in keyof T & keyof AggregateBioQuestion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBioQuestion[P]>
+      : GetScalarType<T[P], AggregateBioQuestion[P]>
+  }
+
+
+
+
+  export type BioQuestionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioQuestionWhereInput
+    orderBy?: BioQuestionOrderByWithAggregationInput | BioQuestionOrderByWithAggregationInput[]
+    by: BioQuestionScalarFieldEnum[] | BioQuestionScalarFieldEnum
+    having?: BioQuestionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BioQuestionCountAggregateInputType | true
+    _avg?: BioQuestionAvgAggregateInputType
+    _sum?: BioQuestionSumAggregateInputType
+    _min?: BioQuestionMinAggregateInputType
+    _max?: BioQuestionMaxAggregateInputType
+  }
+
+  export type BioQuestionGroupByOutputType = {
+    id: string
+    pageId: string
+    text: string
+    options: string[]
+    order: number
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: BioQuestionCountAggregateOutputType | null
+    _avg: BioQuestionAvgAggregateOutputType | null
+    _sum: BioQuestionSumAggregateOutputType | null
+    _min: BioQuestionMinAggregateOutputType | null
+    _max: BioQuestionMaxAggregateOutputType | null
+  }
+
+  type GetBioQuestionGroupByPayload<T extends BioQuestionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BioQuestionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BioQuestionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BioQuestionGroupByOutputType[P]>
+            : GetScalarType<T[P], BioQuestionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BioQuestionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    text?: boolean
+    options?: boolean
+    order?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioQuestion"]>
+
+  export type BioQuestionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    text?: boolean
+    options?: boolean
+    order?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioQuestion"]>
+
+  export type BioQuestionSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    text?: boolean
+    options?: boolean
+    order?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BioQuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }
+  export type BioQuestionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }
+
+  export type $BioQuestionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BioQuestion"
+    objects: {
+      page: Prisma.$BioPagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      text: string
+      options: string[]
+      order: number
+      active: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bioQuestion"]>
+    composites: {}
+  }
+
+  type BioQuestionGetPayload<S extends boolean | null | undefined | BioQuestionDefaultArgs> = $Result.GetResult<Prisma.$BioQuestionPayload, S>
+
+  type BioQuestionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BioQuestionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BioQuestionCountAggregateInputType | true
+    }
+
+  export interface BioQuestionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BioQuestion'], meta: { name: 'BioQuestion' } }
+    /**
+     * Find zero or one BioQuestion that matches the filter.
+     * @param {BioQuestionFindUniqueArgs} args - Arguments to find a BioQuestion
+     * @example
+     * // Get one BioQuestion
+     * const bioQuestion = await prisma.bioQuestion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BioQuestionFindUniqueArgs>(args: SelectSubset<T, BioQuestionFindUniqueArgs<ExtArgs>>): Prisma__BioQuestionClient<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BioQuestion that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BioQuestionFindUniqueOrThrowArgs} args - Arguments to find a BioQuestion
+     * @example
+     * // Get one BioQuestion
+     * const bioQuestion = await prisma.bioQuestion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BioQuestionFindUniqueOrThrowArgs>(args: SelectSubset<T, BioQuestionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BioQuestionClient<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BioQuestion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioQuestionFindFirstArgs} args - Arguments to find a BioQuestion
+     * @example
+     * // Get one BioQuestion
+     * const bioQuestion = await prisma.bioQuestion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BioQuestionFindFirstArgs>(args?: SelectSubset<T, BioQuestionFindFirstArgs<ExtArgs>>): Prisma__BioQuestionClient<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BioQuestion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioQuestionFindFirstOrThrowArgs} args - Arguments to find a BioQuestion
+     * @example
+     * // Get one BioQuestion
+     * const bioQuestion = await prisma.bioQuestion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BioQuestionFindFirstOrThrowArgs>(args?: SelectSubset<T, BioQuestionFindFirstOrThrowArgs<ExtArgs>>): Prisma__BioQuestionClient<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BioQuestions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioQuestionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BioQuestions
+     * const bioQuestions = await prisma.bioQuestion.findMany()
+     * 
+     * // Get first 10 BioQuestions
+     * const bioQuestions = await prisma.bioQuestion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bioQuestionWithIdOnly = await prisma.bioQuestion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BioQuestionFindManyArgs>(args?: SelectSubset<T, BioQuestionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BioQuestion.
+     * @param {BioQuestionCreateArgs} args - Arguments to create a BioQuestion.
+     * @example
+     * // Create one BioQuestion
+     * const BioQuestion = await prisma.bioQuestion.create({
+     *   data: {
+     *     // ... data to create a BioQuestion
+     *   }
+     * })
+     * 
+     */
+    create<T extends BioQuestionCreateArgs>(args: SelectSubset<T, BioQuestionCreateArgs<ExtArgs>>): Prisma__BioQuestionClient<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BioQuestions.
+     * @param {BioQuestionCreateManyArgs} args - Arguments to create many BioQuestions.
+     * @example
+     * // Create many BioQuestions
+     * const bioQuestion = await prisma.bioQuestion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BioQuestionCreateManyArgs>(args?: SelectSubset<T, BioQuestionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BioQuestions and returns the data saved in the database.
+     * @param {BioQuestionCreateManyAndReturnArgs} args - Arguments to create many BioQuestions.
+     * @example
+     * // Create many BioQuestions
+     * const bioQuestion = await prisma.bioQuestion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BioQuestions and only return the `id`
+     * const bioQuestionWithIdOnly = await prisma.bioQuestion.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BioQuestionCreateManyAndReturnArgs>(args?: SelectSubset<T, BioQuestionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BioQuestion.
+     * @param {BioQuestionDeleteArgs} args - Arguments to delete one BioQuestion.
+     * @example
+     * // Delete one BioQuestion
+     * const BioQuestion = await prisma.bioQuestion.delete({
+     *   where: {
+     *     // ... filter to delete one BioQuestion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BioQuestionDeleteArgs>(args: SelectSubset<T, BioQuestionDeleteArgs<ExtArgs>>): Prisma__BioQuestionClient<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BioQuestion.
+     * @param {BioQuestionUpdateArgs} args - Arguments to update one BioQuestion.
+     * @example
+     * // Update one BioQuestion
+     * const bioQuestion = await prisma.bioQuestion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BioQuestionUpdateArgs>(args: SelectSubset<T, BioQuestionUpdateArgs<ExtArgs>>): Prisma__BioQuestionClient<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BioQuestions.
+     * @param {BioQuestionDeleteManyArgs} args - Arguments to filter BioQuestions to delete.
+     * @example
+     * // Delete a few BioQuestions
+     * const { count } = await prisma.bioQuestion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BioQuestionDeleteManyArgs>(args?: SelectSubset<T, BioQuestionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BioQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioQuestionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BioQuestions
+     * const bioQuestion = await prisma.bioQuestion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BioQuestionUpdateManyArgs>(args: SelectSubset<T, BioQuestionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BioQuestion.
+     * @param {BioQuestionUpsertArgs} args - Arguments to update or create a BioQuestion.
+     * @example
+     * // Update or create a BioQuestion
+     * const bioQuestion = await prisma.bioQuestion.upsert({
+     *   create: {
+     *     // ... data to create a BioQuestion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BioQuestion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BioQuestionUpsertArgs>(args: SelectSubset<T, BioQuestionUpsertArgs<ExtArgs>>): Prisma__BioQuestionClient<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BioQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioQuestionCountArgs} args - Arguments to filter BioQuestions to count.
+     * @example
+     * // Count the number of BioQuestions
+     * const count = await prisma.bioQuestion.count({
+     *   where: {
+     *     // ... the filter for the BioQuestions we want to count
+     *   }
+     * })
+    **/
+    count<T extends BioQuestionCountArgs>(
+      args?: Subset<T, BioQuestionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BioQuestionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BioQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioQuestionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BioQuestionAggregateArgs>(args: Subset<T, BioQuestionAggregateArgs>): Prisma.PrismaPromise<GetBioQuestionAggregateType<T>>
+
+    /**
+     * Group by BioQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioQuestionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BioQuestionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BioQuestionGroupByArgs['orderBy'] }
+        : { orderBy?: BioQuestionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BioQuestionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBioQuestionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BioQuestion model
+   */
+  readonly fields: BioQuestionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BioQuestion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BioQuestionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends BioPageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BioPageDefaultArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BioQuestion model
+   */ 
+  interface BioQuestionFieldRefs {
+    readonly id: FieldRef<"BioQuestion", 'String'>
+    readonly pageId: FieldRef<"BioQuestion", 'String'>
+    readonly text: FieldRef<"BioQuestion", 'String'>
+    readonly options: FieldRef<"BioQuestion", 'String[]'>
+    readonly order: FieldRef<"BioQuestion", 'Int'>
+    readonly active: FieldRef<"BioQuestion", 'Boolean'>
+    readonly createdAt: FieldRef<"BioQuestion", 'DateTime'>
+    readonly updatedAt: FieldRef<"BioQuestion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BioQuestion findUnique
+   */
+  export type BioQuestionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioQuestion to fetch.
+     */
+    where: BioQuestionWhereUniqueInput
+  }
+
+  /**
+   * BioQuestion findUniqueOrThrow
+   */
+  export type BioQuestionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioQuestion to fetch.
+     */
+    where: BioQuestionWhereUniqueInput
+  }
+
+  /**
+   * BioQuestion findFirst
+   */
+  export type BioQuestionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioQuestion to fetch.
+     */
+    where?: BioQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioQuestions to fetch.
+     */
+    orderBy?: BioQuestionOrderByWithRelationInput | BioQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioQuestions.
+     */
+    cursor?: BioQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioQuestions.
+     */
+    distinct?: BioQuestionScalarFieldEnum | BioQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * BioQuestion findFirstOrThrow
+   */
+  export type BioQuestionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioQuestion to fetch.
+     */
+    where?: BioQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioQuestions to fetch.
+     */
+    orderBy?: BioQuestionOrderByWithRelationInput | BioQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioQuestions.
+     */
+    cursor?: BioQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioQuestions.
+     */
+    distinct?: BioQuestionScalarFieldEnum | BioQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * BioQuestion findMany
+   */
+  export type BioQuestionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioQuestions to fetch.
+     */
+    where?: BioQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioQuestions to fetch.
+     */
+    orderBy?: BioQuestionOrderByWithRelationInput | BioQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BioQuestions.
+     */
+    cursor?: BioQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioQuestions.
+     */
+    skip?: number
+    distinct?: BioQuestionScalarFieldEnum | BioQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * BioQuestion create
+   */
+  export type BioQuestionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BioQuestion.
+     */
+    data: XOR<BioQuestionCreateInput, BioQuestionUncheckedCreateInput>
+  }
+
+  /**
+   * BioQuestion createMany
+   */
+  export type BioQuestionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BioQuestions.
+     */
+    data: BioQuestionCreateManyInput | BioQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BioQuestion createManyAndReturn
+   */
+  export type BioQuestionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BioQuestions.
+     */
+    data: BioQuestionCreateManyInput | BioQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BioQuestion update
+   */
+  export type BioQuestionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BioQuestion.
+     */
+    data: XOR<BioQuestionUpdateInput, BioQuestionUncheckedUpdateInput>
+    /**
+     * Choose, which BioQuestion to update.
+     */
+    where: BioQuestionWhereUniqueInput
+  }
+
+  /**
+   * BioQuestion updateMany
+   */
+  export type BioQuestionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BioQuestions.
+     */
+    data: XOR<BioQuestionUpdateManyMutationInput, BioQuestionUncheckedUpdateManyInput>
+    /**
+     * Filter which BioQuestions to update
+     */
+    where?: BioQuestionWhereInput
+  }
+
+  /**
+   * BioQuestion upsert
+   */
+  export type BioQuestionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BioQuestion to update in case it exists.
+     */
+    where: BioQuestionWhereUniqueInput
+    /**
+     * In case the BioQuestion found by the `where` argument doesn't exist, create a new BioQuestion with this data.
+     */
+    create: XOR<BioQuestionCreateInput, BioQuestionUncheckedCreateInput>
+    /**
+     * In case the BioQuestion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BioQuestionUpdateInput, BioQuestionUncheckedUpdateInput>
+  }
+
+  /**
+   * BioQuestion delete
+   */
+  export type BioQuestionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+    /**
+     * Filter which BioQuestion to delete.
+     */
+    where: BioQuestionWhereUniqueInput
+  }
+
+  /**
+   * BioQuestion deleteMany
+   */
+  export type BioQuestionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioQuestions to delete
+     */
+    where?: BioQuestionWhereInput
+  }
+
+  /**
+   * BioQuestion without action
+   */
+  export type BioQuestionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioQuestion
+     */
+    select?: BioQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioQuestionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BioSubmission
+   */
+
+  export type AggregateBioSubmission = {
+    _count: BioSubmissionCountAggregateOutputType | null
+    _min: BioSubmissionMinAggregateOutputType | null
+    _max: BioSubmissionMaxAggregateOutputType | null
+  }
+
+  export type BioSubmissionMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    leadId: string | null
+    name: string | null
+    phone: string | null
+    email: string | null
+    consent: boolean | null
+    visitorId: string | null
+    referrer: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    clientIp: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type BioSubmissionMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    leadId: string | null
+    name: string | null
+    phone: string | null
+    email: string | null
+    consent: boolean | null
+    visitorId: string | null
+    referrer: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    clientIp: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type BioSubmissionCountAggregateOutputType = {
+    id: number
+    pageId: number
+    leadId: number
+    answers: number
+    name: number
+    phone: number
+    email: number
+    consent: number
+    visitorId: number
+    referrer: number
+    utmSource: number
+    utmMedium: number
+    utmCampaign: number
+    clientIp: number
+    userAgent: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BioSubmissionMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    leadId?: true
+    name?: true
+    phone?: true
+    email?: true
+    consent?: true
+    visitorId?: true
+    referrer?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    clientIp?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type BioSubmissionMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    leadId?: true
+    name?: true
+    phone?: true
+    email?: true
+    consent?: true
+    visitorId?: true
+    referrer?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    clientIp?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type BioSubmissionCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    leadId?: true
+    answers?: true
+    name?: true
+    phone?: true
+    email?: true
+    consent?: true
+    visitorId?: true
+    referrer?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    clientIp?: true
+    userAgent?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BioSubmissionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioSubmission to aggregate.
+     */
+    where?: BioSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioSubmissions to fetch.
+     */
+    orderBy?: BioSubmissionOrderByWithRelationInput | BioSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BioSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BioSubmissions
+    **/
+    _count?: true | BioSubmissionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BioSubmissionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BioSubmissionMaxAggregateInputType
+  }
+
+  export type GetBioSubmissionAggregateType<T extends BioSubmissionAggregateArgs> = {
+        [P in keyof T & keyof AggregateBioSubmission]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBioSubmission[P]>
+      : GetScalarType<T[P], AggregateBioSubmission[P]>
+  }
+
+
+
+
+  export type BioSubmissionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioSubmissionWhereInput
+    orderBy?: BioSubmissionOrderByWithAggregationInput | BioSubmissionOrderByWithAggregationInput[]
+    by: BioSubmissionScalarFieldEnum[] | BioSubmissionScalarFieldEnum
+    having?: BioSubmissionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BioSubmissionCountAggregateInputType | true
+    _min?: BioSubmissionMinAggregateInputType
+    _max?: BioSubmissionMaxAggregateInputType
+  }
+
+  export type BioSubmissionGroupByOutputType = {
+    id: string
+    pageId: string
+    leadId: string | null
+    answers: JsonValue
+    name: string | null
+    phone: string
+    email: string | null
+    consent: boolean
+    visitorId: string | null
+    referrer: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    clientIp: string | null
+    userAgent: string | null
+    createdAt: Date
+    _count: BioSubmissionCountAggregateOutputType | null
+    _min: BioSubmissionMinAggregateOutputType | null
+    _max: BioSubmissionMaxAggregateOutputType | null
+  }
+
+  type GetBioSubmissionGroupByPayload<T extends BioSubmissionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BioSubmissionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BioSubmissionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BioSubmissionGroupByOutputType[P]>
+            : GetScalarType<T[P], BioSubmissionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BioSubmissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    leadId?: boolean
+    answers?: boolean
+    name?: boolean
+    phone?: boolean
+    email?: boolean
+    consent?: boolean
+    visitorId?: boolean
+    referrer?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+    lead?: boolean | BioSubmission$leadArgs<ExtArgs>
+  }, ExtArgs["result"]["bioSubmission"]>
+
+  export type BioSubmissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    leadId?: boolean
+    answers?: boolean
+    name?: boolean
+    phone?: boolean
+    email?: boolean
+    consent?: boolean
+    visitorId?: boolean
+    referrer?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+    lead?: boolean | BioSubmission$leadArgs<ExtArgs>
+  }, ExtArgs["result"]["bioSubmission"]>
+
+  export type BioSubmissionSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    leadId?: boolean
+    answers?: boolean
+    name?: boolean
+    phone?: boolean
+    email?: boolean
+    consent?: boolean
+    visitorId?: boolean
+    referrer?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+  }
+
+  export type BioSubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+    lead?: boolean | BioSubmission$leadArgs<ExtArgs>
+  }
+  export type BioSubmissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+    lead?: boolean | BioSubmission$leadArgs<ExtArgs>
+  }
+
+  export type $BioSubmissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BioSubmission"
+    objects: {
+      page: Prisma.$BioPagePayload<ExtArgs>
+      lead: Prisma.$LeadPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      leadId: string | null
+      answers: Prisma.JsonValue
+      name: string | null
+      phone: string
+      email: string | null
+      consent: boolean
+      visitorId: string | null
+      referrer: string | null
+      utmSource: string | null
+      utmMedium: string | null
+      utmCampaign: string | null
+      clientIp: string | null
+      userAgent: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["bioSubmission"]>
+    composites: {}
+  }
+
+  type BioSubmissionGetPayload<S extends boolean | null | undefined | BioSubmissionDefaultArgs> = $Result.GetResult<Prisma.$BioSubmissionPayload, S>
+
+  type BioSubmissionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BioSubmissionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BioSubmissionCountAggregateInputType | true
+    }
+
+  export interface BioSubmissionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BioSubmission'], meta: { name: 'BioSubmission' } }
+    /**
+     * Find zero or one BioSubmission that matches the filter.
+     * @param {BioSubmissionFindUniqueArgs} args - Arguments to find a BioSubmission
+     * @example
+     * // Get one BioSubmission
+     * const bioSubmission = await prisma.bioSubmission.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BioSubmissionFindUniqueArgs>(args: SelectSubset<T, BioSubmissionFindUniqueArgs<ExtArgs>>): Prisma__BioSubmissionClient<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BioSubmission that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BioSubmissionFindUniqueOrThrowArgs} args - Arguments to find a BioSubmission
+     * @example
+     * // Get one BioSubmission
+     * const bioSubmission = await prisma.bioSubmission.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BioSubmissionFindUniqueOrThrowArgs>(args: SelectSubset<T, BioSubmissionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BioSubmissionClient<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BioSubmission that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioSubmissionFindFirstArgs} args - Arguments to find a BioSubmission
+     * @example
+     * // Get one BioSubmission
+     * const bioSubmission = await prisma.bioSubmission.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BioSubmissionFindFirstArgs>(args?: SelectSubset<T, BioSubmissionFindFirstArgs<ExtArgs>>): Prisma__BioSubmissionClient<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BioSubmission that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioSubmissionFindFirstOrThrowArgs} args - Arguments to find a BioSubmission
+     * @example
+     * // Get one BioSubmission
+     * const bioSubmission = await prisma.bioSubmission.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BioSubmissionFindFirstOrThrowArgs>(args?: SelectSubset<T, BioSubmissionFindFirstOrThrowArgs<ExtArgs>>): Prisma__BioSubmissionClient<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BioSubmissions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioSubmissionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BioSubmissions
+     * const bioSubmissions = await prisma.bioSubmission.findMany()
+     * 
+     * // Get first 10 BioSubmissions
+     * const bioSubmissions = await prisma.bioSubmission.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bioSubmissionWithIdOnly = await prisma.bioSubmission.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BioSubmissionFindManyArgs>(args?: SelectSubset<T, BioSubmissionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BioSubmission.
+     * @param {BioSubmissionCreateArgs} args - Arguments to create a BioSubmission.
+     * @example
+     * // Create one BioSubmission
+     * const BioSubmission = await prisma.bioSubmission.create({
+     *   data: {
+     *     // ... data to create a BioSubmission
+     *   }
+     * })
+     * 
+     */
+    create<T extends BioSubmissionCreateArgs>(args: SelectSubset<T, BioSubmissionCreateArgs<ExtArgs>>): Prisma__BioSubmissionClient<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BioSubmissions.
+     * @param {BioSubmissionCreateManyArgs} args - Arguments to create many BioSubmissions.
+     * @example
+     * // Create many BioSubmissions
+     * const bioSubmission = await prisma.bioSubmission.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BioSubmissionCreateManyArgs>(args?: SelectSubset<T, BioSubmissionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BioSubmissions and returns the data saved in the database.
+     * @param {BioSubmissionCreateManyAndReturnArgs} args - Arguments to create many BioSubmissions.
+     * @example
+     * // Create many BioSubmissions
+     * const bioSubmission = await prisma.bioSubmission.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BioSubmissions and only return the `id`
+     * const bioSubmissionWithIdOnly = await prisma.bioSubmission.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BioSubmissionCreateManyAndReturnArgs>(args?: SelectSubset<T, BioSubmissionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BioSubmission.
+     * @param {BioSubmissionDeleteArgs} args - Arguments to delete one BioSubmission.
+     * @example
+     * // Delete one BioSubmission
+     * const BioSubmission = await prisma.bioSubmission.delete({
+     *   where: {
+     *     // ... filter to delete one BioSubmission
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BioSubmissionDeleteArgs>(args: SelectSubset<T, BioSubmissionDeleteArgs<ExtArgs>>): Prisma__BioSubmissionClient<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BioSubmission.
+     * @param {BioSubmissionUpdateArgs} args - Arguments to update one BioSubmission.
+     * @example
+     * // Update one BioSubmission
+     * const bioSubmission = await prisma.bioSubmission.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BioSubmissionUpdateArgs>(args: SelectSubset<T, BioSubmissionUpdateArgs<ExtArgs>>): Prisma__BioSubmissionClient<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BioSubmissions.
+     * @param {BioSubmissionDeleteManyArgs} args - Arguments to filter BioSubmissions to delete.
+     * @example
+     * // Delete a few BioSubmissions
+     * const { count } = await prisma.bioSubmission.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BioSubmissionDeleteManyArgs>(args?: SelectSubset<T, BioSubmissionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BioSubmissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioSubmissionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BioSubmissions
+     * const bioSubmission = await prisma.bioSubmission.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BioSubmissionUpdateManyArgs>(args: SelectSubset<T, BioSubmissionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BioSubmission.
+     * @param {BioSubmissionUpsertArgs} args - Arguments to update or create a BioSubmission.
+     * @example
+     * // Update or create a BioSubmission
+     * const bioSubmission = await prisma.bioSubmission.upsert({
+     *   create: {
+     *     // ... data to create a BioSubmission
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BioSubmission we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BioSubmissionUpsertArgs>(args: SelectSubset<T, BioSubmissionUpsertArgs<ExtArgs>>): Prisma__BioSubmissionClient<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BioSubmissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioSubmissionCountArgs} args - Arguments to filter BioSubmissions to count.
+     * @example
+     * // Count the number of BioSubmissions
+     * const count = await prisma.bioSubmission.count({
+     *   where: {
+     *     // ... the filter for the BioSubmissions we want to count
+     *   }
+     * })
+    **/
+    count<T extends BioSubmissionCountArgs>(
+      args?: Subset<T, BioSubmissionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BioSubmissionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BioSubmission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioSubmissionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BioSubmissionAggregateArgs>(args: Subset<T, BioSubmissionAggregateArgs>): Prisma.PrismaPromise<GetBioSubmissionAggregateType<T>>
+
+    /**
+     * Group by BioSubmission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioSubmissionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BioSubmissionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BioSubmissionGroupByArgs['orderBy'] }
+        : { orderBy?: BioSubmissionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BioSubmissionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBioSubmissionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BioSubmission model
+   */
+  readonly fields: BioSubmissionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BioSubmission.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BioSubmissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends BioPageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BioPageDefaultArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    lead<T extends BioSubmission$leadArgs<ExtArgs> = {}>(args?: Subset<T, BioSubmission$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BioSubmission model
+   */ 
+  interface BioSubmissionFieldRefs {
+    readonly id: FieldRef<"BioSubmission", 'String'>
+    readonly pageId: FieldRef<"BioSubmission", 'String'>
+    readonly leadId: FieldRef<"BioSubmission", 'String'>
+    readonly answers: FieldRef<"BioSubmission", 'Json'>
+    readonly name: FieldRef<"BioSubmission", 'String'>
+    readonly phone: FieldRef<"BioSubmission", 'String'>
+    readonly email: FieldRef<"BioSubmission", 'String'>
+    readonly consent: FieldRef<"BioSubmission", 'Boolean'>
+    readonly visitorId: FieldRef<"BioSubmission", 'String'>
+    readonly referrer: FieldRef<"BioSubmission", 'String'>
+    readonly utmSource: FieldRef<"BioSubmission", 'String'>
+    readonly utmMedium: FieldRef<"BioSubmission", 'String'>
+    readonly utmCampaign: FieldRef<"BioSubmission", 'String'>
+    readonly clientIp: FieldRef<"BioSubmission", 'String'>
+    readonly userAgent: FieldRef<"BioSubmission", 'String'>
+    readonly createdAt: FieldRef<"BioSubmission", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BioSubmission findUnique
+   */
+  export type BioSubmissionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioSubmission to fetch.
+     */
+    where: BioSubmissionWhereUniqueInput
+  }
+
+  /**
+   * BioSubmission findUniqueOrThrow
+   */
+  export type BioSubmissionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioSubmission to fetch.
+     */
+    where: BioSubmissionWhereUniqueInput
+  }
+
+  /**
+   * BioSubmission findFirst
+   */
+  export type BioSubmissionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioSubmission to fetch.
+     */
+    where?: BioSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioSubmissions to fetch.
+     */
+    orderBy?: BioSubmissionOrderByWithRelationInput | BioSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioSubmissions.
+     */
+    cursor?: BioSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioSubmissions.
+     */
+    distinct?: BioSubmissionScalarFieldEnum | BioSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * BioSubmission findFirstOrThrow
+   */
+  export type BioSubmissionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioSubmission to fetch.
+     */
+    where?: BioSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioSubmissions to fetch.
+     */
+    orderBy?: BioSubmissionOrderByWithRelationInput | BioSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioSubmissions.
+     */
+    cursor?: BioSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioSubmissions.
+     */
+    distinct?: BioSubmissionScalarFieldEnum | BioSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * BioSubmission findMany
+   */
+  export type BioSubmissionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which BioSubmissions to fetch.
+     */
+    where?: BioSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioSubmissions to fetch.
+     */
+    orderBy?: BioSubmissionOrderByWithRelationInput | BioSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BioSubmissions.
+     */
+    cursor?: BioSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioSubmissions.
+     */
+    skip?: number
+    distinct?: BioSubmissionScalarFieldEnum | BioSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * BioSubmission create
+   */
+  export type BioSubmissionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BioSubmission.
+     */
+    data: XOR<BioSubmissionCreateInput, BioSubmissionUncheckedCreateInput>
+  }
+
+  /**
+   * BioSubmission createMany
+   */
+  export type BioSubmissionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BioSubmissions.
+     */
+    data: BioSubmissionCreateManyInput | BioSubmissionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BioSubmission createManyAndReturn
+   */
+  export type BioSubmissionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BioSubmissions.
+     */
+    data: BioSubmissionCreateManyInput | BioSubmissionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BioSubmission update
+   */
+  export type BioSubmissionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BioSubmission.
+     */
+    data: XOR<BioSubmissionUpdateInput, BioSubmissionUncheckedUpdateInput>
+    /**
+     * Choose, which BioSubmission to update.
+     */
+    where: BioSubmissionWhereUniqueInput
+  }
+
+  /**
+   * BioSubmission updateMany
+   */
+  export type BioSubmissionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BioSubmissions.
+     */
+    data: XOR<BioSubmissionUpdateManyMutationInput, BioSubmissionUncheckedUpdateManyInput>
+    /**
+     * Filter which BioSubmissions to update
+     */
+    where?: BioSubmissionWhereInput
+  }
+
+  /**
+   * BioSubmission upsert
+   */
+  export type BioSubmissionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BioSubmission to update in case it exists.
+     */
+    where: BioSubmissionWhereUniqueInput
+    /**
+     * In case the BioSubmission found by the `where` argument doesn't exist, create a new BioSubmission with this data.
+     */
+    create: XOR<BioSubmissionCreateInput, BioSubmissionUncheckedCreateInput>
+    /**
+     * In case the BioSubmission was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BioSubmissionUpdateInput, BioSubmissionUncheckedUpdateInput>
+  }
+
+  /**
+   * BioSubmission delete
+   */
+  export type BioSubmissionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter which BioSubmission to delete.
+     */
+    where: BioSubmissionWhereUniqueInput
+  }
+
+  /**
+   * BioSubmission deleteMany
+   */
+  export type BioSubmissionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioSubmissions to delete
+     */
+    where?: BioSubmissionWhereInput
+  }
+
+  /**
+   * BioSubmission.lead
+   */
+  export type BioSubmission$leadArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lead
+     */
+    select?: LeadSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    where?: LeadWhereInput
+  }
+
+  /**
+   * BioSubmission without action
+   */
+  export type BioSubmissionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BioEvent
+   */
+
+  export type AggregateBioEvent = {
+    _count: BioEventCountAggregateOutputType | null
+    _min: BioEventMinAggregateOutputType | null
+    _max: BioEventMaxAggregateOutputType | null
+  }
+
+  export type BioEventMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    kind: $Enums.BioEventKind | null
+    blockId: string | null
+    targetLabel: string | null
+    visitorId: string | null
+    referrer: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    createdAt: Date | null
+  }
+
+  export type BioEventMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    kind: $Enums.BioEventKind | null
+    blockId: string | null
+    targetLabel: string | null
+    visitorId: string | null
+    referrer: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    createdAt: Date | null
+  }
+
+  export type BioEventCountAggregateOutputType = {
+    id: number
+    pageId: number
+    kind: number
+    blockId: number
+    targetLabel: number
+    visitorId: number
+    referrer: number
+    utmSource: number
+    utmMedium: number
+    utmCampaign: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BioEventMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    kind?: true
+    blockId?: true
+    targetLabel?: true
+    visitorId?: true
+    referrer?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    createdAt?: true
+  }
+
+  export type BioEventMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    kind?: true
+    blockId?: true
+    targetLabel?: true
+    visitorId?: true
+    referrer?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    createdAt?: true
+  }
+
+  export type BioEventCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    kind?: true
+    blockId?: true
+    targetLabel?: true
+    visitorId?: true
+    referrer?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BioEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioEvent to aggregate.
+     */
+    where?: BioEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioEvents to fetch.
+     */
+    orderBy?: BioEventOrderByWithRelationInput | BioEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BioEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BioEvents
+    **/
+    _count?: true | BioEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BioEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BioEventMaxAggregateInputType
+  }
+
+  export type GetBioEventAggregateType<T extends BioEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateBioEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBioEvent[P]>
+      : GetScalarType<T[P], AggregateBioEvent[P]>
+  }
+
+
+
+
+  export type BioEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioEventWhereInput
+    orderBy?: BioEventOrderByWithAggregationInput | BioEventOrderByWithAggregationInput[]
+    by: BioEventScalarFieldEnum[] | BioEventScalarFieldEnum
+    having?: BioEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BioEventCountAggregateInputType | true
+    _min?: BioEventMinAggregateInputType
+    _max?: BioEventMaxAggregateInputType
+  }
+
+  export type BioEventGroupByOutputType = {
+    id: string
+    pageId: string
+    kind: $Enums.BioEventKind
+    blockId: string | null
+    targetLabel: string | null
+    visitorId: string | null
+    referrer: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    createdAt: Date
+    _count: BioEventCountAggregateOutputType | null
+    _min: BioEventMinAggregateOutputType | null
+    _max: BioEventMaxAggregateOutputType | null
+  }
+
+  type GetBioEventGroupByPayload<T extends BioEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BioEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BioEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BioEventGroupByOutputType[P]>
+            : GetScalarType<T[P], BioEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BioEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    kind?: boolean
+    blockId?: boolean
+    targetLabel?: boolean
+    visitorId?: boolean
+    referrer?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    createdAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioEvent"]>
+
+  export type BioEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    kind?: boolean
+    blockId?: boolean
+    targetLabel?: boolean
+    visitorId?: boolean
+    referrer?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    createdAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioEvent"]>
+
+  export type BioEventSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    kind?: boolean
+    blockId?: boolean
+    targetLabel?: boolean
+    visitorId?: boolean
+    referrer?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    createdAt?: boolean
+  }
+
+  export type BioEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }
+  export type BioEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }
+
+  export type $BioEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BioEvent"
+    objects: {
+      page: Prisma.$BioPagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      kind: $Enums.BioEventKind
+      blockId: string | null
+      targetLabel: string | null
+      visitorId: string | null
+      referrer: string | null
+      utmSource: string | null
+      utmMedium: string | null
+      utmCampaign: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["bioEvent"]>
+    composites: {}
+  }
+
+  type BioEventGetPayload<S extends boolean | null | undefined | BioEventDefaultArgs> = $Result.GetResult<Prisma.$BioEventPayload, S>
+
+  type BioEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BioEventFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BioEventCountAggregateInputType | true
+    }
+
+  export interface BioEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BioEvent'], meta: { name: 'BioEvent' } }
+    /**
+     * Find zero or one BioEvent that matches the filter.
+     * @param {BioEventFindUniqueArgs} args - Arguments to find a BioEvent
+     * @example
+     * // Get one BioEvent
+     * const bioEvent = await prisma.bioEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BioEventFindUniqueArgs>(args: SelectSubset<T, BioEventFindUniqueArgs<ExtArgs>>): Prisma__BioEventClient<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BioEvent that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BioEventFindUniqueOrThrowArgs} args - Arguments to find a BioEvent
+     * @example
+     * // Get one BioEvent
+     * const bioEvent = await prisma.bioEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BioEventFindUniqueOrThrowArgs>(args: SelectSubset<T, BioEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BioEventClient<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BioEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioEventFindFirstArgs} args - Arguments to find a BioEvent
+     * @example
+     * // Get one BioEvent
+     * const bioEvent = await prisma.bioEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BioEventFindFirstArgs>(args?: SelectSubset<T, BioEventFindFirstArgs<ExtArgs>>): Prisma__BioEventClient<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BioEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioEventFindFirstOrThrowArgs} args - Arguments to find a BioEvent
+     * @example
+     * // Get one BioEvent
+     * const bioEvent = await prisma.bioEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BioEventFindFirstOrThrowArgs>(args?: SelectSubset<T, BioEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__BioEventClient<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BioEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BioEvents
+     * const bioEvents = await prisma.bioEvent.findMany()
+     * 
+     * // Get first 10 BioEvents
+     * const bioEvents = await prisma.bioEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bioEventWithIdOnly = await prisma.bioEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BioEventFindManyArgs>(args?: SelectSubset<T, BioEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BioEvent.
+     * @param {BioEventCreateArgs} args - Arguments to create a BioEvent.
+     * @example
+     * // Create one BioEvent
+     * const BioEvent = await prisma.bioEvent.create({
+     *   data: {
+     *     // ... data to create a BioEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends BioEventCreateArgs>(args: SelectSubset<T, BioEventCreateArgs<ExtArgs>>): Prisma__BioEventClient<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BioEvents.
+     * @param {BioEventCreateManyArgs} args - Arguments to create many BioEvents.
+     * @example
+     * // Create many BioEvents
+     * const bioEvent = await prisma.bioEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BioEventCreateManyArgs>(args?: SelectSubset<T, BioEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BioEvents and returns the data saved in the database.
+     * @param {BioEventCreateManyAndReturnArgs} args - Arguments to create many BioEvents.
+     * @example
+     * // Create many BioEvents
+     * const bioEvent = await prisma.bioEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BioEvents and only return the `id`
+     * const bioEventWithIdOnly = await prisma.bioEvent.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BioEventCreateManyAndReturnArgs>(args?: SelectSubset<T, BioEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BioEvent.
+     * @param {BioEventDeleteArgs} args - Arguments to delete one BioEvent.
+     * @example
+     * // Delete one BioEvent
+     * const BioEvent = await prisma.bioEvent.delete({
+     *   where: {
+     *     // ... filter to delete one BioEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BioEventDeleteArgs>(args: SelectSubset<T, BioEventDeleteArgs<ExtArgs>>): Prisma__BioEventClient<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BioEvent.
+     * @param {BioEventUpdateArgs} args - Arguments to update one BioEvent.
+     * @example
+     * // Update one BioEvent
+     * const bioEvent = await prisma.bioEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BioEventUpdateArgs>(args: SelectSubset<T, BioEventUpdateArgs<ExtArgs>>): Prisma__BioEventClient<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BioEvents.
+     * @param {BioEventDeleteManyArgs} args - Arguments to filter BioEvents to delete.
+     * @example
+     * // Delete a few BioEvents
+     * const { count } = await prisma.bioEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BioEventDeleteManyArgs>(args?: SelectSubset<T, BioEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BioEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BioEvents
+     * const bioEvent = await prisma.bioEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BioEventUpdateManyArgs>(args: SelectSubset<T, BioEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BioEvent.
+     * @param {BioEventUpsertArgs} args - Arguments to update or create a BioEvent.
+     * @example
+     * // Update or create a BioEvent
+     * const bioEvent = await prisma.bioEvent.upsert({
+     *   create: {
+     *     // ... data to create a BioEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BioEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BioEventUpsertArgs>(args: SelectSubset<T, BioEventUpsertArgs<ExtArgs>>): Prisma__BioEventClient<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BioEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioEventCountArgs} args - Arguments to filter BioEvents to count.
+     * @example
+     * // Count the number of BioEvents
+     * const count = await prisma.bioEvent.count({
+     *   where: {
+     *     // ... the filter for the BioEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends BioEventCountArgs>(
+      args?: Subset<T, BioEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BioEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BioEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BioEventAggregateArgs>(args: Subset<T, BioEventAggregateArgs>): Prisma.PrismaPromise<GetBioEventAggregateType<T>>
+
+    /**
+     * Group by BioEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BioEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BioEventGroupByArgs['orderBy'] }
+        : { orderBy?: BioEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BioEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBioEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BioEvent model
+   */
+  readonly fields: BioEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BioEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BioEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends BioPageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BioPageDefaultArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BioEvent model
+   */ 
+  interface BioEventFieldRefs {
+    readonly id: FieldRef<"BioEvent", 'String'>
+    readonly pageId: FieldRef<"BioEvent", 'String'>
+    readonly kind: FieldRef<"BioEvent", 'BioEventKind'>
+    readonly blockId: FieldRef<"BioEvent", 'String'>
+    readonly targetLabel: FieldRef<"BioEvent", 'String'>
+    readonly visitorId: FieldRef<"BioEvent", 'String'>
+    readonly referrer: FieldRef<"BioEvent", 'String'>
+    readonly utmSource: FieldRef<"BioEvent", 'String'>
+    readonly utmMedium: FieldRef<"BioEvent", 'String'>
+    readonly utmCampaign: FieldRef<"BioEvent", 'String'>
+    readonly createdAt: FieldRef<"BioEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BioEvent findUnique
+   */
+  export type BioEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    /**
+     * Filter, which BioEvent to fetch.
+     */
+    where: BioEventWhereUniqueInput
+  }
+
+  /**
+   * BioEvent findUniqueOrThrow
+   */
+  export type BioEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    /**
+     * Filter, which BioEvent to fetch.
+     */
+    where: BioEventWhereUniqueInput
+  }
+
+  /**
+   * BioEvent findFirst
+   */
+  export type BioEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    /**
+     * Filter, which BioEvent to fetch.
+     */
+    where?: BioEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioEvents to fetch.
+     */
+    orderBy?: BioEventOrderByWithRelationInput | BioEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioEvents.
+     */
+    cursor?: BioEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioEvents.
+     */
+    distinct?: BioEventScalarFieldEnum | BioEventScalarFieldEnum[]
+  }
+
+  /**
+   * BioEvent findFirstOrThrow
+   */
+  export type BioEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    /**
+     * Filter, which BioEvent to fetch.
+     */
+    where?: BioEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioEvents to fetch.
+     */
+    orderBy?: BioEventOrderByWithRelationInput | BioEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioEvents.
+     */
+    cursor?: BioEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioEvents.
+     */
+    distinct?: BioEventScalarFieldEnum | BioEventScalarFieldEnum[]
+  }
+
+  /**
+   * BioEvent findMany
+   */
+  export type BioEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    /**
+     * Filter, which BioEvents to fetch.
+     */
+    where?: BioEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioEvents to fetch.
+     */
+    orderBy?: BioEventOrderByWithRelationInput | BioEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BioEvents.
+     */
+    cursor?: BioEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioEvents.
+     */
+    skip?: number
+    distinct?: BioEventScalarFieldEnum | BioEventScalarFieldEnum[]
+  }
+
+  /**
+   * BioEvent create
+   */
+  export type BioEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BioEvent.
+     */
+    data: XOR<BioEventCreateInput, BioEventUncheckedCreateInput>
+  }
+
+  /**
+   * BioEvent createMany
+   */
+  export type BioEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BioEvents.
+     */
+    data: BioEventCreateManyInput | BioEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BioEvent createManyAndReturn
+   */
+  export type BioEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BioEvents.
+     */
+    data: BioEventCreateManyInput | BioEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BioEvent update
+   */
+  export type BioEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BioEvent.
+     */
+    data: XOR<BioEventUpdateInput, BioEventUncheckedUpdateInput>
+    /**
+     * Choose, which BioEvent to update.
+     */
+    where: BioEventWhereUniqueInput
+  }
+
+  /**
+   * BioEvent updateMany
+   */
+  export type BioEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BioEvents.
+     */
+    data: XOR<BioEventUpdateManyMutationInput, BioEventUncheckedUpdateManyInput>
+    /**
+     * Filter which BioEvents to update
+     */
+    where?: BioEventWhereInput
+  }
+
+  /**
+   * BioEvent upsert
+   */
+  export type BioEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BioEvent to update in case it exists.
+     */
+    where: BioEventWhereUniqueInput
+    /**
+     * In case the BioEvent found by the `where` argument doesn't exist, create a new BioEvent with this data.
+     */
+    create: XOR<BioEventCreateInput, BioEventUncheckedCreateInput>
+    /**
+     * In case the BioEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BioEventUpdateInput, BioEventUncheckedUpdateInput>
+  }
+
+  /**
+   * BioEvent delete
+   */
+  export type BioEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+    /**
+     * Filter which BioEvent to delete.
+     */
+    where: BioEventWhereUniqueInput
+  }
+
+  /**
+   * BioEvent deleteMany
+   */
+  export type BioEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioEvents to delete
+     */
+    where?: BioEventWhereInput
+  }
+
+  /**
+   * BioEvent without action
+   */
+  export type BioEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioEvent
+     */
+    select?: BioEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioEventInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -166363,6 +172293,103 @@ export namespace Prisma {
   export type CaldavRequestLogScalarFieldEnum = (typeof CaldavRequestLogScalarFieldEnum)[keyof typeof CaldavRequestLogScalarFieldEnum]
 
 
+  export const BioPageScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    slug: 'slug',
+    template: 'template',
+    title: 'title',
+    headline: 'headline',
+    about: 'about',
+    avatarUrl: 'avatarUrl',
+    coverUrl: 'coverUrl',
+    accentColor: 'accentColor',
+    published: 'published',
+    publishedAt: 'publishedAt',
+    quizEnabled: 'quizEnabled',
+    quizTitle: 'quizTitle',
+    quizCta: 'quizCta',
+    thankYouMessage: 'thankYouMessage',
+    consentText: 'consentText',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BioPageScalarFieldEnum = (typeof BioPageScalarFieldEnum)[keyof typeof BioPageScalarFieldEnum]
+
+
+  export const BioBlockScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    type: 'type',
+    title: 'title',
+    description: 'description',
+    url: 'url',
+    imageUrl: 'imageUrl',
+    priceLabel: 'priceLabel',
+    network: 'network',
+    order: 'order',
+    active: 'active',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BioBlockScalarFieldEnum = (typeof BioBlockScalarFieldEnum)[keyof typeof BioBlockScalarFieldEnum]
+
+
+  export const BioQuestionScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    text: 'text',
+    options: 'options',
+    order: 'order',
+    active: 'active',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BioQuestionScalarFieldEnum = (typeof BioQuestionScalarFieldEnum)[keyof typeof BioQuestionScalarFieldEnum]
+
+
+  export const BioSubmissionScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    leadId: 'leadId',
+    answers: 'answers',
+    name: 'name',
+    phone: 'phone',
+    email: 'email',
+    consent: 'consent',
+    visitorId: 'visitorId',
+    referrer: 'referrer',
+    utmSource: 'utmSource',
+    utmMedium: 'utmMedium',
+    utmCampaign: 'utmCampaign',
+    clientIp: 'clientIp',
+    userAgent: 'userAgent',
+    createdAt: 'createdAt'
+  };
+
+  export type BioSubmissionScalarFieldEnum = (typeof BioSubmissionScalarFieldEnum)[keyof typeof BioSubmissionScalarFieldEnum]
+
+
+  export const BioEventScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    kind: 'kind',
+    blockId: 'blockId',
+    targetLabel: 'targetLabel',
+    visitorId: 'visitorId',
+    referrer: 'referrer',
+    utmSource: 'utmSource',
+    utmMedium: 'utmMedium',
+    utmCampaign: 'utmCampaign',
+    createdAt: 'createdAt'
+  };
+
+  export type BioEventScalarFieldEnum = (typeof BioEventScalarFieldEnum)[keyof typeof BioEventScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -167253,6 +173280,48 @@ export namespace Prisma {
    * Reference to a field of type 'PunchAdjustStatus[]'
    */
   export type ListEnumPunchAdjustStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PunchAdjustStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BioTemplate'
+   */
+  export type EnumBioTemplateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BioTemplate'>
+    
+
+
+  /**
+   * Reference to a field of type 'BioTemplate[]'
+   */
+  export type ListEnumBioTemplateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BioTemplate[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BioBlockType'
+   */
+  export type EnumBioBlockTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BioBlockType'>
+    
+
+
+  /**
+   * Reference to a field of type 'BioBlockType[]'
+   */
+  export type ListEnumBioBlockTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BioBlockType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BioEventKind'
+   */
+  export type EnumBioEventKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BioEventKind'>
+    
+
+
+  /**
+   * Reference to a field of type 'BioEventKind[]'
+   */
+  export type ListEnumBioEventKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BioEventKind[]'>
     
   /**
    * Deep Input Types
@@ -168260,6 +174329,7 @@ export namespace Prisma {
     salesAsAgency?: SaleListRelationFilter
     salesAsClient?: SaleListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
+    bioPage?: XOR<BioPageNullableRelationFilter, BioPageWhereInput> | null
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
     setores?: SetorListRelationFilter
@@ -168401,6 +174471,7 @@ export namespace Prisma {
     salesAsAgency?: SaleOrderByRelationAggregateInput
     salesAsClient?: SaleOrderByRelationAggregateInput
     trackingLinks?: TrackingLinkOrderByRelationAggregateInput
+    bioPage?: BioPageOrderByWithRelationInput
     pipelineStages?: PipelineStageConfigOrderByRelationAggregateInput
     contacts?: CompanyContactOrderByRelationAggregateInput
     setores?: SetorOrderByRelationAggregateInput
@@ -168545,6 +174616,7 @@ export namespace Prisma {
     salesAsAgency?: SaleListRelationFilter
     salesAsClient?: SaleListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
+    bioPage?: XOR<BioPageNullableRelationFilter, BioPageWhereInput> | null
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
     setores?: SetorListRelationFilter
@@ -169028,6 +175100,7 @@ export namespace Prisma {
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
     igConversations?: IgConversationListRelationFilter
+    bioSubmissions?: BioSubmissionListRelationFilter
     promotedViaEmailCampaign?: XOR<EmailCampaignNullableRelationFilter, EmailCampaignWhereInput> | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
     sale?: XOR<SaleNullableRelationFilter, SaleWhereInput> | null
@@ -169090,6 +175163,7 @@ export namespace Prisma {
     campaign?: CampaignOrderByWithRelationInput
     trackingLink?: TrackingLinkOrderByWithRelationInput
     igConversations?: IgConversationOrderByRelationAggregateInput
+    bioSubmissions?: BioSubmissionOrderByRelationAggregateInput
     promotedViaEmailCampaign?: EmailCampaignOrderByWithRelationInput
     conversation?: ConversationOrderByWithRelationInput
     sale?: SaleOrderByWithRelationInput
@@ -169155,6 +175229,7 @@ export namespace Prisma {
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
     igConversations?: IgConversationListRelationFilter
+    bioSubmissions?: BioSubmissionListRelationFilter
     promotedViaEmailCampaign?: XOR<EmailCampaignNullableRelationFilter, EmailCampaignWhereInput> | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
     sale?: XOR<SaleNullableRelationFilter, SaleWhereInput> | null
@@ -180760,6 +186835,510 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"CaldavRequestLog"> | Date | string
   }
 
+  export type BioPageWhereInput = {
+    AND?: BioPageWhereInput | BioPageWhereInput[]
+    OR?: BioPageWhereInput[]
+    NOT?: BioPageWhereInput | BioPageWhereInput[]
+    id?: StringFilter<"BioPage"> | string
+    companyId?: StringFilter<"BioPage"> | string
+    slug?: StringFilter<"BioPage"> | string
+    template?: EnumBioTemplateFilter<"BioPage"> | $Enums.BioTemplate
+    title?: StringFilter<"BioPage"> | string
+    headline?: StringNullableFilter<"BioPage"> | string | null
+    about?: StringNullableFilter<"BioPage"> | string | null
+    avatarUrl?: StringNullableFilter<"BioPage"> | string | null
+    coverUrl?: StringNullableFilter<"BioPage"> | string | null
+    accentColor?: StringNullableFilter<"BioPage"> | string | null
+    published?: BoolFilter<"BioPage"> | boolean
+    publishedAt?: DateTimeNullableFilter<"BioPage"> | Date | string | null
+    quizEnabled?: BoolFilter<"BioPage"> | boolean
+    quizTitle?: StringNullableFilter<"BioPage"> | string | null
+    quizCta?: StringNullableFilter<"BioPage"> | string | null
+    thankYouMessage?: StringNullableFilter<"BioPage"> | string | null
+    consentText?: StringNullableFilter<"BioPage"> | string | null
+    createdAt?: DateTimeFilter<"BioPage"> | Date | string
+    updatedAt?: DateTimeFilter<"BioPage"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    blocks?: BioBlockListRelationFilter
+    questions?: BioQuestionListRelationFilter
+    submissions?: BioSubmissionListRelationFilter
+    events?: BioEventListRelationFilter
+  }
+
+  export type BioPageOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    slug?: SortOrder
+    template?: SortOrder
+    title?: SortOrder
+    headline?: SortOrderInput | SortOrder
+    about?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
+    coverUrl?: SortOrderInput | SortOrder
+    accentColor?: SortOrderInput | SortOrder
+    published?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    quizEnabled?: SortOrder
+    quizTitle?: SortOrderInput | SortOrder
+    quizCta?: SortOrderInput | SortOrder
+    thankYouMessage?: SortOrderInput | SortOrder
+    consentText?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    blocks?: BioBlockOrderByRelationAggregateInput
+    questions?: BioQuestionOrderByRelationAggregateInput
+    submissions?: BioSubmissionOrderByRelationAggregateInput
+    events?: BioEventOrderByRelationAggregateInput
+  }
+
+  export type BioPageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId?: string
+    slug?: string
+    AND?: BioPageWhereInput | BioPageWhereInput[]
+    OR?: BioPageWhereInput[]
+    NOT?: BioPageWhereInput | BioPageWhereInput[]
+    template?: EnumBioTemplateFilter<"BioPage"> | $Enums.BioTemplate
+    title?: StringFilter<"BioPage"> | string
+    headline?: StringNullableFilter<"BioPage"> | string | null
+    about?: StringNullableFilter<"BioPage"> | string | null
+    avatarUrl?: StringNullableFilter<"BioPage"> | string | null
+    coverUrl?: StringNullableFilter<"BioPage"> | string | null
+    accentColor?: StringNullableFilter<"BioPage"> | string | null
+    published?: BoolFilter<"BioPage"> | boolean
+    publishedAt?: DateTimeNullableFilter<"BioPage"> | Date | string | null
+    quizEnabled?: BoolFilter<"BioPage"> | boolean
+    quizTitle?: StringNullableFilter<"BioPage"> | string | null
+    quizCta?: StringNullableFilter<"BioPage"> | string | null
+    thankYouMessage?: StringNullableFilter<"BioPage"> | string | null
+    consentText?: StringNullableFilter<"BioPage"> | string | null
+    createdAt?: DateTimeFilter<"BioPage"> | Date | string
+    updatedAt?: DateTimeFilter<"BioPage"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    blocks?: BioBlockListRelationFilter
+    questions?: BioQuestionListRelationFilter
+    submissions?: BioSubmissionListRelationFilter
+    events?: BioEventListRelationFilter
+  }, "id" | "companyId" | "slug">
+
+  export type BioPageOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    slug?: SortOrder
+    template?: SortOrder
+    title?: SortOrder
+    headline?: SortOrderInput | SortOrder
+    about?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
+    coverUrl?: SortOrderInput | SortOrder
+    accentColor?: SortOrderInput | SortOrder
+    published?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    quizEnabled?: SortOrder
+    quizTitle?: SortOrderInput | SortOrder
+    quizCta?: SortOrderInput | SortOrder
+    thankYouMessage?: SortOrderInput | SortOrder
+    consentText?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BioPageCountOrderByAggregateInput
+    _max?: BioPageMaxOrderByAggregateInput
+    _min?: BioPageMinOrderByAggregateInput
+  }
+
+  export type BioPageScalarWhereWithAggregatesInput = {
+    AND?: BioPageScalarWhereWithAggregatesInput | BioPageScalarWhereWithAggregatesInput[]
+    OR?: BioPageScalarWhereWithAggregatesInput[]
+    NOT?: BioPageScalarWhereWithAggregatesInput | BioPageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BioPage"> | string
+    companyId?: StringWithAggregatesFilter<"BioPage"> | string
+    slug?: StringWithAggregatesFilter<"BioPage"> | string
+    template?: EnumBioTemplateWithAggregatesFilter<"BioPage"> | $Enums.BioTemplate
+    title?: StringWithAggregatesFilter<"BioPage"> | string
+    headline?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    about?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    avatarUrl?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    coverUrl?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    accentColor?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    published?: BoolWithAggregatesFilter<"BioPage"> | boolean
+    publishedAt?: DateTimeNullableWithAggregatesFilter<"BioPage"> | Date | string | null
+    quizEnabled?: BoolWithAggregatesFilter<"BioPage"> | boolean
+    quizTitle?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    quizCta?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    thankYouMessage?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    consentText?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BioPage"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BioPage"> | Date | string
+  }
+
+  export type BioBlockWhereInput = {
+    AND?: BioBlockWhereInput | BioBlockWhereInput[]
+    OR?: BioBlockWhereInput[]
+    NOT?: BioBlockWhereInput | BioBlockWhereInput[]
+    id?: StringFilter<"BioBlock"> | string
+    pageId?: StringFilter<"BioBlock"> | string
+    type?: EnumBioBlockTypeFilter<"BioBlock"> | $Enums.BioBlockType
+    title?: StringFilter<"BioBlock"> | string
+    description?: StringNullableFilter<"BioBlock"> | string | null
+    url?: StringNullableFilter<"BioBlock"> | string | null
+    imageUrl?: StringNullableFilter<"BioBlock"> | string | null
+    priceLabel?: StringNullableFilter<"BioBlock"> | string | null
+    network?: StringNullableFilter<"BioBlock"> | string | null
+    order?: IntFilter<"BioBlock"> | number
+    active?: BoolFilter<"BioBlock"> | boolean
+    createdAt?: DateTimeFilter<"BioBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"BioBlock"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+  }
+
+  export type BioBlockOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    priceLabel?: SortOrderInput | SortOrder
+    network?: SortOrderInput | SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    page?: BioPageOrderByWithRelationInput
+  }
+
+  export type BioBlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BioBlockWhereInput | BioBlockWhereInput[]
+    OR?: BioBlockWhereInput[]
+    NOT?: BioBlockWhereInput | BioBlockWhereInput[]
+    pageId?: StringFilter<"BioBlock"> | string
+    type?: EnumBioBlockTypeFilter<"BioBlock"> | $Enums.BioBlockType
+    title?: StringFilter<"BioBlock"> | string
+    description?: StringNullableFilter<"BioBlock"> | string | null
+    url?: StringNullableFilter<"BioBlock"> | string | null
+    imageUrl?: StringNullableFilter<"BioBlock"> | string | null
+    priceLabel?: StringNullableFilter<"BioBlock"> | string | null
+    network?: StringNullableFilter<"BioBlock"> | string | null
+    order?: IntFilter<"BioBlock"> | number
+    active?: BoolFilter<"BioBlock"> | boolean
+    createdAt?: DateTimeFilter<"BioBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"BioBlock"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+  }, "id">
+
+  export type BioBlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    priceLabel?: SortOrderInput | SortOrder
+    network?: SortOrderInput | SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BioBlockCountOrderByAggregateInput
+    _avg?: BioBlockAvgOrderByAggregateInput
+    _max?: BioBlockMaxOrderByAggregateInput
+    _min?: BioBlockMinOrderByAggregateInput
+    _sum?: BioBlockSumOrderByAggregateInput
+  }
+
+  export type BioBlockScalarWhereWithAggregatesInput = {
+    AND?: BioBlockScalarWhereWithAggregatesInput | BioBlockScalarWhereWithAggregatesInput[]
+    OR?: BioBlockScalarWhereWithAggregatesInput[]
+    NOT?: BioBlockScalarWhereWithAggregatesInput | BioBlockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BioBlock"> | string
+    pageId?: StringWithAggregatesFilter<"BioBlock"> | string
+    type?: EnumBioBlockTypeWithAggregatesFilter<"BioBlock"> | $Enums.BioBlockType
+    title?: StringWithAggregatesFilter<"BioBlock"> | string
+    description?: StringNullableWithAggregatesFilter<"BioBlock"> | string | null
+    url?: StringNullableWithAggregatesFilter<"BioBlock"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"BioBlock"> | string | null
+    priceLabel?: StringNullableWithAggregatesFilter<"BioBlock"> | string | null
+    network?: StringNullableWithAggregatesFilter<"BioBlock"> | string | null
+    order?: IntWithAggregatesFilter<"BioBlock"> | number
+    active?: BoolWithAggregatesFilter<"BioBlock"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"BioBlock"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BioBlock"> | Date | string
+  }
+
+  export type BioQuestionWhereInput = {
+    AND?: BioQuestionWhereInput | BioQuestionWhereInput[]
+    OR?: BioQuestionWhereInput[]
+    NOT?: BioQuestionWhereInput | BioQuestionWhereInput[]
+    id?: StringFilter<"BioQuestion"> | string
+    pageId?: StringFilter<"BioQuestion"> | string
+    text?: StringFilter<"BioQuestion"> | string
+    options?: StringNullableListFilter<"BioQuestion">
+    order?: IntFilter<"BioQuestion"> | number
+    active?: BoolFilter<"BioQuestion"> | boolean
+    createdAt?: DateTimeFilter<"BioQuestion"> | Date | string
+    updatedAt?: DateTimeFilter<"BioQuestion"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+  }
+
+  export type BioQuestionOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    text?: SortOrder
+    options?: SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    page?: BioPageOrderByWithRelationInput
+  }
+
+  export type BioQuestionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BioQuestionWhereInput | BioQuestionWhereInput[]
+    OR?: BioQuestionWhereInput[]
+    NOT?: BioQuestionWhereInput | BioQuestionWhereInput[]
+    pageId?: StringFilter<"BioQuestion"> | string
+    text?: StringFilter<"BioQuestion"> | string
+    options?: StringNullableListFilter<"BioQuestion">
+    order?: IntFilter<"BioQuestion"> | number
+    active?: BoolFilter<"BioQuestion"> | boolean
+    createdAt?: DateTimeFilter<"BioQuestion"> | Date | string
+    updatedAt?: DateTimeFilter<"BioQuestion"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+  }, "id">
+
+  export type BioQuestionOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    text?: SortOrder
+    options?: SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BioQuestionCountOrderByAggregateInput
+    _avg?: BioQuestionAvgOrderByAggregateInput
+    _max?: BioQuestionMaxOrderByAggregateInput
+    _min?: BioQuestionMinOrderByAggregateInput
+    _sum?: BioQuestionSumOrderByAggregateInput
+  }
+
+  export type BioQuestionScalarWhereWithAggregatesInput = {
+    AND?: BioQuestionScalarWhereWithAggregatesInput | BioQuestionScalarWhereWithAggregatesInput[]
+    OR?: BioQuestionScalarWhereWithAggregatesInput[]
+    NOT?: BioQuestionScalarWhereWithAggregatesInput | BioQuestionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BioQuestion"> | string
+    pageId?: StringWithAggregatesFilter<"BioQuestion"> | string
+    text?: StringWithAggregatesFilter<"BioQuestion"> | string
+    options?: StringNullableListFilter<"BioQuestion">
+    order?: IntWithAggregatesFilter<"BioQuestion"> | number
+    active?: BoolWithAggregatesFilter<"BioQuestion"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"BioQuestion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BioQuestion"> | Date | string
+  }
+
+  export type BioSubmissionWhereInput = {
+    AND?: BioSubmissionWhereInput | BioSubmissionWhereInput[]
+    OR?: BioSubmissionWhereInput[]
+    NOT?: BioSubmissionWhereInput | BioSubmissionWhereInput[]
+    id?: StringFilter<"BioSubmission"> | string
+    pageId?: StringFilter<"BioSubmission"> | string
+    leadId?: StringNullableFilter<"BioSubmission"> | string | null
+    answers?: JsonFilter<"BioSubmission">
+    name?: StringNullableFilter<"BioSubmission"> | string | null
+    phone?: StringFilter<"BioSubmission"> | string
+    email?: StringNullableFilter<"BioSubmission"> | string | null
+    consent?: BoolFilter<"BioSubmission"> | boolean
+    visitorId?: StringNullableFilter<"BioSubmission"> | string | null
+    referrer?: StringNullableFilter<"BioSubmission"> | string | null
+    utmSource?: StringNullableFilter<"BioSubmission"> | string | null
+    utmMedium?: StringNullableFilter<"BioSubmission"> | string | null
+    utmCampaign?: StringNullableFilter<"BioSubmission"> | string | null
+    clientIp?: StringNullableFilter<"BioSubmission"> | string | null
+    userAgent?: StringNullableFilter<"BioSubmission"> | string | null
+    createdAt?: DateTimeFilter<"BioSubmission"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+    lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
+  }
+
+  export type BioSubmissionOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    leadId?: SortOrderInput | SortOrder
+    answers?: SortOrder
+    name?: SortOrderInput | SortOrder
+    phone?: SortOrder
+    email?: SortOrderInput | SortOrder
+    consent?: SortOrder
+    visitorId?: SortOrderInput | SortOrder
+    referrer?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    clientIp?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    page?: BioPageOrderByWithRelationInput
+    lead?: LeadOrderByWithRelationInput
+  }
+
+  export type BioSubmissionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BioSubmissionWhereInput | BioSubmissionWhereInput[]
+    OR?: BioSubmissionWhereInput[]
+    NOT?: BioSubmissionWhereInput | BioSubmissionWhereInput[]
+    pageId?: StringFilter<"BioSubmission"> | string
+    leadId?: StringNullableFilter<"BioSubmission"> | string | null
+    answers?: JsonFilter<"BioSubmission">
+    name?: StringNullableFilter<"BioSubmission"> | string | null
+    phone?: StringFilter<"BioSubmission"> | string
+    email?: StringNullableFilter<"BioSubmission"> | string | null
+    consent?: BoolFilter<"BioSubmission"> | boolean
+    visitorId?: StringNullableFilter<"BioSubmission"> | string | null
+    referrer?: StringNullableFilter<"BioSubmission"> | string | null
+    utmSource?: StringNullableFilter<"BioSubmission"> | string | null
+    utmMedium?: StringNullableFilter<"BioSubmission"> | string | null
+    utmCampaign?: StringNullableFilter<"BioSubmission"> | string | null
+    clientIp?: StringNullableFilter<"BioSubmission"> | string | null
+    userAgent?: StringNullableFilter<"BioSubmission"> | string | null
+    createdAt?: DateTimeFilter<"BioSubmission"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+    lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
+  }, "id">
+
+  export type BioSubmissionOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    leadId?: SortOrderInput | SortOrder
+    answers?: SortOrder
+    name?: SortOrderInput | SortOrder
+    phone?: SortOrder
+    email?: SortOrderInput | SortOrder
+    consent?: SortOrder
+    visitorId?: SortOrderInput | SortOrder
+    referrer?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    clientIp?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: BioSubmissionCountOrderByAggregateInput
+    _max?: BioSubmissionMaxOrderByAggregateInput
+    _min?: BioSubmissionMinOrderByAggregateInput
+  }
+
+  export type BioSubmissionScalarWhereWithAggregatesInput = {
+    AND?: BioSubmissionScalarWhereWithAggregatesInput | BioSubmissionScalarWhereWithAggregatesInput[]
+    OR?: BioSubmissionScalarWhereWithAggregatesInput[]
+    NOT?: BioSubmissionScalarWhereWithAggregatesInput | BioSubmissionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BioSubmission"> | string
+    pageId?: StringWithAggregatesFilter<"BioSubmission"> | string
+    leadId?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    answers?: JsonWithAggregatesFilter<"BioSubmission">
+    name?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    phone?: StringWithAggregatesFilter<"BioSubmission"> | string
+    email?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    consent?: BoolWithAggregatesFilter<"BioSubmission"> | boolean
+    visitorId?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    referrer?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    utmSource?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    utmMedium?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    utmCampaign?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    clientIp?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BioSubmission"> | Date | string
+  }
+
+  export type BioEventWhereInput = {
+    AND?: BioEventWhereInput | BioEventWhereInput[]
+    OR?: BioEventWhereInput[]
+    NOT?: BioEventWhereInput | BioEventWhereInput[]
+    id?: StringFilter<"BioEvent"> | string
+    pageId?: StringFilter<"BioEvent"> | string
+    kind?: EnumBioEventKindFilter<"BioEvent"> | $Enums.BioEventKind
+    blockId?: StringNullableFilter<"BioEvent"> | string | null
+    targetLabel?: StringNullableFilter<"BioEvent"> | string | null
+    visitorId?: StringNullableFilter<"BioEvent"> | string | null
+    referrer?: StringNullableFilter<"BioEvent"> | string | null
+    utmSource?: StringNullableFilter<"BioEvent"> | string | null
+    utmMedium?: StringNullableFilter<"BioEvent"> | string | null
+    utmCampaign?: StringNullableFilter<"BioEvent"> | string | null
+    createdAt?: DateTimeFilter<"BioEvent"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+  }
+
+  export type BioEventOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    kind?: SortOrder
+    blockId?: SortOrderInput | SortOrder
+    targetLabel?: SortOrderInput | SortOrder
+    visitorId?: SortOrderInput | SortOrder
+    referrer?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    page?: BioPageOrderByWithRelationInput
+  }
+
+  export type BioEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BioEventWhereInput | BioEventWhereInput[]
+    OR?: BioEventWhereInput[]
+    NOT?: BioEventWhereInput | BioEventWhereInput[]
+    pageId?: StringFilter<"BioEvent"> | string
+    kind?: EnumBioEventKindFilter<"BioEvent"> | $Enums.BioEventKind
+    blockId?: StringNullableFilter<"BioEvent"> | string | null
+    targetLabel?: StringNullableFilter<"BioEvent"> | string | null
+    visitorId?: StringNullableFilter<"BioEvent"> | string | null
+    referrer?: StringNullableFilter<"BioEvent"> | string | null
+    utmSource?: StringNullableFilter<"BioEvent"> | string | null
+    utmMedium?: StringNullableFilter<"BioEvent"> | string | null
+    utmCampaign?: StringNullableFilter<"BioEvent"> | string | null
+    createdAt?: DateTimeFilter<"BioEvent"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+  }, "id">
+
+  export type BioEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    kind?: SortOrder
+    blockId?: SortOrderInput | SortOrder
+    targetLabel?: SortOrderInput | SortOrder
+    visitorId?: SortOrderInput | SortOrder
+    referrer?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: BioEventCountOrderByAggregateInput
+    _max?: BioEventMaxOrderByAggregateInput
+    _min?: BioEventMinOrderByAggregateInput
+  }
+
+  export type BioEventScalarWhereWithAggregatesInput = {
+    AND?: BioEventScalarWhereWithAggregatesInput | BioEventScalarWhereWithAggregatesInput[]
+    OR?: BioEventScalarWhereWithAggregatesInput[]
+    NOT?: BioEventScalarWhereWithAggregatesInput | BioEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BioEvent"> | string
+    pageId?: StringWithAggregatesFilter<"BioEvent"> | string
+    kind?: EnumBioEventKindWithAggregatesFilter<"BioEvent"> | $Enums.BioEventKind
+    blockId?: StringNullableWithAggregatesFilter<"BioEvent"> | string | null
+    targetLabel?: StringNullableWithAggregatesFilter<"BioEvent"> | string | null
+    visitorId?: StringNullableWithAggregatesFilter<"BioEvent"> | string | null
+    referrer?: StringNullableWithAggregatesFilter<"BioEvent"> | string | null
+    utmSource?: StringNullableWithAggregatesFilter<"BioEvent"> | string | null
+    utmMedium?: StringNullableWithAggregatesFilter<"BioEvent"> | string | null
+    utmCampaign?: StringNullableWithAggregatesFilter<"BioEvent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BioEvent"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -181903,6 +188482,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -182043,6 +188623,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -182183,6 +188764,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -182323,6 +188905,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -182867,6 +189450,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -182926,6 +189510,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -182981,6 +189566,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -183040,6 +189626,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -195918,6 +202505,590 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BioPageCreateInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBioPageInput
+    blocks?: BioBlockCreateNestedManyWithoutPageInput
+    questions?: BioQuestionCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+    events?: BioEventCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
+    questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+    events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    blocks?: BioBlockUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+    events?: BioEventUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageCreateManyInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioPageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioPageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioBlockCreateInput = {
+    id?: string
+    type?: $Enums.BioBlockType
+    title: string
+    description?: string | null
+    url?: string | null
+    imageUrl?: string | null
+    priceLabel?: string | null
+    network?: string | null
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    page: BioPageCreateNestedOneWithoutBlocksInput
+  }
+
+  export type BioBlockUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    type?: $Enums.BioBlockType
+    title: string
+    description?: string | null
+    url?: string | null
+    imageUrl?: string | null
+    priceLabel?: string | null
+    network?: string | null
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioBlockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumBioBlockTypeFieldUpdateOperationsInput | $Enums.BioBlockType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    priceLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    network?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: BioPageUpdateOneRequiredWithoutBlocksNestedInput
+  }
+
+  export type BioBlockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    type?: EnumBioBlockTypeFieldUpdateOperationsInput | $Enums.BioBlockType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    priceLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    network?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioBlockCreateManyInput = {
+    id?: string
+    pageId: string
+    type?: $Enums.BioBlockType
+    title: string
+    description?: string | null
+    url?: string | null
+    imageUrl?: string | null
+    priceLabel?: string | null
+    network?: string | null
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioBlockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumBioBlockTypeFieldUpdateOperationsInput | $Enums.BioBlockType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    priceLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    network?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioBlockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    type?: EnumBioBlockTypeFieldUpdateOperationsInput | $Enums.BioBlockType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    priceLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    network?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioQuestionCreateInput = {
+    id?: string
+    text: string
+    options?: BioQuestionCreateoptionsInput | string[]
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    page: BioPageCreateNestedOneWithoutQuestionsInput
+  }
+
+  export type BioQuestionUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    text: string
+    options?: BioQuestionCreateoptionsInput | string[]
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioQuestionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    options?: BioQuestionUpdateoptionsInput | string[]
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: BioPageUpdateOneRequiredWithoutQuestionsNestedInput
+  }
+
+  export type BioQuestionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    options?: BioQuestionUpdateoptionsInput | string[]
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioQuestionCreateManyInput = {
+    id?: string
+    pageId: string
+    text: string
+    options?: BioQuestionCreateoptionsInput | string[]
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioQuestionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    options?: BioQuestionUpdateoptionsInput | string[]
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioQuestionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    options?: BioQuestionUpdateoptionsInput | string[]
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioSubmissionCreateInput = {
+    id?: string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    page: BioPageCreateNestedOneWithoutSubmissionsInput
+    lead?: LeadCreateNestedOneWithoutBioSubmissionsInput
+  }
+
+  export type BioSubmissionUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    leadId?: string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioSubmissionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: BioPageUpdateOneRequiredWithoutSubmissionsNestedInput
+    lead?: LeadUpdateOneWithoutBioSubmissionsNestedInput
+  }
+
+  export type BioSubmissionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioSubmissionCreateManyInput = {
+    id?: string
+    pageId: string
+    leadId?: string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioSubmissionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioSubmissionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioEventCreateInput = {
+    id?: string
+    kind: $Enums.BioEventKind
+    blockId?: string | null
+    targetLabel?: string | null
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+    page: BioPageCreateNestedOneWithoutEventsInput
+  }
+
+  export type BioEventUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    kind: $Enums.BioEventKind
+    blockId?: string | null
+    targetLabel?: string | null
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumBioEventKindFieldUpdateOperationsInput | $Enums.BioEventKind
+    blockId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: BioPageUpdateOneRequiredWithoutEventsNestedInput
+  }
+
+  export type BioEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumBioEventKindFieldUpdateOperationsInput | $Enums.BioEventKind
+    blockId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioEventCreateManyInput = {
+    id?: string
+    pageId: string
+    kind: $Enums.BioEventKind
+    blockId?: string | null
+    targetLabel?: string | null
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumBioEventKindFieldUpdateOperationsInput | $Enums.BioEventKind
+    blockId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumBioEventKindFieldUpdateOperationsInput | $Enums.BioEventKind
+    blockId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -197153,6 +204324,11 @@ export namespace Prisma {
     none?: TrackingLinkWhereInput
   }
 
+  export type BioPageNullableRelationFilter = {
+    is?: BioPageWhereInput | null
+    isNot?: BioPageWhereInput | null
+  }
+
   export type PipelineStageConfigListRelationFilter = {
     every?: PipelineStageConfigWhereInput
     some?: PipelineStageConfigWhereInput
@@ -198105,6 +205281,12 @@ export namespace Prisma {
     isNot?: TrackingLinkWhereInput | null
   }
 
+  export type BioSubmissionListRelationFilter = {
+    every?: BioSubmissionWhereInput
+    some?: BioSubmissionWhereInput
+    none?: BioSubmissionWhereInput
+  }
+
   export type EmailCampaignNullableRelationFilter = {
     is?: EmailCampaignWhereInput | null
     isNot?: EmailCampaignWhereInput | null
@@ -198142,6 +205324,10 @@ export namespace Prisma {
     every?: EmailRecipientWhereInput
     some?: EmailRecipientWhereInput
     none?: EmailRecipientWhereInput
+  }
+
+  export type BioSubmissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type LeadCommentOrderByRelationAggregateInput = {
@@ -205990,6 +213176,350 @@ export namespace Prisma {
     status?: SortOrder
   }
 
+  export type EnumBioTemplateFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioTemplate | EnumBioTemplateFieldRefInput<$PrismaModel>
+    in?: $Enums.BioTemplate[] | ListEnumBioTemplateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioTemplate[] | ListEnumBioTemplateFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioTemplateFilter<$PrismaModel> | $Enums.BioTemplate
+  }
+
+  export type BioBlockListRelationFilter = {
+    every?: BioBlockWhereInput
+    some?: BioBlockWhereInput
+    none?: BioBlockWhereInput
+  }
+
+  export type BioQuestionListRelationFilter = {
+    every?: BioQuestionWhereInput
+    some?: BioQuestionWhereInput
+    none?: BioQuestionWhereInput
+  }
+
+  export type BioEventListRelationFilter = {
+    every?: BioEventWhereInput
+    some?: BioEventWhereInput
+    none?: BioEventWhereInput
+  }
+
+  export type BioBlockOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BioQuestionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BioEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BioPageCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    slug?: SortOrder
+    template?: SortOrder
+    title?: SortOrder
+    headline?: SortOrder
+    about?: SortOrder
+    avatarUrl?: SortOrder
+    coverUrl?: SortOrder
+    accentColor?: SortOrder
+    published?: SortOrder
+    publishedAt?: SortOrder
+    quizEnabled?: SortOrder
+    quizTitle?: SortOrder
+    quizCta?: SortOrder
+    thankYouMessage?: SortOrder
+    consentText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioPageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    slug?: SortOrder
+    template?: SortOrder
+    title?: SortOrder
+    headline?: SortOrder
+    about?: SortOrder
+    avatarUrl?: SortOrder
+    coverUrl?: SortOrder
+    accentColor?: SortOrder
+    published?: SortOrder
+    publishedAt?: SortOrder
+    quizEnabled?: SortOrder
+    quizTitle?: SortOrder
+    quizCta?: SortOrder
+    thankYouMessage?: SortOrder
+    consentText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioPageMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    slug?: SortOrder
+    template?: SortOrder
+    title?: SortOrder
+    headline?: SortOrder
+    about?: SortOrder
+    avatarUrl?: SortOrder
+    coverUrl?: SortOrder
+    accentColor?: SortOrder
+    published?: SortOrder
+    publishedAt?: SortOrder
+    quizEnabled?: SortOrder
+    quizTitle?: SortOrder
+    quizCta?: SortOrder
+    thankYouMessage?: SortOrder
+    consentText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumBioTemplateWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioTemplate | EnumBioTemplateFieldRefInput<$PrismaModel>
+    in?: $Enums.BioTemplate[] | ListEnumBioTemplateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioTemplate[] | ListEnumBioTemplateFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioTemplateWithAggregatesFilter<$PrismaModel> | $Enums.BioTemplate
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBioTemplateFilter<$PrismaModel>
+    _max?: NestedEnumBioTemplateFilter<$PrismaModel>
+  }
+
+  export type EnumBioBlockTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioBlockType | EnumBioBlockTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BioBlockType[] | ListEnumBioBlockTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioBlockType[] | ListEnumBioBlockTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioBlockTypeFilter<$PrismaModel> | $Enums.BioBlockType
+  }
+
+  export type BioPageRelationFilter = {
+    is?: BioPageWhereInput
+    isNot?: BioPageWhereInput
+  }
+
+  export type BioBlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    imageUrl?: SortOrder
+    priceLabel?: SortOrder
+    network?: SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioBlockAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type BioBlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    imageUrl?: SortOrder
+    priceLabel?: SortOrder
+    network?: SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioBlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    imageUrl?: SortOrder
+    priceLabel?: SortOrder
+    network?: SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioBlockSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type EnumBioBlockTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioBlockType | EnumBioBlockTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BioBlockType[] | ListEnumBioBlockTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioBlockType[] | ListEnumBioBlockTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioBlockTypeWithAggregatesFilter<$PrismaModel> | $Enums.BioBlockType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBioBlockTypeFilter<$PrismaModel>
+    _max?: NestedEnumBioBlockTypeFilter<$PrismaModel>
+  }
+
+  export type BioQuestionCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    text?: SortOrder
+    options?: SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioQuestionAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type BioQuestionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    text?: SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioQuestionMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    text?: SortOrder
+    order?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioQuestionSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type BioSubmissionCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    leadId?: SortOrder
+    answers?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    consent?: SortOrder
+    visitorId?: SortOrder
+    referrer?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    clientIp?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BioSubmissionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    leadId?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    consent?: SortOrder
+    visitorId?: SortOrder
+    referrer?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    clientIp?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BioSubmissionMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    leadId?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    consent?: SortOrder
+    visitorId?: SortOrder
+    referrer?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    clientIp?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumBioEventKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioEventKind | EnumBioEventKindFieldRefInput<$PrismaModel>
+    in?: $Enums.BioEventKind[] | ListEnumBioEventKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioEventKind[] | ListEnumBioEventKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioEventKindFilter<$PrismaModel> | $Enums.BioEventKind
+  }
+
+  export type BioEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    kind?: SortOrder
+    blockId?: SortOrder
+    targetLabel?: SortOrder
+    visitorId?: SortOrder
+    referrer?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BioEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    kind?: SortOrder
+    blockId?: SortOrder
+    targetLabel?: SortOrder
+    visitorId?: SortOrder
+    referrer?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BioEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    kind?: SortOrder
+    blockId?: SortOrder
+    targetLabel?: SortOrder
+    visitorId?: SortOrder
+    referrer?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumBioEventKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioEventKind | EnumBioEventKindFieldRefInput<$PrismaModel>
+    in?: $Enums.BioEventKind[] | ListEnumBioEventKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioEventKind[] | ListEnumBioEventKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioEventKindWithAggregatesFilter<$PrismaModel> | $Enums.BioEventKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBioEventKindFilter<$PrismaModel>
+    _max?: NestedEnumBioEventKindFilter<$PrismaModel>
+  }
+
   export type UserCreatehiddenWaInstanceIdsInput = {
     set: string[]
   }
@@ -208177,6 +215707,12 @@ export namespace Prisma {
     connect?: TrackingLinkWhereUniqueInput | TrackingLinkWhereUniqueInput[]
   }
 
+  export type BioPageCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<BioPageCreateWithoutCompanyInput, BioPageUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutCompanyInput
+    connect?: BioPageWhereUniqueInput
+  }
+
   export type PipelineStageConfigCreateNestedManyWithoutCompanyInput = {
     create?: XOR<PipelineStageConfigCreateWithoutCompanyInput, PipelineStageConfigUncheckedCreateWithoutCompanyInput> | PipelineStageConfigCreateWithoutCompanyInput[] | PipelineStageConfigUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PipelineStageConfigCreateOrConnectWithoutCompanyInput | PipelineStageConfigCreateOrConnectWithoutCompanyInput[]
@@ -208808,6 +216344,12 @@ export namespace Prisma {
     connectOrCreate?: TrackingLinkCreateOrConnectWithoutCompanyInput | TrackingLinkCreateOrConnectWithoutCompanyInput[]
     createMany?: TrackingLinkCreateManyCompanyInputEnvelope
     connect?: TrackingLinkWhereUniqueInput | TrackingLinkWhereUniqueInput[]
+  }
+
+  export type BioPageUncheckedCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<BioPageCreateWithoutCompanyInput, BioPageUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutCompanyInput
+    connect?: BioPageWhereUniqueInput
   }
 
   export type PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -209729,6 +217271,16 @@ export namespace Prisma {
     update?: TrackingLinkUpdateWithWhereUniqueWithoutCompanyInput | TrackingLinkUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: TrackingLinkUpdateManyWithWhereWithoutCompanyInput | TrackingLinkUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: TrackingLinkScalarWhereInput | TrackingLinkScalarWhereInput[]
+  }
+
+  export type BioPageUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<BioPageCreateWithoutCompanyInput, BioPageUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutCompanyInput
+    upsert?: BioPageUpsertWithoutCompanyInput
+    disconnect?: BioPageWhereInput | boolean
+    delete?: BioPageWhereInput | boolean
+    connect?: BioPageWhereUniqueInput
+    update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutCompanyInput, BioPageUpdateWithoutCompanyInput>, BioPageUncheckedUpdateWithoutCompanyInput>
   }
 
   export type PipelineStageConfigUpdateManyWithoutCompanyNestedInput = {
@@ -210989,6 +218541,16 @@ export namespace Prisma {
     deleteMany?: TrackingLinkScalarWhereInput | TrackingLinkScalarWhereInput[]
   }
 
+  export type BioPageUncheckedUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<BioPageCreateWithoutCompanyInput, BioPageUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutCompanyInput
+    upsert?: BioPageUpsertWithoutCompanyInput
+    disconnect?: BioPageWhereInput | boolean
+    delete?: BioPageWhereInput | boolean
+    connect?: BioPageWhereUniqueInput
+    update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutCompanyInput, BioPageUpdateWithoutCompanyInput>, BioPageUncheckedUpdateWithoutCompanyInput>
+  }
+
   export type PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<PipelineStageConfigCreateWithoutCompanyInput, PipelineStageConfigUncheckedCreateWithoutCompanyInput> | PipelineStageConfigCreateWithoutCompanyInput[] | PipelineStageConfigUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PipelineStageConfigCreateOrConnectWithoutCompanyInput | PipelineStageConfigCreateOrConnectWithoutCompanyInput[]
@@ -212062,6 +219624,13 @@ export namespace Prisma {
     connect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
   }
 
+  export type BioSubmissionCreateNestedManyWithoutLeadInput = {
+    create?: XOR<BioSubmissionCreateWithoutLeadInput, BioSubmissionUncheckedCreateWithoutLeadInput> | BioSubmissionCreateWithoutLeadInput[] | BioSubmissionUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutLeadInput | BioSubmissionCreateOrConnectWithoutLeadInput[]
+    createMany?: BioSubmissionCreateManyLeadInputEnvelope
+    connect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+  }
+
   export type EmailCampaignCreateNestedOneWithoutPromotedLeadsInput = {
     create?: XOR<EmailCampaignCreateWithoutPromotedLeadsInput, EmailCampaignUncheckedCreateWithoutPromotedLeadsInput>
     connectOrCreate?: EmailCampaignCreateOrConnectWithoutPromotedLeadsInput
@@ -212141,6 +219710,13 @@ export namespace Prisma {
     connectOrCreate?: IgConversationCreateOrConnectWithoutLeadInput | IgConversationCreateOrConnectWithoutLeadInput[]
     createMany?: IgConversationCreateManyLeadInputEnvelope
     connect?: IgConversationWhereUniqueInput | IgConversationWhereUniqueInput[]
+  }
+
+  export type BioSubmissionUncheckedCreateNestedManyWithoutLeadInput = {
+    create?: XOR<BioSubmissionCreateWithoutLeadInput, BioSubmissionUncheckedCreateWithoutLeadInput> | BioSubmissionCreateWithoutLeadInput[] | BioSubmissionUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutLeadInput | BioSubmissionCreateOrConnectWithoutLeadInput[]
+    createMany?: BioSubmissionCreateManyLeadInputEnvelope
+    connect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
   }
 
   export type SaleUncheckedCreateNestedOneWithoutLeadInput = {
@@ -212253,6 +219829,20 @@ export namespace Prisma {
     update?: IgConversationUpdateWithWhereUniqueWithoutLeadInput | IgConversationUpdateWithWhereUniqueWithoutLeadInput[]
     updateMany?: IgConversationUpdateManyWithWhereWithoutLeadInput | IgConversationUpdateManyWithWhereWithoutLeadInput[]
     deleteMany?: IgConversationScalarWhereInput | IgConversationScalarWhereInput[]
+  }
+
+  export type BioSubmissionUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<BioSubmissionCreateWithoutLeadInput, BioSubmissionUncheckedCreateWithoutLeadInput> | BioSubmissionCreateWithoutLeadInput[] | BioSubmissionUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutLeadInput | BioSubmissionCreateOrConnectWithoutLeadInput[]
+    upsert?: BioSubmissionUpsertWithWhereUniqueWithoutLeadInput | BioSubmissionUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: BioSubmissionCreateManyLeadInputEnvelope
+    set?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    disconnect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    delete?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    connect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    update?: BioSubmissionUpdateWithWhereUniqueWithoutLeadInput | BioSubmissionUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: BioSubmissionUpdateManyWithWhereWithoutLeadInput | BioSubmissionUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: BioSubmissionScalarWhereInput | BioSubmissionScalarWhereInput[]
   }
 
   export type EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput = {
@@ -212409,6 +219999,20 @@ export namespace Prisma {
     update?: IgConversationUpdateWithWhereUniqueWithoutLeadInput | IgConversationUpdateWithWhereUniqueWithoutLeadInput[]
     updateMany?: IgConversationUpdateManyWithWhereWithoutLeadInput | IgConversationUpdateManyWithWhereWithoutLeadInput[]
     deleteMany?: IgConversationScalarWhereInput | IgConversationScalarWhereInput[]
+  }
+
+  export type BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<BioSubmissionCreateWithoutLeadInput, BioSubmissionUncheckedCreateWithoutLeadInput> | BioSubmissionCreateWithoutLeadInput[] | BioSubmissionUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutLeadInput | BioSubmissionCreateOrConnectWithoutLeadInput[]
+    upsert?: BioSubmissionUpsertWithWhereUniqueWithoutLeadInput | BioSubmissionUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: BioSubmissionCreateManyLeadInputEnvelope
+    set?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    disconnect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    delete?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    connect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    update?: BioSubmissionUpdateWithWhereUniqueWithoutLeadInput | BioSubmissionUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: BioSubmissionUpdateManyWithWhereWithoutLeadInput | BioSubmissionUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: BioSubmissionScalarWhereInput | BioSubmissionScalarWhereInput[]
   }
 
   export type SaleUncheckedUpdateOneWithoutLeadNestedInput = {
@@ -218924,6 +226528,281 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssistantRulesInput, UserUpdateWithoutAssistantRulesInput>, UserUncheckedUpdateWithoutAssistantRulesInput>
   }
 
+  export type CompanyCreateNestedOneWithoutBioPageInput = {
+    create?: XOR<CompanyCreateWithoutBioPageInput, CompanyUncheckedCreateWithoutBioPageInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBioPageInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type BioBlockCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioBlockCreateWithoutPageInput, BioBlockUncheckedCreateWithoutPageInput> | BioBlockCreateWithoutPageInput[] | BioBlockUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioBlockCreateOrConnectWithoutPageInput | BioBlockCreateOrConnectWithoutPageInput[]
+    createMany?: BioBlockCreateManyPageInputEnvelope
+    connect?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+  }
+
+  export type BioQuestionCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioQuestionCreateWithoutPageInput, BioQuestionUncheckedCreateWithoutPageInput> | BioQuestionCreateWithoutPageInput[] | BioQuestionUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioQuestionCreateOrConnectWithoutPageInput | BioQuestionCreateOrConnectWithoutPageInput[]
+    createMany?: BioQuestionCreateManyPageInputEnvelope
+    connect?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+  }
+
+  export type BioSubmissionCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioSubmissionCreateWithoutPageInput, BioSubmissionUncheckedCreateWithoutPageInput> | BioSubmissionCreateWithoutPageInput[] | BioSubmissionUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutPageInput | BioSubmissionCreateOrConnectWithoutPageInput[]
+    createMany?: BioSubmissionCreateManyPageInputEnvelope
+    connect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+  }
+
+  export type BioEventCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioEventCreateWithoutPageInput, BioEventUncheckedCreateWithoutPageInput> | BioEventCreateWithoutPageInput[] | BioEventUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioEventCreateOrConnectWithoutPageInput | BioEventCreateOrConnectWithoutPageInput[]
+    createMany?: BioEventCreateManyPageInputEnvelope
+    connect?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+  }
+
+  export type BioBlockUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioBlockCreateWithoutPageInput, BioBlockUncheckedCreateWithoutPageInput> | BioBlockCreateWithoutPageInput[] | BioBlockUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioBlockCreateOrConnectWithoutPageInput | BioBlockCreateOrConnectWithoutPageInput[]
+    createMany?: BioBlockCreateManyPageInputEnvelope
+    connect?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+  }
+
+  export type BioQuestionUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioQuestionCreateWithoutPageInput, BioQuestionUncheckedCreateWithoutPageInput> | BioQuestionCreateWithoutPageInput[] | BioQuestionUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioQuestionCreateOrConnectWithoutPageInput | BioQuestionCreateOrConnectWithoutPageInput[]
+    createMany?: BioQuestionCreateManyPageInputEnvelope
+    connect?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+  }
+
+  export type BioSubmissionUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioSubmissionCreateWithoutPageInput, BioSubmissionUncheckedCreateWithoutPageInput> | BioSubmissionCreateWithoutPageInput[] | BioSubmissionUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutPageInput | BioSubmissionCreateOrConnectWithoutPageInput[]
+    createMany?: BioSubmissionCreateManyPageInputEnvelope
+    connect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+  }
+
+  export type BioEventUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioEventCreateWithoutPageInput, BioEventUncheckedCreateWithoutPageInput> | BioEventCreateWithoutPageInput[] | BioEventUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioEventCreateOrConnectWithoutPageInput | BioEventCreateOrConnectWithoutPageInput[]
+    createMany?: BioEventCreateManyPageInputEnvelope
+    connect?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+  }
+
+  export type EnumBioTemplateFieldUpdateOperationsInput = {
+    set?: $Enums.BioTemplate
+  }
+
+  export type CompanyUpdateOneRequiredWithoutBioPageNestedInput = {
+    create?: XOR<CompanyCreateWithoutBioPageInput, CompanyUncheckedCreateWithoutBioPageInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBioPageInput
+    upsert?: CompanyUpsertWithoutBioPageInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutBioPageInput, CompanyUpdateWithoutBioPageInput>, CompanyUncheckedUpdateWithoutBioPageInput>
+  }
+
+  export type BioBlockUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioBlockCreateWithoutPageInput, BioBlockUncheckedCreateWithoutPageInput> | BioBlockCreateWithoutPageInput[] | BioBlockUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioBlockCreateOrConnectWithoutPageInput | BioBlockCreateOrConnectWithoutPageInput[]
+    upsert?: BioBlockUpsertWithWhereUniqueWithoutPageInput | BioBlockUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioBlockCreateManyPageInputEnvelope
+    set?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+    disconnect?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+    delete?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+    connect?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+    update?: BioBlockUpdateWithWhereUniqueWithoutPageInput | BioBlockUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioBlockUpdateManyWithWhereWithoutPageInput | BioBlockUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioBlockScalarWhereInput | BioBlockScalarWhereInput[]
+  }
+
+  export type BioQuestionUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioQuestionCreateWithoutPageInput, BioQuestionUncheckedCreateWithoutPageInput> | BioQuestionCreateWithoutPageInput[] | BioQuestionUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioQuestionCreateOrConnectWithoutPageInput | BioQuestionCreateOrConnectWithoutPageInput[]
+    upsert?: BioQuestionUpsertWithWhereUniqueWithoutPageInput | BioQuestionUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioQuestionCreateManyPageInputEnvelope
+    set?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+    disconnect?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+    delete?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+    connect?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+    update?: BioQuestionUpdateWithWhereUniqueWithoutPageInput | BioQuestionUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioQuestionUpdateManyWithWhereWithoutPageInput | BioQuestionUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioQuestionScalarWhereInput | BioQuestionScalarWhereInput[]
+  }
+
+  export type BioSubmissionUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioSubmissionCreateWithoutPageInput, BioSubmissionUncheckedCreateWithoutPageInput> | BioSubmissionCreateWithoutPageInput[] | BioSubmissionUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutPageInput | BioSubmissionCreateOrConnectWithoutPageInput[]
+    upsert?: BioSubmissionUpsertWithWhereUniqueWithoutPageInput | BioSubmissionUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioSubmissionCreateManyPageInputEnvelope
+    set?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    disconnect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    delete?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    connect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    update?: BioSubmissionUpdateWithWhereUniqueWithoutPageInput | BioSubmissionUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioSubmissionUpdateManyWithWhereWithoutPageInput | BioSubmissionUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioSubmissionScalarWhereInput | BioSubmissionScalarWhereInput[]
+  }
+
+  export type BioEventUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioEventCreateWithoutPageInput, BioEventUncheckedCreateWithoutPageInput> | BioEventCreateWithoutPageInput[] | BioEventUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioEventCreateOrConnectWithoutPageInput | BioEventCreateOrConnectWithoutPageInput[]
+    upsert?: BioEventUpsertWithWhereUniqueWithoutPageInput | BioEventUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioEventCreateManyPageInputEnvelope
+    set?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+    disconnect?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+    delete?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+    connect?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+    update?: BioEventUpdateWithWhereUniqueWithoutPageInput | BioEventUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioEventUpdateManyWithWhereWithoutPageInput | BioEventUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioEventScalarWhereInput | BioEventScalarWhereInput[]
+  }
+
+  export type BioBlockUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioBlockCreateWithoutPageInput, BioBlockUncheckedCreateWithoutPageInput> | BioBlockCreateWithoutPageInput[] | BioBlockUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioBlockCreateOrConnectWithoutPageInput | BioBlockCreateOrConnectWithoutPageInput[]
+    upsert?: BioBlockUpsertWithWhereUniqueWithoutPageInput | BioBlockUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioBlockCreateManyPageInputEnvelope
+    set?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+    disconnect?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+    delete?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+    connect?: BioBlockWhereUniqueInput | BioBlockWhereUniqueInput[]
+    update?: BioBlockUpdateWithWhereUniqueWithoutPageInput | BioBlockUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioBlockUpdateManyWithWhereWithoutPageInput | BioBlockUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioBlockScalarWhereInput | BioBlockScalarWhereInput[]
+  }
+
+  export type BioQuestionUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioQuestionCreateWithoutPageInput, BioQuestionUncheckedCreateWithoutPageInput> | BioQuestionCreateWithoutPageInput[] | BioQuestionUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioQuestionCreateOrConnectWithoutPageInput | BioQuestionCreateOrConnectWithoutPageInput[]
+    upsert?: BioQuestionUpsertWithWhereUniqueWithoutPageInput | BioQuestionUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioQuestionCreateManyPageInputEnvelope
+    set?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+    disconnect?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+    delete?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+    connect?: BioQuestionWhereUniqueInput | BioQuestionWhereUniqueInput[]
+    update?: BioQuestionUpdateWithWhereUniqueWithoutPageInput | BioQuestionUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioQuestionUpdateManyWithWhereWithoutPageInput | BioQuestionUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioQuestionScalarWhereInput | BioQuestionScalarWhereInput[]
+  }
+
+  export type BioSubmissionUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioSubmissionCreateWithoutPageInput, BioSubmissionUncheckedCreateWithoutPageInput> | BioSubmissionCreateWithoutPageInput[] | BioSubmissionUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutPageInput | BioSubmissionCreateOrConnectWithoutPageInput[]
+    upsert?: BioSubmissionUpsertWithWhereUniqueWithoutPageInput | BioSubmissionUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioSubmissionCreateManyPageInputEnvelope
+    set?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    disconnect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    delete?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    connect?: BioSubmissionWhereUniqueInput | BioSubmissionWhereUniqueInput[]
+    update?: BioSubmissionUpdateWithWhereUniqueWithoutPageInput | BioSubmissionUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioSubmissionUpdateManyWithWhereWithoutPageInput | BioSubmissionUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioSubmissionScalarWhereInput | BioSubmissionScalarWhereInput[]
+  }
+
+  export type BioEventUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioEventCreateWithoutPageInput, BioEventUncheckedCreateWithoutPageInput> | BioEventCreateWithoutPageInput[] | BioEventUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioEventCreateOrConnectWithoutPageInput | BioEventCreateOrConnectWithoutPageInput[]
+    upsert?: BioEventUpsertWithWhereUniqueWithoutPageInput | BioEventUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioEventCreateManyPageInputEnvelope
+    set?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+    disconnect?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+    delete?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+    connect?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+    update?: BioEventUpdateWithWhereUniqueWithoutPageInput | BioEventUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioEventUpdateManyWithWhereWithoutPageInput | BioEventUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioEventScalarWhereInput | BioEventScalarWhereInput[]
+  }
+
+  export type BioPageCreateNestedOneWithoutBlocksInput = {
+    create?: XOR<BioPageCreateWithoutBlocksInput, BioPageUncheckedCreateWithoutBlocksInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutBlocksInput
+    connect?: BioPageWhereUniqueInput
+  }
+
+  export type EnumBioBlockTypeFieldUpdateOperationsInput = {
+    set?: $Enums.BioBlockType
+  }
+
+  export type BioPageUpdateOneRequiredWithoutBlocksNestedInput = {
+    create?: XOR<BioPageCreateWithoutBlocksInput, BioPageUncheckedCreateWithoutBlocksInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutBlocksInput
+    upsert?: BioPageUpsertWithoutBlocksInput
+    connect?: BioPageWhereUniqueInput
+    update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutBlocksInput, BioPageUpdateWithoutBlocksInput>, BioPageUncheckedUpdateWithoutBlocksInput>
+  }
+
+  export type BioQuestionCreateoptionsInput = {
+    set: string[]
+  }
+
+  export type BioPageCreateNestedOneWithoutQuestionsInput = {
+    create?: XOR<BioPageCreateWithoutQuestionsInput, BioPageUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutQuestionsInput
+    connect?: BioPageWhereUniqueInput
+  }
+
+  export type BioQuestionUpdateoptionsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type BioPageUpdateOneRequiredWithoutQuestionsNestedInput = {
+    create?: XOR<BioPageCreateWithoutQuestionsInput, BioPageUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutQuestionsInput
+    upsert?: BioPageUpsertWithoutQuestionsInput
+    connect?: BioPageWhereUniqueInput
+    update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutQuestionsInput, BioPageUpdateWithoutQuestionsInput>, BioPageUncheckedUpdateWithoutQuestionsInput>
+  }
+
+  export type BioPageCreateNestedOneWithoutSubmissionsInput = {
+    create?: XOR<BioPageCreateWithoutSubmissionsInput, BioPageUncheckedCreateWithoutSubmissionsInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutSubmissionsInput
+    connect?: BioPageWhereUniqueInput
+  }
+
+  export type LeadCreateNestedOneWithoutBioSubmissionsInput = {
+    create?: XOR<LeadCreateWithoutBioSubmissionsInput, LeadUncheckedCreateWithoutBioSubmissionsInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutBioSubmissionsInput
+    connect?: LeadWhereUniqueInput
+  }
+
+  export type BioPageUpdateOneRequiredWithoutSubmissionsNestedInput = {
+    create?: XOR<BioPageCreateWithoutSubmissionsInput, BioPageUncheckedCreateWithoutSubmissionsInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutSubmissionsInput
+    upsert?: BioPageUpsertWithoutSubmissionsInput
+    connect?: BioPageWhereUniqueInput
+    update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutSubmissionsInput, BioPageUpdateWithoutSubmissionsInput>, BioPageUncheckedUpdateWithoutSubmissionsInput>
+  }
+
+  export type LeadUpdateOneWithoutBioSubmissionsNestedInput = {
+    create?: XOR<LeadCreateWithoutBioSubmissionsInput, LeadUncheckedCreateWithoutBioSubmissionsInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutBioSubmissionsInput
+    upsert?: LeadUpsertWithoutBioSubmissionsInput
+    disconnect?: LeadWhereInput | boolean
+    delete?: LeadWhereInput | boolean
+    connect?: LeadWhereUniqueInput
+    update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutBioSubmissionsInput, LeadUpdateWithoutBioSubmissionsInput>, LeadUncheckedUpdateWithoutBioSubmissionsInput>
+  }
+
+  export type BioPageCreateNestedOneWithoutEventsInput = {
+    create?: XOR<BioPageCreateWithoutEventsInput, BioPageUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutEventsInput
+    connect?: BioPageWhereUniqueInput
+  }
+
+  export type EnumBioEventKindFieldUpdateOperationsInput = {
+    set?: $Enums.BioEventKind
+  }
+
+  export type BioPageUpdateOneRequiredWithoutEventsNestedInput = {
+    create?: XOR<BioPageCreateWithoutEventsInput, BioPageUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutEventsInput
+    upsert?: BioPageUpsertWithoutEventsInput
+    connect?: BioPageWhereUniqueInput
+    update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutEventsInput, BioPageUpdateWithoutEventsInput>, BioPageUncheckedUpdateWithoutEventsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -220220,6 +228099,57 @@ export namespace Prisma {
     _max?: NestedEnumPunchAdjustStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumBioTemplateFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioTemplate | EnumBioTemplateFieldRefInput<$PrismaModel>
+    in?: $Enums.BioTemplate[] | ListEnumBioTemplateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioTemplate[] | ListEnumBioTemplateFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioTemplateFilter<$PrismaModel> | $Enums.BioTemplate
+  }
+
+  export type NestedEnumBioTemplateWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioTemplate | EnumBioTemplateFieldRefInput<$PrismaModel>
+    in?: $Enums.BioTemplate[] | ListEnumBioTemplateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioTemplate[] | ListEnumBioTemplateFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioTemplateWithAggregatesFilter<$PrismaModel> | $Enums.BioTemplate
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBioTemplateFilter<$PrismaModel>
+    _max?: NestedEnumBioTemplateFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBioBlockTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioBlockType | EnumBioBlockTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BioBlockType[] | ListEnumBioBlockTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioBlockType[] | ListEnumBioBlockTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioBlockTypeFilter<$PrismaModel> | $Enums.BioBlockType
+  }
+
+  export type NestedEnumBioBlockTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioBlockType | EnumBioBlockTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BioBlockType[] | ListEnumBioBlockTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioBlockType[] | ListEnumBioBlockTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioBlockTypeWithAggregatesFilter<$PrismaModel> | $Enums.BioBlockType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBioBlockTypeFilter<$PrismaModel>
+    _max?: NestedEnumBioBlockTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBioEventKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioEventKind | EnumBioEventKindFieldRefInput<$PrismaModel>
+    in?: $Enums.BioEventKind[] | ListEnumBioEventKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioEventKind[] | ListEnumBioEventKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioEventKindFilter<$PrismaModel> | $Enums.BioEventKind
+  }
+
+  export type NestedEnumBioEventKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioEventKind | EnumBioEventKindFieldRefInput<$PrismaModel>
+    in?: $Enums.BioEventKind[] | ListEnumBioEventKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioEventKind[] | ListEnumBioEventKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioEventKindWithAggregatesFilter<$PrismaModel> | $Enums.BioEventKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBioEventKindFilter<$PrismaModel>
+    _max?: NestedEnumBioEventKindFilter<$PrismaModel>
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -220305,6 +228235,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -220444,6 +228375,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -222317,6 +230249,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -222456,6 +230389,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -224865,6 +232799,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -225004,6 +232939,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -225294,6 +233230,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -225433,6 +233370,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -226540,6 +234478,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -226679,6 +234618,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -226823,6 +234763,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -226962,6 +234903,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -227571,6 +235513,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -227629,6 +235572,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -228897,6 +236841,61 @@ export namespace Prisma {
   export type TrackingLinkCreateManyCompanyInputEnvelope = {
     data: TrackingLinkCreateManyCompanyInput | TrackingLinkCreateManyCompanyInput[]
     skipDuplicates?: boolean
+  }
+
+  export type BioPageCreateWithoutCompanyInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: BioBlockCreateNestedManyWithoutPageInput
+    questions?: BioQuestionCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+    events?: BioEventCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
+    questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+    events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageCreateOrConnectWithoutCompanyInput = {
+    where: BioPageWhereUniqueInput
+    create: XOR<BioPageCreateWithoutCompanyInput, BioPageUncheckedCreateWithoutCompanyInput>
   }
 
   export type PipelineStageConfigCreateWithoutCompanyInput = {
@@ -231120,6 +239119,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -231259,6 +239259,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -232530,6 +240531,67 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"TrackingLink"> | Date | string
     campaignId?: StringNullableFilter<"TrackingLink"> | string | null
     companyId?: StringNullableFilter<"TrackingLink"> | string | null
+  }
+
+  export type BioPageUpsertWithoutCompanyInput = {
+    update: XOR<BioPageUpdateWithoutCompanyInput, BioPageUncheckedUpdateWithoutCompanyInput>
+    create: XOR<BioPageCreateWithoutCompanyInput, BioPageUncheckedCreateWithoutCompanyInput>
+    where?: BioPageWhereInput
+  }
+
+  export type BioPageUpdateToOneWithWhereWithoutCompanyInput = {
+    where?: BioPageWhereInput
+    data: XOR<BioPageUpdateWithoutCompanyInput, BioPageUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type BioPageUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: BioBlockUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+    events?: BioEventUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PipelineStageConfigUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -234281,6 +242343,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -234420,6 +242483,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -234522,6 +242586,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -234580,6 +242645,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -234837,6 +242903,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -234976,6 +243043,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -235220,6 +243288,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -235359,6 +243428,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -235461,6 +243531,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -235519,6 +243590,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -235709,6 +243781,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -235848,6 +243921,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -236115,6 +244189,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -236254,6 +244329,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -236438,6 +244514,52 @@ export namespace Prisma {
 
   export type IgConversationCreateManyLeadInputEnvelope = {
     data: IgConversationCreateManyLeadInput | IgConversationCreateManyLeadInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BioSubmissionCreateWithoutLeadInput = {
+    id?: string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    page: BioPageCreateNestedOneWithoutSubmissionsInput
+  }
+
+  export type BioSubmissionUncheckedCreateWithoutLeadInput = {
+    id?: string
+    pageId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioSubmissionCreateOrConnectWithoutLeadInput = {
+    where: BioSubmissionWhereUniqueInput
+    create: XOR<BioSubmissionCreateWithoutLeadInput, BioSubmissionUncheckedCreateWithoutLeadInput>
+  }
+
+  export type BioSubmissionCreateManyLeadInputEnvelope = {
+    data: BioSubmissionCreateManyLeadInput | BioSubmissionCreateManyLeadInput[]
     skipDuplicates?: boolean
   }
 
@@ -237074,6 +245196,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -237213,6 +245336,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -237373,6 +245497,44 @@ export namespace Prisma {
   export type IgConversationUpdateManyWithWhereWithoutLeadInput = {
     where: IgConversationScalarWhereInput
     data: XOR<IgConversationUpdateManyMutationInput, IgConversationUncheckedUpdateManyWithoutLeadInput>
+  }
+
+  export type BioSubmissionUpsertWithWhereUniqueWithoutLeadInput = {
+    where: BioSubmissionWhereUniqueInput
+    update: XOR<BioSubmissionUpdateWithoutLeadInput, BioSubmissionUncheckedUpdateWithoutLeadInput>
+    create: XOR<BioSubmissionCreateWithoutLeadInput, BioSubmissionUncheckedCreateWithoutLeadInput>
+  }
+
+  export type BioSubmissionUpdateWithWhereUniqueWithoutLeadInput = {
+    where: BioSubmissionWhereUniqueInput
+    data: XOR<BioSubmissionUpdateWithoutLeadInput, BioSubmissionUncheckedUpdateWithoutLeadInput>
+  }
+
+  export type BioSubmissionUpdateManyWithWhereWithoutLeadInput = {
+    where: BioSubmissionScalarWhereInput
+    data: XOR<BioSubmissionUpdateManyMutationInput, BioSubmissionUncheckedUpdateManyWithoutLeadInput>
+  }
+
+  export type BioSubmissionScalarWhereInput = {
+    AND?: BioSubmissionScalarWhereInput | BioSubmissionScalarWhereInput[]
+    OR?: BioSubmissionScalarWhereInput[]
+    NOT?: BioSubmissionScalarWhereInput | BioSubmissionScalarWhereInput[]
+    id?: StringFilter<"BioSubmission"> | string
+    pageId?: StringFilter<"BioSubmission"> | string
+    leadId?: StringNullableFilter<"BioSubmission"> | string | null
+    answers?: JsonFilter<"BioSubmission">
+    name?: StringNullableFilter<"BioSubmission"> | string | null
+    phone?: StringFilter<"BioSubmission"> | string
+    email?: StringNullableFilter<"BioSubmission"> | string | null
+    consent?: BoolFilter<"BioSubmission"> | boolean
+    visitorId?: StringNullableFilter<"BioSubmission"> | string | null
+    referrer?: StringNullableFilter<"BioSubmission"> | string | null
+    utmSource?: StringNullableFilter<"BioSubmission"> | string | null
+    utmMedium?: StringNullableFilter<"BioSubmission"> | string | null
+    utmCampaign?: StringNullableFilter<"BioSubmission"> | string | null
+    clientIp?: StringNullableFilter<"BioSubmission"> | string | null
+    userAgent?: StringNullableFilter<"BioSubmission"> | string | null
+    createdAt?: DateTimeFilter<"BioSubmission"> | Date | string
   }
 
   export type EmailCampaignUpsertWithoutPromotedLeadsInput = {
@@ -237852,6 +246014,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -237991,6 +246154,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -238166,6 +246330,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -238305,6 +246470,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -238419,6 +246585,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -238477,6 +246644,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -238572,6 +246740,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -238630,6 +246799,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -238756,6 +246926,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -238895,6 +247066,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -239076,6 +247248,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -239215,6 +247388,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -239329,6 +247503,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -239387,6 +247562,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -239488,6 +247664,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -239546,6 +247723,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -239678,6 +247856,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -239817,6 +247996,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -239998,6 +248178,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -240137,6 +248318,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -240292,6 +248474,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -240431,6 +248614,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -240615,6 +248799,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -240754,6 +248939,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -240887,6 +249073,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -240945,6 +249132,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -241045,6 +249233,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -241184,6 +249373,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -241568,6 +249758,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -241626,6 +249817,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -241732,6 +249924,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -241871,6 +250064,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -242251,6 +250445,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -242309,6 +250504,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -242379,6 +250575,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -242437,6 +250634,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -242533,6 +250731,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
@@ -242672,6 +250871,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
@@ -242827,6 +251027,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
@@ -242966,6 +251167,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -243105,6 +251307,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
@@ -243244,6 +251447,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
@@ -243534,6 +251738,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
@@ -243673,6 +251878,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -244087,6 +252293,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -244226,6 +252433,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -244808,6 +253016,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -244947,6 +253156,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -245174,6 +253384,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -245313,6 +253524,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -245502,6 +253714,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -245560,6 +253773,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -245877,6 +254091,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -246016,6 +254231,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -246223,6 +254439,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -246281,6 +254498,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -246594,6 +254812,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -246733,6 +254952,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -246929,6 +255149,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -247068,6 +255289,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -247508,6 +255730,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -247647,6 +255870,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -247879,6 +256103,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -247936,6 +256161,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -248325,6 +256551,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -248464,6 +256691,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -248857,6 +257085,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -248915,6 +257144,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -249079,6 +257309,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -249218,6 +257449,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -249408,6 +257640,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -249466,6 +257699,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -249642,6 +257876,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -249781,6 +258016,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -249919,6 +258155,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -250058,6 +258295,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -250337,6 +258575,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -250476,6 +258715,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -251148,6 +259388,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -251287,6 +259528,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -251578,6 +259820,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -251717,6 +259960,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -252461,6 +260705,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
@@ -252600,6 +260845,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
@@ -253079,6 +261325,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
@@ -253218,6 +261465,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -253862,6 +262110,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -254001,6 +262250,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -254728,6 +262978,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -254867,6 +263118,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -259702,6 +267954,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -259841,6 +268094,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -260046,6 +268300,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -260185,6 +268440,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -260546,6 +268802,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -260685,6 +268942,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -260891,6 +269149,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -261030,6 +269289,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -261169,6 +269429,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -261308,6 +269569,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -261497,6 +269759,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -261636,6 +269899,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -261822,6 +270086,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -261961,6 +270226,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -262153,6 +270419,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -262292,6 +270559,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -262431,6 +270699,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -262570,6 +270839,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -262725,6 +270995,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -262864,6 +271135,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -263003,6 +271275,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -263142,6 +271415,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -263297,6 +271571,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -263436,6 +271711,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -263575,6 +271851,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -263714,6 +271991,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -263869,6 +272147,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -264008,6 +272287,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -264147,6 +272427,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -264286,6 +272567,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -264441,6 +272723,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -264580,6 +272863,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -264719,6 +273003,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -264858,6 +273143,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -265245,6 +273531,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -265384,6 +273671,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -265587,6 +273875,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -265726,6 +274015,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -265972,6 +274262,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -266111,6 +274402,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -266319,6 +274611,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -266458,6 +274751,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -266711,6 +275005,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -266850,6 +275145,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -267099,6 +275395,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -267238,6 +275535,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -267386,6 +275684,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -267444,6 +275743,7 @@ export namespace Prisma {
     clientIp?: string | null
     clientUserAgent?: string | null
     conversationId?: string | null
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -267587,6 +275887,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -267726,6 +276027,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -267886,6 +276188,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -267944,6 +276247,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -268163,6 +276467,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -268302,6 +276607,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -268457,6 +276763,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -268596,6 +276903,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -268735,6 +277043,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -268874,6 +277183,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -269029,6 +277339,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -269168,6 +277479,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -269307,6 +277619,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -269446,6 +277759,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -269601,6 +277915,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -269740,6 +278055,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -269879,6 +278195,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -270018,6 +278335,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -270173,6 +278491,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -270312,6 +278631,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -270451,6 +278771,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -270590,6 +278911,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -270745,6 +279067,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -270884,6 +279207,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -271023,6 +279347,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -271162,6 +279487,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -271317,6 +279643,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -271456,6 +279783,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -271595,6 +279923,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -271734,6 +280063,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -271889,6 +280219,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -272028,6 +280359,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -272167,6 +280499,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -272306,6 +280639,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -272461,6 +280795,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -272600,6 +280935,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -272739,6 +281075,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -272878,6 +281215,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -273033,6 +281371,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -273172,6 +281511,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -273311,6 +281651,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -273450,6 +281791,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -273605,6 +281947,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -273744,6 +282087,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -273883,6 +282227,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -274022,6 +282367,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -274177,6 +282523,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -274316,6 +282663,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -274455,6 +282803,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -274594,6 +282943,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -274749,6 +283099,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -274888,6 +283239,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -275027,6 +283379,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -275166,6 +283519,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -275321,6 +283675,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -275460,6 +283815,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -275599,6 +283955,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -275738,6 +284095,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -275893,6 +284251,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -276032,6 +284391,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -276171,6 +284531,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -276310,6 +284671,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -276465,6 +284827,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -276604,6 +284967,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -276743,6 +285107,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -276882,6 +285247,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -277037,6 +285403,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -277176,6 +285543,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -277315,6 +285683,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -277454,6 +285823,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -277609,6 +285979,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -277748,6 +286119,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -277887,6 +286259,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -278026,6 +286399,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -278181,6 +286555,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -278320,6 +286695,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -278458,6 +286834,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -278597,6 +286974,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -278776,6 +287154,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -278915,6 +287294,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -279141,6 +287521,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -279280,6 +287661,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -279471,6 +287853,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -279610,6 +287993,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -279900,6 +288284,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -280039,6 +288424,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -280366,6 +288752,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -280505,6 +288892,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -280816,6 +289204,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -280955,6 +289344,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -281251,6 +289641,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -281390,6 +289781,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -281664,6 +290056,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -281803,6 +290196,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -282099,6 +290493,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -282238,6 +290633,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -282512,6 +290908,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -282651,6 +291048,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -282947,6 +291345,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -283086,6 +291485,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -283225,6 +291625,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -283364,6 +291765,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -283519,6 +291921,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -283658,6 +292061,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -284349,6 +292753,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -284488,6 +292893,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -284643,6 +293049,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -284782,6 +293189,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -284921,6 +293329,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -285060,6 +293469,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -285277,6 +293687,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -285416,6 +293827,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -285598,6 +294010,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -285737,6 +294150,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -286021,6 +294435,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -286078,6 +294493,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -286228,6 +294644,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -286367,6 +294784,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -286695,6 +295113,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -286753,6 +295172,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -286914,6 +295334,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -286972,6 +295393,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -287184,6 +295606,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -287323,6 +295746,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -287478,6 +295902,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -287617,6 +296042,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -287756,6 +296182,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -287895,6 +296322,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -288156,6 +296584,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -288295,6 +296724,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -288466,6 +296896,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -288605,6 +297036,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -288777,6 +297209,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     sale?: SaleCreateNestedOneWithoutLeadInput
@@ -288835,6 +297268,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -289058,6 +297492,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -289197,6 +297632,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -289381,6 +297817,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -289439,6 +297876,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -289648,6 +298086,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -289787,6 +298226,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -289942,6 +298382,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -290081,6 +298522,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -290220,6 +298662,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -290359,6 +298802,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -290514,6 +298958,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -290653,6 +299098,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -290956,6 +299402,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -291095,6 +299542,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -291329,6 +299777,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -291468,6 +299917,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -291624,6 +300074,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -291763,6 +300214,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -291918,6 +300370,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -292057,6 +300510,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -292196,6 +300650,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -292335,6 +300790,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -292490,6 +300946,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -292629,6 +301086,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -292851,6 +301309,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -292990,6 +301449,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -293192,6 +301652,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -293331,6 +301792,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -293470,6 +301932,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -293609,6 +302072,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -294192,6 +302656,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -294331,6 +302796,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -294888,6 +303354,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -295027,6 +303494,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -295227,6 +303695,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -295366,6 +303835,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -295872,6 +304342,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -296011,6 +304482,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -296245,6 +304717,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -296384,6 +304857,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -296608,6 +305082,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -296747,6 +305222,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -297086,6 +305562,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -297225,6 +305702,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -297411,6 +305889,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -297550,6 +306029,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -297864,6 +306344,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -298003,6 +306484,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -298373,6 +306855,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -298512,6 +306995,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -298789,6 +307273,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -298928,6 +307413,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -299201,6 +307687,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -299340,6 +307827,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -299443,6 +307931,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionCreateNestedManyWithoutLeadInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -299501,6 +307990,7 @@ export namespace Prisma {
     clientUserAgent?: string | null
     conversationId?: string | null
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    bioSubmissions?: BioSubmissionUncheckedCreateNestedManyWithoutLeadInput
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -299601,6 +308091,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -299740,6 +308231,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -300072,6 +308564,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -300211,6 +308704,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -300320,6 +308814,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -300378,6 +308873,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -300484,6 +308980,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -300623,6 +309120,7 @@ export namespace Prisma {
     bonusClosures?: BonusClosureUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -300885,6 +309383,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -301024,6 +309523,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -301179,6 +309679,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -301318,6 +309819,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -301457,6 +309959,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -301596,6 +310099,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -302008,6 +310512,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -302147,6 +310652,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -302561,6 +311067,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -302700,6 +311207,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -302855,6 +311363,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -302994,6 +311503,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -303134,6 +311644,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -303273,6 +311784,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -303486,6 +311998,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -303625,6 +312138,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -303850,6 +312364,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -303989,6 +312504,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -304187,6 +312703,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -304326,6 +312843,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -304545,6 +313063,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -304684,6 +313203,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -304974,6 +313494,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -305113,6 +313634,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -305393,6 +313915,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -305532,6 +314055,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -305822,6 +314346,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -305961,6 +314486,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -306241,6 +314767,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -306380,6 +314907,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -306805,6 +315333,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -306944,6 +315473,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -307365,6 +315895,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -307504,6 +316035,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -307929,6 +316461,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -308068,6 +316601,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -308489,6 +317023,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -308628,6 +317163,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -308918,6 +317454,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -309057,6 +317594,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -309337,6 +317875,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -309476,6 +318015,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -309988,6 +318528,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -310127,6 +318668,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -310653,6 +319195,7 @@ export namespace Prisma {
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -310792,6 +319335,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -310990,6 +319534,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -311129,6 +319674,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -311724,6 +320270,1556 @@ export namespace Prisma {
     assistantNotes?: AssistantNoteUncheckedUpdateManyWithoutUserNestedInput
     assistantTurns?: AssistantTurnUncheckedUpdateManyWithoutUserNestedInput
     assistantPending?: AssistantPendingActionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CompanyCreateWithoutBioPageInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutBioPageInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutBioPageInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutBioPageInput, CompanyUncheckedCreateWithoutBioPageInput>
+  }
+
+  export type BioBlockCreateWithoutPageInput = {
+    id?: string
+    type?: $Enums.BioBlockType
+    title: string
+    description?: string | null
+    url?: string | null
+    imageUrl?: string | null
+    priceLabel?: string | null
+    network?: string | null
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioBlockUncheckedCreateWithoutPageInput = {
+    id?: string
+    type?: $Enums.BioBlockType
+    title: string
+    description?: string | null
+    url?: string | null
+    imageUrl?: string | null
+    priceLabel?: string | null
+    network?: string | null
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioBlockCreateOrConnectWithoutPageInput = {
+    where: BioBlockWhereUniqueInput
+    create: XOR<BioBlockCreateWithoutPageInput, BioBlockUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioBlockCreateManyPageInputEnvelope = {
+    data: BioBlockCreateManyPageInput | BioBlockCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BioQuestionCreateWithoutPageInput = {
+    id?: string
+    text: string
+    options?: BioQuestionCreateoptionsInput | string[]
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioQuestionUncheckedCreateWithoutPageInput = {
+    id?: string
+    text: string
+    options?: BioQuestionCreateoptionsInput | string[]
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioQuestionCreateOrConnectWithoutPageInput = {
+    where: BioQuestionWhereUniqueInput
+    create: XOR<BioQuestionCreateWithoutPageInput, BioQuestionUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioQuestionCreateManyPageInputEnvelope = {
+    data: BioQuestionCreateManyPageInput | BioQuestionCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BioSubmissionCreateWithoutPageInput = {
+    id?: string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    lead?: LeadCreateNestedOneWithoutBioSubmissionsInput
+  }
+
+  export type BioSubmissionUncheckedCreateWithoutPageInput = {
+    id?: string
+    leadId?: string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioSubmissionCreateOrConnectWithoutPageInput = {
+    where: BioSubmissionWhereUniqueInput
+    create: XOR<BioSubmissionCreateWithoutPageInput, BioSubmissionUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioSubmissionCreateManyPageInputEnvelope = {
+    data: BioSubmissionCreateManyPageInput | BioSubmissionCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BioEventCreateWithoutPageInput = {
+    id?: string
+    kind: $Enums.BioEventKind
+    blockId?: string | null
+    targetLabel?: string | null
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioEventUncheckedCreateWithoutPageInput = {
+    id?: string
+    kind: $Enums.BioEventKind
+    blockId?: string | null
+    targetLabel?: string | null
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioEventCreateOrConnectWithoutPageInput = {
+    where: BioEventWhereUniqueInput
+    create: XOR<BioEventCreateWithoutPageInput, BioEventUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioEventCreateManyPageInputEnvelope = {
+    data: BioEventCreateManyPageInput | BioEventCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutBioPageInput = {
+    update: XOR<CompanyUpdateWithoutBioPageInput, CompanyUncheckedUpdateWithoutBioPageInput>
+    create: XOR<CompanyCreateWithoutBioPageInput, CompanyUncheckedCreateWithoutBioPageInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutBioPageInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutBioPageInput, CompanyUncheckedUpdateWithoutBioPageInput>
+  }
+
+  export type CompanyUpdateWithoutBioPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutBioPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type BioBlockUpsertWithWhereUniqueWithoutPageInput = {
+    where: BioBlockWhereUniqueInput
+    update: XOR<BioBlockUpdateWithoutPageInput, BioBlockUncheckedUpdateWithoutPageInput>
+    create: XOR<BioBlockCreateWithoutPageInput, BioBlockUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioBlockUpdateWithWhereUniqueWithoutPageInput = {
+    where: BioBlockWhereUniqueInput
+    data: XOR<BioBlockUpdateWithoutPageInput, BioBlockUncheckedUpdateWithoutPageInput>
+  }
+
+  export type BioBlockUpdateManyWithWhereWithoutPageInput = {
+    where: BioBlockScalarWhereInput
+    data: XOR<BioBlockUpdateManyMutationInput, BioBlockUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type BioBlockScalarWhereInput = {
+    AND?: BioBlockScalarWhereInput | BioBlockScalarWhereInput[]
+    OR?: BioBlockScalarWhereInput[]
+    NOT?: BioBlockScalarWhereInput | BioBlockScalarWhereInput[]
+    id?: StringFilter<"BioBlock"> | string
+    pageId?: StringFilter<"BioBlock"> | string
+    type?: EnumBioBlockTypeFilter<"BioBlock"> | $Enums.BioBlockType
+    title?: StringFilter<"BioBlock"> | string
+    description?: StringNullableFilter<"BioBlock"> | string | null
+    url?: StringNullableFilter<"BioBlock"> | string | null
+    imageUrl?: StringNullableFilter<"BioBlock"> | string | null
+    priceLabel?: StringNullableFilter<"BioBlock"> | string | null
+    network?: StringNullableFilter<"BioBlock"> | string | null
+    order?: IntFilter<"BioBlock"> | number
+    active?: BoolFilter<"BioBlock"> | boolean
+    createdAt?: DateTimeFilter<"BioBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"BioBlock"> | Date | string
+  }
+
+  export type BioQuestionUpsertWithWhereUniqueWithoutPageInput = {
+    where: BioQuestionWhereUniqueInput
+    update: XOR<BioQuestionUpdateWithoutPageInput, BioQuestionUncheckedUpdateWithoutPageInput>
+    create: XOR<BioQuestionCreateWithoutPageInput, BioQuestionUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioQuestionUpdateWithWhereUniqueWithoutPageInput = {
+    where: BioQuestionWhereUniqueInput
+    data: XOR<BioQuestionUpdateWithoutPageInput, BioQuestionUncheckedUpdateWithoutPageInput>
+  }
+
+  export type BioQuestionUpdateManyWithWhereWithoutPageInput = {
+    where: BioQuestionScalarWhereInput
+    data: XOR<BioQuestionUpdateManyMutationInput, BioQuestionUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type BioQuestionScalarWhereInput = {
+    AND?: BioQuestionScalarWhereInput | BioQuestionScalarWhereInput[]
+    OR?: BioQuestionScalarWhereInput[]
+    NOT?: BioQuestionScalarWhereInput | BioQuestionScalarWhereInput[]
+    id?: StringFilter<"BioQuestion"> | string
+    pageId?: StringFilter<"BioQuestion"> | string
+    text?: StringFilter<"BioQuestion"> | string
+    options?: StringNullableListFilter<"BioQuestion">
+    order?: IntFilter<"BioQuestion"> | number
+    active?: BoolFilter<"BioQuestion"> | boolean
+    createdAt?: DateTimeFilter<"BioQuestion"> | Date | string
+    updatedAt?: DateTimeFilter<"BioQuestion"> | Date | string
+  }
+
+  export type BioSubmissionUpsertWithWhereUniqueWithoutPageInput = {
+    where: BioSubmissionWhereUniqueInput
+    update: XOR<BioSubmissionUpdateWithoutPageInput, BioSubmissionUncheckedUpdateWithoutPageInput>
+    create: XOR<BioSubmissionCreateWithoutPageInput, BioSubmissionUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioSubmissionUpdateWithWhereUniqueWithoutPageInput = {
+    where: BioSubmissionWhereUniqueInput
+    data: XOR<BioSubmissionUpdateWithoutPageInput, BioSubmissionUncheckedUpdateWithoutPageInput>
+  }
+
+  export type BioSubmissionUpdateManyWithWhereWithoutPageInput = {
+    where: BioSubmissionScalarWhereInput
+    data: XOR<BioSubmissionUpdateManyMutationInput, BioSubmissionUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type BioEventUpsertWithWhereUniqueWithoutPageInput = {
+    where: BioEventWhereUniqueInput
+    update: XOR<BioEventUpdateWithoutPageInput, BioEventUncheckedUpdateWithoutPageInput>
+    create: XOR<BioEventCreateWithoutPageInput, BioEventUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioEventUpdateWithWhereUniqueWithoutPageInput = {
+    where: BioEventWhereUniqueInput
+    data: XOR<BioEventUpdateWithoutPageInput, BioEventUncheckedUpdateWithoutPageInput>
+  }
+
+  export type BioEventUpdateManyWithWhereWithoutPageInput = {
+    where: BioEventScalarWhereInput
+    data: XOR<BioEventUpdateManyMutationInput, BioEventUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type BioEventScalarWhereInput = {
+    AND?: BioEventScalarWhereInput | BioEventScalarWhereInput[]
+    OR?: BioEventScalarWhereInput[]
+    NOT?: BioEventScalarWhereInput | BioEventScalarWhereInput[]
+    id?: StringFilter<"BioEvent"> | string
+    pageId?: StringFilter<"BioEvent"> | string
+    kind?: EnumBioEventKindFilter<"BioEvent"> | $Enums.BioEventKind
+    blockId?: StringNullableFilter<"BioEvent"> | string | null
+    targetLabel?: StringNullableFilter<"BioEvent"> | string | null
+    visitorId?: StringNullableFilter<"BioEvent"> | string | null
+    referrer?: StringNullableFilter<"BioEvent"> | string | null
+    utmSource?: StringNullableFilter<"BioEvent"> | string | null
+    utmMedium?: StringNullableFilter<"BioEvent"> | string | null
+    utmCampaign?: StringNullableFilter<"BioEvent"> | string | null
+    createdAt?: DateTimeFilter<"BioEvent"> | Date | string
+  }
+
+  export type BioPageCreateWithoutBlocksInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBioPageInput
+    questions?: BioQuestionCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+    events?: BioEventCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateWithoutBlocksInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+    events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageCreateOrConnectWithoutBlocksInput = {
+    where: BioPageWhereUniqueInput
+    create: XOR<BioPageCreateWithoutBlocksInput, BioPageUncheckedCreateWithoutBlocksInput>
+  }
+
+  export type BioPageUpsertWithoutBlocksInput = {
+    update: XOR<BioPageUpdateWithoutBlocksInput, BioPageUncheckedUpdateWithoutBlocksInput>
+    create: XOR<BioPageCreateWithoutBlocksInput, BioPageUncheckedCreateWithoutBlocksInput>
+    where?: BioPageWhereInput
+  }
+
+  export type BioPageUpdateToOneWithWhereWithoutBlocksInput = {
+    where?: BioPageWhereInput
+    data: XOR<BioPageUpdateWithoutBlocksInput, BioPageUncheckedUpdateWithoutBlocksInput>
+  }
+
+  export type BioPageUpdateWithoutBlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    questions?: BioQuestionUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+    events?: BioEventUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateWithoutBlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageCreateWithoutQuestionsInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBioPageInput
+    blocks?: BioBlockCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+    events?: BioEventCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateWithoutQuestionsInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+    events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageCreateOrConnectWithoutQuestionsInput = {
+    where: BioPageWhereUniqueInput
+    create: XOR<BioPageCreateWithoutQuestionsInput, BioPageUncheckedCreateWithoutQuestionsInput>
+  }
+
+  export type BioPageUpsertWithoutQuestionsInput = {
+    update: XOR<BioPageUpdateWithoutQuestionsInput, BioPageUncheckedUpdateWithoutQuestionsInput>
+    create: XOR<BioPageCreateWithoutQuestionsInput, BioPageUncheckedCreateWithoutQuestionsInput>
+    where?: BioPageWhereInput
+  }
+
+  export type BioPageUpdateToOneWithWhereWithoutQuestionsInput = {
+    where?: BioPageWhereInput
+    data: XOR<BioPageUpdateWithoutQuestionsInput, BioPageUncheckedUpdateWithoutQuestionsInput>
+  }
+
+  export type BioPageUpdateWithoutQuestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    blocks?: BioBlockUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+    events?: BioEventUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateWithoutQuestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageCreateWithoutSubmissionsInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBioPageInput
+    blocks?: BioBlockCreateNestedManyWithoutPageInput
+    questions?: BioQuestionCreateNestedManyWithoutPageInput
+    events?: BioEventCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateWithoutSubmissionsInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
+    questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
+    events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageCreateOrConnectWithoutSubmissionsInput = {
+    where: BioPageWhereUniqueInput
+    create: XOR<BioPageCreateWithoutSubmissionsInput, BioPageUncheckedCreateWithoutSubmissionsInput>
+  }
+
+  export type LeadCreateWithoutBioSubmissionsInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    wonAt?: Date | string | null
+    lostAt?: Date | string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
+    hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
+    company: CompanyCreateNestedOneWithoutLeadsInput
+    campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    igConversations?: IgConversationCreateNestedManyWithoutLeadInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
+    sale?: SaleCreateNestedOneWithoutLeadInput
+    messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
+    emailRecipients?: EmailRecipientCreateNestedManyWithoutLeadInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutBioSubmissionsInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    wonAt?: Date | string | null
+    lostAt?: Date | string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
+    hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
+    conversationId?: string | null
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutLeadInput
+    sale?: SaleUncheckedCreateNestedOneWithoutLeadInput
+    messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
+    emailRecipients?: EmailRecipientUncheckedCreateNestedManyWithoutLeadInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutBioSubmissionsInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutBioSubmissionsInput, LeadUncheckedCreateWithoutBioSubmissionsInput>
+  }
+
+  export type BioPageUpsertWithoutSubmissionsInput = {
+    update: XOR<BioPageUpdateWithoutSubmissionsInput, BioPageUncheckedUpdateWithoutSubmissionsInput>
+    create: XOR<BioPageCreateWithoutSubmissionsInput, BioPageUncheckedCreateWithoutSubmissionsInput>
+    where?: BioPageWhereInput
+  }
+
+  export type BioPageUpdateToOneWithWhereWithoutSubmissionsInput = {
+    where?: BioPageWhereInput
+    data: XOR<BioPageUpdateWithoutSubmissionsInput, BioPageUncheckedUpdateWithoutSubmissionsInput>
+  }
+
+  export type BioPageUpdateWithoutSubmissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    blocks?: BioBlockUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUpdateManyWithoutPageNestedInput
+    events?: BioEventUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateWithoutSubmissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
+    events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type LeadUpsertWithoutBioSubmissionsInput = {
+    update: XOR<LeadUpdateWithoutBioSubmissionsInput, LeadUncheckedUpdateWithoutBioSubmissionsInput>
+    create: XOR<LeadCreateWithoutBioSubmissionsInput, LeadUncheckedCreateWithoutBioSubmissionsInput>
+    where?: LeadWhereInput
+  }
+
+  export type LeadUpdateToOneWithWhereWithoutBioSubmissionsInput = {
+    where?: LeadWhereInput
+    data: XOR<LeadUpdateWithoutBioSubmissionsInput, LeadUncheckedUpdateWithoutBioSubmissionsInput>
+  }
+
+  export type LeadUpdateWithoutBioSubmissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    wonAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lostAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
+    campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
+    sale?: SaleUpdateOneWithoutLeadNestedInput
+    messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
+    emailRecipients?: EmailRecipientUpdateManyWithoutLeadNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutBioSubmissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    wonAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lostAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
+    emailRecipients?: EmailRecipientUncheckedUpdateManyWithoutLeadNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type BioPageCreateWithoutEventsInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBioPageInput
+    blocks?: BioBlockCreateNestedManyWithoutPageInput
+    questions?: BioQuestionCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateWithoutEventsInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
+    questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageCreateOrConnectWithoutEventsInput = {
+    where: BioPageWhereUniqueInput
+    create: XOR<BioPageCreateWithoutEventsInput, BioPageUncheckedCreateWithoutEventsInput>
+  }
+
+  export type BioPageUpsertWithoutEventsInput = {
+    update: XOR<BioPageUpdateWithoutEventsInput, BioPageUncheckedUpdateWithoutEventsInput>
+    create: XOR<BioPageCreateWithoutEventsInput, BioPageUncheckedCreateWithoutEventsInput>
+    where?: BioPageWhereInput
+  }
+
+  export type BioPageUpdateToOneWithWhereWithoutEventsInput = {
+    where?: BioPageWhereInput
+    data: XOR<BioPageUpdateWithoutEventsInput, BioPageUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type BioPageUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    blocks?: BioBlockUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type TicketCreateManyCreatedByInput = {
@@ -315763,6 +325859,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -315902,6 +325999,7 @@ export namespace Prisma {
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -316594,6 +326692,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -316652,6 +326751,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -320488,6 +330588,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -320546,6 +330647,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -320863,6 +330965,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
@@ -320921,6 +331024,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -321018,6 +331122,24 @@ export namespace Prisma {
     aiMode?: $Enums.AiMode
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type BioSubmissionCreateManyLeadInput = {
+    id?: string
+    pageId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
   }
 
   export type MessageCreateManyLeadInput = {
@@ -321204,6 +331326,60 @@ export namespace Prisma {
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioSubmissionUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: BioPageUpdateOneRequiredWithoutSubmissionsNestedInput
+  }
+
+  export type BioSubmissionUncheckedUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioSubmissionUncheckedUpdateManyWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUpdateWithoutLeadInput = {
@@ -322436,6 +332612,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -322493,6 +332670,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -325474,6 +335652,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     igConversations?: IgConversationUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUpdateManyWithoutLeadNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     sale?: SaleUpdateOneWithoutLeadNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -325531,6 +335710,7 @@ export namespace Prisma {
     clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     igConversations?: IgConversationUncheckedUpdateManyWithoutLeadNestedInput
+    bioSubmissions?: BioSubmissionUncheckedUpdateManyWithoutLeadNestedInput
     sale?: SaleUncheckedUpdateOneWithoutLeadNestedInput
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -326846,6 +337026,230 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BioBlockCreateManyPageInput = {
+    id?: string
+    type?: $Enums.BioBlockType
+    title: string
+    description?: string | null
+    url?: string | null
+    imageUrl?: string | null
+    priceLabel?: string | null
+    network?: string | null
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioQuestionCreateManyPageInput = {
+    id?: string
+    text: string
+    options?: BioQuestionCreateoptionsInput | string[]
+    order?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioSubmissionCreateManyPageInput = {
+    id?: string
+    leadId?: string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioEventCreateManyPageInput = {
+    id?: string
+    kind: $Enums.BioEventKind
+    blockId?: string | null
+    targetLabel?: string | null
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioBlockUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumBioBlockTypeFieldUpdateOperationsInput | $Enums.BioBlockType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    priceLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    network?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioBlockUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumBioBlockTypeFieldUpdateOperationsInput | $Enums.BioBlockType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    priceLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    network?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioBlockUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumBioBlockTypeFieldUpdateOperationsInput | $Enums.BioBlockType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    priceLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    network?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioQuestionUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    options?: BioQuestionUpdateoptionsInput | string[]
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioQuestionUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    options?: BioQuestionUpdateoptionsInput | string[]
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioQuestionUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    options?: BioQuestionUpdateoptionsInput | string[]
+    order?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioSubmissionUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneWithoutBioSubmissionsNestedInput
+  }
+
+  export type BioSubmissionUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioSubmissionUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioEventUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumBioEventKindFieldUpdateOperationsInput | $Enums.BioEventKind
+    blockId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioEventUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumBioEventKindFieldUpdateOperationsInput | $Enums.BioEventKind
+    blockId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioEventUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumBioEventKindFieldUpdateOperationsInput | $Enums.BioEventKind
+    blockId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -327003,6 +337407,10 @@ export namespace Prisma {
      * @deprecated Use McpOAuthClientCountOutputTypeDefaultArgs instead
      */
     export type McpOAuthClientCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = McpOAuthClientCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BioPageCountOutputTypeDefaultArgs instead
+     */
+    export type BioPageCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioPageCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -327547,6 +337955,26 @@ export namespace Prisma {
      * @deprecated Use CaldavRequestLogDefaultArgs instead
      */
     export type CaldavRequestLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CaldavRequestLogDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BioPageDefaultArgs instead
+     */
+    export type BioPageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioPageDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BioBlockDefaultArgs instead
+     */
+    export type BioBlockArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioBlockDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BioQuestionDefaultArgs instead
+     */
+    export type BioQuestionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioQuestionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BioSubmissionDefaultArgs instead
+     */
+    export type BioSubmissionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioSubmissionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BioEventDefaultArgs instead
+     */
+    export type BioEventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioEventDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

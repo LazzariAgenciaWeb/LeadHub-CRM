@@ -14,6 +14,9 @@
  *  - CRESCIMENTO: legado (mantido no enum pra subscriptions existentes, fora
  *    da pricing page)
  *  - TRIAL: legado (enum mantido, mas FREE absorve o papel)
+ *  - PAGINA e STARTER: linha "Página do Negócio", separada dos planos de gestão
+ *    (fora do PLAN_ORDER). PAGINA é a porta de entrada grátis; STARTER vira
+ *    mini site com domínio próprio + e-mail. Ver PAGE_LINE_TIERS.
  *
  * Add-ons: features extras contratáveis em qualquer plano pago via
  * `Subscription.customFeatures`. Preços em `ADDON_PRICES`.
@@ -22,6 +25,8 @@
 export type PlanTier =
   | "FREE"
   | "TRIAL"
+  | "PAGINA"
+  | "STARTER"
   | "ORGANIZATION"
   | "ESSENCIAL"
   | "MARKETING"
@@ -93,6 +98,8 @@ export interface PlanFeatures {
   links: boolean;
   /** Biblioteca de vídeos estilo Netflix (material de apoio do cliente). */
   videos: boolean;
+  /** Página do Negócio: link na bio + vitrine + perguntas que viram lead (/p/[slug]). */
+  paginaNegocio: boolean;
 
   // ── 📊 Marketing & Análise ──
   marketingDashboard: boolean;
@@ -179,6 +186,7 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     campanhas: false,
     links: false,
     videos: false,
+    paginaNegocio: false,
     marketingDashboard: false,
     googleAnalytics: false,
     googleSearchConsole: false,
@@ -241,6 +249,71 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       "Meu Espaço (acessos + serviços)",
       "Dashboard Marketing (Analytics + Search Console)",
       "Biblioteca de vídeos",
+    ],
+  },
+
+  // ── PAGINA: porta de entrada da linha Página do Negócio ──
+  // Grátis, na URL do GoHub. O cliente vê nome/telefone dos contatos até o
+  // limite do mês (leadsPerMonth) e só os totais; o detalhe fica pros admins.
+  // A página nunca para: acima do limite o contato é capturado do mesmo jeito.
+  PAGINA: {
+    tier: "PAGINA",
+    label: "Página",
+    tagline: "Sua página de negócio, grátis",
+    description: "Link na bio com vitrine e perguntas que transformam visita em contato — no endereço do GoHub.",
+    priceMonthly: 0,
+    priceAnnualPerMonth: 0,
+    priceAnnualTotal: 0,
+    cta: "Criar minha página",
+    limits: {
+      whatsappInstances: 0,
+      atendentes: 1,
+      unidades: 1,
+      leadsPerMonth: 30,
+      aiInteractions: 0,
+    },
+    features: feat({
+      paginaNegocio: true,
+    }),
+    modoAtendimentoDefault: "VISAO",
+    highlights: [
+      "Grátis, sem cartão",
+      "Página com links e vitrine",
+      "Perguntas que viram contato",
+      "Até 30 contatos/mês visíveis",
+    ],
+  },
+
+  // ── STARTER: a página vira mini site com domínio próprio ──
+  // Domínio no nome do cliente (taxa paga por ele, antecipada, à parte) +
+  // hospedagem + 1 conta de e-mail (250 MB) no servidor da agência. Cadastrado
+  // pra já existir no catálogo; venda e domínio entram em fase posterior.
+  STARTER: {
+    tier: "STARTER",
+    label: "Starter",
+    tagline: "Seu mini site com domínio e e-mail",
+    description: "Tudo da Página + domínio com o seu nome, e-mail profissional, agenda e relatório completo.",
+    priceMonthly: 49.90,
+    priceAnnualPerMonth: 49.90,
+    priceAnnualTotal: 598.80,
+    cta: "Assinar Starter",
+    limits: {
+      whatsappInstances: 0,
+      atendentes: 1,
+      unidades: 1,
+      leadsPerMonth: -1,
+      aiInteractions: 0,
+    },
+    features: feat({
+      paginaNegocio: true,
+      calendario: true,
+    }),
+    modoAtendimentoDefault: "VISAO",
+    highlights: [
+      "Tudo da Página +",
+      "Domínio com o seu nome",
+      "1 e-mail profissional (250 MB)",
+      "Agenda e relatório completo",
     ],
   },
 
@@ -609,6 +682,9 @@ export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO", "ORGANIZATION"]
 /** Planos não-públicos atribuídos manualmente (não aparecem na pricing page). */
 export const INTERNAL_TIERS: PlanTier[] = ["ENTERPRISE"];
 
+/** Linha "Página do Negócio" — vendida à parte, fora da pricing page do GoHub. */
+export const PAGE_LINE_TIERS: PlanTier[] = ["PAGINA", "STARTER"];
+
 // ─── Add-ons (features extras contratáveis em qualquer plano pago) ───────────
 // Quando ligados via Subscription.customFeatures, cobrados separados via
 // Stripe (subscription item). Preço sugerido — Lazzari ajusta na UI.
@@ -797,6 +873,8 @@ export function findAddonForFeature(feature: keyof PlanFeatures): AddonDefinitio
 const TIER_RANK: Record<PlanTier, number> = {
   FREE: 0,
   TRIAL: 0,
+  PAGINA: 0,
+  STARTER: 0,        // linha à parte: não habilita add-ons dos planos de gestão
   ORGANIZATION: 1,   // acima do FREE, abaixo do ESSENCIAL
   ESSENCIAL: 2,
   MARKETING: 3,

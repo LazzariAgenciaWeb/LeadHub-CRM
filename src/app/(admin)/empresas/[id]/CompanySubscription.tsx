@@ -54,6 +54,7 @@ interface SubscriptionData {
 const PUBLIC_PLANS: PlanTier[] = ["FREE", "ORGANIZATION", "ESSENCIAL", "MARKETING", "PREMIUM"];
 const INTERNAL_PLANS: PlanTier[] = ["ENTERPRISE"];
 const LEGACY_PLANS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
+const PAGE_LINE_PLANS: PlanTier[] = ["PAGINA", "STARTER"];
 const STATUSES: Status[] = ["TRIALING", "ACTIVE", "PAST_DUE", "CANCELED", "UNPAID", "INCOMPLETE"];
 
 const LIMIT_LABELS: Record<keyof PlanLimits, string> = {
@@ -434,6 +435,14 @@ export default function CompanySubscription({
             >
               <optgroup label="Públicos">
                 {PUBLIC_PLANS.map((p) => (
+                  <option key={p} value={p}>
+                    {data.plans[p].label}
+                    {PLANS[p].priceMonthly > 0 ? ` — ${formatPriceBRL(PLANS[p].priceMonthly)}/mês` : " — grátis"}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Página do Negócio">
+                {PAGE_LINE_PLANS.map((p) => (
                   <option key={p} value={p}>
                     {data.plans[p].label}
                     {PLANS[p].priceMonthly > 0 ? ` — ${formatPriceBRL(PLANS[p].priceMonthly)}/mês` : " — grátis"}

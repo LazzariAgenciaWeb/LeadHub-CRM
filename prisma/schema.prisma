@@ -467,6 +467,7 @@ model Company {
   salesAsAgency            Sale[]                     @relation("SaleAgency")
   salesAsClient            Sale[]                     @relation("SaleClient")
   trackingLinks            TrackingLink[]
+  bioPage                  BioPage? // Página do Negócio (link na bio)
   pipelineStages           PipelineStageConfig[]
   contacts                 CompanyContact[]
   setores                  Setor[]
@@ -709,6 +710,7 @@ model Lead {
 
   // Conversas do Direct vinculadas (prospecção via Instagram).
   igConversations IgConversation[]
+  bioSubmissions  BioSubmission[] // respostas da Página do Negócio que geraram/atualizaram o lead
 
   // ─── Rastreabilidade da promoção entre pipelines (atribuição) ─────────────
   // Setado pelos handlers de clique (shortlink e email) quando movem o lead
@@ -3042,6 +3044,8 @@ model Subscription {
 enum PlanTier {
   FREE
   TRIAL
+  PAGINA
+  STARTER
   ORGANIZATION
   ESSENCIAL
   MARKETING
@@ -4894,4 +4898,161 @@ model CaldavRequestLog {
   createdAt DateTime @default(now())
 
   @@index([userId, createdAt])
+}
+
+// ─── Página do Negócio ────────────────────────────────────────────────────────
+// Link na bio + mini vitrine pública em /p/[slug], com perguntas de qualificação
+// (botões, sem IA) que viram lead no CRM da empresa. Porta de entrada da linha
+// Página → Starter (domínio próprio + e-mail). Uma página por empresa por ora.
+//
+// Visibilidade: o cliente do plano grátis vê só nome/telefone dos contatos e os
+// totais; respostas, origem e cliques por botão (BioSubmission/BioEvent) ficam
+// pros admins da agência e o SUPER_ADMIN.
+
+enum BioTemplate {
+  CARTAO // foto, frase e botões — o "linktree"
+  VITRINE // + grade de serviços/produtos com imagem
+}
+
+enum BioBlockType {
+  LINK // botão simples (site, cardápio, WhatsApp como link comum…)
+  SERVICE // item da vitrine: imagem, descrição, preço e link
+  SOCIAL // ícone de rede social no topo
+}
+
+enum BioEventKind {
+  VIEW // abriu a página
+  CLICK // tocou num bloco
+  QUIZ_START // começou as perguntas
+  QUIZ_COMPLETE // respondeu a última pergunta
+  LEAD // deixou o contato (gerou BioSubmission)
+}
+
+model BioPage {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String  @unique
+  // Endereço público: /p/{slug}. Separado do Company.slug porque o cliente
+  // escolhe o próprio (e pode trocar) sem mexer no resto do sistema.
+  slug      String  @unique
+
+  template    BioTemplate @default(CARTAO)
+  title       String // nome exibido no topo (pré-preenchido com o fantasia)
+  headline    String? // frase curta abaixo do nome
+  about       String?     @db.Text
+  avatarUrl   String?
+  coverUrl    String?
+  accentColor String? // #RRGGBB
+
+  // Rascunho até o cliente publicar — /p/{slug} só abre publicada.
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+
+  // Perguntas de qualificação
+  quizEnabled     Boolean @default(true)
+  quizTitle       String? // "Responda 3 perguntas e descubra o melhor caminho"
+  quizCta         String? // texto do botão que abre as perguntas
+  thankYouMessage String? @db.Text
+  // Texto de consentimento mostrado antes de capturar o contato (LGPD).
+  // Vazio = texto padrão do sistema.
+  consentText     String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  blocks      BioBlock[]
+  questions   BioQuestion[]
+  submissions BioSubmission[]
+  events      BioEvent[]
+}
+
+model BioBlock {
+  id     String  @id @default(cuid())
+  page   BioPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId String
+
+  type        BioBlockType @default(LINK)
+  title       String
+  description String?      @db.Text
+  url         String?      @db.Text
+  imageUrl    String?
+  priceLabel  String? // texto livre ("a partir de R$ 90", "sob consulta")
+  // Rede social do bloco SOCIAL ("instagram", "youtube"…) — escolhe o ícone.
+  network     String?
+  order       Int          @default(0)
+  active      Boolean      @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([pageId, order])
+}
+
+model BioQuestion {
+  id     String  @id @default(cuid())
+  page   BioPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId String
+
+  text    String
+  options String[] // respostas em botão, na ordem exibida
+  order   Int      @default(0)
+  active  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([pageId, order])
+}
+
+// Um envio das perguntas + contato. As respostas ficam em snapshot (pergunta e
+// opção como texto) pra sobreviver a edição/remoção das perguntas depois.
+model BioSubmission {
+  id     String  @id @default(cuid())
+  page   BioPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId String
+  lead   Lead?   @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  leadId String?
+
+  // [{ questionId, question, answer }]
+  answers Json    @default("[]")
+  name    String?
+  phone   String
+  email   String?
+  consent Boolean @default(false)
+
+  visitorId   String? // cookie anônimo da página — liga o envio aos eventos
+  referrer    String? @db.Text
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  clientIp    String?
+  userAgent   String? @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([pageId, createdAt])
+  @@index([leadId])
+}
+
+model BioEvent {
+  id     String       @id @default(cuid())
+  page   BioPage      @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId String
+  kind   BioEventKind
+
+  // Bloco clicado (CLICK). Sem FK: o bloco pode ser apagado e o histórico fica;
+  // o rótulo vai em snapshot.
+  blockId     String?
+  targetLabel String?
+
+  visitorId   String?
+  referrer    String? @db.Text
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+
+  createdAt DateTime @default(now())
+
+  @@index([pageId, createdAt])
+  @@index([pageId, kind, createdAt])
 }

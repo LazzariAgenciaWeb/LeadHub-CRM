@@ -207,6 +207,14 @@ export const MODULES: ModuleDef[] = [
     ],
   },
 
+  {
+    id: "paginaNegocio",
+    label: "Página do Negócio",
+    group: "Marketing",
+    description: "Link na bio com vitrine e perguntas que viram lead (/p/endereço).",
+    primary: "paginaNegocio",
+  },
+
   // ── Portal do cliente ──────────────────────────────────────────────────────
   {
     id: "espacoCliente",
