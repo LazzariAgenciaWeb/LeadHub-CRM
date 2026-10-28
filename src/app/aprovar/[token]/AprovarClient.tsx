@@ -15,6 +15,8 @@ export type ApprovalFile = {
   /** Conteúdo de .md/.txt (matéria de blog), lido no servidor pra ler no link. */
   text?: string;
   textKind?: "md" | "txt";
+  /** Vídeo enviado: endereço final e fixo do arquivo (sem redirect a cada trecho). */
+  src?: string;
   /** Vídeo/arquivo por link (Drive, YouTube): URL do player e o link original. */
   embed?: string;
   href?: string;
@@ -422,7 +424,9 @@ export default function AprovarClient(p: Props) {
                   {f.embed
                     ? <a className="dl" href={f.href} target="_blank" rel="noopener noreferrer">Abrir ↗</a>
                     : <a className="dl" href={`${fileUrl(f.id)}?download=1`} download={f.fileName} aria-label={`Baixar ${f.fileName}`}>⬇ Baixar</a>}
-                  {f.text === undefined && !f.embed && <div className="wm">{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</div>}
+                  {/* Nome sobreposto no rodapé: bom na imagem, mas no vídeo cobre
+                      o play e a barra de tempo — ali o nome fica só embaixo do carrossel. */}
+                  {f.text === undefined && !f.embed && !f.mimeType.startsWith("video/") && <div className="wm">{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</div>}
                   {f.embed ? (
                     // Player do próprio Google/YouTube: o vídeo não passa pelo
                     // nosso servidor. Drive exige "qualquer pessoa com o link".
@@ -455,7 +459,7 @@ export default function AprovarClient(p: Props) {
                       }}
                     />
                   ) : f.mimeType.startsWith("video/") ? (
-                    <video src={fileUrl(f.id)} controls playsInline preload="metadata" />
+                    <video src={f.src ?? fileUrl(f.id)} controls playsInline preload="metadata" />
                   ) : (
                     <div className="doc">
                       <span style={{ fontSize: 28 }}>📄</span>

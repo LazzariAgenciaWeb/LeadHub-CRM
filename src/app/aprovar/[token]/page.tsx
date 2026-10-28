@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { clientComments } from "@/lib/checklist";
 import { appBaseUrl, pieceFileIds, pieceLinks, embedOf, linkItemId } from "@/lib/approval";
 import { fileVisibleToClient } from "@/lib/client-task-files";
-import { getObjectBuffer } from "@/lib/storage/s3";
+import { getObjectBuffer, presignDownload, MEDIA_TTL_SEC } from "@/lib/storage/s3";
 import AprovarClient, { type ApprovalFile } from "./AprovarClient";
 
 export const dynamic = "force-dynamic";
@@ -56,6 +56,12 @@ async function load(token: string) {
     .map(async (id) => {
       const o = byId.get(id)!;
       const f: ApprovalFile = { id, fileName: o.fileName, mimeType: o.mimeType, status: meta.get(id)?.status ?? null, note: meta.get(id)?.note ?? null };
+      // Vídeo: o player recebe o endereço FINAL e fixo. Pela rota com redirect,
+      // cada pedaço buscado (ao arrastar a barra de tempo) ganhava um link novo
+      // e o Chrome parava de tocar. 3 h de validade cobrem a sessão.
+      if (/^(video|audio)\//i.test(o.mimeType)) {
+        try { f.src = await presignDownload(o.key, o.fileName, { ttlSec: MEDIA_TTL_SEC }); } catch { /* cai na rota */ }
+      }
       // Matéria de blog / texto (.md, .txt): lê o conteúdo INTEIRO pra ler no
       // próprio link, sem baixar.
       const kind = textKindOf(o.fileName, o.mimeType);

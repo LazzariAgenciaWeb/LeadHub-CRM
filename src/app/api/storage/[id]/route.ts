@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
-import { presignDownload, deleteObject } from "@/lib/storage/s3";
+import { presignDownload, deleteObject, MEDIA_TTL_SEC } from "@/lib/storage/s3";
 import { authorizeTarget, targetOf, isManager } from "@/lib/storage/access";
 
 // Tipos que o navegador pode abrir direto (preview). O resto sempre baixa —
 // evita HTML/script servido inline a partir do domínio do storage.
 const INLINE_OK = /^(image\/(png|jpe?g|gif|webp|avif)|application\/pdf|video\/(mp4|webm|quicktime)|audio\/[\w.+-]+|text\/plain)$/i;
+
+// Vídeo/áudio toca baixando aos pedaços: link com validade maior.
+const mediaTtl = (mime: string) => (/^(video|audio)\//i.test(mime) ? { ttlSec: MEDIA_TTL_SEC } : {});
 
 async function load(session: any, id: string) {
   const obj = await prisma.storageObject.findUnique({ where: { id } });
@@ -63,7 +66,7 @@ export async function GET(
   if (token) {
     const obj = await loadByTicketToken(id, token);
     if (obj) {
-      const url = await presignDownload(obj.key, obj.fileName, { download: download || !INLINE_OK.test(obj.mimeType) });
+      const url = await presignDownload(obj.key, obj.fileName, { download: download || !INLINE_OK.test(obj.mimeType), ...mediaTtl(obj.mimeType) });
       const res = NextResponse.redirect(url, 302);
       res.headers.set("Cache-Control", "private, no-store");
       return res;
@@ -76,7 +79,7 @@ export async function GET(
   const r = await load(session, id);
   if ("error" in r) return NextResponse.json({ error: r.error }, { status: r.status });
 
-  const url = await presignDownload(r.obj.key, r.obj.fileName, { download: download || !INLINE_OK.test(r.obj.mimeType) });
+  const url = await presignDownload(r.obj.key, r.obj.fileName, { download: download || !INLINE_OK.test(r.obj.mimeType), ...mediaTtl(r.obj.mimeType) });
   const res = NextResponse.redirect(url, 302);
   res.headers.set("Cache-Control", "private, no-store");
   return res;

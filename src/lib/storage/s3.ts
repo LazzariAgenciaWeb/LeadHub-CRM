@@ -71,15 +71,20 @@ export async function presignUpload(key: string, mimeType: string) {
   });
 }
 
-/** URL temporária de leitura. `download` força "salvar como". */
-export async function presignDownload(key: string, fileName: string, opts: { download?: boolean } = {}) {
+/** URL temporária de leitura. `download` força "salvar como". `ttlSec` estende
+ *  a validade (vídeo é baixado aos pedaços enquanto toca — link vencido trava). */
+export async function presignDownload(key: string, fileName: string, opts: { download?: boolean; ttlSec?: number } = {}) {
   const disposition = `${opts.download ? "attachment" : "inline"}; filename*=UTF-8''${encodeURIComponent(fileName)}`;
   return getSignedUrl(
     pub(),
     new GetObjectCommand({ Bucket: S3_BUCKET, Key: key, ResponseContentDisposition: disposition }),
-    { expiresIn: DOWNLOAD_TTL_SEC },
+    { expiresIn: opts.ttlSec ?? DOWNLOAD_TTL_SEC },
   );
 }
+
+/** Validade do link de VÍDEO/ÁUDIO: o player busca o arquivo aos pedaços durante
+ *  a reprodução, e com 10 min ele engasgava se o cliente deu play depois disso. */
+export const MEDIA_TTL_SEC = 3 * 60 * 60;
 
 /** Tamanho real do objeto no bucket, ou null se não existe. */
 export async function headObjectSize(key: string): Promise<number | null> {

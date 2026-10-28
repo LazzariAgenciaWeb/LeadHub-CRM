@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { presignDownload } from "@/lib/storage/s3";
+import { presignDownload, MEDIA_TTL_SEC } from "@/lib/storage/s3";
 import { fileVisibleToClient } from "@/lib/client-task-files";
 
 // Mesma lista do /api/storage/[id]: só abre no navegador o que é seguro.
@@ -28,7 +28,8 @@ export async function GET(
   }
 
   const download = req.nextUrl.searchParams.get("download") === "1" || !INLINE_OK.test(obj.mimeType);
-  const url = await presignDownload(obj.key, obj.fileName, { download });
+  const media = /^(video|audio)\//i.test(obj.mimeType);
+  const url = await presignDownload(obj.key, obj.fileName, { download, ...(media ? { ttlSec: MEDIA_TTL_SEC } : {}) });
   const res = NextResponse.redirect(url, 302);
   res.headers.set("Cache-Control", "private, no-store");
   return res;
