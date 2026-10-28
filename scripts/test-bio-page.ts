@@ -90,7 +90,7 @@ const salvo: BioEditorInput = {
   avatarUrl: null, coverUrl: null, accentColor: null, published: true, quizEnabled: true,
   quizTitle: null, quizCta: null, thankYouMessage: null, consentText: null,
   blocks: [{ id: "b1", type: "SERVICE", title: "Corte", description: null, url: null, imageUrl: null, priceLabel: null, network: null, active: true }],
-  questions: [{ id: "q1", text: "Como ajudar?", options: ["A", "B"], active: true }],
+  questions: [{ id: "q1", text: "Como ajudar?", options: ["A", "B"], multiple: false, active: true }],
 };
 const novoServico: BioEditorBlock = { type: "SERVICE", title: "", description: "rascunho", url: null, imageUrl: null, priceLabel: null, network: null, active: true };
 const auto1 = bioAutosaveInput({ ...salvo, blocks: [{ ...salvo.blocks[0], description: "Com lavagem" }, novoServico] }, salvo);

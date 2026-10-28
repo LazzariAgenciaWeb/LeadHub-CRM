@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     select: {
       id: true,
       companyId: true,
-      questions: { where: { active: true }, select: { id: true, text: true, options: true } },
+      questions: { where: { active: true }, select: { id: true, text: true, options: true, multiple: true } },
     },
   });
   if (!page) return NextResponse.json({ error: "Página não encontrada" }, { status: 404 });
@@ -65,9 +65,13 @@ export async function POST(req: NextRequest) {
   const answers: { questionId: string; question: string; answer: string }[] = [];
   for (const a of Array.isArray(body.answers) ? (body.answers as AnswerIn[]) : []) {
     const q = typeof a?.questionId === "string" ? byId.get(a.questionId) : undefined;
-    const answer = typeof a?.answer === "string" ? a.answer : "";
-    if (!q || !q.options.includes(answer) || answers.some((x) => x.questionId === q.id)) continue;
-    answers.push({ questionId: q.id, question: q.text, answer });
+    if (!q || answers.some((x) => x.questionId === q.id)) continue;
+    // Pergunta de várias respostas chega como lista; vale só o que é opção dela.
+    const picked = (Array.isArray(a?.answer) ? a.answer : [a?.answer])
+      .filter((v): v is string => typeof v === "string" && q.options.includes(v));
+    const chosen = q.multiple ? q.options.filter((o) => picked.includes(o)) : picked.slice(0, 1);
+    if (chosen.length === 0) continue;
+    answers.push({ questionId: q.id, question: q.text, answer: chosen.join(", ") });
   }
 
   const tracking = bioTrackingFields(body);

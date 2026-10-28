@@ -124,7 +124,7 @@ export function toEditorInput(page: EditorPage): BioEditorInput & { id: string; 
       id: b.id, type: b.type, title: b.title, description: b.description, url: b.url,
       imageUrl: b.imageUrl, priceLabel: b.priceLabel, network: b.network, active: b.active,
     })),
-    questions: page.questions.map((q) => ({ id: q.id, text: q.text, options: q.options, active: q.active })),
+    questions: page.questions.map((q) => ({ id: q.id, text: q.text, options: q.options, multiple: q.multiple, active: q.active })),
   };
 }
 
@@ -191,7 +191,7 @@ export async function saveBioPage(pageId: string, data: BioEditorInput) {
         : prisma.bioBlock.create({ data: { pageId, ...fields } });
     }),
     ...data.questions.map((q, order) => {
-      const fields = { text: q.text, options: q.options, active: q.active, order };
+      const fields = { text: q.text, options: q.options, multiple: q.multiple, active: q.active, order };
       return q.id && questionIds.has(q.id)
         ? prisma.bioQuestion.update({ where: { id: q.id }, data: fields })
         : prisma.bioQuestion.create({ data: { pageId, ...fields } });

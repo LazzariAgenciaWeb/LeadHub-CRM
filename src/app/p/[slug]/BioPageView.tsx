@@ -2,7 +2,8 @@
 
 import { useEffect, useImperativeHandle, useRef, useState, type CSSProperties } from "react";
 import {
-  ArrowLeft, Check, ChevronRight, Clock, Globe, Loader2, Mail, MessageCircle, Phone, Sparkles, X,
+  ArrowLeft, ArrowRight, Briefcase, Check, ChevronRight, Globe, House, Link2, Loader2, Mail, MessageCircle, Phone,
+  Sparkles, X,
 } from "lucide-react";
 import { bioOnAccent, type BioClientEvent } from "@/lib/bio-page";
 
@@ -34,7 +35,7 @@ export interface BioViewData {
     cta: string;
     thankYou: string;
     consent: string;
-    questions: { id: string; text: string; options: string[] }[];
+    questions: { id: string; text: string; options: string[]; multiple?: boolean }[];
   } | null;
 }
 
@@ -118,6 +119,15 @@ function NetworkIcon({ network, className }: { network: string | null; className
       );
     case "whatsapp":
       return <MessageCircle className={className} aria-hidden />;
+    case "google":
+      // Perfil da Empresa no Google (antigo Google Meu Negócio): loja + "G".
+      return (
+        <svg {...common}>
+          <path d="M3 9.5 4.5 4h15L21 9.5" />
+          <path d="M4 9.5V20h16V9.5" />
+          <path d="M16 14.5h-3.5M16 14.5a3.5 3.5 0 1 1-1-2.45" />
+        </svg>
+      );
     case "email":
       return <Mail className={className} aria-hidden />;
     case "telefone":
@@ -144,6 +154,14 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
   const services = data.blocks.filter((b) => b.type === "SERVICE");
   const servicesHaveImages = services.some((b) => b.imageUrl);
 
+  // Menu fixo: só as seções que a página tem (com pelo menos duas pra navegar).
+  const sections = [
+    { id: "inicio", label: "Início", Icon: House },
+    ...(quiz ? [{ id: "comecar", label: "Por onde começar", Icon: Sparkles }] : []),
+    ...(links.length > 0 ? [{ id: "links", label: "Links", Icon: Link2 }] : []),
+    ...(services.length > 0 ? [{ id: "servicos", label: "Serviços", Icon: Briefcase }] : []),
+  ];
+
   const [openService, setOpenService] = useState<BioViewBlock | null>(null);
   const quizRef = useRef<QuizHandle>(null);
 
@@ -169,9 +187,9 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
 
   return (
     <div style={accentStyle} className={`relative bg-[#f4f5f7] text-slate-900 ${preview ? "min-h-full" : "min-h-screen"}`}>
-      <div className="mx-auto w-full max-w-md px-4 pb-12">
+      <div className={`mx-auto w-full max-w-md px-4 ${sections.length > 1 ? "pb-24" : "pb-12"}`}>
         {/* ── Topo ── */}
-        <header className="relative">
+        <header id="inicio" className="relative scroll-mt-4">
           {data.coverUrl ? (
             <div className="-mx-4 h-36 overflow-hidden sm:mx-0 sm:mt-4 sm:rounded-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -220,11 +238,15 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
         )}
 
         {/* ── Perguntas: o próximo passo vem primeiro ── */}
-        {quiz && <Quiz ref={quizRef} slug={slug} quiz={quiz} accent={accent} preview={preview} />}
+        {quiz && (
+          <div id="comecar" className="scroll-mt-4">
+            <Quiz ref={quizRef} slug={slug} quiz={quiz} accent={accent} preview={preview} host={{ name: data.title, avatarUrl: data.avatarUrl }} />
+          </div>
+        )}
 
         {/* ── Links ── */}
         {links.length > 0 && (
-          <nav className="mt-5 space-y-3">
+          <nav id="links" className="mt-5 scroll-mt-4 space-y-3">
             {links.map((b) => (
               <a
                 key={b.id}
@@ -249,7 +271,7 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
 
         {/* ── Serviços ── */}
         {services.length > 0 && (
-          <section className="mt-7">
+          <section id="servicos" className="mt-7 scroll-mt-4">
             <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Serviços</h2>
             {data.template === "VITRINE" ? (
               <div className="grid grid-cols-2 gap-3">
@@ -321,6 +343,8 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
         </footer>
       )}
 
+      {sections.length > 1 && <SectionNav sections={sections} preview={preview} />}
+
       {openService && (
         <ServiceSheet
           block={openService}
@@ -331,6 +355,62 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
         />
       )}
     </div>
+  );
+}
+
+// ─── Menu entre as seções ────────────────────────────────────────────────────
+
+function SectionNav({
+  sections, preview,
+}: {
+  sections: { id: string; label: string; Icon: typeof House }[];
+  preview: boolean;
+}) {
+  const [active, setActive] = useState(sections[0].id);
+
+  // Marca a seção que está no meio da tela.
+  useEffect(() => {
+    const els = sections.map((s) => document.getElementById(s.id)).filter((el): el is HTMLElement => !!el);
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.find((e) => e.isIntersecting);
+        if (hit) setActive(hit.target.id);
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [sections]);
+
+  return (
+    <nav
+      aria-label="Seções da página"
+      className={`${preview ? "sticky" : "fixed"} inset-x-0 bottom-3 z-40 flex justify-center px-4`}
+    >
+      <div className="flex max-w-md gap-1 rounded-full bg-white/90 p-1 shadow-lg ring-1 ring-slate-200 backdrop-blur">
+        {sections.map(({ id, label, Icon }) => {
+          const on = active === id;
+          return (
+            <button
+              key={id}
+              type="button"
+              aria-label={label}
+              onClick={() => {
+                setActive(id);
+                document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className={`flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition ${
+                on ? "bg-[var(--accent)] text-[var(--on-accent)]" : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              <Icon className="h-4 w-4 flex-shrink-0" />
+              {/* No celular, só o item ativo mostra o nome — cabe tudo numa linha. */}
+              <span className={on ? "whitespace-nowrap" : "hidden whitespace-nowrap sm:inline"}>{label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </nav>
   );
 }
 
@@ -409,17 +489,19 @@ interface QuizHandle { start: () => void }
 type Step = { kind: "intro" } | { kind: "question"; index: number } | { kind: "form" } | { kind: "done" };
 
 function Quiz({
-  ref, slug, quiz, accent, preview,
+  ref, slug, quiz, accent, preview, host,
 }: {
   ref: React.Ref<QuizHandle>;
   slug: string;
   quiz: NonNullable<BioViewData["quiz"]>;
   accent: string;
   preview: boolean;
+  /** Quem "atende" no cartão de entrada: nome e foto da página. */
+  host: { name: string; avatarUrl: string | null };
 }) {
   const { questions } = quiz;
   const [step, setStep] = useState<Step>({ kind: "intro" });
-  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [answers, setAnswers] = useState<Record<string, string[]>>({});
   const boxRef = useRef<HTMLDivElement>(null);
 
   function start() {
@@ -428,23 +510,29 @@ function Quiz({
     boxRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
-  /** Resposta tocada direto no cartão de entrada: conta como início e já avança. */
-  function startWith(qId: string, option: string) {
-    if (!preview) track(slug, "QUIZ_START");
-    answer(qId, option, 0);
-  }
-
   // "Tenho interesse" no detalhe do serviço abre as perguntas daqui.
   useImperativeHandle(ref, () => ({ start }));
 
-  function answer(qId: string, option: string, index: number) {
-    setAnswers((a) => ({ ...a, [qId]: option }));
+  function next(index: number) {
     if (index + 1 < questions.length) {
       setStep({ kind: "question", index: index + 1 });
     } else {
       if (!preview) track(slug, "QUIZ_COMPLETE");
       setStep({ kind: "form" });
     }
+  }
+
+  /** Resposta única: marca e já avança. Várias: liga/desliga e espera o "Continuar". */
+  function pick(q: (typeof questions)[number], option: string, index: number) {
+    if (!q.multiple) {
+      setAnswers((a) => ({ ...a, [q.id]: [option] }));
+      next(index);
+      return;
+    }
+    setAnswers((a) => {
+      const cur = a[q.id] ?? [];
+      return { ...a, [q.id]: cur.includes(option) ? cur.filter((o) => o !== option) : [...cur, option] };
+    });
   }
 
   function back() {
@@ -459,49 +547,51 @@ function Quiz({
   return (
     <div ref={boxRef} className="mt-6 overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
       {step.kind === "intro" && (
-        // Porta de entrada: a primeira pergunta já vem aberta — um toque numa
-        // resposta começa o caminho, sem o passo extra de "Começar".
-        <div>
-          <div className="px-5 pb-4 pt-5 text-center" style={{ background: `linear-gradient(180deg, ${accent}1f, ${accent}05)` }}>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200">
-              <Sparkles className="h-3.5 w-3.5" style={{ color: accent }} /> Recomendação personalizada
-            </span>
-            <p className="mt-3 text-lg font-bold leading-snug text-slate-900">{quiz.title}</p>
-            <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-slate-500">
-              <Clock className="h-3.5 w-3.5" />
-              {questions.length > 0
-                ? `${questions.length} ${questions.length === 1 ? "pergunta rápida" : "perguntas rápidas"} · sem compromisso`
-                : "Leva menos de 1 minuto · sem compromisso"}
-            </p>
+        // Porta de entrada em tom de atendimento: quem recebe é o próprio
+        // negócio, com uma chamada e um botão — as perguntas vêm depois.
+        <div className="p-5" style={{ background: `linear-gradient(180deg, ${accent}1a, #ffffff 70%)` }}>
+          <div className="flex items-center gap-3">
+            <div className="relative flex-shrink-0">
+              <div className="h-11 w-11 overflow-hidden rounded-full bg-white ring-2 ring-white shadow-sm">
+                {host.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={host.avatarUrl} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-base font-bold text-[var(--on-accent)]" style={{ background: accent }}>
+                    {host.name.trim().charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-white shadow-sm">
+                <Sparkles className="h-3 w-3" style={{ color: accent }} />
+              </span>
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-slate-900">{host.name}</p>
+              <p className="text-[11px] text-slate-500">Atendimento personalizado</p>
+            </div>
           </div>
-          <div className="p-5 pt-4">
-            {questions.length > 0 ? (
-              <>
-                <p className="text-sm font-semibold leading-snug text-slate-800">{questions[0].text}</p>
-                <div className="mt-3 space-y-2">
-                  {questions[0].options.map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => startWith(questions[0].id, opt)}
-                      className="group flex w-full items-center justify-between rounded-xl bg-white px-4 py-3 text-left text-sm font-medium text-slate-800 ring-1 ring-slate-200 transition hover:ring-2 hover:ring-[var(--accent)]"
-                    >
-                      {opt}
-                      <ChevronRight className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[var(--accent)]" />
-                    </button>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <button
-                type="button"
-                onClick={start}
-                className="w-full rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90"
-              >
-                {quiz.cta}
-              </button>
-            )}
+
+          <div className="mt-3 rounded-2xl rounded-tl-md bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
+            <p className="text-[15px] font-semibold leading-snug text-slate-900">{quiz.title}</p>
           </div>
+
+          <ul className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-medium text-slate-500">
+            {["Leva menos de 1 minuto", "Sem compromisso", "Resposta pra você"].map((t) => (
+              <li key={t} className="inline-flex items-center gap-1">
+                <Check className="h-3 w-3" style={{ color: accent }} /> {t}
+              </li>
+            ))}
+          </ul>
+
+          <button
+            type="button"
+            onClick={start}
+            className="group mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-3.5 text-sm font-semibold text-[var(--on-accent)] shadow-sm transition hover:opacity-90"
+          >
+            {quiz.cta}
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          </button>
         </div>
       )}
 
@@ -517,29 +607,48 @@ function Quiz({
 
             {step.kind === "question" && (() => {
               const q = questions[step.index];
+              const chosenList = answers[q.id] ?? [];
               return (
                 <div>
                   <p className="text-xs font-medium text-slate-400">{step.index + 1} de {questions.length}</p>
                   <p className="mt-1 text-base font-semibold leading-snug">{q.text}</p>
+                  {q.multiple && <p className="mt-0.5 text-xs text-slate-500">Pode marcar mais de uma.</p>}
                   <div className="mt-4 space-y-2">
                     {q.options.map((opt) => {
-                      const chosen = answers[q.id] === opt;
+                      const chosen = chosenList.includes(opt);
                       return (
                         <button
                           key={opt}
                           type="button"
-                          onClick={() => answer(q.id, opt, step.index)}
-                          className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-medium ring-1 transition ${
+                          aria-pressed={q.multiple ? chosen : undefined}
+                          onClick={() => pick(q, opt, step.index)}
+                          className={`flex w-full items-center justify-between gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium ring-1 transition ${
                             chosen ? "text-[var(--on-accent)] ring-transparent" : "bg-white text-slate-800 ring-slate-200 hover:ring-[var(--accent)]"
                           }`}
                           style={chosen ? { background: accent } : undefined}
                         >
                           {opt}
-                          {chosen && <Check className="h-4 w-4" />}
+                          {q.multiple ? (
+                            <span className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md ring-1 ${chosen ? "bg-white/25 ring-transparent" : "ring-slate-300"}`}>
+                              {chosen && <Check className="h-3.5 w-3.5" />}
+                            </span>
+                          ) : (
+                            chosen && <Check className="h-4 w-4" />
+                          )}
                         </button>
                       );
                     })}
                   </div>
+                  {q.multiple && (
+                    <button
+                      type="button"
+                      disabled={chosenList.length === 0}
+                      onClick={() => next(step.index)}
+                      className="mt-4 w-full rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90 disabled:opacity-40"
+                    >
+                      Continuar
+                    </button>
+                  )}
                 </div>
               );
             })()}
@@ -550,7 +659,7 @@ function Quiz({
                 consent={quiz.consent}
                 accent={accent}
                 preview={preview}
-                answers={questions.filter((q) => answers[q.id]).map((q) => ({ questionId: q.id, answer: answers[q.id] }))}
+                answers={questions.filter((q) => answers[q.id]?.length).map((q) => ({ questionId: q.id, answer: answers[q.id] }))}
                 onDone={() => setStep({ kind: "done" })}
               />
             )}
@@ -577,7 +686,7 @@ function ContactForm({
   consent: string;
   accent: string;
   preview: boolean;
-  answers: { questionId: string; answer: string }[];
+  answers: { questionId: string; answer: string[] }[];
   onDone: () => void;
 }) {
   const [name, setName] = useState("");

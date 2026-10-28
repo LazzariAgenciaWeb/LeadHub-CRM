@@ -5001,10 +5001,11 @@ model BioQuestion {
   page   BioPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
   pageId String
 
-  text    String
-  options String[] // respostas em botão, na ordem exibida
-  order   Int      @default(0)
-  active  Boolean  @default(true)
+  text     String
+  options  String[] // respostas em botão, na ordem exibida
+  multiple Boolean  @default(false) // visitante pode marcar mais de uma resposta
+  order    Int      @default(0)
+  active   Boolean  @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

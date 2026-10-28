@@ -96,7 +96,7 @@ export default async function BioPublicPage({
           consent: page.consentText || bioDefaultConsent(ownerName),
           questions: page.questions
             .filter((q) => q.options.length > 0)
-            .map((q) => ({ id: q.id, text: q.text, options: q.options })),
+            .map((q) => ({ id: q.id, text: q.text, options: q.options, multiple: q.multiple })),
         }
       : null,
   };

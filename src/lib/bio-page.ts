@@ -84,7 +84,7 @@ export function isBioClientEvent(v: unknown): v is BioClientEvent {
 }
 
 export const BIO_DEFAULT_QUIZ_TITLE = "Responda rapidinho e a gente te indica o melhor caminho";
-export const BIO_DEFAULT_QUIZ_CTA = "Começar";
+export const BIO_DEFAULT_QUIZ_CTA = "Descobrir o melhor caminho";
 export const BIO_DEFAULT_THANK_YOU = "Recebemos seu contato! Em breve a gente fala com você.";
 
 export function bioDefaultConsent(ownerName: string): string {
@@ -145,7 +145,7 @@ export function bioTrackingFields(body: Record<string, unknown>) {
 
 // ─── Editor ──────────────────────────────────────────────────────────────────
 
-export const BIO_NETWORKS = ["instagram", "facebook", "youtube", "tiktok", "linkedin", "whatsapp", "email", "telefone", "site"] as const;
+export const BIO_NETWORKS = ["instagram", "facebook", "youtube", "tiktok", "linkedin", "whatsapp", "google", "email", "telefone", "site"] as const;
 
 export const BIO_LIMITS = {
   title: 80, headline: 140, about: 600,
@@ -177,6 +177,8 @@ export interface BioEditorQuestion {
   id?: string;
   text: string;
   options: string[];
+  /** Visitante pode marcar mais de uma resposta. */
+  multiple: boolean;
   active: boolean;
 }
 
@@ -292,6 +294,7 @@ export function parseBioEditorInput(body: unknown): Parsed {
       id: typeof r.id === "string" && r.id ? r.id : undefined,
       text: qText,
       options,
+      multiple: r.multiple === true,
       active: r.active !== false,
     });
   }

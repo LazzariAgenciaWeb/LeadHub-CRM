@@ -166814,6 +166814,7 @@ export namespace Prisma {
     id: string | null
     pageId: string | null
     text: string | null
+    multiple: boolean | null
     order: number | null
     active: boolean | null
     createdAt: Date | null
@@ -166824,6 +166825,7 @@ export namespace Prisma {
     id: string | null
     pageId: string | null
     text: string | null
+    multiple: boolean | null
     order: number | null
     active: boolean | null
     createdAt: Date | null
@@ -166835,6 +166837,7 @@ export namespace Prisma {
     pageId: number
     text: number
     options: number
+    multiple: number
     order: number
     active: number
     createdAt: number
@@ -166855,6 +166858,7 @@ export namespace Prisma {
     id?: true
     pageId?: true
     text?: true
+    multiple?: true
     order?: true
     active?: true
     createdAt?: true
@@ -166865,6 +166869,7 @@ export namespace Prisma {
     id?: true
     pageId?: true
     text?: true
+    multiple?: true
     order?: true
     active?: true
     createdAt?: true
@@ -166876,6 +166881,7 @@ export namespace Prisma {
     pageId?: true
     text?: true
     options?: true
+    multiple?: true
     order?: true
     active?: true
     createdAt?: true
@@ -166974,6 +166980,7 @@ export namespace Prisma {
     pageId: string
     text: string
     options: string[]
+    multiple: boolean
     order: number
     active: boolean
     createdAt: Date
@@ -167004,6 +167011,7 @@ export namespace Prisma {
     pageId?: boolean
     text?: boolean
     options?: boolean
+    multiple?: boolean
     order?: boolean
     active?: boolean
     createdAt?: boolean
@@ -167016,6 +167024,7 @@ export namespace Prisma {
     pageId?: boolean
     text?: boolean
     options?: boolean
+    multiple?: boolean
     order?: boolean
     active?: boolean
     createdAt?: boolean
@@ -167028,6 +167037,7 @@ export namespace Prisma {
     pageId?: boolean
     text?: boolean
     options?: boolean
+    multiple?: boolean
     order?: boolean
     active?: boolean
     createdAt?: boolean
@@ -167051,6 +167061,7 @@ export namespace Prisma {
       pageId: string
       text: string
       options: string[]
+      multiple: boolean
       order: number
       active: boolean
       createdAt: Date
@@ -167453,6 +167464,7 @@ export namespace Prisma {
     readonly pageId: FieldRef<"BioQuestion", 'String'>
     readonly text: FieldRef<"BioQuestion", 'String'>
     readonly options: FieldRef<"BioQuestion", 'String[]'>
+    readonly multiple: FieldRef<"BioQuestion", 'Boolean'>
     readonly order: FieldRef<"BioQuestion", 'Int'>
     readonly active: FieldRef<"BioQuestion", 'Boolean'>
     readonly createdAt: FieldRef<"BioQuestion", 'DateTime'>
@@ -172418,6 +172430,7 @@ export namespace Prisma {
     pageId: 'pageId',
     text: 'text',
     options: 'options',
+    multiple: 'multiple',
     order: 'order',
     active: 'active',
     createdAt: 'createdAt',
@@ -187169,6 +187182,7 @@ export namespace Prisma {
     pageId?: StringFilter<"BioQuestion"> | string
     text?: StringFilter<"BioQuestion"> | string
     options?: StringNullableListFilter<"BioQuestion">
+    multiple?: BoolFilter<"BioQuestion"> | boolean
     order?: IntFilter<"BioQuestion"> | number
     active?: BoolFilter<"BioQuestion"> | boolean
     createdAt?: DateTimeFilter<"BioQuestion"> | Date | string
@@ -187181,6 +187195,7 @@ export namespace Prisma {
     pageId?: SortOrder
     text?: SortOrder
     options?: SortOrder
+    multiple?: SortOrder
     order?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -187196,6 +187211,7 @@ export namespace Prisma {
     pageId?: StringFilter<"BioQuestion"> | string
     text?: StringFilter<"BioQuestion"> | string
     options?: StringNullableListFilter<"BioQuestion">
+    multiple?: BoolFilter<"BioQuestion"> | boolean
     order?: IntFilter<"BioQuestion"> | number
     active?: BoolFilter<"BioQuestion"> | boolean
     createdAt?: DateTimeFilter<"BioQuestion"> | Date | string
@@ -187208,6 +187224,7 @@ export namespace Prisma {
     pageId?: SortOrder
     text?: SortOrder
     options?: SortOrder
+    multiple?: SortOrder
     order?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -187227,6 +187244,7 @@ export namespace Prisma {
     pageId?: StringWithAggregatesFilter<"BioQuestion"> | string
     text?: StringWithAggregatesFilter<"BioQuestion"> | string
     options?: StringNullableListFilter<"BioQuestion">
+    multiple?: BoolWithAggregatesFilter<"BioQuestion"> | boolean
     order?: IntWithAggregatesFilter<"BioQuestion"> | number
     active?: BoolWithAggregatesFilter<"BioQuestion"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"BioQuestion"> | Date | string
@@ -202898,6 +202916,7 @@ export namespace Prisma {
     id?: string
     text: string
     options?: BioQuestionCreateoptionsInput | string[]
+    multiple?: boolean
     order?: number
     active?: boolean
     createdAt?: Date | string
@@ -202910,6 +202929,7 @@ export namespace Prisma {
     pageId: string
     text: string
     options?: BioQuestionCreateoptionsInput | string[]
+    multiple?: boolean
     order?: number
     active?: boolean
     createdAt?: Date | string
@@ -202920,6 +202940,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     options?: BioQuestionUpdateoptionsInput | string[]
+    multiple?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -202932,6 +202953,7 @@ export namespace Prisma {
     pageId?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     options?: BioQuestionUpdateoptionsInput | string[]
+    multiple?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -202943,6 +202965,7 @@ export namespace Prisma {
     pageId: string
     text: string
     options?: BioQuestionCreateoptionsInput | string[]
+    multiple?: boolean
     order?: number
     active?: boolean
     createdAt?: Date | string
@@ -202953,6 +202976,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     options?: BioQuestionUpdateoptionsInput | string[]
+    multiple?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -202964,6 +202988,7 @@ export namespace Prisma {
     pageId?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     options?: BioQuestionUpdateoptionsInput | string[]
+    multiple?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -213495,6 +213520,7 @@ export namespace Prisma {
     pageId?: SortOrder
     text?: SortOrder
     options?: SortOrder
+    multiple?: SortOrder
     order?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -213509,6 +213535,7 @@ export namespace Prisma {
     id?: SortOrder
     pageId?: SortOrder
     text?: SortOrder
+    multiple?: SortOrder
     order?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -213519,6 +213546,7 @@ export namespace Prisma {
     id?: SortOrder
     pageId?: SortOrder
     text?: SortOrder
+    multiple?: SortOrder
     order?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -320934,6 +320962,7 @@ export namespace Prisma {
     id?: string
     text: string
     options?: BioQuestionCreateoptionsInput | string[]
+    multiple?: boolean
     order?: number
     active?: boolean
     createdAt?: Date | string
@@ -320944,6 +320973,7 @@ export namespace Prisma {
     id?: string
     text: string
     options?: BioQuestionCreateoptionsInput | string[]
+    multiple?: boolean
     order?: number
     active?: boolean
     createdAt?: Date | string
@@ -321499,6 +321529,7 @@ export namespace Prisma {
     pageId?: StringFilter<"BioQuestion"> | string
     text?: StringFilter<"BioQuestion"> | string
     options?: StringNullableListFilter<"BioQuestion">
+    multiple?: BoolFilter<"BioQuestion"> | boolean
     order?: IntFilter<"BioQuestion"> | number
     active?: BoolFilter<"BioQuestion"> | boolean
     createdAt?: DateTimeFilter<"BioQuestion"> | Date | string
@@ -337555,6 +337586,7 @@ export namespace Prisma {
     id?: string
     text: string
     options?: BioQuestionCreateoptionsInput | string[]
+    multiple?: boolean
     order?: number
     active?: boolean
     createdAt?: Date | string
@@ -337717,6 +337749,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     options?: BioQuestionUpdateoptionsInput | string[]
+    multiple?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -337727,6 +337760,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     options?: BioQuestionUpdateoptionsInput | string[]
+    multiple?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -337737,6 +337771,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     options?: BioQuestionUpdateoptionsInput | string[]
+    multiple?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

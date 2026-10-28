@@ -2236,6 +2236,7 @@ exports.Prisma.BioQuestionScalarFieldEnum = {
   pageId: 'pageId',
   text: 'text',
   options: 'options',
+  multiple: 'multiple',
   order: 'order',
   active: 'active',
   createdAt: 'createdAt',

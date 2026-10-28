@@ -22,7 +22,7 @@ const labelCls = "block text-slate-400 text-[11px] font-semibold mb-1";
 
 const NETWORK_LABEL: Record<(typeof BIO_NETWORKS)[number], string> = {
   instagram: "Instagram", facebook: "Facebook", youtube: "YouTube", tiktok: "TikTok", linkedin: "LinkedIn",
-  whatsapp: "WhatsApp", email: "E-mail", telefone: "Telefone", site: "Site",
+  whatsapp: "WhatsApp", google: "Google Meu Negócio", email: "E-mail", telefone: "Telefone", site: "Site",
 };
 
 const COLORS = ["#4f46e5", "#0f766e", "#16a34a", "#e11d48", "#ea580c", "#9333ea", "#0369a1", "#111827"];
@@ -66,7 +66,7 @@ function toPreview(d: Draft, defaultConsent: string): BioViewData {
           consent: d.consentText || defaultConsent,
           questions: d.questions
             .filter((q) => q.active && q.text.trim())
-            .map((q) => ({ id: q._key, text: q.text, options: q.options.filter((o) => o.trim()) }))
+            .map((q) => ({ id: q._key, text: q.text, options: q.options.filter((o) => o.trim()), multiple: q.multiple }))
             .filter((q) => q.options.length > 0),
         }
       : null,
@@ -722,7 +722,7 @@ function StepQuiz({ draft, set, defaultConsent }: { draft: Draft; set: Setter; d
               <input className={inputCls} maxLength={L.quizTitle} placeholder={BIO_DEFAULT_QUIZ_TITLE} value={draft.quizTitle ?? ""} onChange={(e) => set("quizTitle", e.target.value || null)} />
             </div>
             <div>
-              <label className={labelCls}>Botão (só aparece sem perguntas)</label>
+              <label className={labelCls}>Botão</label>
               <input className={inputCls} maxLength={L.quizCta} placeholder={BIO_DEFAULT_QUIZ_CTA} value={draft.quizCta ?? ""} onChange={(e) => set("quizCta", e.target.value || null)} />
             </div>
           </div>
@@ -761,13 +761,17 @@ function StepQuiz({ draft, set, defaultConsent }: { draft: Draft; set: Setter; d
                     </button>
                   )}
                 </div>
+                <label className="flex items-center gap-2 text-xs text-slate-300">
+                  <input type="checkbox" checked={q.multiple} onChange={(e) => update(q._key, { multiple: e.target.checked })} className="w-3.5 h-3.5 accent-indigo-500" />
+                  Pode marcar mais de uma resposta
+                </label>
               </div>
             ))}
           </div>
           {qs.length < L.questions && (
             <button
               type="button"
-              onClick={() => set("questions", [...qs, { _key: newKey(), text: "", options: ["", ""], active: true }])}
+              onClick={() => set("questions", [...qs, { _key: newKey(), text: "", options: ["", ""], multiple: false, active: true }])}
               className="inline-flex items-center gap-1.5 text-xs text-indigo-300 hover:text-white"
             >
               <Plus className="w-3.5 h-3.5" /> Adicionar pergunta

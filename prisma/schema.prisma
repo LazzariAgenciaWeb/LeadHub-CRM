@@ -5004,6 +5004,7 @@ model BioQuestion {
 
   text    String
   options String[] // respostas em botão, na ordem exibida
+  multiple Boolean @default(false) // visitante pode marcar mais de uma resposta
   order   Int      @default(0)
   active  Boolean  @default(true)
 
