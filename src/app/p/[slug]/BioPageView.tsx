@@ -187,7 +187,7 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
 
   return (
     <div style={accentStyle} className={`relative bg-[#f4f5f7] text-slate-900 ${preview ? "min-h-full" : "min-h-screen"}`}>
-      <div className={`mx-auto w-full max-w-md px-4 ${sections.length > 1 ? "pb-24" : "pb-12"}`}>
+      <div className="mx-auto w-full max-w-md px-4 pb-12">
         {/* ── Topo ── */}
         <header id="inicio" className="relative scroll-mt-4">
           {data.coverUrl ? (
@@ -343,6 +343,8 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
         </footer>
       )}
 
+      {/* Reserva o espaço do menu fixo, pra ele não cobrir o fim da página (selo incluso). */}
+      {sections.length > 1 && !preview && <div aria-hidden className="h-20" />}
       {sections.length > 1 && <SectionNav sections={sections} preview={preview} />}
 
       {openService && (
@@ -379,8 +381,18 @@ function SectionNav({
       { rootMargin: "-45% 0px -45% 0px" },
     );
     els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, [sections]);
+    // No fim da página a última seção pode nunca chegar ao meio da tela.
+    const onScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+        setActive(sections[sections.length - 1].id);
+      }
+    };
+    if (!preview) window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [sections, preview]);
 
   return (
     <nav
