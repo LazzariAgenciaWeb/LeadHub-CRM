@@ -3,7 +3,7 @@
  * plano grátis. Rodar: npm run test:bio-page
  */
 import type { BioEditorBlock, BioEditorInput } from "../src/lib/bio-page";
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, referrerLabel, bioShowsBadge, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
 
@@ -104,6 +104,9 @@ const auto4 = bioAutosaveInput({ ...salvo, blocks: [...salvo.blocks, { ...novoSe
 ok("link sem endereço espera", auto4.input.blocks.length === 1 && auto4.pending.some((p) => p.includes("falta o link")));
 ok("o que o autosave monta passa na validação do servidor",
   [auto1, auto2, auto3, auto4].every((a) => parseBioEditorInput(a.input).ok));
+
+ok("texto escuro em cor clara, branco em cor escura",
+  bioOnAccent("#2ae0d0") === "#0f172a" && bioOnAccent("#facc15") === "#0f172a" && bioOnAccent("#4f46e5") === "#ffffff" && bioOnAccent("#16a34a") === "#ffffff");
 
 // ── Catálogo ──
 ok("Página e Starter liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));

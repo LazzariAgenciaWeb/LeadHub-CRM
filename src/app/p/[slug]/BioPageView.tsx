@@ -2,9 +2,9 @@
 
 import { useEffect, useImperativeHandle, useRef, useState, type CSSProperties } from "react";
 import {
-  ArrowLeft, Check, ChevronRight, Globe, Loader2, Mail, MessageCircle, Phone, X,
+  ArrowLeft, Check, ChevronRight, Clock, Globe, Loader2, Mail, MessageCircle, Phone, Sparkles, X,
 } from "lucide-react";
-import type { BioClientEvent } from "@/lib/bio-page";
+import { bioOnAccent, type BioClientEvent } from "@/lib/bio-page";
 
 export interface BioViewBlock {
   id: string;
@@ -136,7 +136,8 @@ function NetworkIcon({ network, className }: { network: string | null; className
  */
 export default function BioPageView({ data, preview = false }: { data: BioViewData; preview?: boolean }) {
   const { slug, accent, quiz } = data;
-  const accentStyle = { "--accent": accent } as CSSProperties;
+  // --on-accent: texto legível sobre a cor da página (cor clara pede texto escuro).
+  const accentStyle = { "--accent": accent, "--on-accent": bioOnAccent(accent) } as CSSProperties;
 
   const socials = data.blocks.filter((b) => b.type === "SOCIAL");
   const links = data.blocks.filter((b) => b.type === "LINK");
@@ -185,7 +186,7 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={data.avatarUrl} alt={data.title} className="h-full w-full object-cover" />
               ) : (
-                <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-white" style={{ background: accent }}>
+                <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-[var(--on-accent)]" style={{ background: accent }}>
                   {data.title.trim().charAt(0).toUpperCase()}
                 </div>
               )}
@@ -264,7 +265,7 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={b.imageUrl} alt="" className="h-full w-full object-cover" />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-white" style={{ background: `${accent}cc` }}>
+                        <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-[var(--on-accent)]" style={{ background: `${accent}cc` }}>
                           {b.title.trim().charAt(0).toUpperCase()}
                         </div>
                       )}
@@ -291,7 +292,7 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={b.imageUrl} alt="" className="h-14 w-14 flex-shrink-0 rounded-xl bg-slate-100 object-cover" />
                     ) : servicesHaveImages && (
-                      <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl text-lg font-bold text-white" style={{ background: `${accent}cc` }}>
+                      <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl text-lg font-bold text-[var(--on-accent)]" style={{ background: `${accent}cc` }}>
                         {b.title.trim().charAt(0).toUpperCase()}
                       </span>
                     )}
@@ -379,7 +380,7 @@ function ServiceSheet({
               <button
                 type="button"
                 onClick={onInterest}
-                className="w-full rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+                className="w-full rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90"
               >
                 Tenho interesse
               </button>
@@ -427,6 +428,12 @@ function Quiz({
     boxRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
+  /** Resposta tocada direto no cartão de entrada: conta como início e já avança. */
+  function startWith(qId: string, option: string) {
+    if (!preview) track(slug, "QUIZ_START");
+    answer(qId, option, 0);
+  }
+
   // "Tenho interesse" no detalhe do serviço abre as perguntas daqui.
   useImperativeHandle(ref, () => ({ start }));
 
@@ -452,16 +459,49 @@ function Quiz({
   return (
     <div ref={boxRef} className="mt-6 overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
       {step.kind === "intro" && (
-        <div className="p-5 text-center">
-          <p className="text-base font-semibold leading-snug">{quiz.title}</p>
-          <button
-            type="button"
-            onClick={start}
-            className="mt-4 w-full rounded-xl px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90"
-            style={{ background: accent }}
-          >
-            {quiz.cta}
-          </button>
+        // Porta de entrada: a primeira pergunta já vem aberta — um toque numa
+        // resposta começa o caminho, sem o passo extra de "Começar".
+        <div>
+          <div className="px-5 pb-4 pt-5 text-center" style={{ background: `linear-gradient(180deg, ${accent}1f, ${accent}05)` }}>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200">
+              <Sparkles className="h-3.5 w-3.5" style={{ color: accent }} /> Recomendação personalizada
+            </span>
+            <p className="mt-3 text-lg font-bold leading-snug text-slate-900">{quiz.title}</p>
+            <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-slate-500">
+              <Clock className="h-3.5 w-3.5" />
+              {questions.length > 0
+                ? `${questions.length} ${questions.length === 1 ? "pergunta rápida" : "perguntas rápidas"} · sem compromisso`
+                : "Leva menos de 1 minuto · sem compromisso"}
+            </p>
+          </div>
+          <div className="p-5 pt-4">
+            {questions.length > 0 ? (
+              <>
+                <p className="text-sm font-semibold leading-snug text-slate-800">{questions[0].text}</p>
+                <div className="mt-3 space-y-2">
+                  {questions[0].options.map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => startWith(questions[0].id, opt)}
+                      className="group flex w-full items-center justify-between rounded-xl bg-white px-4 py-3 text-left text-sm font-medium text-slate-800 ring-1 ring-slate-200 transition hover:ring-2 hover:ring-[var(--accent)]"
+                    >
+                      {opt}
+                      <ChevronRight className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[var(--accent)]" />
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={start}
+                className="w-full rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90"
+              >
+                {quiz.cta}
+              </button>
+            )}
+          </div>
         </div>
       )}
 
@@ -490,7 +530,7 @@ function Quiz({
                           type="button"
                           onClick={() => answer(q.id, opt, step.index)}
                           className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-medium ring-1 transition ${
-                            chosen ? "text-white ring-transparent" : "bg-white text-slate-800 ring-slate-200 hover:ring-[var(--accent)]"
+                            chosen ? "text-[var(--on-accent)] ring-transparent" : "bg-white text-slate-800 ring-slate-200 hover:ring-[var(--accent)]"
                           }`}
                           style={chosen ? { background: accent } : undefined}
                         >
@@ -520,7 +560,7 @@ function Quiz({
 
       {step.kind === "done" && (
         <div className="p-6 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full text-white" style={{ background: accent }}>
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full text-[var(--on-accent)]" style={{ background: accent }}>
             <Check className="h-6 w-6" />
           </div>
           <p className="mt-3 whitespace-pre-line text-sm font-medium leading-relaxed text-slate-700">{quiz.thankYou}</p>
@@ -603,7 +643,7 @@ function ContactForm({
       <button
         type="submit"
         disabled={sending}
-        className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90 disabled:opacity-60"
         style={{ background: accent }}
       >
         {sending && <Loader2 className="h-4 w-4 animate-spin" />}

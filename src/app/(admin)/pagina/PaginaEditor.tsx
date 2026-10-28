@@ -722,7 +722,7 @@ function StepQuiz({ draft, set, defaultConsent }: { draft: Draft; set: Setter; d
               <input className={inputCls} maxLength={L.quizTitle} placeholder={BIO_DEFAULT_QUIZ_TITLE} value={draft.quizTitle ?? ""} onChange={(e) => set("quizTitle", e.target.value || null)} />
             </div>
             <div>
-              <label className={labelCls}>Botão</label>
+              <label className={labelCls}>Botão (só aparece sem perguntas)</label>
               <input className={inputCls} maxLength={L.quizCta} placeholder={BIO_DEFAULT_QUIZ_CTA} value={draft.quizCta ?? ""} onChange={(e) => set("quizCta", e.target.value || null)} />
             </div>
           </div>
