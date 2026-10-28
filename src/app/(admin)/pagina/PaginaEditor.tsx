@@ -462,7 +462,7 @@ function StepBasics({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter;
         <span className={labelCls}>Modelo</span>
         <div className="grid grid-cols-2 gap-2">
           {([
-            ["CARTAO", "Cartão", "Foto, botões e serviços em lista."],
+            ["CARTAO", "Cartão", "Foto, botões e serviços em lista (com miniatura, se tiver imagem)."],
             ["VITRINE", "Vitrine", "Serviços em grade, com imagem."],
           ] as const).map(([value, name, desc]) => (
             <button

@@ -141,6 +141,7 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
   const socials = data.blocks.filter((b) => b.type === "SOCIAL");
   const links = data.blocks.filter((b) => b.type === "LINK");
   const services = data.blocks.filter((b) => b.type === "SERVICE");
+  const servicesHaveImages = services.some((b) => b.imageUrl);
 
   const [openService, setOpenService] = useState<BioViewBlock | null>(null);
   const quizRef = useRef<QuizHandle>(null);
@@ -284,11 +285,22 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
                     onClick={() => { clickBlock(b); setOpenService(b); }}
                     className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-slate-50"
                   >
-                    <span className="flex-1">
+                    {/* Com imagem cadastrada, a lista ganha miniatura. Se só alguns têm,
+                        os outros levam a inicial pra lista não ficar desalinhada. */}
+                    {b.imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={b.imageUrl} alt="" className="h-14 w-14 flex-shrink-0 rounded-xl bg-slate-100 object-cover" />
+                    ) : servicesHaveImages && (
+                      <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl text-lg font-bold text-white" style={{ background: `${accent}cc` }}>
+                        {b.title.trim().charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                    <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold">{b.title}</span>
-                      {b.priceLabel && <span className="block text-xs text-[var(--accent)]">{b.priceLabel}</span>}
+                      {b.description && <span className="block truncate text-xs text-slate-500">{b.description}</span>}
+                      {b.priceLabel && <span className="block text-xs font-medium text-[var(--accent)]">{b.priceLabel}</span>}
                     </span>
-                    <ChevronRight className="h-4 w-4 text-slate-400" />
+                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-slate-400" />
                   </button>
                 ))}
               </div>
