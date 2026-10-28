@@ -6,6 +6,8 @@ import { ensureBioPage, loadEditorPage, toEditorInput } from "@/lib/bio-page-ser
 import { BIO_PUBLIC_PATH, bioDefaultConsent } from "@/lib/bio-page";
 import { prisma } from "@/lib/prisma";
 import PaginaEditor from "./PaginaEditor";
+import PaginaResultados from "./PaginaResultados";
+import { getOwnerSummary } from "@/lib/bio-page-stats";
 
 // Editor da Página do Negócio. Cria o rascunho na primeira visita.
 
@@ -36,6 +38,7 @@ export default async function PaginaPage() {
     loadEditorPage(companyId),
     prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { name: true, tradeName: true } }),
   ]);
+  const summary = await getOwnerSummary(companyId, page.id);
 
   const base = (process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 
@@ -46,6 +49,7 @@ export default async function PaginaPage() {
       uploadsEnabled={storageEnabled()}
       defaultConsent={bioDefaultConsent(company.tradeName ?? company.name)}
       hasBottomNav={!(session.user as any)?.pageOnly}
+      results={<PaginaResultados summary={summary} />}
     />
   );
 }

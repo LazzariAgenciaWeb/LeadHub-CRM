@@ -54,6 +54,19 @@ export function visibleLeadCount(total: number, limit: number): { visible: numbe
   return { visible: limit, hidden: total - limit };
 }
 
+/** Hostname do referrer ("l.instagram.com" → "instagram.com"); vazio = acesso direto. */
+export function referrerLabel(ref: string | null): string {
+  if (!ref) return "Direto / app";
+  try {
+    const host = new URL(ref).hostname.replace(/^www\./, "");
+    const parts = host.split(".");
+    // l.instagram.com, lm.facebook.com → domínio principal
+    return parts.length > 2 && !host.endsWith(".com.br") ? parts.slice(-2).join(".") : host;
+  } catch {
+    return "Outro";
+  }
+}
+
 /** Eventos que o navegador pode registrar. LEAD só nasce no servidor, junto do envio. */
 export const BIO_CLIENT_EVENTS = ["VIEW", "CLICK", "QUIZ_START", "QUIZ_COMPLETE"] as const;
 export type BioClientEvent = (typeof BIO_CLIENT_EVENTS)[number];

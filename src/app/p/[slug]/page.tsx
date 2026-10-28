@@ -22,7 +22,7 @@ const loadPage = cache(async (slug: string) => {
   return prisma.bioPage.findFirst({
     where: { slug: slug.toLowerCase(), published: true, company: { status: "ACTIVE" } },
     include: {
-      company: { select: { name: true, tradeName: true, logoUrl: true } },
+      company: { select: { name: true, tradeName: true, logoUrl: true, subscription: { select: { plan: true } } } },
       blocks: { where: { active: true }, orderBy: [{ order: "asc" }, { createdAt: "asc" }] },
       questions: { where: { active: true }, orderBy: [{ order: "asc" }, { createdAt: "asc" }] },
     },
@@ -85,6 +85,8 @@ export default async function BioPublicPage({
     avatarUrl: safeBioHref(page.avatarUrl ?? page.company.logoUrl),
     coverUrl: safeBioHref(page.coverUrl),
     accent: bioAccent(page.accentColor),
+    // Selo "Feito com GoHub" no grátis — tirar o selo é benefício do Starter.
+    badge: page.company.subscription?.plan === "PAGINA",
     blocks,
     quiz: page.quizEnabled
       ? {

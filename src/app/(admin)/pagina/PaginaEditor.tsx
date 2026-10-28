@@ -202,7 +202,7 @@ function ImageField({
 // ─── Editor ──────────────────────────────────────────────────────────────────
 
 export default function PaginaEditor({
-  initial, publicBase, uploadsEnabled, defaultConsent, hasBottomNav,
+  initial, publicBase, uploadsEnabled, defaultConsent, hasBottomNav, results,
 }: {
   initial: Initial;
   publicBase: string;
@@ -210,6 +210,8 @@ export default function PaginaEditor({
   defaultConsent: string;
   /** Barra inferior do sistema no celular (o cliente da linha Página não tem). */
   hasBottomNav: boolean;
+  /** Resultados do mês (renderizados no servidor), acima dos passos. */
+  results?: React.ReactNode;
 }) {
   const [draft, setDraft] = useState<Draft>(() => toDraft(initial));
   const [saved, setSaved] = useState<Draft>(() => toDraft(initial));
@@ -290,6 +292,7 @@ export default function PaginaEditor({
 
       <div className="flex gap-6 items-start">
         <div className="flex-1 min-w-0 max-w-2xl">
+          {results}
           {/* Passos */}
           <div className="flex bg-[#0f1623] border border-[#1e2d45] rounded-lg p-0.5 mb-4 overflow-x-auto">
             {STEPS.map((label, i) => (

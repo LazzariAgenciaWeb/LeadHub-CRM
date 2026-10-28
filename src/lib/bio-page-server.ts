@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { sendMail } from "@/lib/email";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import {
@@ -354,4 +356,18 @@ export async function sendBioWelcome(input: BioSignupInput, pageSlug: string) {
         <p style="color:#8a929e;font-size:12.5px;line-height:1.6">Para entrar de novo, use este e-mail (${esc(input.email)}) e a senha que você criou. Esqueceu? Use "Esqueci minha senha" na tela de login.</p>
       </div>`,
   });
+}
+
+/**
+ * Painel detalhado das páginas: SUPER_ADMIN ou ADMIN da agência dona da
+ * linha. Olha a sessão REAL — visualizando como cliente, o super admin
+ * continua podendo abrir o painel.
+ */
+export async function canSeeBioAdmin(): Promise<boolean> {
+  const real = await getServerSession(authOptions);
+  const role = (real?.user as any)?.role as string | undefined;
+  if (role === "SUPER_ADMIN") return true;
+  if (role !== "ADMIN") return false;
+  const companyId = (real?.user as any)?.companyId as string | undefined;
+  return !!companyId && companyId === (await resolveAgencyCompanyId());
 }

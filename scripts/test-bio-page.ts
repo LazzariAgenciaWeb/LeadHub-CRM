@@ -2,7 +2,7 @@
  * Página do Negócio: endereço da página e o corte de contatos visíveis no
  * plano grátis. Rodar: npm run test:bio-page
  */
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, referrerLabel, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER } from "../src/lib/plans";
 
@@ -76,6 +76,12 @@ ok("sem aceitar termos é recusado", !parseBioSignup({ ...signup, acceptTerms: f
 ok("senha curta é recusada", !parseBioSignup({ ...signup, password: "123" }, normalizeWaPhone).ok);
 ok("telefone sem DDD é recusado", !parseBioSignup({ ...signup, phone: "99999-0001" }, normalizeWaPhone).ok);
 ok("indicação inválida é ignorada", (() => { const r = parseBioSignup({ ...signup, ref: "admin" }, normalizeWaPhone); return r.ok && r.data.ref === null; })());
+
+// ── Origem da visita ──
+ok("sem referrer é acesso direto", referrerLabel(null) === "Direto / app");
+ok("subdomínio do Instagram vira instagram.com", referrerLabel("https://l.instagram.com/?u=x") === "instagram.com");
+ok("domínio .com.br fica inteiro", referrerLabel("https://www.google.com.br/") === "google.com.br");
+ok("referrer quebrado vira Outro", referrerLabel("não é url") === "Outro");
 
 // ── Catálogo ──
 ok("Página e Starter liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));
