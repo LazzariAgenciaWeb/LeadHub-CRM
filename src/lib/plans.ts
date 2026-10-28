@@ -98,7 +98,7 @@ export interface PlanFeatures {
   links: boolean;
   /** Biblioteca de vídeos estilo Netflix (material de apoio do cliente). */
   videos: boolean;
-  /** Página do Negócio: link na bio + vitrine + perguntas que viram lead (/p/[slug]). */
+  /** Página do Negócio: link na bio + vitrine + perguntas que viram lead (/p/[slug]). Liga em todo plano. */
   paginaNegocio: boolean;
 
   // ── 📊 Marketing & Análise ──
@@ -186,7 +186,10 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     campanhas: false,
     links: false,
     videos: false,
-    paginaNegocio: false,
+    // Grátis em TODOS os planos (decisão 2026-10-28): é porta de entrada, não
+    // diferencial de plano. O que muda por plano é o selo e o detalhe dos
+    // contatos (ver bio-page-stats.ts e /p/[slug]).
+    paginaNegocio: true,
     marketingDashboard: false,
     googleAnalytics: false,
     googleSearchConsole: false,

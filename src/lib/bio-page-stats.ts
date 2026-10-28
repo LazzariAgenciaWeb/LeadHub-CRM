@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getCompanyPlan } from "@/lib/limits";
-import { referrerLabel, visibleLeadCount } from "@/lib/bio-page";
+import { bioShowsBadge, referrerLabel, visibleLeadCount } from "@/lib/bio-page";
 
 // Números da Página do Negócio. Dois recortes, por decisão de produto:
 //   - cliente do grátis: totais do mês + nome/telefone dos contatos até o
@@ -35,12 +35,13 @@ async function eventCounts(pageId: string, since: Date) {
   };
 }
 
-/** O que o dono da página vê. `detailed` = Starter (vê também o detalhe). */
+/** O que o dono da página vê. `detailed` = plano pago (vê também as respostas). */
 export async function getOwnerSummary(companyId: string, pageId: string) {
   const since = startOfMonth();
   const ctx = await getCompanyPlan(companyId);
   const limit = ctx.effectiveLimits.leadsPerMonth;
-  const detailed = ctx.tier !== "PAGINA";
+  // Detalhe (respostas) é de plano pago — mesma régua do selo.
+  const detailed = !bioShowsBadge(ctx.tier);
 
   const [counts, contacts] = await Promise.all([
     eventCounts(pageId, since),

@@ -192,12 +192,12 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     {
       key: "atrair", title: "Atrair", Icon: Megaphone, grad: "campanhas",
       items: [
+        // Primeiro do grupo: grátis em todo plano, é a porta de entrada.
+        { href: "/pagina",          Icon: LayoutTemplate, label: "Página do Negócio", grad: "links", lockModule: "paginaNegocio", perm: _isAdmin },
         { href: "/campanhas",       Icon: Megaphone,   label: "Campanhas",        grad: "campanhas", lockModule: "campanhas", perm: _isAdmin || can(session, "canViewCampanhas") },
         { href: "/links",           Icon: Link2,       label: "Links",            grad: "links",     lockModule: "links",     perm: _isAdmin || can(session, "canViewLinks") },
         { href: "/instagram",       Icon: Camera,      label: "Instagram",        grad: "marketing", lockModule: "instagram", perm: _isAdmin },
         { href: "/campanhas/email", Icon: Mail,        label: "E-mail Marketing", grad: "email",     lockModule: "campanhas", perm: _isAdmin || can(session, "canViewCampanhas") },
-        // Sem cadeado: é outra linha de produto, não upgrade dos planos de gestão.
-        { href: "/pagina",          Icon: LayoutTemplate, label: "Página do Negócio", grad: "links", perm: _isAdmin && hasModule(session, "paginaNegocio") },
         // Painel da agência com todas as páginas (a rota confere se é a agência dona).
         { href: "/pagina/admin",    Icon: LayoutTemplate, label: "Páginas dos clientes", grad: "links", perm: _isSuperAdmin || (_isAdmin && !isClient) },
       ],

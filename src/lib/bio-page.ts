@@ -67,6 +67,14 @@ export function referrerLabel(ref: string | null): string {
   }
 }
 
+/**
+ * Selo "Feito com GoHub" no rodapé: aparece em quem não paga (Página grátis,
+ * Free do GoHub, trial e sem assinatura). Tirar o selo é benefício de plano pago.
+ */
+export function bioShowsBadge(plan: string | null | undefined): boolean {
+  return !plan || plan === "PAGINA" || plan === "FREE" || plan === "TRIAL";
+}
+
 /** Eventos que o navegador pode registrar. LEAD só nasce no servidor, junto do envio. */
 export const BIO_CLIENT_EVENTS = ["VIEW", "CLICK", "QUIZ_START", "QUIZ_COMPLETE"] as const;
 export type BioClientEvent = (typeof BIO_CLIENT_EVENTS)[number];

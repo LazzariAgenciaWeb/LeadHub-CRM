@@ -2,9 +2,9 @@
  * Página do Negócio: endereço da página e o corte de contatos visíveis no
  * plano grátis. Rodar: npm run test:bio-page
  */
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, referrerLabel, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, referrerLabel, bioShowsBadge, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
-import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER } from "../src/lib/plans";
+import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
 
 let falhas = 0;
 function ok(nome: string, cond: boolean) {
@@ -87,6 +87,10 @@ ok("referrer quebrado vira Outro", referrerLabel("não é url") === "Outro");
 ok("Página e Starter liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));
 ok("linha Página fica fora da pricing page do GoHub", PAGE_LINE_TIERS.every((t) => !PLAN_ORDER.includes(t)));
 ok("Página é grátis e Starter custa 49,90", PLANS.PAGINA.priceMonthly === 0 && PLANS.STARTER.priceMonthly === 49.9);
+ok("Página do Negócio liberada em todos os planos", (Object.keys(PLANS) as PlanTier[]).every((t) => PLANS[t].features.paginaNegocio));
+ok("selo só em quem não paga",
+  bioShowsBadge("PAGINA") && bioShowsBadge("FREE") && bioShowsBadge(null) &&
+  !bioShowsBadge("STARTER") && !bioShowsBadge("ESSENCIAL") && !bioShowsBadge("ENTERPRISE"));
 ok("agenda só no Starter", !PLANS.PAGINA.features.calendario && PLANS.STARTER.features.calendario);
 
 if (falhas) {

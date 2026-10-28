@@ -8,6 +8,7 @@ import {
   BIO_DEFAULT_THANK_YOU,
   bioAccent,
   bioDefaultConsent,
+  bioShowsBadge,
   safeBioHref,
 } from "@/lib/bio-page";
 import BioPageView, { type BioViewData } from "./BioPageView";
@@ -85,8 +86,7 @@ export default async function BioPublicPage({
     avatarUrl: safeBioHref(page.avatarUrl ?? page.company.logoUrl),
     coverUrl: safeBioHref(page.coverUrl),
     accent: bioAccent(page.accentColor),
-    // Selo "Feito com GoHub" no grátis — tirar o selo é benefício do Starter.
-    badge: page.company.subscription?.plan === "PAGINA",
+    badge: bioShowsBadge(page.company.subscription?.plan),
     blocks,
     quiz: page.quizEnabled
       ? {
