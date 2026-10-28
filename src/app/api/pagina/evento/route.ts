@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, extractIp } from "@/lib/webhook-auth";
-import { bioTrackingFields, isBioClientEvent } from "@/lib/bio-page";
+import { BIO_FIXED_TARGETS, bioTrackingFields, isBioClientEvent } from "@/lib/bio-page";
 
 // POST /api/pagina/evento
 // Público (sem sessão): a página /p/[slug] registra visita, clique em bloco e
@@ -31,10 +31,13 @@ export async function POST(req: NextRequest) {
   });
   if (!page) return new NextResponse(null, { status: 404 });
 
-  // Clique: o rótulo vem do banco, não do navegador — e só de bloco desta página.
+  // Clique: o rótulo vem do banco (ou da lista fixa de agenda/contato), nunca
+  // do navegador — e só de bloco desta página.
   let blockId: string | null = null;
   let targetLabel: string | null = null;
-  if (kind === "CLICK") {
+  if (kind === "CLICK" && typeof body.target === "string" && Object.hasOwn(BIO_FIXED_TARGETS, body.target)) {
+    targetLabel = BIO_FIXED_TARGETS[body.target as keyof typeof BIO_FIXED_TARGETS];
+  } else if (kind === "CLICK") {
     const block = typeof body.blockId === "string"
       ? await prisma.bioBlock.findFirst({
           where: { id: body.blockId, pageId: page.id },

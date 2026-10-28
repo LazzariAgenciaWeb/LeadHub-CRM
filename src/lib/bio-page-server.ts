@@ -12,6 +12,7 @@ import {
   BIO_SIGNUP_SOURCE,
   bioSlugProblem,
   slugifyBio,
+  bioEmailOk,
   type BioEditorInput,
   type BioSignupInput,
 } from "@/lib/bio-page";
@@ -65,7 +66,7 @@ export async function ensureBioPage(companyId: string) {
 
   const company = await prisma.company.findUniqueOrThrow({
     where: { id: companyId },
-    select: { name: true, tradeName: true, slug: true, logoUrl: true, brandColor: true },
+    select: { name: true, tradeName: true, slug: true, logoUrl: true, brandColor: true, phone: true, email: true },
   });
   const title = company.tradeName ?? company.name;
   // Duas requisições na primeira visita (render + API) podem chegar juntas:
@@ -77,6 +78,8 @@ export async function ensureBioPage(companyId: string) {
       title,
       avatarUrl: company.logoUrl,
       accentColor: company.brandColor && /^#[0-9a-f]{6}$/i.test(company.brandColor) ? company.brandColor : null,
+      contactPhone: company.phone?.trim() || null,
+      contactEmail: company.email?.trim() && bioEmailOk(company.email) ? company.email.trim() : null,
       questions: {
         create: BIO_DEFAULT_QUESTIONS.map((q, order) => ({ text: q.text, options: q.options, order })),
       },
@@ -120,6 +123,12 @@ export function toEditorInput(page: EditorPage): BioEditorInput & { id: string; 
     quizCta: page.quizCta,
     thankYouMessage: page.thankYouMessage,
     consentText: page.consentText,
+    bookingUrl: page.bookingUrl,
+    bookingText: page.bookingText,
+    contactPhone: page.contactPhone,
+    contactEmail: page.contactEmail,
+    contactAddress: page.contactAddress,
+    contactHours: page.contactHours,
     blocks: page.blocks.map((b) => ({
       id: b.id, type: b.type, title: b.title, description: b.description, url: b.url,
       imageUrl: b.imageUrl, priceLabel: b.priceLabel, network: b.network, active: b.active,
@@ -177,6 +186,12 @@ export async function saveBioPage(pageId: string, data: BioEditorInput) {
         quizCta: data.quizCta,
         thankYouMessage: data.thankYouMessage,
         consentText: data.consentText,
+        bookingUrl: data.bookingUrl,
+        bookingText: data.bookingText,
+        contactPhone: data.contactPhone,
+        contactEmail: data.contactEmail,
+        contactAddress: data.contactAddress,
+        contactHours: data.contactHours,
       },
     }),
     prisma.bioBlock.deleteMany({ where: { pageId, id: { notIn: keepBlocks } } }),

@@ -4960,6 +4960,16 @@ model BioPage {
   // Vazio = texto padrão do sistema.
   consentText     String? @db.Text
 
+  // Agenda: link externo do dono (Calendly, Google Agenda…), seção depois dos serviços.
+  bookingUrl  String? @db.Text
+  bookingText String?
+
+  // Contato no rodapé da página.
+  contactPhone   String?
+  contactEmail   String?
+  contactAddress String?
+  contactHours   String?
+
   // Indicação: a empresa se cadastrou pelo selo "Feito com GoHub" desta outra
   // página (/comecar?ref=slug). Mede quantos cadastros cada página traz.
   referredBy   BioPage?  @relation("BioReferral", fields: [referredById], references: [id], onDelete: SetNull)

@@ -153,7 +153,71 @@ export const BIO_LIMITS = {
   links: 20, services: 12, socials: 8,
   questions: 5, questionText: 140, optionsMin: 2, optionsMax: 6, optionText: 60,
   quizTitle: 140, quizCta: 40, thankYou: 400, consent: 600,
+  bookingText: 140, contactPhone: 30, contactEmail: 120, contactAddress: 200, contactHours: 200,
 } as const;
+
+export const BIO_DEFAULT_BOOKING_TEXT = "Escolha o melhor dia e horário pra você.";
+
+/** E-mail com cara de e-mail — o resto é com o dono da página. */
+export function bioEmailOk(v: string | null | undefined): boolean {
+  const s = (v ?? "").trim();
+  return !s || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+}
+
+/** Link de agenda: só http(s) (Calendly, Google Agenda, sistema próprio…). */
+export function bioBookingOk(v: string | null | undefined): boolean {
+  return !(v ?? "").trim() || !!safeBioHref(v)?.startsWith("http");
+}
+
+/** Telefone digitado livre → link tel: (só dígitos, com DDI do Brasil se faltar). */
+export function bioTelHref(phone: string | null | undefined): string | null {
+  const d = (phone ?? "").replace(/\D/g, "");
+  if (d.length < 8) return null;
+  return `tel:+${d.length <= 11 ? `55${d}` : d}`;
+}
+
+/** Endereço → busca no Google Maps (abre o app no celular). */
+export function bioMapsHref(address: string | null | undefined): string | null {
+  const a = (address ?? "").trim();
+  return a ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(a)}` : null;
+}
+
+type BioExtrasFields = {
+  bookingUrl: string | null; bookingText: string | null;
+  contactPhone: string | null; contactEmail: string | null;
+  contactAddress: string | null; contactHours: string | null;
+};
+
+/** Agenda e contato já prontos pra tela (links saneados). Usado na página e na prévia. */
+export function bioViewExtras(p: BioExtrasFields) {
+  const bookingHref = bioBookingOk(p.bookingUrl) ? safeBioHref(p.bookingUrl) : null;
+  const email = p.contactEmail?.trim() && bioEmailOk(p.contactEmail) ? p.contactEmail.trim() : null;
+  const contact = {
+    phone: p.contactPhone?.trim() || null,
+    phoneHref: bioTelHref(p.contactPhone),
+    email,
+    emailHref: email ? `mailto:${email}` : null,
+    address: p.contactAddress?.trim() || null,
+    mapsHref: bioMapsHref(p.contactAddress),
+    hours: p.contactHours?.trim() || null,
+  };
+  return {
+    booking: bookingHref ? { href: bookingHref, text: p.bookingText?.trim() || BIO_DEFAULT_BOOKING_TEXT } : null,
+    contact: contact.phone || contact.email || contact.address || contact.hours ? contact : null,
+  };
+}
+
+/**
+ * Cliques que não são bloco (agenda e contato do rodapé). O navegador manda a
+ * chave; o rótulo gravado vem daqui, nunca do navegador.
+ */
+export const BIO_FIXED_TARGETS = {
+  agenda: "Agenda",
+  telefone: "Contato: telefone",
+  email: "Contato: e-mail",
+  mapa: "Contato: endereço",
+} as const;
+export type BioFixedTarget = keyof typeof BIO_FIXED_TARGETS;
 
 /** Perguntas que toda página nova já traz — o dono edita ou apaga. */
 export const BIO_DEFAULT_QUESTIONS = [
@@ -197,6 +261,12 @@ export interface BioEditorInput {
   quizCta: string | null;
   thankYouMessage: string | null;
   consentText: string | null;
+  bookingUrl: string | null;
+  bookingText: string | null;
+  contactPhone: string | null;
+  contactEmail: string | null;
+  contactAddress: string | null;
+  contactHours: string | null;
   blocks: BioEditorBlock[];
   questions: BioEditorQuestion[];
 }
@@ -245,6 +315,11 @@ export function parseBioEditorInput(body: unknown): Parsed {
   if (!avatar.ok) return avatar;
   const cover = image(b.coverUrl, "capa");
   if (!cover.ok) return cover;
+
+  const bookingUrl = text(b.bookingUrl, 1000);
+  if (!bioBookingOk(bookingUrl)) return { ok: false, error: "Link da agenda inválido." };
+  const contactEmail = text(b.contactEmail, L.contactEmail);
+  if (!bioEmailOk(contactEmail)) return { ok: false, error: "E-mail de contato inválido." };
 
   const blocks: BioEditorBlock[] = [];
   const count = { LINK: 0, SERVICE: 0, SOCIAL: 0 };
@@ -317,6 +392,12 @@ export function parseBioEditorInput(body: unknown): Parsed {
       quizCta: text(b.quizCta, L.quizCta),
       thankYouMessage: text(b.thankYouMessage, L.thankYou),
       consentText: text(b.consentText, L.consent),
+      bookingUrl,
+      bookingText: text(b.bookingText, L.bookingText),
+      contactPhone: text(b.contactPhone, L.contactPhone),
+      contactEmail,
+      contactAddress: text(b.contactAddress, L.contactAddress),
+      contactHours: text(b.contactHours, L.contactHours),
       blocks,
       questions,
     },
@@ -383,6 +464,8 @@ export function bioAutosaveInput<B extends BioEditorBlock, Q extends BioEditorQu
   if (!draft.title.trim()) pending.push("Falta o nome da página");
   if (!imageOk(draft.avatarUrl)) pending.push("Link da foto inválido");
   if (!imageOk(draft.coverUrl)) pending.push("Link da capa inválido");
+  if (!bioBookingOk(draft.bookingUrl)) pending.push("Link da agenda inválido");
+  if (!bioEmailOk(draft.contactEmail)) pending.push("E-mail de contato inválido");
   if (draft.slug !== saved.slug) pending.push("Endereço novo: clique em Salvar para trocar");
 
   return {
@@ -393,6 +476,8 @@ export function bioAutosaveInput<B extends BioEditorBlock, Q extends BioEditorQu
       title: draft.title.trim() ? draft.title : saved.title,
       avatarUrl: imageOk(draft.avatarUrl) ? draft.avatarUrl : saved.avatarUrl,
       coverUrl: imageOk(draft.coverUrl) ? draft.coverUrl : saved.coverUrl,
+      bookingUrl: bioBookingOk(draft.bookingUrl) ? draft.bookingUrl : saved.bookingUrl,
+      contactEmail: bioEmailOk(draft.contactEmail) ? draft.contactEmail : saved.contactEmail,
       blocks,
       questions,
     },

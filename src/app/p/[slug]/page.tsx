@@ -9,6 +9,7 @@ import {
   bioAccent,
   bioDefaultConsent,
   bioShowsBadge,
+  bioViewExtras,
   safeBioHref,
 } from "@/lib/bio-page";
 import BioPageView, { type BioViewData } from "./BioPageView";
@@ -88,6 +89,7 @@ export default async function BioPublicPage({
     accent: bioAccent(page.accentColor),
     badge: bioShowsBadge(page.company.subscription?.plan),
     blocks,
+    ...bioViewExtras(page),
     quiz: page.quizEnabled
       ? {
           title: page.quizTitle || BIO_DEFAULT_QUIZ_TITLE,

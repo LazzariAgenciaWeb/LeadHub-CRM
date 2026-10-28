@@ -7,8 +7,8 @@ import {
 } from "lucide-react";
 import BioPageView, { type BioViewData } from "@/app/p/[slug]/BioPageView";
 import {
-  BIO_DEFAULT_QUIZ_CTA, BIO_DEFAULT_QUIZ_TITLE, BIO_DEFAULT_THANK_YOU, BIO_LIMITS, BIO_NETWORKS,
-  bioAccent, bioAutosaveInput, parseBioEditorInput, safeBioHref,
+  BIO_DEFAULT_BOOKING_TEXT, BIO_DEFAULT_QUIZ_CTA, BIO_DEFAULT_QUIZ_TITLE, BIO_DEFAULT_THANK_YOU, BIO_LIMITS, BIO_NETWORKS,
+  bioAccent, bioAutosaveInput, bioViewExtras, parseBioEditorInput, safeBioHref,
   type BioEditorBlock, type BioEditorInput, type BioEditorQuestion,
 } from "@/lib/bio-page";
 
@@ -51,6 +51,7 @@ function toPreview(d: Draft, defaultConsent: string): BioViewData {
     avatarUrl: safeBioHref(d.avatarUrl),
     coverUrl: safeBioHref(d.coverUrl),
     accent: bioAccent(d.accentColor),
+    ...bioViewExtras(d),
     blocks: d.blocks
       .filter((b) => b.active && b.title.trim())
       .map((b) => ({
@@ -666,6 +667,30 @@ function StepBlocks({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter;
           </section>
         );
       })}
+
+      <section>
+        <h3 className="text-white text-sm font-semibold">Agenda</h3>
+        <p className="text-slate-500 text-xs mb-2">
+          Tem agenda online (Calendly, Google Agenda, sistema da clínica…)? Cole o link e a página ganha um botão &quot;Ver horários&quot; depois dos serviços.
+        </p>
+        <div className="space-y-2">
+          <input className={inputCls} placeholder="Link da agenda (opcional)" value={draft.bookingUrl ?? ""} onChange={(e) => set("bookingUrl", e.target.value || null)} />
+          <input className={inputCls} maxLength={BIO_LIMITS.bookingText} placeholder={BIO_DEFAULT_BOOKING_TEXT} value={draft.bookingText ?? ""} onChange={(e) => set("bookingText", e.target.value || null)} />
+        </div>
+      </section>
+
+      <section>
+        <h3 className="text-white text-sm font-semibold">Contato</h3>
+        <p className="text-slate-500 text-xs mb-2">Aparece no fim da página. O endereço abre no mapa; telefone e e-mail viram botão.</p>
+        <div className="space-y-2">
+          <input className={inputCls} maxLength={BIO_LIMITS.contactAddress} placeholder="Endereço (rua, número, bairro, cidade)" value={draft.contactAddress ?? ""} onChange={(e) => set("contactAddress", e.target.value || null)} />
+          <div className="grid grid-cols-2 gap-2">
+            <input className={inputCls} maxLength={BIO_LIMITS.contactPhone} inputMode="tel" placeholder="Telefone" value={draft.contactPhone ?? ""} onChange={(e) => set("contactPhone", e.target.value || null)} />
+            <input className={inputCls} maxLength={BIO_LIMITS.contactEmail} inputMode="email" placeholder="E-mail" value={draft.contactEmail ?? ""} onChange={(e) => set("contactEmail", e.target.value || null)} />
+          </div>
+          <textarea className={`${inputCls} resize-y`} rows={2} maxLength={BIO_LIMITS.contactHours} placeholder={"Horário de atendimento (ex.: Seg a Sex, 9h às 18h)"} value={draft.contactHours ?? ""} onChange={(e) => set("contactHours", e.target.value || null)} />
+        </div>
+      </section>
     </div>
   );
 }

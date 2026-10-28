@@ -3,7 +3,7 @@
  * plano grátis. Rodar: npm run test:bio-page
  */
 import type { BioEditorBlock, BioEditorInput } from "../src/lib/bio-page";
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
 
@@ -89,6 +89,7 @@ const salvo: BioEditorInput = {
   slug: "studio-teste", template: "CARTAO", title: "Studio", headline: null, about: null,
   avatarUrl: null, coverUrl: null, accentColor: null, published: true, quizEnabled: true,
   quizTitle: null, quizCta: null, thankYouMessage: null, consentText: null,
+  bookingUrl: null, bookingText: null, contactPhone: null, contactEmail: null, contactAddress: null, contactHours: null,
   blocks: [{ id: "b1", type: "SERVICE", title: "Corte", description: null, url: null, imageUrl: null, priceLabel: null, network: null, active: true }],
   questions: [{ id: "q1", text: "Como ajudar?", options: ["A", "B"], multiple: false, active: true }],
 };
@@ -118,8 +119,26 @@ ok("selo só em quem não paga",
   !bioShowsBadge("STARTER") && !bioShowsBadge("ESSENCIAL") && !bioShowsBadge("ENTERPRISE"));
 ok("agenda só no Starter", !PLANS.PAGINA.features.calendario && PLANS.STARTER.features.calendario);
 
+// ── Agenda e contato ──
+const semExtras = { bookingUrl: null, bookingText: null, contactPhone: null, contactEmail: null, contactAddress: null, contactHours: null };
+ok("sem agenda nem contato, nada aparece", (() => { const v = bioViewExtras(semExtras); return v.booking === null && v.contact === null; })());
+ok("agenda com texto padrão e link saneado", (() => {
+  const v = bioViewExtras({ ...semExtras, bookingUrl: "calendly.com/studio" });
+  return v.booking?.href === "https://calendly.com/studio" && v.booking.text === BIO_DEFAULT_BOOKING_TEXT;
+})());
+ok("agenda com javascript: não aparece", bioViewExtras({ ...semExtras, bookingUrl: "javascript:alert(1)" }).booking === null);
+ok("telefone vira tel: com DDI", bioTelHref("(11) 98888-7777") === "tel:+5511988887777" && bioTelHref("12") === null);
+ok("endereço vira busca no Maps", bioViewExtras({ ...semExtras, contactAddress: "Rua A, 10" }).contact?.mapsHref?.includes("query=Rua%20A%2C%2010") === true);
+ok("validação recusa e-mail de contato quebrado",
+  !parseBioEditorInput({ ...salvo, contactEmail: "sem-arroba" }).ok && parseBioEditorInput({ ...salvo, contactEmail: "oi@studio.com" }).ok);
+const auto5 = bioAutosaveInput({ ...salvo, bookingUrl: "javascript:x", contactPhone: "11 3333-4444" }, salvo);
+ok("autosave grava o telefone e espera a agenda inválida",
+  auto5.input.contactPhone === "11 3333-4444" && auto5.input.bookingUrl === null && auto5.pending.includes("Link da agenda inválido"));
+
+
 if (falhas) {
   console.error(`\n${falhas} falha(s)`);
   process.exit(1);
 }
+
 console.log("\nTudo certo.");

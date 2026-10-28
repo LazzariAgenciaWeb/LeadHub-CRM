@@ -164499,6 +164499,12 @@ export namespace Prisma {
     quizCta: string | null
     thankYouMessage: string | null
     consentText: string | null
+    bookingUrl: string | null
+    bookingText: string | null
+    contactPhone: string | null
+    contactEmail: string | null
+    contactAddress: string | null
+    contactHours: string | null
     referredById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -164522,6 +164528,12 @@ export namespace Prisma {
     quizCta: string | null
     thankYouMessage: string | null
     consentText: string | null
+    bookingUrl: string | null
+    bookingText: string | null
+    contactPhone: string | null
+    contactEmail: string | null
+    contactAddress: string | null
+    contactHours: string | null
     referredById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -164545,6 +164557,12 @@ export namespace Prisma {
     quizCta: number
     thankYouMessage: number
     consentText: number
+    bookingUrl: number
+    bookingText: number
+    contactPhone: number
+    contactEmail: number
+    contactAddress: number
+    contactHours: number
     referredById: number
     createdAt: number
     updatedAt: number
@@ -164570,6 +164588,12 @@ export namespace Prisma {
     quizCta?: true
     thankYouMessage?: true
     consentText?: true
+    bookingUrl?: true
+    bookingText?: true
+    contactPhone?: true
+    contactEmail?: true
+    contactAddress?: true
+    contactHours?: true
     referredById?: true
     createdAt?: true
     updatedAt?: true
@@ -164593,6 +164617,12 @@ export namespace Prisma {
     quizCta?: true
     thankYouMessage?: true
     consentText?: true
+    bookingUrl?: true
+    bookingText?: true
+    contactPhone?: true
+    contactEmail?: true
+    contactAddress?: true
+    contactHours?: true
     referredById?: true
     createdAt?: true
     updatedAt?: true
@@ -164616,6 +164646,12 @@ export namespace Prisma {
     quizCta?: true
     thankYouMessage?: true
     consentText?: true
+    bookingUrl?: true
+    bookingText?: true
+    contactPhone?: true
+    contactEmail?: true
+    contactAddress?: true
+    contactHours?: true
     referredById?: true
     createdAt?: true
     updatedAt?: true
@@ -164712,6 +164748,12 @@ export namespace Prisma {
     quizCta: string | null
     thankYouMessage: string | null
     consentText: string | null
+    bookingUrl: string | null
+    bookingText: string | null
+    contactPhone: string | null
+    contactEmail: string | null
+    contactAddress: string | null
+    contactHours: string | null
     referredById: string | null
     createdAt: Date
     updatedAt: Date
@@ -164752,6 +164794,12 @@ export namespace Prisma {
     quizCta?: boolean
     thankYouMessage?: boolean
     consentText?: boolean
+    bookingUrl?: boolean
+    bookingText?: boolean
+    contactPhone?: boolean
+    contactEmail?: boolean
+    contactAddress?: boolean
+    contactHours?: boolean
     referredById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -164783,6 +164831,12 @@ export namespace Prisma {
     quizCta?: boolean
     thankYouMessage?: boolean
     consentText?: boolean
+    bookingUrl?: boolean
+    bookingText?: boolean
+    contactPhone?: boolean
+    contactEmail?: boolean
+    contactAddress?: boolean
+    contactHours?: boolean
     referredById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -164808,6 +164862,12 @@ export namespace Prisma {
     quizCta?: boolean
     thankYouMessage?: boolean
     consentText?: boolean
+    bookingUrl?: boolean
+    bookingText?: boolean
+    contactPhone?: boolean
+    contactEmail?: boolean
+    contactAddress?: boolean
+    contactHours?: boolean
     referredById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -164857,6 +164917,12 @@ export namespace Prisma {
       quizCta: string | null
       thankYouMessage: string | null
       consentText: string | null
+      bookingUrl: string | null
+      bookingText: string | null
+      contactPhone: string | null
+      contactEmail: string | null
+      contactAddress: string | null
+      contactHours: string | null
       referredById: string | null
       createdAt: Date
       updatedAt: Date
@@ -165277,6 +165343,12 @@ export namespace Prisma {
     readonly quizCta: FieldRef<"BioPage", 'String'>
     readonly thankYouMessage: FieldRef<"BioPage", 'String'>
     readonly consentText: FieldRef<"BioPage", 'String'>
+    readonly bookingUrl: FieldRef<"BioPage", 'String'>
+    readonly bookingText: FieldRef<"BioPage", 'String'>
+    readonly contactPhone: FieldRef<"BioPage", 'String'>
+    readonly contactEmail: FieldRef<"BioPage", 'String'>
+    readonly contactAddress: FieldRef<"BioPage", 'String'>
+    readonly contactHours: FieldRef<"BioPage", 'String'>
     readonly referredById: FieldRef<"BioPage", 'String'>
     readonly createdAt: FieldRef<"BioPage", 'DateTime'>
     readonly updatedAt: FieldRef<"BioPage", 'DateTime'>
@@ -172398,6 +172470,12 @@ export namespace Prisma {
     quizCta: 'quizCta',
     thankYouMessage: 'thankYouMessage',
     consentText: 'consentText',
+    bookingUrl: 'bookingUrl',
+    bookingText: 'bookingText',
+    contactPhone: 'contactPhone',
+    contactEmail: 'contactEmail',
+    contactAddress: 'contactAddress',
+    contactHours: 'contactHours',
     referredById: 'referredById',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -186950,6 +187028,12 @@ export namespace Prisma {
     quizCta?: StringNullableFilter<"BioPage"> | string | null
     thankYouMessage?: StringNullableFilter<"BioPage"> | string | null
     consentText?: StringNullableFilter<"BioPage"> | string | null
+    bookingUrl?: StringNullableFilter<"BioPage"> | string | null
+    bookingText?: StringNullableFilter<"BioPage"> | string | null
+    contactPhone?: StringNullableFilter<"BioPage"> | string | null
+    contactEmail?: StringNullableFilter<"BioPage"> | string | null
+    contactAddress?: StringNullableFilter<"BioPage"> | string | null
+    contactHours?: StringNullableFilter<"BioPage"> | string | null
     referredById?: StringNullableFilter<"BioPage"> | string | null
     createdAt?: DateTimeFilter<"BioPage"> | Date | string
     updatedAt?: DateTimeFilter<"BioPage"> | Date | string
@@ -186980,6 +187064,12 @@ export namespace Prisma {
     quizCta?: SortOrderInput | SortOrder
     thankYouMessage?: SortOrderInput | SortOrder
     consentText?: SortOrderInput | SortOrder
+    bookingUrl?: SortOrderInput | SortOrder
+    bookingText?: SortOrderInput | SortOrder
+    contactPhone?: SortOrderInput | SortOrder
+    contactEmail?: SortOrderInput | SortOrder
+    contactAddress?: SortOrderInput | SortOrder
+    contactHours?: SortOrderInput | SortOrder
     referredById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -187013,6 +187103,12 @@ export namespace Prisma {
     quizCta?: StringNullableFilter<"BioPage"> | string | null
     thankYouMessage?: StringNullableFilter<"BioPage"> | string | null
     consentText?: StringNullableFilter<"BioPage"> | string | null
+    bookingUrl?: StringNullableFilter<"BioPage"> | string | null
+    bookingText?: StringNullableFilter<"BioPage"> | string | null
+    contactPhone?: StringNullableFilter<"BioPage"> | string | null
+    contactEmail?: StringNullableFilter<"BioPage"> | string | null
+    contactAddress?: StringNullableFilter<"BioPage"> | string | null
+    contactHours?: StringNullableFilter<"BioPage"> | string | null
     referredById?: StringNullableFilter<"BioPage"> | string | null
     createdAt?: DateTimeFilter<"BioPage"> | Date | string
     updatedAt?: DateTimeFilter<"BioPage"> | Date | string
@@ -187043,6 +187139,12 @@ export namespace Prisma {
     quizCta?: SortOrderInput | SortOrder
     thankYouMessage?: SortOrderInput | SortOrder
     consentText?: SortOrderInput | SortOrder
+    bookingUrl?: SortOrderInput | SortOrder
+    bookingText?: SortOrderInput | SortOrder
+    contactPhone?: SortOrderInput | SortOrder
+    contactEmail?: SortOrderInput | SortOrder
+    contactAddress?: SortOrderInput | SortOrder
+    contactHours?: SortOrderInput | SortOrder
     referredById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -187072,6 +187174,12 @@ export namespace Prisma {
     quizCta?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
     thankYouMessage?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
     consentText?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    bookingUrl?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    bookingText?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    contactPhone?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    contactEmail?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    contactAddress?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    contactHours?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
     referredById?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BioPage"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BioPage"> | Date | string
@@ -202639,6 +202747,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
@@ -202668,6 +202782,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -202695,6 +202815,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
@@ -202724,6 +202850,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -202752,6 +202884,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -202774,6 +202912,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -202796,6 +202940,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -213376,6 +213526,12 @@ export namespace Prisma {
     quizCta?: SortOrder
     thankYouMessage?: SortOrder
     consentText?: SortOrder
+    bookingUrl?: SortOrder
+    bookingText?: SortOrder
+    contactPhone?: SortOrder
+    contactEmail?: SortOrder
+    contactAddress?: SortOrder
+    contactHours?: SortOrder
     referredById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -213399,6 +213555,12 @@ export namespace Prisma {
     quizCta?: SortOrder
     thankYouMessage?: SortOrder
     consentText?: SortOrder
+    bookingUrl?: SortOrder
+    bookingText?: SortOrder
+    contactPhone?: SortOrder
+    contactEmail?: SortOrder
+    contactAddress?: SortOrder
+    contactHours?: SortOrder
     referredById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -213422,6 +213584,12 @@ export namespace Prisma {
     quizCta?: SortOrder
     thankYouMessage?: SortOrder
     consentText?: SortOrder
+    bookingUrl?: SortOrder
+    bookingText?: SortOrder
+    contactPhone?: SortOrder
+    contactEmail?: SortOrder
+    contactAddress?: SortOrder
+    contactHours?: SortOrder
     referredById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -237074,6 +237242,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     referredBy?: BioPageCreateNestedOneWithoutReferralsInput
@@ -237101,6 +237275,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -240779,6 +240959,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
@@ -240806,6 +240992,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -320812,6 +321004,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
@@ -320840,6 +321038,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -320871,6 +321075,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
@@ -320899,6 +321109,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
@@ -321391,6 +321607,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
@@ -321419,6 +321641,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -321465,6 +321693,12 @@ export namespace Prisma {
     quizCta?: StringNullableFilter<"BioPage"> | string | null
     thankYouMessage?: StringNullableFilter<"BioPage"> | string | null
     consentText?: StringNullableFilter<"BioPage"> | string | null
+    bookingUrl?: StringNullableFilter<"BioPage"> | string | null
+    bookingText?: StringNullableFilter<"BioPage"> | string | null
+    contactPhone?: StringNullableFilter<"BioPage"> | string | null
+    contactEmail?: StringNullableFilter<"BioPage"> | string | null
+    contactAddress?: StringNullableFilter<"BioPage"> | string | null
+    contactHours?: StringNullableFilter<"BioPage"> | string | null
     referredById?: StringNullableFilter<"BioPage"> | string | null
     createdAt?: DateTimeFilter<"BioPage"> | Date | string
     updatedAt?: DateTimeFilter<"BioPage"> | Date | string
@@ -321602,6 +321836,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
@@ -321630,6 +321870,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -321672,6 +321918,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
@@ -321700,6 +321952,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -321726,6 +321984,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
@@ -321754,6 +322018,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -321796,6 +322066,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
@@ -321824,6 +322100,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -321850,6 +322132,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
@@ -321878,6 +322166,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -322039,6 +322333,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
@@ -322067,6 +322367,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -322218,6 +322524,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutBioPageInput
@@ -322246,6 +322558,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     referredById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -322288,6 +322606,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
@@ -322316,6 +322640,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     referredById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -337563,6 +337893,12 @@ export namespace Prisma {
     quizCta?: string | null
     thankYouMessage?: string | null
     consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -337641,6 +337977,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
@@ -337669,6 +338011,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
@@ -337696,6 +338044,12 @@ export namespace Prisma {
     quizCta?: NullableStringFieldUpdateOperationsInput | string | null
     thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
     consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

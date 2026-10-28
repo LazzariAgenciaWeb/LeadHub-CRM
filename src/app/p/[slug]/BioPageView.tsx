@@ -2,10 +2,11 @@
 
 import { useEffect, useImperativeHandle, useRef, useState, type CSSProperties } from "react";
 import {
-  ArrowLeft, ArrowRight, Briefcase, Check, ChevronRight, Globe, House, Link2, Loader2, Mail, MessageCircle, Phone,
+  ArrowLeft, ArrowRight, Briefcase, CalendarDays, Check, ChevronRight, Clock, Globe, House, Link2, Loader2, Mail, MapPin, Phone,
   Sparkles, X,
 } from "lucide-react";
-import { bioOnAccent, type BioClientEvent } from "@/lib/bio-page";
+import { bioOnAccent, type BioClientEvent, type BioFixedTarget } from "@/lib/bio-page";
+import { BRAND_ICONS } from "@/lib/brand-icons";
 
 export interface BioViewBlock {
   id: string;
@@ -36,6 +37,15 @@ export interface BioViewData {
     thankYou: string;
     consent: string;
     questions: { id: string; text: string; options: string[]; multiple?: boolean }[];
+  } | null;
+  /** Link de agenda externo (seção depois dos serviços). */
+  booking?: { href: string; text: string } | null;
+  /** Contato no rodapé — links já saneados no servidor. */
+  contact?: {
+    phone: string | null; phoneHref: string | null;
+    email: string | null; emailHref: string | null;
+    address: string | null; mapsHref: string | null;
+    hours: string | null;
   } | null;
 }
 
@@ -69,7 +79,7 @@ function origin() {
   };
 }
 
-function track(slug: string, kind: BioClientEvent, extra: { blockId?: string } = {}) {
+function track(slug: string, kind: BioClientEvent, extra: { blockId?: string; target?: BioFixedTarget } = {}) {
   const body = JSON.stringify({ slug, kind, ...extra, ...origin() });
   try {
     if (navigator.sendBeacon?.("/api/pagina/evento", body)) return;
@@ -77,57 +87,21 @@ function track(slug: string, kind: BioClientEvent, extra: { blockId?: string } =
   fetch("/api/pagina/evento", { method: "POST", body, keepalive: true }).catch(() => {});
 }
 
-// ─── Ícones de rede (lucide não traz marcas) ─────────────────────────────────
+// ─── Ícones de rede ──────────────────────────────────────────────────────────
+// Marcas com o logo oficial na cor da marca (WhatsApp verde, Instagram rosa…):
+// o visitante reconhece de bate-olho. E-mail, telefone e site seguem no lucide.
 
 function NetworkIcon({ network, className }: { network: string | null; className?: string }) {
-  const common = { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
-  switch ((network ?? "").toLowerCase()) {
-    case "instagram":
-      return (
-        <svg {...common}>
-          <rect x="2" y="2" width="20" height="20" rx="5" />
-          <circle cx="12" cy="12" r="4" />
-          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-        </svg>
-      );
-    case "facebook":
-      return (
-        <svg {...common}>
-          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-        </svg>
-      );
-    case "youtube":
-      return (
-        <svg {...common}>
-          <rect x="2" y="5" width="20" height="14" rx="4" />
-          <path d="m10 9 5 3-5 3z" fill="currentColor" />
-        </svg>
-      );
-    case "tiktok":
-      return (
-        <svg {...common}>
-          <path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5" />
-          <path d="M14 3c.5 2.8 2.4 4.5 5 4.8" />
-        </svg>
-      );
-    case "linkedin":
-      return (
-        <svg {...common}>
-          <rect x="2" y="2" width="20" height="20" rx="3" />
-          <path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7" />
-        </svg>
-      );
-    case "whatsapp":
-      return <MessageCircle className={className} aria-hidden />;
-    case "google":
-      // Perfil da Empresa no Google (antigo Google Meu Negócio): loja + "G".
-      return (
-        <svg {...common}>
-          <path d="M3 9.5 4.5 4h15L21 9.5" />
-          <path d="M4 9.5V20h16V9.5" />
-          <path d="M16 14.5h-3.5M16 14.5a3.5 3.5 0 1 1-1-2.45" />
-        </svg>
-      );
+  const key = (network ?? "").toLowerCase();
+  const brand = BRAND_ICONS[key];
+  if (brand) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill={brand.hex} aria-hidden>
+        <path d={brand.path} />
+      </svg>
+    );
+  }
+  switch (key) {
     case "email":
       return <Mail className={className} aria-hidden />;
     case "telefone":
@@ -145,7 +119,7 @@ function NetworkIcon({ network, className }: { network: string | null; className
  * detalhe do serviço abre dentro da moldura em vez de cobrir a tela toda.
  */
 export default function BioPageView({ data, preview = false }: { data: BioViewData; preview?: boolean }) {
-  const { slug, accent, quiz } = data;
+  const { slug, accent, quiz, booking, contact } = data;
   // --on-accent: texto legível sobre a cor da página (cor clara pede texto escuro).
   const accentStyle = { "--accent": accent, "--on-accent": bioOnAccent(accent) } as CSSProperties;
 
@@ -157,9 +131,11 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
   // Menu fixo: só as seções que a página tem (com pelo menos duas pra navegar).
   const sections = [
     { id: "inicio", label: "Início", Icon: House },
-    ...(quiz ? [{ id: "comecar", label: "Por onde começar", Icon: Sparkles }] : []),
+    ...(quiz ? [{ id: "comecar", label: "Começar", Icon: Sparkles }] : []),
     ...(links.length > 0 ? [{ id: "links", label: "Links", Icon: Link2 }] : []),
     ...(services.length > 0 ? [{ id: "servicos", label: "Serviços", Icon: Briefcase }] : []),
+    ...(booking ? [{ id: "agenda", label: "Agenda", Icon: CalendarDays }] : []),
+    ...(contact ? [{ id: "contato", label: "Contato", Icon: Phone }] : []),
   ];
 
   const [openService, setOpenService] = useState<BioViewBlock | null>(null);
@@ -178,6 +154,10 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
 
   function clickBlock(b: BioViewBlock) {
     if (!preview) track(slug, "CLICK", { blockId: b.id });
+  }
+
+  function clickFixed(target: BioFixedTarget) {
+    if (!preview) track(slug, "CLICK", { target });
   }
 
   function interestFromService() {
@@ -330,6 +310,63 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
             )}
           </section>
         )}
+
+        {/* ── Agenda (link externo do dono) ── */}
+        {booking && (
+          <section id="agenda" className="mt-7 scroll-mt-4">
+            <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Agenda</h2>
+            <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl" style={{ background: `${accent}22` }}>
+                  <CalendarDays className="h-5 w-5 text-[var(--accent)]" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-semibold">Agende seu horário</span>
+                  <span className="block text-xs text-slate-500">{booking.text}</span>
+                </span>
+              </div>
+              <a
+                href={preview ? undefined : booking.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => clickFixed("agenda")}
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90"
+              >
+                Ver horários disponíveis
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </section>
+        )}
+
+        {/* ── Contato ── */}
+        {contact && (
+          <section id="contato" className="mt-7 scroll-mt-4">
+            <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Contato</h2>
+            <div className="divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+              {contact.address && (
+                <ContactRow Icon={MapPin} href={contact.mapsHref} label="Endereço" preview={preview} onClick={() => clickFixed("mapa")}>
+                  {contact.address}
+                </ContactRow>
+              )}
+              {contact.phone && (
+                <ContactRow Icon={Phone} href={contact.phoneHref} label="Telefone" preview={preview} onClick={() => clickFixed("telefone")}>
+                  {contact.phone}
+                </ContactRow>
+              )}
+              {contact.email && (
+                <ContactRow Icon={Mail} href={contact.emailHref} label="E-mail" preview={preview} onClick={() => clickFixed("email")}>
+                  {contact.email}
+                </ContactRow>
+              )}
+              {contact.hours && (
+                <ContactRow Icon={Clock} href={null} label="Horário de atendimento" preview={preview}>
+                  <span className="whitespace-pre-line">{contact.hours}</span>
+                </ContactRow>
+              )}
+            </div>
+          </section>
+        )}
       </div>
 
       {data.badge && (
@@ -361,6 +398,43 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
 }
 
 // ─── Menu entre as seções ────────────────────────────────────────────────────
+
+function ContactRow({
+  Icon, href, label, preview, onClick, children,
+}: {
+  Icon: typeof House;
+  href: string | null;
+  label: string;
+  preview: boolean;
+  onClick?: () => void;
+  children: React.ReactNode;
+}) {
+  // Ícone e seta centralizados na linha, mesmo com texto em duas linhas.
+  const body = (
+    <>
+      <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]/15">
+        <Icon className="h-4 w-4 text-[var(--accent)]" aria-hidden />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[11px] font-medium text-slate-400">{label}</span>
+        <span className="block break-words text-sm leading-snug text-slate-800">{children}</span>
+      </span>
+      {href && <ChevronRight className="h-4 w-4 flex-shrink-0 text-slate-400" aria-hidden />}
+    </>
+  );
+  if (!href) return <div className="flex items-center gap-3 px-4 py-3">{body}</div>;
+  return (
+    <a
+      href={preview ? undefined : href}
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel="noopener noreferrer"
+      onClick={onClick}
+      className="flex items-center gap-3 px-4 py-3 transition hover:bg-slate-50"
+    >
+      {body}
+    </a>
+  );
+}
 
 function SectionNav({
   sections, preview,
@@ -399,7 +473,7 @@ function SectionNav({
       aria-label="Seções da página"
       className={`${preview ? "sticky" : "fixed"} inset-x-0 bottom-3 z-40 flex justify-center px-4`}
     >
-      <div className="flex max-w-md gap-1 rounded-full bg-white/90 p-1 shadow-lg ring-1 ring-slate-200 backdrop-blur">
+      <div className="flex min-w-0 max-w-full gap-0.5 rounded-full bg-white/90 p-1 shadow-lg ring-1 ring-slate-200 backdrop-blur sm:max-w-md sm:gap-1">
         {sections.map(({ id, label, Icon }) => {
           const on = active === id;
           return (
@@ -411,13 +485,14 @@ function SectionNav({
                 setActive(id);
                 document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className={`flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition ${
-                on ? "bg-[var(--accent)] text-[var(--on-accent)]" : "text-slate-600 hover:text-slate-900"
+              className={`flex items-center gap-1.5 rounded-full px-2.5 py-2 text-xs font-semibold transition sm:px-3 ${
+                on ? "min-w-0 bg-[var(--accent)] text-[var(--on-accent)]" : "flex-shrink-0 text-slate-600 hover:text-slate-900"
               }`}
             >
               <Icon className="h-4 w-4 flex-shrink-0" />
-              {/* No celular, só o item ativo mostra o nome — cabe tudo numa linha. */}
-              <span className={on ? "whitespace-nowrap" : "hidden whitespace-nowrap sm:inline"}>{label}</span>
+              {/* No celular, só o item ativo mostra o nome (e corta se faltar
+                  espaço) — o menu nunca passa da largura da tela. */}
+              <span className={on ? "truncate" : "hidden whitespace-nowrap sm:inline"}>{label}</span>
             </button>
           );
         })}
@@ -555,9 +630,29 @@ function Quiz({
 
   const total = questions.length + 1;
   const position = step.kind === "question" ? step.index + 1 : step.kind === "form" ? total : 0;
+  // Depois do clique o cartão muda de cara (faixa na cor da página, fundo
+  // tingido e contorno forte): fica claro que é ali que o contato acontece.
+  const engaged = step.kind !== "intro";
+  // Perguntas e formulário em "modo modal": o resto da página escurece e o
+  // cartão fica por cima. Tocar fora ou no X volta pra entrada (respostas ficam).
+  const focused = step.kind === "question" || step.kind === "form";
 
   return (
-    <div ref={boxRef} className="mt-6 overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
+    <>
+    {focused && (
+      <div
+        aria-hidden
+        onClick={() => setStep({ kind: "intro" })}
+        className={`${preview ? "absolute" : "fixed"} inset-0 z-[45] bg-slate-900/60 backdrop-blur-[2px]`}
+      />
+    )}
+    <div
+      ref={boxRef}
+      role={focused ? "dialog" : undefined}
+      aria-modal={focused || undefined}
+      className={`relative mt-6 overflow-hidden rounded-3xl transition-shadow ${focused ? "z-50" : ""} ${engaged ? "shadow-2xl ring-2 ring-[var(--accent)]" : "bg-white shadow-sm ring-1 ring-slate-200"}`}
+      style={engaged ? { background: `linear-gradient(${accent}1f, ${accent}1f), #ffffff` } : undefined}
+    >
       {step.kind === "intro" && (
         // Porta de entrada em tom de atendimento: quem recebe é o próprio
         // negócio, com uma chamada e um botão — as perguntas vêm depois.
@@ -609,8 +704,27 @@ function Quiz({
 
       {(step.kind === "question" || step.kind === "form") && (
         <>
-          <div className="h-1 bg-slate-100">
-            <div className="h-full transition-all" style={{ width: `${(position / total) * 100}%`, background: accent }} />
+          <div className="bg-[var(--accent)] px-5 pb-3 pt-3.5 text-[var(--on-accent)]">
+            <div className="flex items-center justify-between gap-3">
+              <p className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
+                <Sparkles className="h-4 w-4 flex-shrink-0" />
+                <span className="truncate">{step.kind === "form" ? "Último passo: seu contato" : "Por onde começar"}</span>
+              </p>
+              <span className="flex flex-shrink-0 items-center gap-2">
+                <span className="text-xs font-medium opacity-80">{position} de {total}</span>
+                <button
+                  type="button"
+                  aria-label="Fechar"
+                  onClick={() => setStep({ kind: "intro" })}
+                  className="-mr-1.5 rounded-full p-1 transition hover:bg-black/10"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </span>
+            </div>
+            <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-black/10">
+              <div className="h-full rounded-full bg-[var(--on-accent)] transition-all" style={{ width: `${(position / total) * 100}%` }} />
+            </div>
           </div>
           <div className="p-5">
             <button type="button" onClick={back} className="mb-3 inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-slate-800">
@@ -622,8 +736,7 @@ function Quiz({
               const chosenList = answers[q.id] ?? [];
               return (
                 <div>
-                  <p className="text-xs font-medium text-slate-400">{step.index + 1} de {questions.length}</p>
-                  <p className="mt-1 text-base font-semibold leading-snug">{q.text}</p>
+                  <p className="text-base font-semibold leading-snug">{q.text}</p>
                   {q.multiple && <p className="mt-0.5 text-xs text-slate-500">Pode marcar mais de uma.</p>}
                   <div className="mt-4 space-y-2">
                     {q.options.map((opt) => {
@@ -680,7 +793,7 @@ function Quiz({
       )}
 
       {step.kind === "done" && (
-        <div className="p-6 text-center">
+        <div className="bg-white/60 p-6 text-center">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full text-[var(--on-accent)]" style={{ background: accent }}>
             <Check className="h-6 w-6" />
           </div>
@@ -688,6 +801,7 @@ function Quiz({
         </div>
       )}
     </div>
+    </>
   );
 }
 

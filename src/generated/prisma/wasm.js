@@ -2210,6 +2210,12 @@ exports.Prisma.BioPageScalarFieldEnum = {
   quizCta: 'quizCta',
   thankYouMessage: 'thankYouMessage',
   consentText: 'consentText',
+  bookingUrl: 'bookingUrl',
+  bookingText: 'bookingText',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  contactAddress: 'contactAddress',
+  contactHours: 'contactHours',
   referredById: 'referredById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
