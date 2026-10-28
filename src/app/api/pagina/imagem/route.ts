@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { PUBLIC_PREFIX, publicObjectUrl, putObject, storageEnabled } from "@/lib/storage/s3";
+import { PUBLIC_PREFIX, isPubliclyReadable, publicObjectUrl, putObject, storageEnabled } from "@/lib/storage/s3";
 import { ensureBioPage, requireBioEditor } from "@/lib/bio-page-server";
 
 // POST /api/pagina/imagem (multipart, campo "file")
@@ -32,5 +32,18 @@ export async function POST(req: NextRequest) {
   const pageId = await ensureBioPage(auth.companyId);
   const key = `${PUBLIC_PREFIX}pagina/${pageId}/${randomUUID()}.${ext}`;
   await putObject(key, Buffer.from(await file.arrayBuffer()), file.type);
-  return NextResponse.json({ url: publicObjectUrl(key) }, { status: 201 });
+  const url = publicObjectUrl(key);
+
+  // Visitante abre a página sem login: se o prefixo público do MinIO não tem
+  // leitura anônima, a imagem aparece quebrada. Ela fica guardada (passa a
+  // abrir assim que liberarem), mas o editor avisa em vez de mostrar quebrada.
+  if (!(await isPubliclyReadable(url))) {
+    console.error("[pagina/imagem] prefixo público sem leitura anônima:", url);
+    return NextResponse.json({
+      url,
+      publicOk: false,
+      aviso: "A imagem foi enviada, mas ainda não aparece para os visitantes. Avise a agência — ou cole o link de uma imagem por enquanto.",
+    }, { status: 201 });
+  }
+  return NextResponse.json({ url, publicOk: true }, { status: 201 });
 }

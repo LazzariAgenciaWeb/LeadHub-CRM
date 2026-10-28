@@ -142,6 +142,7 @@ function ImageField({
       const j = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(j.error ?? "Não deu pra enviar a imagem.");
       onChange(j.url);
+      if (j.publicOk === false && j.aviso) setError(j.aviso);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Não deu pra enviar a imagem.");
     } finally {
