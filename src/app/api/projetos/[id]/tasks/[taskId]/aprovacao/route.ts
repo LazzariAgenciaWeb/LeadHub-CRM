@@ -6,8 +6,7 @@ import { getViewer, canSeeProject } from "@/lib/visibility";
 import { readComments, sanitizeComments } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
 import {
-  newApprovalToken, approvalUrl, latestVersionComment, resolveGroupInstanceId, sendMessageText,
-  collectApprovalFiles, readFileIds,
+  newApprovalToken, approvalUrl, latestVersionComment, resolveGroupInstanceId, sendMessageText, collectApprovalFiles, readFileIds, collectApprovalLinks, readLinks,
 } from "@/lib/approval";
 import { deliverScheduledMessage } from "@/lib/scheduled-send";
 
@@ -71,6 +70,10 @@ export async function POST(
     ? { since: task.approvalSentAt, keep: readFileIds(task.approvalFileIds) }
     : { since: task.approvalRound > 0 ? task.approvalSentAt : null });
   const fileIds = picked.ids;
+  // Vídeos por link (Drive/YouTube) — mesma regra de rodada dos arquivos.
+  const links = await collectApprovalLinks(task, sameRound
+    ? { since: task.approvalSentAt, keep: readLinks(task.approvalLinks) }
+    : { since: task.approvalRound > 0 ? task.approvalSentAt : null });
 
   // No reenvio, o andamento da rodada continua sendo a versão mesmo sem ser "novo".
   const version = picked.version ?? (sameRound ? latestVersionComment(task.comments) : null);
@@ -83,12 +86,13 @@ export async function POST(
   // arquivo novo, eles sozinhos formam a rodada: é como se aprova a legenda
   // depois que as fotos já foram aprovadas.
   const textos = readComments(task.comments).filter((c) => c.by !== "client" && c.hl && c.text?.trim());
-  const onlyText = !fileIds.length && textos.length > 0;
-  if (!fileIds.length && !onlyText) {
+  const temPeca = fileIds.length > 0 || links.length > 0;
+  const onlyText = !temPeca && textos.length > 0;
+  if (!temPeca && !onlyText) {
     const temArquivo = (await collectApprovalFiles(task)).ids.length > 0;
     if (temArquivo) {
       return NextResponse.json(
-        { error: "Nenhum arquivo novo desde o último envio. Suba a versão nova da peça antes de enviar." },
+        { error: "Nenhum arquivo ou link de vídeo novo desde o último envio. Suba a versão nova da peça antes de enviar." },
         { status: 400 },
       );
     }
@@ -134,6 +138,7 @@ export async function POST(
       approvalRound:      round,
       approvalCommentAt:  version?.at ?? null,
       approvalFileIds:    fileIds,
+      approvalLinks:      links,
       approvalText:       descricao || null,
       ...(sameRound
         ? { approvalNudgedAt: now }

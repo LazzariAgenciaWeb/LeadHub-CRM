@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { clientComments } from "@/lib/checklist";
-import { appBaseUrl, pieceFileIds } from "@/lib/approval";
+import { appBaseUrl, pieceFileIds, pieceLinks, embedOf, linkItemId } from "@/lib/approval";
 import { fileVisibleToClient } from "@/lib/client-task-files";
 import { getObjectBuffer } from "@/lib/storage/s3";
 import AprovarClient, { type ApprovalFile } from "./AprovarClient";
@@ -24,7 +24,7 @@ async function load(token: string) {
     where: { approvalToken: token },
     select: {
       id: true, projectId: true, title: true, description: true, status: true, comments: true, dueDate: true,
-      approvalText: true, approvalRound: true, approvalCommentAt: true, approvalFileIds: true, approvalSentAt: true, approvedAt: true, approvedByName: true,
+      approvalText: true, approvalRound: true, approvalCommentAt: true, approvalFileIds: true, approvalLinks: true, approvalSentAt: true, approvedAt: true, approvedByName: true,
       project: {
         select: {
           name: true, publicToken: true, clientCompany: { select: { name: true } },
@@ -86,6 +86,22 @@ async function load(token: string) {
     ...mats.map((m) => ({ url: m.url!, title: m.title })),
     ...comments.filter((c) => c.by !== "client").flatMap((c) => c.links ?? []).map((l) => ({ url: l.url, title: l.title ?? "" })),
   ].filter((l) => /^https?:\/\//i.test(l.url) && !seen.has(l.url) && !!seen.add(l.url));
+
+  // Vídeos por link (Drive/YouTube) da peça: viram slides com o player do
+  // próprio Google no carrossel — e saem da lista de links pra não repetir.
+  const videoLinks = await pieceLinks(task);
+  const emPeca = new Set(videoLinks.map((l) => embedOf(l.url)!.embed));
+  for (const l of videoLinks) {
+    const e = embedOf(l.url)!;
+    files.push({
+      id: linkItemId(l.url),
+      fileName: l.title?.trim() || (e.kind === "youtube" ? "Vídeo (YouTube)" : "Vídeo (Google Drive)"),
+      mimeType: "application/x-embed",
+      status: null, note: null,
+      embed: e.embed, href: l.url,
+    });
+  }
+  const linksSemPeca = links.filter((l) => { const e = embedOf(l.url); return !e || !emPeca.has(e.embed); });
 
   // Linha do tempo da peça, em ordem: cada envio de versão (com as artes que
   // foram), as mensagens da equipe (com anexos) e os retornos do cliente.
@@ -183,7 +199,7 @@ async function load(token: string) {
         .sort((x, y) => x.fileName.localeCompare(y.fileName, "pt-BR", { numeric: true }))
     : [];
 
-  return { task, files, links, history, highlights, previous, versionText: version?.text ?? "" };
+  return { task, files, links: linksSemPeca, history, highlights, previous, versionText: version?.text ?? "" };
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ token: string }> }): Promise<Metadata> {

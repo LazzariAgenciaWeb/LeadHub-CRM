@@ -15,6 +15,9 @@ export type ApprovalFile = {
   /** Conteúdo de .md/.txt (matéria de blog), lido no servidor pra ler no link. */
   text?: string;
   textKind?: "md" | "txt";
+  /** Vídeo/arquivo por link (Drive, YouTube): URL do player e o link original. */
+  embed?: string;
+  href?: string;
 };
 
 type Props = {
@@ -183,6 +186,7 @@ a.open{color:var(--accent);font-size:13px;font-weight:600}
 .reader .rbar b{flex:1;min-width:0;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .reader .rbar button{font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;border:0;background:#1C1C1E;color:#fff;cursor:pointer}
 .reader .paper{flex:1;height:auto;padding-bottom:40px}
+.slide .emb{display:block;width:100%;height:100%;border:0;background:#000}
 `;
 
 // Cor da agência vira o acento da tela; o texto em cima dela (botão aprovar)
@@ -266,7 +270,7 @@ export default function AprovarClient(p: Props) {
   const [downloading, setDownloading] = useState(false);
   async function downloadAll() {
     setDownloading(true);
-    for (const f of p.files) {
+    for (const f of p.files.filter((x) => !x.embed)) {
       const a = document.createElement("a");
       a.href = `${fileUrl(f.id)}?download=1`;
       a.download = f.fileName;
@@ -415,9 +419,22 @@ export default function AprovarClient(p: Props) {
                     {p.files.length > 1 && <span className="tag">{i + 1}/{p.files.length}</span>}
                     {fmtOf[f.id] && <span className={`tag ${fmtOf[f.id]}`}>{fmtOf[f.id] === "story" ? "Stories" : "Feed"}</span>}
                   </div>
-                  <a className="dl" href={`${fileUrl(f.id)}?download=1`} download={f.fileName} aria-label={`Baixar ${f.fileName}`}>⬇ Baixar</a>
-                  {f.text === undefined && <div className="wm">{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</div>}
-                  {f.text !== undefined ? (
+                  {f.embed
+                    ? <a className="dl" href={f.href} target="_blank" rel="noopener noreferrer">Abrir ↗</a>
+                    : <a className="dl" href={`${fileUrl(f.id)}?download=1`} download={f.fileName} aria-label={`Baixar ${f.fileName}`}>⬇ Baixar</a>}
+                  {f.text === undefined && !f.embed && <div className="wm">{f.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</div>}
+                  {f.embed ? (
+                    // Player do próprio Google/YouTube: o vídeo não passa pelo
+                    // nosso servidor. Drive exige "qualquer pessoa com o link".
+                    <iframe
+                      className="emb"
+                      src={f.embed}
+                      title={f.fileName}
+                      allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                      allowFullScreen
+                      loading={i < 2 ? "eager" : "lazy"}
+                    />
+                  ) : f.text !== undefined ? (
                     <>
                       {f.textKind === "md"
                         ? <div className="paper"><MarkdownDoc text={f.text} className="in" /></div>
@@ -463,11 +480,13 @@ export default function AprovarClient(p: Props) {
                     <button key={f.id} className={`dot ${i === idx ? "on" : ""}`} onClick={() => goTo(i)} aria-label={`Ir para o arquivo ${i + 1}`} />
                   ))}
                 </div>
-                <div className="dlall">
-                  <button type="button" onClick={downloadAll} disabled={downloading}>
-                    {downloading ? "Baixando…" : `⬇ Baixar todos (${p.files.length})`}
-                  </button>
-                </div>
+                {p.files.filter((x) => !x.embed).length > 1 && (
+                  <div className="dlall">
+                    <button type="button" onClick={downloadAll} disabled={downloading}>
+                      {downloading ? "Baixando…" : `⬇ Baixar todos (${p.files.filter((x) => !x.embed).length})`}
+                    </button>
+                  </div>
+                )}
                 <div className="count">{idx + 1} de {p.files.length} · {p.files[idx]?.fileName.replace(/\.[a-z0-9]{2,5}$/i, "")}</div>
               </>
             )}

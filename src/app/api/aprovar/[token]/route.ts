@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { readComments, sanitizeComments, type TaskComment } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
 import { getClickupSettings, addCommentToClickupTask, markClickupTaskDone } from "@/lib/clickup";
-import { resolveGroupInstanceId, pieceFileIds } from "@/lib/approval";
+import { resolveGroupInstanceId, pieceFileIds, pieceLinks, linkItemId } from "@/lib/approval";
 import { deliverScheduledMessage } from "@/lib/scheduled-send";
 
 // POST /api/aprovar/[token]
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
     where: { approvalToken: token },
     select: {
       id: true, title: true, status: true, comments: true, clickupTaskId: true, projectId: true,
-      approvalCommentAt: true, approvalRound: true, approvalFileIds: true,
+      approvalCommentAt: true, approvalRound: true, approvalFileIds: true, approvalLinks: true,
       project: { select: { approvalGroupJid: true, setor: { select: { companyId: true } } } },
     },
   });
@@ -54,10 +54,14 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
   // observação vão em cada anexo dela, em qualquer andamento.
   const piece = await pieceFileIds(task);
   const inPiece = new Set(piece);
+  // Vídeos por link entram no carrossel DEPOIS dos arquivos (mesma ordem da
+  // página). Recado num vídeo também é "recado por item".
+  const linkIds = (await pieceLinks(task)).map((l) => linkItemId(l.url));
+  const inPieceAll = new Set([...piece, ...linkIds]);
   // Ajuste com recado em imagens específicas: só ELAS vão pra alteração; as
   // outras o cliente viu no carrossel e não apontou nada → aprovadas. Sem
   // recado por imagem (só texto geral), não dá pra saber qual → todas.
-  const porImagem = [...notes.keys()].some((k) => inPiece.has(k));
+  const porImagem = [...notes.keys()].some((k) => inPieceAll.has(k));
   const statusDe = (fid: string) =>
     action === "approve" ? ("aprovada" as const)
     : !porImagem || notes.has(fid) ? ("alteracao" as const)
@@ -82,7 +86,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
 
   // Comentário do cliente — o que a equipe lê no andamento.
   // "Arquivo N" = posição no carrossel que o cliente viu.
-  const fileNames = new Map(piece.map((id, i) => [id, `Arquivo ${i + 1}`]));
+  const fileNames = new Map([...piece, ...linkIds].map((id, i) => [id, `Arquivo ${i + 1}`]));
   const notesText = [...notes].map(([fid, n]) => `• ${fileNames.get(fid) ?? "Arquivo"}: ${n}`).join("\n");
   const clientText =
     action === "approve"

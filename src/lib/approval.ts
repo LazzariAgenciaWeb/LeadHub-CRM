@@ -1,4 +1,4 @@
-import { randomBytes } from "crypto";
+import { randomBytes, createHash } from "crypto";
 import { prisma } from "./prisma";
 import { readComments, type TaskComment } from "./checklist";
 import { SYSTEM_TIMEZONE } from "./business-hours";
@@ -152,4 +152,82 @@ export function inReminderWindow(now = new Date()): boolean {
   const wd = parts.find((p) => p.type === "weekday")?.value ?? "";
   const hour = Number(parts.find((p) => p.type === "hour")?.value ?? "0") % 24;
   return !["Sat", "Sun"].includes(wd) && hour >= 9 && hour < 18;
+}
+
+
+// ─── Vídeo/arquivo por link (Google Drive, YouTube) ──────────────────────────
+// Vídeo pesa demais no nosso storage; a equipe deixa no Drive e cola o link.
+// No link de aprovação ele vira um slide com o player do próprio Google.
+
+export type PieceLink = { url: string; title: string };
+
+/** URL de embed do player — null se o link não é arquivo do Drive nem vídeo do YouTube. */
+export function embedOf(url: string): { embed: string; kind: "drive" | "youtube" } | null {
+  let u: URL;
+  try { u = new URL(url); } catch { return null; }
+  const host = u.hostname.replace(/^www\./, "");
+  if (host === "drive.google.com" || host === "docs.google.com") {
+    // /file/d/<id>/view · /open?id=<id> · /uc?id=<id>. Pasta não tem player.
+    const id = /\/file\/d\/([\w-]{10,})/.exec(u.pathname)?.[1]
+      ?? ((/^\/(open|uc)$/.test(u.pathname) && u.searchParams.get("id")) || null);
+    return id && /^[\w-]{10,}$/.test(id) ? { embed: `https://drive.google.com/file/d/${id}/preview`, kind: "drive" } : null;
+  }
+  if (host === "youtu.be" || host === "youtube.com" || host === "m.youtube.com") {
+    const id = host === "youtu.be" ? u.pathname.slice(1)
+      : u.pathname.startsWith("/shorts/") ? u.pathname.split("/")[2]
+      : u.pathname.startsWith("/embed/") ? u.pathname.split("/")[2]
+      : u.searchParams.get("v");
+    return id && /^[\w-]{6,}$/.test(id) ? { embed: `https://www.youtube.com/embed/${id}`, kind: "youtube" } : null;
+  }
+  return null;
+}
+
+/** Id estável do link na peça — chave do recado por item, igual ao id do arquivo. */
+export function linkItemId(url: string): string {
+  const e = embedOf(url)?.embed ?? url;
+  return "link:" + createHash("sha1").update(e).digest("hex").slice(0, 12);
+}
+
+export function readLinks(raw: unknown): PieceLink[] {
+  return Array.isArray(raw)
+    ? raw.filter((x): x is PieceLink => !!x && typeof x.url === "string").map((x) => ({ url: x.url, title: String(x.title ?? "") }))
+    : [];
+}
+
+/**
+ * Links de vídeo da peça: dos andamentos da equipe visíveis ao cliente + da
+ * seção LINKS da tarefa. `since` = só os colados depois do último envio (rodada
+ * nova = versão nova); `keep` mantém os da rodada no reenvio.
+ */
+export async function collectApprovalLinks(
+  task: { id: string; comments: unknown },
+  opts: { since?: Date | null; keep?: PieceLink[] } = {},
+): Promise<PieceLink[]> {
+  const after = (d: Date | string) => !opts.since || new Date(d) > opts.since;
+  const fromComments = readComments(task.comments)
+    .filter((c) => c.by !== "client" && c.vis !== false && after(c.at))
+    .flatMap((c) => (c.links ?? []).map((l) => ({ url: l.url, title: l.title ?? "" })));
+  const mats = await prisma.projectMaterial.findMany({
+    where:   { taskId: task.id, kind: "LINK", visibleToClient: true, url: { not: null } },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select:  { url: true, title: true, createdAt: true },
+  });
+  const fromMats = mats.filter((m) => after(m.createdAt)).map((m) => ({ url: m.url!, title: m.title }));
+  const seen = new Set<string>();
+  return [...(opts.keep ?? []), ...fromMats, ...fromComments].filter((l) => {
+    const e = embedOf(l.url);
+    if (!e || seen.has(e.embed)) return false;
+    seen.add(e.embed);
+    return true;
+  });
+}
+
+/** Links que o cliente vê agora — mesma regra dos arquivos (pieceFileIds). */
+export async function pieceLinks(task: { id: string; comments: unknown; approvalRound: number; approvalLinks: unknown }): Promise<PieceLink[]> {
+  if (task.approvalRound > 1) {
+    // Rodada enviada antes de existir vídeo por link (campo nulo): sem slides de
+    // link — senão um link velho de comentário viraria "peça nova".
+    return Array.isArray(task.approvalLinks) ? readLinks(task.approvalLinks) : [];
+  }
+  return collectApprovalLinks(task);
 }
