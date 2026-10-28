@@ -4,7 +4,6 @@ import ImpersonationBanner from "@/components/ImpersonationBanner";
 import IconGradients from "@/components/IconGradients";
 import { getEffectiveSession, isImpersonating } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
-import { assertModule } from "@/lib/billing";
 
 // Área do cliente logado — casca limpa (sem menu da agência). Só empresas
 // cliente (sub-company) entram aqui; agência/super-admin vão pro sistema normal.
@@ -20,15 +19,14 @@ export default async function ClienteLayout({ children }: { children: React.Reac
 
   const company = await prisma.company.findUnique({
     where: { id: companyId },
-    select: { name: true, parentCompanyId: true, fullSystemAccess: true, moduleRelatorioMarketing: true, parentCompany: { select: { name: true } } },
+    select: { name: true, parentCompanyId: true, fullSystemAccess: true, parentCompany: { select: { name: true } } },
   });
   if (!company?.parentCompanyId) redirect("/dashboard");
 
-  // Marketing no menu: mesmo gate do card em /meu-espaco e da API do relatório.
-  // `moduleRelatorioMarketing` sozinho não serve — é cache derivado que nenhuma
-  // tela liga hoje, então escondia o item pra todos os clientes.
-  const showMarketing =
-    company.moduleRelatorioMarketing || (await assertModule(session, "marketing")).ok;
+  // Marketing no menu: sempre. Sem o relatório completo no plano, a página
+  // /meu-espaco/marketing mostra a Página do Negócio (grátis) e o que dá pra
+  // ativar — em vez de esconder o item.
+  const showMarketing = true;
 
   const impersonating = isImpersonating(session);
   const impersonatedCompany = (session as any)._impersonating;

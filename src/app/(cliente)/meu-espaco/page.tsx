@@ -8,6 +8,7 @@ import { clientComments } from "@/lib/checklist";
 import { hasModule } from "@/lib/permissions";
 import { assertModule } from "@/lib/billing";
 import { visibleCategoriesWhere } from "@/lib/videos";
+import { startOfMonth } from "@/lib/bio-page-stats";
 
 export const dynamic = "force-dynamic";
 
@@ -73,6 +74,27 @@ export default async function MeuEspacoPage() {
   const marketingHref = company.fullSystemAccess ? "/relatorios?secao=marketing" : "/meu-espaco/marketing";
   const showMarketing =
     company.moduleRelatorioMarketing || (await assertModule(session, "marketing")).ok;
+  // O card de Marketing aparece sempre: sem o relatório no plano, ele leva à
+  // versão do portal, que mostra a Página do Negócio e o que dá pra ativar.
+  const marketingCardHref = showMarketing ? marketingHref : "/meu-espaco/marketing";
+
+  // Página do Negócio (grátis em todo plano): resumo do mês no card. Quem
+  // monta é o admin com acesso ao sistema; os demais só abrem a página no ar.
+  const bioPage = await prisma.bioPage.findUnique({
+    where: { companyId },
+    select: { id: true, slug: true, published: true },
+  });
+  const bioMonth = bioPage
+    ? await prisma.bioEvent.groupBy({
+        by: ["kind"],
+        where: { pageId: bioPage.id, kind: { in: ["VIEW", "LEAD"] }, createdAt: { gte: startOfMonth() } },
+        _count: { _all: true },
+      })
+    : [];
+  const bioViews = bioMonth.find((r) => r.kind === "VIEW")?._count._all ?? 0;
+  const bioLeads = bioMonth.find((r) => r.kind === "LEAD")?._count._all ?? 0;
+  const canEditBio = company.fullSystemAccess && role === "ADMIN";
+  const bioHref = canEditBio ? "/pagina" : bioPage?.published ? `/p/${bioPage.slug}` : null;
 
   const projects = await prisma.setorClickupList.findMany({
     where:   { clientCompanyId: companyId, status: { not: "CANCELADO" } },
@@ -264,17 +286,30 @@ export default async function MeuEspacoPage() {
               </div>
             </Link>
           )}
-          {showMarketing && (
-            <Link href={marketingHref} className="prod">
-              <span className="pic" style={{ background: "linear-gradient(135deg,#38BDF8,#6366F1)" }}>📊</span>
+          {bioHref && (
+            <Link href={bioHref} className="prod" {...(canEditBio ? {} : { target: "_blank", rel: "noopener noreferrer" })}>
+              <span className="pic" style={{ background: "linear-gradient(135deg,#4F46E5,#06B6D4)" }}>📄</span>
               <div className="pb">
-                <b>Relatórios de Marketing</b>
-                <span className="psb">acessos, conversões e canais</span>
-                <span className="st ok">Ativo</span>
-                <span className="pr">Ver relatórios →</span>
+                <b>Página do Negócio</b>
+                <span className="psb">
+                  {bioPage ? `${bioViews} ${bioViews === 1 ? "visita" : "visitas"} · ${bioLeads} ${bioLeads === 1 ? "contato" : "contatos"} no mês` : "seu link na bio, grátis"}
+                </span>
+                <span className={`st ${bioPage?.published ? "ok" : "info"}`}>
+                  {bioPage?.published ? "No ar" : bioPage ? "Rascunho" : "Grátis"}
+                </span>
+                <span className="pr">{canEditBio ? (bioPage ? "Editar página →" : "Criar minha página →") : "Ver página →"}</span>
               </div>
             </Link>
           )}
+          <Link href={marketingCardHref} className="prod">
+            <span className="pic" style={{ background: "linear-gradient(135deg,#38BDF8,#6366F1)" }}>📊</span>
+            <div className="pb">
+              <b>Relatórios de Marketing</b>
+              <span className="psb">acessos, conversões e canais</span>
+              <span className={`st ${showMarketing ? "ok" : "info"}`}>{showMarketing ? "Ativo" : "Página do Negócio"}</span>
+              <span className="pr">Ver relatórios →</span>
+            </div>
+          </Link>
           {showVideos && (
             <Link href="/meu-espaco/videos" className="prod vidcard">
               <span className="pic" style={{ background: "linear-gradient(135deg,#EC4899,#8B5CF6)" }}>🎬</span>

@@ -18,6 +18,7 @@ import CompanyAdsSection from "./CompanyAdsSection";
 import MarketingEventsBlock from "./MarketingEventsBlock";
 import MarketingFunnel from "./MarketingFunnel";
 import MarketingOverview from "./MarketingOverview";
+import BioPageMarketing from "./BioPageMarketing";
 
 interface Kpi { value: number; delta?: number | null }
 interface MarketingData {
@@ -339,13 +340,16 @@ export default function CompanyMarketing({
 
       {/* ─── Aba: Visão geral ─────────────────────────────────────────────── */}
       {tab === "geral" && (
-        <MarketingOverview
-          companyId={companyId}
-          days={days}
-          organic={{ kpis: data.kpis, trafficBuckets: data.trafficBuckets }}
-          onGoToTab={(t) => setTab(t)}
-          hideCost={isClient}
-        />
+        <>
+          <BioPageMarketing companyId={companyId} days={days} />
+          <MarketingOverview
+            companyId={companyId}
+            days={days}
+            organic={{ kpis: data.kpis, trafficBuckets: data.trafficBuckets }}
+            onGoToTab={(t) => setTab(t)}
+            hideCost={isClient}
+          />
+        </>
       )}
 
       {/* ─── Aba: Orgânico ────────────────────────────────────────────────── */}

@@ -184,3 +184,37 @@ export async function getPageDetail(pageId: string, days = 30) {
 }
 
 export type PageDetail = NonNullable<Awaited<ReturnType<typeof getPageDetail>>>;
+
+/**
+ * Bloco "Página do Negócio" dentro do relatório de marketing. `detailed`
+ * decide se vão origem e cliques por botão (agência sempre; cliente só em
+ * plano pago). Respostas dos contatos nunca entram aqui — o relatório é de
+ * desempenho, não de lista de contatos.
+ */
+export async function getPageMarketingStats(companyId: string, days: number, viewerIsClient: boolean) {
+  const page = await prisma.bioPage.findUnique({
+    where: { companyId },
+    select: { id: true, slug: true, title: true, published: true },
+  });
+  const ctx = await getCompanyPlan(companyId).catch(() => null);
+  const paid = !!ctx && !bioShowsBadge(ctx.tier);
+  if (!page) return { hasPage: false as const, paid };
+
+  const detailed = !viewerIsClient || paid;
+  const since = daysAgo(days);
+  const [totals, detail] = await Promise.all([
+    eventCounts(page.id, since),
+    detailed ? getPageDetail(page.id, days) : Promise.resolve(null),
+  ]);
+  return {
+    hasPage: true as const,
+    paid,
+    page: { slug: page.slug, title: page.title, published: page.published },
+    totals,
+    detailed,
+    clicks: detail?.clicks ?? [],
+    origins: detail?.origins ?? [],
+  };
+}
+
+export type PageMarketingStats = Awaited<ReturnType<typeof getPageMarketingStats>>;
