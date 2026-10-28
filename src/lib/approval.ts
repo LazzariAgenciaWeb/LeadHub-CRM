@@ -195,9 +195,11 @@ export function readLinks(raw: unknown): PieceLink[] {
 }
 
 /**
- * Links de vídeo da peça: dos andamentos da equipe visíveis ao cliente + da
- * seção LINKS da tarefa. `since` = só os colados depois do último envio (rodada
- * nova = versão nova); `keep` mantém os da rodada no reenvio.
+ * Links de vídeo da peça: dos andamentos da equipe visíveis ao cliente (anexados
+ * pelo 🔗 OU escritos no texto — comentário que veio do ClickUp chega só como
+ * texto) + da seção LINKS da tarefa. `since` = só os colados depois do último
+ * envio (rodada nova = versão nova); `keep` mantém os da rodada no reenvio.
+ * Andamento 🔒 interno fica de fora.
  */
 export async function collectApprovalLinks(
   task: { id: string; comments: unknown },
@@ -206,7 +208,11 @@ export async function collectApprovalLinks(
   const after = (d: Date | string) => !opts.since || new Date(d) > opts.since;
   const fromComments = readComments(task.comments)
     .filter((c) => c.by !== "client" && c.vis !== false && after(c.at))
-    .flatMap((c) => (c.links ?? []).map((l) => ({ url: l.url, title: l.title ?? "" })));
+    .flatMap((c) => [
+      ...(c.links ?? []).map((l) => ({ url: l.url, title: l.title ?? "" })),
+      // Pontuação colada no fim da frase ("…/view." ou "…, e") não é do link.
+      ...(c.text.match(/https?:\/\/[^\s<>"')\]]+/g) ?? []).map((url) => ({ url: url.replace(/[.,;:!?]+$/, ""), title: "" })),
+    ]);
   const mats = await prisma.projectMaterial.findMany({
     where:   { taskId: task.id, kind: "LINK", visibleToClient: true, url: { not: null } },
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
