@@ -2,7 +2,8 @@
  * Página do Negócio: endereço da página e o corte de contatos visíveis no
  * plano grátis. Rodar: npm run test:bio-page
  */
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, referrerLabel, bioShowsBadge, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import type { BioEditorBlock, BioEditorInput } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, referrerLabel, bioShowsBadge, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
 
@@ -82,6 +83,27 @@ ok("sem referrer é acesso direto", referrerLabel(null) === "Direto / app");
 ok("subdomínio do Instagram vira instagram.com", referrerLabel("https://l.instagram.com/?u=x") === "instagram.com");
 ok("domínio .com.br fica inteiro", referrerLabel("https://www.google.com.br/") === "google.com.br");
 ok("referrer quebrado vira Outro", referrerLabel("não é url") === "Outro");
+
+// ── Salvamento automático ──
+const salvo: BioEditorInput = {
+  slug: "studio-teste", template: "CARTAO", title: "Studio", headline: null, about: null,
+  avatarUrl: null, coverUrl: null, accentColor: null, published: true, quizEnabled: true,
+  quizTitle: null, quizCta: null, thankYouMessage: null, consentText: null,
+  blocks: [{ id: "b1", type: "SERVICE", title: "Corte", description: null, url: null, imageUrl: null, priceLabel: null, network: null, active: true }],
+  questions: [{ id: "q1", text: "Como ajudar?", options: ["A", "B"], active: true }],
+};
+const novoServico: BioEditorBlock = { type: "SERVICE", title: "", description: "rascunho", url: null, imageUrl: null, priceLabel: null, network: null, active: true };
+const auto1 = bioAutosaveInput({ ...salvo, blocks: [{ ...salvo.blocks[0], description: "Com lavagem" }, novoServico] }, salvo);
+ok("autosave grava o serviço completo e espera o novo sem nome",
+  auto1.input.blocks.length === 1 && auto1.input.blocks[0].description === "Com lavagem" && auto1.pending.includes("Serviço sem nome"));
+const auto2 = bioAutosaveInput({ ...salvo, blocks: [{ ...salvo.blocks[0], title: " " }] }, salvo);
+ok("serviço salvo que perdeu o nome não é apagado", auto2.input.blocks.length === 1 && auto2.input.blocks[0].title === "Corte");
+const auto3 = bioAutosaveInput({ ...salvo, slug: "outro-endereco", published: false }, salvo);
+ok("endereço e publicação ficam fora do automático", auto3.input.slug === "studio-teste" && auto3.input.published === true);
+const auto4 = bioAutosaveInput({ ...salvo, blocks: [...salvo.blocks, { ...novoServico, type: "LINK", title: "Site" }] }, salvo);
+ok("link sem endereço espera", auto4.input.blocks.length === 1 && auto4.pending.some((p) => p.includes("falta o link")));
+ok("o que o autosave monta passa na validação do servidor",
+  [auto1, auto2, auto3, auto4].every((a) => parseBioEditorInput(a.input).ok));
 
 // ── Catálogo ──
 ok("Página e Starter liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));

@@ -308,6 +308,83 @@ export function parseBioEditorInput(body: unknown): Parsed {
   };
 }
 
+/** O que falta num item pra ele poder ser salvo (null = está completo). */
+function blockProblem(b: BioEditorBlock): string | null {
+  const title = b.title.trim();
+  const kind = b.type === "SERVICE" ? "Serviço" : b.type === "SOCIAL" ? "Rede social" : "Link";
+  if (!title) return `${kind} sem nome`;
+  const url = (b.url ?? "").trim();
+  if (url && !safeBioHref(url)) return `"${title}": link inválido`;
+  if (b.type !== "SERVICE" && !url) return `"${title}": falta o link`;
+  const img = (b.imageUrl ?? "").trim();
+  if (img && !safeBioHref(img)?.startsWith("http")) return `"${title}": imagem inválida`;
+  return null;
+}
+
+function questionProblem(q: BioEditorQuestion): string | null {
+  const t = q.text.trim();
+  if (!t) return "Pergunta sem texto";
+  const n = new Set(q.options.map((o) => o.trim()).filter(Boolean)).size;
+  if (n < BIO_LIMITS.optionsMin) return `"${t}": faltam respostas`;
+  return null;
+}
+
+const imageOk = (v: string | null) => !(v ?? "").trim() || !!safeBioHref(v)?.startsWith("http");
+
+/**
+ * Salvamento automático do editor: monta, a partir do rascunho, o que já dá
+ * pra gravar sem travar no que está pela metade. Item incompleto que já
+ * existe fica como está salvo (não é apagado); item novo incompleto espera.
+ * Endereço e publicação nunca vão no automático — trocar o link público ou
+ * tirar a página do ar é decisão do botão. `pending` diz o que ficou de fora.
+ */
+type EditorDoc<B, Q> = Omit<BioEditorInput, "blocks" | "questions"> & { blocks: B[]; questions: Q[] };
+
+export function bioAutosaveInput<B extends BioEditorBlock, Q extends BioEditorQuestion, D extends EditorDoc<B, Q>>(
+  draft: D,
+  saved: D,
+): { input: D; pending: string[] } {
+  const pending: string[] = [];
+  const savedBlocks = new Map(saved.blocks.filter((b) => b.id).map((b) => [b.id, b]));
+  const savedQuestions = new Map(saved.questions.filter((q) => q.id).map((q) => [q.id, q]));
+
+  const blocks: B[] = [];
+  for (const b of draft.blocks) {
+    const problem = blockProblem(b);
+    if (!problem) { blocks.push(b); continue; }
+    pending.push(problem);
+    const prev = b.id ? savedBlocks.get(b.id) : undefined;
+    if (prev) blocks.push(prev);
+  }
+  const questions: Q[] = [];
+  for (const q of draft.questions) {
+    const problem = questionProblem(q);
+    if (!problem) { questions.push(q); continue; }
+    pending.push(problem);
+    const prev = q.id ? savedQuestions.get(q.id) : undefined;
+    if (prev) questions.push(prev);
+  }
+
+  if (!draft.title.trim()) pending.push("Falta o nome da página");
+  if (!imageOk(draft.avatarUrl)) pending.push("Link da foto inválido");
+  if (!imageOk(draft.coverUrl)) pending.push("Link da capa inválido");
+  if (draft.slug !== saved.slug) pending.push("Endereço novo: clique em Salvar para trocar");
+
+  return {
+    input: {
+      ...draft,
+      slug: saved.slug,
+      published: saved.published,
+      title: draft.title.trim() ? draft.title : saved.title,
+      avatarUrl: imageOk(draft.avatarUrl) ? draft.avatarUrl : saved.avatarUrl,
+      coverUrl: imageOk(draft.coverUrl) ? draft.coverUrl : saved.coverUrl,
+      blocks,
+      questions,
+    },
+    pending,
+  };
+}
+
 // ─── Cadastro público (/comecar) ─────────────────────────────────────────────
 
 export const BIO_SIGNUP_SOURCE = "pagina-negocio-cadastro";

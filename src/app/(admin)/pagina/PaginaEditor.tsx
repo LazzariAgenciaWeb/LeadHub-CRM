@@ -8,7 +8,7 @@ import {
 import BioPageView, { type BioViewData } from "@/app/p/[slug]/BioPageView";
 import {
   BIO_DEFAULT_QUIZ_CTA, BIO_DEFAULT_QUIZ_TITLE, BIO_DEFAULT_THANK_YOU, BIO_LIMITS, BIO_NETWORKS,
-  bioAccent, safeBioHref,
+  bioAccent, bioAutosaveInput, parseBioEditorInput, safeBioHref,
   type BioEditorBlock, type BioEditorInput, type BioEditorQuestion,
 } from "@/lib/bio-page";
 
@@ -78,6 +78,19 @@ function withoutKey<T extends { _key: string }>(x: T): Omit<T, "_key"> {
   const copy: Partial<T> = { ...x };
   delete copy._key;
   return copy as Omit<T, "_key">;
+}
+
+/** Comparação que ignora espaço sobrando, campo vazio x nulo e resposta em branco. */
+function canon(x: ReturnType<typeof strip>): string {
+  return JSON.stringify(x, (k, v) => {
+    if (k === "options" && Array.isArray(v)) return [...new Set(v.map((o: string) => o.trim()).filter(Boolean))];
+    if (typeof v === "string") return v.trim() || null;
+    // Ordem das chaves não importa (item novo recebe o id no fim do objeto).
+    if (v && typeof v === "object" && !Array.isArray(v)) {
+      return Object.fromEntries(Object.keys(v).sort().map((key) => [key, v[key]]));
+    }
+    return v;
+  });
 }
 
 function strip(d: Draft) {
@@ -223,8 +236,67 @@ export default function PaginaEditor({
   const [showPreview, setShowPreview] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const dirty = useMemo(() => JSON.stringify(strip(draft)) !== JSON.stringify(strip(saved)), [draft, saved]);
+  const dirty = useMemo(() => canon(strip(draft)) !== canon(strip(saved)), [draft, saved]);
   const preview = useMemo(() => toPreview(draft, defaultConsent), [draft, defaultConsent]);
+
+  // ── Salvamento automático ──
+  // Ao sair de um campo (e após uma pausa curta, pra cobrir imagem, cor e
+  // ordem dos itens) grava o que já está completo. O que está pela metade
+  // espera e aparece na barra de baixo como "falta completar".
+  const auto = useMemo(() => bioAutosaveInput(draft, saved), [draft, saved]);
+  const autoBody = useMemo(() => {
+    const parsed = parseBioEditorInput(strip(auto.input));
+    const savedParsed = parseBioEditorInput(strip(saved));
+    if (!parsed.ok) return null;
+    return savedParsed.ok && JSON.stringify(parsed.data) === JSON.stringify(savedParsed.data) ? null : parsed.data;
+  }, [auto, saved]);
+  const [blurTick, setBlurTick] = useState(0);
+  const lastBlurTick = useRef(0);
+  const failedBody = useRef<string | null>(null);
+
+
+  async function autosave(input: Draft, body: string) {
+    setSaving(true);
+    try {
+      const res = await fetch("/api/pagina", { method: "PUT", headers: { "Content-Type": "application/json" }, body });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        failedBody.current = body;
+        setError(j.error ?? "Não deu pra salvar automaticamente.");
+        return;
+      }
+      failedBody.current = null;
+      setError(null);
+      const fresh: Initial = j.page;
+      // Item novo ganha o id do banco sem trocar a chave da tela — o campo
+      // em que a pessoa está digitando não perde o foco nem o texto.
+      const blockIds = new Map(input.blocks.map((b, i) => [b._key, fresh.blocks[i]?.id]));
+      const questionIds = new Map(input.questions.map((q, i) => [q._key, fresh.questions[i]?.id]));
+      setDraft((d) => ({
+        ...d,
+        blocks: d.blocks.map((b) => (b.id || !blockIds.get(b._key) ? b : { ...b, id: blockIds.get(b._key) })),
+        questions: d.questions.map((q) => (q.id || !questionIds.get(q._key) ? q : { ...q, id: questionIds.get(q._key) })),
+      }));
+      setSaved(toDraft(fresh));
+      setNotice("Salvo automaticamente.");
+    } catch {
+      failedBody.current = body;
+      setError("Sem conexão — as alterações ainda não foram salvas.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  useEffect(() => {
+    const now = blurTick !== lastBlurTick.current;
+    lastBlurTick.current = blurTick;
+    if (!autoBody || saving) return;
+    const body = JSON.stringify(strip(auto.input));
+    if (failedBody.current === body) return; // não insiste no mesmo erro
+    const t = setTimeout(() => { void autosave(auto.input, body); }, now ? 0 : 1500);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoBody, saving, blurTick]);
 
   useEffect(() => {
     if (!dirty) return;
@@ -308,7 +380,10 @@ export default function PaginaEditor({
             ))}
           </div>
 
-          <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4 space-y-4">
+          <div
+            className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4 space-y-4"
+            onBlur={() => setBlurTick((n) => n + 1)}
+          >
             {step === 0 && <StepBasics draft={draft} set={set} uploadsEnabled={uploadsEnabled} />}
             {step === 1 && <StepBlocks draft={draft} set={set} uploadsEnabled={uploadsEnabled} />}
             {step === 2 && <StepQuiz draft={draft} set={set} defaultConsent={defaultConsent} />}
@@ -358,6 +433,12 @@ export default function PaginaEditor({
       <div className={`fixed ${hasBottomNav ? "bottom-16" : "bottom-0"} lg:bottom-0 left-0 lg:left-[220px] right-0 z-20 bg-[#0b111c]/95 backdrop-blur border-t border-[#1e2d45] px-4 py-3 flex items-center gap-3`}>
         <p className="flex-1 min-w-0 text-xs truncate">
           {error ? <span className="text-red-400">{error}</span>
+            : saving ? <span className="text-slate-400">Salvando…</span>
+            : dirty && auto.pending.length > 0 ? (
+              <span className="text-amber-300" title={auto.pending.join("\n")}>
+                Falta completar: {auto.pending[0]}{auto.pending.length > 1 ? ` (+${auto.pending.length - 1})` : ""}
+              </span>
+            )
             : dirty ? <span className="text-amber-300">Alterações não salvas</span>
             : notice ? <span className="text-emerald-300">{notice}</span>
             : <span className="text-slate-500">Tudo salvo</span>}
