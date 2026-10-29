@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
+import { sanitizeFollowUpSteps } from "@/lib/follow-up-steps";
 
 const VALID_TYPES = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR", "ASSESSOR"] as const;
 type AssistantTypeStr = (typeof VALID_TYPES)[number];
@@ -121,6 +122,10 @@ export async function POST(req: NextRequest) {
       followThrough: body.followThrough !== false,
       revivalDelayMin: Math.min(20160, Math.max(0, parseInt(body.revivalDelayMin, 10) || 0)),
       revivalText: (body.revivalText ?? "").trim() || null,
+      followUpSteps: (sanitizeFollowUpSteps(body.followUpSteps) ?? undefined) as any,
+      followUpIncludeHuman: body.followUpIncludeHuman !== false,
+      followUpReplyIntent: (body.followUpReplyIntent ?? "").trim().toUpperCase() || null,
+      followUpReplyText: (body.followUpReplyText ?? "").trim() || null,
       followAskText: (body.followAskText ?? "").trim() || null,
       groupFirstAidDelayMin: Math.min(240, Math.max(0, parseInt(body.groupFirstAidDelayMin, 10) || 0)),
       courtesyText: (body.courtesyText ?? "").trim() || null,

@@ -158,7 +158,33 @@ interface Conversation {
     // Resultado da última tentativa do agente nesta conversa (diagnóstico)
     aiLastResult?: string | null;
     aiLastRunAt?: string | null;
+    // Follow-up em etapas: etapa atual (0 = fora) e "sem retorno"
+    followUpStage?: number;
+    followUpLastAt?: string | null;
+    followUpExhaustedAt?: string | null;
   } | null;
+}
+
+// Selo do follow-up: em que etapa a conversa está ou se esgotou sem resposta.
+function followUpChip(c: { followUpStage?: number; followUpLastAt?: string | null; followUpExhaustedAt?: string | null } | null | undefined) {
+  if (!c) return null;
+  const when = (iso: string | null | undefined) =>
+    iso ? new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "";
+  if (c.followUpExhaustedAt) {
+    return {
+      label: "Sem retorno",
+      cls: "text-slate-300 bg-slate-500/15 border-slate-500/30",
+      title: `Follow-up esgotado em ${when(c.followUpExhaustedAt)} — nenhuma etapa teve resposta`,
+    };
+  }
+  if ((c.followUpStage ?? 0) > 0) {
+    return {
+      label: `🔁 Follow-up ${c.followUpStage}`,
+      cls: "text-amber-300 bg-amber-500/10 border-amber-500/30",
+      title: `Etapa ${c.followUpStage} do follow-up enviada${c.followUpLastAt ? ` em ${when(c.followUpLastAt)}` : ""} — se o contato responder, cai pro time`,
+    };
+  }
+  return null;
 }
 
 // Tradução do código gravado pelo motor (Conversation.aiLastResult) pra quem
@@ -180,6 +206,7 @@ function describeAiResult(code: string | null | undefined): { text: string; warn
     last_not_inbound: { text: "nada pendente do contato", warn: false },
     human_replied_during_ai: { text: "um atendente respondeu enquanto ela pensava", warn: false },
     paused_during_ai: { text: "foi pausada enquanto pensava", warn: false },
+    followup_respondeu_time: { text: "o contato respondeu ao follow-up — passou pro time", warn: false },
     retomada_nada_pendente: { text: "reativada — a última fala já foi respondida, ela espera a próxima mensagem do contato", warn: false },
     agendar_sem_pedido_do_contato: { text: "tentou agendar sem o contato ter pedido — bloqueado", warn: true },
     contato_escreveu_durante_ia: { text: "o contato mandou outra mensagem enquanto ela pensava — respondeu tudo junto na rodada seguinte", warn: false },
@@ -3536,6 +3563,14 @@ export default function WhatsappManager({
                                         <Bot className="w-2.5 h-2.5" strokeWidth={2.5} /> IA
                                       </span>
                                     )}
+                                    {(() => {
+                                      const fu = followUpChip(conv.conversation);
+                                      return fu ? (
+                                        <span title={fu.title} className={`flex-shrink-0 text-[9px] font-semibold border rounded-full px-1.5 leading-none py-0.5 ${fu.cls}`}>
+                                          {fu.label}
+                                        </span>
+                                      ) : null;
+                                    })()}
                                   </div>
                                 );
                               })()}
@@ -4020,6 +4055,15 @@ export default function WhatsappManager({
 
                       {/* Agente quis responder e algo impediu — fica à vista,
                           não escondido num log que some no próximo deploy. */}
+                      {(() => {
+                        const fu = followUpChip(conv);
+                        return fu ? (
+                          <span title={fu.title} className={`px-2 py-1.5 rounded-lg border text-[11px] font-medium ${fu.cls}`}>
+                            {fu.label}
+                          </span>
+                        ) : null;
+                      })()}
+
                       {conv.aiMode !== undefined && describeAiResult(conv.aiLastResult)?.warn && (
                         <span
                           className="px-2 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 text-amber-300 text-[11px] font-medium"

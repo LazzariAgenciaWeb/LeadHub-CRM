@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v27-checklist-antes-de-agendar";
+export const AUTO_AGENT_REV = "v28-followup";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -116,16 +116,97 @@ const REVIVAL_MAX_PER_RUN = 40;
  * Varre as conversas paradas e manda a retomada. Chamada pelo cron
  * /api/cron/agent-revival. Nunca lança — devolve o que fez pra telemetria.
  */
-export async function runRevivalSweep(): Promise<{ checked: number; sent: number }> {
+// ── Follow-up em etapas ──────────────────────────────────────────────────────
+// Sucessor do resgate: em vez de UMA mensagem, até 4 etapas (ex.: 1 dia, 3
+// dias, 7 dias), cada uma contando da mensagem anterior. A conversa guarda em
+// que etapa está (Conversation.followUpStage); quando o contato responde, a
+// sequência zera e a conversa cai pro time (ver handleFollowUpReply).
+export type FollowUpStep = { delayMin: number; text: string };
+
+const FOLLOWUP_MAX_STEPS = 4;
+// Depois da última etapa, quanto esperar antes de carimbar "sem retorno".
+const FOLLOWUP_EXHAUST_AFTER_MS = 48 * 60 * 60_000;
+
+/** Etapas do agente. Sem etapas e com resgate ligado, o resgate vira a etapa 1. */
+export function getFollowUpSteps(a: {
+  followUpSteps?: unknown;
+  revivalDelayMin?: number | null;
+  revivalText?: string | null;
+}): FollowUpStep[] {
+  if (Array.isArray(a.followUpSteps)) {
+    const steps = (a.followUpSteps as any[])
+      .filter((x) => x && typeof x.delayMin === "number" && x.delayMin > 0 && typeof x.text === "string" && x.text.trim())
+      .slice(0, FOLLOWUP_MAX_STEPS)
+      .map((x) => ({ delayMin: Math.round(x.delayMin), text: String(x.text).trim() }));
+    if (steps.length) return steps;
+  }
+  const rd = a.revivalDelayMin ?? 0;
+  if (rd > 0) return [{ delayMin: rd, text: a.revivalText?.trim() || REVIVAL_DEFAULT_TEXT }];
+  return [];
+}
+
+export type FollowUpDecision =
+  | { kind: "send"; stage: number } // índice (0-based) da etapa a enviar
+  | { kind: "exhaust" }
+  | { kind: "skip"; reason: string };
+
+/**
+ * Regra de elegibilidade do follow-up — função pura (testável sem banco).
+ * stage = quantas etapas já saíram neste sumiço.
+ */
+export function nextFollowUpStep(args: {
+  stage: number;
+  exhaustedAt: Date | null;
+  lastMessageAt: Date | null;
+  scheduledReturnAt: Date | null;
+  aiMode: string;
+  lastMsg: { direction: string; raw: any } | null;
+  steps: FollowUpStep[];
+  includeHuman: boolean;
+  now: number;
+}): FollowUpDecision {
+  const { steps, lastMsg, now } = args;
+  // Conversa que já recebeu o resgate antigo (1 mensagem, marcada "revival")
+  // conta como etapa 1 feita — senão a migração mandaria a etapa 1 de novo.
+  const stage = args.stage === 0 && lastMsg?.raw?.revival ? 1 : args.stage;
+  if (!steps.length) return { kind: "skip", reason: "sem_etapas" };
+  if (args.exhaustedAt) return { kind: "skip", reason: "esgotado" };
+  if (args.aiMode === "OFF") return { kind: "skip", reason: "ia_desligada" };
+  if (!args.includeHuman && args.aiMode !== "ACTIVE") return { kind: "skip", reason: "humano_assumiu" };
+  if (args.scheduledReturnAt) return { kind: "skip", reason: "retorno_agendado" };
+  if (!lastMsg || lastMsg.direction !== "OUTBOUND") return { kind: "skip", reason: "ultima_fala_do_contato" };
+  // "Já já alguém te responde" = quem deve somos nós, não o contato.
+  if (lastMsg.raw?.courtesy) return { kind: "skip", reason: "aviso_da_sentinela" };
+  if (!lastMsg.raw?.autoAgent && !args.includeHuman) return { kind: "skip", reason: "ultima_fala_humana" };
+  if (!args.lastMessageAt) return { kind: "skip", reason: "sem_data" };
+
+  const elapsed = now - args.lastMessageAt.getTime();
+  if (stage >= steps.length) {
+    return elapsed >= FOLLOWUP_EXHAUST_AFTER_MS ? { kind: "exhaust" } : { kind: "skip", reason: "aguardando_ultima" };
+  }
+  const due = steps[stage].delayMin * 60_000;
+  if (elapsed < due) return { kind: "skip", reason: "ainda_nao" };
+  // Ligar o recurso não pode disparar na base antiga: etapa 1 só para
+  // silêncio recente. As etapas seguintes encadeiam a partir da anterior.
+  if (stage === 0 && elapsed > due + REVIVAL_MAX_AGE_MS) return { kind: "skip", reason: "silencio_antigo" };
+  return { kind: "send", stage };
+}
+
+/**
+ * Varredura do follow-up (cron de 5 min, depois da continuação). Sobrevive a
+ * restart de deploy e alcança conversas que já estavam paradas.
+ */
+export async function runFollowUpSweep(): Promise<{ checked: number; sent: number; exhausted: number }> {
   let checked = 0;
   let sent = 0;
+  let exhausted = 0;
 
   const assistants = await prisma.assistant.findMany({
     where: {
       isActive: true,
       autoRespond: true,
       instanceId: { not: null },
-      revivalDelayMin: { gt: 0 },
+      OR: [{ followUpSteps: { not: null } }, { revivalDelayMin: { gt: 0 } }],
     } as any,
     include: { instance: { select: { id: true, instanceName: true, instanceToken: true, phone: true } } },
   });
@@ -138,8 +219,11 @@ export async function runRevivalSweep(): Promise<{ checked: number; sent: number
       | { id: string; instanceName: string; instanceToken: string | null; phone: string | null }
       | null;
     if (!inst) continue;
+    const steps = getFollowUpSteps(a as any);
+    if (!steps.length) continue;
+    const includeHuman = (a as any).followUpIncludeHuman !== false;
 
-    // Retomada fora do horário de atendimento acorda cliente de madrugada.
+    // Mensagem fora do horário de atendimento acorda cliente de madrugada.
     // Fora da janela, a rodada seguinte pega a mesma conversa.
     let hours = hoursCache.get(a.companyId);
     if (!hours) {
@@ -148,73 +232,74 @@ export async function runRevivalSweep(): Promise<{ checked: number; sent: number
     }
     if (!isWithinBusinessHoursConfig(new Date(), hours)) continue;
 
-    const delayMs = (((a as any).revivalDelayMin as number) || 0) * 60_000;
-    if (delayMs <= 0) continue;
     const now = Date.now();
-
+    const minDelayMs = Math.min(...steps.map((x) => x.delayMin)) * 60_000;
     const convs = await prisma.conversation.findMany({
       where: {
         companyId: a.companyId,
         instanceId: inst.id,
         isGroup: false,
         status: { not: "CLOSED" },
-        // Só resgata conversa que ainda é do agente: com humano atendendo
-        // (PAUSED_HUMAN) ou robô desligado (OFF) o resgate fica fora.
-        aiMode: "ACTIVE",
+        aiMode: includeHuman ? { not: "OFF" } : "ACTIVE",
         lastMessageDirection: "OUTBOUND", // nós falamos por último
-        scheduledReturnAt: null, // já tem retorno agendado pelo time: não atropela
-        lastMessageAt: {
-          lte: new Date(now - delayMs),
-          gte: new Date(now - delayMs - REVIVAL_MAX_AGE_MS),
-        },
-      },
-      select: { id: true, phone: true },
-      orderBy: { lastMessageAt: "asc" },
-      take: 30,
+        scheduledReturnAt: null, // retorno agendado pelo time manda
+        followUpExhaustedAt: null,
+        lastMessageAt: { lte: new Date(now - minDelayMs) },
+        // Em andamento OU silêncio recente o bastante pra etapa 1 — sem isso a
+        // base antiga lotaria a rodada e as conversas novas nunca entrariam.
+        OR: [
+          { followUpStage: { gt: 0 } },
+          { lastMessageAt: { gte: new Date(now - steps[0].delayMin * 60_000 - REVIVAL_MAX_AGE_MS) } },
+        ],
+      } as any,
+      select: {
+        id: true, phone: true, aiMode: true, lastMessageAt: true, scheduledReturnAt: true,
+        followUpStage: true, followUpExhaustedAt: true,
+      } as any,
+      orderBy: { lastMessageAt: "desc" },
+      take: 80,
     });
 
-    for (const conv of convs) {
+    for (const c of convs as any[]) {
       if (sent >= REVIVAL_MAX_PER_RUN) break;
       checked++;
       try {
-        // A última fala tem de ser do AGENTE. lastMessageDirection="OUTBOUND"
-        // também é verdade quando quem respondeu foi um atendente (painel ou
-        // celular) — resgatar aí é atropelar o atendimento humano. A cortesia
-        // ("já já alguém te responde") também não conta: ali quem deve somos
-        // nós, o contato não abandonou nada.
         const lastMsg = await prisma.message.findFirst({
-          where: { conversationId: conv.id },
+          where: { conversationId: c.id },
           orderBy: { receivedAt: "desc" },
           select: { direction: true, rawPayload: true },
         });
-        const lastRaw = lastMsg?.rawPayload as any;
-        if (!lastMsg || lastMsg.direction !== "OUTBOUND" || !lastRaw?.autoAgent || lastRaw?.courtesy) continue;
+        const decision = nextFollowUpStep({
+          stage: c.followUpStage ?? 0,
+          exhaustedAt: c.followUpExhaustedAt ?? null,
+          lastMessageAt: c.lastMessageAt ?? null,
+          scheduledReturnAt: c.scheduledReturnAt ?? null,
+          aiMode: c.aiMode,
+          lastMsg: lastMsg ? { direction: lastMsg.direction, raw: lastMsg.rawPayload } : null,
+          steps,
+          includeHuman,
+          now,
+        });
 
-        // Uma retomada por episódio de silêncio: se já mandamos depois da
-        // última fala do contato, não insiste (senão vira cobrança semanal).
-        const lastIn = await prisma.message.findFirst({
-          where: { conversationId: conv.id, direction: "INBOUND" },
-          orderBy: { receivedAt: "desc" },
-          select: { receivedAt: true },
-        });
-        const already = await prisma.message.findFirst({
-          where: {
-            conversationId: conv.id,
-            direction: "OUTBOUND",
-            rawPayload: { path: ["revival"], equals: true },
-            ...(lastIn ? { receivedAt: { gt: lastIn.receivedAt } } : {}),
-          },
-          select: { id: true },
-        });
-        if (already) continue;
+        if (decision.kind === "exhaust") {
+          await prisma.conversation.update({ where: { id: c.id }, data: { followUpExhaustedAt: new Date() } as any });
+          await prisma.conversationNote.create({
+            data: {
+              conversationId: c.id,
+              authorName: "🤖 Agente IA",
+              type: "SYSTEM",
+              body: `Follow-up esgotado: ${steps.length} etapa(s) enviada(s) sem resposta — marcado como "sem retorno".`,
+            },
+          }).catch(() => {});
+          exhausted++;
+          continue;
+        }
+        if (decision.kind !== "send") continue;
 
         const word = ((a as any).reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
-        const waLink = inst.phone
-          ? `https://wa.me/${inst.phone}?text=${encodeURIComponent(word)}`
-          : null;
-        const nome = await getContactFirstName(a.companyId, conv.phone).catch(() => null);
-        const raw = ((a as any).revivalText as string | null)?.trim() || REVIVAL_DEFAULT_TEXT;
-        const text = resolvePlaceholders(pickVariation(raw), { word, waLink, nome });
+        const waLink = inst.phone ? `https://wa.me/${inst.phone}?text=${encodeURIComponent(word)}` : null;
+        const nome = await getContactFirstName(a.companyId, c.phone).catch(() => null);
+        const text = resolvePlaceholders(pickVariation(steps[decision.stage].text), { word, waLink, nome });
 
         const ok = await sendBotText(
           {
@@ -222,25 +307,114 @@ export async function runRevivalSweep(): Promise<{ checked: number; sent: number
             instanceId: inst.id,
             instanceToken: inst.instanceToken ?? null,
             companyId: a.companyId,
-            phone: conv.phone,
+            phone: c.phone,
             assistantId: a.id,
-            conversationId: conv.id,
+            conversationId: c.id,
           },
           text,
-          { revival: true },
+          { followUp: true, followUpStage: decision.stage + 1 },
         );
         if (ok) {
+          await prisma.conversation.update({
+            where: { id: c.id },
+            data: { followUpStage: decision.stage + 1, followUpLastAt: new Date() } as any,
+          });
           sent++;
-          recordRun({ conv: conv.id, resgate: "enviado" });
+          recordRun({ conv: c.id, followUp: `etapa ${decision.stage + 1}/${steps.length}` });
         }
       } catch (err) {
-        console.error(`[AutoAgent] falha no resgate conv=${conv.id}:`, err);
+        console.error(`[AutoAgent] falha no follow-up conv=${c.id}:`, err);
       }
     }
   }
 
-  if (sent > 0) console.log(`[AutoAgent] resgate: ${sent} conversa(s) retomada(s) de ${checked} verificada(s)`);
-  return { checked, sent };
+  if (sent > 0 || exhausted > 0) {
+    console.log(`[AutoAgent] follow-up: ${sent} enviado(s), ${exhausted} esgotado(s), ${checked} verificada(s)`);
+  }
+  return { checked, sent, exhausted };
+}
+
+/** @deprecated nome antigo — o resgate virou a etapa 1 do follow-up. */
+export const runRevivalSweep = runFollowUpSweep;
+
+/**
+ * O contato respondeu durante (ou depois de esgotado) o follow-up: zera a
+ * sequência, registra na conversa e — se a conversa era do agente — passa pro
+ * time pela rota configurada. Retorna true quando a resposta foi consumida
+ * aqui (o agente não responde por cima do encaminhamento).
+ */
+async function handleFollowUpReply(args: {
+  conv: {
+    id: string; phone: string; companyId: string; setorId: string | null;
+    assigneeId: string | null; aiMode: string; followUpStage: number;
+  };
+  assistant: any;
+  sender: BotSender;
+}): Promise<boolean> {
+  const { conv, assistant, sender } = args;
+  await prisma.conversation.update({
+    where: { id: conv.id },
+    data: { followUpStage: 0, followUpLastAt: null, followUpExhaustedAt: null } as any,
+  });
+  await prisma.conversationNote.create({
+    data: {
+      conversationId: conv.id,
+      authorName: "🤖 Agente IA",
+      type: "SYSTEM",
+      body: conv.followUpStage > 0
+        ? `🔁 Respondeu ao follow-up (etapa ${conv.followUpStage}).`
+        : `🔁 Respondeu depois do follow-up esgotado.`,
+    },
+  }).catch(() => {});
+
+  // Conversa de ATENDENTE: continua dele. O responsável já recebe push de
+  // mensagem nova; sem responsável, avisa o setor.
+  if (conv.aiMode !== "ACTIVE") {
+    if (!conv.assigneeId && conv.setorId) {
+      await notifySetor(conv.setorId, {
+        title: "🔁 Respondeu ao follow-up",
+        body: `Um contato voltou a responder (${conv.phone}).`,
+        url: `/whatsapp?abrir=${encodeURIComponent(conv.phone)}`,
+        tag: `followup-${conv.id}`,
+      });
+    }
+    return false;
+  }
+
+  // Conversa do AGENTE: aviso curto (se configurado) e vai pro time.
+  const replyText = (assistant.followUpReplyText as string | null)?.trim();
+  if (replyText) {
+    const nome = await getContactFirstName(conv.companyId, conv.phone).catch(() => null);
+    const word = (assistant.reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
+    await sendBotText(sender, resolvePlaceholders(pickVariation(replyText), { word, waLink: null, nome }));
+  }
+  const intent = (assistant.followUpReplyIntent as string | null)?.trim().toUpperCase();
+  const route = intent
+    ? await prisma.assistantRoute.findFirst({
+        where: { assistantId: assistant.id, intent },
+        include: { setor: { select: { id: true, name: true } } },
+      })
+    : null;
+  if (route) {
+    await routeConversation({
+      conversationId: conv.id,
+      companyId: conv.companyId,
+      phone: conv.phone,
+      setorId: route.setorId,
+      setorName: route.setor.name,
+      createLead: route.createLead,
+      createTicket: route.createTicket,
+      resumo: `Respondeu ao follow-up (etapa ${conv.followUpStage || "final"}).`,
+    });
+  } else {
+    await handoffConversation({
+      conversationId: conv.id,
+      setorId: conv.setorId,
+      resumo: `Respondeu ao follow-up (etapa ${conv.followUpStage || "final"}).`,
+      phone: conv.phone,
+    });
+  }
+  return true;
 }
 
 /**
@@ -1015,7 +1189,8 @@ export async function runFollowThroughSweep(): Promise<{ checked: number; resume
         select: { body: true, direction: true, rawPayload: true },
       });
       const raw = last?.rawPayload as any;
-      if (!last || last.direction !== "OUTBOUND" || !raw?.autoAgent || raw?.continuation) continue;
+      // Mensagem de follow-up não é promessa nossa a cumprir — fica fora.
+      if (!last || last.direction !== "OUTBOUND" || !raw?.autoAgent || raw?.continuation || raw?.followUp) continue;
       if (!PROMISE_RE.test(last.body ?? "")) continue;
       const res = await runAutoAgentNow(c.id, { continuation: true });
       if (res.ok && res.replied) resumed++;
@@ -1081,8 +1256,9 @@ async function runAutoAgentCore(
     select: {
       id: true, phone: true, isGroup: true, status: true, aiMode: true,
       companyId: true, setorId: true, assigneeId: true, aiCycleResetAt: true, aiEngagedAt: true,
-    },
-  });
+      followUpStage: true, followUpExhaustedAt: true,
+    } as any,
+  }) as any;
 
   if (!conv) return { ok: false, skipped: "conv_not_found" };
   if (conv.status === "CLOSED") return { ok: false, skipped: "closed" };
@@ -1134,7 +1310,7 @@ async function runAutoAgentCore(
     });
     const someoneAnswered = answeredAfter.some((m) => {
       const raw = m.rawPayload as any;
-      return !(raw?.courtesy || raw?.revival);
+      return !(raw?.courtesy || raw?.revival || raw?.followUp);
     });
     if (someoneAnswered) return { ok: false, skipped: "retomada_nada_pendente" };
   } else if (last.direction !== "INBOUND") {
@@ -1172,6 +1348,31 @@ async function runAutoAgentCore(
     // No grupo, "obrigado"/"👍" do cliente não é pedido pendente — entrar pra
     // dizer "de nada" na frente de todo mundo é ruído puro.
     if (lastIsTerminal) return { ok: false, skipped: "grupo_msg_terminal" };
+  }
+
+  // RESPOSTA AO FOLLOW-UP: vem antes das travas de gatilho/aiMode pra pegar
+  // também conversa de atendente (o follow-up cobra nas duas). Só em rodada
+  // normal — continuação/retomada não nascem de mensagem nova do contato.
+  if (!continuation && !resume && !conv.isGroup && last.direction === "INBOUND" &&
+      ((conv.followUpStage ?? 0) > 0 || conv.followUpExhaustedAt)) {
+    const consumed = await handleFollowUpReply({
+      conv: {
+        id: conv.id, phone: conv.phone, companyId: conv.companyId, setorId: conv.setorId,
+        assigneeId: conv.assigneeId, aiMode: conv.aiMode, followUpStage: conv.followUpStage ?? 0,
+      },
+      assistant,
+      sender: {
+        instanceName: instance.instanceName,
+        instanceId: instance.id,
+        instanceToken: instance.instanceToken ?? null,
+        companyId: conv.companyId,
+        phone: conv.phone,
+        assistantId: assistant.id,
+        conversationId: conv.id,
+      },
+    });
+    diag.followUp = "respondeu";
+    if (consumed) return { ok: false, skipped: "followup_respondeu_time" };
   }
 
   // MODO DE ATIVAÇÃO: no TRIGGER o agente só assume a conversa quando o gatilho

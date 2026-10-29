@@ -72,6 +72,10 @@ interface Assistant {
   revivalDelayMin?: number;
   followThrough?: boolean;
   revivalText?: string | null;
+  followUpSteps?: unknown;
+  followUpIncludeHuman?: boolean;
+  followUpReplyIntent?: string | null;
+  followUpReplyText?: string | null;
   reactivationWord: string | null;
   sendPauseNotice: boolean;
   pauseNoticeText: string | null;
@@ -98,6 +102,57 @@ Já investe em anúncios online?`;
 const LEARNINGS_PLACEHOLDER = `Correções e orientações que o agente deve seguir (têm prioridade sobre o manual). Ex.:
 - Boleto e nota fiscal: sempre encaminhar pro Atendimento, nunca tentar resolver.
 - Não oferecer criação de sites pra quem já é cliente de hospedagem — encaminhar direto.`;
+
+// ── Abas do formulário do agente (ordem = ordem em que se configura) ─────────
+type TabKey = "comportamento" | "regras" | "encaminhamento" | "agenda" | "followup" | "sentinelas" | "instagram";
+
+// ── Follow-up em etapas ──────────────────────────────────────────────────────
+type FollowUpStep = { delayMin: number; text: string };
+const FOLLOWUP_DELAYS: { min: number; label: string }[] = [
+  { min: 10, label: "10 min (teste)" },
+  { min: 60, label: "1 hora" },
+  { min: 180, label: "3 horas" },
+  { min: 360, label: "6 horas" },
+  { min: 1440, label: "1 dia" },
+  { min: 2880, label: "2 dias" },
+  { min: 4320, label: "3 dias" },
+  { min: 7200, label: "5 dias" },
+  { min: 10080, label: "7 dias" },
+  { min: 20160, label: "14 dias" },
+];
+/** Opções do select; um atraso fora da lista (resgate antigo) continua visível. */
+function delayOptions(current: number) {
+  if (FOLLOWUP_DELAYS.some((d) => d.min === current)) return FOLLOWUP_DELAYS;
+  const label = current % 1440 === 0 ? `${current / 1440} dia(s)` : current % 60 === 0 ? `${current / 60} hora(s)` : `${current} min`;
+  return [...FOLLOWUP_DELAYS, { min: current, label }].sort((a, b) => a.min - b.min);
+}
+// Retomada leve → valor/convite → despedida educada. Uma variação por linha.
+const FOLLOWUP_SUGGESTION: FollowUpStep[] = [
+  {
+    delayMin: 1440,
+    text: "Oi {nome}! Passando pra saber se ficou alguma dúvida do que conversamos 😊\nOi {nome}, tudo bem? Nossa conversa parou por aqui — quer seguir de onde paramos?",
+  },
+  {
+    delayMin: 4320,
+    text: "Oi {nome}! Ainda faz sentido pra você? Se quiser, te explico tudo numa conversa rápida de 15 minutos.\nOi {nome}! Separei um tempinho essa semana pra te ajudar com isso — topa uma conversa rápida?",
+  },
+  {
+    delayMin: 10080,
+    text: "Oi {nome}, vou parar de te chamar por aqui pra não incomodar. Quando fizer sentido, é só me mandar uma mensagem que a gente retoma 🤝\nOi {nome}! Vou deixar nossa conversa em pausa por enquanto — qualquer coisa, estou por aqui.",
+  },
+];
+
+/** Aba que só funciona com o modo autônomo: em vez de sumir, explica. */
+function AutoOffNotice({ onGo }: { onGo: () => void }) {
+  return (
+    <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-[12px] text-amber-200">
+      Isto só funciona com o <strong>modo autônomo</strong> ligado.{" "}
+      <button type="button" onClick={onGo} className="underline hover:text-amber-100">
+        Ligar na aba Comportamento
+      </button>
+    </div>
+  );
+}
 
 function instLabel(i: Instance) {
   return i.label || i.instanceName || i.phone || i.id;
@@ -147,9 +202,12 @@ export default function AssistantsSettings({
   const [fCourtesyDelay, setFCourtesyDelay] = useState(5);
   const [fGroupDelay, setFGroupDelay] = useState(0);
   const [fCourtesyText, setFCourtesyText] = useState("");
-  const [fRevivalDelay, setFRevivalDelay] = useState(0);
   const [fFollowThrough, setFFollowThrough] = useState(true);
-  const [fRevivalText, setFRevivalText] = useState("");
+  const [fuSteps, setFuSteps] = useState<FollowUpStep[]>([]);
+  const [fuIncludeHuman, setFuIncludeHuman] = useState(true);
+  const [fuReplyIntent, setFuReplyIntent] = useState("");
+  const [fuReplyText, setFuReplyText] = useState("");
+  const [tab, setTab] = useState<TabKey>("comportamento");
   const [fFollowAsk, setFFollowAsk] = useState("");
   const [fReactivationWord, setFReactivationWord] = useState("");
   const [fSendPauseNotice, setFSendPauseNotice] = useState(true);
@@ -178,7 +236,9 @@ export default function AssistantsSettings({
     setFActivation("ALWAYS"); setFTriggers("");
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
-    setFRevivalDelay(0); setFRevivalText(""); setFFollowThrough(true); setFFollowAsk("");
+    setFFollowThrough(true); setFFollowAsk("");
+    setFuSteps([]); setFuIncludeHuman(true); setFuReplyIntent("COMERCIAL"); setFuReplyText("");
+    setTab("comportamento");
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
     setFRoutes([
@@ -203,9 +263,25 @@ export default function AssistantsSettings({
     setFCourtesyDelay(a.courtesyDelayMin ?? 5);
     setFGroupDelay(a.groupFirstAidDelayMin ?? 0);
     setFCourtesyText(a.courtesyText ?? "");
-    setFRevivalDelay(a.revivalDelayMin ?? 0);
     setFFollowThrough(a.followThrough !== false);
-    setFRevivalText(a.revivalText ?? "");
+    // Etapas salvas; sem elas, o resgate antigo aparece como etapa 1 (salvar
+    // migra). Texto vazio do resgate = o padrão que o motor usava.
+    const savedSteps = Array.isArray(a.followUpSteps)
+      ? (a.followUpSteps as FollowUpStep[]).filter((x) => x && typeof x.delayMin === "number")
+      : [];
+    setFuSteps(
+      savedSteps.length
+        ? savedSteps.map((x) => ({ delayMin: x.delayMin, text: x.text ?? "" }))
+        : (a.revivalDelayMin ?? 0) > 0
+          ? [{ delayMin: a.revivalDelayMin!, text: a.revivalText?.trim() || "Oi {nome}! Passando pra saber se você ainda tem interesse 😊 se quiser seguir de onde paramos, é só me chamar por aqui." }]
+          : []
+    );
+    setFuIncludeHuman(a.followUpIncludeHuman !== false);
+    setFuReplyIntent(
+      a.followUpReplyIntent ?? (a.routes ?? []).find((r) => r.createLead)?.intent ?? ""
+    );
+    setFuReplyText(a.followUpReplyText ?? "");
+    setTab("comportamento");
     setFFollowAsk(a.followAskText ?? "");
     setFReactivationWord(a.reactivationWord ?? "");
     setFSendPauseNotice(a.sendPauseNotice !== false);
@@ -263,9 +339,11 @@ export default function AssistantsSettings({
       courtesyDelayMin: fCourtesyDelay,
       groupFirstAidDelayMin: fGroupDelay,
       courtesyText: fCourtesyText,
-      revivalDelayMin: fRevivalDelay,
       followThrough: fFollowThrough,
-      revivalText: fRevivalText,
+      followUpSteps: fuSteps.filter((x) => x.text.trim()),
+      followUpIncludeHuman: fuIncludeHuman,
+      followUpReplyIntent: fuReplyIntent,
+      followUpReplyText: fuReplyText,
       followAskText: fFollowAsk,
       reactivationWord: fReactivationWord,
       sendPauseNotice: fSendPauseNotice,
@@ -310,6 +388,21 @@ export default function AssistantsSettings({
     setSavingQuota(false);
     router.refresh();
   }
+
+  function setFuStep(idx: number, patch: Partial<FollowUpStep>) {
+    setFuSteps((prev) => prev.map((x, i) => (i === idx ? { ...x, ...patch } : x)));
+  }
+
+  // Ponto verde = o recurso principal da aba está ligado.
+  const visibleTabs: { key: TabKey; icon: string; label: string; on: boolean }[] = [
+    { key: "comportamento", icon: "⚙️", label: "Comportamento", on: fAutoRespond },
+    { key: "regras", icon: "📋", label: "Regras", on: false },
+    { key: "encaminhamento", icon: "🔀", label: "Encaminhamento", on: fAutoRespond && fRoutes.some((r) => r.intent.trim() && r.setorId) },
+    { key: "agenda", icon: "📅", label: "Agenda", on: fAutoRespond && !!fCalendarUser },
+    { key: "followup", icon: "🔁", label: "Follow-up", on: fAutoRespond && fuSteps.some((x) => x.text.trim()) },
+    { key: "sentinelas", icon: "🛡️", label: "Sentinelas", on: fAutoRespond && (fCourtesyDelay > 0 || fGroupDelay > 0) },
+    ...(fIgAccount ? [{ key: "instagram" as TabKey, icon: "📸", label: "Instagram", on: false }] : []),
+  ];
 
   // Pedir follow de um @ diferente do que recebe o DM é inverificável: a Meta
   // só responde "essa pessoa segue A CONTA QUE RECEBE ESTA MENSAGEM?". Erro
@@ -413,6 +506,28 @@ export default function AssistantsSettings({
         {/* Form (novo/edição) */}
         {editing !== null && (
           <form onSubmit={save} className="bg-[#0f1623] border border-indigo-500/30 rounded-xl p-5 space-y-4">
+            {/* Abas — na ordem em que se configura um agente */}
+            <div className="flex gap-1 flex-wrap border-b border-[#1e2d45] -mt-1">
+              {visibleTabs.map((t) => (
+                <button
+                  key={t.key}
+                  type="button"
+                  onClick={() => setTab(t.key)}
+                  className={`px-3 py-2 text-xs font-medium rounded-t-lg border-b-2 -mb-px flex items-center gap-1.5 transition-colors ${
+                    tab === t.key
+                      ? "border-indigo-400 text-white bg-indigo-500/10"
+                      : "border-transparent text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  <span>{t.icon}</span>
+                  {t.label}
+                  {t.on && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" title="Ligado" />}
+                </button>
+              ))}
+            </div>
+
+            {tab === "comportamento" && (
+              <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Nome</label>
@@ -435,30 +550,47 @@ export default function AssistantsSettings({
               </div>
             </div>
 
-            <div>
-              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                Manual de instruções <span className="text-slate-600 normal-case">(como o agente deve agir)</span>
+            <div className="grid grid-cols-2 gap-4 items-end">
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                  Instância WhatsApp <span className="text-slate-600 normal-case">(opcional)</span>
+                </label>
+                <select
+                  value={fInstance} onChange={(e) => setFInstance(e.target.value)}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
+                >
+                  <option value="">Todas / genérico</option>
+                  {instances.map((i) => (
+                    <option key={i.id} value={i.id}>{instLabel(i)}{i.phone ? ` (${i.phone})` : ""}</option>
+                  ))}
+                </select>
+              </div>
+              <label className="flex items-center gap-2 text-sm text-slate-300 pb-2.5 cursor-pointer">
+                <input type="checkbox" checked={fActive} onChange={(e) => setFActive(e.target.checked)} className="accent-indigo-500" />
+                Agente ativo
               </label>
-              <textarea
-                value={fManual} onChange={(e) => setFManual(e.target.value)}
-                placeholder={MANUAL_PLACEHOLDER}
-                rows={8}
-                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-y leading-relaxed"
-              />
             </div>
 
-            <div>
-              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                Link de agendamento <span className="text-slate-600 normal-case">(opcional — o sistema envia a URL exata ao marcar reunião)</span>
-              </label>
-              <input
-                value={fSchedulingLink} onChange={(e) => setFSchedulingLink(e.target.value)}
-                placeholder="https://calendar.app.google/..."
-                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
-              />
-            </div>
+            {igAccounts.length > 0 && (
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                  Conta de Instagram <span className="text-slate-600 normal-case">(opcional — agente responde as DMs do Direct)</span>
+                </label>
+                <select
+                  value={fIgAccount} onChange={(e) => setFIgAccount(e.target.value)}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
+                >
+                  <option value="">Nenhuma</option>
+                  {igAccounts.map((a) => (
+                    <option key={a.id} value={a.id}>@{a.username ?? a.name ?? a.id}</option>
+                  ))}
+                </select>
+                <p className="text-slate-500 text-xs mt-1.5">
+                  Com o modo autônomo ligado, o agente responde sozinho as DMs orgânicas dessa conta — respeitando automações de palavra-chave em andamento e pausando quando um atendente assume a conversa.
+                </p>
+              </div>
+            )}
 
-            {/* ── Modo autônomo ── */}
             <div className={`rounded-xl border p-4 space-y-4 ${fAutoRespond ? "border-emerald-500/30 bg-emerald-500/5" : "border-[#1e2d45] bg-[#161f30]/40"}`}>
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
@@ -484,16 +616,6 @@ export default function AssistantsSettings({
                   className="accent-emerald-500"
                 />
                 Pode se apresentar como assistente de IA <span className="text-slate-600">(modo assessor pessoal)</span>
-              </label>
-
-              <label className="flex items-center gap-2 text-[11px] text-slate-400 cursor-pointer ml-7" title="Instagram: conversas que nasceram de automação (isca, pedido de follow, link) não são assumidas pelo agente nem depois que a automação termina — quem baixou material não virou lead por isso.">
-                <input
-                  type="checkbox"
-                  checked={fSkipAuto}
-                  onChange={(e) => setFSkipAuto(e.target.checked)}
-                  className="accent-emerald-500"
-                />
-                Não assumir conversas vindas de automação <span className="text-slate-600">(Instagram)</span>
               </label>
 
               {/* Quando o agente assume a conversa */}
@@ -526,9 +648,56 @@ export default function AssistantsSettings({
                   </>
                 )}
               </div>
+            </div>
+              </div>
+            )}
 
-              {fAutoRespond && (
-                <>
+            {tab === "regras" && (
+              <div className="space-y-5">
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                Manual de instruções <span className="text-slate-600 normal-case">(como o agente deve agir)</span>
+              </label>
+              <textarea
+                value={fManual} onChange={(e) => setFManual(e.target.value)}
+                placeholder={MANUAL_PLACEHOLDER}
+                rows={8}
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-y leading-relaxed"
+              />
+            </div>
+
+                  {/* Checklist ICP */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      Informações obrigatórias (ICP) <span className="text-slate-600 normal-case">— coletadas antes de agendar/encaminhar, uma por linha</span>
+                    </label>
+                    <textarea
+                      value={fChecklist} onChange={(e) => setFChecklist(e.target.value)}
+                      placeholder={CHECKLIST_PLACEHOLDER}
+                      rows={4}
+                      className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
+                    />
+                  </div>
+
+                  {/* Aprendizados */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      📚 Aprendizados <span className="text-slate-600 normal-case">— correções acumuladas; têm prioridade sobre o manual</span>
+                    </label>
+                    <textarea
+                      value={fLearnings} onChange={(e) => setFLearnings(e.target.value)}
+                      placeholder={LEARNINGS_PLACEHOLDER}
+                      rows={4}
+                      className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
+                    />
+                  </div>
+              </div>
+            )}
+
+            {tab === "encaminhamento" && (!fAutoRespond ? (
+              <AutoOffNotice onGo={() => setTab("comportamento")} />
+            ) : (
+              <div className="space-y-5">
                   {/* Rotas de triagem */}
                   <div>
                     <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
@@ -595,6 +764,52 @@ export default function AssistantsSettings({
                     )}
                   </div>
 
+                  {/* Reativação + aviso de pausa */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      🔁 Reativação e despedida <span className="text-slate-600 normal-case">— como o contato traz o robô de volta</span>
+                    </label>
+                    <div className="flex items-center gap-2 mb-2">
+                      <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap">
+                        Palavra-gatilho:
+                        <input
+                          value={fReactivationWord}
+                          onChange={(e) => setFReactivationWord(e.target.value)}
+                          placeholder="atendimento"
+                          className="w-40 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
+                        />
+                      </label>
+                      <label className="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={fSendPauseNotice}
+                          onChange={(e) => setFSendPauseNotice(e.target.checked)}
+                          className="accent-emerald-500"
+                        />
+                        Enviar despedida ao encaminhar (ensina o gatilho)
+                      </label>
+                    </div>
+                    {fSendPauseNotice && (
+                      <textarea
+                        value={fPauseNoticeText}
+                        onChange={(e) => setFPauseNoticeText(e.target.value)}
+                        rows={3}
+                        placeholder={`Agradecemos o contato! 🙏 Se precisar do atendimento automático de novo, é só digitar *${fReactivationWord.trim() || "atendimento"}*.\n(uma variação por linha — o sistema sorteia uma)`}
+                        className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
+                      />
+                    )}
+                    <p className="text-slate-600 text-[11px] mt-1.5">
+                      O contato manda uma mensagem SÓ com a palavra-gatilho numa conversa pausada e o robô volta a atender (não vale quando foi desligado manualmente na Inbox).
+                      Nos textos da despedida e da sentinela você pode usar <code className="text-emerald-400">{"{palavra}"}</code> (a palavra-gatilho), <code className="text-emerald-400">{"{link}"}</code> (link wa.me que abre o WhatsApp com a palavra já digitada) e <code className="text-emerald-400">{"{nome}"}</code> (primeiro nome do contato, se cadastrado — some sozinho quando não tem).
+                    </p>
+                  </div>
+              </div>
+            ))}
+
+            {tab === "agenda" && (!fAutoRespond ? (
+              <AutoOffNotice onGo={() => setTab("comportamento")} />
+            ) : (
+              <div className="space-y-5">
                   {/* Agendamento direto na agenda */}
                   <div>
                     <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
@@ -676,6 +891,164 @@ export default function AssistantsSettings({
                     </p>
                   </div>
 
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                Link de agendamento <span className="text-slate-600 normal-case">(opcional — o sistema envia a URL exata ao marcar reunião)</span>
+              </label>
+              <input
+                value={fSchedulingLink} onChange={(e) => setFSchedulingLink(e.target.value)}
+                placeholder="https://calendar.app.google/..."
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+              />
+            </div>
+              </div>
+            ))}
+
+            {tab === "followup" && (!fAutoRespond ? (
+              <AutoOffNotice onGo={() => setTab("comportamento")} />
+            ) : (
+              <div className="space-y-5">
+                  {/* Continuação — o agente prometeu e não entregou */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      ↩️ Continuação <span className="text-slate-600 normal-case">— quando o próprio agente para no meio</span>
+                    </label>
+                    <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={fFollowThrough}
+                        onChange={(e) => setFFollowThrough(e.target.checked)}
+                        className="w-4 h-4 accent-emerald-500"
+                      />
+                      Cumprir sozinho o que prometeu
+                    </label>
+                    <p className="text-slate-600 text-[11px] mt-1.5">
+                      Quando o agente encerra dizendo o próximo passo (&quot;vou te oferecer os horários&quot;) e a mensagem não sai, ele <strong className="text-slate-400">volta em ~30s e entrega</strong> — sem esperar o contato escrever.
+                      É diferente do Follow-up (abaixo): ali quem sumiu foi o contato; aqui quem ficou devendo fomos nós.
+                      Acontece <strong className="text-slate-400">uma vez só</strong> por promessa, e se não houver nada pendente ele fica quieto.
+                    </p>
+                  </div>
+
+                  {/* Follow-up em etapas (sucessor do Resgate) */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      🔁 Follow-up em etapas <span className="text-slate-600 normal-case">— quando o contato some e não responde</span>
+                    </label>
+                    {fuSteps.length === 0 && (
+                      <p className="text-slate-500 text-[11px] mb-2">Desligado — adicione uma etapa ou use a sugestão pronta.</p>
+                    )}
+                    <div className="space-y-2">
+                      {fuSteps.map((st, idx) => (
+                        <div key={idx} className="rounded-lg border border-[#1e2d45] bg-[#161f30]/40 p-3">
+                          <div className="flex items-center gap-1.5 text-[11px] text-slate-400 flex-wrap">
+                            <span className="text-white font-semibold">Etapa {idx + 1}</span>
+                            <span>— enviar</span>
+                            <select
+                              value={st.delayMin}
+                              onChange={(e) => setFuStep(idx, { delayMin: parseInt(e.target.value, 10) })}
+                              className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                            >
+                              {delayOptions(st.delayMin).map((d) => (
+                                <option key={d.min} value={d.min}>{d.label}</option>
+                              ))}
+                            </select>
+                            <span>depois {idx === 0 ? "da nossa última mensagem" : `da etapa ${idx}`}</span>
+                            <button
+                              type="button"
+                              onClick={() => setFuSteps((prev) => prev.filter((_, i) => i !== idx))}
+                              className="ml-auto text-slate-600 hover:text-red-400 text-sm px-1"
+                              title="Remover etapa"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                          <textarea
+                            value={st.text}
+                            onChange={(e) => setFuStep(idx, { text: e.target.value })}
+                            rows={2}
+                            placeholder={"Oi {nome}! Passando pra saber se ficou alguma dúvida 😊\n(uma variação por linha — o sistema sorteia uma a cada envio)"}
+                            className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-4 mt-2">
+                      {fuSteps.length < 4 && (
+                        <button
+                          type="button"
+                          onClick={() => setFuSteps((prev) => [...prev, { delayMin: prev.length ? 4320 : 1440, text: "" }])}
+                          className="text-emerald-400 text-xs hover:text-emerald-300"
+                        >
+                          + Adicionar etapa
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (fuSteps.some((x) => x.text.trim()) && !confirm("Substituir as etapas atuais pela sugestão?")) return;
+                          setFuSteps(FOLLOWUP_SUGGESTION.map((x) => ({ ...x })));
+                        }}
+                        className="text-indigo-300 text-xs hover:text-indigo-200"
+                      >
+                        ✨ Usar sugestão (1, 3 e 7 dias)
+                      </button>
+                    </div>
+
+                    <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer mt-3">
+                      <input
+                        type="checkbox"
+                        checked={fuIncludeHuman}
+                        onChange={(e) => setFuIncludeHuman(e.target.checked)}
+                        className="w-4 h-4 accent-emerald-500"
+                      />
+                      Também quando um atendente falou por último <span className="text-slate-600">(ex.: mandou a proposta e o cliente sumiu)</span>
+                    </label>
+
+                    <div className="mt-3 rounded-lg border border-[#1e2d45] p-3">
+                      <span className="text-slate-300 text-[11px] font-semibold block mb-1.5">Quando o contato responder um follow-up</span>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-400">
+                        Passar pro time da rota
+                        <select
+                          value={fuReplyIntent}
+                          onChange={(e) => setFuReplyIntent(e.target.value)}
+                          className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                        >
+                          <option value="">— devolver pro setor atual da conversa —</option>
+                          {fRoutes.filter((r) => r.intent.trim()).map((r) => (
+                            <option key={r.intent} value={r.intent.trim().toUpperCase()}>
+                              {r.intent.trim().toUpperCase()}{r.setorId ? ` → ${setores.find((s) => s.id === r.setorId)?.name ?? "setor"}` : ""}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <textarea
+                        value={fuReplyText}
+                        onChange={(e) => setFuReplyText(e.target.value)}
+                        rows={2}
+                        placeholder={"Aviso pro contato ao voltar (opcional). Ex.: Que bom que voltou, {nome}! 😊 Já chamei o time pra continuar com você.\n(vazio = não manda nada; uma variação por linha)"}
+                        className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
+                      />
+                      <p className="text-slate-600 text-[11px] mt-1.5">
+                        A sequência para na hora e a conversa entra na fila do time com a nota &quot;🔁 Respondeu ao follow-up (etapa N)&quot;. Se a conversa já era de um atendente, ela continua com ele.
+                      </p>
+                    </div>
+
+                    <p className="text-slate-600 text-[11px] mt-2 leading-relaxed">
+                      <strong className="text-slate-400">Regras:</strong> cada etapa conta da mensagem anterior; sai só dentro do horário de atendimento;
+                      a etapa 1 só entra em conversa parada há até 7 dias (ligar não dispara na base antiga); nunca em grupo, conversa finalizada,
+                      IA desligada na conversa ou com retorno agendado pelo time; no máximo 40 envios a cada 5 minutos.
+                      Sem resposta 48h depois da última etapa, a conversa ganha o selo <strong className="text-slate-400">&quot;Sem retorno&quot;</strong> — nada é finalizado sozinho.
+                      Textos aceitam <code className="text-emerald-400">{"{nome}"}</code>, <code className="text-emerald-400">{"{palavra}"}</code> e <code className="text-emerald-400">{"{link}"}</code>.
+                      <span className="block mt-1">📸 Instagram fica fora: a Meta só permite mensagem até 24h depois da última fala do contato.</span>
+                    </p>
+                  </div>
+              </div>
+            ))}
+
+            {tab === "sentinelas" && (!fAutoRespond ? (
+              <AutoOffNotice onGo={() => setTab("comportamento")} />
+            ) : (
+              <div className="space-y-5">
                   {/* Sentinela de espera */}
                   <div>
                     <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
@@ -706,63 +1079,6 @@ export default function AssistantsSettings({
                     </p>
                   </div>
 
-                  {/* Continuação — o agente prometeu e não entregou */}
-                  <div>
-                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                      ↩️ Continuação <span className="text-slate-600 normal-case">— quando o próprio agente para no meio</span>
-                    </label>
-                    <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={fFollowThrough}
-                        onChange={(e) => setFFollowThrough(e.target.checked)}
-                        className="w-4 h-4 accent-emerald-500"
-                      />
-                      Cumprir sozinho o que prometeu
-                    </label>
-                    <p className="text-slate-600 text-[11px] mt-1.5">
-                      Quando o agente encerra dizendo o próximo passo (&quot;vou te oferecer os horários&quot;) e a mensagem não sai, ele <strong className="text-slate-400">volta em ~30s e entrega</strong> — sem esperar o contato escrever.
-                      É diferente do Resgate: ali quem sumiu foi o contato; aqui quem ficou devendo fomos nós.
-                      Acontece <strong className="text-slate-400">uma vez só</strong> por promessa, e se não houver nada pendente ele fica quieto.
-                    </p>
-                  </div>
-
-                  {/* Resgate — a conversa parou no meio e o contato sumiu */}
-                  <div>
-                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                      🎣 Resgate <span className="text-slate-600 normal-case">— quando o contato some no meio da conversa</span>
-                    </label>
-                    <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap">
-                      Tentar retomar após
-                      <select
-                        value={fRevivalDelay}
-                        onChange={(e) => setFRevivalDelay(parseInt(e.target.value, 10))}
-                        className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
-                      >
-                        <option value={0}>desligado</option>
-                        <option value={60}>1 hora</option>
-                        <option value={180}>3 horas</option>
-                        <option value={360}>6 horas</option>
-                        <option value={1440}>1 dia</option>
-                        <option value={2880}>2 dias</option>
-                        <option value={4320}>3 dias</option>
-                      </select>
-                      de silêncio
-                    </label>
-                    <textarea
-                      value={fRevivalText}
-                      onChange={(e) => setFRevivalText(e.target.value)}
-                      rows={3}
-                      placeholder={"Oi {nome}! 👋 Vi que nossa conversa parou por aqui — ainda faz sentido pra você?\n(uma variação por linha — o sistema sorteia uma a cada envio)"}
-                      className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
-                    />
-                    <p className="text-slate-600 text-[11px] mt-1.5">
-                      Vale só pra conversa que parou com <strong className="text-slate-400">o próprio agente falando por último</strong> (a pessoa sumiu no meio da qualificação).
-                      Sai <strong className="text-slate-400">uma única mensagem</strong> por sumiço, sempre dentro do horário de atendimento, e só até 7 dias de silêncio.
-                      Se um atendente assumiu a conversa, o resgate não entra — nem em conversa concluída, pausada de vez ou com retorno já agendado.
-                    </p>
-                  </div>
-
                   {/* Sentinela de GRUPO — primeiro socorro */}
                   <div>
                     <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
@@ -783,116 +1099,20 @@ export default function AssistantsSettings({
                       O agente acolhe, coleta o básico e abre chamado pela rota; se alguém do time responder, ele se cala na hora e volta a vigiar depois.
                     </p>
                   </div>
-
-                  {/* Reativação + aviso de pausa */}
-                  <div>
-                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                      🔁 Reativação e despedida <span className="text-slate-600 normal-case">— como o contato traz o robô de volta</span>
-                    </label>
-                    <div className="flex items-center gap-2 mb-2">
-                      <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap">
-                        Palavra-gatilho:
-                        <input
-                          value={fReactivationWord}
-                          onChange={(e) => setFReactivationWord(e.target.value)}
-                          placeholder="atendimento"
-                          className="w-40 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
-                        />
-                      </label>
-                      <label className="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={fSendPauseNotice}
-                          onChange={(e) => setFSendPauseNotice(e.target.checked)}
-                          className="accent-emerald-500"
-                        />
-                        Enviar despedida ao encaminhar (ensina o gatilho)
-                      </label>
-                    </div>
-                    {fSendPauseNotice && (
-                      <textarea
-                        value={fPauseNoticeText}
-                        onChange={(e) => setFPauseNoticeText(e.target.value)}
-                        rows={3}
-                        placeholder={`Agradecemos o contato! 🙏 Se precisar do atendimento automático de novo, é só digitar *${fReactivationWord.trim() || "atendimento"}*.\n(uma variação por linha — o sistema sorteia uma)`}
-                        className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
-                      />
-                    )}
-                    <p className="text-slate-600 text-[11px] mt-1.5">
-                      O contato manda uma mensagem SÓ com a palavra-gatilho numa conversa pausada e o robô volta a atender (não vale quando foi desligado manualmente na Inbox).
-                      Nos textos da despedida e da sentinela você pode usar <code className="text-emerald-400">{"{palavra}"}</code> (a palavra-gatilho), <code className="text-emerald-400">{"{link}"}</code> (link wa.me que abre o WhatsApp com a palavra já digitada) e <code className="text-emerald-400">{"{nome}"}</code> (primeiro nome do contato, se cadastrado — some sozinho quando não tem).
-                    </p>
-                  </div>
-
-                  {/* Checklist ICP */}
-                  <div>
-                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                      Informações obrigatórias (ICP) <span className="text-slate-600 normal-case">— coletadas antes de agendar/encaminhar, uma por linha</span>
-                    </label>
-                    <textarea
-                      value={fChecklist} onChange={(e) => setFChecklist(e.target.value)}
-                      placeholder={CHECKLIST_PLACEHOLDER}
-                      rows={4}
-                      className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
-                    />
-                  </div>
-
-                  {/* Aprendizados */}
-                  <div>
-                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                      📚 Aprendizados <span className="text-slate-600 normal-case">— correções acumuladas; têm prioridade sobre o manual</span>
-                    </label>
-                    <textarea
-                      value={fLearnings} onChange={(e) => setFLearnings(e.target.value)}
-                      placeholder={LEARNINGS_PLACEHOLDER}
-                      rows={4}
-                      className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 items-end">
-              <div>
-                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                  Instância WhatsApp <span className="text-slate-600 normal-case">(opcional)</span>
-                </label>
-                <select
-                  value={fInstance} onChange={(e) => setFInstance(e.target.value)}
-                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
-                >
-                  <option value="">Todas / genérico</option>
-                  {instances.map((i) => (
-                    <option key={i.id} value={i.id}>{instLabel(i)}{i.phone ? ` (${i.phone})` : ""}</option>
-                  ))}
-                </select>
               </div>
-              <label className="flex items-center gap-2 text-sm text-slate-300 pb-2.5 cursor-pointer">
-                <input type="checkbox" checked={fActive} onChange={(e) => setFActive(e.target.checked)} className="accent-indigo-500" />
-                Agente ativo
+            ))}
+
+            {tab === "instagram" && (
+              <div className="space-y-4">
+              <label className="flex items-center gap-2 text-[11px] text-slate-400 cursor-pointer" title="Instagram: conversas que nasceram de automação (isca, pedido de follow, link) não são assumidas pelo agente nem depois que a automação termina — quem baixou material não virou lead por isso.">
+                <input
+                  type="checkbox"
+                  checked={fSkipAuto}
+                  onChange={(e) => setFSkipAuto(e.target.checked)}
+                  className="accent-emerald-500"
+                />
+                Não assumir conversas vindas de automação <span className="text-slate-600">(Instagram)</span>
               </label>
-            </div>
-
-            {igAccounts.length > 0 && (
-              <div>
-                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                  Conta de Instagram <span className="text-slate-600 normal-case">(opcional — agente responde as DMs do Direct)</span>
-                </label>
-                <select
-                  value={fIgAccount} onChange={(e) => setFIgAccount(e.target.value)}
-                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
-                >
-                  <option value="">Nenhuma</option>
-                  {igAccounts.map((a) => (
-                    <option key={a.id} value={a.id}>@{a.username ?? a.name ?? a.id}</option>
-                  ))}
-                </select>
-                <p className="text-slate-500 text-xs mt-1.5">
-                  Com o modo autônomo ligado, o agente responde sozinho as DMs orgânicas dessa conta — respeitando automações de palavra-chave em andamento e pausando quando um atendente assume a conversa.
-                </p>
-              </div>
-            )}
 
             {fIgAccount && (
               <div>
@@ -917,9 +1137,11 @@ export default function AssistantsSettings({
                 </p>
               </div>
             )}
+              </div>
+            )}
 
+            <div className="sticky bottom-0 -mx-5 -mb-5 px-5 py-3 bg-[#0f1623]/95 backdrop-blur border-t border-[#1e2d45] rounded-b-xl space-y-2">
             {err && <div className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{err}</div>}
-
             <div className="flex items-center gap-2">
               <button type="submit" disabled={saving} className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40">
                 {saving ? "Salvando..." : editing === "new" ? "Criar agente" : "Salvar"}
@@ -927,6 +1149,7 @@ export default function AssistantsSettings({
               <button type="button" onClick={closeForm} className="px-4 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 text-sm hover:bg-[#1e2d45]">
                 Cancelar
               </button>
+            </div>
             </div>
           </form>
         )}

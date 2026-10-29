@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma";
+import { sanitizeFollowUpSteps } from "@/lib/follow-up-steps";
 
 const VALID_TYPES = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR", "ASSESSOR"] as const;
 
@@ -92,6 +94,16 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.revivalDelayMin = Math.min(20160, Math.max(0, parseInt(body.revivalDelayMin, 10) || 0));
   }
   if ("revivalText" in body) data.revivalText = (body.revivalText ?? "").trim() || null;
+  if ("followUpSteps" in body) {
+    // null limpa (Prisma.DbNull) — sem etapas o follow-up fica desligado
+    data.followUpSteps = sanitizeFollowUpSteps(body.followUpSteps) ?? Prisma.DbNull;
+    // As etapas substituem o resgate antigo: zerar evita que ele "volte" como
+    // etapa 1 quando alguém apaga todas as etapas.
+    data.revivalDelayMin = 0;
+  }
+  if ("followUpIncludeHuman" in body) data.followUpIncludeHuman = body.followUpIncludeHuman !== false;
+  if ("followUpReplyIntent" in body) data.followUpReplyIntent = (body.followUpReplyIntent ?? "").trim().toUpperCase() || null;
+  if ("followUpReplyText" in body) data.followUpReplyText = (body.followUpReplyText ?? "").trim() || null;
   if ("followAskText" in body) data.followAskText = (body.followAskText ?? "").trim() || null;
   if ("groupFirstAidDelayMin" in body) {
     data.groupFirstAidDelayMin = Math.min(240, Math.max(0, parseInt(body.groupFirstAidDelayMin, 10) || 0));

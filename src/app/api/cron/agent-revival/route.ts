@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { runRevivalSweep, runFollowThroughSweep } from "@/lib/auto-agent";
+import { runFollowUpSweep, runFollowThroughSweep } from "@/lib/auto-agent";
 
 /**
  * GET/POST /api/cron/agent-revival
  *
- * Resgate de conversa parada: varre as conversas em que NÓS falamos por último
- * e o contato sumiu, e manda uma única mensagem de retomada (config por agente
- * em Assistant.revivalDelayMin / revivalText; 0 = desligado).
+ * Follow-up de conversa parada: varre as conversas em que NÓS falamos por
+ * último e o contato sumiu, e manda a próxima etapa da sequência configurada
+ * no agente (Assistant.followUpSteps; o resgate antigo vira a etapa 1).
  *
  * Varredura em vez de timer de propósito: sobrevive a restart de deploy e
  * alcança conversas que pararam antes da opção existir. Roda a cada ~5 min
- * pelo loop do start.sh; os limites (1 por episódio de silêncio, horário de
- * atendimento, teto por rodada) vivem no motor.
+ * pelo loop do start.sh; os limites (etapas, horário de atendimento, teto por
+ * rodada) vivem no motor.
  */
 async function handle(req: NextRequest) {
   const cronSecret = process.env.CRON_SECRET;
@@ -25,15 +25,16 @@ async function handle(req: NextRequest) {
   try {
     // Duas varreduras irmãs, por quem está devendo a mensagem:
     //  - continuação: NÓS prometemos e não entregamos → entrega o que faltou;
-    //  - resgate: o CONTATO sumiu depois da nossa resposta → cutuca.
+    //  - follow-up: o CONTATO sumiu depois da nossa resposta → próxima etapa.
     // A continuação vem primeiro: cumprir a promessa muda a última mensagem da
-    // conversa e tira do resgate um caso que não era abandono, era falha nossa.
+    // conversa e tira do follow-up um caso que não era abandono, era falha nossa.
     const follow = await runFollowThroughSweep();
-    const { checked, sent } = await runRevivalSweep();
+    const { checked, sent, exhausted } = await runFollowUpSweep();
     return NextResponse.json({
       ok: true,
       checked,
       sent,
+      exhausted,
       continuacao: follow,
       timestamp: new Date().toISOString(),
     });

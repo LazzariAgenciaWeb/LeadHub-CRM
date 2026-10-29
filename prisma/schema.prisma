@@ -1276,6 +1276,12 @@ model Conversation {
   // virava adivinhacao dias depois.
   aiLastResult   String?
   aiLastRunAt    DateTime?
+  // Follow-up em etapas: quantas etapas já saíram neste sumiço, quando saiu a
+  // última e quando a sequência esgotou sem resposta ("sem retorno"). Zera
+  // quando o contato responde.
+  followUpStage       Int       @default(0)
+  followUpLastAt      DateTime?
+  followUpExhaustedAt DateTime?
 
   // SLA
   firstResponseAt DateTime? // primeira resposta do atendente (calcula tempo de resposta)
@@ -3981,6 +3987,17 @@ model Assistant {
   // retomada. 0 = desligado.
   revivalDelayMin Int     @default(0)
   revivalText     String? @db.Text
+
+  // FOLLOW-UP EM ETAPAS (sucessor do resgate): [{ delayMin, text }], até 4.
+  // delayMin conta da mensagem ANTERIOR (etapa 1 = da nossa última fala).
+  // Vazio + revivalDelayMin > 0 = o resgate antigo vira a etapa 1.
+  followUpSteps        Json?
+  // Também cobra quando quem falou por último foi um atendente.
+  followUpIncludeHuman Boolean @default(true)
+  // Quem responde ao follow-up vai pra esta rota (intent); null = handoff.
+  followUpReplyIntent  String?
+  // Aviso curto ao contato quando ele volta (null = não manda nada).
+  followUpReplyText    String? @db.Text
 
   // CONTINUACAO: o agente prometeu algo e o turno acabou sem entregar — ele
   // volta sozinho em ~30s pra cumprir. Ligado por padrao (e o conserto de um

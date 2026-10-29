@@ -61,6 +61,9 @@ export async function GET(req: NextRequest) {
       aiMode: true,
       aiLastResult: true,
       aiLastRunAt: true,
+      followUpStage: true,
+      followUpLastAt: true,
+      followUpExhaustedAt: true,
     },
   });
 
@@ -153,6 +156,9 @@ export async function GET(req: NextRequest) {
           aiMode: conv.aiMode,
           aiLastResult: conv.aiLastResult,
           aiLastRunAt: conv.aiLastRunAt ? conv.aiLastRunAt.toISOString() : null,
+          followUpStage: (conv as any).followUpStage ?? 0,
+          followUpLastAt: (conv as any).followUpLastAt ? (conv as any).followUpLastAt.toISOString() : null,
+          followUpExhaustedAt: (conv as any).followUpExhaustedAt ? (conv as any).followUpExhaustedAt.toISOString() : null,
         },
       };
     })

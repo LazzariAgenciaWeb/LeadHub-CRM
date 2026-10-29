@@ -50692,10 +50692,12 @@ export namespace Prisma {
 
   export type ConversationAvgAggregateOutputType = {
     unreadCount: number | null
+    followUpStage: number | null
   }
 
   export type ConversationSumAggregateOutputType = {
     unreadCount: number | null
+    followUpStage: number | null
   }
 
   export type ConversationMinAggregateOutputType = {
@@ -50721,6 +50723,9 @@ export namespace Prisma {
     aiCycleResetAt: Date | null
     aiLastResult: string | null
     aiLastRunAt: Date | null
+    followUpStage: number | null
+    followUpLastAt: Date | null
+    followUpExhaustedAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -50751,6 +50756,9 @@ export namespace Prisma {
     aiCycleResetAt: Date | null
     aiLastResult: string | null
     aiLastRunAt: Date | null
+    followUpStage: number | null
+    followUpLastAt: Date | null
+    followUpExhaustedAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -50781,6 +50789,9 @@ export namespace Prisma {
     aiCycleResetAt: number
     aiLastResult: number
     aiLastRunAt: number
+    followUpStage: number
+    followUpLastAt: number
+    followUpExhaustedAt: number
     firstResponseAt: number
     closedAt: number
     companyId: number
@@ -50792,10 +50803,12 @@ export namespace Prisma {
 
   export type ConversationAvgAggregateInputType = {
     unreadCount?: true
+    followUpStage?: true
   }
 
   export type ConversationSumAggregateInputType = {
     unreadCount?: true
+    followUpStage?: true
   }
 
   export type ConversationMinAggregateInputType = {
@@ -50821,6 +50834,9 @@ export namespace Prisma {
     aiCycleResetAt?: true
     aiLastResult?: true
     aiLastRunAt?: true
+    followUpStage?: true
+    followUpLastAt?: true
+    followUpExhaustedAt?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -50851,6 +50867,9 @@ export namespace Prisma {
     aiCycleResetAt?: true
     aiLastResult?: true
     aiLastRunAt?: true
+    followUpStage?: true
+    followUpLastAt?: true
+    followUpExhaustedAt?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -50881,6 +50900,9 @@ export namespace Prisma {
     aiCycleResetAt?: true
     aiLastResult?: true
     aiLastRunAt?: true
+    followUpStage?: true
+    followUpLastAt?: true
+    followUpExhaustedAt?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -50998,6 +51020,9 @@ export namespace Prisma {
     aiCycleResetAt: Date | null
     aiLastResult: string | null
     aiLastRunAt: Date | null
+    followUpStage: number
+    followUpLastAt: Date | null
+    followUpExhaustedAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string
@@ -51047,6 +51072,9 @@ export namespace Prisma {
     aiCycleResetAt?: boolean
     aiLastResult?: boolean
     aiLastRunAt?: boolean
+    followUpStage?: boolean
+    followUpLastAt?: boolean
+    followUpExhaustedAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -51086,6 +51114,9 @@ export namespace Prisma {
     aiCycleResetAt?: boolean
     aiLastResult?: boolean
     aiLastRunAt?: boolean
+    followUpStage?: boolean
+    followUpLastAt?: boolean
+    followUpExhaustedAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -51120,6 +51151,9 @@ export namespace Prisma {
     aiCycleResetAt?: boolean
     aiLastResult?: boolean
     aiLastRunAt?: boolean
+    followUpStage?: boolean
+    followUpLastAt?: boolean
+    followUpExhaustedAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -51180,6 +51214,9 @@ export namespace Prisma {
       aiCycleResetAt: Date | null
       aiLastResult: string | null
       aiLastRunAt: Date | null
+      followUpStage: number
+      followUpLastAt: Date | null
+      followUpExhaustedAt: Date | null
       firstResponseAt: Date | null
       closedAt: Date | null
       companyId: string
@@ -51608,6 +51645,9 @@ export namespace Prisma {
     readonly aiCycleResetAt: FieldRef<"Conversation", 'DateTime'>
     readonly aiLastResult: FieldRef<"Conversation", 'String'>
     readonly aiLastRunAt: FieldRef<"Conversation", 'DateTime'>
+    readonly followUpStage: FieldRef<"Conversation", 'Int'>
+    readonly followUpLastAt: FieldRef<"Conversation", 'DateTime'>
+    readonly followUpExhaustedAt: FieldRef<"Conversation", 'DateTime'>
     readonly firstResponseAt: FieldRef<"Conversation", 'DateTime'>
     readonly closedAt: FieldRef<"Conversation", 'DateTime'>
     readonly companyId: FieldRef<"Conversation", 'String'>
@@ -133813,6 +133853,9 @@ export namespace Prisma {
     courtesyText: string | null
     revivalDelayMin: number | null
     revivalText: string | null
+    followUpIncludeHuman: boolean | null
+    followUpReplyIntent: string | null
+    followUpReplyText: string | null
     followThrough: boolean | null
     followAskText: string | null
     groupFirstAidDelayMin: number | null
@@ -133848,6 +133891,9 @@ export namespace Prisma {
     courtesyText: string | null
     revivalDelayMin: number | null
     revivalText: string | null
+    followUpIncludeHuman: boolean | null
+    followUpReplyIntent: string | null
+    followUpReplyText: string | null
     followThrough: boolean | null
     followAskText: string | null
     groupFirstAidDelayMin: number | null
@@ -133884,6 +133930,10 @@ export namespace Prisma {
     courtesyText: number
     revivalDelayMin: number
     revivalText: number
+    followUpSteps: number
+    followUpIncludeHuman: number
+    followUpReplyIntent: number
+    followUpReplyText: number
     followThrough: number
     followAskText: number
     groupFirstAidDelayMin: number
@@ -133937,6 +133987,9 @@ export namespace Prisma {
     courtesyText?: true
     revivalDelayMin?: true
     revivalText?: true
+    followUpIncludeHuman?: true
+    followUpReplyIntent?: true
+    followUpReplyText?: true
     followThrough?: true
     followAskText?: true
     groupFirstAidDelayMin?: true
@@ -133972,6 +134025,9 @@ export namespace Prisma {
     courtesyText?: true
     revivalDelayMin?: true
     revivalText?: true
+    followUpIncludeHuman?: true
+    followUpReplyIntent?: true
+    followUpReplyText?: true
     followThrough?: true
     followAskText?: true
     groupFirstAidDelayMin?: true
@@ -134008,6 +134064,10 @@ export namespace Prisma {
     courtesyText?: true
     revivalDelayMin?: true
     revivalText?: true
+    followUpSteps?: true
+    followUpIncludeHuman?: true
+    followUpReplyIntent?: true
+    followUpReplyText?: true
     followThrough?: true
     followAskText?: true
     groupFirstAidDelayMin?: true
@@ -134131,6 +134191,10 @@ export namespace Prisma {
     courtesyText: string | null
     revivalDelayMin: number
     revivalText: string | null
+    followUpSteps: JsonValue | null
+    followUpIncludeHuman: boolean
+    followUpReplyIntent: string | null
+    followUpReplyText: string | null
     followThrough: boolean
     followAskText: string | null
     groupFirstAidDelayMin: number
@@ -134186,6 +134250,10 @@ export namespace Prisma {
     courtesyText?: boolean
     revivalDelayMin?: boolean
     revivalText?: boolean
+    followUpSteps?: boolean
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: boolean
+    followUpReplyText?: boolean
     followThrough?: boolean
     followAskText?: boolean
     groupFirstAidDelayMin?: boolean
@@ -134230,6 +134298,10 @@ export namespace Prisma {
     courtesyText?: boolean
     revivalDelayMin?: boolean
     revivalText?: boolean
+    followUpSteps?: boolean
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: boolean
+    followUpReplyText?: boolean
     followThrough?: boolean
     followAskText?: boolean
     groupFirstAidDelayMin?: boolean
@@ -134271,6 +134343,10 @@ export namespace Prisma {
     courtesyText?: boolean
     revivalDelayMin?: boolean
     revivalText?: boolean
+    followUpSteps?: boolean
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: boolean
+    followUpReplyText?: boolean
     followThrough?: boolean
     followAskText?: boolean
     groupFirstAidDelayMin?: boolean
@@ -134336,6 +134412,10 @@ export namespace Prisma {
       courtesyText: string | null
       revivalDelayMin: number
       revivalText: string | null
+      followUpSteps: Prisma.JsonValue | null
+      followUpIncludeHuman: boolean
+      followUpReplyIntent: string | null
+      followUpReplyText: string | null
       followThrough: boolean
       followAskText: string | null
       groupFirstAidDelayMin: number
@@ -134769,6 +134849,10 @@ export namespace Prisma {
     readonly courtesyText: FieldRef<"Assistant", 'String'>
     readonly revivalDelayMin: FieldRef<"Assistant", 'Int'>
     readonly revivalText: FieldRef<"Assistant", 'String'>
+    readonly followUpSteps: FieldRef<"Assistant", 'Json'>
+    readonly followUpIncludeHuman: FieldRef<"Assistant", 'Boolean'>
+    readonly followUpReplyIntent: FieldRef<"Assistant", 'String'>
+    readonly followUpReplyText: FieldRef<"Assistant", 'String'>
     readonly followThrough: FieldRef<"Assistant", 'Boolean'>
     readonly followAskText: FieldRef<"Assistant", 'String'>
     readonly groupFirstAidDelayMin: FieldRef<"Assistant", 'Int'>
@@ -170528,6 +170612,9 @@ export namespace Prisma {
     aiCycleResetAt: 'aiCycleResetAt',
     aiLastResult: 'aiLastResult',
     aiLastRunAt: 'aiLastRunAt',
+    followUpStage: 'followUpStage',
+    followUpLastAt: 'followUpLastAt',
+    followUpExhaustedAt: 'followUpExhaustedAt',
     firstResponseAt: 'firstResponseAt',
     closedAt: 'closedAt',
     companyId: 'companyId',
@@ -171958,6 +172045,10 @@ export namespace Prisma {
     courtesyText: 'courtesyText',
     revivalDelayMin: 'revivalDelayMin',
     revivalText: 'revivalText',
+    followUpSteps: 'followUpSteps',
+    followUpIncludeHuman: 'followUpIncludeHuman',
+    followUpReplyIntent: 'followUpReplyIntent',
+    followUpReplyText: 'followUpReplyText',
     followThrough: 'followThrough',
     followAskText: 'followAskText',
     groupFirstAidDelayMin: 'groupFirstAidDelayMin',
@@ -176740,6 +176831,9 @@ export namespace Prisma {
     aiCycleResetAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     aiLastResult?: StringNullableFilter<"Conversation"> | string | null
     aiLastRunAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    followUpStage?: IntFilter<"Conversation"> | number
+    followUpLastAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    followUpExhaustedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -176778,6 +176872,9 @@ export namespace Prisma {
     aiCycleResetAt?: SortOrderInput | SortOrder
     aiLastResult?: SortOrderInput | SortOrder
     aiLastRunAt?: SortOrderInput | SortOrder
+    followUpStage?: SortOrder
+    followUpLastAt?: SortOrderInput | SortOrder
+    followUpExhaustedAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -176820,6 +176917,9 @@ export namespace Prisma {
     aiCycleResetAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     aiLastResult?: StringNullableFilter<"Conversation"> | string | null
     aiLastRunAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    followUpStage?: IntFilter<"Conversation"> | number
+    followUpLastAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    followUpExhaustedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -176858,6 +176958,9 @@ export namespace Prisma {
     aiCycleResetAt?: SortOrderInput | SortOrder
     aiLastResult?: SortOrderInput | SortOrder
     aiLastRunAt?: SortOrderInput | SortOrder
+    followUpStage?: SortOrder
+    followUpLastAt?: SortOrderInput | SortOrder
+    followUpExhaustedAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -176896,6 +176999,9 @@ export namespace Prisma {
     aiCycleResetAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     aiLastResult?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
     aiLastRunAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
+    followUpStage?: IntWithAggregatesFilter<"Conversation"> | number
+    followUpLastAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
+    followUpExhaustedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     companyId?: StringWithAggregatesFilter<"Conversation"> | string
@@ -184296,6 +184402,10 @@ export namespace Prisma {
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
     revivalDelayMin?: IntFilter<"Assistant"> | number
     revivalText?: StringNullableFilter<"Assistant"> | string | null
+    followUpSteps?: JsonNullableFilter<"Assistant">
+    followUpIncludeHuman?: BoolFilter<"Assistant"> | boolean
+    followUpReplyIntent?: StringNullableFilter<"Assistant"> | string | null
+    followUpReplyText?: StringNullableFilter<"Assistant"> | string | null
     followThrough?: BoolFilter<"Assistant"> | boolean
     followAskText?: StringNullableFilter<"Assistant"> | string | null
     groupFirstAidDelayMin?: IntFilter<"Assistant"> | number
@@ -184339,6 +184449,10 @@ export namespace Prisma {
     courtesyText?: SortOrderInput | SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrderInput | SortOrder
+    followUpSteps?: SortOrderInput | SortOrder
+    followUpIncludeHuman?: SortOrder
+    followUpReplyIntent?: SortOrderInput | SortOrder
+    followUpReplyText?: SortOrderInput | SortOrder
     followThrough?: SortOrder
     followAskText?: SortOrderInput | SortOrder
     groupFirstAidDelayMin?: SortOrder
@@ -184385,6 +184499,10 @@ export namespace Prisma {
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
     revivalDelayMin?: IntFilter<"Assistant"> | number
     revivalText?: StringNullableFilter<"Assistant"> | string | null
+    followUpSteps?: JsonNullableFilter<"Assistant">
+    followUpIncludeHuman?: BoolFilter<"Assistant"> | boolean
+    followUpReplyIntent?: StringNullableFilter<"Assistant"> | string | null
+    followUpReplyText?: StringNullableFilter<"Assistant"> | string | null
     followThrough?: BoolFilter<"Assistant"> | boolean
     followAskText?: StringNullableFilter<"Assistant"> | string | null
     groupFirstAidDelayMin?: IntFilter<"Assistant"> | number
@@ -184428,6 +184546,10 @@ export namespace Prisma {
     courtesyText?: SortOrderInput | SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrderInput | SortOrder
+    followUpSteps?: SortOrderInput | SortOrder
+    followUpIncludeHuman?: SortOrder
+    followUpReplyIntent?: SortOrderInput | SortOrder
+    followUpReplyText?: SortOrderInput | SortOrder
     followThrough?: SortOrder
     followAskText?: SortOrderInput | SortOrder
     groupFirstAidDelayMin?: SortOrder
@@ -184472,6 +184594,10 @@ export namespace Prisma {
     courtesyText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     revivalDelayMin?: IntWithAggregatesFilter<"Assistant"> | number
     revivalText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    followUpSteps?: JsonNullableWithAggregatesFilter<"Assistant">
+    followUpIncludeHuman?: BoolWithAggregatesFilter<"Assistant"> | boolean
+    followUpReplyIntent?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    followUpReplyText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     followThrough?: BoolWithAggregatesFilter<"Assistant"> | boolean
     followAskText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     groupFirstAidDelayMin?: IntWithAggregatesFilter<"Assistant"> | number
@@ -191270,6 +191396,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -191307,6 +191436,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -191338,6 +191470,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -191375,6 +191510,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -191409,6 +191547,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -191436,6 +191577,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -191465,6 +191609,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -199747,6 +199894,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -199787,6 +199938,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -199823,6 +199978,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -199863,6 +200022,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -199901,6 +200064,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -199935,6 +200102,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -199968,6 +200139,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -206668,6 +206843,9 @@ export namespace Prisma {
     aiCycleResetAt?: SortOrder
     aiLastResult?: SortOrder
     aiLastRunAt?: SortOrder
+    followUpStage?: SortOrder
+    followUpLastAt?: SortOrder
+    followUpExhaustedAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -206677,6 +206855,7 @@ export namespace Prisma {
 
   export type ConversationAvgOrderByAggregateInput = {
     unreadCount?: SortOrder
+    followUpStage?: SortOrder
   }
 
   export type ConversationMaxOrderByAggregateInput = {
@@ -206702,6 +206881,9 @@ export namespace Prisma {
     aiCycleResetAt?: SortOrder
     aiLastResult?: SortOrder
     aiLastRunAt?: SortOrder
+    followUpStage?: SortOrder
+    followUpLastAt?: SortOrder
+    followUpExhaustedAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -206732,6 +206914,9 @@ export namespace Prisma {
     aiCycleResetAt?: SortOrder
     aiLastResult?: SortOrder
     aiLastRunAt?: SortOrder
+    followUpStage?: SortOrder
+    followUpLastAt?: SortOrder
+    followUpExhaustedAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -206741,6 +206926,7 @@ export namespace Prisma {
 
   export type ConversationSumOrderByAggregateInput = {
     unreadCount?: SortOrder
+    followUpStage?: SortOrder
   }
 
   export type EnumConversationStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -211808,6 +211994,10 @@ export namespace Prisma {
     courtesyText?: SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrder
+    followUpSteps?: SortOrder
+    followUpIncludeHuman?: SortOrder
+    followUpReplyIntent?: SortOrder
+    followUpReplyText?: SortOrder
     followThrough?: SortOrder
     followAskText?: SortOrder
     groupFirstAidDelayMin?: SortOrder
@@ -211851,6 +212041,9 @@ export namespace Prisma {
     courtesyText?: SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrder
+    followUpIncludeHuman?: SortOrder
+    followUpReplyIntent?: SortOrder
+    followUpReplyText?: SortOrder
     followThrough?: SortOrder
     followAskText?: SortOrder
     groupFirstAidDelayMin?: SortOrder
@@ -211886,6 +212079,9 @@ export namespace Prisma {
     courtesyText?: SortOrder
     revivalDelayMin?: SortOrder
     revivalText?: SortOrder
+    followUpIncludeHuman?: SortOrder
+    followUpReplyIntent?: SortOrder
+    followUpReplyText?: SortOrder
     followThrough?: SortOrder
     followAskText?: SortOrder
     groupFirstAidDelayMin?: SortOrder
@@ -229015,6 +229211,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -229050,6 +229249,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -229869,6 +230071,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -229908,6 +230114,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -229953,6 +230163,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -229991,6 +230205,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -230986,6 +231204,9 @@ export namespace Prisma {
     aiCycleResetAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     aiLastResult?: StringNullableFilter<"Conversation"> | string | null
     aiLastRunAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    followUpStage?: IntFilter<"Conversation"> | number
+    followUpLastAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    followUpExhaustedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -231637,6 +231858,10 @@ export namespace Prisma {
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
     revivalDelayMin?: IntFilter<"Assistant"> | number
     revivalText?: StringNullableFilter<"Assistant"> | string | null
+    followUpSteps?: JsonNullableFilter<"Assistant">
+    followUpIncludeHuman?: BoolFilter<"Assistant"> | boolean
+    followUpReplyIntent?: StringNullableFilter<"Assistant"> | string | null
+    followUpReplyText?: StringNullableFilter<"Assistant"> | string | null
     followThrough?: BoolFilter<"Assistant"> | boolean
     followAskText?: StringNullableFilter<"Assistant"> | string | null
     groupFirstAidDelayMin?: IntFilter<"Assistant"> | number
@@ -237458,6 +237683,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -237494,6 +237722,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -238853,6 +239084,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -238891,6 +239126,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -245054,6 +245293,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -245090,6 +245332,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -246045,6 +246290,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -246081,6 +246329,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -252993,6 +253244,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -253028,6 +253282,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -253086,6 +253343,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -253125,6 +253386,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -254223,6 +254488,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -254259,6 +254527,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -254954,6 +255225,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -254990,6 +255264,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -257256,6 +257533,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -257292,6 +257572,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -257338,6 +257621,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257374,6 +257660,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -257404,6 +257693,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -257440,6 +257732,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -257953,6 +258248,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257989,6 +258287,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -261464,6 +261765,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -261499,6 +261803,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -273795,6 +274102,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -273834,6 +274145,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -304385,6 +304700,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -304424,6 +304743,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -304548,6 +304871,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -304587,6 +304914,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -304986,6 +305317,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -305025,6 +305360,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -305367,6 +305706,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -305406,6 +305749,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -322729,6 +323076,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -323038,6 +323388,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -323072,6 +323426,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -323464,6 +323822,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -323499,6 +323860,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -323532,6 +323896,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -324417,6 +324784,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -324456,6 +324827,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -324493,6 +324868,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -324526,6 +324905,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -324564,6 +324947,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -324601,6 +324988,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -325956,6 +326347,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -326438,6 +326832,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -329221,6 +329619,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -329257,6 +329658,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -329290,6 +329694,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -330699,6 +331106,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -330737,6 +331148,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -330774,6 +331189,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -332753,6 +333172,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -332785,6 +333207,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -332919,6 +333345,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -332954,6 +333383,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -332987,6 +333419,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -333025,6 +333460,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -333064,6 +333503,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -333101,6 +333544,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -334043,6 +334490,9 @@ export namespace Prisma {
     aiCycleResetAt?: Date | string | null
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
+    followUpStage?: number
+    followUpLastAt?: Date | string | null
+    followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -334235,6 +334685,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -334270,6 +334723,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -334303,6 +334759,9 @@ export namespace Prisma {
     aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -335755,6 +336214,10 @@ export namespace Prisma {
     courtesyText?: string | null
     revivalDelayMin?: number
     revivalText?: string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: boolean
+    followUpReplyIntent?: string | null
+    followUpReplyText?: string | null
     followThrough?: boolean
     followAskText?: string | null
     groupFirstAidDelayMin?: number
@@ -335963,6 +336426,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -336002,6 +336469,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
@@ -336039,6 +336510,10 @@ export namespace Prisma {
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     revivalDelayMin?: IntFieldUpdateOperationsInput | number
     revivalText?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpSteps?: NullableJsonNullValueInput | InputJsonValue
+    followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
+    followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
+    followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
     followThrough?: BoolFieldUpdateOperationsInput | boolean
     followAskText?: NullableStringFieldUpdateOperationsInput | string | null
     groupFirstAidDelayMin?: IntFieldUpdateOperationsInput | number
