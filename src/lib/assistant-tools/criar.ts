@@ -21,7 +21,7 @@ async function resolveClient(ctx: { companyId: string }, id?: string, name?: str
 export const criarChamado: ToolDef<{
   title: string; description?: string; dueDate: string; priority?: string;
   type?: "SUPPORT" | "INTERNAL"; clientCompanyId?: string; clientCompanyName?: string;
-  assigneeId?: string; projetoId?: string;
+  assigneeId?: string; projetoId?: string; phone?: string;
 }> = {
   name: "criar_chamado",
   description:
@@ -38,6 +38,7 @@ export const criarChamado: ToolDef<{
       clientCompanyName: { type: "string" },
       assigneeId: { type: "string", description: "Default: o próprio usuário" },
       projetoId: { type: "string" },
+      phone: { type: "string", description: "Origem no WhatsApp: telefone do contato ou JID do grupo (…@g.us). Preencha quando o chamado nasceu de uma conversa/grupo — é o que liga o grupo ao chamado em historico_grupo e grupos_pendentes." },
     },
     required: ["title", "dueDate"],
   },
@@ -76,6 +77,7 @@ export const criarChamado: ToolDef<{
         type,
         dueDate: dueFinal,
         clientCompanyId: clientId,
+        phone: input.phone?.trim() || null,
         assigneeId: input.assigneeId ?? ctx.userId,
         projetoId,
         messages: {
