@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v26-agendar-so-com-escolha";
+export const AUTO_AGENT_REV = "v27-checklist-antes-de-agendar";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -584,6 +584,7 @@ interface AgentDecision {
   agendarInicio: string | null; // ISO do slot escolhido (action AGENDAR)
   agendarEmail: string | null; // e-mail do contato pro convite (action AGENDAR)
   truncated?: boolean; // JSON veio cortado e foi resgatado (resumo/nome descartados)
+  faltando?: string[] | null; // itens do checklist que o modelo admite ainda não ter coletado
 }
 
 /**
@@ -613,7 +614,10 @@ function parseDecision(raw: string): AgentDecision | null {
       : null;
     const agendarInicio = typeof obj.agendarInicio === "string" && obj.agendarInicio.trim() ? obj.agendarInicio.trim() : null;
     const agendarEmail = typeof obj.agendarEmail === "string" && obj.agendarEmail.includes("@") ? obj.agendarEmail.trim() : null;
-    return { replies, action, resumo, nome, agendarInicio, agendarEmail };
+    const faltando = Array.isArray(obj.faltando)
+      ? obj.faltando.filter((x: unknown): x is string => typeof x === "string" && !!x.trim()).map((x: string) => x.trim())
+      : null;
+    return { replies, action, resumo, nome, agendarInicio, agendarEmail, faltando };
   } catch {
     return salvageTruncatedDecision(raw.slice(start));
   }
@@ -872,7 +876,8 @@ ${scheduling ? `Ao CONFIRMAR reunião, o JSON tem MAIS DOIS CAMPOS OBRIGATÓRIOS
 {"reply": [], "action": "AGENDAR", "agendarInicio": "S1", "agendarEmail": "cliente@email.com", "resumo": "..."}
 ` : ""}- "reply": lista de 1 a 3 mensagens curtas (enviadas em sequência, como bolhas separadas). Pode ser string única. null/[] se não deve responder nada.
 - O campo "resumo" é interno (o time lê) — sempre preencha da melhor forma possível, com TUDO que já foi coletado até agora (ele atualiza o lead a cada resposta).
-- "nome": o nome de quem está conversando, se já informou na conversa; senão null. Nunca invente.`);
+- "nome": o nome de quem está conversando, se já informou na conversa; senão null. Nunca invente.${checklistItems.length ? `
+- "faltando": lista dos itens do CHECKLIST DE QUALIFICAÇÃO que o contato AINDA NÃO respondeu nesta conversa (copie o texto do item). [] só quando TODOS foram respondidos. Seja honesto: o sistema NÃO deixa agendar nem oferecer horário enquanto faltar item.` : ""}`);
 
   return parts.join("\n\n");
 }
@@ -1374,7 +1379,7 @@ async function runAutoAgentCore(
     return { ok: false, skipped: `ai_${result.code}` };
   }
 
-  const decision = parseDecision(result.text);
+  let decision = parseDecision(result.text);
   if (!decision) {
     console.warn(`[AutoAgent] resposta sem JSON utilizável conv=${conv.id}: "${result.text.slice(0, 200)}"`);
     return { ok: false, skipped: "bad_json" };
@@ -1389,6 +1394,50 @@ async function runAutoAgentCore(
   if (decision.truncated) {
     diag.jsonCortado = true;
     console.warn(`[AutoAgent] JSON cortado resgatado conv=${conv.id} (bolhas=${decision.replies.length}, action=${decision.action})`);
+  }
+  // CHECKLIST ANTES DE AGENDAR — trava mecânica. O prompt já mandava coletar
+  // tudo antes, mas o modelo pulava: perguntou o objetivo e, na resposta, já
+  // marcou a reunião — sem nem ter perguntado o nome. Agora, enquanto faltar
+  // item (o que o modelo declara em "faltando", mais o NOME conferido pelo
+  // campo "nome"), agendar ou oferecer horário vira "pergunte o próximo item".
+  const checklistItems = (((assistant as any).qualificationChecklist as string | null) ?? "")
+    .split("\n")
+    .map((l) => l.replace(/^[-*•\d.)\s]+/, "").trim())
+    .filter(Boolean);
+  if (checklistItems.length && scheduling?.slots.length) {
+    const missing = [...(decision.faltando ?? [])];
+    const nomeItem = checklistItems.find((i) => /\bnome\b/i.test(i));
+    if (nomeItem && !decision.nome && !missing.some((m) => /\bnome\b/i.test(m))) missing.unshift(nomeItem);
+    const slotsAll = scheduling.slots;
+    if (missing.length && (decision.action === "AGENDAR" || repliesOfferSlots(decision.replies, slotsAll))) {
+      diag.checklistIncompleto = missing.slice(0, 5);
+      console.warn(`[AutoAgent] checklist incompleto conv=${conv.id} — bloqueando ${decision.action === "AGENDAR" ? "AGENDAR" : "oferta de horário"} (faltam: ${missing.join("; ")})`);
+      const retry = await runAssistant({
+        companyId: conv.companyId,
+        endpoint: "auto-agent",
+        messages: [
+          ...messages,
+          {
+            role: "system",
+            content: `⛔ NÃO agende e NÃO ofereça horários ainda: faltam itens do CHECKLIST DE QUALIFICAÇÃO — ${missing.join("; ")}. Pergunte agora o PRÓXIMO item (só um), de forma natural e curta, aproveitando o que o contato acabou de dizer. Use action "NONE".`,
+          },
+        ],
+        assistantId: assistant.id,
+        model: assistant.model,
+        temperature: assistant.temperature,
+        maxTokens: MAX_REPLY_TOKENS,
+      });
+      const second = retry.ok ? parseDecision(retry.text) : null;
+      const usable = !!second && second.action === "NONE" && second.replies.length > 0 && !repliesOfferSlots(second.replies, slotsAll);
+      decision = usable
+        ? { ...second!, resumo: second!.resumo ?? decision.resumo, nome: second!.nome ?? decision.nome }
+        : {
+            ...decision,
+            action: "NONE",
+            agendarInicio: null,
+            replies: [`Antes de marcar, me conta rapidinho: ${missing[0].replace(/[?.:]+$/, "")}?`],
+          };
+    }
   }
   diag.bolhas = decision.replies.length;
   if (decision.agendarInicio) diag.agendarInicio = decision.agendarInicio;
@@ -1778,6 +1827,17 @@ function contactChoseSlot(history: { direction: string; body: string }[], slot: 
     if (m.direction !== "INBOUND") return false;
     const t = normTxt(m.body ?? "");
     return mentionsTime(t) || mentionsDay(t) || AFFIRM_RE.test(t);
+  });
+}
+
+/** Alguma bolha cita um horário da agenda (hora + dia)? = está oferecendo horário. */
+function repliesOfferSlots(replies: string[], slots: Slot[]): boolean {
+  return replies.some((r) => {
+    const t = normTxt(r);
+    return slots.some((sl) => {
+      const { times, days } = slotTokens(sl);
+      return times.some((x) => hasToken(t, x)) && days.some((x) => hasToken(t, x));
+    });
   });
 }
 
