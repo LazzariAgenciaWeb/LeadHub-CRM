@@ -74,6 +74,8 @@ interface Assistant {
   revivalText?: string | null;
   followUpSteps?: unknown;
   followUpEnabled?: boolean;
+  followUpScopeTrigger?: boolean;
+  followUpScopeRequested?: boolean;
   followUpIncludeHuman?: boolean;
   followUpReplyIntent?: string | null;
   followUpReplyText?: string | null;
@@ -206,7 +208,9 @@ export default function AssistantsSettings({
   const [fFollowThrough, setFFollowThrough] = useState(true);
   const [fuSteps, setFuSteps] = useState<FollowUpStep[]>([]);
   const [fuEnabled, setFuEnabled] = useState(false);
-  const [fuIncludeHuman, setFuIncludeHuman] = useState(true);
+  const [fuScopeTrigger, setFuScopeTrigger] = useState(true);
+  const [fuScopeRequested, setFuScopeRequested] = useState(true);
+  const [fuIncludeHuman, setFuIncludeHuman] = useState(false);
   const [fuReplyIntent, setFuReplyIntent] = useState("");
   const [fuReplyText, setFuReplyText] = useState("");
   const [tab, setTab] = useState<TabKey>("comportamento");
@@ -239,7 +243,7 @@ export default function AssistantsSettings({
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
     setFFollowThrough(true); setFFollowAsk("");
-    setFuSteps([]); setFuEnabled(false); setFuIncludeHuman(true); setFuReplyIntent("COMERCIAL"); setFuReplyText("");
+    setFuSteps([]); setFuEnabled(false); setFuScopeTrigger(true); setFuScopeRequested(true); setFuIncludeHuman(false); setFuReplyIntent("COMERCIAL"); setFuReplyText("");
     setTab("comportamento");
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
@@ -279,7 +283,9 @@ export default function AssistantsSettings({
           : []
     );
     setFuEnabled(a.followUpEnabled === true);
-    setFuIncludeHuman(a.followUpIncludeHuman !== false);
+    setFuScopeTrigger(a.followUpScopeTrigger !== false);
+    setFuScopeRequested(a.followUpScopeRequested !== false);
+    setFuIncludeHuman(a.followUpIncludeHuman === true);
     setFuReplyIntent(
       a.followUpReplyIntent ?? (a.routes ?? []).find((r) => r.createLead)?.intent ?? ""
     );
@@ -345,6 +351,8 @@ export default function AssistantsSettings({
       followThrough: fFollowThrough,
       followUpEnabled: fuEnabled,
       followUpSteps: fuSteps.filter((x) => x.text.trim()),
+      followUpScopeTrigger: fuScopeTrigger,
+      followUpScopeRequested: fuScopeRequested,
       followUpIncludeHuman: fuIncludeHuman,
       followUpReplyIntent: fuReplyIntent,
       followUpReplyText: fuReplyText,
@@ -1014,15 +1022,45 @@ export default function AssistantsSettings({
                       </button>
                     </div>
 
-                    <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer mt-3">
-                      <input
-                        type="checkbox"
-                        checked={fuIncludeHuman}
-                        onChange={(e) => setFuIncludeHuman(e.target.checked)}
-                        className="w-4 h-4 accent-emerald-500"
-                      />
-                      Também quando um atendente falou por último <span className="text-slate-600">(ex.: mandou a proposta e o cliente sumiu)</span>
-                    </label>
+                    <div className="mt-3 rounded-lg border border-[#1e2d45] p-3">
+                      <span className="text-slate-300 text-[11px] font-semibold block mb-1.5">Em quais conversas ele pode cobrar</span>
+                      <label className="flex items-start gap-2 text-[11px] text-slate-300 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={fuScopeTrigger}
+                          onChange={(e) => setFuScopeTrigger(e.target.checked)}
+                          className="w-4 h-4 accent-emerald-500 mt-0.5"
+                        />
+                        <span>
+                          <strong className="text-slate-200">Veio pela campanha</strong> — entrou pelo gatilho do anúncio.
+                          <span className="text-slate-600"> Vale mesmo depois que um atendente assumiu: se o contato não voltou, o agente cobra.</span>
+                        </span>
+                      </label>
+                      <label className="flex items-start gap-2 text-[11px] text-slate-300 cursor-pointer mt-2">
+                        <input
+                          type="checkbox"
+                          checked={fuScopeRequested}
+                          onChange={(e) => setFuScopeRequested(e.target.checked)}
+                          className="w-4 h-4 accent-emerald-500 mt-0.5"
+                        />
+                        <span>
+                          <strong className="text-slate-200">Pedido do atendente</strong> — alguém clicou em &quot;Pedir follow-up&quot; na conversa.
+                          <span className="text-slate-600"> A etapa 1 conta do momento do pedido.</span>
+                        </span>
+                      </label>
+                      <label className="flex items-start gap-2 text-[11px] text-slate-300 cursor-pointer mt-2">
+                        <input
+                          type="checkbox"
+                          checked={fuIncludeHuman}
+                          onChange={(e) => setFuIncludeHuman(e.target.checked)}
+                          className="w-4 h-4 accent-amber-500 mt-0.5"
+                        />
+                        <span>
+                          <strong className="text-amber-300">Qualquer conversa em que falamos por último</strong>
+                          <span className="text-slate-600"> — inclusive quem nunca passou pelo agente. Numa base grande isso alcança muita gente: deixe ligado só se for mesmo a intenção.</span>
+                        </span>
+                      </label>
+                    </div>
 
                     <div className="mt-3 rounded-lg border border-[#1e2d45] p-3">
                       <span className="text-slate-300 text-[11px] font-semibold block mb-1.5">Quando o contato responder um follow-up</span>

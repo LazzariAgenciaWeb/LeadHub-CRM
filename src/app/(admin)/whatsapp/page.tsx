@@ -100,6 +100,7 @@ export default async function WhatsappPage({
       followUpStage: true,
       followUpLastAt: true,
       followUpExhaustedAt: true,
+      followUpRequestedAt: true,
     },
   });
 
@@ -197,6 +198,7 @@ export default async function WhatsappPage({
           followUpStage: (conv as any).followUpStage ?? 0,
           followUpLastAt: (conv as any).followUpLastAt ? (conv as any).followUpLastAt.toISOString() : null,
           followUpExhaustedAt: (conv as any).followUpExhaustedAt ? (conv as any).followUpExhaustedAt.toISOString() : null,
+          followUpRequestedAt: (conv as any).followUpRequestedAt ? (conv as any).followUpRequestedAt.toISOString() : null,
         },
       };
     })

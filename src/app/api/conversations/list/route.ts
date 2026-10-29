@@ -64,6 +64,7 @@ export async function GET(req: NextRequest) {
       followUpStage: true,
       followUpLastAt: true,
       followUpExhaustedAt: true,
+      followUpRequestedAt: true,
     },
   });
 
@@ -159,6 +160,7 @@ export async function GET(req: NextRequest) {
           followUpStage: (conv as any).followUpStage ?? 0,
           followUpLastAt: (conv as any).followUpLastAt ? (conv as any).followUpLastAt.toISOString() : null,
           followUpExhaustedAt: (conv as any).followUpExhaustedAt ? (conv as any).followUpExhaustedAt.toISOString() : null,
+          followUpRequestedAt: (conv as any).followUpRequestedAt ? (conv as any).followUpRequestedAt.toISOString() : null,
         },
       };
     })

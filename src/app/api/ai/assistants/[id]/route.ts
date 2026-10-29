@@ -111,7 +111,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (on && !owned.assistant!.followUpEnabled) data.followUpArmedAt = new Date();
     if (!on) data.followUpArmedAt = null;
   }
-  if ("followUpIncludeHuman" in body) data.followUpIncludeHuman = body.followUpIncludeHuman !== false;
+  if ("followUpScopeTrigger" in body) data.followUpScopeTrigger = body.followUpScopeTrigger !== false;
+  if ("followUpScopeRequested" in body) data.followUpScopeRequested = body.followUpScopeRequested !== false;
+  if ("followUpIncludeHuman" in body) data.followUpIncludeHuman = body.followUpIncludeHuman === true;
   if ("followUpReplyIntent" in body) data.followUpReplyIntent = (body.followUpReplyIntent ?? "").trim().toUpperCase() || null;
   if ("followUpReplyText" in body) data.followUpReplyText = (body.followUpReplyText ?? "").trim() || null;
   if ("followAskText" in body) data.followAskText = (body.followAskText ?? "").trim() || null;

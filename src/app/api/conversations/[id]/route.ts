@@ -71,6 +71,7 @@ export async function PATCH(
     // anterior — se o contato voltar, começa um atendimento novo do zero.
     data.aiCycleResetAt = new Date();
     data.aiEngagedAt = null; // modo TRIGGER volta a esperar novo gatilho
+    data.followUpRequestedAt = null; // atendimento encerrado não se cobra
     activities.push({ type: "CONVERSATION_CLOSED", body: `${userName} finalizou a conversa`, meta: { from: conv.status, to: "CLOSED" } });
   } else if (body.action === "concludeAi") {
     // Conclui SÓ o atendimento de IA (a conversa continua como está): zera o
@@ -85,6 +86,25 @@ export async function PATCH(
       type: "STATUS_CHANGED",
       body: `${userName} concluiu o atendimento de IA — próximo contato começa um ciclo novo`,
       meta: { aiCycleReset: true },
+    });
+  } else if (body.action === "requestFollowUp" || body.action === "cancelFollowUp") {
+    // Pedido manual: "mandei e o contato sumiu — cobra por mim". A sequência
+    // conta deste instante e para sozinha se o contato responder.
+    const asking = body.action === "requestFollowUp";
+    data.followUpRequestedAt = asking ? new Date() : null;
+    if (asking) {
+      // Pedido novo recomeça a sequência (etapa 1), mesmo que a conversa já
+      // tenha sido cobrada num sumiço anterior.
+      data.followUpStage = 0;
+      data.followUpLastAt = null;
+      data.followUpExhaustedAt = null;
+    }
+    activities.push({
+      type: "STATUS_CHANGED",
+      body: asking
+        ? `${userName} pediu follow-up do agente nesta conversa`
+        : `${userName} cancelou o follow-up pedido`,
+      meta: { followUpRequested: asking },
     });
   } else if (body.action === "reopen") {
     data.status = "OPEN";

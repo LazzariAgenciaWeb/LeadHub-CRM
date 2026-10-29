@@ -8,7 +8,7 @@ import {
   MessageCircle, MessageSquare, Hourglass, Calendar,
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
   Send, StickyNote, Target, DollarSign, Search, Bot, BotOff, Pause, Building2, Link2,
-  ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle, Zap, Eye, EyeOff,
+  ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle, Zap, Eye, EyeOff, RefreshCw,
   type LucideIcon,
 } from "lucide-react";
 import QuickReplies from "./QuickReplies";
@@ -162,11 +162,13 @@ interface Conversation {
     followUpStage?: number;
     followUpLastAt?: string | null;
     followUpExhaustedAt?: string | null;
+    // Pedido manual de follow-up (o atendente marcou "cobra por mim")
+    followUpRequestedAt?: string | null;
   } | null;
 }
 
 // Selo do follow-up: em que etapa a conversa está ou se esgotou sem resposta.
-function followUpChip(c: { followUpStage?: number; followUpLastAt?: string | null; followUpExhaustedAt?: string | null } | null | undefined) {
+function followUpChip(c: { followUpStage?: number; followUpLastAt?: string | null; followUpExhaustedAt?: string | null; followUpRequestedAt?: string | null } | null | undefined) {
   if (!c) return null;
   const when = (iso: string | null | undefined) =>
     iso ? new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "";
@@ -175,6 +177,13 @@ function followUpChip(c: { followUpStage?: number; followUpLastAt?: string | nul
       label: "Sem retorno",
       cls: "text-slate-300 bg-slate-500/15 border-slate-500/30",
       title: `Follow-up esgotado em ${when(c.followUpExhaustedAt)} — nenhuma etapa teve resposta`,
+    };
+  }
+  if (c.followUpRequestedAt && !(c.followUpStage ?? 0)) {
+    return {
+      label: "🔁 Follow-up pedido",
+      cls: "text-sky-300 bg-sky-500/10 border-sky-500/30",
+      title: `Follow-up pedido em ${when(c.followUpRequestedAt)} — o agente cobra quando vencer a etapa 1; se o contato responder, para sozinho`,
     };
   }
   if ((c.followUpStage ?? 0) > 0) {
@@ -1673,6 +1682,30 @@ export default function WhatsappManager({
       if (res.ok) {
         setSelectedConv((prev) => prev?.conversation
           ? { ...prev, conversation: { ...prev.conversation, aiMode: next } }
+          : prev);
+        router.refresh();
+      }
+    } finally {
+      setConvActionLoading(false);
+    }
+  }
+
+  // Pedido manual de follow-up: o atendente mandou e o contato sumiu — em vez
+  // de lembrar sozinho, marca aqui e o agente cobra quando a etapa vencer.
+  async function toggleFollowUpRequest() {
+    const conv = selectedConv?.conversation;
+    if (!conv) return;
+    const asking = !conv.followUpRequestedAt;
+    setConvActionLoading(true);
+    try {
+      const res = await fetch(`/api/conversations/${conv.id}`, {
+        method:  "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ action: asking ? "requestFollowUp" : "cancelFollowUp" }),
+      });
+      if (res.ok) {
+        setSelectedConv((prev) => prev?.conversation
+          ? { ...prev, conversation: { ...prev.conversation, followUpRequestedAt: asking ? new Date().toISOString() : null } }
           : prev);
         router.refresh();
       }
@@ -4071,6 +4104,26 @@ export default function WhatsappManager({
                         >
                           ⚠️ IA não respondeu: {describeAiResult(conv.aiLastResult)!.text}
                         </span>
+                      )}
+
+                      {/* Pedir follow-up — o atendente falou e o contato sumiu. */}
+                      {conv.aiMode !== undefined && (
+                        <button
+                          onClick={toggleFollowUpRequest}
+                          disabled={convActionLoading}
+                          title={
+                            conv.followUpRequestedAt
+                              ? "Follow-up pedido — clique pra cancelar"
+                              : "Pedir follow-up — o agente cobra este contato quando a etapa vencer; se ele responder, para sozinho"
+                          }
+                          className={`px-2 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 flex items-center gap-0.5 ${
+                            conv.followUpRequestedAt
+                              ? "border-sky-500/40 bg-sky-500/20 text-sky-200 hover:bg-sky-500/30"
+                              : "border-slate-600 bg-slate-700/30 text-slate-400 hover:bg-slate-700/50"
+                          }`}
+                        >
+                          <RefreshCw className="w-4 h-4" strokeWidth={2.5} />
+                        </button>
                       )}
 
                       {/* Concluir atendimento de IA — zera o contexto do agente:

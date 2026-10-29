@@ -163,6 +163,11 @@ export function nextFollowUpStep(args: {
   lastMsg: { direction: string; raw: any } | null;
   steps: FollowUpStep[];
   includeHuman: boolean;
+  /** A IA assumiu esta conversa pelo gatilho da campanha. */
+  engagedAt?: Date | null;
+  /** Um atendente pediu follow-up nesta conversa. */
+  requestedAt?: Date | null;
+  scopes?: { trigger: boolean; requested: boolean };
   /** Quando o follow-up foi ligado; conversa parada antes disso não entra. */
   armedAt?: Date | null;
   now: number;
@@ -174,15 +179,33 @@ export function nextFollowUpStep(args: {
   if (!steps.length) return { kind: "skip", reason: "sem_etapas" };
   if (args.exhaustedAt) return { kind: "skip", reason: "esgotado" };
   if (args.aiMode === "OFF") return { kind: "skip", reason: "ia_desligada" };
-  if (!args.includeHuman && args.aiMode !== "ACTIVE") return { kind: "skip", reason: "humano_assumiu" };
   if (args.scheduledReturnAt) return { kind: "skip", reason: "retorno_agendado" };
   if (!lastMsg || lastMsg.direction !== "OUTBOUND") return { kind: "skip", reason: "ultima_fala_do_contato" };
   // "Já já alguém te responde" = quem deve somos nós, não o contato.
   if (lastMsg.raw?.courtesy) return { kind: "skip", reason: "aviso_da_sentinela" };
-  if (!lastMsg.raw?.autoAgent && !args.includeHuman) return { kind: "skip", reason: "ultima_fala_humana" };
+
+  // ESCOPO: por que ESTA conversa pode ser cobrada. Basta um motivo.
+  const scopes = args.scopes ?? { trigger: false, requested: false };
+  const viaPedido = scopes.requested && !!args.requestedAt;
+  // Veio pela campanha: segue valendo mesmo depois que um atendente assumiu —
+  // é o caso "a recepção respondeu e o contato nunca mais voltou".
+  const viaCampanha = scopes.trigger && !!args.engagedAt;
+  // A própria IA falou por último e ainda é dona da conversa.
+  const viaAgente = !!lastMsg.raw?.autoAgent && args.aiMode === "ACTIVE";
+  // Escopo amplo (qualquer conversa nossa), incluindo as que nunca passaram
+  // pelo agente — só quando explicitamente ligado.
+  const viaAmplo = args.includeHuman;
+  if (!viaPedido && !viaCampanha && !viaAgente && !viaAmplo) {
+    return { kind: "skip", reason: "fora_do_escopo" };
+  }
   if (!args.lastMessageAt) return { kind: "skip", reason: "sem_data" };
 
-  const elapsed = now - args.lastMessageAt.getTime();
+  // Pedido manual mais novo que a última fala: a etapa 1 conta do PEDIDO
+  // (senão uma conversa parada há dias dispararia na hora em que foi marcada).
+  const base = viaPedido && args.requestedAt && args.requestedAt > args.lastMessageAt
+    ? args.requestedAt
+    : args.lastMessageAt;
+  const elapsed = now - base.getTime();
   if (stage >= steps.length) {
     return elapsed >= FOLLOWUP_EXHAUST_AFTER_MS ? { kind: "exhaust" } : { kind: "skip", reason: "aguardando_ultima" };
   }
@@ -190,10 +213,13 @@ export function nextFollowUpStep(args: {
   if (elapsed < due) return { kind: "skip", reason: "ainda_nao" };
   // Ligar o recurso não pode disparar na base antiga: etapa 1 só para
   // silêncio recente. As etapas seguintes encadeiam a partir da anterior.
-  if (stage === 0 && elapsed > due + REVIVAL_MAX_AGE_MS) return { kind: "skip", reason: "silencio_antigo" };
+  if (stage === 0 && !viaPedido && elapsed > due + REVIVAL_MAX_AGE_MS) {
+    return { kind: "skip", reason: "silencio_antigo" };
+  }
   // E só para conversa que ainda se mexeu DEPOIS de ligar o follow-up: quem
-  // já estava parado antes disso é base antiga, não abandono do funil.
-  if (stage === 0 && args.armedAt && args.lastMessageAt < args.armedAt) {
+  // já estava parado antes disso é base antiga, não abandono do funil. O
+  // pedido manual passa por cima — ali alguém escolheu cobrar.
+  if (stage === 0 && !viaPedido && args.armedAt && base < args.armedAt) {
     return { kind: "skip", reason: "anterior_a_ativacao" };
   }
   return { kind: "send", stage };
@@ -229,7 +255,11 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
     if (!inst) continue;
     const steps = getFollowUpSteps(a as any);
     if (!steps.length) continue;
-    const includeHuman = (a as any).followUpIncludeHuman !== false;
+    const includeHuman = (a as any).followUpIncludeHuman === true;
+    const scopes = {
+      trigger: (a as any).followUpScopeTrigger !== false,
+      requested: (a as any).followUpScopeRequested !== false,
+    };
 
     // Mensagem fora do horário de atendimento acorda cliente de madrugada.
     // Fora da janela, a rodada seguinte pega a mesma conversa.
@@ -248,7 +278,9 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
         instanceId: inst.id,
         isGroup: false,
         status: { not: "CLOSED" },
-        aiMode: includeHuman ? { not: "OFF" } : "ACTIVE",
+        // Conversa pausada (atendente assumiu) continua elegível: quem decide
+        // é o escopo, lá na regra pura. Só "IA desligada" corta aqui.
+        aiMode: { not: "OFF" },
         lastMessageDirection: "OUTBOUND", // nós falamos por último
         scheduledReturnAt: null, // retorno agendado pelo time manda
         followUpExhaustedAt: null,
@@ -257,12 +289,14 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
         // base antiga lotaria a rodada e as conversas novas nunca entrariam.
         OR: [
           { followUpStage: { gt: 0 } },
+          { followUpRequestedAt: { not: null } },
           { lastMessageAt: { gte: new Date(now - steps[0].delayMin * 60_000 - REVIVAL_MAX_AGE_MS) } },
         ],
       } as any,
       select: {
         id: true, phone: true, aiMode: true, lastMessageAt: true, scheduledReturnAt: true,
         followUpStage: true, followUpExhaustedAt: true,
+        aiEngagedAt: true, followUpRequestedAt: true,
       } as any,
       orderBy: { lastMessageAt: "desc" },
       take: 80,
@@ -286,6 +320,9 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
           lastMsg: lastMsg ? { direction: lastMsg.direction, raw: lastMsg.rawPayload } : null,
           steps,
           includeHuman,
+          scopes,
+          engagedAt: c.aiEngagedAt ?? null,
+          requestedAt: c.followUpRequestedAt ?? null,
           armedAt: a.followUpArmedAt ?? null,
           now,
         });
@@ -363,7 +400,7 @@ async function handleFollowUpReply(args: {
   const { conv, assistant, sender } = args;
   await prisma.conversation.update({
     where: { id: conv.id },
-    data: { followUpStage: 0, followUpLastAt: null, followUpExhaustedAt: null } as any,
+    data: { followUpStage: 0, followUpLastAt: null, followUpExhaustedAt: null, followUpRequestedAt: null } as any,
   });
   await prisma.conversationNote.create({
     data: {

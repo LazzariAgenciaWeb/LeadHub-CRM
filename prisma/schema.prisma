@@ -4022,7 +4022,7 @@ model Assistant {
   // Escopo amplo: QUALQUER conversa em que a gente falou por último, inclusive
   // as que nunca passaram pelo agente. É o que causou o incidente da clínica —
   // fica desligado a não ser que alguém escolha.
-  followUpIncludeHuman Boolean @default(true)
+  followUpIncludeHuman Boolean @default(false)
   // Quem responde ao follow-up vai pra esta rota (intent); null = handoff.
   followUpReplyIntent  String?
   // Aviso curto ao contato quando ele volta (null = não manda nada).
