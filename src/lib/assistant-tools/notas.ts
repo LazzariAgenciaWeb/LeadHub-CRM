@@ -240,15 +240,15 @@ export const delegarItem: ToolDef<{ id: string; assigneeId?: string; assigneeNam
   },
 };
 
-export const criarRegra: ToolDef<{ padrao: string; acao: "DONE" | "ARCHIVE" | "DELEGATE" | "CLASSIFY" | "INFO"; assigneeId?: string; assigneeName?: string; importante?: boolean; urgente?: boolean; tags?: string[]; observacao?: string }> = {
+export const criarRegra: ToolDef<{ padrao: string; acao: "DONE" | "ARCHIVE" | "DELEGATE" | "CLASSIFY" | "INFO" | "IDEA"; assigneeId?: string; assigneeName?: string; importante?: boolean; urgente?: boolean; tags?: string[]; observacao?: string }> = {
   name: "criar_regra",
   description:
-    "Regra 'sempre que…': todo item que CHEGAR (rotina, e-mail, webhook, anotação) cujo título/texto OU etiqueta contenha o padrão já entra tratado. acao: INFO (só avisar: vira lembrete sem prazo, só pra consulta — vale apenas pro que vem de rotinas; ex.: 'financeiro' quando outra pessoa já cuida), DONE (entra concluído — avisos que não exigem ação), ARCHIVE (entra arquivado), DELEGATE (vira chamado interno pro responsável; informe assigneeId/assigneeName), CLASSIFY (só define importante/urgente/etiquetas). Ex.: 'sempre que chegar fatura da Opção Telecom, delega pra Kelly'.",
+    "Regra 'sempre que…': todo item que CHEGAR (rotina, e-mail, webhook, anotação) cujo título/texto OU etiqueta contenha o padrão já entra tratado. acao: INFO (só avisar: vira lembrete sem prazo, só pra consulta — vale apenas pro que vem de rotinas; ex.: 'financeiro' quando outra pessoa já cuida), DONE (entra concluído — avisos que não exigem ação), ARCHIVE (entra arquivado), DELEGATE (vira chamado interno pro responsável; informe assigneeId/assigneeName), CLASSIFY (só define importante/urgente/etiquetas), IDEA (banco de ideias: vira ideia sem prazo, fora da fila, sem alarme e fora do iPhone — ex.: 'reels', roteiros e pautas pra quando houver tempo). Ex.: 'sempre que chegar fatura da Opção Telecom, delega pra Kelly'.",
   input_schema: {
     type: "object",
     properties: {
       padrao: { type: "string", description: "Trecho que identifica o assunto, ex.: 'opção telecom', 'backup wordpress', 'fatura hostmach'" },
-      acao: { type: "string", enum: ["DONE", "ARCHIVE", "DELEGATE", "CLASSIFY", "INFO"] },
+      acao: { type: "string", enum: ["DONE", "ARCHIVE", "DELEGATE", "CLASSIFY", "INFO", "IDEA"] },
       assigneeId: { type: "string" }, assigneeName: { type: "string" },
       importante: IMPORTANT_PROP, urgente: URGENT_PROP, tags: TAGS_PROP,
       observacao: { type: "string" },
@@ -271,7 +271,7 @@ export const criarRegra: ToolDef<{ padrao: string; acao: "DONE" | "ARCHIVE" | "D
       data: { userId: ctx.userId, pattern, action: input.acao, assigneeId, important: typeof input.importante === "boolean" ? input.importante : null, urgent: typeof input.urgente === "boolean" ? input.urgente : null, tags: cleanTags(input.tags), note: input.observacao?.trim() || null },
       select: { id: true },
     });
-    const label = { DONE: "entra concluído", ARCHIVE: "entra arquivado", DELEGATE: "vira chamado interno delegado", CLASSIFY: "só classifica", INFO: "vira só aviso (lembrete sem prazo, quando vier de rotina)" }[input.acao];
+    const label = { DONE: "entra concluído", ARCHIVE: "entra arquivado", DELEGATE: "vira chamado interno delegado", CLASSIFY: "só classifica", INFO: "vira só aviso (lembrete sem prazo, quando vier de rotina)", IDEA: "vai pro banco de ideias (sem prazo, sem alarme, fora da fila)" }[input.acao];
     return ok(`📏 Regra criada: sempre que chegar algo com "${input.padrao}", ${label}. (id=${r.id})`);
   },
 };

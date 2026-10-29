@@ -6,7 +6,7 @@ import { findSimilarOpenNote, appendToNote, normalizeText } from "./dedupe";
 /**
  * Entrada ÚNICA de itens no bloquinho (chat, WhatsApp, Claude via MCP,
  * webhook). Na ordem:
- *   1. Regras "sempre que…" do usuário (delegar / arquivar / concluir / classificar)
+ *   1. Regras "sempre que…" do usuário (delegar / arquivar / concluir / classificar / banco de ideias)
  *   2. Auto-resolução: "fatura paga", "renovado", "confirmado"… sobre um
  *      assunto já aberto → conclui o item antigo com essa informação
  *   3. Mesmo assunto aberto → acrescenta (não duplica)
@@ -54,6 +54,13 @@ export async function intakeNote(ctx: IntakeCtx, draftIn: IntakeDraft): Promise<
     draft = { ...draft, kind: "REMINDER", dueAt: null };
     urgent = false;
     if (!tags.includes("aviso")) tags.push("aviso");
+  }
+  if (rule?.action === "IDEA") {
+    // Banco de ideias (ex.: roteiros de reels): fica guardado pra quando houver
+    // tempo — sem prazo, fora da fila, sem alarme e fora dos Lembretes do iPhone.
+    draft = { ...draft, kind: "IDEA", dueAt: null };
+    important = false;
+    urgent = false;
   }
   if (rule) {
     await prisma.assistantRule.update({ where: { id: rule.id }, data: { hits: { increment: 1 }, lastHitAt: now } }).catch(() => {});

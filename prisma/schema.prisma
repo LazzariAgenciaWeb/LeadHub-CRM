@@ -158,6 +158,18 @@ model AssistantNote {
   @@index([userId, archivedAt])
 }
 
+// Aviso de rotina que NÃO é urgente: em vez de ir na hora pro WhatsApp, fica
+// aqui e sai junto, numa mensagem só, no resumo da manhã (ou no das 17h).
+model AssistantDigestItem {
+  id        String    @id @default(cuid())
+  userId    String
+  text      String    @db.Text
+  createdAt DateTime  @default(now())
+  sentAt    DateTime?
+
+  @@index([userId, sentAt])
+}
+
 // Histórico do item do bloquinho: quando foi criado, editado, concluído ou
 // reaberto, por qual canal, e o que foi feito na conclusão.
 model AssistantNoteEvent {
@@ -1280,6 +1292,9 @@ model Conversation {
   // última e quando a sequência esgotou sem resposta ("sem retorno"). Zera
   // quando o contato responde.
   followUpStage       Int       @default(0)
+  // Pedido manual de follow-up ("o atendente mandou e o contato sumiu").
+  // A etapa 1 conta deste momento quando ele é mais novo que a última fala.
+  followUpRequestedAt DateTime?
   followUpLastAt      DateTime?
   followUpExhaustedAt DateTime?
 
@@ -3998,7 +4013,15 @@ model Assistant {
   // Momento em que o follow-up foi ligado. Conversa que já estava parada
   // ANTES disso nunca recebe a etapa 1 — ligar não dispara na base antiga.
   followUpArmedAt      DateTime?
-  // Também cobra quando quem falou por último foi um atendente.
+  // ESCOPO — em quais conversas o follow-up pode entrar (somam-se):
+  // veio pela campanha (a IA assumiu pelo gatilho), mesmo que depois um
+  // atendente tenha assumido e o contato não tenha voltado.
+  followUpScopeTrigger   Boolean @default(true)
+  // ...e conversa marcada à mão pelo atendente ("Pedir follow-up").
+  followUpScopeRequested Boolean @default(true)
+  // Escopo amplo: QUALQUER conversa em que a gente falou por último, inclusive
+  // as que nunca passaram pelo agente. É o que causou o incidente da clínica —
+  // fica desligado a não ser que alguém escolha.
   followUpIncludeHuman Boolean @default(true)
   // Quem responde ao follow-up vai pra esta rota (intent); null = handoff.
   followUpReplyIntent  String?
@@ -4896,7 +4919,7 @@ model AssistantRule {
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   pattern    String   // trecho normalizado (minúsculo, sem acento) a casar no título/corpo
-  action     String   // DONE | ARCHIVE | DELEGATE | CLASSIFY
+  action     String   // DONE | ARCHIVE | DELEGATE | CLASSIFY | INFO | IDEA
   assigneeId String?  // DELEGATE: responsável do chamado interno
   important  Boolean?
   urgent     Boolean?
