@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v25-retomada-segura";
+export const AUTO_AGENT_REV = "v26-agendar-so-com-escolha";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -1491,6 +1491,23 @@ async function runAutoAgentCore(
       .map((e) => e.toLowerCase());
     const fallbackEmail = inboundEmails[0] ?? null;
 
+    // Só marca se o CONTATO escolheu: o horário precisa ter sido oferecido
+    // por nós e, depois da oferta, o contato concordou ou citou o horário.
+    // Caso real: o contato respondeu o objetivo ("atrair novos alunos") e o
+    // modelo devolveu AGENDAR com o primeiro horário da lista — reunião
+    // criada e Meet enviado sem ninguém ter falado em horário. Aí, em vez de
+    // agendar, o motor OFERECE dois horários (o passo que foi pulado).
+    const slots = scheduling?.slots ?? [];
+    const chosen = slots.length
+      ? resolveSlot(slots, decision.agendarInicio) ?? resolveSlot(slots, fallbackText)
+      : null;
+    if (chosen && !contactChoseSlot(history, chosen)) {
+      diag.agendarBloqueado = `sem_escolha_do_contato(${chosen.label})`;
+      console.warn(`[AutoAgent] AGENDAR sem escolha do contato conv=${conv.id} — oferecendo horários`);
+      const offered = await sendBotText(botSender, slotOfferText(slots));
+      return { ok: true, action: "NONE", replied: offered };
+    }
+
     await handleBooking({
       conversationId: conv.id,
       companyId: conv.companyId,
@@ -1715,6 +1732,65 @@ function resolveSlot(slots: Slot[], agendarInicio: string | null): Slot | null {
     if (match) return match;
   }
   return null;
+}
+
+// ── O contato escolheu este horário? ──────────────────────────────────────────
+const WEEKDAY_FULL: Record<string, string> = {
+  seg: "segunda", ter: "terca", qua: "quarta", qui: "quinta", sex: "sexta", sab: "sabado", dom: "domingo",
+};
+const AFFIRM_RE =
+  /(^|[^a-z0-9])(sim|pode ser|fechado|combinado|perfeito|ok|okay|beleza|blz|bora|pode marcar|marca|marcado|confirmo|confirmado|esse|essa|top|otimo|show|certo|isso)($|[^a-z0-9])/;
+
+const normTxt = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const escapeRe = (t: string) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+/** Token inteiro (sem pegar "qui" dentro de "aqui" nem "9" dentro de "19"). */
+const hasToken = (text: string, tok: string) =>
+  new RegExp(`(^|[^a-z0-9])${escapeRe(normTxt(tok))}($|[^a-z0-9])`).test(text);
+
+/** Formas de citar o horário e o dia de um slot ("qui 29/10 09:00"). */
+function slotTokens(slot: Slot): { times: string[]; days: string[] } {
+  const [wd = "", dm = "", hm = ""] = slot.label.split(" ");
+  const [dd = "", mo = ""] = dm.split("/");
+  const [hh = "", mi = "00"] = hm.split(":");
+  const h = String(parseInt(hh, 10));
+  const times = [`${hh}:${mi}`, `${h}:${mi}`, `${h}h${mi === "00" ? "" : mi}`, `${hh}h${mi === "00" ? "" : mi}`];
+  if (mi === "00") times.push(`${h}h00`, `as ${h}`, `às ${h}`);
+  const wdKey = normTxt(wd);
+  const days = [dm, `${parseInt(dd, 10)}/${parseInt(mo, 10)}`, wdKey, WEEKDAY_FULL[wdKey] ?? ""].filter(Boolean);
+  return { times, days };
+}
+
+/**
+ * Houve ESCOLHA do contato: alguma fala nossa ofereceu este horário (hora +
+ * dia) e, depois dela, o contato citou o horário/dia ou concordou.
+ */
+function contactChoseSlot(history: { direction: string; body: string }[], slot: Slot): boolean {
+  const { times, days } = slotTokens(slot);
+  const mentionsTime = (t: string) => times.some((x) => hasToken(t, x));
+  const mentionsDay = (t: string) => days.some((x) => hasToken(t, x));
+  let offerIdx = -1;
+  history.forEach((m, i) => {
+    const t = normTxt(m.body ?? "");
+    if (m.direction === "OUTBOUND" && mentionsTime(t) && mentionsDay(t)) offerIdx = i;
+  });
+  if (offerIdx === -1) return false;
+  return history.slice(offerIdx + 1).some((m) => {
+    if (m.direction !== "INBOUND") return false;
+    const t = normTxt(m.body ?? "");
+    return mentionsTime(t) || mentionsDay(t) || AFFIRM_RE.test(t);
+  });
+}
+
+/** Oferta de 2 horários (1 manhã + 1 tarde, como manda a regra do agendamento). */
+function slotOfferText(slots: Slot[]): string {
+  const manha = slots.filter((s) => s.period === "manha");
+  const tarde = slots.filter((s) => s.period === "tarde");
+  const pick = manha[0] && tarde[0] ? [manha[0], tarde[0]] : slots.slice(0, 2);
+  const fmt = (s: Slot) => s.label.replace(/ (\d{1,2}:\d{2})$/, " às $1");
+  const opts = pick.map(fmt);
+  return opts.length === 2
+    ? `Pra gente seguir, que tal uma conversa rápida? Tenho ${opts[0]} ou ${opts[1]} — qual fica melhor pra você?`
+    : `Pra gente seguir, que tal uma conversa rápida? Tenho ${opts[0]} — funciona pra você?`;
 }
 
 /**
