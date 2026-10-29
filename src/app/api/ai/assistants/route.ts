@@ -123,6 +123,8 @@ export async function POST(req: NextRequest) {
       revivalDelayMin: Math.min(20160, Math.max(0, parseInt(body.revivalDelayMin, 10) || 0)),
       revivalText: (body.revivalText ?? "").trim() || null,
       followUpSteps: (sanitizeFollowUpSteps(body.followUpSteps) ?? undefined) as any,
+      followUpEnabled: body.followUpEnabled === true,
+      followUpArmedAt: body.followUpEnabled === true ? new Date() : null,
       followUpIncludeHuman: body.followUpIncludeHuman !== false,
       followUpReplyIntent: (body.followUpReplyIntent ?? "").trim().toUpperCase() || null,
       followUpReplyText: (body.followUpReplyText ?? "").trim() || null,

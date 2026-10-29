@@ -12,7 +12,9 @@ async function loadOwned(session: any, id: string) {
   const userCompanyId = session.user.companyId as string | undefined;
   const a = await prisma.assistant.findUnique({
     where: { id },
-    select: { id: true, companyId: true },
+    // followUpEnabled: o PATCH precisa saber o valor ANTERIOR pra só rearmar
+    // o follow-up quando ele passa de desligado pra ligado.
+    select: { id: true, companyId: true, followUpEnabled: true },
   });
   if (!a) return { error: NextResponse.json({ error: "Agente não encontrado" }, { status: 404 }) };
   if (role !== "SUPER_ADMIN" && a.companyId !== userCompanyId) {
@@ -100,6 +102,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     // As etapas substituem o resgate antigo: zerar evita que ele "volte" como
     // etapa 1 quando alguém apaga todas as etapas.
     data.revivalDelayMin = 0;
+  }
+  if ("followUpEnabled" in body) {
+    const on = body.followUpEnabled === true;
+    data.followUpEnabled = on;
+    // Ligar (ou religar) arma a partir de AGORA: conversa que já estava parada
+    // antes disso fica de fora, senão a primeira varredura cobra a base toda.
+    if (on && !owned.assistant!.followUpEnabled) data.followUpArmedAt = new Date();
+    if (!on) data.followUpArmedAt = null;
   }
   if ("followUpIncludeHuman" in body) data.followUpIncludeHuman = body.followUpIncludeHuman !== false;
   if ("followUpReplyIntent" in body) data.followUpReplyIntent = (body.followUpReplyIntent ?? "").trim().toUpperCase() || null;

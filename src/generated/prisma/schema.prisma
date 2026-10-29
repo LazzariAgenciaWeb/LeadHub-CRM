@@ -3991,12 +3991,18 @@ model Assistant {
   // delayMin conta da mensagem ANTERIOR (etapa 1 = da nossa última fala).
   // Vazio + revivalDelayMin > 0 = o resgate antigo vira a etapa 1.
   followUpSteps        Json?
+  // Chave geral do follow-up. Desligado por padrão: ligar é decisão
+  // consciente — ligado sem querer, o agente escreve pra base inteira.
+  followUpEnabled      Boolean   @default(false)
+  // Momento em que o follow-up foi ligado. Conversa que já estava parada
+  // ANTES disso nunca recebe a etapa 1 — ligar não dispara na base antiga.
+  followUpArmedAt      DateTime?
   // Também cobra quando quem falou por último foi um atendente.
-  followUpIncludeHuman Boolean @default(true)
+  followUpIncludeHuman Boolean   @default(true)
   // Quem responde ao follow-up vai pra esta rota (intent); null = handoff.
   followUpReplyIntent  String?
   // Aviso curto ao contato quando ele volta (null = não manda nada).
-  followUpReplyText    String? @db.Text
+  followUpReplyText    String?   @db.Text
 
   // CONTINUACAO: o agente prometeu algo e o turno acabou sem entregar — ele
   // volta sozinho em ~30s pra cumprir. Ligado por padrao (e o conserto de um

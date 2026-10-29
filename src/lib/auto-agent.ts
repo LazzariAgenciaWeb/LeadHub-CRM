@@ -163,6 +163,8 @@ export function nextFollowUpStep(args: {
   lastMsg: { direction: string; raw: any } | null;
   steps: FollowUpStep[];
   includeHuman: boolean;
+  /** Quando o follow-up foi ligado; conversa parada antes disso não entra. */
+  armedAt?: Date | null;
   now: number;
 }): FollowUpDecision {
   const { steps, lastMsg, now } = args;
@@ -189,6 +191,11 @@ export function nextFollowUpStep(args: {
   // Ligar o recurso não pode disparar na base antiga: etapa 1 só para
   // silêncio recente. As etapas seguintes encadeiam a partir da anterior.
   if (stage === 0 && elapsed > due + REVIVAL_MAX_AGE_MS) return { kind: "skip", reason: "silencio_antigo" };
+  // E só para conversa que ainda se mexeu DEPOIS de ligar o follow-up: quem
+  // já estava parado antes disso é base antiga, não abandono do funil.
+  if (stage === 0 && args.armedAt && args.lastMessageAt < args.armedAt) {
+    return { kind: "skip", reason: "anterior_a_ativacao" };
+  }
   return { kind: "send", stage };
 }
 
@@ -206,6 +213,7 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
       isActive: true,
       autoRespond: true,
       instanceId: { not: null },
+      followUpEnabled: true, // chave geral: desligado, o agente não cobra ninguém
       OR: [{ followUpSteps: { not: null } }, { revivalDelayMin: { gt: 0 } }],
     } as any,
     include: { instance: { select: { id: true, instanceName: true, instanceToken: true, phone: true } } },
@@ -278,6 +286,7 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
           lastMsg: lastMsg ? { direction: lastMsg.direction, raw: lastMsg.rawPayload } : null,
           steps,
           includeHuman,
+          armedAt: a.followUpArmedAt ?? null,
           now,
         });
 

@@ -73,6 +73,7 @@ interface Assistant {
   followThrough?: boolean;
   revivalText?: string | null;
   followUpSteps?: unknown;
+  followUpEnabled?: boolean;
   followUpIncludeHuman?: boolean;
   followUpReplyIntent?: string | null;
   followUpReplyText?: string | null;
@@ -204,6 +205,7 @@ export default function AssistantsSettings({
   const [fCourtesyText, setFCourtesyText] = useState("");
   const [fFollowThrough, setFFollowThrough] = useState(true);
   const [fuSteps, setFuSteps] = useState<FollowUpStep[]>([]);
+  const [fuEnabled, setFuEnabled] = useState(false);
   const [fuIncludeHuman, setFuIncludeHuman] = useState(true);
   const [fuReplyIntent, setFuReplyIntent] = useState("");
   const [fuReplyText, setFuReplyText] = useState("");
@@ -237,7 +239,7 @@ export default function AssistantsSettings({
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText(""); setFGroupDelay(0);
     setFFollowThrough(true); setFFollowAsk("");
-    setFuSteps([]); setFuIncludeHuman(true); setFuReplyIntent("COMERCIAL"); setFuReplyText("");
+    setFuSteps([]); setFuEnabled(false); setFuIncludeHuman(true); setFuReplyIntent("COMERCIAL"); setFuReplyText("");
     setTab("comportamento");
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
@@ -276,6 +278,7 @@ export default function AssistantsSettings({
           ? [{ delayMin: a.revivalDelayMin!, text: a.revivalText?.trim() || "Oi {nome}! Passando pra saber se você ainda tem interesse 😊 se quiser seguir de onde paramos, é só me chamar por aqui." }]
           : []
     );
+    setFuEnabled(a.followUpEnabled === true);
     setFuIncludeHuman(a.followUpIncludeHuman !== false);
     setFuReplyIntent(
       a.followUpReplyIntent ?? (a.routes ?? []).find((r) => r.createLead)?.intent ?? ""
@@ -340,6 +343,7 @@ export default function AssistantsSettings({
       groupFirstAidDelayMin: fGroupDelay,
       courtesyText: fCourtesyText,
       followThrough: fFollowThrough,
+      followUpEnabled: fuEnabled,
       followUpSteps: fuSteps.filter((x) => x.text.trim()),
       followUpIncludeHuman: fuIncludeHuman,
       followUpReplyIntent: fuReplyIntent,
@@ -399,7 +403,7 @@ export default function AssistantsSettings({
     { key: "regras", icon: "📋", label: "Regras", on: false },
     { key: "encaminhamento", icon: "🔀", label: "Encaminhamento", on: fAutoRespond && fRoutes.some((r) => r.intent.trim() && r.setorId) },
     { key: "agenda", icon: "📅", label: "Agenda", on: fAutoRespond && !!fCalendarUser },
-    { key: "followup", icon: "🔁", label: "Follow-up", on: fAutoRespond && fuSteps.some((x) => x.text.trim()) },
+    { key: "followup", icon: "🔁", label: "Follow-up", on: fAutoRespond && fuEnabled && fuSteps.some((x) => x.text.trim()) },
     { key: "sentinelas", icon: "🛡️", label: "Sentinelas", on: fAutoRespond && (fCourtesyDelay > 0 || fGroupDelay > 0) },
     ...(fIgAccount ? [{ key: "instagram" as TabKey, icon: "📸", label: "Instagram", on: false }] : []),
   ];
@@ -934,8 +938,24 @@ export default function AssistantsSettings({
                     <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
                       🔁 Follow-up em etapas <span className="text-slate-600 normal-case">— quando o contato some e não responde</span>
                     </label>
-                    {fuSteps.length === 0 && (
-                      <p className="text-slate-500 text-[11px] mb-2">Desligado — adicione uma etapa ou use a sugestão pronta.</p>
+                    <label className="flex items-center gap-2 text-xs text-slate-200 cursor-pointer mb-1.5">
+                      <input
+                        type="checkbox"
+                        checked={fuEnabled}
+                        onChange={(e) => setFuEnabled(e.target.checked)}
+                        className="w-4 h-4 accent-emerald-500"
+                      />
+                      <strong className={fuEnabled ? "text-emerald-400" : "text-slate-400"}>
+                        {fuEnabled ? "Follow-up LIGADO" : "Follow-up DESLIGADO"}
+                      </strong>
+                      <span className="text-slate-600">— chave geral: desligado, o agente não cobra ninguém</span>
+                    </label>
+                    <p className="text-slate-600 text-[11px] mb-2">
+                      Ao ligar, vale <strong className="text-slate-400">daqui pra frente</strong>: conversa que já estava parada antes disso não recebe cobrança.
+                      Desligar para na hora — nada fica na fila.
+                    </p>
+                    {fuEnabled && fuSteps.length === 0 && (
+                      <p className="text-amber-500/80 text-[11px] mb-2">Ligado, mas sem etapa — adicione uma etapa ou use a sugestão pronta.</p>
                     )}
                     <div className="space-y-2">
                       {fuSteps.map((st, idx) => (

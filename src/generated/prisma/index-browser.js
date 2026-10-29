@@ -1789,6 +1789,8 @@ exports.Prisma.AssistantScalarFieldEnum = {
   revivalDelayMin: 'revivalDelayMin',
   revivalText: 'revivalText',
   followUpSteps: 'followUpSteps',
+  followUpEnabled: 'followUpEnabled',
+  followUpArmedAt: 'followUpArmedAt',
   followUpIncludeHuman: 'followUpIncludeHuman',
   followUpReplyIntent: 'followUpReplyIntent',
   followUpReplyText: 'followUpReplyText',
