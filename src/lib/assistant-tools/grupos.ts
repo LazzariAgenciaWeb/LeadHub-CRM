@@ -81,6 +81,57 @@ function trecho(s: string | null | undefined, n = 110): string {
   return t.length > n ? `${t.slice(0, n)}…` : t;
 }
 
+/** Só o número do JID: "5544999…@s.whatsapp.net" / "…:12@lid" → "5544999…". */
+function soNumero(jid: string): string {
+  return jid.replace(/@.*$/, "").replace(/:.*$/, "");
+}
+
+export type Reacao = { emoji: string; autor: string; ehEquipe: boolean; em: string | null };
+
+/**
+ * Lê o mapa `Message.reactions` que o webhook grava (reatorKey → { emoji, name,
+ * fromMe, at }) e devolve no formato do MCP. Reação removida já sai do mapa no
+ * webhook; entrada sem emoji é descartada aqui por garantia.
+ *
+ * `fonesEquipe` são os números das NOSSAS instâncias: reação vinda de um deles
+ * é nossa mesmo quando o WhatsApp não marcou fromMe (quem reagiu foi o aparelho
+ * do atendente, não a API) — sem isso um 👍 nosso passaria por reação do cliente.
+ */
+function lerReacoes(raw: unknown, fonesEquipe: Set<string>): Reacao[] {
+  if (!raw || typeof raw !== "object") return [];
+  const out: Reacao[] = [];
+  type Bruta = { emoji?: unknown; name?: unknown; fromMe?: unknown; at?: unknown };
+  for (const [chave, v] of Object.entries(raw as Record<string, Bruta>)) {
+    const emoji = typeof v?.emoji === "string" ? v.emoji.trim() : "";
+    if (!emoji) continue;
+    const ehNossaInstancia = chave.startsWith("me:");
+    const numero   = ehNossaInstancia ? null : soNumero(chave);
+    const ehEquipe = v?.fromMe === true || ehNossaInstancia || (!!numero && fonesEquipe.has(numero));
+    out.push({
+      emoji,
+      autor:    (typeof v?.name === "string" && v.name) || numero || "nós",
+      ehEquipe,
+      em:       typeof v?.at === "string" ? v.at : null,
+    });
+  }
+  return out;
+}
+
+/** Números das nossas instâncias, pra reconhecer reação da equipe. */
+async function loadFonesEquipe(companyId: string): Promise<Set<string>> {
+  const rows = await prisma.whatsappInstance.findMany({
+    where:  { companyId },
+    select: { phone: true },
+  });
+  return new Set(rows.map((r) => r.phone).filter((p): p is string => !!p).map(soNumero));
+}
+
+/** Sufixo pra linha de mensagem: " {👍 NÓS, ❤️ Raíssa}". Vazio quando não há. */
+function reacoesTexto(rs: Reacao[]): string {
+  if (rs.length === 0) return "";
+  return ` {${rs.map((r) => `${r.emoji} ${r.ehEquipe ? "NÓS" : r.autor}`).join(", ")}}`;
+}
+
 /** Chamados abertos e projetos ativos por empresa-cliente (lote). */
 async function loadClientWork(companyId: string, clientIds: string[]) {
   const ids = Array.from(new Set(clientIds.filter(Boolean)));
@@ -108,7 +159,7 @@ async function loadClientWork(companyId: string, clientIds: string[]) {
 export const gruposPendentes: ToolDef<{ horasSemResposta?: number; incluirRespondidos?: boolean; limite?: number }> = {
   name: "grupos_pendentes",
   description:
-    "Triagem dos GRUPOS de WhatsApp: quais grupos de cliente pediram algo e estão sem resposta nossa, há quanto tempo, com quem está atribuído e quantos chamados/projetos abertos aquele cliente tem. Use quando o usuário perguntar 'o que está pendente nos grupos', 'algum cliente sem retorno', 'o que precisa de atendimento hoje'. Para ver a conversa em si e quem respondeu o quê, use historico_grupo depois.",
+    "Triagem dos GRUPOS de WhatsApp: quais grupos de cliente pediram algo e estão sem resposta nossa, há quanto tempo, com quem está atribuído e quantos chamados/projetos abertos aquele cliente tem. Quando alguém da equipe só REAGIU (emoji) à última mensagem do cliente, o grupo vem com vistoPelaEquipe=true e CONTINUA na lista: reagir é dar ciência, não responder. Use quando o usuário perguntar 'o que está pendente nos grupos', 'algum cliente sem retorno', 'o que precisa de atendimento hoje'. Para ver a conversa em si e quem respondeu o quê, use historico_grupo depois.",
   input_schema: {
     type: "object",
     properties: {
@@ -159,13 +210,14 @@ export const gruposPendentes: ToolDef<{ horasSemResposta?: number; incluirRespon
 
     // Quem falou por último dentro do grupo (participante do cliente) + chamados
     // abertos que nasceram DESTE grupo (Ticket.phone = JID).
-    const [contatos, ultimas, ticketsDoGrupo] = await Promise.all([
+    const [contatos, fonesEquipe, ultimas, ticketsDoGrupo] = await Promise.all([
       loadGroupContacts(ctx.companyId, jids),
+      loadFonesEquipe(ctx.companyId),
       prisma.message.findMany({
         where: { companyId: ctx.companyId, phone: { in: jids } },
         orderBy: { receivedAt: "desc" },
         take: jids.length * 6,
-        select: { phone: true, direction: true, participantName: true, participantPhone: true, receivedAt: true },
+        select: { phone: true, direction: true, participantName: true, participantPhone: true, receivedAt: true, reactions: true },
       }),
       prisma.ticket.findMany({
         where: { companyId: ctx.companyId, phone: { in: jids }, status: { in: ["OPEN", "IN_PROGRESS"] } },
@@ -173,10 +225,15 @@ export const gruposPendentes: ToolDef<{ horasSemResposta?: number; incluirRespon
       }),
     ]);
 
+    // Autor e reações da ÚLTIMA mensagem do cliente em cada grupo. A reação
+    // interessa porque um 👍 nosso é "vi", não "respondi": o grupo continua na
+    // lista, só deixa de parecer abandonado.
     const autorPorJid = new Map<string, string>();
+    const reacoesPorJid = new Map<string, Reacao[]>();
     for (const m of ultimas) {
       if (autorPorJid.has(m.phone) || m.direction !== "INBOUND") continue;
       autorPorJid.set(m.phone, m.participantName ?? m.participantPhone ?? "participante");
+      reacoesPorJid.set(m.phone, lerReacoes(m.reactions, fonesEquipe));
     }
     const ticketsPorJid = new Map<string, typeof ticketsDoGrupo>();
     for (const t of ticketsDoGrupo) {
@@ -206,6 +263,11 @@ export const gruposPendentes: ToolDef<{ horasSemResposta?: number; incluirRespon
       partes.push(`status ${c.status}`);
       partes.push(c.assignee?.name ? `resp. ${c.assignee.name}` : "SEM RESPONSÁVEL");
       if (c.unreadCount > 0) partes.push(`${c.unreadCount} não lidas`);
+      const reacs = reacoesPorJid.get(c.phone) ?? [];
+      const vistoPelaEquipe = reacs.some((r) => r.ehEquipe);
+      if (vistoPelaEquipe) {
+        partes.push(`VISTO pela equipe (${reacs.filter((r) => r.ehEquipe).map((r) => r.emoji).join(" ")}) — reagimos, não respondemos`);
+      }
       if (c.status === "SCHEDULED" && c.scheduledReturnAt) partes.push(`retorno ${fmtDateTime(c.scheduledReturnAt)}`);
 
       const tks = ticketsPorJid.get(c.phone) ?? [];
@@ -230,6 +292,7 @@ export const gruposPendentes: ToolDef<{ horasSemResposta?: number; incluirRespon
         clientCompanyId: ct?.clientId ?? null, clientName: ct?.clientName ?? null,
         status: c.status, horasSemResposta: h, assignee: c.assignee?.name ?? null,
         unreadCount: c.unreadCount, lastMessageDirection: c.lastMessageDirection,
+        vistoPelaEquipe, reacoesUltimaDoCliente: reacs,
         lastMessageAt: c.lastMessageAt, lastMessageBody: c.lastMessageBody,
         ticketsDoGrupo: tks, chamadosAbertosCliente: clientTickets, projetosAtivosCliente: clientProjects,
       });
@@ -247,7 +310,7 @@ export const gruposPendentes: ToolDef<{ horasSemResposta?: number; incluirRespon
 export const historicoGrupo: ToolDef<{ grupo: string; limite?: number }> = {
   name: "historico_grupo",
   description:
-    "Histórico de um GRUPO de WhatsApp com quem falou cada mensagem — participante do cliente (nome e telefone), atendente nosso (nome), agente de IA (🤖) ou envio automático por instância — mais o contexto de atendimento: cliente vinculado, status da conversa, há quanto tempo está sem resposta, chamados abertos nascidos deste grupo e projetos ativos do cliente. Use pra decidir se o que o cliente pediu no grupo já está sendo resolvido. Aceita nome parcial do grupo ou o JID (…@g.us).",
+    "Histórico de um GRUPO de WhatsApp com quem falou cada mensagem — participante do cliente (nome e telefone), atendente nosso (nome), agente de IA (🤖) ou envio automático por instância — mais o contexto de atendimento: cliente vinculado, status da conversa, há quanto tempo está sem resposta, chamados abertos nascidos deste grupo e projetos ativos do cliente. Cada mensagem traz também as REAÇÕES (emoji) que recebeu, em `reacoes: [{emoji, autor, ehEquipe, em}]` e entre chaves no texto — reação da equipe no pedido do cliente é ciência (ela viu), não resposta. Use pra decidir se o que o cliente pediu no grupo já está sendo resolvido. Aceita nome parcial do grupo ou o JID (…@g.us).",
   input_schema: {
     type: "object",
     properties: {
@@ -310,7 +373,7 @@ export const historicoGrupo: ToolDef<{ grupo: string; limite?: number }> = {
     const ct = contatos.get(jid);
     const clientId = ct?.clientId ?? null;
 
-    const [msgs, ticketsGrupo, ticketsCliente, projetos] = await Promise.all([
+    const [msgs, fonesEquipe, ticketsGrupo, ticketsCliente, projetos] = await Promise.all([
       prisma.message.findMany({
         where: { companyId: ctx.companyId, phone: jid },
         orderBy: { receivedAt: "desc" },
@@ -320,10 +383,12 @@ export const historicoGrupo: ToolDef<{ grupo: string; limite?: number }> = {
           participantName: true, participantPhone: true,
           sentByAI: true, deletedAt: true, mediaType: true,
           quotedBody: true,
+          reactions: true,
           sentBy: { select: { name: true } },
           instance: { select: { instanceName: true, label: true, phone: true } },
         },
       }),
+      loadFonesEquipe(ctx.companyId),
       prisma.ticket.findMany({
         where: { companyId: ctx.companyId, phone: jid },
         orderBy: { createdAt: "desc" },
@@ -408,7 +473,10 @@ export const historicoGrupo: ToolDef<{ grupo: string; limite?: number }> = {
       if (m.deletedAt) flags.push("APAGADA");
       if (m.mediaType) flags.push(m.mediaType.startsWith("image") ? "imagem" : m.mediaType.startsWith("audio") ? "áudio" : m.mediaType);
       const resp = m.quotedBody ? ` ↩︎ em resposta a "${trecho(m.quotedBody, 40)}"` : "";
-      out.push(`[${fmtDateTime(m.receivedAt)}] ${quem}${flags.length ? ` {${flags.join(", ")}}` : ""}: ${trecho(m.body, 300)}${resp}`);
+      // Reação é sinal de leitura, não de resposta: um 👍 nosso no pedido do
+      // cliente quer dizer "vi", e é isso que a linha precisa mostrar.
+      const reacs = reacoesTexto(lerReacoes(m.reactions, fonesEquipe));
+      out.push(`[${fmtDateTime(m.receivedAt)}] ${quem}${flags.length ? ` {${flags.join(", ")}}` : ""}: ${trecho(m.body, 300)}${resp}${reacs}`);
     }
 
     out.push("", `Inbox: ${appUrl(`/whatsapp?abrir=${encodeURIComponent(jid)}`)}`);
@@ -417,7 +485,10 @@ export const historicoGrupo: ToolDef<{ grupo: string; limite?: number }> = {
         groupJid: jid, groupName: nome,
         clientCompanyId: clientId, clientName: ct?.clientName ?? null,
         conversa: conv, ticketsDoGrupo: ticketsGrupo, ticketsDoCliente: ticketsCliente, projetos,
-        mensagens: msgs.slice().reverse(),
+        mensagens: msgs
+          .slice()
+          .reverse()
+          .map(({ reactions, ...m }) => ({ ...m, reacoes: lerReacoes(reactions, fonesEquipe) })),
       },
     });
   },

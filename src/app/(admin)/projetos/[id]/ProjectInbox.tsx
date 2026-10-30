@@ -38,6 +38,7 @@ export default function ProjectInbox({
   const [bulkBusy, setBulkBusy] = useState(false);
   const [selectMode, setSelectMode] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [ultimaClicada, setUltimaClicada] = useState<string | null>(null); // âncora do SHIFT
   const [ignoredOpen, setIgnoredOpen] = useState(false);
   // Grupos fechados, por id (id da tarefa principal, ou da etapa). Fechado é a
   // exceção: abre tudo e o usuário colapsa o que já resolveu.
@@ -86,6 +87,21 @@ export default function ProjectInbox({
       childrenOf: filhas,
     };
   }, [tasks, etapaByClickup]);
+
+  // Ordem em que as linhas aparecem AGORA (grupo fechado não entra). É o que o
+  // SHIFT usa pra marcar um intervalo: o que ele pega é o que você está vendo.
+  const ordemVisivel = useMemo(() => {
+    const ids: string[] = [];
+    for (const { etapa, itens } of etapaGroups) {
+      if (!closed.has(etapa.id)) ids.push(...itens.map((i) => i.id));
+    }
+    for (const t of roots) {
+      ids.push(t.id);
+      const filhas = (t.clickupTaskId ? childrenOf.get(t.clickupTaskId) : undefined) ?? [];
+      if (filhas.length > 0 && !closed.has(t.id)) ids.push(...filhas.map((f) => f.id));
+    }
+    return ids;
+  }, [etapaGroups, roots, childrenOf, closed]);
 
   const allIds = useMemo(() => tasks.map((t) => t.id), [tasks]);
   const allSelected = selected.size > 0 && selected.size === tasks.length;
@@ -148,16 +164,30 @@ export default function ProjectInbox({
     router.refresh();
   }
 
-  function toggleOne(id: string) {
+  // Clique normal alterna uma; com SHIFT, alterna o intervalo inteiro entre a
+  // última clicada e esta — o intervalo todo assume o estado deste clique.
+  function toggleOne(id: string, comShift = false) {
     setSelected((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
+      const a = comShift && ultimaClicada ? ordemVisivel.indexOf(ultimaClicada) : -1;
+      const b = a >= 0 ? ordemVisivel.indexOf(id) : -1;
+      if (a >= 0 && b >= 0 && a !== b) {
+        const marcar = !next.has(id);
+        for (const x of ordemVisivel.slice(Math.min(a, b), Math.max(a, b) + 1)) {
+          if (marcar) next.add(x); else next.delete(x);
+        }
+      } else if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
+    setUltimaClicada(id);
   }
   function selectAll() { setSelected(new Set(allIds)); }
   function clearSel() { setSelected(new Set()); }
-  function exitSelectMode() { setSelected(new Set()); setSelectMode(false); }
+  function exitSelectMode() { setSelected(new Set()); setUltimaClicada(null); setSelectMode(false); }
 
   // Uma linha da caixa. `nFilhas` > 0 marca a tarefa como principal (ganha o
   // botão "virar etapa"); `sub` desenha a linha como subtarefa, sem moldura.
@@ -187,7 +217,7 @@ export default function ProjectInbox({
 
         {selectMode && (
           <button
-            onClick={() => toggleOne(t.id)}
+            onClick={(e) => toggleOne(t.id, e.shiftKey)}
             className="flex-none text-amber-300 hover:text-amber-200"
             title={isChecked ? "Desmarcar" : "Marcar"}
           >
@@ -315,6 +345,7 @@ export default function ProjectInbox({
           <span className="text-[11px] text-slate-400">
             {selected.size === 0 ? "Nenhuma selecionada" : `${selected.size} selecionada${selected.size > 1 ? "s" : ""}`}
           </span>
+          <span className="text-[11px] text-slate-600">· marque uma e clique em outra com SHIFT pra pegar tudo entre as duas</span>
           {someSelected && (
             <button onClick={clearSel} className="text-[11px] text-slate-500 hover:text-white ml-1">
               limpar
