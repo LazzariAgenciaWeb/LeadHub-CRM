@@ -260,7 +260,7 @@ export default function ProjectDetail({
   internalTasks: InternalTask[];
   chamados: Chamado[];
   catalogServices: { id: string; name: string }[];
-  serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number; visibleToClient: boolean }[];
+  serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number; visibleToClient: boolean; clickupTaskId?: string | null }[];
   currentServiceId: string | null;
   materials: { id: string; kind: string; taskId: string | null; stage: string | null; title: string; docHtml: string | null; url: string | null; ata: string | null; featured: boolean; visibleToClient: boolean }[];
   publicToken: string | null;

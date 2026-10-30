@@ -209,11 +209,14 @@ export default async function ProjectDetailPage({
   const serviceStepsRaw = await prisma.projectService.findMany({
     where:   { projectId: project.id },
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-    select:  { id: true, name: true, order: true, visibleToClient: true, service: { select: { name: true } } },
+    select:  { id: true, name: true, order: true, visibleToClient: true, clickupTaskId: true, service: { select: { name: true } } },
   });
   const serviceSteps = serviceStepsRaw.map((s) => ({
     id: s.id, order: s.order, name: s.name || s.service?.name || "Serviço",
     visibleToClient: s.visibleToClient,
+    // Tarefa principal da etapa no ClickUp — a caixa usa pra reagrupar embaixo
+    // da etapa as subtarefas que ainda não entraram nela.
+    clickupTaskId: s.clickupTaskId ?? null,
     // Contagens REAIS da etapa (ignoradas de fora). O cabeçalho da lista usa
     // isto em vez do que está filtrado na tela — senão esconder as concluídas
     // faz uma etapa 100% pronta parecer 0/10.

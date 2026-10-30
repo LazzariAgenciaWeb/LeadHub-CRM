@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Inbox, Eye, EyeOff, ExternalLink, CheckSquare, Square, X, Ban, RotateCcw, ChevronDown, ChevronUp, Layers, CornerDownRight } from "lucide-react";
+import { Inbox, Eye, EyeOff, ExternalLink, CheckSquare, Square, X, Ban, RotateCcw, ChevronDown, ChevronUp, ChevronRight, Layers, CornerDownRight } from "lucide-react";
 
 // Caixa de entrada "a organizar": tarefas espelhadas do ClickUp que ainda não
 // têm serviço. Cada uma aparece UMA vez aqui (não nos serviços). Ao escolher um
@@ -27,7 +27,7 @@ export default function ProjectInbox({
   projectId: string;
   tasks: InboxTask[];
   ignoredTasks?: InboxTask[];
-  serviceSteps: { id: string; name: string; order: number }[];
+  serviceSteps: { id: string; name: string; order: number; clickupTaskId?: string | null }[];
   clickupUrlBase: string | null; // ex.: "https://app.clickup.com/t/" — pra deep-link
   // embedded = renderiza sem card/cabeçalho próprios, pra viver dentro de uma
   // aba do card de Tarefas (o rótulo da aba já diz o que é).
@@ -39,26 +39,53 @@ export default function ProjectInbox({
   const [selectMode, setSelectMode] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [ignoredOpen, setIgnoredOpen] = useState(false);
+  // Grupos fechados, por id (id da tarefa principal, ou da etapa). Fechado é a
+  // exceção: abre tudo e o usuário colapsa o que já resolveu.
+  const [closed, setClosed] = useState<Set<string>>(new Set());
+  function toggleGroup(id: string) {
+    setClosed((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }
+
+  // Etapas que já têm tarefa principal no ClickUp, pelo id dessa tarefa.
+  const etapaByClickup = useMemo(
+    () => new Map(serviceSteps.filter((e) => e.clickupTaskId).map((e) => [e.clickupTaskId!, e])),
+    [serviceSteps],
+  );
 
   // Hierarquia: subtarefa fica aninhada sob a principal quando as duas estão
   // aqui. Principal com subtarefas é candidata a virar ETAPA — é assim que o
   // mês do ClickUp entra no LeadHub sem você redigitar nada.
-  const { roots, childrenOf } = useMemo(() => {
+  const { etapaGroups, roots, childrenOf } = useMemo(() => {
     const porClickupId = new Map(
       tasks.filter((t) => t.clickupTaskId).map((t) => [t.clickupTaskId!, t]),
     );
-    const filhas = new Map<string, InboxTask[]>();
+    const filhas   = new Map<string, InboxTask[]>(); // mãe que ainda está na caixa
+    const deEtapa  = new Map<string, InboxTask[]>(); // mãe que JÁ virou etapa
     for (const t of tasks) {
       const pai = t.parentClickupTaskId;
-      if (pai && porClickupId.has(pai)) {
-        const arr = filhas.get(pai) ?? [];
-        arr.push(t);
-        filhas.set(pai, arr);
-      }
+      if (!pai) continue;
+      const alvo = etapaByClickup.has(pai) ? deEtapa : porClickupId.has(pai) ? filhas : null;
+      if (!alvo) continue;
+      const arr = alvo.get(pai) ?? [];
+      arr.push(t);
+      alvo.set(pai, arr);
     }
-    const idsFilhas = new Set([...filhas.values()].flat().map((t) => t.id));
-    return { roots: tasks.filter((t) => !idsFilhas.has(t.id)), childrenOf: filhas };
-  }, [tasks]);
+    const agrupadas = new Set(
+      [...filhas.values(), ...deEtapa.values()].flat().map((t) => t.id),
+    );
+    return {
+      etapaGroups: [...deEtapa.entries()].map(([cid, itens]) => ({
+        etapa: etapaByClickup.get(cid)!,
+        itens,
+      })),
+      roots:      tasks.filter((t) => !agrupadas.has(t.id)),
+      childrenOf: filhas,
+    };
+  }, [tasks, etapaByClickup]);
 
   const allIds = useMemo(() => tasks.map((t) => t.id), [tasks]);
   const allSelected = selected.size > 0 && selected.size === tasks.length;
@@ -100,8 +127,10 @@ export default function ProjectInbox({
   }
 
   // ── Ações em massa ──────────────────────────────────────────────────────
-  async function bulk(body: any) {
-    const ids = Array.from(selected);
+  // `idsArg` deixa um grupo agir sobre as próprias linhas sem passar pelo modo
+  // seleção (o "pôr todas na etapa" do cabeçalho da etapa).
+  async function bulk(body: any, idsArg?: string[]) {
+    const ids = idsArg ?? Array.from(selected);
     if (ids.length === 0) return;
     setBulkBusy(true);
     await fetch(`/api/projetos/${projectId}/tasks/bulk`, {
@@ -110,10 +139,12 @@ export default function ProjectInbox({
       body: JSON.stringify({ taskIds: ids, ...body }),
     }).catch(() => {});
     setBulkBusy(false);
-    setSelected(new Set());
-    // Depois de pôr todo mundo num serviço, a caixa esvazia — sair do modo
-    // seleção também. Manter no modo mostrar/ocultar, que segue mostrando as tarefas.
-    if (body.projectServiceId) setSelectMode(false);
+    if (!idsArg) {
+      setSelected(new Set());
+      // Depois de pôr todo mundo num serviço, a caixa esvazia — sair do modo
+      // seleção também. Manter no modo mostrar/ocultar, que segue mostrando as tarefas.
+      if (body.projectServiceId) setSelectMode(false);
+    }
     router.refresh();
   }
 
@@ -131,7 +162,7 @@ export default function ProjectInbox({
   // Uma linha da caixa. `nFilhas` > 0 marca a tarefa como principal (ganha o
   // botão "virar etapa"); `sub` desenha a linha como subtarefa, sem moldura.
   // Só tarefa principal recebe "virar etapa": etapa é mãe, nunca folha.
-  function row(t: InboxTask, nFilhas: number, sub = false) {
+  function row(t: InboxTask, nFilhas: number, sub = false, onToggle?: () => void, aberto = true) {
     const isChecked = selected.has(t.id);
     return (
       <div
@@ -143,6 +174,17 @@ export default function ProjectInbox({
             : sub ? "bg-[#161f30]/60" : "bg-[#161f30] border-[#1e2d45]"
         }`}
       >
+        {onToggle && (
+          <button
+            onClick={onToggle}
+            className="flex-none text-slate-500 hover:text-white"
+            title={aberto ? "Fechar as subtarefas" : "Abrir as subtarefas"}
+            aria-expanded={aberto}
+          >
+            {aberto ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+          </button>
+        )}
+
         {selectMode && (
           <button
             onClick={() => toggleOne(t.id)}
@@ -254,7 +296,9 @@ export default function ProjectInbox({
       <p className="text-slate-500 text-xs mt-1 mb-3">
         Vieram do ClickUp e ainda não estão numa etapa, com as subtarefas identadas embaixo da principal — igual lá.
         Só tarefa principal tem <strong className="text-indigo-300">virar etapa</strong>: ela vira a etapa e as
-        subtarefas entram dentro. As outras: escolha a etapa, decida se o cliente vê, ou ignore.
+        subtarefas entram dentro. A setinha fecha o grupo. Quando a principal já virou etapa, o que sobrou dela
+        aparece sob o nome da etapa, em <strong className="text-emerald-300">verde</strong>. As outras: escolha a
+        etapa, decida se o cliente vê, ou ignore.
       </p>
 
       {/* Barra de seleção — some quando não está no modo */}
@@ -327,18 +371,68 @@ export default function ProjectInbox({
         {tasks.length === 0 && (
           <p className="text-slate-600 text-xs py-2">Nada a organizar — tudo já está numa etapa ou foi ignorado. 👌</p>
         )}
+        {/* Mãe que JÁ virou etapa: ela não está mais aqui, mas as subtarefas que
+            ficaram de fora continuam. Agrupa embaixo do nome da etapa pra você
+            ver de onde vieram e mandar pra dentro de uma vez. */}
+        {etapaGroups.map(({ etapa, itens }) => {
+          const aberto = !closed.has(etapa.id);
+          return (
+            <div key={etapa.id} className="border border-emerald-500/30 rounded-lg overflow-hidden bg-[#0d1422]">
+              <div className="flex items-center gap-2 px-3 py-2 bg-emerald-500/5">
+                <button
+                  onClick={() => toggleGroup(etapa.id)}
+                  className="flex-none text-slate-500 hover:text-white"
+                  title={aberto ? "Fechar" : "Abrir"}
+                  aria-expanded={aberto}
+                >
+                  {aberto ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                </button>
+                <Layers className="w-4 h-4 text-emerald-400 flex-none" />
+                <span className="flex-1 truncate text-sm text-white">{etapa.name}</span>
+                <span className="flex-none text-[11px] text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-2 py-0.5">
+                  etapa criada
+                </span>
+                <span className="flex-none text-[11px] text-slate-500">
+                  {itens.length} fora dela
+                </span>
+                <button
+                  disabled={bulkBusy}
+                  onClick={() => bulk({ projectServiceId: etapa.id }, itens.map((i) => i.id))}
+                  className="flex-none text-xs px-2 py-1 rounded bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-200 disabled:opacity-40"
+                  title="Põe todas essas subtarefas dentro da etapa"
+                >
+                  pôr todas na etapa
+                </button>
+              </div>
+              {aberto && (
+                <div className="pl-5 pr-3 pt-1 pb-2.5 flex flex-col gap-1.5">
+                  <div className="border-l-2 border-emerald-500/25 pl-3 flex flex-col gap-1.5">
+                    {itens.map((f) => (
+                      <div key={f.id} className="flex items-center gap-1.5">
+                        <CornerDownRight className="w-3.5 h-3.5 text-emerald-400/50 flex-none" />
+                        <div className="flex-1 min-w-0">{row(f, 0, true)}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+
         {roots.map((t) => {
           const filhas = (t.clickupTaskId ? childrenOf.get(t.clickupTaskId) : undefined) ?? [];
           // Mãe pelo ClickUp, não pelo que sobrou na caixa: filha já organizada
           // não tira da mãe o direito de virar etapa.
           const nFilhas = t.subtarefasTotal ?? filhas.length;
+          const aberto  = !closed.has(t.id);
           return (
             <div
               key={t.id}
               className={nFilhas > 0 ? "border border-indigo-500/25 rounded-lg overflow-hidden bg-[#0d1422]" : ""}
             >
-              {row(t, nFilhas)}
-              {filhas.length > 0 && (
+              {row(t, nFilhas, false, filhas.length > 0 ? () => toggleGroup(t.id) : undefined, aberto)}
+              {aberto && filhas.length > 0 && (
                 <div className="pl-5 pr-3 pt-1 pb-2.5 flex flex-col gap-1.5">
                   {/* Trilho à esquerda = a identação. Bate o olho e vê o que é
                       subtarefa de quem, igual à árvore do ClickUp. */}
