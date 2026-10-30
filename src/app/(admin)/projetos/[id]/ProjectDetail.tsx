@@ -123,6 +123,7 @@ type InternalTask = {
   updatedAt:    string; // ISO — última atualização
   clickupTaskId: string | null; // vínculo ClickUp (se importada)
   parentClickupTaskId: string | null; // tarefa-mãe no ClickUp (null = primeiro nível)
+  subtarefasTotal: number; // quantas subtarefas ela tem no ClickUp (0 = não é mãe)
   status:       string;  // NOVA | EM_PRODUCAO | AGUARDANDO_CLIENTE | APROVADO
   awaitingClient: boolean; // derivado do status
   visibleToClient: boolean; // aparece pro cliente no painel
@@ -2339,6 +2340,7 @@ function ProjectTasksCard({
     id: t.id, title: t.title, done: t.done,
     visibleToClient: t.visibleToClient, clickupTaskId: t.clickupTaskId,
     parentClickupTaskId: t.parentClickupTaskId,
+    subtarefasTotal: t.subtarefasTotal,
   });
   const inboxTasks   = internalTasks.filter((t) => t.clickupTaskId && !t.projectServiceId && !t.ignored).map(toInboxRow);
   const ignoredTasks = internalTasks.filter((t) => t.ignored).map(toInboxRow);

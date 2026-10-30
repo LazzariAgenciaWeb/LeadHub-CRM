@@ -107,6 +107,14 @@ export default async function ProjectDetailPage({
     select: { taskId: true, parentTaskId: true },
   });
   const paiDe = new Map(parentes.map((p) => [p.taskId, p.parentTaskId]));
+  // Quantas subtarefas cada tarefa principal tem no ClickUp. Conta TODAS, não
+  // só as que sobraram na caixa — é isso que diz se a tarefa é MÃE (e portanto
+  // candidata a virar etapa) mesmo quando as filhas já foram pra uma etapa.
+  const nFilhasDe = new Map<string, number>();
+  for (const p of parentes) {
+    const pai = p.parentTaskId!;
+    nFilhasDe.set(pai, (nFilhasDe.get(pai) ?? 0) + 1);
+  }
 
   const internalTasks = internalTasksRaw.map((t) => ({
     id:           t.id,
@@ -124,6 +132,7 @@ export default async function ProjectDetailPage({
     updatedAt:    t.updatedAt.toISOString(),
     clickupTaskId: t.clickupTaskId ?? null,
     parentClickupTaskId: t.clickupTaskId ? (paiDe.get(t.clickupTaskId) ?? null) : null,
+    subtarefasTotal: t.clickupTaskId ? (nFilhasDe.get(t.clickupTaskId) ?? 0) : 0,
     status:       (t as any).status ?? "NOVA",
     awaitingClient: t.awaitingClient,
     visibleToClient: t.visibleToClient,

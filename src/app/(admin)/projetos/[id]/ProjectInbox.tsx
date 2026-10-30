@@ -16,6 +16,9 @@ type InboxTask = {
   // Tarefa-mãe no ClickUp. É o que deixa a caixa parecida com o ClickUp:
   // a principal com as subtarefas embaixo, em vez de tudo achatado.
   parentClickupTaskId?: string | null;
+  // Quantas subtarefas ela tem no ClickUp. 0 = não é tarefa principal, e aí
+  // não faz sentido oferecer "virar etapa" — etapa é mãe, nunca folha.
+  subtarefasTotal?: number;
 };
 
 export default function ProjectInbox({
@@ -127,6 +130,7 @@ export default function ProjectInbox({
 
   // Uma linha da caixa. `nFilhas` > 0 marca a tarefa como principal (ganha o
   // botão "virar etapa"); `sub` desenha a linha como subtarefa, sem moldura.
+  // Só tarefa principal recebe "virar etapa": etapa é mãe, nunca folha.
   function row(t: InboxTask, nFilhas: number, sub = false) {
     const isChecked = selected.has(t.id);
     return (
@@ -186,7 +190,7 @@ export default function ProjectInbox({
           <Ban className="w-4 h-4" />
         </button>
 
-        {!sub && t.clickupTaskId && (
+        {!sub && nFilhas > 0 && t.clickupTaskId && (
           <button
             disabled={busy === t.id || bulkBusy}
             onClick={() => promover(t, nFilhas)}
@@ -248,8 +252,8 @@ export default function ProjectInbox({
         )}
       </div>
       <p className="text-slate-500 text-xs mt-1 mb-3">
-        Vieram do ClickUp e ainda não estão numa etapa, com as subtarefas embaixo da principal — igual lá.
-        Tarefa principal que é um mês ou uma fase: use <strong className="text-indigo-300">virar etapa</strong> e as
+        Vieram do ClickUp e ainda não estão numa etapa, com as subtarefas identadas embaixo da principal — igual lá.
+        Só tarefa principal tem <strong className="text-indigo-300">virar etapa</strong>: ela vira a etapa e as
         subtarefas entram dentro. As outras: escolha a etapa, decida se o cliente vê, ou ignore.
       </p>
 
@@ -325,17 +329,32 @@ export default function ProjectInbox({
         )}
         {roots.map((t) => {
           const filhas = (t.clickupTaskId ? childrenOf.get(t.clickupTaskId) : undefined) ?? [];
+          // Mãe pelo ClickUp, não pelo que sobrou na caixa: filha já organizada
+          // não tira da mãe o direito de virar etapa.
+          const nFilhas = t.subtarefasTotal ?? filhas.length;
           return (
-            <div key={t.id} className={filhas.length > 0 ? "border border-[#1e2d45] rounded-lg overflow-hidden" : ""}>
-              {row(t, filhas.length)}
+            <div
+              key={t.id}
+              className={nFilhas > 0 ? "border border-indigo-500/25 rounded-lg overflow-hidden bg-[#0d1422]" : ""}
+            >
+              {row(t, nFilhas)}
               {filhas.length > 0 && (
-                <div className="bg-[#0d1422] border-t border-[#1e2d45] px-3 py-2 flex flex-col gap-1.5">
-                  {filhas.map((f) => (
-                    <div key={f.id} className="flex items-start gap-1.5">
-                      <CornerDownRight className="w-3.5 h-3.5 text-slate-600 flex-none mt-2" />
-                      <div className="flex-1">{row(f, 0, true)}</div>
-                    </div>
-                  ))}
+                <div className="pl-5 pr-3 pt-1 pb-2.5 flex flex-col gap-1.5">
+                  {/* Trilho à esquerda = a identação. Bate o olho e vê o que é
+                      subtarefa de quem, igual à árvore do ClickUp. */}
+                  <div className="border-l-2 border-indigo-500/25 pl-3 flex flex-col gap-1.5">
+                    {filhas.map((f) => (
+                      <div key={f.id} className="flex items-center gap-1.5">
+                        <CornerDownRight className="w-3.5 h-3.5 text-indigo-400/50 flex-none" />
+                        <div className="flex-1 min-w-0">{row(f, 0, true)}</div>
+                      </div>
+                    ))}
+                  </div>
+                  {filhas.length < nFilhas && (
+                    <p className="text-[11px] text-slate-600 pl-3">
+                      +{nFilhas - filhas.length} subtarefa{nFilhas - filhas.length > 1 ? "s" : ""} já organizada{nFilhas - filhas.length > 1 ? "s" : ""} ou ignorada{nFilhas - filhas.length > 1 ? "s" : ""}.
+                    </p>
+                  )}
                 </div>
               )}
             </div>
