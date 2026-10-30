@@ -100,6 +100,14 @@ export default async function ProjectDetailPage({
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
     select:  { id: true, kind: true, taskId: true, stage: true, title: true, docHtml: true, url: true, ata: true, featured: true, visibleToClient: true },
   });
+  // Pai no ClickUp, por tarefa. É o que deixa "A organizar" com a cara do
+  // ClickUp: a tarefa principal com as subtarefas embaixo dela.
+  const parentes = await prisma.projectTaskState.findMany({
+    where:  { projectId: project.id, parentTaskId: { not: null } },
+    select: { taskId: true, parentTaskId: true },
+  });
+  const paiDe = new Map(parentes.map((p) => [p.taskId, p.parentTaskId]));
+
   const internalTasks = internalTasksRaw.map((t) => ({
     id:           t.id,
     title:        t.title,
@@ -115,6 +123,7 @@ export default async function ProjectDetailPage({
     createdAt:    t.createdAt.toISOString(),
     updatedAt:    t.updatedAt.toISOString(),
     clickupTaskId: t.clickupTaskId ?? null,
+    parentClickupTaskId: t.clickupTaskId ? (paiDe.get(t.clickupTaskId) ?? null) : null,
     status:       (t as any).status ?? "NOVA",
     awaitingClient: t.awaitingClient,
     visibleToClient: t.visibleToClient,

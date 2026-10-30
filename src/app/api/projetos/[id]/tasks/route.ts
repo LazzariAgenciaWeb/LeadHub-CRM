@@ -5,6 +5,7 @@ import { assertModule } from "@/lib/billing";
 import { getClickupSettings, createClickupTask } from "@/lib/clickup";
 import { getViewer, canSeeProject } from "@/lib/visibility";
 import { sanitizeChecklist } from "@/lib/checklist";
+import { ensureEtapaClickupTask, pushTaskToClickup } from "@/lib/project-etapas";
 
 // POST /api/projetos/[id]/tasks
 //
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (projectServiceId) {
     const step = await prisma.projectService.findUnique({
       where: { id: String(projectServiceId) },
-      select: { projectId: true, name: true, service: { select: { name: true } } },
+      select: { projectId: true, name: true, clickupTaskId: true, service: { select: { name: true } } },
     });
     if (!step || step.projectId !== id) {
       return NextResponse.json({ error: "Serviço inválido" }, { status: 400 });
@@ -88,6 +89,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       );
     }
 
+    // Dentro de uma etapa, a tarefa nasce como SUBTAREFA da tarefa principal —
+    // é o que impede ela de ficar solta na raiz da lista.
+    const parent = stepId ? await ensureEtapaClickupTask(stepId).catch(() => null) : null;
+
     const newTaskId = await createClickupTask({
       apiToken: settings.apiToken,
       listId: project.clickupListId,
@@ -96,6 +101,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       priority: prio,
       dueDate: due ? due.getTime() : undefined,
       tags: ["projeto"],
+      ...(parent ? { parent } : {}),
     });
     if (!newTaskId) {
       return NextResponse.json({ error: "Falha ao criar a tarefa no ClickUp" }, { status: 502 });
@@ -108,6 +114,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         projectId:     id,
         taskId:        newTaskId,
         name:          String(title).trim(),
+        parentTaskId:  parent,
         statusName:    null,
         isCompleted:   false,
         hasNoAssignee: true,
@@ -148,5 +155,19 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     include: { assignee: { select: { id: true, name: true } } },
   });
 
-  return NextResponse.json({ ok: true, destino: "interna", task }, { status: 201 });
+  // Tarefa dentro de uma ETAPA sobe sozinha pro ClickUp, como subtarefa da
+  // tarefa principal da etapa. Sem etapa não sobe — subiria solta na raiz, que
+  // é exatamente o que queremos evitar; aí fica interna até ganhar uma etapa.
+  let clickup: { clickupTaskId: string; parentTaskId: string | null } | null = null;
+  if (stepId && project.clickupListId) {
+    const r = await pushTaskToClickup(task.id).catch(() => null);
+    if (r?.ok) clickup = { clickupTaskId: r.clickupTaskId, parentTaskId: r.parentTaskId };
+  }
+
+  return NextResponse.json({
+    ok: true,
+    destino: "interna",
+    task: clickup ? { ...task, clickupTaskId: clickup.clickupTaskId } : task,
+    ...(clickup ? { clickup } : {}),
+  }, { status: 201 });
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
+import { createEtapa } from "@/lib/project-etapas";
 
 // Confere que o projeto pertence à empresa da sessão. Retorna o companyId do setor.
 async function ownedProject(id: string, session: any) {
@@ -45,12 +46,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     }
   }
 
-  const last = await prisma.projectService.findFirst({
-    where: { projectId: id }, orderBy: { order: "desc" }, select: { order: true },
-  });
-  const step = await prisma.projectService.create({
-    data: { projectId: id, serviceId, name, order: (last?.order ?? -1) + 1 },
-    select: { id: true, serviceId: true, name: true, order: true, service: { select: { name: true } } },
-  });
-  return NextResponse.json(step, { status: 201 });
+  // Idempotente por nome e, quando o projeto tem lista do ClickUp, já cria a
+  // tarefa PRINCIPAL lá — é ela que recebe as tarefas da etapa como subtarefas.
+  const { etapa, created } = await createEtapa({ projectId: id, serviceId, name });
+  return NextResponse.json(etapa, { status: created ? 201 : 200 });
 }

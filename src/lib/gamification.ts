@@ -733,7 +733,7 @@ export async function runDailyPenalties(companyId: string): Promise<void> {
  */
 export async function syncProjectTasks(
   projectId: string,
-  tasks:     Array<{ id: string; name: string; statusName: string | null; isCompleted: boolean; hasNoAssignee: boolean; dueDate: number | null; startDate?: number | null; dateUpdated: number | null }>,
+  tasks:     Array<{ id: string; name: string; statusName: string | null; isCompleted: boolean; hasNoAssignee: boolean; dueDate: number | null; startDate?: number | null; dateUpdated: number | null; parentId?: string | null }>,
 ): Promise<{ created: number; updated: number; completed: number }> {
   const project = await prisma.setorClickupList.findUnique({
     where: { id: projectId },
@@ -757,6 +757,17 @@ export async function syncProjectTasks(
   const stored = await prisma.projectTaskState.findMany({
     where: { projectId },
   });
+  // Tarefa principal que virou ETAPA é container, não trabalho: não tem prazo
+  // nem responsável por natureza. Contá-la penalizaria o time por organizar
+  // (-3/dia por "sem prazo" e "sem responsável"), e "etapa criada" não é
+  // "tarefa criada". Fica fora dos agregados, das atividades e dos pontos —
+  // só o snapshot é mantido, que é o que amarra mãe e subtarefas.
+  const etapas = await prisma.projectService.findMany({
+    where:  { projectId, clickupTaskId: { not: null } },
+    select: { clickupTaskId: true },
+  });
+  const etapaIds = new Set(etapas.map((e) => e.clickupTaskId!));
+  const isEtapa  = (taskId: string) => etapaIds.has(taskId);
   const isFirstSync = stored.length === 0;
   const storedById = new Map(stored.map((s) => [s.taskId, s]));
 
@@ -765,6 +776,7 @@ export async function syncProjectTasks(
   const nowDate = new Date();
   let taskCount = 0, taskCompleted = 0, taskOverdue = 0, taskNoDueDate = 0, taskNoAssignee = 0;
   for (const t of tasks) {
+    if (isEtapa(t.id)) continue;
     taskCount++;
     if (t.isCompleted) taskCompleted++;
     else {
@@ -783,6 +795,7 @@ export async function syncProjectTasks(
   const activitiesToInsert: Array<{ type: string; taskName: string; taskId: string }> = [];
 
   for (const t of tasks) {
+    if (isEtapa(t.id)) continue;
     const prev = storedById.get(t.id);
 
     if (!prev) {
@@ -835,6 +848,7 @@ export async function syncProjectTasks(
         dueDate:       t.dueDate     ? BigInt(t.dueDate)     : null,
         startDate:     t.startDate   ? BigInt(t.startDate)   : null,
         dateUpdated:   t.dateUpdated ? BigInt(t.dateUpdated) : null,
+        parentTaskId:  t.parentId ?? null,
       },
       update: {
         name:          t.name,
@@ -844,6 +858,7 @@ export async function syncProjectTasks(
         dueDate:       t.dueDate     ? BigInt(t.dueDate)     : null,
         startDate:     t.startDate   ? BigInt(t.startDate)   : null,
         dateUpdated:   t.dateUpdated ? BigInt(t.dateUpdated) : null,
+        parentTaskId:  t.parentId ?? null,
       },
     });
   }

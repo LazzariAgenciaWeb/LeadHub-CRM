@@ -157,6 +157,18 @@ model AssistantNote {
   @@index([userId, archivedAt])
 }
 
+// Aviso de rotina que NÃO é urgente: em vez de ir na hora pro WhatsApp, fica
+// aqui e sai junto, numa mensagem só, no resumo da manhã (ou no das 17h).
+model AssistantDigestItem {
+  id        String    @id @default(cuid())
+  userId    String
+  text      String    @db.Text
+  createdAt DateTime  @default(now())
+  sentAt    DateTime?
+
+  @@index([userId, sentAt])
+}
+
 // Histórico do item do bloquinho: quando foi criado, editado, concluído ou
 // reaberto, por qual canal, e o que foi feito na conclusão.
 model AssistantNoteEvent {
@@ -1279,6 +1291,9 @@ model Conversation {
   // última e quando a sequência esgotou sem resposta ("sem retorno"). Zera
   // quando o contato responde.
   followUpStage       Int       @default(0)
+  // Pedido manual de follow-up ("o atendente mandou e o contato sumiu").
+  // A etapa 1 conta deste momento quando ele é mais novo que a última fala.
+  followUpRequestedAt DateTime?
   followUpLastAt      DateTime?
   followUpExhaustedAt DateTime?
 
@@ -1749,6 +1764,7 @@ model ProjectService {
   serviceId       String?
   service         Service?         @relation("ServiceProjectLinks", fields: [serviceId], references: [id], onDelete: SetNull)
   name            String? // rótulo opcional — sobrescreve o nome do serviço, ou nomeia uma etapa livre
+  clickupTaskId   String? // tarefa principal no ClickUp — as tarefas da etapa entram como subtarefas dela
   order           Int              @default(0)
   visibleToClient Boolean          @default(true) // false = serviço inteiro some do painel do cliente
   createdAt       DateTime         @default(now())
@@ -1757,6 +1773,7 @@ model ProjectService {
 
   @@index([projectId])
   @@index([serviceId])
+  @@index([clickupTaskId])
 }
 
 // Linha do tempo de uma tarefa de projeto. Grava o EVENTO CRU (o que mudou,
@@ -1820,6 +1837,7 @@ model ProjectTaskState {
   projectId     String
   project       SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
   taskId        String // ID no ClickUp
+  parentTaskId  String? // tarefa-mãe no ClickUp (null = primeiro nível)
   name          String
   statusName    String?
   isCompleted   Boolean          @default(false)
@@ -1832,6 +1850,7 @@ model ProjectTaskState {
 
   @@unique([projectId, taskId])
   @@index([projectId])
+  @@index([parentTaskId])
 }
 
 // Log de eventos sobre tarefas e cobranças — alimenta o histórico no detail.
@@ -3990,19 +4009,27 @@ model Assistant {
   // FOLLOW-UP EM ETAPAS (sucessor do resgate): [{ delayMin, text }], até 4.
   // delayMin conta da mensagem ANTERIOR (etapa 1 = da nossa última fala).
   // Vazio + revivalDelayMin > 0 = o resgate antigo vira a etapa 1.
-  followUpSteps        Json?
+  followUpSteps          Json?
   // Chave geral do follow-up. Desligado por padrão: ligar é decisão
   // consciente — ligado sem querer, o agente escreve pra base inteira.
-  followUpEnabled      Boolean   @default(false)
+  followUpEnabled        Boolean   @default(false)
   // Momento em que o follow-up foi ligado. Conversa que já estava parada
   // ANTES disso nunca recebe a etapa 1 — ligar não dispara na base antiga.
-  followUpArmedAt      DateTime?
-  // Também cobra quando quem falou por último foi um atendente.
-  followUpIncludeHuman Boolean   @default(true)
+  followUpArmedAt        DateTime?
+  // ESCOPO — em quais conversas o follow-up pode entrar (somam-se):
+  // veio pela campanha (a IA assumiu pelo gatilho), mesmo que depois um
+  // atendente tenha assumido e o contato não tenha voltado.
+  followUpScopeTrigger   Boolean   @default(true)
+  // ...e conversa marcada à mão pelo atendente ("Pedir follow-up").
+  followUpScopeRequested Boolean   @default(true)
+  // Escopo amplo: QUALQUER conversa em que a gente falou por último, inclusive
+  // as que nunca passaram pelo agente. É o que causou o incidente da clínica —
+  // fica desligado a não ser que alguém escolha.
+  followUpIncludeHuman   Boolean   @default(false)
   // Quem responde ao follow-up vai pra esta rota (intent); null = handoff.
-  followUpReplyIntent  String?
+  followUpReplyIntent    String?
   // Aviso curto ao contato quando ele volta (null = não manda nada).
-  followUpReplyText    String?   @db.Text
+  followUpReplyText      String?   @db.Text
 
   // CONTINUACAO: o agente prometeu algo e o turno acabou sem entregar — ele
   // volta sozinho em ~30s pra cumprir. Ligado por padrao (e o conserto de um
@@ -4895,7 +4922,7 @@ model AssistantRule {
   userId     String
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   pattern    String // trecho normalizado (minúsculo, sem acento) a casar no título/corpo
-  action     String // DONE | ARCHIVE | DELEGATE | CLASSIFY
+  action     String // DONE | ARCHIVE | DELEGATE | CLASSIFY | INFO | IDEA
   assigneeId String? // DELEGATE: responsável do chamado interno
   important  Boolean?
   urgent     Boolean?

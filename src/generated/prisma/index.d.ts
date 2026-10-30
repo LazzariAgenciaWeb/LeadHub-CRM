@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type AssistantNote = $Result.DefaultSelection<Prisma.$AssistantNotePayload>
 /**
+ * Model AssistantDigestItem
+ * 
+ */
+export type AssistantDigestItem = $Result.DefaultSelection<Prisma.$AssistantDigestItemPayload>
+/**
  * Model AssistantNoteEvent
  * 
  */
@@ -1725,6 +1730,16 @@ export class PrismaClient<
     * ```
     */
   get assistantNote(): Prisma.AssistantNoteDelegate<ExtArgs>;
+
+  /**
+   * `prisma.assistantDigestItem`: Exposes CRUD operations for the **AssistantDigestItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssistantDigestItems
+    * const assistantDigestItems = await prisma.assistantDigestItem.findMany()
+    * ```
+    */
+  get assistantDigestItem(): Prisma.AssistantDigestItemDelegate<ExtArgs>;
 
   /**
    * `prisma.assistantNoteEvent`: Exposes CRUD operations for the **AssistantNoteEvent** model.
@@ -3558,6 +3573,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     AssistantNote: 'AssistantNote',
+    AssistantDigestItem: 'AssistantDigestItem',
     AssistantNoteEvent: 'AssistantNoteEvent',
     AssistantTurn: 'AssistantTurn',
     AssistantPendingAction: 'AssistantPendingAction',
@@ -3712,7 +3728,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioEvent"
+      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3853,6 +3869,76 @@ export namespace Prisma {
           count: {
             args: Prisma.AssistantNoteCountArgs<ExtArgs>
             result: $Utils.Optional<AssistantNoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      AssistantDigestItem: {
+        payload: Prisma.$AssistantDigestItemPayload<ExtArgs>
+        fields: Prisma.AssistantDigestItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssistantDigestItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssistantDigestItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload>
+          }
+          findFirst: {
+            args: Prisma.AssistantDigestItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssistantDigestItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload>
+          }
+          findMany: {
+            args: Prisma.AssistantDigestItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload>[]
+          }
+          create: {
+            args: Prisma.AssistantDigestItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload>
+          }
+          createMany: {
+            args: Prisma.AssistantDigestItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssistantDigestItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload>[]
+          }
+          delete: {
+            args: Prisma.AssistantDigestItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload>
+          }
+          update: {
+            args: Prisma.AssistantDigestItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssistantDigestItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssistantDigestItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssistantDigestItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantDigestItemPayload>
+          }
+          aggregate: {
+            args: Prisma.AssistantDigestItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssistantDigestItem>
+          }
+          groupBy: {
+            args: Prisma.AssistantDigestItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssistantDigestItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssistantDigestItemCountArgs<ExtArgs>
+            result: $Utils.Optional<AssistantDigestItemCountAggregateOutputType> | number
           }
         }
       }
@@ -19857,6 +19943,884 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AssistantNoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssistantDigestItem
+   */
+
+  export type AggregateAssistantDigestItem = {
+    _count: AssistantDigestItemCountAggregateOutputType | null
+    _min: AssistantDigestItemMinAggregateOutputType | null
+    _max: AssistantDigestItemMaxAggregateOutputType | null
+  }
+
+  export type AssistantDigestItemMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    text: string | null
+    createdAt: Date | null
+    sentAt: Date | null
+  }
+
+  export type AssistantDigestItemMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    text: string | null
+    createdAt: Date | null
+    sentAt: Date | null
+  }
+
+  export type AssistantDigestItemCountAggregateOutputType = {
+    id: number
+    userId: number
+    text: number
+    createdAt: number
+    sentAt: number
+    _all: number
+  }
+
+
+  export type AssistantDigestItemMinAggregateInputType = {
+    id?: true
+    userId?: true
+    text?: true
+    createdAt?: true
+    sentAt?: true
+  }
+
+  export type AssistantDigestItemMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    text?: true
+    createdAt?: true
+    sentAt?: true
+  }
+
+  export type AssistantDigestItemCountAggregateInputType = {
+    id?: true
+    userId?: true
+    text?: true
+    createdAt?: true
+    sentAt?: true
+    _all?: true
+  }
+
+  export type AssistantDigestItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantDigestItem to aggregate.
+     */
+    where?: AssistantDigestItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantDigestItems to fetch.
+     */
+    orderBy?: AssistantDigestItemOrderByWithRelationInput | AssistantDigestItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssistantDigestItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantDigestItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantDigestItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssistantDigestItems
+    **/
+    _count?: true | AssistantDigestItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssistantDigestItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssistantDigestItemMaxAggregateInputType
+  }
+
+  export type GetAssistantDigestItemAggregateType<T extends AssistantDigestItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssistantDigestItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssistantDigestItem[P]>
+      : GetScalarType<T[P], AggregateAssistantDigestItem[P]>
+  }
+
+
+
+
+  export type AssistantDigestItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantDigestItemWhereInput
+    orderBy?: AssistantDigestItemOrderByWithAggregationInput | AssistantDigestItemOrderByWithAggregationInput[]
+    by: AssistantDigestItemScalarFieldEnum[] | AssistantDigestItemScalarFieldEnum
+    having?: AssistantDigestItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssistantDigestItemCountAggregateInputType | true
+    _min?: AssistantDigestItemMinAggregateInputType
+    _max?: AssistantDigestItemMaxAggregateInputType
+  }
+
+  export type AssistantDigestItemGroupByOutputType = {
+    id: string
+    userId: string
+    text: string
+    createdAt: Date
+    sentAt: Date | null
+    _count: AssistantDigestItemCountAggregateOutputType | null
+    _min: AssistantDigestItemMinAggregateOutputType | null
+    _max: AssistantDigestItemMaxAggregateOutputType | null
+  }
+
+  type GetAssistantDigestItemGroupByPayload<T extends AssistantDigestItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssistantDigestItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssistantDigestItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssistantDigestItemGroupByOutputType[P]>
+            : GetScalarType<T[P], AssistantDigestItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssistantDigestItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    text?: boolean
+    createdAt?: boolean
+    sentAt?: boolean
+  }, ExtArgs["result"]["assistantDigestItem"]>
+
+  export type AssistantDigestItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    text?: boolean
+    createdAt?: boolean
+    sentAt?: boolean
+  }, ExtArgs["result"]["assistantDigestItem"]>
+
+  export type AssistantDigestItemSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    text?: boolean
+    createdAt?: boolean
+    sentAt?: boolean
+  }
+
+
+  export type $AssistantDigestItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssistantDigestItem"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      text: string
+      createdAt: Date
+      sentAt: Date | null
+    }, ExtArgs["result"]["assistantDigestItem"]>
+    composites: {}
+  }
+
+  type AssistantDigestItemGetPayload<S extends boolean | null | undefined | AssistantDigestItemDefaultArgs> = $Result.GetResult<Prisma.$AssistantDigestItemPayload, S>
+
+  type AssistantDigestItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssistantDigestItemFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssistantDigestItemCountAggregateInputType | true
+    }
+
+  export interface AssistantDigestItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssistantDigestItem'], meta: { name: 'AssistantDigestItem' } }
+    /**
+     * Find zero or one AssistantDigestItem that matches the filter.
+     * @param {AssistantDigestItemFindUniqueArgs} args - Arguments to find a AssistantDigestItem
+     * @example
+     * // Get one AssistantDigestItem
+     * const assistantDigestItem = await prisma.assistantDigestItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssistantDigestItemFindUniqueArgs>(args: SelectSubset<T, AssistantDigestItemFindUniqueArgs<ExtArgs>>): Prisma__AssistantDigestItemClient<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AssistantDigestItem that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssistantDigestItemFindUniqueOrThrowArgs} args - Arguments to find a AssistantDigestItem
+     * @example
+     * // Get one AssistantDigestItem
+     * const assistantDigestItem = await prisma.assistantDigestItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssistantDigestItemFindUniqueOrThrowArgs>(args: SelectSubset<T, AssistantDigestItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssistantDigestItemClient<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AssistantDigestItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantDigestItemFindFirstArgs} args - Arguments to find a AssistantDigestItem
+     * @example
+     * // Get one AssistantDigestItem
+     * const assistantDigestItem = await prisma.assistantDigestItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssistantDigestItemFindFirstArgs>(args?: SelectSubset<T, AssistantDigestItemFindFirstArgs<ExtArgs>>): Prisma__AssistantDigestItemClient<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AssistantDigestItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantDigestItemFindFirstOrThrowArgs} args - Arguments to find a AssistantDigestItem
+     * @example
+     * // Get one AssistantDigestItem
+     * const assistantDigestItem = await prisma.assistantDigestItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssistantDigestItemFindFirstOrThrowArgs>(args?: SelectSubset<T, AssistantDigestItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssistantDigestItemClient<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AssistantDigestItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantDigestItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssistantDigestItems
+     * const assistantDigestItems = await prisma.assistantDigestItem.findMany()
+     * 
+     * // Get first 10 AssistantDigestItems
+     * const assistantDigestItems = await prisma.assistantDigestItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assistantDigestItemWithIdOnly = await prisma.assistantDigestItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssistantDigestItemFindManyArgs>(args?: SelectSubset<T, AssistantDigestItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AssistantDigestItem.
+     * @param {AssistantDigestItemCreateArgs} args - Arguments to create a AssistantDigestItem.
+     * @example
+     * // Create one AssistantDigestItem
+     * const AssistantDigestItem = await prisma.assistantDigestItem.create({
+     *   data: {
+     *     // ... data to create a AssistantDigestItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssistantDigestItemCreateArgs>(args: SelectSubset<T, AssistantDigestItemCreateArgs<ExtArgs>>): Prisma__AssistantDigestItemClient<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AssistantDigestItems.
+     * @param {AssistantDigestItemCreateManyArgs} args - Arguments to create many AssistantDigestItems.
+     * @example
+     * // Create many AssistantDigestItems
+     * const assistantDigestItem = await prisma.assistantDigestItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssistantDigestItemCreateManyArgs>(args?: SelectSubset<T, AssistantDigestItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssistantDigestItems and returns the data saved in the database.
+     * @param {AssistantDigestItemCreateManyAndReturnArgs} args - Arguments to create many AssistantDigestItems.
+     * @example
+     * // Create many AssistantDigestItems
+     * const assistantDigestItem = await prisma.assistantDigestItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssistantDigestItems and only return the `id`
+     * const assistantDigestItemWithIdOnly = await prisma.assistantDigestItem.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssistantDigestItemCreateManyAndReturnArgs>(args?: SelectSubset<T, AssistantDigestItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AssistantDigestItem.
+     * @param {AssistantDigestItemDeleteArgs} args - Arguments to delete one AssistantDigestItem.
+     * @example
+     * // Delete one AssistantDigestItem
+     * const AssistantDigestItem = await prisma.assistantDigestItem.delete({
+     *   where: {
+     *     // ... filter to delete one AssistantDigestItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssistantDigestItemDeleteArgs>(args: SelectSubset<T, AssistantDigestItemDeleteArgs<ExtArgs>>): Prisma__AssistantDigestItemClient<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AssistantDigestItem.
+     * @param {AssistantDigestItemUpdateArgs} args - Arguments to update one AssistantDigestItem.
+     * @example
+     * // Update one AssistantDigestItem
+     * const assistantDigestItem = await prisma.assistantDigestItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssistantDigestItemUpdateArgs>(args: SelectSubset<T, AssistantDigestItemUpdateArgs<ExtArgs>>): Prisma__AssistantDigestItemClient<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AssistantDigestItems.
+     * @param {AssistantDigestItemDeleteManyArgs} args - Arguments to filter AssistantDigestItems to delete.
+     * @example
+     * // Delete a few AssistantDigestItems
+     * const { count } = await prisma.assistantDigestItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssistantDigestItemDeleteManyArgs>(args?: SelectSubset<T, AssistantDigestItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssistantDigestItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantDigestItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssistantDigestItems
+     * const assistantDigestItem = await prisma.assistantDigestItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssistantDigestItemUpdateManyArgs>(args: SelectSubset<T, AssistantDigestItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AssistantDigestItem.
+     * @param {AssistantDigestItemUpsertArgs} args - Arguments to update or create a AssistantDigestItem.
+     * @example
+     * // Update or create a AssistantDigestItem
+     * const assistantDigestItem = await prisma.assistantDigestItem.upsert({
+     *   create: {
+     *     // ... data to create a AssistantDigestItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssistantDigestItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssistantDigestItemUpsertArgs>(args: SelectSubset<T, AssistantDigestItemUpsertArgs<ExtArgs>>): Prisma__AssistantDigestItemClient<$Result.GetResult<Prisma.$AssistantDigestItemPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AssistantDigestItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantDigestItemCountArgs} args - Arguments to filter AssistantDigestItems to count.
+     * @example
+     * // Count the number of AssistantDigestItems
+     * const count = await prisma.assistantDigestItem.count({
+     *   where: {
+     *     // ... the filter for the AssistantDigestItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssistantDigestItemCountArgs>(
+      args?: Subset<T, AssistantDigestItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssistantDigestItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssistantDigestItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantDigestItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssistantDigestItemAggregateArgs>(args: Subset<T, AssistantDigestItemAggregateArgs>): Prisma.PrismaPromise<GetAssistantDigestItemAggregateType<T>>
+
+    /**
+     * Group by AssistantDigestItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantDigestItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssistantDigestItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssistantDigestItemGroupByArgs['orderBy'] }
+        : { orderBy?: AssistantDigestItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssistantDigestItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssistantDigestItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssistantDigestItem model
+   */
+  readonly fields: AssistantDigestItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssistantDigestItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssistantDigestItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssistantDigestItem model
+   */ 
+  interface AssistantDigestItemFieldRefs {
+    readonly id: FieldRef<"AssistantDigestItem", 'String'>
+    readonly userId: FieldRef<"AssistantDigestItem", 'String'>
+    readonly text: FieldRef<"AssistantDigestItem", 'String'>
+    readonly createdAt: FieldRef<"AssistantDigestItem", 'DateTime'>
+    readonly sentAt: FieldRef<"AssistantDigestItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssistantDigestItem findUnique
+   */
+  export type AssistantDigestItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
+    /**
+     * Filter, which AssistantDigestItem to fetch.
+     */
+    where: AssistantDigestItemWhereUniqueInput
+  }
+
+  /**
+   * AssistantDigestItem findUniqueOrThrow
+   */
+  export type AssistantDigestItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
+    /**
+     * Filter, which AssistantDigestItem to fetch.
+     */
+    where: AssistantDigestItemWhereUniqueInput
+  }
+
+  /**
+   * AssistantDigestItem findFirst
+   */
+  export type AssistantDigestItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
+    /**
+     * Filter, which AssistantDigestItem to fetch.
+     */
+    where?: AssistantDigestItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantDigestItems to fetch.
+     */
+    orderBy?: AssistantDigestItemOrderByWithRelationInput | AssistantDigestItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantDigestItems.
+     */
+    cursor?: AssistantDigestItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantDigestItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantDigestItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantDigestItems.
+     */
+    distinct?: AssistantDigestItemScalarFieldEnum | AssistantDigestItemScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantDigestItem findFirstOrThrow
+   */
+  export type AssistantDigestItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
+    /**
+     * Filter, which AssistantDigestItem to fetch.
+     */
+    where?: AssistantDigestItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantDigestItems to fetch.
+     */
+    orderBy?: AssistantDigestItemOrderByWithRelationInput | AssistantDigestItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantDigestItems.
+     */
+    cursor?: AssistantDigestItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantDigestItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantDigestItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantDigestItems.
+     */
+    distinct?: AssistantDigestItemScalarFieldEnum | AssistantDigestItemScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantDigestItem findMany
+   */
+  export type AssistantDigestItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
+    /**
+     * Filter, which AssistantDigestItems to fetch.
+     */
+    where?: AssistantDigestItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantDigestItems to fetch.
+     */
+    orderBy?: AssistantDigestItemOrderByWithRelationInput | AssistantDigestItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssistantDigestItems.
+     */
+    cursor?: AssistantDigestItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantDigestItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantDigestItems.
+     */
+    skip?: number
+    distinct?: AssistantDigestItemScalarFieldEnum | AssistantDigestItemScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantDigestItem create
+   */
+  export type AssistantDigestItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
+    /**
+     * The data needed to create a AssistantDigestItem.
+     */
+    data: XOR<AssistantDigestItemCreateInput, AssistantDigestItemUncheckedCreateInput>
+  }
+
+  /**
+   * AssistantDigestItem createMany
+   */
+  export type AssistantDigestItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssistantDigestItems.
+     */
+    data: AssistantDigestItemCreateManyInput | AssistantDigestItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssistantDigestItem createManyAndReturn
+   */
+  export type AssistantDigestItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AssistantDigestItems.
+     */
+    data: AssistantDigestItemCreateManyInput | AssistantDigestItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssistantDigestItem update
+   */
+  export type AssistantDigestItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
+    /**
+     * The data needed to update a AssistantDigestItem.
+     */
+    data: XOR<AssistantDigestItemUpdateInput, AssistantDigestItemUncheckedUpdateInput>
+    /**
+     * Choose, which AssistantDigestItem to update.
+     */
+    where: AssistantDigestItemWhereUniqueInput
+  }
+
+  /**
+   * AssistantDigestItem updateMany
+   */
+  export type AssistantDigestItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssistantDigestItems.
+     */
+    data: XOR<AssistantDigestItemUpdateManyMutationInput, AssistantDigestItemUncheckedUpdateManyInput>
+    /**
+     * Filter which AssistantDigestItems to update
+     */
+    where?: AssistantDigestItemWhereInput
+  }
+
+  /**
+   * AssistantDigestItem upsert
+   */
+  export type AssistantDigestItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
+    /**
+     * The filter to search for the AssistantDigestItem to update in case it exists.
+     */
+    where: AssistantDigestItemWhereUniqueInput
+    /**
+     * In case the AssistantDigestItem found by the `where` argument doesn't exist, create a new AssistantDigestItem with this data.
+     */
+    create: XOR<AssistantDigestItemCreateInput, AssistantDigestItemUncheckedCreateInput>
+    /**
+     * In case the AssistantDigestItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssistantDigestItemUpdateInput, AssistantDigestItemUncheckedUpdateInput>
+  }
+
+  /**
+   * AssistantDigestItem delete
+   */
+  export type AssistantDigestItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
+    /**
+     * Filter which AssistantDigestItem to delete.
+     */
+    where: AssistantDigestItemWhereUniqueInput
+  }
+
+  /**
+   * AssistantDigestItem deleteMany
+   */
+  export type AssistantDigestItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantDigestItems to delete
+     */
+    where?: AssistantDigestItemWhereInput
+  }
+
+  /**
+   * AssistantDigestItem without action
+   */
+  export type AssistantDigestItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantDigestItem
+     */
+    select?: AssistantDigestItemSelect<ExtArgs> | null
   }
 
 
@@ -50724,6 +51688,7 @@ export namespace Prisma {
     aiLastResult: string | null
     aiLastRunAt: Date | null
     followUpStage: number | null
+    followUpRequestedAt: Date | null
     followUpLastAt: Date | null
     followUpExhaustedAt: Date | null
     firstResponseAt: Date | null
@@ -50757,6 +51722,7 @@ export namespace Prisma {
     aiLastResult: string | null
     aiLastRunAt: Date | null
     followUpStage: number | null
+    followUpRequestedAt: Date | null
     followUpLastAt: Date | null
     followUpExhaustedAt: Date | null
     firstResponseAt: Date | null
@@ -50790,6 +51756,7 @@ export namespace Prisma {
     aiLastResult: number
     aiLastRunAt: number
     followUpStage: number
+    followUpRequestedAt: number
     followUpLastAt: number
     followUpExhaustedAt: number
     firstResponseAt: number
@@ -50835,6 +51802,7 @@ export namespace Prisma {
     aiLastResult?: true
     aiLastRunAt?: true
     followUpStage?: true
+    followUpRequestedAt?: true
     followUpLastAt?: true
     followUpExhaustedAt?: true
     firstResponseAt?: true
@@ -50868,6 +51836,7 @@ export namespace Prisma {
     aiLastResult?: true
     aiLastRunAt?: true
     followUpStage?: true
+    followUpRequestedAt?: true
     followUpLastAt?: true
     followUpExhaustedAt?: true
     firstResponseAt?: true
@@ -50901,6 +51870,7 @@ export namespace Prisma {
     aiLastResult?: true
     aiLastRunAt?: true
     followUpStage?: true
+    followUpRequestedAt?: true
     followUpLastAt?: true
     followUpExhaustedAt?: true
     firstResponseAt?: true
@@ -51021,6 +51991,7 @@ export namespace Prisma {
     aiLastResult: string | null
     aiLastRunAt: Date | null
     followUpStage: number
+    followUpRequestedAt: Date | null
     followUpLastAt: Date | null
     followUpExhaustedAt: Date | null
     firstResponseAt: Date | null
@@ -51073,6 +52044,7 @@ export namespace Prisma {
     aiLastResult?: boolean
     aiLastRunAt?: boolean
     followUpStage?: boolean
+    followUpRequestedAt?: boolean
     followUpLastAt?: boolean
     followUpExhaustedAt?: boolean
     firstResponseAt?: boolean
@@ -51115,6 +52087,7 @@ export namespace Prisma {
     aiLastResult?: boolean
     aiLastRunAt?: boolean
     followUpStage?: boolean
+    followUpRequestedAt?: boolean
     followUpLastAt?: boolean
     followUpExhaustedAt?: boolean
     firstResponseAt?: boolean
@@ -51152,6 +52125,7 @@ export namespace Prisma {
     aiLastResult?: boolean
     aiLastRunAt?: boolean
     followUpStage?: boolean
+    followUpRequestedAt?: boolean
     followUpLastAt?: boolean
     followUpExhaustedAt?: boolean
     firstResponseAt?: boolean
@@ -51215,6 +52189,7 @@ export namespace Prisma {
       aiLastResult: string | null
       aiLastRunAt: Date | null
       followUpStage: number
+      followUpRequestedAt: Date | null
       followUpLastAt: Date | null
       followUpExhaustedAt: Date | null
       firstResponseAt: Date | null
@@ -51646,6 +52621,7 @@ export namespace Prisma {
     readonly aiLastResult: FieldRef<"Conversation", 'String'>
     readonly aiLastRunAt: FieldRef<"Conversation", 'DateTime'>
     readonly followUpStage: FieldRef<"Conversation", 'Int'>
+    readonly followUpRequestedAt: FieldRef<"Conversation", 'DateTime'>
     readonly followUpLastAt: FieldRef<"Conversation", 'DateTime'>
     readonly followUpExhaustedAt: FieldRef<"Conversation", 'DateTime'>
     readonly firstResponseAt: FieldRef<"Conversation", 'DateTime'>
@@ -61884,6 +62860,7 @@ export namespace Prisma {
     projectId: string | null
     serviceId: string | null
     name: string | null
+    clickupTaskId: string | null
     order: number | null
     visibleToClient: boolean | null
     createdAt: Date | null
@@ -61894,6 +62871,7 @@ export namespace Prisma {
     projectId: string | null
     serviceId: string | null
     name: string | null
+    clickupTaskId: string | null
     order: number | null
     visibleToClient: boolean | null
     createdAt: Date | null
@@ -61904,6 +62882,7 @@ export namespace Prisma {
     projectId: number
     serviceId: number
     name: number
+    clickupTaskId: number
     order: number
     visibleToClient: number
     createdAt: number
@@ -61924,6 +62903,7 @@ export namespace Prisma {
     projectId?: true
     serviceId?: true
     name?: true
+    clickupTaskId?: true
     order?: true
     visibleToClient?: true
     createdAt?: true
@@ -61934,6 +62914,7 @@ export namespace Prisma {
     projectId?: true
     serviceId?: true
     name?: true
+    clickupTaskId?: true
     order?: true
     visibleToClient?: true
     createdAt?: true
@@ -61944,6 +62925,7 @@ export namespace Prisma {
     projectId?: true
     serviceId?: true
     name?: true
+    clickupTaskId?: true
     order?: true
     visibleToClient?: true
     createdAt?: true
@@ -62041,6 +63023,7 @@ export namespace Prisma {
     projectId: string
     serviceId: string | null
     name: string | null
+    clickupTaskId: string | null
     order: number
     visibleToClient: boolean
     createdAt: Date
@@ -62070,6 +63053,7 @@ export namespace Prisma {
     projectId?: boolean
     serviceId?: boolean
     name?: boolean
+    clickupTaskId?: boolean
     order?: boolean
     visibleToClient?: boolean
     createdAt?: boolean
@@ -62084,6 +63068,7 @@ export namespace Prisma {
     projectId?: boolean
     serviceId?: boolean
     name?: boolean
+    clickupTaskId?: boolean
     order?: boolean
     visibleToClient?: boolean
     createdAt?: boolean
@@ -62096,6 +63081,7 @@ export namespace Prisma {
     projectId?: boolean
     serviceId?: boolean
     name?: boolean
+    clickupTaskId?: boolean
     order?: boolean
     visibleToClient?: boolean
     createdAt?: boolean
@@ -62124,6 +63110,7 @@ export namespace Prisma {
       projectId: string
       serviceId: string | null
       name: string | null
+      clickupTaskId: string | null
       order: number
       visibleToClient: boolean
       createdAt: Date
@@ -62527,6 +63514,7 @@ export namespace Prisma {
     readonly projectId: FieldRef<"ProjectService", 'String'>
     readonly serviceId: FieldRef<"ProjectService", 'String'>
     readonly name: FieldRef<"ProjectService", 'String'>
+    readonly clickupTaskId: FieldRef<"ProjectService", 'String'>
     readonly order: FieldRef<"ProjectService", 'Int'>
     readonly visibleToClient: FieldRef<"ProjectService", 'Boolean'>
     readonly createdAt: FieldRef<"ProjectService", 'DateTime'>
@@ -65730,6 +66718,7 @@ export namespace Prisma {
     id: string | null
     projectId: string | null
     taskId: string | null
+    parentTaskId: string | null
     name: string | null
     statusName: string | null
     isCompleted: boolean | null
@@ -65745,6 +66734,7 @@ export namespace Prisma {
     id: string | null
     projectId: string | null
     taskId: string | null
+    parentTaskId: string | null
     name: string | null
     statusName: string | null
     isCompleted: boolean | null
@@ -65760,6 +66750,7 @@ export namespace Prisma {
     id: number
     projectId: number
     taskId: number
+    parentTaskId: number
     name: number
     statusName: number
     isCompleted: number
@@ -65789,6 +66780,7 @@ export namespace Prisma {
     id?: true
     projectId?: true
     taskId?: true
+    parentTaskId?: true
     name?: true
     statusName?: true
     isCompleted?: true
@@ -65804,6 +66796,7 @@ export namespace Prisma {
     id?: true
     projectId?: true
     taskId?: true
+    parentTaskId?: true
     name?: true
     statusName?: true
     isCompleted?: true
@@ -65819,6 +66812,7 @@ export namespace Prisma {
     id?: true
     projectId?: true
     taskId?: true
+    parentTaskId?: true
     name?: true
     statusName?: true
     isCompleted?: true
@@ -65921,6 +66915,7 @@ export namespace Prisma {
     id: string
     projectId: string
     taskId: string
+    parentTaskId: string | null
     name: string
     statusName: string | null
     isCompleted: boolean
@@ -65955,6 +66950,7 @@ export namespace Prisma {
     id?: boolean
     projectId?: boolean
     taskId?: boolean
+    parentTaskId?: boolean
     name?: boolean
     statusName?: boolean
     isCompleted?: boolean
@@ -65971,6 +66967,7 @@ export namespace Prisma {
     id?: boolean
     projectId?: boolean
     taskId?: boolean
+    parentTaskId?: boolean
     name?: boolean
     statusName?: boolean
     isCompleted?: boolean
@@ -65987,6 +66984,7 @@ export namespace Prisma {
     id?: boolean
     projectId?: boolean
     taskId?: boolean
+    parentTaskId?: boolean
     name?: boolean
     statusName?: boolean
     isCompleted?: boolean
@@ -66014,6 +67012,7 @@ export namespace Prisma {
       id: string
       projectId: string
       taskId: string
+      parentTaskId: string | null
       name: string
       statusName: string | null
       isCompleted: boolean
@@ -66420,6 +67419,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ProjectTaskState", 'String'>
     readonly projectId: FieldRef<"ProjectTaskState", 'String'>
     readonly taskId: FieldRef<"ProjectTaskState", 'String'>
+    readonly parentTaskId: FieldRef<"ProjectTaskState", 'String'>
     readonly name: FieldRef<"ProjectTaskState", 'String'>
     readonly statusName: FieldRef<"ProjectTaskState", 'String'>
     readonly isCompleted: FieldRef<"ProjectTaskState", 'Boolean'>
@@ -133855,6 +134855,8 @@ export namespace Prisma {
     revivalText: string | null
     followUpEnabled: boolean | null
     followUpArmedAt: Date | null
+    followUpScopeTrigger: boolean | null
+    followUpScopeRequested: boolean | null
     followUpIncludeHuman: boolean | null
     followUpReplyIntent: string | null
     followUpReplyText: string | null
@@ -133895,6 +134897,8 @@ export namespace Prisma {
     revivalText: string | null
     followUpEnabled: boolean | null
     followUpArmedAt: Date | null
+    followUpScopeTrigger: boolean | null
+    followUpScopeRequested: boolean | null
     followUpIncludeHuman: boolean | null
     followUpReplyIntent: string | null
     followUpReplyText: string | null
@@ -133937,6 +134941,8 @@ export namespace Prisma {
     followUpSteps: number
     followUpEnabled: number
     followUpArmedAt: number
+    followUpScopeTrigger: number
+    followUpScopeRequested: number
     followUpIncludeHuman: number
     followUpReplyIntent: number
     followUpReplyText: number
@@ -133995,6 +135001,8 @@ export namespace Prisma {
     revivalText?: true
     followUpEnabled?: true
     followUpArmedAt?: true
+    followUpScopeTrigger?: true
+    followUpScopeRequested?: true
     followUpIncludeHuman?: true
     followUpReplyIntent?: true
     followUpReplyText?: true
@@ -134035,6 +135043,8 @@ export namespace Prisma {
     revivalText?: true
     followUpEnabled?: true
     followUpArmedAt?: true
+    followUpScopeTrigger?: true
+    followUpScopeRequested?: true
     followUpIncludeHuman?: true
     followUpReplyIntent?: true
     followUpReplyText?: true
@@ -134077,6 +135087,8 @@ export namespace Prisma {
     followUpSteps?: true
     followUpEnabled?: true
     followUpArmedAt?: true
+    followUpScopeTrigger?: true
+    followUpScopeRequested?: true
     followUpIncludeHuman?: true
     followUpReplyIntent?: true
     followUpReplyText?: true
@@ -134206,6 +135218,8 @@ export namespace Prisma {
     followUpSteps: JsonValue | null
     followUpEnabled: boolean
     followUpArmedAt: Date | null
+    followUpScopeTrigger: boolean
+    followUpScopeRequested: boolean
     followUpIncludeHuman: boolean
     followUpReplyIntent: string | null
     followUpReplyText: string | null
@@ -134267,6 +135281,8 @@ export namespace Prisma {
     followUpSteps?: boolean
     followUpEnabled?: boolean
     followUpArmedAt?: boolean
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: boolean
     followUpReplyText?: boolean
@@ -134317,6 +135333,8 @@ export namespace Prisma {
     followUpSteps?: boolean
     followUpEnabled?: boolean
     followUpArmedAt?: boolean
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: boolean
     followUpReplyText?: boolean
@@ -134364,6 +135382,8 @@ export namespace Prisma {
     followUpSteps?: boolean
     followUpEnabled?: boolean
     followUpArmedAt?: boolean
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: boolean
     followUpReplyText?: boolean
@@ -134435,6 +135455,8 @@ export namespace Prisma {
       followUpSteps: Prisma.JsonValue | null
       followUpEnabled: boolean
       followUpArmedAt: Date | null
+      followUpScopeTrigger: boolean
+      followUpScopeRequested: boolean
       followUpIncludeHuman: boolean
       followUpReplyIntent: string | null
       followUpReplyText: string | null
@@ -134874,6 +135896,8 @@ export namespace Prisma {
     readonly followUpSteps: FieldRef<"Assistant", 'Json'>
     readonly followUpEnabled: FieldRef<"Assistant", 'Boolean'>
     readonly followUpArmedAt: FieldRef<"Assistant", 'DateTime'>
+    readonly followUpScopeTrigger: FieldRef<"Assistant", 'Boolean'>
+    readonly followUpScopeRequested: FieldRef<"Assistant", 'Boolean'>
     readonly followUpIncludeHuman: FieldRef<"Assistant", 'Boolean'>
     readonly followUpReplyIntent: FieldRef<"Assistant", 'String'>
     readonly followUpReplyText: FieldRef<"Assistant", 'String'>
@@ -170139,6 +171163,17 @@ export namespace Prisma {
   export type AssistantNoteScalarFieldEnum = (typeof AssistantNoteScalarFieldEnum)[keyof typeof AssistantNoteScalarFieldEnum]
 
 
+  export const AssistantDigestItemScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    text: 'text',
+    createdAt: 'createdAt',
+    sentAt: 'sentAt'
+  };
+
+  export type AssistantDigestItemScalarFieldEnum = (typeof AssistantDigestItemScalarFieldEnum)[keyof typeof AssistantDigestItemScalarFieldEnum]
+
+
   export const AssistantNoteEventScalarFieldEnum: {
     id: 'id',
     noteId: 'noteId',
@@ -170637,6 +171672,7 @@ export namespace Prisma {
     aiLastResult: 'aiLastResult',
     aiLastRunAt: 'aiLastRunAt',
     followUpStage: 'followUpStage',
+    followUpRequestedAt: 'followUpRequestedAt',
     followUpLastAt: 'followUpLastAt',
     followUpExhaustedAt: 'followUpExhaustedAt',
     firstResponseAt: 'firstResponseAt',
@@ -170849,6 +171885,7 @@ export namespace Prisma {
     projectId: 'projectId',
     serviceId: 'serviceId',
     name: 'name',
+    clickupTaskId: 'clickupTaskId',
     order: 'order',
     visibleToClient: 'visibleToClient',
     createdAt: 'createdAt'
@@ -170893,6 +171930,7 @@ export namespace Prisma {
     id: 'id',
     projectId: 'projectId',
     taskId: 'taskId',
+    parentTaskId: 'parentTaskId',
     name: 'name',
     statusName: 'statusName',
     isCompleted: 'isCompleted',
@@ -172072,6 +173110,8 @@ export namespace Prisma {
     followUpSteps: 'followUpSteps',
     followUpEnabled: 'followUpEnabled',
     followUpArmedAt: 'followUpArmedAt',
+    followUpScopeTrigger: 'followUpScopeTrigger',
+    followUpScopeRequested: 'followUpScopeRequested',
     followUpIncludeHuman: 'followUpIncludeHuman',
     followUpReplyIntent: 'followUpReplyIntent',
     followUpReplyText: 'followUpReplyText',
@@ -174018,6 +175058,58 @@ export namespace Prisma {
     archivedAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
+  }
+
+  export type AssistantDigestItemWhereInput = {
+    AND?: AssistantDigestItemWhereInput | AssistantDigestItemWhereInput[]
+    OR?: AssistantDigestItemWhereInput[]
+    NOT?: AssistantDigestItemWhereInput | AssistantDigestItemWhereInput[]
+    id?: StringFilter<"AssistantDigestItem"> | string
+    userId?: StringFilter<"AssistantDigestItem"> | string
+    text?: StringFilter<"AssistantDigestItem"> | string
+    createdAt?: DateTimeFilter<"AssistantDigestItem"> | Date | string
+    sentAt?: DateTimeNullableFilter<"AssistantDigestItem"> | Date | string | null
+  }
+
+  export type AssistantDigestItemOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    text?: SortOrder
+    createdAt?: SortOrder
+    sentAt?: SortOrderInput | SortOrder
+  }
+
+  export type AssistantDigestItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AssistantDigestItemWhereInput | AssistantDigestItemWhereInput[]
+    OR?: AssistantDigestItemWhereInput[]
+    NOT?: AssistantDigestItemWhereInput | AssistantDigestItemWhereInput[]
+    userId?: StringFilter<"AssistantDigestItem"> | string
+    text?: StringFilter<"AssistantDigestItem"> | string
+    createdAt?: DateTimeFilter<"AssistantDigestItem"> | Date | string
+    sentAt?: DateTimeNullableFilter<"AssistantDigestItem"> | Date | string | null
+  }, "id">
+
+  export type AssistantDigestItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    text?: SortOrder
+    createdAt?: SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    _count?: AssistantDigestItemCountOrderByAggregateInput
+    _max?: AssistantDigestItemMaxOrderByAggregateInput
+    _min?: AssistantDigestItemMinOrderByAggregateInput
+  }
+
+  export type AssistantDigestItemScalarWhereWithAggregatesInput = {
+    AND?: AssistantDigestItemScalarWhereWithAggregatesInput | AssistantDigestItemScalarWhereWithAggregatesInput[]
+    OR?: AssistantDigestItemScalarWhereWithAggregatesInput[]
+    NOT?: AssistantDigestItemScalarWhereWithAggregatesInput | AssistantDigestItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AssistantDigestItem"> | string
+    userId?: StringWithAggregatesFilter<"AssistantDigestItem"> | string
+    text?: StringWithAggregatesFilter<"AssistantDigestItem"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AssistantDigestItem"> | Date | string
+    sentAt?: DateTimeNullableWithAggregatesFilter<"AssistantDigestItem"> | Date | string | null
   }
 
   export type AssistantNoteEventWhereInput = {
@@ -176858,6 +177950,7 @@ export namespace Prisma {
     aiLastResult?: StringNullableFilter<"Conversation"> | string | null
     aiLastRunAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     followUpStage?: IntFilter<"Conversation"> | number
+    followUpRequestedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     followUpLastAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     followUpExhaustedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -176899,6 +177992,7 @@ export namespace Prisma {
     aiLastResult?: SortOrderInput | SortOrder
     aiLastRunAt?: SortOrderInput | SortOrder
     followUpStage?: SortOrder
+    followUpRequestedAt?: SortOrderInput | SortOrder
     followUpLastAt?: SortOrderInput | SortOrder
     followUpExhaustedAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
@@ -176944,6 +178038,7 @@ export namespace Prisma {
     aiLastResult?: StringNullableFilter<"Conversation"> | string | null
     aiLastRunAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     followUpStage?: IntFilter<"Conversation"> | number
+    followUpRequestedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     followUpLastAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     followUpExhaustedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -176985,6 +178080,7 @@ export namespace Prisma {
     aiLastResult?: SortOrderInput | SortOrder
     aiLastRunAt?: SortOrderInput | SortOrder
     followUpStage?: SortOrder
+    followUpRequestedAt?: SortOrderInput | SortOrder
     followUpLastAt?: SortOrderInput | SortOrder
     followUpExhaustedAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
@@ -177026,6 +178122,7 @@ export namespace Prisma {
     aiLastResult?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
     aiLastRunAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     followUpStage?: IntWithAggregatesFilter<"Conversation"> | number
+    followUpRequestedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     followUpLastAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     followUpExhaustedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
@@ -178144,6 +179241,7 @@ export namespace Prisma {
     projectId?: StringFilter<"ProjectService"> | string
     serviceId?: StringNullableFilter<"ProjectService"> | string | null
     name?: StringNullableFilter<"ProjectService"> | string | null
+    clickupTaskId?: StringNullableFilter<"ProjectService"> | string | null
     order?: IntFilter<"ProjectService"> | number
     visibleToClient?: BoolFilter<"ProjectService"> | boolean
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
@@ -178157,6 +179255,7 @@ export namespace Prisma {
     projectId?: SortOrder
     serviceId?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
+    clickupTaskId?: SortOrderInput | SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
     createdAt?: SortOrder
@@ -178173,6 +179272,7 @@ export namespace Prisma {
     projectId?: StringFilter<"ProjectService"> | string
     serviceId?: StringNullableFilter<"ProjectService"> | string | null
     name?: StringNullableFilter<"ProjectService"> | string | null
+    clickupTaskId?: StringNullableFilter<"ProjectService"> | string | null
     order?: IntFilter<"ProjectService"> | number
     visibleToClient?: BoolFilter<"ProjectService"> | boolean
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
@@ -178186,6 +179286,7 @@ export namespace Prisma {
     projectId?: SortOrder
     serviceId?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
+    clickupTaskId?: SortOrderInput | SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
     createdAt?: SortOrder
@@ -178204,6 +179305,7 @@ export namespace Prisma {
     projectId?: StringWithAggregatesFilter<"ProjectService"> | string
     serviceId?: StringNullableWithAggregatesFilter<"ProjectService"> | string | null
     name?: StringNullableWithAggregatesFilter<"ProjectService"> | string | null
+    clickupTaskId?: StringNullableWithAggregatesFilter<"ProjectService"> | string | null
     order?: IntWithAggregatesFilter<"ProjectService"> | number
     visibleToClient?: BoolWithAggregatesFilter<"ProjectService"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"ProjectService"> | Date | string
@@ -178387,6 +179489,7 @@ export namespace Prisma {
     id?: StringFilter<"ProjectTaskState"> | string
     projectId?: StringFilter<"ProjectTaskState"> | string
     taskId?: StringFilter<"ProjectTaskState"> | string
+    parentTaskId?: StringNullableFilter<"ProjectTaskState"> | string | null
     name?: StringFilter<"ProjectTaskState"> | string
     statusName?: StringNullableFilter<"ProjectTaskState"> | string | null
     isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
@@ -178403,6 +179506,7 @@ export namespace Prisma {
     id?: SortOrder
     projectId?: SortOrder
     taskId?: SortOrder
+    parentTaskId?: SortOrderInput | SortOrder
     name?: SortOrder
     statusName?: SortOrderInput | SortOrder
     isCompleted?: SortOrder
@@ -178423,6 +179527,7 @@ export namespace Prisma {
     NOT?: ProjectTaskStateWhereInput | ProjectTaskStateWhereInput[]
     projectId?: StringFilter<"ProjectTaskState"> | string
     taskId?: StringFilter<"ProjectTaskState"> | string
+    parentTaskId?: StringNullableFilter<"ProjectTaskState"> | string | null
     name?: StringFilter<"ProjectTaskState"> | string
     statusName?: StringNullableFilter<"ProjectTaskState"> | string | null
     isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
@@ -178439,6 +179544,7 @@ export namespace Prisma {
     id?: SortOrder
     projectId?: SortOrder
     taskId?: SortOrder
+    parentTaskId?: SortOrderInput | SortOrder
     name?: SortOrder
     statusName?: SortOrderInput | SortOrder
     isCompleted?: SortOrder
@@ -178462,6 +179568,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ProjectTaskState"> | string
     projectId?: StringWithAggregatesFilter<"ProjectTaskState"> | string
     taskId?: StringWithAggregatesFilter<"ProjectTaskState"> | string
+    parentTaskId?: StringNullableWithAggregatesFilter<"ProjectTaskState"> | string | null
     name?: StringWithAggregatesFilter<"ProjectTaskState"> | string
     statusName?: StringNullableWithAggregatesFilter<"ProjectTaskState"> | string | null
     isCompleted?: BoolWithAggregatesFilter<"ProjectTaskState"> | boolean
@@ -184431,6 +185538,8 @@ export namespace Prisma {
     followUpSteps?: JsonNullableFilter<"Assistant">
     followUpEnabled?: BoolFilter<"Assistant"> | boolean
     followUpArmedAt?: DateTimeNullableFilter<"Assistant"> | Date | string | null
+    followUpScopeTrigger?: BoolFilter<"Assistant"> | boolean
+    followUpScopeRequested?: BoolFilter<"Assistant"> | boolean
     followUpIncludeHuman?: BoolFilter<"Assistant"> | boolean
     followUpReplyIntent?: StringNullableFilter<"Assistant"> | string | null
     followUpReplyText?: StringNullableFilter<"Assistant"> | string | null
@@ -184480,6 +185589,8 @@ export namespace Prisma {
     followUpSteps?: SortOrderInput | SortOrder
     followUpEnabled?: SortOrder
     followUpArmedAt?: SortOrderInput | SortOrder
+    followUpScopeTrigger?: SortOrder
+    followUpScopeRequested?: SortOrder
     followUpIncludeHuman?: SortOrder
     followUpReplyIntent?: SortOrderInput | SortOrder
     followUpReplyText?: SortOrderInput | SortOrder
@@ -184532,6 +185643,8 @@ export namespace Prisma {
     followUpSteps?: JsonNullableFilter<"Assistant">
     followUpEnabled?: BoolFilter<"Assistant"> | boolean
     followUpArmedAt?: DateTimeNullableFilter<"Assistant"> | Date | string | null
+    followUpScopeTrigger?: BoolFilter<"Assistant"> | boolean
+    followUpScopeRequested?: BoolFilter<"Assistant"> | boolean
     followUpIncludeHuman?: BoolFilter<"Assistant"> | boolean
     followUpReplyIntent?: StringNullableFilter<"Assistant"> | string | null
     followUpReplyText?: StringNullableFilter<"Assistant"> | string | null
@@ -184581,6 +185694,8 @@ export namespace Prisma {
     followUpSteps?: SortOrderInput | SortOrder
     followUpEnabled?: SortOrder
     followUpArmedAt?: SortOrderInput | SortOrder
+    followUpScopeTrigger?: SortOrder
+    followUpScopeRequested?: SortOrder
     followUpIncludeHuman?: SortOrder
     followUpReplyIntent?: SortOrderInput | SortOrder
     followUpReplyText?: SortOrderInput | SortOrder
@@ -184631,6 +185746,8 @@ export namespace Prisma {
     followUpSteps?: JsonNullableWithAggregatesFilter<"Assistant">
     followUpEnabled?: BoolWithAggregatesFilter<"Assistant"> | boolean
     followUpArmedAt?: DateTimeNullableWithAggregatesFilter<"Assistant"> | Date | string | null
+    followUpScopeTrigger?: BoolWithAggregatesFilter<"Assistant"> | boolean
+    followUpScopeRequested?: BoolWithAggregatesFilter<"Assistant"> | boolean
     followUpIncludeHuman?: BoolWithAggregatesFilter<"Assistant"> | boolean
     followUpReplyIntent?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     followUpReplyText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
@@ -188238,6 +189355,62 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssistantDigestItemCreateInput = {
+    id?: string
+    userId: string
+    text: string
+    createdAt?: Date | string
+    sentAt?: Date | string | null
+  }
+
+  export type AssistantDigestItemUncheckedCreateInput = {
+    id?: string
+    userId: string
+    text: string
+    createdAt?: Date | string
+    sentAt?: Date | string | null
+  }
+
+  export type AssistantDigestItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantDigestItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantDigestItemCreateManyInput = {
+    id?: string
+    userId: string
+    text: string
+    createdAt?: Date | string
+    sentAt?: Date | string | null
+  }
+
+  export type AssistantDigestItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssistantDigestItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type AssistantNoteEventCreateInput = {
     id?: string
     type: string
@@ -191433,6 +192606,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -191473,6 +192647,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -191507,6 +192682,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -191547,6 +192723,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -191584,6 +192761,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -191614,6 +192792,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -191646,6 +192825,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -192937,6 +194117,7 @@ export namespace Prisma {
   export type ProjectServiceCreateInput = {
     id?: string
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -192950,6 +194131,7 @@ export namespace Prisma {
     projectId: string
     serviceId?: string | null
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -192959,6 +194141,7 @@ export namespace Prisma {
   export type ProjectServiceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -192972,6 +194155,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -192983,6 +194167,7 @@ export namespace Prisma {
     projectId: string
     serviceId?: string | null
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -192991,6 +194176,7 @@ export namespace Prisma {
   export type ProjectServiceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -193001,6 +194187,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -193166,6 +194353,7 @@ export namespace Prisma {
   export type ProjectTaskStateCreateInput = {
     id?: string
     taskId: string
+    parentTaskId?: string | null
     name: string
     statusName?: string | null
     isCompleted?: boolean
@@ -193182,6 +194370,7 @@ export namespace Prisma {
     id?: string
     projectId: string
     taskId: string
+    parentTaskId?: string | null
     name: string
     statusName?: string | null
     isCompleted?: boolean
@@ -193196,6 +194385,7 @@ export namespace Prisma {
   export type ProjectTaskStateUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
@@ -193212,6 +194402,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
@@ -193227,6 +194418,7 @@ export namespace Prisma {
     id?: string
     projectId: string
     taskId: string
+    parentTaskId?: string | null
     name: string
     statusName?: string | null
     isCompleted?: boolean
@@ -193241,6 +194433,7 @@ export namespace Prisma {
   export type ProjectTaskStateUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
@@ -193256,6 +194449,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
@@ -199933,6 +201127,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -199979,6 +201175,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -200021,6 +201219,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200067,6 +201267,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200111,6 +201313,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -200151,6 +201355,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200190,6 +201396,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -204318,6 +205526,30 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type AssistantDigestItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    text?: SortOrder
+    createdAt?: SortOrder
+    sentAt?: SortOrder
+  }
+
+  export type AssistantDigestItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    text?: SortOrder
+    createdAt?: SortOrder
+    sentAt?: SortOrder
+  }
+
+  export type AssistantDigestItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    text?: SortOrder
+    createdAt?: SortOrder
+    sentAt?: SortOrder
+  }
+
   export type AssistantNoteRelationFilter = {
     is?: AssistantNoteWhereInput
     isNot?: AssistantNoteWhereInput
@@ -206894,6 +208126,7 @@ export namespace Prisma {
     aiLastResult?: SortOrder
     aiLastRunAt?: SortOrder
     followUpStage?: SortOrder
+    followUpRequestedAt?: SortOrder
     followUpLastAt?: SortOrder
     followUpExhaustedAt?: SortOrder
     firstResponseAt?: SortOrder
@@ -206932,6 +208165,7 @@ export namespace Prisma {
     aiLastResult?: SortOrder
     aiLastRunAt?: SortOrder
     followUpStage?: SortOrder
+    followUpRequestedAt?: SortOrder
     followUpLastAt?: SortOrder
     followUpExhaustedAt?: SortOrder
     firstResponseAt?: SortOrder
@@ -206965,6 +208199,7 @@ export namespace Prisma {
     aiLastResult?: SortOrder
     aiLastRunAt?: SortOrder
     followUpStage?: SortOrder
+    followUpRequestedAt?: SortOrder
     followUpLastAt?: SortOrder
     followUpExhaustedAt?: SortOrder
     firstResponseAt?: SortOrder
@@ -207756,6 +208991,7 @@ export namespace Prisma {
     projectId?: SortOrder
     serviceId?: SortOrder
     name?: SortOrder
+    clickupTaskId?: SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
     createdAt?: SortOrder
@@ -207770,6 +209006,7 @@ export namespace Prisma {
     projectId?: SortOrder
     serviceId?: SortOrder
     name?: SortOrder
+    clickupTaskId?: SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
     createdAt?: SortOrder
@@ -207780,6 +209017,7 @@ export namespace Prisma {
     projectId?: SortOrder
     serviceId?: SortOrder
     name?: SortOrder
+    clickupTaskId?: SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
     createdAt?: SortOrder
@@ -207893,6 +209131,7 @@ export namespace Prisma {
     id?: SortOrder
     projectId?: SortOrder
     taskId?: SortOrder
+    parentTaskId?: SortOrder
     name?: SortOrder
     statusName?: SortOrder
     isCompleted?: SortOrder
@@ -207914,6 +209153,7 @@ export namespace Prisma {
     id?: SortOrder
     projectId?: SortOrder
     taskId?: SortOrder
+    parentTaskId?: SortOrder
     name?: SortOrder
     statusName?: SortOrder
     isCompleted?: SortOrder
@@ -207929,6 +209169,7 @@ export namespace Prisma {
     id?: SortOrder
     projectId?: SortOrder
     taskId?: SortOrder
+    parentTaskId?: SortOrder
     name?: SortOrder
     statusName?: SortOrder
     isCompleted?: SortOrder
@@ -212047,6 +213288,8 @@ export namespace Prisma {
     followUpSteps?: SortOrder
     followUpEnabled?: SortOrder
     followUpArmedAt?: SortOrder
+    followUpScopeTrigger?: SortOrder
+    followUpScopeRequested?: SortOrder
     followUpIncludeHuman?: SortOrder
     followUpReplyIntent?: SortOrder
     followUpReplyText?: SortOrder
@@ -212095,6 +213338,8 @@ export namespace Prisma {
     revivalText?: SortOrder
     followUpEnabled?: SortOrder
     followUpArmedAt?: SortOrder
+    followUpScopeTrigger?: SortOrder
+    followUpScopeRequested?: SortOrder
     followUpIncludeHuman?: SortOrder
     followUpReplyIntent?: SortOrder
     followUpReplyText?: SortOrder
@@ -212135,6 +213380,8 @@ export namespace Prisma {
     revivalText?: SortOrder
     followUpEnabled?: SortOrder
     followUpArmedAt?: SortOrder
+    followUpScopeTrigger?: SortOrder
+    followUpScopeRequested?: SortOrder
     followUpIncludeHuman?: SortOrder
     followUpReplyIntent?: SortOrder
     followUpReplyText?: SortOrder
@@ -229268,6 +230515,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -229306,6 +230554,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -230130,6 +231379,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -230175,6 +231426,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -230226,6 +231479,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -230270,6 +231525,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -231269,6 +232526,7 @@ export namespace Prisma {
     aiLastResult?: StringNullableFilter<"Conversation"> | string | null
     aiLastRunAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     followUpStage?: IntFilter<"Conversation"> | number
+    followUpRequestedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     followUpLastAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     followUpExhaustedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -231925,6 +233183,8 @@ export namespace Prisma {
     followUpSteps?: JsonNullableFilter<"Assistant">
     followUpEnabled?: BoolFilter<"Assistant"> | boolean
     followUpArmedAt?: DateTimeNullableFilter<"Assistant"> | Date | string | null
+    followUpScopeTrigger?: BoolFilter<"Assistant"> | boolean
+    followUpScopeRequested?: BoolFilter<"Assistant"> | boolean
     followUpIncludeHuman?: BoolFilter<"Assistant"> | boolean
     followUpReplyIntent?: StringNullableFilter<"Assistant"> | string | null
     followUpReplyText?: StringNullableFilter<"Assistant"> | string | null
@@ -237750,6 +239010,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -237789,6 +239050,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -239153,6 +240415,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -239197,6 +240461,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -245364,6 +246630,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -245403,6 +246670,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -246361,6 +247629,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -246400,6 +247669,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -253315,6 +254585,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -253353,6 +254624,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -253416,6 +254688,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -253461,6 +254735,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -254563,6 +255839,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -254602,6 +255879,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -255300,6 +256578,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -255339,6 +256618,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -257608,6 +258888,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -257647,6 +258928,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -257696,6 +258978,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -257735,6 +259018,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -257768,6 +259052,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -257807,6 +259092,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -258323,6 +259609,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -258362,6 +259649,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -261840,6 +263128,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -261878,6 +263167,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -263171,6 +264461,7 @@ export namespace Prisma {
   export type ProjectTaskStateCreateWithoutProjectInput = {
     id?: string
     taskId: string
+    parentTaskId?: string | null
     name: string
     statusName?: string | null
     isCompleted?: boolean
@@ -263185,6 +264476,7 @@ export namespace Prisma {
   export type ProjectTaskStateUncheckedCreateWithoutProjectInput = {
     id?: string
     taskId: string
+    parentTaskId?: string | null
     name: string
     statusName?: string | null
     isCompleted?: boolean
@@ -263505,6 +264797,7 @@ export namespace Prisma {
   export type ProjectServiceCreateWithoutProjectInput = {
     id?: string
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -263516,6 +264809,7 @@ export namespace Prisma {
     id?: string
     serviceId?: string | null
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -264056,6 +265350,7 @@ export namespace Prisma {
     id?: StringFilter<"ProjectTaskState"> | string
     projectId?: StringFilter<"ProjectTaskState"> | string
     taskId?: StringFilter<"ProjectTaskState"> | string
+    parentTaskId?: StringNullableFilter<"ProjectTaskState"> | string | null
     name?: StringFilter<"ProjectTaskState"> | string
     statusName?: StringNullableFilter<"ProjectTaskState"> | string | null
     isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
@@ -264240,6 +265535,7 @@ export namespace Prisma {
     projectId?: StringFilter<"ProjectService"> | string
     serviceId?: StringNullableFilter<"ProjectService"> | string | null
     name?: StringNullableFilter<"ProjectService"> | string | null
+    clickupTaskId?: StringNullableFilter<"ProjectService"> | string | null
     order?: IntFilter<"ProjectService"> | number
     visibleToClient?: BoolFilter<"ProjectService"> | boolean
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
@@ -264349,6 +265645,7 @@ export namespace Prisma {
   export type ProjectServiceCreateWithoutTasksInput = {
     id?: string
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -264361,6 +265658,7 @@ export namespace Prisma {
     projectId: string
     serviceId?: string | null
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -264874,6 +266172,7 @@ export namespace Prisma {
   export type ProjectServiceUpdateWithoutTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -264886,6 +266185,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -274179,6 +275479,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -274224,6 +275526,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -304781,6 +306085,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -304826,6 +306132,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -304956,6 +306264,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -305001,6 +306311,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -305406,6 +306718,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -305451,6 +306765,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -305799,6 +307115,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -305844,6 +307162,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -306305,6 +307625,7 @@ export namespace Prisma {
   export type ProjectServiceCreateWithoutServiceInput = {
     id?: string
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -306316,6 +307637,7 @@ export namespace Prisma {
     id?: string
     projectId: string
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -323171,6 +324493,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -323485,6 +324808,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -323525,6 +324850,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -323921,6 +325248,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -323959,6 +325287,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -323995,6 +325324,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -324885,6 +326215,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -324930,6 +326262,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -324973,6 +326307,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325012,6 +326348,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325056,6 +326394,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325099,6 +326439,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -326458,6 +327800,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -326945,6 +328288,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -329732,6 +331077,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -329771,6 +331117,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -329807,6 +331154,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -331221,6 +332569,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -331265,6 +332615,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -331308,6 +332660,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -333291,6 +334645,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -333328,6 +334683,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -333466,6 +334823,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -333504,6 +334862,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -333540,6 +334899,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -333583,6 +334943,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -333628,6 +334990,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -333671,6 +335035,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -334617,6 +335983,7 @@ export namespace Prisma {
     aiLastResult?: string | null
     aiLastRunAt?: Date | string | null
     followUpStage?: number
+    followUpRequestedAt?: Date | string | null
     followUpLastAt?: Date | string | null
     followUpExhaustedAt?: Date | string | null
     firstResponseAt?: Date | string | null
@@ -334812,6 +336179,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -334850,6 +336218,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -334886,6 +336255,7 @@ export namespace Prisma {
     aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
     aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpStage?: IntFieldUpdateOperationsInput | number
+    followUpRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpLastAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followUpExhaustedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -335047,6 +336417,7 @@ export namespace Prisma {
   export type ProjectTaskStateCreateManyProjectInput = {
     id?: string
     taskId: string
+    parentTaskId?: string | null
     name: string
     statusName?: string | null
     isCompleted?: boolean
@@ -335172,6 +336543,7 @@ export namespace Prisma {
     id?: string
     serviceId?: string | null
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -335225,6 +336597,7 @@ export namespace Prisma {
   export type ProjectTaskStateUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
@@ -335239,6 +336612,7 @@ export namespace Prisma {
   export type ProjectTaskStateUncheckedUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
@@ -335253,6 +336627,7 @@ export namespace Prisma {
   export type ProjectTaskStateUncheckedUpdateManyWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
@@ -335613,6 +336988,7 @@ export namespace Prisma {
   export type ProjectServiceUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -335624,6 +337000,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -335634,6 +337011,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -336343,6 +337721,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: boolean
     followUpArmedAt?: Date | string | null
+    followUpScopeTrigger?: boolean
+    followUpScopeRequested?: boolean
     followUpIncludeHuman?: boolean
     followUpReplyIntent?: string | null
     followUpReplyText?: string | null
@@ -336557,6 +337937,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -336602,6 +337984,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -336645,6 +338029,8 @@ export namespace Prisma {
     followUpSteps?: NullableJsonNullValueInput | InputJsonValue
     followUpEnabled?: BoolFieldUpdateOperationsInput | boolean
     followUpArmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpScopeTrigger?: BoolFieldUpdateOperationsInput | boolean
+    followUpScopeRequested?: BoolFieldUpdateOperationsInput | boolean
     followUpIncludeHuman?: BoolFieldUpdateOperationsInput | boolean
     followUpReplyIntent?: NullableStringFieldUpdateOperationsInput | string | null
     followUpReplyText?: NullableStringFieldUpdateOperationsInput | string | null
@@ -337782,6 +339168,7 @@ export namespace Prisma {
     id?: string
     projectId: string
     name?: string | null
+    clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
     createdAt?: Date | string
@@ -337978,6 +339365,7 @@ export namespace Prisma {
   export type ProjectServiceUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -337989,6 +339377,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -337999,6 +339388,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -339003,6 +340393,10 @@ export namespace Prisma {
      * @deprecated Use AssistantNoteDefaultArgs instead
      */
     export type AssistantNoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantNoteDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssistantDigestItemDefaultArgs instead
+     */
+    export type AssistantDigestItemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantDigestItemDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AssistantNoteEventDefaultArgs instead
      */

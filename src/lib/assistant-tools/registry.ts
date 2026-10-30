@@ -8,6 +8,7 @@ import { filaDoDia } from "./fila";
 import { avisarNoWhatsapp } from "./avisos";
 import { leadsTools } from "./leads";
 import { gruposTools } from "./grupos";
+import { projetosTools } from "./projetos";
 
 export type { ToolDef, ToolContext, ToolResult, ToolChannel } from "./types";
 export { buildFilaDoDia, formatFila, type FilaDoDia, type FilaItem } from "./fila";
@@ -17,6 +18,7 @@ export const ALL_TOOLS: ToolDef[] = [
   filaDoDia,
   ...consultaTools,
   ...gruposTools,
+  ...projetosTools,
   ...notasTools,
   ...criarTools,
   ...leadsTools,

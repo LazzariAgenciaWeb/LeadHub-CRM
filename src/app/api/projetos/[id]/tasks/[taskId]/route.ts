@@ -6,6 +6,7 @@ import { getViewer, canSeeProject } from "@/lib/visibility";
 import { sanitizeChecklist, sanitizeComments, readComments } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
 import { getClickupSettings, updateClickupTask, markClickupTaskDone, reopenClickupTask } from "@/lib/clickup";
+import { ensureEtapaClickupTask, pushTaskToClickup } from "@/lib/project-etapas";
 
 // Tarefas internas (ProjectTask) só. Tarefas do ClickUp são geridas no ClickUp.
 
@@ -92,6 +93,10 @@ export async function PATCH(
 
   // Serviço/etapa da sequência ao qual a tarefa pertence. Ao vincular, espelha o
   // nome no `stage` (fallback) pra manter os rótulos consistentes nas listas.
+  // Etapa nova → a tarefa precisa virar subtarefa DELA no ClickUp (se já está
+  // lá) ou subir agora pendurada nela (se ainda é só interna). `movedToEtapa`
+  // guarda a etapa de destino pra resolver isso depois de gravar.
+  let movedToEtapa: string | null = null;
   if (projectServiceId !== undefined) {
     if (projectServiceId) {
       const step = await prisma.projectService.findUnique({
@@ -102,6 +107,7 @@ export async function PATCH(
         return NextResponse.json({ error: "Serviço inválido" }, { status: 400 });
       }
       data.projectServiceId = String(projectServiceId);
+      movedToEtapa = String(projectServiceId);
       if (stage === undefined) data.stage = (step.name || step.service?.name || "").slice(0, 80) || null;
     } else {
       data.projectServiceId = null;
@@ -211,14 +217,27 @@ export async function PATCH(
     data.description !== undefined;
   const syncDone   = data.done === true;  // concluir → fecha no ClickUp
   const syncReopen = data.done === false; // reabrir → volta pro status aberto no ClickUp
-  if (res.task.clickupTaskId && (syncFields || syncDone || syncReopen)) {
+
+  // Mudou de etapa: no ClickUp isso é trocar a tarefa-mãe da subtarefa. Tarefa
+  // que ainda não está no ClickUp sobe agora, já pendurada na etapa de destino.
+  let newParent: string | null = null;
+  if (movedToEtapa) {
+    newParent = await ensureEtapaClickupTask(movedToEtapa).catch(() => null);
+    if (!res.task.clickupTaskId && newParent) {
+      await pushTaskToClickup(res.task.id).catch(() => null);
+    }
+  }
+  const syncParent = !!(newParent && res.task.clickupTaskId);
+
+  if (res.task.clickupTaskId && (syncFields || syncDone || syncReopen || syncParent)) {
     try {
       const settings = await getClickupSettings(res.task.project.setor.companyId);
       if (settings) {
-        if (syncFields) {
+        if (syncFields || syncParent) {
           await updateClickupTask({
             apiToken:    settings.apiToken,
             taskId:      res.task.clickupTaskId,
+            ...(syncParent ? { parent: newParent! } : {}),
             name:        data.title as string | undefined,
             description: data.description !== undefined ? ((data.description as string | null) ?? "") : undefined,
             dueDate:     data.dueDate   !== undefined ? (data.dueDate   instanceof Date ? data.dueDate.getTime()   : null) : undefined,

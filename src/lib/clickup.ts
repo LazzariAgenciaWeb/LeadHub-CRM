@@ -117,6 +117,7 @@ export async function createClickupTask({
   status,
   dueDate,
   tags = [],
+  parent,
 }: {
   apiToken: string;
   listId: string;
@@ -126,6 +127,7 @@ export async function createClickupTask({
   status?: string;     // ClickUp status name on the target list
   dueDate?: number;    // epoch ms
   tags?: string[];
+  parent?: string;     // id da tarefa-mãe → nasce como SUBTAREFA dela
 }): Promise<string | null> {
   if (!listId) return null;
   try {
@@ -135,6 +137,7 @@ export async function createClickupTask({
     if (status)                    body.status       = status;
     if (dueDate)                   body.due_date     = dueDate;
     if (tags.length)               body.tags         = tags;
+    if (parent)                    body.parent       = parent;
 
     const res = await fetch(`${BASE}/list/${listId}/task`, {
       method: "POST",
@@ -164,6 +167,7 @@ export async function updateClickupTask({
   archived,
   dueDate,
   startDate,
+  parent,
 }: {
   apiToken: string;
   taskId: string;
@@ -174,6 +178,7 @@ export async function updateClickupTask({
   archived?: boolean;
   dueDate?: number | null;   // epoch ms (null = limpar)
   startDate?: number | null; // epoch ms (null = limpar)
+  parent?: string;           // move a subtarefa pra debaixo de outra tarefa-mãe
 }): Promise<boolean> {
   if (!taskId) return false;
   try {
@@ -186,6 +191,7 @@ export async function updateClickupTask({
     if (archived !== undefined) body.archived = archived;
     if (dueDate !== undefined)   body.due_date   = dueDate;
     if (startDate !== undefined) body.start_date = startDate;
+    if (parent)                  body.parent     = parent;
 
     const res = await fetch(taskApiUrl(taskId, ""), {
       method: "PUT",
@@ -624,6 +630,7 @@ export type ClickupTaskLite = {
   dueDate:       number | null;     // epoch ms
   startDate:     number | null;     // epoch ms — data de início do ClickUp
   dateUpdated:   number | null;     // epoch ms
+  parentId:      string | null;     // tarefa-mãe (null = primeiro nível)
 };
 
 /**
@@ -652,6 +659,7 @@ export async function fetchClickupTasks(
       dueDate:       t.due_date     ? Number(t.due_date)     : null,
       startDate:     t.start_date   ? Number(t.start_date)   : null,
       dateUpdated:   t.date_updated ? Number(t.date_updated) : null,
+      parentId:      t.parent ? String(t.parent) : null,
     }));
   } catch {
     return null;
@@ -683,6 +691,7 @@ export async function fetchClickupTaskLite(
         dueDate:       t.due_date     ? Number(t.due_date)     : null,
         startDate:     t.start_date   ? Number(t.start_date)   : null,
         dateUpdated:   t.date_updated ? Number(t.date_updated) : null,
+        parentId:      t.parent ? String(t.parent) : null,
       },
     };
   } catch { return null; }

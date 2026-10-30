@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
-import { getClickupSettings, createClickupTask } from "@/lib/clickup";
+import { pushTaskToClickup } from "@/lib/project-etapas";
 
 // POST /api/projetos/[id]/tasks/[taskId]/push-clickup
 // Pega uma tarefa NATIVA (sem vínculo) e a cria no ClickUp, amarrando o
 // clickupTaskId — a partir daí ela entra no sync bidirecional. Idempotente:
-// se já está vinculada, não faz nada.
+// se já está vinculada, não faz nada. Tarefa dentro de uma etapa sobe como
+// SUBTAREFA da tarefa principal da etapa, não solta na raiz da lista.
 export async function POST(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string; taskId: string }> },
@@ -23,51 +24,23 @@ export async function POST(
   const userCompanyId = (session.user as any).companyId as string | undefined;
 
   const task = await prisma.projectTask.findUnique({
-    where:   { id: taskId },
-    include: { project: { include: { setor: { select: { companyId: true } } } } },
+    where:  { id: taskId },
+    select: { projectId: true, project: { select: { setor: { select: { companyId: true } } } } },
   });
   if (!task || task.projectId !== id) return NextResponse.json({ error: "Tarefa não encontrada" }, { status: 404 });
   if (role !== "SUPER_ADMIN" && task.project.setor.companyId !== userCompanyId) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
-  if (task.clickupTaskId) {
-    return NextResponse.json({ ok: true, alreadyLinked: true, clickupTaskId: task.clickupTaskId });
+  const r = await pushTaskToClickup(taskId);
+  if (!r.ok) {
+    const status = r.reason.startsWith("ClickUp não configurado") ? 503
+                 : r.reason.startsWith("Falha") ? 502 : 400;
+    return NextResponse.json({ error: r.reason }, { status });
   }
-  if (!task.project.clickupListId) {
-    return NextResponse.json({ error: "Projeto sem lista do ClickUp — não dá pra sincronizar." }, { status: 400 });
-  }
-
-  const settings = await getClickupSettings(task.project.setor.companyId);
-  if (!settings?.apiToken) {
-    return NextResponse.json({ error: "ClickUp não configurado pra essa empresa." }, { status: 503 });
-  }
-
-  const newTaskId = await createClickupTask({
-    apiToken:    settings.apiToken,
-    listId:      task.project.clickupListId,
-    name:        task.title,
-    description: task.description ?? undefined,
-    priority:    task.priority,
-    dueDate:     task.dueDate ? task.dueDate.getTime() : undefined,
-    tags:        ["projeto"],
+  return NextResponse.json({
+    ok: true,
+    clickupTaskId: r.clickupTaskId,
+    ...(r.already ? { alreadyLinked: true } : { parentTaskId: r.parentTaskId }),
   });
-  if (!newTaskId) {
-    return NextResponse.json({ error: "Falha ao criar a tarefa no ClickUp." }, { status: 502 });
-  }
-
-  // Amarra o vínculo + semeia o snapshot (evita duplicar no próximo sync).
-  await prisma.projectTask.update({ where: { id: taskId }, data: { clickupTaskId: newTaskId } });
-  await prisma.projectTaskState.upsert({
-    where:  { projectId_taskId: { projectId: id, taskId: newTaskId } },
-    create: {
-      projectId: id, taskId: newTaskId, name: task.title,
-      isCompleted: task.done, hasNoAssignee: !task.assigneeId,
-      dueDate: task.dueDate ? BigInt(task.dueDate.getTime()) : null,
-      startDate: task.startDate ? BigInt(task.startDate.getTime()) : null,
-    },
-    update: {},
-  }).catch(() => {});
-
-  return NextResponse.json({ ok: true, clickupTaskId: newTaskId });
 }

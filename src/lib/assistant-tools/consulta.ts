@@ -42,7 +42,7 @@ export const buscarCliente: ToolDef<{ query: string }> = {
 export const listarProjetos: ToolDef<{ clientCompanyId?: string; query?: string; apenasAtivos?: boolean }> = {
   name: "listar_projetos",
   description:
-    "Lista projetos da empresa. Filtre por cliente (clientCompanyId) e/ou trecho do nome. Retorna id, nome, cliente, status, prazo e nº de tarefas abertas. Use pra descobrir o projetoId antes de criar uma tarefa de projeto.",
+    "Lista projetos da empresa. Filtre por cliente (clientCompanyId) e/ou trecho do nome. Retorna id, nome, cliente, status, prazo, nº de tarefas abertas e as etapas de cada projeto (id e nome). Use pra descobrir o projetoId antes de criar uma tarefa de projeto; pras etapas com contagem, use listar_etapas_projeto.",
   input_schema: {
     type: "object",
     properties: {
@@ -63,14 +63,20 @@ export const listarProjetos: ToolDef<{ clientCompanyId?: string; query?: string;
         id: true, name: true, status: true, dueDate: true, type: true,
         clientCompany: { select: { id: true, name: true } },
         _count: { select: { internalTasks: { where: { done: false, ignoredAt: null } } } },
+        serviceSteps: {
+          orderBy: { order: "asc" },
+          select: { id: true, name: true, order: true, service: { select: { name: true } } },
+        },
       },
       orderBy: { updatedAt: "desc" },
       take: 15,
     });
     if (rows.length === 0) return ok("Nenhum projeto encontrado.", { data: [] });
-    const lines = rows.map((p) =>
-      `- ${p.name} · id=${p.id} · ${p.clientCompany?.name ?? "sem cliente"} · ${p.status} · prazo ${fmtDate(p.dueDate)} · ${p._count.internalTasks} tarefa(s) aberta(s)`
-    );
+    const lines = rows.map((p) => {
+      const etapas = p.serviceSteps.map((e) => `${(e.name || e.service?.name || "Serviço").trim()} (id=${e.id})`);
+      return `- ${p.name} · id=${p.id} · ${p.clientCompany?.name ?? "sem cliente"} · ${p.status} · prazo ${fmtDate(p.dueDate)} · ${p._count.internalTasks} tarefa(s) aberta(s)` +
+        (etapas.length ? `\n    etapas: ${etapas.join(" · ")}` : "\n    sem etapas");
+    });
     return ok(lines.join("\n"), { data: rows });
   },
 };

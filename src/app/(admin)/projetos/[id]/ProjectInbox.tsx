@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Inbox, Eye, EyeOff, ExternalLink, CheckSquare, Square, X, Ban, RotateCcw, ChevronDown, ChevronUp } from "lucide-react";
+import { Inbox, Eye, EyeOff, ExternalLink, CheckSquare, Square, X, Ban, RotateCcw, ChevronDown, ChevronUp, Layers, CornerDownRight } from "lucide-react";
 
 // Caixa de entrada "a organizar": tarefas espelhadas do ClickUp que ainda não
 // têm serviço. Cada uma aparece UMA vez aqui (não nos serviços). Ao escolher um
@@ -13,6 +13,9 @@ type InboxTask = {
   done: boolean;
   visibleToClient: boolean;
   clickupTaskId: string | null;
+  // Tarefa-mãe no ClickUp. É o que deixa a caixa parecida com o ClickUp:
+  // a principal com as subtarefas embaixo, em vez de tudo achatado.
+  parentClickupTaskId?: string | null;
 };
 
 export default function ProjectInbox({
@@ -34,6 +37,26 @@ export default function ProjectInbox({
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [ignoredOpen, setIgnoredOpen] = useState(false);
 
+  // Hierarquia: subtarefa fica aninhada sob a principal quando as duas estão
+  // aqui. Principal com subtarefas é candidata a virar ETAPA — é assim que o
+  // mês do ClickUp entra no LeadHub sem você redigitar nada.
+  const { roots, childrenOf } = useMemo(() => {
+    const porClickupId = new Map(
+      tasks.filter((t) => t.clickupTaskId).map((t) => [t.clickupTaskId!, t]),
+    );
+    const filhas = new Map<string, InboxTask[]>();
+    for (const t of tasks) {
+      const pai = t.parentClickupTaskId;
+      if (pai && porClickupId.has(pai)) {
+        const arr = filhas.get(pai) ?? [];
+        arr.push(t);
+        filhas.set(pai, arr);
+      }
+    }
+    const idsFilhas = new Set([...filhas.values()].flat().map((t) => t.id));
+    return { roots: tasks.filter((t) => !idsFilhas.has(t.id)), childrenOf: filhas };
+  }, [tasks]);
+
   const allIds = useMemo(() => tasks.map((t) => t.id), [tasks]);
   const allSelected = selected.size > 0 && selected.size === tasks.length;
   const someSelected = selected.size > 0 && !allSelected;
@@ -51,6 +74,25 @@ export default function ProjectInbox({
       body: JSON.stringify(body),
     }).catch(() => {});
     setBusy(null);
+    router.refresh();
+  }
+
+  // Esta tarefa é uma etapa: reusa a MESMA tarefa do ClickUp como tarefa
+  // principal da etapa e leva as subtarefas pra dentro dela.
+  async function promover(t: InboxTask, nFilhas: number) {
+    const ok = confirm(
+      `Transformar "${t.title}" em etapa?\n\n` +
+      `A tarefa principal do ClickUp passa a ser a etapa (nada novo é criado lá)` +
+      (nFilhas > 0 ? ` e ${nFilhas} subtarefa${nFilhas > 1 ? "s" : ""} entra${nFilhas > 1 ? "m" : ""} dentro dela.` : ".") +
+      `\n\nEla deixa de aparecer como tarefa.`,
+    );
+    if (!ok) return;
+    setBusy(t.id);
+    const r = await fetch(`/api/projetos/${projectId}/tasks/${t.id}/promover-etapa`, { method: "POST" })
+      .then((x) => x.json())
+      .catch(() => null);
+    setBusy(null);
+    if (r && !r.ok && r.error) alert(r.error);
     router.refresh();
   }
 
@@ -83,6 +125,98 @@ export default function ProjectInbox({
   function clearSel() { setSelected(new Set()); }
   function exitSelectMode() { setSelected(new Set()); setSelectMode(false); }
 
+  // Uma linha da caixa. `nFilhas` > 0 marca a tarefa como principal (ganha o
+  // botão "virar etapa"); `sub` desenha a linha como subtarefa, sem moldura.
+  function row(t: InboxTask, nFilhas: number, sub = false) {
+    const isChecked = selected.has(t.id);
+    return (
+      <div
+        className={`flex items-center gap-2 px-3 py-2 transition-colors ${
+          sub ? "rounded-md" : nFilhas > 0 ? "" : "border rounded-lg"
+        } ${
+          selectMode && isChecked
+            ? "bg-amber-500/10 border-amber-500/40"
+            : sub ? "bg-[#161f30]/60" : "bg-[#161f30] border-[#1e2d45]"
+        }`}
+      >
+        {selectMode && (
+          <button
+            onClick={() => toggleOne(t.id)}
+            className="flex-none text-amber-300 hover:text-amber-200"
+            title={isChecked ? "Desmarcar" : "Marcar"}
+          >
+            {isChecked ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
+          </button>
+        )}
+
+        <span className={`flex-1 truncate ${sub ? "text-xs" : "text-sm"} ${t.done ? "text-slate-500 line-through" : "text-white"}`}>
+          {t.title}
+        </span>
+
+        {nFilhas > 0 && (
+          <span className="flex-none text-[11px] text-indigo-300 bg-indigo-500/10 border border-indigo-500/25 rounded-full px-2 py-0.5">
+            {nFilhas} subtarefa{nFilhas > 1 ? "s" : ""}
+          </span>
+        )}
+
+        {clickupUrlBase && t.clickupTaskId && (
+          <a href={`${clickupUrlBase}${t.clickupTaskId}`} target="_blank" rel="noreferrer" className="text-slate-500 hover:text-indigo-400 flex-none" title="Abrir no ClickUp">
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        )}
+
+        {/* Ações individuais ficam disponíveis mesmo no modo seleção, pra
+            quem quer tratar 1-a-1 sem sair do modo. */}
+        <button
+          disabled={busy === t.id || bulkBusy}
+          onClick={() => patch(t.id, { visibleToClient: !t.visibleToClient })}
+          className={`flex-none disabled:opacity-30 ${t.visibleToClient ? "text-emerald-400 hover:text-emerald-300" : "text-slate-500 hover:text-white"}`}
+          title={t.visibleToClient ? "Cliente vê — clique pra ocultar" : "Oculta do cliente — clique pra mostrar"}
+        >
+          {t.visibleToClient ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+        </button>
+
+        <button
+          disabled={busy === t.id || bulkBusy}
+          onClick={() => patch(t.id, { ignored: true })}
+          className="flex-none text-slate-600 hover:text-red-400 disabled:opacity-30 transition-colors"
+          title="Ignorar — sai da fila sem apagar (dá pra restaurar)"
+          aria-label="Ignorar tarefa"
+        >
+          <Ban className="w-4 h-4" />
+        </button>
+
+        {!sub && t.clickupTaskId && (
+          <button
+            disabled={busy === t.id || bulkBusy}
+            onClick={() => promover(t, nFilhas)}
+            className="flex-none text-xs px-2 py-1 rounded bg-indigo-500/15 hover:bg-indigo-500/25 border border-indigo-500/30 text-indigo-200 disabled:opacity-40 flex items-center gap-1"
+            title="Esta tarefa é uma etapa (um mês, uma fase): ela vira etapa e as subtarefas entram dentro"
+          >
+            <Layers className="w-3.5 h-3.5" /> virar etapa
+          </button>
+        )}
+
+        {serviceSteps.length > 0 ? (
+          <select
+            disabled={busy === t.id || bulkBusy}
+            defaultValue=""
+            onChange={(e) => { if (e.target.value) patch(t.id, { projectServiceId: e.target.value }); }}
+            className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 disabled:opacity-40 flex-none"
+            title="Pôr numa etapa"
+          >
+            <option value="">— pôr na etapa —</option>
+            {serviceSteps.map((st, i) => (
+              <option key={st.id} value={st.id}>{String(i + 1).padStart(2, "0")} · {st.name}</option>
+            ))}
+          </select>
+        ) : (
+          <span className="text-[11px] text-slate-600 flex-none">crie etapas pra organizar</span>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className={embedded ? "px-5 py-4" : "bg-[#0a0f1a] border border-amber-500/30 rounded-xl p-5"}>
       {/* Cabeçalho + botão de entrar/sair do modo seleção */}
@@ -114,7 +248,9 @@ export default function ProjectInbox({
         )}
       </div>
       <p className="text-slate-500 text-xs mt-1 mb-3">
-        Vieram do ClickUp e ainda não estão numa etapa. Escolha a etapa (some daqui), decida se o cliente vê, ou ignore.
+        Vieram do ClickUp e ainda não estão numa etapa, com as subtarefas embaixo da principal — igual lá.
+        Tarefa principal que é um mês ou uma fase: use <strong className="text-indigo-300">virar etapa</strong> e as
+        subtarefas entram dentro. As outras: escolha a etapa, decida se o cliente vê, ou ignore.
       </p>
 
       {/* Barra de seleção — some quando não está no modo */}
@@ -182,76 +318,25 @@ export default function ProjectInbox({
         </div>
       )}
 
-      {/* Lista de tarefas */}
+      {/* Lista de tarefas — principal com as subtarefas embaixo, como no ClickUp */}
       <div className="flex flex-col gap-2">
         {tasks.length === 0 && (
           <p className="text-slate-600 text-xs py-2">Nada a organizar — tudo já está numa etapa ou foi ignorado. 👌</p>
         )}
-        {tasks.map((t) => {
-          const isChecked = selected.has(t.id);
+        {roots.map((t) => {
+          const filhas = (t.clickupTaskId ? childrenOf.get(t.clickupTaskId) : undefined) ?? [];
           return (
-            <div
-              key={t.id}
-              className={`flex items-center gap-2 border rounded-lg px-3 py-2 transition-colors ${
-                selectMode && isChecked
-                  ? "bg-amber-500/10 border-amber-500/40"
-                  : "bg-[#161f30] border-[#1e2d45]"
-              }`}
-            >
-              {selectMode && (
-                <button
-                  onClick={() => toggleOne(t.id)}
-                  className="flex-none text-amber-300 hover:text-amber-200"
-                  title={isChecked ? "Desmarcar" : "Marcar"}
-                >
-                  {isChecked ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
-                </button>
-              )}
-
-              <span className={`flex-1 text-sm truncate ${t.done ? "text-slate-500 line-through" : "text-white"}`}>{t.title}</span>
-
-              {clickupUrlBase && t.clickupTaskId && (
-                <a href={`${clickupUrlBase}${t.clickupTaskId}`} target="_blank" rel="noreferrer" className="text-slate-500 hover:text-indigo-400 flex-none" title="Abrir no ClickUp">
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              )}
-
-              {/* Ações individuais ficam disponíveis mesmo no modo seleção, pra
-                  quem quer tratar 1-a-1 sem sair do modo. */}
-              <button
-                disabled={busy === t.id || bulkBusy}
-                onClick={() => patch(t.id, { visibleToClient: !t.visibleToClient })}
-                className={`flex-none disabled:opacity-30 ${t.visibleToClient ? "text-emerald-400 hover:text-emerald-300" : "text-slate-500 hover:text-white"}`}
-                title={t.visibleToClient ? "Cliente vê — clique pra ocultar" : "Oculta do cliente — clique pra mostrar"}
-              >
-                {t.visibleToClient ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-              </button>
-
-              <button
-                disabled={busy === t.id || bulkBusy}
-                onClick={() => patch(t.id, { ignored: true })}
-                className="flex-none text-slate-600 hover:text-red-400 disabled:opacity-30 transition-colors"
-                title="Ignorar — sai da fila sem apagar (dá pra restaurar)"
-                aria-label="Ignorar tarefa"
-              >
-                <Ban className="w-4 h-4" />
-              </button>
-
-              {serviceSteps.length > 0 ? (
-                <select
-                  disabled={busy === t.id || bulkBusy}
-                  defaultValue=""
-                  onChange={(e) => { if (e.target.value) patch(t.id, { projectServiceId: e.target.value }); }}
-                  className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 disabled:opacity-40 flex-none"
-                  title="Pôr numa etapa"
-                >
-                  <option value="">— pôr na etapa —</option>
-                  {serviceSteps.map((s, i) => (
-                    <option key={s.id} value={s.id}>{String(i + 1).padStart(2, "0")} · {s.name}</option>
+            <div key={t.id} className={filhas.length > 0 ? "border border-[#1e2d45] rounded-lg overflow-hidden" : ""}>
+              {row(t, filhas.length)}
+              {filhas.length > 0 && (
+                <div className="bg-[#0d1422] border-t border-[#1e2d45] px-3 py-2 flex flex-col gap-1.5">
+                  {filhas.map((f) => (
+                    <div key={f.id} className="flex items-start gap-1.5">
+                      <CornerDownRight className="w-3.5 h-3.5 text-slate-600 flex-none mt-2" />
+                      <div className="flex-1">{row(f, 0, true)}</div>
+                    </div>
                   ))}
-                </select>
-              ) : (
-                <span className="text-[11px] text-slate-600 flex-none">crie etapas pra organizar</span>
+                </div>
               )}
             </div>
           );

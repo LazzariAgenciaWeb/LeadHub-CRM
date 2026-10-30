@@ -173,6 +173,14 @@ exports.Prisma.AssistantNoteScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AssistantDigestItemScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  text: 'text',
+  createdAt: 'createdAt',
+  sentAt: 'sentAt'
+};
+
 exports.Prisma.AssistantNoteEventScalarFieldEnum = {
   id: 'id',
   noteId: 'noteId',
@@ -590,6 +598,7 @@ exports.Prisma.ConversationScalarFieldEnum = {
   aiLastResult: 'aiLastResult',
   aiLastRunAt: 'aiLastRunAt',
   followUpStage: 'followUpStage',
+  followUpRequestedAt: 'followUpRequestedAt',
   followUpLastAt: 'followUpLastAt',
   followUpExhaustedAt: 'followUpExhaustedAt',
   firstResponseAt: 'firstResponseAt',
@@ -775,6 +784,7 @@ exports.Prisma.ProjectServiceScalarFieldEnum = {
   projectId: 'projectId',
   serviceId: 'serviceId',
   name: 'name',
+  clickupTaskId: 'clickupTaskId',
   order: 'order',
   visibleToClient: 'visibleToClient',
   createdAt: 'createdAt'
@@ -807,6 +817,7 @@ exports.Prisma.ProjectTaskStateScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
   taskId: 'taskId',
+  parentTaskId: 'parentTaskId',
   name: 'name',
   statusName: 'statusName',
   isCompleted: 'isCompleted',
@@ -1791,6 +1802,8 @@ exports.Prisma.AssistantScalarFieldEnum = {
   followUpSteps: 'followUpSteps',
   followUpEnabled: 'followUpEnabled',
   followUpArmedAt: 'followUpArmedAt',
+  followUpScopeTrigger: 'followUpScopeTrigger',
+  followUpScopeRequested: 'followUpScopeRequested',
   followUpIncludeHuman: 'followUpIncludeHuman',
   followUpReplyIntent: 'followUpReplyIntent',
   followUpReplyText: 'followUpReplyText',
@@ -2782,6 +2795,7 @@ exports.BioEventKind = exports.$Enums.BioEventKind = {
 exports.Prisma.ModelName = {
   User: 'User',
   AssistantNote: 'AssistantNote',
+  AssistantDigestItem: 'AssistantDigestItem',
   AssistantNoteEvent: 'AssistantNoteEvent',
   AssistantTurn: 'AssistantTurn',
   AssistantPendingAction: 'AssistantPendingAction',

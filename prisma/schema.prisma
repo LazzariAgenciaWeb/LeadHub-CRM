@@ -1765,6 +1765,7 @@ model ProjectService {
   serviceId       String?
   service         Service?         @relation("ServiceProjectLinks", fields: [serviceId], references: [id], onDelete: SetNull)
   name            String? // rótulo opcional — sobrescreve o nome do serviço, ou nomeia uma etapa livre
+  clickupTaskId   String? // tarefa principal no ClickUp — as tarefas da etapa entram como subtarefas dela
   order           Int              @default(0)
   visibleToClient Boolean          @default(true) // false = serviço inteiro some do painel do cliente
   createdAt       DateTime         @default(now())
@@ -1773,6 +1774,7 @@ model ProjectService {
 
   @@index([projectId])
   @@index([serviceId])
+  @@index([clickupTaskId])
 }
 
 // Linha do tempo de uma tarefa de projeto. Grava o EVENTO CRU (o que mudou,
@@ -1836,6 +1838,7 @@ model ProjectTaskState {
   projectId     String
   project       SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
   taskId        String // ID no ClickUp
+  parentTaskId  String? // tarefa-mãe no ClickUp (null = primeiro nível)
   name          String
   statusName    String?
   isCompleted   Boolean          @default(false)
@@ -1848,6 +1851,7 @@ model ProjectTaskState {
 
   @@unique([projectId, taskId])
   @@index([projectId])
+  @@index([parentTaskId])
 }
 
 // Log de eventos sobre tarefas e cobranças — alimenta o histórico no detail.
