@@ -93,9 +93,10 @@ export type Reacao = { emoji: string; autor: string; ehEquipe: boolean; em: stri
  * fromMe, at }) e devolve no formato do MCP. Reação removida já sai do mapa no
  * webhook; entrada sem emoji é descartada aqui por garantia.
  *
- * `fonesEquipe` são os números das NOSSAS instâncias: reação vinda de um deles
- * é nossa mesmo quando o WhatsApp não marcou fromMe (quem reagiu foi o aparelho
- * do atendente, não a API) — sem isso um 👍 nosso passaria por reação do cliente.
+ * `fonesEquipe` é quem conta como NOSSO: os números das nossas instâncias mais
+ * os identificadores de quem já falou pelo nosso lado neste grupo (ver
+ * `lidsDaEquipe`). Sem isso, reação nossa feita do aparelho — que não vem com
+ * fromMe — passaria por reação do cliente.
  */
 function lerReacoes(raw: unknown, fonesEquipe: Set<string>): Reacao[] {
   if (!raw || typeof raw !== "object") return [];
@@ -113,6 +114,20 @@ function lerReacoes(raw: unknown, fonesEquipe: Set<string>): Reacao[] {
       ehEquipe,
       em:       typeof v?.at === "string" ? v.at : null,
     });
+  }
+  return out;
+}
+
+/**
+ * Quem já falou pelo NOSSO lado neste grupo. Em grupo o WhatsApp identifica o
+ * participante por @lid, que não bate com o telefone da instância — então o
+ * número sozinho não reconhece o atendente que reagiu do próprio aparelho.
+ * Quem aparece como autor de mensagem OUTBOUND aqui é nosso, por definição.
+ */
+function lidsDaEquipe(msgs: Array<{ direction: string; participantPhone: string | null }>): Set<string> {
+  const out = new Set<string>();
+  for (const m of msgs) {
+    if (m.direction === "OUTBOUND" && m.participantPhone) out.add(soNumero(m.participantPhone));
   }
   return out;
 }
@@ -228,12 +243,13 @@ export const gruposPendentes: ToolDef<{ horasSemResposta?: number; incluirRespon
     // Autor e reações da ÚLTIMA mensagem do cliente em cada grupo. A reação
     // interessa porque um 👍 nosso é "vi", não "respondi": o grupo continua na
     // lista, só deixa de parecer abandonado.
+    const souNos = new Set([...fonesEquipe, ...lidsDaEquipe(ultimas)]);
     const autorPorJid = new Map<string, string>();
     const reacoesPorJid = new Map<string, Reacao[]>();
     for (const m of ultimas) {
       if (autorPorJid.has(m.phone) || m.direction !== "INBOUND") continue;
       autorPorJid.set(m.phone, m.participantName ?? m.participantPhone ?? "participante");
-      reacoesPorJid.set(m.phone, lerReacoes(m.reactions, fonesEquipe));
+      reacoesPorJid.set(m.phone, lerReacoes(m.reactions, souNos));
     }
     const ticketsPorJid = new Map<string, typeof ticketsDoGrupo>();
     for (const t of ticketsDoGrupo) {
@@ -426,6 +442,9 @@ export const historicoGrupo: ToolDef<{ grupo: string; limite?: number }> = {
 
     if (msgs.length === 0 && !conv) return fail(`Grupo ${jid} não tem conversa nem mensagens nesta empresa.`);
 
+    // Nosso lado = instâncias da empresa + quem já enviou mensagem por nós aqui.
+    const souNos = new Set([...fonesEquipe, ...lidsDaEquipe(msgs)]);
+
     // 3. Montar saída
     const nome = ct?.name ?? jid;
     const h = horasDesde(conv?.lastMessageAt ?? msgs[0]?.receivedAt, ctx.now);
@@ -487,7 +506,7 @@ export const historicoGrupo: ToolDef<{ grupo: string; limite?: number }> = {
       const resp = m.quotedBody ? ` ↩︎ em resposta a "${trecho(m.quotedBody, 40)}"` : "";
       // Reação é sinal de leitura, não de resposta: um 👍 nosso no pedido do
       // cliente quer dizer "vi", e é isso que a linha precisa mostrar.
-      const reacs = reacoesTexto(lerReacoes(m.reactions, fonesEquipe));
+      const reacs = reacoesTexto(lerReacoes(m.reactions, souNos));
       out.push(`[${fmtDateTime(m.receivedAt)}] ${quem}${flags.length ? ` {${flags.join(", ")}}` : ""}: ${trecho(m.body, 300)}${resp}${reacs}`);
     }
 
@@ -500,7 +519,7 @@ export const historicoGrupo: ToolDef<{ grupo: string; limite?: number }> = {
         mensagens: msgs
           .slice()
           .reverse()
-          .map(({ reactions, ...m }) => ({ ...m, reacoes: lerReacoes(reactions, fonesEquipe) })),
+          .map(({ reactions, ...m }) => ({ ...m, reacoes: lerReacoes(reactions, souNos) })),
       },
     });
   },
