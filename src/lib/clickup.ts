@@ -633,6 +633,24 @@ export type ClickupTaskLite = {
   parentId:      string | null;     // tarefa-mãe (null = primeiro nível)
 };
 
+/** Teto de páginas do fetch de tarefas — 100 por página, 50 páginas = 5 mil. */
+const MAX_TASK_PAGES = 50;
+
+/** Converte a tarefa crua da API pro formato enxuto usado nos syncs. */
+function toTaskLite(t: any): ClickupTaskLite {
+  return {
+    id:            String(t.id),
+    name:          String(t.name ?? ""),
+    statusName:    t.status?.status ?? null,
+    isCompleted:   t.status?.type === "closed" || t.status?.type === "done",
+    hasNoAssignee: !Array.isArray(t.assignees) || t.assignees.length === 0,
+    dueDate:       t.due_date     ? Number(t.due_date)     : null,
+    startDate:     t.start_date   ? Number(t.start_date)   : null,
+    dateUpdated:   t.date_updated ? Number(t.date_updated) : null,
+    parentId:      t.parent ? String(t.parent) : null,
+  };
+}
+
 /**
  * Retorna a lista completa de tarefas de uma lista do ClickUp em formato
  * enxuto. Usado pelo sync que detecta criações/atualizações/conclusões.
@@ -641,26 +659,26 @@ export async function fetchClickupTasks(
   apiToken: string,
   listId: string,
 ): Promise<ClickupTaskLite[] | null> {
-  const url = `${BASE}/list/${listId}/task?include_closed=true&subtasks=true`;
+  // A API devolve no MÁXIMO 100 tarefas por página. Sem paginar, lista grande
+  // volta cortada — e o sync trata o que não veio como tarefa apagada: remove o
+  // snapshot (junto o vínculo mãe/subtarefa) e reconstrói tudo na sync seguinte.
+  // Lê até a última página; se qualquer página falhar, devolve null pro sync
+  // abortar inteiro, nunca uma lista parcial que viraria exclusão em massa.
+  const out: ClickupTaskLite[] = [];
   try {
-    const res = await fetch(url, {
-      headers: { Authorization: apiToken },
-      cache:   "no-store",
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    const raw: any[] = data.tasks ?? [];
-    return raw.map((t) => ({
-      id:            String(t.id),
-      name:          String(t.name ?? ""),
-      statusName:    t.status?.status ?? null,
-      isCompleted:   t.status?.type === "closed" || t.status?.type === "done",
-      hasNoAssignee: !Array.isArray(t.assignees) || t.assignees.length === 0,
-      dueDate:       t.due_date     ? Number(t.due_date)     : null,
-      startDate:     t.start_date   ? Number(t.start_date)   : null,
-      dateUpdated:   t.date_updated ? Number(t.date_updated) : null,
-      parentId:      t.parent ? String(t.parent) : null,
-    }));
+    for (let page = 0; page < MAX_TASK_PAGES; page++) {
+      const url = `${BASE}/list/${listId}/task?include_closed=true&subtasks=true&page=${page}`;
+      const res = await fetch(url, {
+        headers: { Authorization: apiToken },
+        cache:   "no-store",
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      const raw: any[] = data.tasks ?? [];
+      for (const t of raw) out.push(toTaskLite(t));
+      if (data.last_page === true || raw.length === 0) break;
+    }
+    return out;
   } catch {
     return null;
   }
@@ -682,17 +700,7 @@ export async function fetchClickupTaskLite(
     const t = await res.json();
     return {
       listId: (t?.list?.id as string | undefined) ?? null,
-      task: {
-        id:            String(t.id),
-        name:          String(t.name ?? ""),
-        statusName:    t.status?.status ?? null,
-        isCompleted:   t.status?.type === "closed" || t.status?.type === "done",
-        hasNoAssignee: !Array.isArray(t.assignees) || t.assignees.length === 0,
-        dueDate:       t.due_date     ? Number(t.due_date)     : null,
-        startDate:     t.start_date   ? Number(t.start_date)   : null,
-        dateUpdated:   t.date_updated ? Number(t.date_updated) : null,
-        parentId:      t.parent ? String(t.parent) : null,
-      },
+      task:   toTaskLite(t),
     };
   } catch { return null; }
 }
