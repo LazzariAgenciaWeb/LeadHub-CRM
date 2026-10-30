@@ -9,6 +9,7 @@ import {
 import {
   createEtapa, listEtapas, etapaLabel, ensureEtapaClickupTask, pushTaskToClickup,
 } from "@/lib/project-etapas";
+import { syncProjectFromClickup } from "@/lib/project-sync";
 
 /**
  * Etapas e tarefas de projeto pelo assistente.
@@ -414,10 +415,55 @@ export const comentarTarefaProjeto: ToolDef<{ id: string; texto: string }> = {
   },
 };
 
+export const sincronizarProjeto: ToolDef<{ projetoId: string }> = {
+  name: "sincronizar_projeto",
+  description:
+    "Puxa a lista do ClickUp pra dentro do projeto AGORA — o mesmo que apertar 'Atualizar' na tela do projeto. Traz tarefa nova do ClickUp pra caixa de entrada do projeto, atualiza título/prazo/conclusão das que já existem e refaz o vínculo entre tarefa principal (etapa) e subtarefas. Use ANTES de listar tarefas quando precisar do que está no ClickUp agora, e DEPOIS de mexer lá fora. Projeto sem lista do ClickUp não tem o que sincronizar e a ferramenta avisa. Use listar_projetos pra pegar o projetoId.",
+  mutating: true,
+  input_schema: {
+    type: "object",
+    properties: {
+      projetoId: { type: "string", description: "Id do projeto (listar_projetos)." },
+    },
+    required: ["projetoId"],
+  },
+  run: async (input, ctx) => {
+    const project = await loadProject(input.projetoId, ctx.companyId);
+    if (!project) return fail(`Projeto ${input.projetoId} não encontrado nesta empresa. Use listar_projetos pra pegar o projetoId certo.`);
+
+    const r = await syncProjectFromClickup(project.id);
+    if (!r.ok) return fail(r.reason);
+
+    // O que a skill quer saber depois de sincronizar: quanto sobrou sem etapa.
+    const aOrganizar = await prisma.projectTask.count({
+      where: { projectId: project.id, clickupTaskId: { not: null }, projectServiceId: null, ignoredAt: null },
+    });
+
+    const partes = [
+      `${r.tasksFound} tarefa(s) na lista do ClickUp`,
+      r.mirrored > 0 ? `${r.mirrored} nova(s) trazida(s) agora` : "nenhuma nova",
+      `${r.atualizadas} atualizada(s)`,
+    ];
+    if (r.activities.completed > 0) partes.push(`${r.activities.completed} concluída(s) desde a última sync`);
+    partes.push(
+      aOrganizar > 0
+        ? `${aOrganizar} ainda sem etapa (a organizar)`
+        : "nenhuma pendente de etapa",
+    );
+
+    return ok(
+      `Projeto "${r.projectName}" sincronizado: ${partes.join(" · ")}.`,
+      { data: r, link: appUrl(`/projetos/${project.id}`) },
+    );
+  },
+};
+
+
 export const projetosTools: ToolDef[] = [
   listarEtapasProjeto,
   criarEtapaProjeto,
   listarTarefasProjeto,
   atualizarTarefaProjeto,
   comentarTarefaProjeto,
+  sincronizarProjeto,
 ];
