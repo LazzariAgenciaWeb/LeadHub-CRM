@@ -336,14 +336,26 @@ export const historicoGrupo: ToolDef<{ grupo: string; limite?: number }> = {
         select: { phone: true, name: true, company: { select: { name: true, parentCompanyId: true } } },
         take: 10,
       });
-      const comConversa = cands.length
+      // O MESMO grupo costuma ter contato sob a agência E sob a empresa-cliente.
+      // É um JID só, não dois grupos: sem deduplicar, toda busca por nome caía
+      // no "vários grupos batem" e não dava pra abrir nada pelo nome.
+      const porJid = new Map<string, (typeof cands)[number]>();
+      for (const c of cands) {
+        const prev = porJid.get(c.phone);
+        // Contato do cliente ganha do contato da agência — é o vínculo real.
+        if (prev && c.company.parentCompanyId !== ctx.companyId) continue;
+        porJid.set(c.phone, c);
+      }
+      const unicos = [...porJid.values()];
+
+      const comConversa = unicos.length
         ? await prisma.conversation.findMany({
-            where: { companyId: ctx.companyId, isGroup: true, phone: { in: cands.map((c) => c.phone) } },
+            where: { companyId: ctx.companyId, isGroup: true, phone: { in: unicos.map((c) => c.phone) } },
             select: { phone: true },
           })
         : [];
-      const validos = cands.filter((c) => comConversa.some((v) => v.phone === c.phone));
-      const lista = validos.length > 0 ? validos : cands;
+      const validos = unicos.filter((c) => comConversa.some((v) => v.phone === c.phone));
+      const lista = validos.length > 0 ? validos : unicos;
       if (lista.length === 0) return fail(`Nenhum grupo com "${termo}" no nome. Use grupos_pendentes pra ver os grupos ativos.`);
       if (lista.length > 1) {
         return ok(
