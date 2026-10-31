@@ -5,6 +5,7 @@ import { readChecklist, readComments } from "@/lib/checklist";
 import { notFound } from "next/navigation";
 import ProjectDetail from "./ProjectDetail";
 import ProjectMateriais from "./ProjectMateriais";
+import { CLAUDE_ASSIGNEE, CLAUDE_LABEL } from "@/lib/project-ai";
 
 export const dynamic = "force-dynamic";
 
@@ -137,8 +138,9 @@ export default async function ProjectDetailPage({
     awaitingClient: t.awaitingClient,
     visibleToClient: t.visibleToClient,
     ignored:      t.ignoredAt != null,
-    assigneeId:   t.assigneeId ?? null,
-    assigneeName: t.assignee?.name ?? null,
+    // Despachada pro Claude: o seletor mostra "Claude (IA)" (o dono humano fica guardado).
+    assigneeId:   t.aiAssignedAt ? CLAUDE_ASSIGNEE : (t.assigneeId ?? null),
+    assigneeName: t.aiAssignedAt ? CLAUDE_LABEL : (t.assignee?.name ?? null),
     approval: t.approvalToken
       ? {
           token:        t.approvalToken,

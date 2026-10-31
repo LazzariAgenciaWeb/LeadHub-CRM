@@ -20,6 +20,7 @@ import SaveToLibraryButton from "@/components/attachments/SaveToLibraryButton";
 import { ATTACH_STATUSES, type AttachStatus } from "@/lib/checklist";
 import { DescricaoEditor } from "@/components/DescricaoRich";
 import { RichMessageBody } from "@/components/RichMessageBody";
+import { CLAUDE_ASSIGNEE, CLAUDE_LABEL } from "@/lib/project-ai";
 
 type Project = {
   id:                  string;
@@ -1908,6 +1909,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
               >
                 <option value="">— sem responsável —</option>
                 {availableUsers.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
+                <option value={CLAUDE_ASSIGNEE}>{CLAUDE_LABEL}</option>
               </select>
               <p className="text-[10px] text-slate-600 mt-1">
                 Quem vai executar. A tarefa passa a aparecer no “Minhas tarefas” dessa pessoa.
@@ -2383,6 +2385,13 @@ function ProjectTasksCard({
     router.refresh();
   }
 
+  // Link direto pra uma tarefa (?tarefa=<id>) — o assistente/Claude devolve esse link.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("tarefa");
+    if (id && internalTasks.some((x) => x.id === id)) setEditingId(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (!editingId) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeTaskModal(); };
@@ -2659,6 +2668,7 @@ function ProjectTasksCard({
             >
               <option value="">— sem responsável —</option>
               {availableUsers.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
+              <option value={CLAUDE_ASSIGNEE}>{CLAUDE_LABEL}</option>
             </select>
           )}
 

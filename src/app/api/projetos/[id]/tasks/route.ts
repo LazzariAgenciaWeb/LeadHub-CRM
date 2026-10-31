@@ -6,6 +6,7 @@ import { getClickupSettings, createClickupTask } from "@/lib/clickup";
 import { getViewer, canSeeProject } from "@/lib/visibility";
 import { sanitizeChecklist } from "@/lib/checklist";
 import { ensureEtapaClickupTask, pushTaskToClickup } from "@/lib/project-etapas";
+import { CLAUDE_ASSIGNEE } from "@/lib/project-ai";
 
 // POST /api/projetos/[id]/tasks
 //
@@ -149,7 +150,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       priority:    prio,
       startDate:   start && !Number.isNaN(start.getTime()) ? start : null,
       dueDate:     due,
-      assigneeId:  assigneeId || null,
+      // "Claude (IA)": a tarefa nasce despachada e o dono humano é quem criou.
+      assigneeId:  assigneeId === CLAUDE_ASSIGNEE ? (userId ?? null) : (assigneeId || null),
+      aiAssignedAt: assigneeId === CLAUDE_ASSIGNEE ? new Date() : null,
       createdById: userId ?? null,
     },
     include: { assignee: { select: { id: true, name: true } } },

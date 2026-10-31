@@ -4,8 +4,9 @@ import { type ToolDef, ok, fail, appUrl, fmtDate, parseDate } from "./types";
 import { readComments, sanitizeComments, type TaskComment } from "@/lib/checklist";
 import {
   getClickupSettings, updateClickupTask, markClickupTaskDone, reopenClickupTask,
-  addCommentToClickupTask,
+  addCommentToClickupTask, fetchClickupTaskComments, clickupTaskUrl,
 } from "@/lib/clickup";
+import { CLAUDE_LABEL } from "@/lib/project-ai";
 import {
   createEtapa, listEtapas, etapaLabel, ensureEtapaClickupTask, pushTaskToClickup,
 } from "@/lib/project-etapas";
@@ -43,7 +44,7 @@ async function loadTask(id: string, companyId: string) {
     where: { id, project: { setor: { companyId } } },
     select: {
       id: true, title: true, description: true, status: true, done: true, dueDate: true,
-      comments: true, clickupTaskId: true, projectServiceId: true, assigneeId: true,
+      comments: true, clickupTaskId: true, projectServiceId: true, assigneeId: true, aiAssignedAt: true,
       project: {
         select: { id: true, name: true, clickupListId: true, setor: { select: { companyId: true } } },
       },
@@ -55,6 +56,20 @@ async function loadTask(id: string, companyId: string) {
 function trecho(s: string | null | undefined, n = 200): string {
   const t = (s ?? "").replace(/\s+/g, " ").trim();
   return t.length > n ? `${t.slice(0, n)}…` : t;
+}
+
+function taskLink(projectId: string, taskId: string) {
+  return appUrl(`/projetos/${projectId}?tarefa=${taskId}`);
+}
+
+/** Autor legível de um comentário do andamento. */
+function autorDe(c: TaskComment): string {
+  return c.au ?? (c.by === "client" ? "cliente" : "equipe");
+}
+
+/** "claude" (ou "ia") no lugar de um id de usuário = despachado pro Claude. */
+function isClaude(v: string | undefined | null): boolean {
+  return !!v && /^(claude|ia|__claude__)$/i.test(v.trim());
 }
 
 export const listarEtapasProjeto: ToolDef<{ projetoId: string }> = {
@@ -132,43 +147,48 @@ export const criarEtapaProjeto: ToolDef<{ projetoId: string; nome: string; ordem
 };
 
 export const listarTarefasProjeto: ToolDef<{
-  projetoId: string; etapaId?: string; status?: string; query?: string; venceAte?: string;
+  projetoId?: string; assigneeId?: string; etapaId?: string; status?: string; query?: string; venceAte?: string;
 }> = {
   name: "listar_tarefas_projeto",
   description:
-    "Lista as tarefas de um projeto. Filtre por etapa (etapaId de listar_etapas_projeto), status (abertas | concluidas | todas — default abertas), trecho do título (query) e prazo máximo (venceAte, ISO 8601). Retorna id, título, etapa, status, responsável, prazo e o começo da descrição.",
+    "Lista tarefas de projeto. Com projetoId: as tarefas daquele projeto. Sem projetoId: em todos os projetos da empresa, filtrando por responsável — assigneeId='claude' traz as tarefas DESPACHADAS PRO CLAUDE (IA) pra ele executar; ou um id de listar_usuarios. Informe ao menos projetoId, assigneeId ou query. Outros filtros: etapa (etapaId), status (abertas | concluidas | todas — default abertas), trecho do título (query), prazo máximo (venceAte, ISO 8601). Retorna id, título, cliente, projeto, etapa, status, responsável, prazo, link da tarefa no GoHub, link do ClickUp, começo da descrição e os 3 últimos comentários (com autor e data — o pedido do Diego costuma vir num comentário; use listar_comentarios_tarefa_projeto pra ver todos).",
   input_schema: {
     type: "object",
     properties: {
-      projetoId: { type: "string" },
+      projetoId: { type: "string", description: "Opcional se assigneeId ou query vier" },
+      assigneeId: { type: "string", description: "'claude' = tarefas despachadas pro Claude (IA); ou id de usuário (listar_usuarios)" },
       etapaId: { type: "string", description: "Só as tarefas desta etapa (de listar_etapas_projeto)" },
       status: { type: "string", enum: ["abertas", "concluidas", "todas"] },
       query: { type: "string", description: "Trecho do título" },
       venceAte: { type: "string", description: "Só tarefas com prazo até esta data (ISO 8601)" },
     },
-    required: ["projetoId"],
   },
   run: async (input, ctx) => {
-    const project = await loadProject(input.projetoId, ctx.companyId);
-    if (!project) return fail("Projeto não encontrado. Use listar_projetos pra conferir o projetoId.");
+    if (!input.projetoId && !input.assigneeId && !input.query) {
+      return fail("Informe projetoId, assigneeId (ex.: 'claude') ou query.");
+    }
+    const project = input.projetoId ? await loadProject(input.projetoId, ctx.companyId) : null;
+    if (input.projetoId && !project) return fail("Projeto não encontrado. Use listar_projetos pra conferir o projetoId.");
 
     if (input.etapaId) {
       const etapa = await prisma.projectService.findUnique({
         where: { id: input.etapaId }, select: { projectId: true },
       });
-      if (!etapa || etapa.projectId !== project.id) {
-        return fail(`A etapa ${input.etapaId} não pertence ao projeto "${project.name}". Use listar_etapas_projeto pra pegar o etapaId certo.`);
+      if (!etapa || (project && etapa.projectId !== project.id)) {
+        return fail(`A etapa ${input.etapaId} não pertence a esse projeto. Use listar_etapas_projeto pra pegar o etapaId certo.`);
       }
     }
 
     const venceAte = input.venceAte ? parseDate(input.venceAte) : null;
     if (input.venceAte && !venceAte) return fail("venceAte inválido — use ISO 8601 (ex.: 2026-11-30T23:59:00-03:00).");
 
+    const paraClaude = isClaude(input.assigneeId);
     const status = input.status ?? "abertas";
     const rows = await prisma.projectTask.findMany({
       where: {
-        projectId: project.id,
+        ...(project ? { projectId: project.id } : { project: { setor: { companyId: ctx.companyId } } }),
         ignoredAt: null,
+        ...(paraClaude ? { aiAssignedAt: { not: null } } : input.assigneeId ? { assigneeId: input.assigneeId, aiAssignedAt: null } : {}),
         ...(input.etapaId ? { projectServiceId: input.etapaId } : {}),
         ...(status === "abertas" ? { done: false } : status === "concluidas" ? { done: true } : {}),
         ...(input.query ? { title: { contains: input.query, mode: "insensitive" } } : {}),
@@ -176,32 +196,87 @@ export const listarTarefasProjeto: ToolDef<{
       },
       select: {
         id: true, title: true, description: true, status: true, done: true, dueDate: true,
-        clickupTaskId: true,
+        clickupTaskId: true, aiAssignedAt: true, comments: true,
         assignee: { select: { name: true } },
+        project: { select: { id: true, name: true, clientCompany: { select: { id: true, name: true } } } },
         projectService: { select: { id: true, name: true, service: { select: { name: true } } } },
       },
       orderBy: [{ done: "asc" }, { dueDate: "asc" }, { createdAt: "asc" }],
       take: 60,
     });
 
+    const onde = project ? `em "${project.name}"` : paraClaude ? "despachada(s) pro Claude" : "nos projetos";
     if (rows.length === 0) {
       return ok(
-        `Nenhuma tarefa ${status === "todas" ? "" : status + " "}em "${project.name}"${input.etapaId ? " nessa etapa" : ""}.`,
-        { data: [], link: appUrl(`/projetos/${project.id}`) },
+        `Nenhuma tarefa ${status === "todas" ? "" : status + " "}${onde}${input.etapaId ? " nessa etapa" : ""}.`,
+        { data: [], ...(project ? { link: appUrl(`/projetos/${project.id}`) } : {}) },
       );
     }
 
-    const lines = rows.map((t) => {
-      const etapa = t.projectService ? etapaLabel(t.projectService) : "sem etapa";
-      const desc = trecho(t.description);
-      return `- ${t.title} · id=${t.id} · etapa ${etapa} · ${STATUS_LABEL[t.status] ?? t.status}` +
-        ` · ${t.assignee?.name ?? "sem responsável"} · prazo ${fmtDate(t.dueDate)}` +
-        (t.clickupTaskId ? "" : " · só no LeadHub") +
-        (desc ? `\n    ${desc}` : "");
+    const data = rows.map((t) => {
+      const comentarios = readComments(t.comments).slice(-3).map((c) => ({ autor: autorDe(c), data: c.at, texto: trecho(c.text, 400) }));
+      return {
+        id: t.id, titulo: t.title,
+        cliente: t.project.clientCompany?.name ?? null, clienteId: t.project.clientCompany?.id ?? null,
+        projeto: t.project.name, projetoId: t.project.id,
+        etapa: t.projectService ? etapaLabel(t.projectService) : null, etapaId: t.projectService?.id ?? null,
+        status: t.status, concluida: t.done, prazo: t.dueDate,
+        responsavel: t.aiAssignedAt ? CLAUDE_LABEL : (t.assignee?.name ?? null),
+        dono: t.assignee?.name ?? null, comClaudeDesde: t.aiAssignedAt,
+        link: taskLink(t.project.id, t.id),
+        clickupTaskId: t.clickupTaskId, clickupUrl: t.clickupTaskId ? clickupTaskUrl(t.clickupTaskId) : null,
+        descricao: trecho(t.description, 300) || null,
+        ultimosComentarios: comentarios,
+      };
     });
+
+    const lines = data.map((t) =>
+      `- ${t.titulo} · id=${t.id}` +
+      `\n    ${t.cliente ?? "sem cliente"} › ${t.projeto} › ${t.etapa ?? "sem etapa"} · ${STATUS_LABEL[t.status] ?? t.status}` +
+      ` · ${t.responsavel ?? "sem responsável"}${t.comClaudeDesde ? ` (dono: ${t.dono ?? "—"})` : ""} · prazo ${fmtDate(t.prazo)}` +
+      `\n    ${t.link}${t.clickupUrl ? ` · ClickUp ${t.clickupUrl}` : " · só no GoHub"}` +
+      (t.descricao ? `\n    ${t.descricao}` : "") +
+      t.ultimosComentarios.map((c) => `\n    💬 ${c.autor} ${fmtDate(new Date(c.data))}: ${c.texto}`).join(""),
+    );
     return ok(
-      `${rows.length} tarefa(s) em "${project.name}":\n${lines.join("\n")}`,
-      { data: rows, link: appUrl(`/projetos/${project.id}`) },
+      `${rows.length} tarefa(s) ${onde}:\n${lines.join("\n")}`,
+      { data, ...(project ? { link: appUrl(`/projetos/${project.id}`) } : {}) },
+    );
+  },
+};
+
+export const listarComentariosTarefaProjeto: ToolDef<{ id: string }> = {
+  name: "listar_comentarios_tarefa_projeto",
+  description:
+    "Todos os comentários/andamentos de uma tarefa de projeto (id de listar_tarefas_projeto), em ordem cronológica, com autor e data. Junta o andamento do GoHub com os comentários do ClickUp (lidos agora, se a tarefa está lá). É onde vem o pedido do Diego quando ele despacha a tarefa pro Claude.",
+  input_schema: { type: "object", properties: { id: { type: "string" } }, required: ["id"] },
+  run: async ({ id }, ctx) => {
+    const task = await loadTask(id, ctx.companyId);
+    if (!task) return fail("Tarefa não encontrada. Use listar_tarefas_projeto pra pegar o id.");
+
+    type Linha = { autor: string; data: string; texto: string; origem: "GoHub" | "ClickUp"; cid?: string };
+    const local: Linha[] = readComments(task.comments).map((c) => ({ autor: autorDe(c), data: c.at, texto: c.text, origem: "GoHub", cid: c.cid }));
+    let remoto: Linha[] = [];
+    if (task.clickupTaskId) {
+      const settings = await getClickupSettings(task.project.setor.companyId).catch(() => null);
+      if (settings?.apiToken) {
+        const vistos = new Set(local.map((c) => c.cid).filter(Boolean));
+        const textos = new Set(local.map((c) => c.texto.trim()));
+        const cu = await fetchClickupTaskComments(settings.apiToken, task.clickupTaskId);
+        remoto = cu
+          .filter((c) => !(c.cid && vistos.has(c.cid)) && !textos.has(c.text.trim()))
+          .map((c) => ({ autor: c.au ?? "ClickUp", data: c.at, texto: c.text, origem: "ClickUp" as const, cid: c.cid }));
+        // O GoHub guarda o autor que o ClickUp informa — preenche os antigos que vieram sem.
+        const autorPorCid = new Map(cu.filter((c) => c.cid && c.au).map((c) => [c.cid!, c.au!]));
+        for (const l of local) if (l.autor === "equipe" && l.cid && autorPorCid.has(l.cid)) l.autor = autorPorCid.get(l.cid)!;
+      }
+    }
+    const todos = [...local, ...remoto].sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime());
+    if (!todos.length) return ok(`"${task.title}" ainda não tem comentários.`, { data: [], link: taskLink(task.project.id, task.id) });
+    return ok(
+      `${todos.length} comentário(s) em "${task.title}":\n` +
+      todos.map((c) => `- ${fmtDate(new Date(c.data))} · ${c.autor}${c.origem === "ClickUp" ? " (ClickUp)" : ""}: ${c.texto}`).join("\n"),
+      { data: todos.map(({ cid, ...c }) => c), link: taskLink(task.project.id, task.id) },
     );
   },
 };
@@ -212,14 +287,14 @@ export const atualizarTarefaProjeto: ToolDef<{
 }> = {
   name: "atualizar_tarefa_projeto",
   description:
-    "Atualiza uma tarefa de projeto (id de listar_tarefas_projeto). Só mexe nos campos enviados. status: NOVA, EM_PRODUCAO, AGUARDANDO_CLIENTE ou APROVADO (APROVADO conclui; qualquer outro reabre). dueDate em ISO 8601 com fuso -03:00, null remove o prazo. etapaId move de etapa (de listar_etapas_projeto) — no ClickUp a tarefa passa a ser subtarefa da tarefa principal dessa etapa. Reflete no ClickUp o que a tela reflete.",
+    "Atualiza uma tarefa de projeto (id de listar_tarefas_projeto). Só mexe nos campos enviados. status: NOVA, EM_PRODUCAO, AGUARDANDO_CLIENTE ou APROVADO (APROVADO conclui; qualquer outro reabre). dueDate em ISO 8601 com fuso -03:00, null remove o prazo. etapaId move de etapa (de listar_etapas_projeto) — no ClickUp a tarefa passa a ser subtarefa da tarefa principal dessa etapa. assigneeId='claude' despacha pro Claude (IA); um id de usuário (listar_usuarios) devolve pra essa pessoa e tira do Claude — ao terminar, devolva pro dono (campo dono de listar_tarefas_projeto). No ClickUp refletem: título, descrição, prazo, etapa, concluir (APROVADO) e reabrir. NÃO refletem: responsável (o Claude só existe no GoHub) e os status intermediários (NOVA/EM_PRODUCAO/AGUARDANDO_CLIENTE) — só concluir/reabrir mudam o status lá.",
   input_schema: {
     type: "object",
     properties: {
       id: { type: "string" },
       status: { type: "string", enum: [...STATUSES] },
       dueDate: { type: ["string", "null"], description: "ISO 8601 com fuso -03:00. null remove o prazo." },
-      assigneeId: { type: "string", description: "Responsável (use listar_usuarios)" },
+      assigneeId: { type: "string", description: "'claude' = despacha pro Claude (IA); id de usuário (listar_usuarios) = devolve pra ele" },
       etapaId: { type: "string", description: "Etapa de destino (de listar_etapas_projeto)" },
       title: { type: "string" },
       description: { type: "string" },
@@ -251,12 +326,17 @@ export const atualizarTarefaProjeto: ToolDef<{
         data.dueDate = d; mudou.push(`prazo → ${fmtDate(d)}`);
       }
     }
-    if (input.assigneeId !== undefined) {
+    if (isClaude(input.assigneeId)) {
+      if (!task.aiAssignedAt) data.aiAssignedAt = new Date();
+      if (!task.assigneeId) data.assignee = { connect: { id: ctx.userId } };
+      mudou.push(`responsável → ${CLAUDE_LABEL}`);
+    } else if (input.assigneeId !== undefined) {
       const u = await prisma.user.findFirst({
         where: { id: input.assigneeId, companyId: ctx.companyId }, select: { id: true, name: true },
       });
       if (!u) return fail("assigneeId não é um usuário da sua empresa. Use listar_usuarios.");
-      data.assignee = { connect: { id: u.id } }; mudou.push(`responsável → ${u.name}`);
+      data.assignee = { connect: { id: u.id } }; data.aiAssignedAt = null;
+      mudou.push(`responsável → ${u.name}${task.aiAssignedAt ? " (saiu do Claude)" : ""}`);
     }
     if (input.status !== undefined) {
       if (!(STATUSES as readonly string[]).includes(input.status)) {
@@ -294,6 +374,10 @@ export const atualizarTarefaProjeto: ToolDef<{
     const eventos: { projectId: string; taskId: string; type: string; fromText?: string | null; toText?: string | null }[] = [];
     if (input.status !== undefined && input.status !== task.status) {
       eventos.push({ projectId: task.project.id, taskId: task.id, type: "STATUS", fromText: task.status, toText: input.status });
+    }
+    if (input.assigneeId !== undefined) {
+      const para = isClaude(input.assigneeId) ? "Claude (IA)" : mudou.find((m) => m.startsWith("responsável"))?.replace(/^responsável → /, "") ?? null;
+      eventos.push({ projectId: task.project.id, taskId: task.id, type: "ASSIGNEE", fromText: task.aiAssignedAt ? "Claude (IA)" : null, toText: para });
     }
     if (input.dueDate !== undefined) {
       eventos.push({
@@ -341,6 +425,8 @@ export const atualizarTarefaProjeto: ToolDef<{
             });
             if (parent) avisos.push("tarefa-mãe trocada no ClickUp");
           }
+          if (input.assigneeId !== undefined) avisos.push("responsável não vai pro ClickUp");
+          if (input.status !== undefined && input.status !== "APROVADO" && !task.done) avisos.push("status intermediário não muda no ClickUp");
           if (input.status === "APROVADO" && !task.done) {
             await markClickupTaskDone(settings.apiToken, clickupTaskId, settings.statusChamadoConcluido);
             avisos.push("fechada no ClickUp");
@@ -355,7 +441,7 @@ export const atualizarTarefaProjeto: ToolDef<{
     return ok(
       `Tarefa "${input.title?.trim() ?? task.title}" atualizada: ${mudou.join(", ")}.` +
       (avisos.length ? ` (${avisos.join("; ")})` : ""),
-      { data: { id: task.id, clickupTaskId }, link: appUrl(`/projetos/${task.project.id}`) },
+      { data: { id: task.id, clickupTaskId }, link: taskLink(task.project.id, task.id) },
     );
   },
 };
@@ -385,13 +471,15 @@ export const comentarTarefaProjeto: ToolDef<{ id: string; texto: string }> = {
         const settings = await getClickupSettings(task.project.setor.companyId);
         if (settings?.apiToken) {
           cid = await addCommentToClickupTask({
-            apiToken: settings.apiToken, taskId: task.clickupTaskId, comment: texto,
+            apiToken: settings.apiToken, taskId: task.clickupTaskId,
+            comment: ctx.channel === "MCP" ? `🤖 Claude (IA): ${texto}` : texto,
           });
         }
       } catch (e) { console.error("[assistente] clickup comentario tarefa:", e); }
     }
 
-    const c: TaskComment = { text: texto, at: new Date().toISOString() };
+    // Pelo MCP quem escreve é o Claude, não o dono do token.
+    const c: TaskComment = { text: texto, at: new Date().toISOString(), au: ctx.channel === "MCP" ? "Claude (IA)" : ctx.userName };
     if (cid) c.cid = cid;
     const next = [...readComments(task.comments), c];
     await prisma.projectTask.update({
@@ -463,6 +551,7 @@ export const projetosTools: ToolDef[] = [
   listarEtapasProjeto,
   criarEtapaProjeto,
   listarTarefasProjeto,
+  listarComentariosTarefaProjeto,
   atualizarTarefaProjeto,
   comentarTarefaProjeto,
   sincronizarProjeto,

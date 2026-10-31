@@ -71,7 +71,7 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
       orderBy: { dueAt: "asc" }, take: 20,
     }),
     prisma.projectTask.findMany({
-      where: { done: false, ignoredAt: null, assigneeId: userId, dueDate: { not: null, lte: todayEnd }, project: { setor: { companyId } } },
+      where: { done: false, ignoredAt: null, aiAssignedAt: null, assigneeId: userId, dueDate: { not: null, lte: todayEnd }, project: { setor: { companyId } } },
       select: { id: true, title: true, dueDate: true, project: { select: { id: true, name: true } } },
       orderBy: { dueDate: "asc" }, take: 20,
     }),

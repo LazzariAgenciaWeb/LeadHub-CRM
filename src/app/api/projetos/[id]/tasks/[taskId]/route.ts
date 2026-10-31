@@ -7,6 +7,7 @@ import { sanitizeChecklist, sanitizeComments, readComments } from "@/lib/checkli
 import { Prisma } from "@/generated/prisma";
 import { getClickupSettings, updateClickupTask, markClickupTaskDone, reopenClickupTask } from "@/lib/clickup";
 import { ensureEtapaClickupTask, pushTaskToClickup } from "@/lib/project-etapas";
+import { CLAUDE_ASSIGNEE } from "@/lib/project-ai";
 
 // Tarefas internas (ProjectTask) só. Tarefas do ClickUp são geridas no ClickUp.
 
@@ -137,10 +138,26 @@ export async function PATCH(
   if (priority !== undefined && ["LOW", "MEDIUM", "HIGH", "URGENT"].includes(priority)) data.priority = priority;
   if (dueDate !== undefined) data.dueDate = dueDate ? new Date(dueDate) : null;
   if (startDate !== undefined) data.startDate = startDate ? new Date(startDate) : null;
-  if (assigneeId !== undefined) data.assigneeId = assigneeId || null;
+  if (assigneeId === CLAUDE_ASSIGNEE) {
+    // Despachar pro Claude: marca a tarefa e mantém um humano como dono (quem
+    // despachou, se ainda não tinha) — é pra ele que ela volta.
+    if (!res.task.aiAssignedAt) data.aiAssignedAt = new Date(); // salvar de novo não "re-despacha"
+    if (!res.task.assigneeId) data.assigneeId = (session.user as any)?.id ?? null;
+  } else if (assigneeId !== undefined) {
+    data.assigneeId = assigneeId || null;
+    data.aiAssignedAt = null;
+  }
   if (stage !== undefined) data.stage = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
   if (checklist !== undefined) data.checklist = sanitizeChecklist(checklist) ?? Prisma.DbNull;
-  if (comments !== undefined) data.comments = sanitizeComments(comments) ?? Prisma.DbNull;
+  if (comments !== undefined) {
+    // Comentário novo leva o nome de quem escreveu (o Claude lê isso pra saber
+    // quem pediu o quê). O PATCH manda o array inteiro: novo = não estava antes.
+    const before = new Set(readComments(res.task.comments).map((c) => `${c.at}|${c.text}`));
+    const autor = (session.user as any)?.name as string | undefined;
+    const clean = sanitizeComments(comments);
+    if (clean && autor) for (const c of clean) if (!c.au && !c.by && !before.has(`${c.at}|${c.text}`)) c.au = autor;
+    data.comments = clean ?? Prisma.DbNull;
+  }
   if (awaitingClient !== undefined && data.status === undefined) {
     data.awaitingClient = !!awaitingClient;
     data.status = awaitingClient ? "AGUARDANDO_CLIENTE" : "EM_PRODUCAO";
@@ -172,7 +189,9 @@ export async function PATCH(
     if (data.status !== undefined && data.status !== res.task.status) {
       push("STATUS", res.task.status, data.status);
     }
-    if (data.assigneeId !== undefined && data.assigneeId !== res.task.assigneeId) {
+    if (data.aiAssignedAt instanceof Date) push("ASSIGNEE", null, "Claude (IA)");
+    else if (data.aiAssignedAt === null && res.task.aiAssignedAt) push("ASSIGNEE", "Claude (IA)", task.assignee?.name ?? null);
+    else if (data.assigneeId !== undefined && data.assigneeId !== res.task.assigneeId) {
       const nome = task.assignee?.name ?? null;
       push("ASSIGNEE", res.task.assigneeId ? "(anterior)" : null, nome);
     }

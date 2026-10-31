@@ -315,7 +315,7 @@ export async function uploadClickupAttachment(
 
 /** Busca os comentários de uma tarefa do ClickUp como [{text, at, cid}] (cronológico).
  *  `cid` = id do comentário no ClickUp — usado pra dedup e evitar eco. */
-export async function fetchClickupTaskComments(apiToken: string, taskId: string): Promise<{ text: string; at: string; cid?: string }[]> {
+export async function fetchClickupTaskComments(apiToken: string, taskId: string): Promise<{ text: string; at: string; cid?: string; au?: string }[]> {
   if (!taskId) return [];
   try {
     const res = await fetch(taskApiUrl(taskId, "/comment"), { headers: { Authorization: apiToken }, cache: "no-store" });
@@ -326,7 +326,8 @@ export async function fetchClickupTaskComments(apiToken: string, taskId: string)
       const text = String(c.comment_text ?? "").trim();
       const ms = c.date ? Number(c.date) : NaN;
       const at = Number.isFinite(ms) ? new Date(ms).toISOString() : new Date().toISOString();
-      return { text, at, cid: c.id != null ? String(c.id) : undefined };
+      const au = String(c.user?.username ?? c.user?.email ?? "").trim() || undefined;
+      return { text, at, cid: c.id != null ? String(c.id) : undefined, au };
     }).filter((c) => c.text);
     // ClickUp devolve mais recente primeiro — invertemos pra ordem cronológica.
     return out.reverse();
