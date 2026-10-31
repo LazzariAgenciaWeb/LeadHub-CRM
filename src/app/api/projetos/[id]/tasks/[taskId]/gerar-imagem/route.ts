@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { randomUUID } from "crypto";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
-import { authorizeTarget, safeKeyName } from "@/lib/storage/access";
-import { storageEnabled, putObject, S3_BUCKET } from "@/lib/storage/s3";
-import { pushFileToClickup } from "@/lib/clickup-files";
+import { authorizeTarget } from "@/lib/storage/access";
+import { storageEnabled } from "@/lib/storage/s3";
+import { attachImageToTask, fileNameFor } from "@/lib/task-image";
 import {
   findImageModel, isRatio, startImage, pollImage, downloadImage, listImageModels,
   configuredProviders, RATIOS, type ImageModelInfo, type Ratio,
@@ -21,79 +20,6 @@ import {
 // Sem MinIO configurado (storageEnabled false) nada é anexado: devolvemos a
 // imagem pra tela mesmo assim, pra dar pra testar prompt e modelo antes do
 // storage subir. A UI avisa que não foi salva.
-
-const PUBLIC_FIELDS = {
-  id: true, fileName: true, mimeType: true, size: true, createdAt: true,
-  ticketMessageId: true, uploadedById: true,
-  uploadedBy: { select: { name: true } },
-} as const;
-
-function extOf(mimeType: string): string {
-  if (mimeType.includes("jpeg") || mimeType.includes("jpg")) return "jpg";
-  if (mimeType.includes("webp")) return "webp";
-  return "png";
-}
-
-/** ia-<resumo-do-prompt>-<n>.png — dá pra reconhecer o arquivo na lista. */
-function fileNameFor(prompt: string, mimeType: string, index: number): string {
-  const slug = prompt
-    .normalize("NFD").replace(/[̀-ͯ]/g, "")
-    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
-    .slice(0, 40) || "imagem";
-  const stamp = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
-  return `ia-${slug}-${stamp}${index > 0 ? `-${index + 1}` : ""}.${extOf(mimeType)}`;
-}
-
-/** Grava a imagem no bucket, registra o StorageObject e anexa na tarefa. */
-async function attachToTask(opts: {
-  companyId: string;
-  projectTaskId: string;
-  session: any;
-  buffer: Buffer;
-  mimeType: string;
-  fileName: string;
-}) {
-  const id = randomUUID();
-  const key = `companies/${opts.companyId}/project-tasks/${opts.projectTaskId}/${id}/${safeKeyName(opts.fileName)}`;
-  await putObject(key, opts.buffer, opts.mimeType);
-
-  // Já nasce READY: o upload foi feito aqui no servidor, não tem passo do
-  // navegador pra confirmar (é o que o /api/storage/[id]/complete faz).
-  const file = await prisma.storageObject.create({
-    data: {
-      companyId: opts.companyId,
-      bucket: S3_BUCKET,
-      key,
-      fileName: opts.fileName,
-      mimeType: opts.mimeType,
-      size: opts.buffer.length,
-      status: "READY",
-      projectTaskId: opts.projectTaskId,
-      uploadedById: (opts.session.user as any)?.id ?? null,
-    },
-    select: PUBLIC_FIELDS,
-  });
-
-  // Mesmo feed de ações do upload manual: "X anexou arquivo.png".
-  const task = await prisma.projectTask.findUnique({
-    where: { id: opts.projectTaskId },
-    select: { projectId: true },
-  });
-  if (task) {
-    await prisma.projectTaskEvent.create({
-      data: {
-        taskId: opts.projectTaskId, projectId: task.projectId, type: "FILE",
-        fromText: file.id, toText: file.fileName,
-        authorId: (opts.session.user as any)?.id ?? null,
-        authorName: (opts.session.user as any)?.name ?? null,
-      },
-    }).catch(() => {});
-  }
-  // Tarefa espelhada no ClickUp: o arquivo vai pra lá também (em segundo plano).
-  void pushFileToClickup(file.id);
-
-  return file;
-}
 
 /** Sessão + permissão na tarefa (inclui o gate do módulo Projetos). */
 async function guard(projectId: string, taskId: string) {
@@ -218,10 +144,11 @@ async function finish(
   const files = [];
   for (const [i, img] of images.entries()) {
     files.push(
-      await attachToTask({
+      await attachImageToTask({
         companyId: g.companyId,
         projectTaskId,
-        session: g.session,
+        userId:   (g.session.user as any)?.id ?? null,
+        userName: (g.session.user as any)?.name ?? null,
         buffer: img.buffer,
         mimeType: img.mimeType,
         fileName: fileNameFor(prompt, img.mimeType, i),

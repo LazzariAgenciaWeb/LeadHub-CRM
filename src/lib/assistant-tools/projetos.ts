@@ -11,6 +11,9 @@ import {
   createEtapa, listEtapas, etapaLabel, ensureEtapaClickupTask, pushTaskToClickup,
 } from "@/lib/project-etapas";
 import { syncProjectFromClickup } from "@/lib/project-sync";
+import { generateImageForTask } from "@/lib/task-image";
+import { listImageModels, configuredProviders, isRatio, RATIOS, type Ratio } from "@/lib/image-gen";
+import { storageEnabled } from "@/lib/storage/s3";
 
 /**
  * Etapas e tarefas de projeto pelo assistente.
@@ -547,6 +550,99 @@ export const sincronizarProjeto: ToolDef<{ projetoId: string }> = {
 };
 
 
+const MODELO_PADRAO = "nano-banana-pro";
+
+export const listarModelosImagem: ToolDef<Record<string, never>> = {
+  name: "listar_modelos_imagem",
+  description:
+    "Modelos de geração de imagem por IA disponíveis, com pra que serve cada um, quantas imagens gera por chamada e se é instantâneo ou leva alguns segundos. Também diz quais formatos existem e se o provedor está configurado. Use pra escolher o modelo certo pro tipo de peça ANTES de chamar gerar_imagem_tarefa.",
+  input_schema: { type: "object", properties: {} },
+  run: async () => {
+    const modelos   = listImageModels();
+    const provedores = await configuredProviders();
+    const temStorage = storageEnabled();
+
+    if (modelos.length === 0) return fail("Nenhum modelo de imagem disponível nesta instalação.");
+
+    const linhas = modelos.map(
+      (m) => `• ${m.id} — ${m.label}: ${m.desc} (${m.mode === "sync" ? "na hora" : "leva alguns segundos"}, até ${m.maxImages} imagem(ns) por chamada, provedor ${m.provider})`,
+    );
+    const avisos: string[] = [];
+    if (!provedores.freepik) avisos.push("ATENÇÃO: o Freepik não tem chave configurada — nenhum modelo vai funcionar até configurar.");
+    if (!temStorage) avisos.push("ATENÇÃO: o storage de arquivos não está configurado — a imagem não teria onde ser anexada, então a geração é recusada.");
+
+    return ok(
+      [
+        `${modelos.length} modelo(s). Padrão quando você não escolhe: ${MODELO_PADRAO}.`,
+        ...linhas,
+        `Formatos: ${RATIOS.map((r) => r.label).join(" | ")}`,
+        ...avisos,
+      ].join("\n"),
+      { data: { modelos, formatos: RATIOS, provedores, storage: temStorage, padrao: MODELO_PADRAO } },
+    );
+  },
+};
+
+export const gerarImagemTarefa: ToolDef<{
+  tarefaId: string; prompt: string; formato?: string; modelo?: string; quantidade?: number;
+}> = {
+  name: "gerar_imagem_tarefa",
+  description:
+    "Gera uma imagem por IA e ANEXA na tarefa do projeto (e no ClickUp, quando a tarefa é espelhada). Espera a imagem ficar pronta e devolve o arquivo — é uma chamada só. O prompt vale mais que o modelo: descreva cena, estilo, cores, o que aparece escrito e o que NÃO deve aparecer. Formato default 1:1; use 4:5 pra feed e 9:16 pra story/reels. Modelo default " + MODELO_PADRAO + " (bom com texto dentro da imagem); veja listar_modelos_imagem pra escolher outro. Gasta crédito do provedor a cada chamada — não repita sem mudar o prompt.",
+  mutating: true,
+  input_schema: {
+    type: "object",
+    properties: {
+      tarefaId:   { type: "string", description: "Id da tarefa de projeto (listar_tarefas_projeto)." },
+      prompt:     { type: "string", description: "Descrição da imagem, 3 a 4000 caracteres. Quanto mais específico, melhor." },
+      formato:    { type: "string", description: `Proporção: ${RATIOS.map((r) => r.value).join(" | ")}. Default 1:1.` },
+      modelo:     { type: "string", description: `Id do modelo (listar_modelos_imagem). Default ${MODELO_PADRAO}.` },
+      quantidade: { type: "number", description: "Quantas imagens gerar. Só o modelo 'classic' aceita mais de 1; os outros ignoram." },
+    },
+    required: ["tarefaId", "prompt"],
+  },
+  run: async (input, ctx) => {
+    const task = await loadTask(input.tarefaId, ctx.companyId);
+    if (!task) return fail(`Tarefa ${input.tarefaId} não encontrada nesta empresa. Use listar_tarefas_projeto pra pegar o id certo.`);
+
+    const prompt = (input.prompt ?? "").trim();
+    if (prompt.length < 3)    return fail("Descreva a imagem — o prompt precisa de pelo menos 3 caracteres.");
+    if (prompt.length > 4000) return fail("Prompt muito longo (máximo 4000 caracteres).");
+
+    if (input.formato && !isRatio(input.formato)) {
+      return fail(`Formato "${input.formato}" não existe. Use um destes: ${RATIOS.map((r) => r.value).join(", ")}.`);
+    }
+    const ratio: Ratio = isRatio(input.formato) ? input.formato : "1:1";
+
+    const r = await generateImageForTask({
+      companyId:     ctx.companyId,
+      projectTaskId: task.id,
+      userId:        ctx.userId,
+      userName:      ctx.userName,
+      prompt,
+      ratio,
+      modelId:       input.modelo?.trim() || MODELO_PADRAO,
+      numImages:     input.quantidade,
+    });
+    if (!r.ok) return fail(r.reason);
+
+    const nomes = r.files.map((f) => f.fileName).join(", ");
+    const links = r.files.map((f) => appUrl(`/api/storage/${f.id}`));
+    return ok(
+      `${r.files.length} imagem(ns) gerada(s) com ${r.model.label} (${ratio}) e anexada(s) em "${task.title}": ${nomes}.` +
+        (task.clickupTaskId ? " Também vai pro ClickUp." : "") +
+        `\n${links.join("\n")}`,
+      {
+        data: {
+          tarefaId: task.id, modelo: r.model.id, modeloLabel: r.model.label, formato: ratio, prompt,
+          arquivos: r.files.map((f) => ({ id: f.id, nome: f.fileName, tipo: f.mimeType, bytes: f.size, url: appUrl(`/api/storage/${f.id}`) })),
+        },
+        link: appUrl(`/projetos/${task.project.id}`),
+      },
+    );
+  },
+};
+
 export const projetosTools: ToolDef[] = [
   listarEtapasProjeto,
   criarEtapaProjeto,
@@ -555,4 +651,6 @@ export const projetosTools: ToolDef[] = [
   atualizarTarefaProjeto,
   comentarTarefaProjeto,
   sincronizarProjeto,
+  listarModelosImagem,
+  gerarImagemTarefa,
 ];
