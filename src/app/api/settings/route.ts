@@ -38,6 +38,8 @@ export async function PUT(req: NextRequest) {
     "anthropic_model",
     "assistant_provider",
     "assistant_openai_model",
+    "freepik_api_key",
+    "freepik_base_url",
     "onboarding_video_url",
   ];
 

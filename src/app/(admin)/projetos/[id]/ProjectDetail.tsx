@@ -15,6 +15,7 @@ import ProjectMateriais from "./ProjectMateriais";
 import { ApprovalCard, TaskApprovalBar, type TaskApproval } from "./ProjectApproval";
 import ClickupAttachments from "./ClickupAttachments";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
+import TaskImageGen from "./TaskImageGen";
 import { uploadFile, type StoredFile } from "@/components/attachments/upload";
 import SaveToLibraryButton from "@/components/attachments/SaveToLibraryButton";
 import { ATTACH_STATUSES, type AttachStatus } from "@/lib/checklist";
@@ -1840,6 +1841,14 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
             onUploaded={(f) => void logPanelUpload(f)}
             onDeleted={dropDeletedFile}
             libraryClientId={clientId}
+          />
+
+          {/* Gerar a arte por IA aqui mesmo: a imagem pronta entra em Arquivos
+              (e vai pro ClickUp quando a tarefa está espelhada). */}
+          <TaskImageGen
+            projectId={projectId}
+            taskId={task.id}
+            onAttached={() => { setAttachRefreshKey((k) => k + 1); void loadEvents(); }}
           />
 
           {task.clickupTaskId && (

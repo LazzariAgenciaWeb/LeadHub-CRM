@@ -48,6 +48,9 @@ export default function OpenAISettings({
   const [anthropicModel, setAnthropicModel] = useState(settings.anthropic_model ?? "claude-opus-5");
   const [assistantProvider, setAssistantProvider] = useState(settings.assistant_provider === "openai" ? "openai" : "anthropic");
   const [assistantOpenAIModel, setAssistantOpenAIModel] = useState(settings.assistant_openai_model ?? "gpt-4o-mini");
+  const [freepikKey, setFreepikKey] = useState(settings.freepik_api_key ?? "");
+  const [freepikTesting, setFreepikTesting] = useState(false);
+  const [freepikResult, setFreepikResult] = useState<{ ok: boolean; error?: string } | null>(null);
   const [saving, setSaving]   = useState(false);
   const [saved, setSaved]     = useState(false);
   const [testing, setTesting] = useState(false);
@@ -68,6 +71,7 @@ export default function OpenAISettings({
         { key: "anthropic_model",   value: anthropicModel },
         { key: "assistant_provider",     value: assistantProvider },
         { key: "assistant_openai_model", value: assistantOpenAIModel },
+        { key: "freepik_api_key", value: freepikKey },
       ]),
     });
     setSaving(false);
@@ -101,6 +105,21 @@ export default function OpenAISettings({
       setTestResult({ ok: false, error: "Falha na conexão com a API da OpenAI" });
     }
     setTesting(false);
+  }
+
+  // A API do Freepik não libera CORS: o teste passa pelo nosso servidor.
+  async function handleFreepikTest() {
+    if (!freepikKey.trim()) return;
+    setFreepikTesting(true);
+    setFreepikResult(null);
+    const res = await fetch("/api/integrations/freepik/test", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ apiKey: freepikKey }),
+    }).catch(() => null);
+    const data = await res?.json().catch(() => null);
+    setFreepikResult(data?.ok ? { ok: true } : { ok: false, error: data?.error ?? "Falha ao testar a chave" });
+    setFreepikTesting(false);
   }
 
   const selectedModel = ALL_MODELS.find((m) => m.value === model);
@@ -266,6 +285,52 @@ export default function OpenAISettings({
               </div>
             </div>
             <p className="text-slate-600 text-[10px]">Preços por 1M tokens (entrada / saída), referência. A transcrição de áudio usa sempre a OpenAI (Whisper).</p>
+          </div>
+
+          {/* Freepik — geração de imagem por IA (usada nas tarefas de arte) */}
+          <div className="pt-4 border-t border-[#1e2d45] space-y-4">
+            <div>
+              <h3 className="text-white font-bold text-sm">🎨 Freepik — Geração de imagem</h3>
+              <p className="text-slate-500 text-xs mt-0.5">
+                Gera a imagem direto na tarefa de arte do projeto (o arquivo já fica anexado nela). Chave em{" "}
+                <a href="https://www.freepik.com/api" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">freepik.com/api</a>
+                {" · "}Consumo em <a href="https://www.magnific.com/developers/dashboard/api-key" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">dashboard da API</a>.
+                É cobrado por crédito a cada imagem — o modelo clássico gasta pouco, Mystic e Nano Banana gastam mais.
+              </p>
+              <p className="text-slate-500 text-xs mt-1.5">
+                A OpenAI também sabe gerar imagem (gpt-image 2.5), mas está desligada de propósito: o crédito dela fica
+                reservado pro assistente, WhatsApp e transcrição de áudio. Pra ligar, veja <code className="text-slate-400">OPENAI_IMAGES_ENABLED</code> em <code className="text-slate-400">src/lib/image-gen.ts</code>.
+              </p>
+            </div>
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">API Key Freepik</label>
+              <div className="flex gap-2">
+                <input
+                  type="password"
+                  value={freepikKey}
+                  onChange={(e) => { setFreepikKey(e.target.value); setFreepikResult(null); }}
+                  placeholder="FPSX••••••••••••••••••••••••••••••••"
+                  className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                />
+                <button
+                  type="button"
+                  onClick={handleFreepikTest}
+                  disabled={freepikTesting || !freepikKey.trim()}
+                  className="px-4 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 text-sm font-medium hover:bg-[#1e2d45] disabled:opacity-40 transition-colors whitespace-nowrap"
+                >
+                  {freepikTesting ? "Testando..." : "Testar"}
+                </button>
+              </div>
+              {freepikResult && (
+                <div className={`mt-2 flex items-center gap-2 text-xs px-3 py-2 rounded-lg border ${
+                  freepikResult.ok
+                    ? "text-green-400 bg-green-500/10 border-green-500/20"
+                    : "text-red-400 bg-red-500/10 border-red-500/20"
+                }`}>
+                  {freepikResult.ok ? "✅ Conectado — chave válida" : `❌ ${freepikResult.error}`}
+                </div>
+              )}
+            </div>
           </div>
 
           <button
