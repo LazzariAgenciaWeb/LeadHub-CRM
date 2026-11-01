@@ -24,7 +24,7 @@ export const LINKED_TASK_SELECT = {
  * quando o ClickUp foi atualizado DEPOIS da última edição no LeadHub — edição
  * local mais nova é preservada. Comentários são append-only (merge sem eco).
  */
-export async function pullClickupIntoTask(apiToken: string, lt: LinkedTask, src: ClickupTaskLite): Promise<void> {
+export async function pullClickupIntoTask(apiToken: string, lt: LinkedTask, src: ClickupTaskLite, opts: { refreshLinks?: boolean } = {}): Promise<void> {
   const remoteMs   = src.dateUpdated ?? 0;
   const remoteWins = remoteMs > lt.updatedAt.getTime();
 
@@ -34,6 +34,15 @@ export async function pullClickupIntoTask(apiToken: string, lt: LinkedTask, src:
   let desc: string | null = null;
   if (remoteWins || noLocalDesc) {
     try { desc = (await fetchClickupTaskDescription(apiToken, lt.clickupTaskId!)) || null; } catch { /* silencioso */ }
+  } else if (opts.refreshLinks) {
+    // Descritivo trazido antes sem o endereço dos links ("clique aqui" sem url):
+    // repõe os links só se, tirando-os, o texto do ClickUp é o mesmo daqui.
+    try {
+      const remote = await fetchClickupTaskDescription(apiToken, lt.clickupTaskId!);
+      const flat = (t: string) => t.replace(/\s*\(https?:\/\/[^)\s]+\)/g, "").replace(/\s+/g, " ").trim();
+      const local = lt.description ?? "";
+      if (remote && remote !== local && /https?:\/\//.test(remote) && (flat(remote) === flat(local) || flat(remote).startsWith(flat(local)))) desc = remote;
+    } catch { /* silencioso */ }
   }
 
   // Comentários do ClickUp → andamento. Pula os que já temos por id do ClickUp
@@ -49,9 +58,20 @@ export async function pullClickupIntoTask(apiToken: string, lt: LinkedTask, src:
     // equipe quando o webhook chega antes de o cid ser gravado.
     const fresh = cmts.filter((c) =>
       !c.text.startsWith("[Cliente]") && !(c.cid && seenCid.has(c.cid)) && !seen.has(`${c.text}|${c.at}`));
-    if (fresh.length) {
+    // Comentários já trazidos antes sem o endereço dos links: atualiza o texto
+    // quando o do ClickUp traz um link que o nosso não tem (mesmo cid).
+    const byCid = new Map(cmts.filter((c) => c.cid).map((c) => [c.cid!, c.text]));
+    let fixedLinks = false;
+    const patched = existing.map((c) => {
+      const remote = c.cid ? byCid.get(c.cid) : undefined;
+      const urls = remote?.match(/https?:\/\/\S+/g) ?? [];
+      if (!remote || remote === c.text || !urls.some((u) => !c.text.includes(u))) return c;
+      fixedLinks = true;
+      return { ...c, text: remote };
+    });
+    if (fresh.length || fixedLinks) {
       mergedComments = sanitizeComments(
-        [...existing, ...fresh].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime()),
+        [...patched, ...fresh].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime()),
       );
     }
   } catch { /* silencioso */ }
@@ -121,7 +141,7 @@ async function doSyncOne(taskId: string): Promise<OneTaskSyncResult> {
 
   const remote = await fetchClickupTaskLite(settings.apiToken, task.clickupTaskId);
   if (!remote) return { ok: false, error: "Não consegui ler a tarefa no ClickUp (apagada ou sem acesso?).", status: 502 };
-  await pullClickupIntoTask(settings.apiToken, task, remote.task);
+  await pullClickupIntoTask(settings.apiToken, task, remote.task, { refreshLinks: true });
 
   let pendingImages = 0;
   try {

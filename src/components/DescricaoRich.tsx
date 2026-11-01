@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { ExternalLink } from "lucide-react";
 
 /**
  * Descritivo de tarefa com imagens/prints INLINE de forma SEGURA.
@@ -12,6 +13,30 @@ import { useRef, useState } from "react";
  */
 
 const TOKEN_RE = /\[\[img:([a-zA-Z0-9_-]+)\]\]/g;
+
+// http(s)://… ou www.… — sem a pontuação final do texto ("." "," ")").
+const URL_RE = /(https?:\/\/[^\s<>"'()]+[^\s<>"'.,;:!?()]|www\.[^\s<>"'()]+[^\s<>"'.,;:!?()])/gi;
+
+/** Endereços (sem repetição) que aparecem no texto. */
+export function extractLinks(text: string | null | undefined): string[] {
+  return text ? [...new Set(text.match(URL_RE) ?? [])] : [];
+}
+
+const hrefOf = (u: string) => (/^https?:\/\//i.test(u) ? u : `https://${u}`);
+
+/** Texto com os endereços clicáveis (nova aba). Só gera <a> — nada de HTML do texto. */
+function Linkified({ text }: { text: string }) {
+  const parts = text.split(URL_RE);
+  return (
+    <>
+      {parts.map((p, i) =>
+        i % 2 === 1
+          ? <a key={i} href={hrefOf(p)} target="_blank" rel="noopener noreferrer" className="text-indigo-300 hover:text-indigo-200 underline decoration-indigo-400/40 break-all">{p}</a>
+          : p,
+      )}
+    </>
+  );
+}
 
 /** true se o texto tem pelo menos um print embutido. */
 export function hasInlineImages(text: string | null | undefined): boolean {
@@ -36,7 +61,7 @@ export function DescricaoView({
   TOKEN_RE.lastIndex = 0;
   while ((m = TOKEN_RE.exec(text)) !== null) {
     if (m.index > last) {
-      parts.push(<span key={key++} className="whitespace-pre-wrap">{text.slice(last, m.index)}</span>);
+      parts.push(<span key={key++} className="whitespace-pre-wrap"><Linkified text={text.slice(last, m.index)} /></span>);
     }
     // eslint-disable-next-line @next/next/no-img-element
     parts.push(
@@ -51,7 +76,7 @@ export function DescricaoView({
     last = m.index + m[0].length;
   }
   if (last < text.length) {
-    parts.push(<span key={key++} className="whitespace-pre-wrap">{text.slice(last)}</span>);
+    parts.push(<span key={key++} className="whitespace-pre-wrap"><Linkified text={text.slice(last)} /></span>);
   }
   return <div className={className}>{parts}</div>;
 }
@@ -138,6 +163,17 @@ export function DescricaoEditor({
         {uploading && <span className="text-[10px] text-amber-400">enviando…</span>}
         {err && <span className="text-[10px] text-red-400">{err}</span>}
       </div>
+      {/* No campo de edição link não clica — os da descrição ficam aqui embaixo. */}
+      {extractLinks(value).length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {extractLinks(value).map((u) => (
+            <a key={u} href={hrefOf(u)} target="_blank" rel="noopener noreferrer" title={u}
+              className="inline-flex items-center gap-1 max-w-full text-[11px] px-2 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 hover:bg-indigo-500/20 hover:text-white">
+              <ExternalLink className="w-3 h-3 flex-shrink-0" /><span className="truncate">{u.replace(/^https?:\/\/(www\.)?/i, "").slice(0, 60)}</span>
+            </a>
+          ))}
+        </div>
+      )}
       {hasInlineImages(value) && (
         <div className="mt-2 p-3 rounded-lg border border-[#1e2d45] bg-[#0a0f1a]">
           <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-wide">Prévia (como o cliente vê)</p>

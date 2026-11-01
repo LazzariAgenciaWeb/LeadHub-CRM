@@ -259,15 +259,52 @@ export async function markClickupTaskDone(
   }
 }
 
-/** Busca a descrição (texto) de uma tarefa do ClickUp. Retorna "" se vazia/erro. */
+/** Busca a descrição (texto) de uma tarefa do ClickUp. Retorna "" se vazia/erro.
+ *  `text_content` perde o endereço dos links com nome ("clique aqui") — o
+ *  endereço vem da versão markdown e é reposto no texto (ver withMarkdownLinks). */
 export async function fetchClickupTaskDescription(apiToken: string, taskId: string): Promise<string> {
   if (!taskId) return "";
   try {
-    const res = await fetch(taskApiUrl(taskId, ""), { headers: { Authorization: apiToken }, cache: "no-store" });
+    const url = taskApiUrl(taskId, "");
+    const res = await fetch(`${url}${url.includes("?") ? "&" : "?"}include_markdown_description=true`, { headers: { Authorization: apiToken }, cache: "no-store" });
     if (!res.ok) return "";
     const t = await res.json();
-    return String(t.text_content ?? t.description ?? "").trim();
+    const text = String(t.text_content ?? t.description ?? "").trim();
+    return withMarkdownLinks(text, String(t.markdown_description ?? "")).trim();
   } catch { return ""; }
+}
+
+/** Repõe no texto puro os endereços dos links `[nome](url)` do markdown:
+ *  "nome" vira "nome (url)"; se o nome não aparece no texto, o link vai pro fim. */
+export function withMarkdownLinks(text: string, markdown: string): string {
+  if (!markdown) return text;
+  let out = text;
+  const extra: string[] = [];
+  for (const m of markdown.matchAll(/\[([^\]\n]*)\]\((https?:\/\/[^)\s]+)\)/g)) {
+    const label = m[1].trim(); const href = m[2];
+    if (out.includes(href)) continue;
+    const at = label ? out.indexOf(label) : -1;
+    if (at >= 0) out = `${out.slice(0, at + label.length)} (${href})${out.slice(at + label.length)}`;
+    else extra.push(label && label !== href ? `${label}: ${href}` : href);
+  }
+  return extra.length ? `${out}\n\n${extra.join("\n")}` : out;
+}
+
+/** Texto de um comentário do ClickUp com os endereços dos links. `comment_text`
+ *  traz só o nome do link; o endereço mora em `comment[].attributes.link`. */
+export function clickupCommentText(c: any): string {
+  const parts: any[] = Array.isArray(c?.comment) ? c.comment : [];
+  if (!parts.length) return String(c?.comment_text ?? "").trim();
+  return parts.map((p) => {
+    const text = String(p?.text ?? "");
+    const href = p?.attributes?.link ?? p?.bookmark?.url ?? p?.link?.url ?? null;
+    if (!href || typeof href !== "string") return text;
+    const label = text.trim();
+    // Rótulo que já é o próprio endereço (com ou sem https://) → só o endereço.
+    const bare = href.replace(/^https?:\/\//i, "");
+    const isUrl = !label || label === href || (label.includes(".") && !/\s/.test(label) && bare.startsWith(label.replace(/^https?:\/\//i, "")));
+    return isUrl ? href : `${text} (${href})`;
+  }).join("").trim() || String(c?.comment_text ?? "").trim();
 }
 
 export type ClickupAttachment = {
@@ -323,7 +360,7 @@ export async function fetchClickupTaskComments(apiToken: string, taskId: string)
     const data = await res.json();
     const raw: any[] = data.comments ?? [];
     const out = raw.map((c) => {
-      const text = String(c.comment_text ?? "").trim();
+      const text = clickupCommentText(c);
       const ms = c.date ? Number(c.date) : NaN;
       const at = Number.isFinite(ms) ? new Date(ms).toISOString() : new Date().toISOString();
       const au = String(c.user?.username ?? c.user?.email ?? "").trim() || undefined;
