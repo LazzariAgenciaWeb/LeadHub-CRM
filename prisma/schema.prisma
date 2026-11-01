@@ -148,6 +148,11 @@ model AssistantNote {
   urgent          Boolean   @default(false)
   // Arquivado: guardado sem ocupar o bloquinho (ideia/nota que não vira ação).
   archivedAt      DateTime?
+  // Tarefas de projeto (ProjectTask.id) que este item acompanha. O bloquinho
+  // mostra "Abrir tarefa" e o item se conclui sozinho quando TODAS estiverem
+  // concluídas (ou excluídas). Preenchido pelo MCP ou extraído do link
+  // /projetos/<id>?tarefa=<id> no texto.
+  projectTaskIds  String[]  @default([])
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   events          AssistantNoteEvent[]

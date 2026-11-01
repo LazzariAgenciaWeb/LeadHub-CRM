@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { reconcileTaskNotes } from "./task-links";
 import { sendPushToUser } from "@/lib/push";
 import { buildFilaDoDia, formatFila } from "@/lib/assistant-tools/registry";
 import { fmtDateTime, appUrl } from "@/lib/assistant-tools/types";
@@ -31,6 +32,8 @@ function localHour(d = new Date()): number {
 }
 
 export async function dispatchDueReminders(): Promise<{ sent: number }> {
+  // Aviso de tarefa de projeto já concluída não deve tocar no WhatsApp.
+  await reconcileTaskNotes().catch((e) => console.error("[reminders] reconcileTaskNotes", e));
   const now = new Date();
   const due = await prisma.assistantNote.findMany({
     where: {

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { appUrl, fmtDateTime } from "@/lib/assistant-tools/types";
 import { logNoteEvent } from "./note-events";
 import { findSimilarOpenNote, appendToNote, normalizeText } from "./dedupe";
+import { LINKABLE_KINDS, extractTaskIds, stripTaskLinkLines, validTaskIds } from "./task-links";
 
 /**
  * Entrada ÚNICA de itens no bloquinho (chat, WhatsApp, Claude via MCP,
@@ -18,6 +19,8 @@ export interface IntakeCtx { userId: string; companyId: string | null; userName:
 export interface IntakeDraft {
   kind: Kind; title: string; body?: string | null; dueAt?: Date | null; tags?: string[]; clientCompanyId?: string | null;
   important?: boolean; urgent?: boolean; forceNew?: boolean;
+  /** Tarefas de projeto que o item acompanha (ver task-links.ts). Sem isso, extrai do link no texto. */
+  projectTaskIds?: string[];
 }
 export type IntakeResult =
   | { action: "created"; id: string; title: string; message: string }
@@ -33,7 +36,14 @@ const ARRIVE_RE = /\b(chegou|nova fatura|fatura recebida|vence|vencimento|penden
 export async function intakeNote(ctx: IntakeCtx, draftIn: IntakeDraft): Promise<IntakeResult> {
   let draft = draftIn;
   const title = draft.title.trim();
-  const body = draft.body?.trim() || null;
+  let body = draft.body?.trim() || null;
+  // Vínculo com tarefa de projeto: explícito ou pelo link /projetos/…?tarefa=… no texto.
+  let projectTaskIds: string[] = [];
+  if (LINKABLE_KINDS.has(draft.kind)) {
+    const asked = draft.projectTaskIds?.length ? draft.projectTaskIds : extractTaskIds(`${title}\n${body ?? ""}`);
+    projectTaskIds = await validTaskIds([...new Set(asked)].slice(0, 10), ctx.companyId);
+    if (projectTaskIds.length) body = stripTaskLinkLines(body);
+  }
   const tags = [...new Set((draft.tags ?? []).map((t) => t.trim().toLowerCase().replace(/^#/, "")).filter(Boolean))].slice(0, 6);
   const text = normalizeText(`${title} ${body ?? ""}`);
   const now = new Date();
@@ -98,6 +108,19 @@ export async function intakeNote(ctx: IntakeCtx, draftIn: IntakeDraft): Promise<
   }
 
   // ── 2 e 3. Assunto já aberto? ─────────────────────────────────────────────
+  // Mesma tarefa de projeto já acompanhada por um item aberto → acrescenta nele.
+  if (!draft.forceNew && projectTaskIds.length) {
+    const same = await prisma.assistantNote.findFirst({
+      where: { userId: ctx.userId, done: false, archivedAt: null, projectTaskIds: { hasSome: projectTaskIds } },
+      select: { id: true, title: true, projectTaskIds: true },
+    });
+    if (same) {
+      await appendToNote(same.id, { title, body, tags, dueAt: draft.dueAt ?? null, source: ctx.channel, sourceLabel: ctx.sourceLabel });
+      const merged = [...new Set([...same.projectTaskIds, ...projectTaskIds])];
+      if (merged.length !== same.projectTaskIds.length) await prisma.assistantNote.update({ where: { id: same.id }, data: { projectTaskIds: merged } });
+      return { action: "appended", id: same.id, title: same.title, message: `📎 Acrescentado ao item que já acompanha essa tarefa: "${same.title}".` };
+    }
+  }
   if (!draft.forceNew) {
     const similar = await findSimilarOpenNote(ctx.userId, title, { body, clientCompanyId: draft.clientCompanyId ?? null, kind: draft.kind });
     if (similar) {
@@ -119,7 +142,7 @@ export async function intakeNote(ctx: IntakeCtx, draftIn: IntakeDraft): Promise<
 
   // ── 4. Cria ───────────────────────────────────────────────────────────────
   const n = await prisma.assistantNote.create({
-    data: { userId: ctx.userId, companyId: ctx.companyId, kind: draft.kind, title, body, dueAt: draft.dueAt ?? null, tags, source: ctx.channel, clientCompanyId: draft.clientCompanyId ?? null, important, urgent },
+    data: { userId: ctx.userId, companyId: ctx.companyId, kind: draft.kind, title, body, dueAt: draft.dueAt ?? null, tags, source: ctx.channel, clientCompanyId: draft.clientCompanyId ?? null, important, urgent, projectTaskIds: LINKABLE_KINDS.has(draft.kind) ? projectTaskIds : [] },
     select: { id: true },
   });
   await logNoteEvent(n.id, "CREATED", ctx.channel, ctx.sourceLabel ? `rotina: ${ctx.sourceLabel}` : null);

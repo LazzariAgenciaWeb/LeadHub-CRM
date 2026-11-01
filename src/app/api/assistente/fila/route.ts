@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAssistantUser } from "@/lib/personal-assistant/session";
 import { buildFilaDoDia } from "@/lib/assistant-tools/registry";
+import { reconcileTaskNotes } from "@/lib/personal-assistant/task-links";
 
 /** GET /api/assistente/fila → fila de próximas ações do usuário logado. */
 export async function GET() {
@@ -9,6 +10,7 @@ export async function GET() {
   if (!auth.ok) return auth.response;
   const me = await prisma.user.findUnique({ where: { id: auth.userId }, select: { companyId: true, role: true } });
   if (!me?.companyId) return NextResponse.json({ error: "Usuário sem empresa" }, { status: 400 });
+  await reconcileTaskNotes(auth.userId).catch(() => {});
   const fila = await buildFilaDoDia({ userId: auth.userId, companyId: me.companyId, isManager: me.role !== "CLIENT" });
   return NextResponse.json(fila);
 }

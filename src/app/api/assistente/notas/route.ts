@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAssistantUser } from "@/lib/personal-assistant/session";
 import { parseTags } from "@/lib/personal-assistant/tags";
 import { logNoteEvent } from "@/lib/personal-assistant/note-events";
+import { reconcileTaskNotes, taskInfo } from "@/lib/personal-assistant/task-links";
 
 /**
  * GET  /api/assistente/notas?kind=&done=1  → bloquinho do usuário
@@ -18,6 +19,7 @@ export async function GET(req: NextRequest) {
   const archived = req.nextUrl.searchParams.get("archived"); // "1" = só arquivados; "all" = todos
   const origem = req.nextUrl.searchParams.get("origem"); // "meu" | "rotinas"
   const tag = req.nextUrl.searchParams.get("tag")?.trim().toLowerCase();
+  await reconcileTaskNotes(auth.userId).catch(() => {}); // aviso de tarefa já concluída some na hora
   const rows = await prisma.assistantNote.findMany({
     where: {
       userId: auth.userId,
@@ -31,7 +33,9 @@ export async function GET(req: NextRequest) {
     take: 200,
     include: { events: { orderBy: { createdAt: "asc" }, select: { id: true, type: true, detail: true, source: true, createdAt: true } } },
   });
-  return NextResponse.json(rows);
+  // "Abrir tarefa": título + link de cada tarefa de projeto ligada ao item.
+  const info = await taskInfo(rows.flatMap((r) => r.projectTaskIds));
+  return NextResponse.json(rows.map((r) => ({ ...r, projectTasks: r.projectTaskIds.map((id) => info.get(id)).filter(Boolean) })));
 }
 
 export async function POST(req: NextRequest) {

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
-import { AlarmClock, Archive, ArchiveRestore, Banknote, Bot, CalendarDays, Check, CircleCheck, CircleDashed, CircleX, Ellipsis, Filter, Flame, Forward, Hourglass, Lightbulb, MessageSquare, Mic, Pencil, Plug, Plus, RefreshCw, Repeat, RotateCcw, Send, Smartphone, Square, SquareCheck, StickyNote, Trash2, TriangleAlert, Wallet, X } from "lucide-react";
+import { AlarmClock, Archive, ArchiveRestore, Banknote, Bot, CalendarDays, Check, CircleCheck, CircleDashed, CircleX, Ellipsis, ExternalLink, Filter, Flame, Forward, Hourglass, Lightbulb, MessageSquare, Mic, Pencil, Plug, Plus, RefreshCw, Repeat, RotateCcw, Send, Smartphone, Square, SquareCheck, StickyNote, Trash2, TriangleAlert, Wallet, X } from "lucide-react";
 
 /* ── tipos espelhando as APIs ─────────────────────────────────────────────── */
 interface ExecutedAction { tool: string; ok: boolean; message: string; link?: string }
@@ -31,10 +31,12 @@ const QUAD_FLAGS: Record<Quadrant, { important: boolean; urgent: boolean }> = {
 const quadrantOf = (n: { important?: boolean; urgent?: boolean }): Quadrant => (n.important ?? true) ? ((n.urgent ?? false) ? "fazer" : "agendar") : ((n.urgent ?? false) ? "delegar" : "eliminar");
 function plusDays(d: number, hour = 9): string { const x = new Date(); x.setDate(x.getDate() + d); x.setHours(hour, 0, 0, 0); return x.toISOString(); }
 interface NoteEvent { id: string; type: "CREATED" | "EDITED" | "DONE" | "REOPENED" | string; detail: string | null; source: string; createdAt: string }
-interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[]; important?: boolean; urgent?: boolean; archivedAt?: string | null; source?: string }
+interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[]; important?: boolean; urgent?: boolean; archivedAt?: string | null; source?: string; projectTasks?: ProjectTaskRef[] }
+/** Tarefa de projeto que o item acompanha: vira o botão "Abrir tarefa" e conclui o item quando fecha. */
+interface ProjectTaskRef { id: string; title: string; link: string; done: boolean }
 
 const EVENT_LABEL: Record<string, string> = { CREATED: "criado", EDITED: "editado", APPENDED: "acrescentado", DONE: "concluído", REOPENED: "reaberto" };
-const SOURCE_LABEL: Record<string, string> = { APP: "no app", WHATSAPP: "pelo WhatsApp", MCP: "pelo Claude", WEBHOOK: "por rotina externa", IPHONE: "no iPhone" };
+const SOURCE_LABEL: Record<string, string> = { APP: "no app", WHATSAPP: "pelo WhatsApp", MCP: "pelo Claude", WEBHOOK: "por rotina externa", IPHONE: "no iPhone", PROJETO: "pela tarefa do projeto" };
 
 const KIND_ICON: Record<string, { Icon: LucideIcon; color: string }> = {
   IDEA: { Icon: Lightbulb, color: "text-amber-300" }, NOTE: { Icon: StickyNote, color: "text-sky-300" },
@@ -43,6 +45,22 @@ const KIND_ICON: Record<string, { Icon: LucideIcon; color: string }> = {
 function KindIcon({ kind, className = "w-3.5 h-3.5" }: { kind: string; className?: string }) {
   const k = KIND_ICON[kind]; if (!k) return <span className="text-slate-500">•</span>;
   return <k.Icon className={`${className} ${k.color} flex-shrink-0`} strokeWidth={2.25} />;
+}
+/** Botão "Abrir tarefa" (nova aba). Com várias tarefas, compacto mostra só a contagem. */
+function OpenTaskButton({ tasks, compact = false }: { tasks?: ProjectTaskRef[]; compact?: boolean }) {
+  if (!tasks?.length) return null;
+  const t = tasks[0];
+  const cls = "inline-flex items-center gap-1 flex-shrink-0 rounded-md border border-indigo-500/35 bg-indigo-500/15 text-indigo-200 hover:bg-indigo-500/25 hover:text-white transition-colors";
+  if (compact) return <a {...linkProps(t.link)} onClick={(e) => e.stopPropagation()} title={tasks.map((x) => x.title).join(" · ")} className={`${cls} text-[10px] px-1.5 py-0.5`}><ExternalLink className="w-3 h-3" />{tasks.length > 1 ? `${tasks.length} tarefas` : "Abrir tarefa"}</a>;
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {tasks.map((x) => (
+        <a key={x.id} {...linkProps(x.link)} title={x.title} className={`${cls} text-[11px] px-2.5 py-1 max-w-full ${x.done ? "opacity-60" : ""}`}>
+          <ExternalLink className="w-3.5 h-3.5" /><span className="truncate">{tasks.length > 1 ? x.title : "Abrir tarefa"}</span>{x.done && <Check className="w-3 h-3 text-emerald-300" />}
+        </a>
+      ))}
+    </div>
+  );
 }
 const Late = () => <TriangleAlert className="inline w-3 h-3 -mt-0.5 mr-0.5 text-red-400" strokeWidth={2.5} />;
 const KIND_LABEL: Record<string, string> = { IDEA: "Ideia", NOTE: "Nota", REMINDER: "Lembrete", TASK: "Tarefa" };
@@ -370,6 +388,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                           <div className={`text-xs truncate ${it.overdue ? "text-red-300" : "text-slate-200"}`}>{it.overdue && <Late />}{it.title}</div>
                           {(it.sub || it.when) && <div className="text-[10px] text-slate-500 truncate">{it.sub}{it.sub && it.when ? " · " : ""}{fmtWhen(it.when)}{it.fromRoutine ? " · rotina" : ""}</div>}
                         </a>
+                        {it.noteId && <OpenTaskButton tasks={notes.find((x) => x.id === it.noteId)?.projectTasks} compact />}
                         {it.noteId && (
                           <div className="hidden group-hover:flex items-center gap-1 flex-shrink-0">
                             <button onClick={() => quick(it.noteId!, "done")} title="Feito" className="text-[11px] px-1.5 py-0.5 rounded bg-emerald-600/30 text-emerald-200 hover:bg-emerald-600/50"><Check className="w-3 h-3" /></button>
@@ -767,6 +786,7 @@ function EisenhowerMatrix({ notes, src, onSrc, onOpen, onMove, onQuick, onFilter
                         <div className={`text-[11px] leading-snug line-clamp-2 ${late ? "text-red-300" : "text-slate-200"}`}>{n.title}</div>
                         {(n.dueAt || n.tags?.length) ? <div className="text-[9px] text-slate-500 truncate">{n.dueAt ? <>{late && <Late />}{fmtWhen(n.dueAt)}</> : ""}{n.dueAt && n.tags?.length ? " · " : ""}{(n.tags ?? []).slice(0, 2).map((t) => `#${t}`).join(" ")}</div> : null}
                       </button>
+                      {n.projectTasks?.length ? <a {...linkProps(n.projectTasks[0].link)} title={`Abrir tarefa: ${n.projectTasks.map((x) => x.title).join(" · ")}`} className="flex-shrink-0 mt-0.5 text-indigo-300 hover:text-white"><ExternalLink className="w-3 h-3" /></a> : null}
                       <div className="hidden group-hover:flex items-center gap-0.5 flex-shrink-0">
                         <button onClick={() => onQuick(n.id, "done")} title="Feito" className="text-[10px] px-1 py-0.5 rounded bg-emerald-600/30 text-emerald-200 hover:bg-emerald-600/50"><Check className="w-3 h-3" /></button>
                         {q === "eliminar" && <button onClick={() => onQuick(n.id, "archive")} title="Arquivar" className="text-[10px] px-1 py-0.5 rounded bg-[#1a2535] text-slate-300 hover:text-white"><Archive className="w-3 h-3" /></button>}
@@ -820,6 +840,7 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
           <div className={`text-xs ${note.done ? "line-through text-slate-500" : overdue ? "text-red-300" : "text-slate-200"} ${open ? "" : "truncate"}`}>{note.archivedAt && <Archive className="inline w-3 h-3 -mt-0.5 mr-1 text-slate-500" />}{note.title}</div>
           {!open && <div className="text-[10px] text-slate-500 truncate flex items-center gap-1"><QuadIcon q={q} className="w-3 h-3" /><span className="truncate">{note.dueAt ? <>{" · "}{overdue && <Late />}{fmtWhen(note.dueAt)}</> : ""}{note.tags?.length ? ` · ${note.tags.map((t) => `#${t}`).join(" ")}` : ""}{note.body ? ` · ${note.body}` : ""}</span></div>}
         </button>
+        {!open && <OpenTaskButton tasks={note.projectTasks} compact />}
         {!note.done && !note.archivedAt && (
           <div className="hidden group-hover:flex items-center gap-1 flex-shrink-0">
             <button onClick={() => onQuick("tomorrow")} title="Adiar pra amanhã 9h" className="text-[10px] px-1.5 py-0.5 rounded bg-[#1a2535] text-slate-300 hover:text-white">+1d</button>
@@ -854,6 +875,12 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
               {note.archivedAt && <button onClick={() => onQuick("unarchive")} className="text-[10px] px-2 py-0.5 rounded-full bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white inline-flex items-center gap-1"><ArchiveRestore className="w-3 h-3" /> desarquivar</button>}
             </div>
           )}
+          {note.projectTasks?.length ? (
+            <div className="space-y-1">
+              <OpenTaskButton tasks={note.projectTasks} />
+              {!note.done && <div className="text-[10px] text-slate-500">Some sozinho quando {note.projectTasks.length > 1 ? "as tarefas forem concluídas" : "a tarefa for concluída"}.</div>}
+            </div>
+          ) : null}
           {note.body && <div className="text-xs text-slate-300 whitespace-pre-wrap break-words bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2">{note.body}</div>}
           {note.done && note.doneNote && (
             <div className="text-xs text-emerald-200 whitespace-pre-wrap break-words bg-emerald-500/10 border border-emerald-500/25 rounded-lg px-3 py-2">

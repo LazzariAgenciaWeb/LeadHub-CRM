@@ -3,6 +3,7 @@ import { type ToolDef, ok, fail, parseDate, fmtDateTime, appUrl } from "./types"
 import { logNoteEvent, describeEdit } from "@/lib/personal-assistant/note-events";
 import { appendToNote, normalizeText } from "@/lib/personal-assistant/dedupe";
 import { intakeNote, delegateToTicket } from "@/lib/personal-assistant/intake";
+import { reconcileTaskNotes } from "@/lib/personal-assistant/task-links";
 
 /**
  * O "bloquinho": ideias, notas, lembretes e tarefas pessoais (AssistantNote).
@@ -19,6 +20,7 @@ function cleanTags(t: unknown): string[] {
   return [...new Set(t.filter((x) => typeof x === "string").map((x) => x.trim().toLowerCase().replace(/^#/, "")).filter(Boolean))].slice(0, 6);
 }
 
+const TAREFAS_PROP = { type: "array", items: { type: "string" }, description: "Ids de tarefas de projeto (ProjectTask) que este item acompanha. O bloquinho mostra o botão 'Abrir tarefa' e o item se CONCLUI SOZINHO quando a(s) tarefa(s) forem concluídas — use pra avisos do tipo 'resolva na tarefa X'. Não precisa repetir o link do GoHub no body. (Sem este campo, o link /projetos/…?tarefa=… no texto é reconhecido.)" } as const;
 const FORCAR_PROP = { type: "boolean", description: "true = criar um item novo mesmo que já exista um do mesmo assunto (default: acrescenta ao existente)." } as const;
 // Matriz de Eisenhower
 const IMPORTANT_PROP = { type: "boolean", description: "Importante = contribui pro objetivo/cliente/dinheiro (default true). Não importante = pode ser delegado ou eliminado." } as const;
@@ -35,11 +37,11 @@ function isSoon(d: Date | null | undefined, now: Date): boolean {
 
 /** Entrada única (regras → auto-resolução → mesmo assunto → cria). Ver intake.ts. */
 async function createOrAppend(ctx: { userId: string; companyId: string; channel: string; userName: string }, input: {
-  kind: Kind; title: string; body?: string | null; dueAt?: Date | null; clientCompanyId?: string | null; tags?: string[]; forcarNovo?: boolean; important?: boolean; urgent?: boolean;
+  kind: Kind; title: string; body?: string | null; dueAt?: Date | null; clientCompanyId?: string | null; tags?: string[]; forcarNovo?: boolean; important?: boolean; urgent?: boolean; projectTaskIds?: string[];
 }): Promise<{ created: boolean; id: string; title: string; message: string }> {
   const r = await intakeNote(
     { userId: ctx.userId, companyId: ctx.companyId, userName: ctx.userName, channel: ctx.channel },
-    { kind: input.kind, title: input.title, body: input.body, dueAt: input.dueAt, tags: cleanTags(input.tags), clientCompanyId: input.clientCompanyId, important: input.important, urgent: input.urgent, forceNew: input.forcarNovo },
+    { kind: input.kind, title: input.title, body: input.body, dueAt: input.dueAt, tags: cleanTags(input.tags), clientCompanyId: input.clientCompanyId, important: input.important, urgent: input.urgent, forceNew: input.forcarNovo, projectTaskIds: input.projectTaskIds?.filter((x) => typeof x === "string") },
   );
   return { created: r.action === "created", id: r.id, title: r.title, message: r.message };
 }
@@ -70,38 +72,38 @@ export const anotar: ToolDef<{ kind?: "IDEA" | "NOTE"; title: string; body?: str
   },
 };
 
-export const criarLembrete: ToolDef<{ title: string; dueAt: string; body?: string; tags?: string[]; forcarNovo?: boolean; importante?: boolean; urgente?: boolean }> = {
+export const criarLembrete: ToolDef<{ title: string; dueAt: string; body?: string; tags?: string[]; forcarNovo?: boolean; importante?: boolean; urgente?: boolean; tarefasProjeto?: string[] }> = {
   name: "criar_lembrete",
   description:
     "Cria um lembrete com data e hora (ISO 8601 com offset -03:00). Na hora marcada o usuário recebe a mensagem no WhatsApp e no app. Use pra 'me lembra de X às Y'. Se o usuário disser só o dia, assuma 09:00. Se já existir item aberto do mesmo assunto, acrescenta nele e antecipa o prazo se o novo for antes.",
   input_schema: {
     type: "object",
-    properties: { title: { type: "string" }, dueAt: { type: "string" }, body: { type: "string" }, tags: TAGS_PROP, forcarNovo: FORCAR_PROP, importante: IMPORTANT_PROP, urgente: URGENT_PROP },
+    properties: { title: { type: "string" }, dueAt: { type: "string" }, body: { type: "string" }, tags: TAGS_PROP, forcarNovo: FORCAR_PROP, importante: IMPORTANT_PROP, urgente: URGENT_PROP, tarefasProjeto: TAREFAS_PROP },
     required: ["title", "dueAt"],
   },
   mutating: true,
   run: async (input, ctx) => {
     const due = parseDate(input.dueAt);
     if (!due) return fail("dueAt inválido.");
-    const r = await createOrAppend(ctx, { kind: "REMINDER", title: input.title, body: input.body, dueAt: due, tags: input.tags, forcarNovo: input.forcarNovo, important: input.importante, urgent: input.urgente });
+    const r = await createOrAppend(ctx, { kind: "REMINDER", title: input.title, body: input.body, dueAt: due, tags: input.tags, forcarNovo: input.forcarNovo, important: input.importante, urgent: input.urgente, projectTaskIds: input.tarefasProjeto });
     return ok(r.message, { data: { id: r.id, appended: !r.created } });
   },
 };
 
-export const criarTarefaPessoal: ToolDef<{ title: string; dueAt?: string; body?: string; clientCompanyId?: string; tags?: string[]; forcarNovo?: boolean; importante?: boolean; urgente?: boolean }> = {
+export const criarTarefaPessoal: ToolDef<{ title: string; dueAt?: string; body?: string; clientCompanyId?: string; tags?: string[]; forcarNovo?: boolean; importante?: boolean; urgente?: boolean; tarefasProjeto?: string[] }> = {
   name: "criar_tarefa_pessoal",
   description:
     "Cria uma tarefa pessoal rápida (to-do do próprio usuário, fora de projetos e chamados). dueAt SÓ quando houver prazo real (não invente data); sem prazo ela fica no bloquinho sem entrar em 'Hoje'. Conteúdo pra gravar (reels) = importante, não urgente, sem dueAt (quadrante Agendar). Aparece na fila do dia quando tem prazo. Prefira criar_chamado quando for demanda de cliente ou da equipe, e criar_tarefa_projeto quando pertencer a um projeto. Se já existir item aberto do mesmo assunto, o conteúdo é ACRESCENTADO nele (não duplica).",
   input_schema: {
     type: "object",
-    properties: { title: { type: "string" }, dueAt: { type: "string" }, body: { type: "string" }, clientCompanyId: { type: "string" }, tags: TAGS_PROP, forcarNovo: FORCAR_PROP, importante: IMPORTANT_PROP, urgente: URGENT_PROP },
+    properties: { title: { type: "string" }, dueAt: { type: "string" }, body: { type: "string" }, clientCompanyId: { type: "string" }, tags: TAGS_PROP, forcarNovo: FORCAR_PROP, importante: IMPORTANT_PROP, urgente: URGENT_PROP, tarefasProjeto: TAREFAS_PROP },
     required: ["title"],
   },
   mutating: true,
   run: async (input, ctx) => {
     const due = input.dueAt ? parseDate(input.dueAt) : null;
     if (input.dueAt && !due) return fail("dueAt inválido.");
-    const r = await createOrAppend(ctx, { kind: "TASK", title: input.title, body: input.body, dueAt: due, clientCompanyId: input.clientCompanyId, tags: input.tags, forcarNovo: input.forcarNovo, important: input.importante, urgent: input.urgente });
+    const r = await createOrAppend(ctx, { kind: "TASK", title: input.title, body: input.body, dueAt: due, clientCompanyId: input.clientCompanyId, tags: input.tags, forcarNovo: input.forcarNovo, important: input.importante, urgent: input.urgente, projectTaskIds: input.tarefasProjeto });
     return ok(r.message, { data: { id: r.id, appended: !r.created } });
   },
 };
@@ -137,6 +139,7 @@ export const listarAnotacoes: ToolDef<{ kind?: Kind; incluirConcluidas?: boolean
     },
   },
   run: async (input, ctx) => {
+    await reconcileTaskNotes(ctx.userId).catch(() => {});
     const rows = await prisma.assistantNote.findMany({
       where: {
         userId: ctx.userId,
@@ -151,11 +154,11 @@ export const listarAnotacoes: ToolDef<{ kind?: Kind; incluirConcluidas?: boolean
       },
       orderBy: [{ done: "asc" }, { dueAt: { sort: "asc", nulls: "last" } }, { createdAt: "desc" }],
       take: 60,
-      select: { id: true, kind: true, title: true, body: true, dueAt: true, done: true, createdAt: true, tags: true, doneNote: true, important: true, urgent: true, source: true },
+      select: { id: true, kind: true, title: true, body: true, dueAt: true, done: true, createdAt: true, tags: true, doneNote: true, important: true, urgent: true, source: true, projectTaskIds: true },
     });
     if (rows.length === 0) return ok("Nada encontrado no bloquinho.", { data: [] });
     const lines = rows.map((r) =>
-      `- ${QUAD_ICON[quadrantOf(r.important, r.urgent)]} ${KIND_LABEL[r.kind as Kind] ?? r.kind} ${r.done ? "✅ " : ""}"${r.title}"${r.dueAt ? ` · ${fmtDateTime(r.dueAt)}${r.dueAt < ctx.now && !r.done ? " ⚠️" : ""}` : ""}${r.body ? ` — ${r.body.slice(0, 60)}` : ""}${r.tags.length ? ` [${r.tags.join(", ")}]` : ""}${r.source === "MCP" || r.source === "WEBHOOK" ? " (rotina)" : ""}${r.done && r.doneNote ? ` (feito: ${r.doneNote.slice(0, 60)})` : ""} · id=${r.id}`
+      `- ${QUAD_ICON[quadrantOf(r.important, r.urgent)]} ${KIND_LABEL[r.kind as Kind] ?? r.kind} ${r.done ? "✅ " : ""}"${r.title}"${r.dueAt ? ` · ${fmtDateTime(r.dueAt)}${r.dueAt < ctx.now && !r.done ? " ⚠️" : ""}` : ""}${r.body ? ` — ${r.body.slice(0, 60)}` : ""}${r.tags.length ? ` [${r.tags.join(", ")}]` : ""}${r.source === "MCP" || r.source === "WEBHOOK" ? " (rotina)" : ""}${r.done && r.doneNote ? ` (feito: ${r.doneNote.slice(0, 60)})` : ""}${r.projectTaskIds.length ? ` · acompanha ${r.projectTaskIds.length} tarefa(s) de projeto` : ""} · id=${r.id}`
     );
     return ok(`${rows.length} item(ns) (🔥 fazer · 📅 agendar · 👉 delegar · 🗑️ eliminar):\n${lines.join("\n")}`, { data: rows });
   },
