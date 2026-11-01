@@ -35,7 +35,15 @@ export async function GET(req: NextRequest) {
   });
   // "Abrir tarefa": título + link de cada tarefa de projeto ligada ao item.
   const info = await taskInfo(rows.flatMap((r) => r.projectTaskIds));
-  return NextResponse.json(rows.map((r) => ({ ...r, projectTasks: r.projectTaskIds.map((id) => info.get(id)).filter(Boolean) })));
+  // Delegado: status do chamado do responsável (acompanhamento na matriz).
+  const tIds = rows.map((r) => r.delegatedTicketId).filter((x): x is string => !!x);
+  const tickets = tIds.length ? await prisma.ticket.findMany({ where: { id: { in: tIds } }, select: { id: true, status: true } }) : [];
+  const tStatus = new Map(tickets.map((t) => [t.id, t.status]));
+  return NextResponse.json(rows.map((r) => ({
+    ...r,
+    projectTasks: r.projectTaskIds.map((id) => info.get(id)).filter(Boolean),
+    delegated: r.delegatedTicketId ? { ticketId: r.delegatedTicketId, link: `/chamados/${r.delegatedTicketId}`, to: r.delegatedToName, at: r.delegatedAt, status: tStatus.get(r.delegatedTicketId) ?? null } : null,
+  })));
 }
 
 export async function POST(req: NextRequest) {

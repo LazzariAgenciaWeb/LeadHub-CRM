@@ -31,12 +31,15 @@ const QUAD_FLAGS: Record<Quadrant, { important: boolean; urgent: boolean }> = {
 const quadrantOf = (n: { important?: boolean; urgent?: boolean }): Quadrant => (n.important ?? true) ? ((n.urgent ?? false) ? "fazer" : "agendar") : ((n.urgent ?? false) ? "delegar" : "eliminar");
 function plusDays(d: number, hour = 9): string { const x = new Date(); x.setDate(x.getDate() + d); x.setHours(hour, 0, 0, 0); return x.toISOString(); }
 interface NoteEvent { id: string; type: "CREATED" | "EDITED" | "DONE" | "REOPENED" | string; detail: string | null; source: string; createdAt: string }
-interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[]; important?: boolean; urgent?: boolean; archivedAt?: string | null; source?: string; projectTasks?: ProjectTaskRef[] }
+interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[]; important?: boolean; urgent?: boolean; archivedAt?: string | null; source?: string; projectTasks?: ProjectTaskRef[]; delegated?: Delegation | null }
+/** Item delegado: chamado interno do responsável; fica em Delegar até o chamado fechar. */
+interface Delegation { ticketId: string; link: string; to: string | null; at: string | null; status: string | null }
+const TICKET_STATUS: Record<string, string> = { OPEN: "aberto", IN_PROGRESS: "em andamento", RESOLVED: "resolvido", CLOSED: "fechado" };
 /** Tarefa de projeto que o item acompanha: vira o botão "Abrir tarefa" e conclui o item quando fecha. */
 interface ProjectTaskRef { id: string; title: string; link: string; done: boolean }
 
-const EVENT_LABEL: Record<string, string> = { CREATED: "criado", EDITED: "editado", APPENDED: "acrescentado", DONE: "concluído", REOPENED: "reaberto" };
-const SOURCE_LABEL: Record<string, string> = { APP: "no app", WHATSAPP: "pelo WhatsApp", MCP: "pelo Claude", WEBHOOK: "por rotina externa", IPHONE: "no iPhone", PROJETO: "pela tarefa do projeto" };
+const EVENT_LABEL: Record<string, string> = { CREATED: "criado", EDITED: "editado", APPENDED: "acrescentado", DONE: "concluído", REOPENED: "reaberto", DELEGATED: "delegado" };
+const SOURCE_LABEL: Record<string, string> = { APP: "no app", WHATSAPP: "pelo WhatsApp", MCP: "pelo Claude", WEBHOOK: "por rotina externa", IPHONE: "no iPhone", PROJETO: "pela tarefa do projeto", CHAMADO: "pelo chamado delegado" };
 
 const KIND_ICON: Record<string, { Icon: LucideIcon; color: string }> = {
   IDEA: { Icon: Lightbulb, color: "text-amber-300" }, NOTE: { Icon: StickyNote, color: "text-sky-300" },
@@ -60,6 +63,17 @@ function OpenTaskButton({ tasks, compact = false }: { tasks?: ProjectTaskRef[]; 
         </a>
       ))}
     </div>
+  );
+}
+/** "→ Fulano": a quem foi delegado; abre o chamado (nova aba). */
+function DelegatedChip({ d, compact = false }: { d?: Delegation | null; compact?: boolean }) {
+  if (!d) return null;
+  return (
+    <a {...linkProps(d.link)} onClick={(e) => e.stopPropagation()} title={`Delegado para ${d.to ?? "?"} · chamado ${TICKET_STATUS[d.status ?? ""] ?? ""} — abrir chamado`}
+      className={`inline-flex items-center gap-1 flex-shrink-0 rounded-md border border-amber-500/35 bg-amber-500/15 text-amber-200 hover:bg-amber-500/25 hover:text-white transition-colors ${compact ? "text-[10px] px-1.5 py-0.5" : "text-[11px] px-2.5 py-1"}`}>
+      <Forward className={compact ? "w-3 h-3" : "w-3.5 h-3.5"} /><span className="truncate max-w-[110px]">{(d.to ?? "delegado").split(" ")[0]}</span>
+      {!compact && <span className="text-amber-300/70">· {TICKET_STATUS[d.status ?? ""] ?? "chamado"}</span>}
+    </a>
   );
 }
 const Late = () => <TriangleAlert className="inline w-3 h-3 -mt-0.5 mr-0.5 text-red-400" strokeWidth={2.5} />;
@@ -463,7 +477,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
         {/* ── Matriz de Eisenhower ── */}
         <div className="lg:col-span-7 lg:sticky lg:top-4">
           <EisenhowerMatrix
-            notes={notes.filter((n) => !n.done && !n.archivedAt && (matrixSrc === "tudo" || (matrixSrc === "rotinas") === isRoutine(n)))}
+            notes={notes.filter((n) => !n.done && !n.archivedAt && (matrixSrc === "tudo" || !!n.delegated || (matrixSrc === "rotinas") === isRoutine(n)))}
             src={matrixSrc}
             onSrc={setMatrixSrc}
             onOpen={openFromMatrix}
@@ -784,7 +798,7 @@ function EisenhowerMatrix({ notes, src, onSrc, onOpen, onMove, onQuick, onFilter
                       <span className="mt-0.5"><KindIcon kind={n.kind} className="w-3 h-3" /></span>
                       <button onClick={() => onOpen(n)} className="flex-1 min-w-0 text-left">
                         <div className={`text-[11px] leading-snug line-clamp-2 ${late ? "text-red-300" : "text-slate-200"}`}>{n.title}</div>
-                        {(n.dueAt || n.tags?.length) ? <div className="text-[9px] text-slate-500 truncate">{n.dueAt ? <>{late && <Late />}{fmtWhen(n.dueAt)}</> : ""}{n.dueAt && n.tags?.length ? " · " : ""}{(n.tags ?? []).slice(0, 2).map((t) => `#${t}`).join(" ")}</div> : null}
+                        {n.delegated ? <div className="text-[9px] text-amber-300/80 truncate">→ {n.delegated.to ?? "delegado"} · {TICKET_STATUS[n.delegated.status ?? ""] ?? "chamado"}</div> : (n.dueAt || n.tags?.length) ? <div className="text-[9px] text-slate-500 truncate">{n.dueAt ? <>{late && <Late />}{fmtWhen(n.dueAt)}</> : ""}{n.dueAt && n.tags?.length ? " · " : ""}{(n.tags ?? []).slice(0, 2).map((t) => `#${t}`).join(" ")}</div> : null}
                       </button>
                       {n.projectTasks?.length ? <a {...linkProps(n.projectTasks[0].link)} title={`Abrir tarefa: ${n.projectTasks.map((x) => x.title).join(" · ")}`} className="flex-shrink-0 mt-0.5 text-indigo-300 hover:text-white"><ExternalLink className="w-3 h-3" /></a> : null}
                       <div className="hidden group-hover:flex items-center gap-0.5 flex-shrink-0">
@@ -840,6 +854,7 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
           <div className={`text-xs ${note.done ? "line-through text-slate-500" : overdue ? "text-red-300" : "text-slate-200"} ${open ? "" : "truncate"}`}>{note.archivedAt && <Archive className="inline w-3 h-3 -mt-0.5 mr-1 text-slate-500" />}{note.title}</div>
           {!open && <div className="text-[10px] text-slate-500 truncate flex items-center gap-1"><QuadIcon q={q} className="w-3 h-3" /><span className="truncate">{note.dueAt ? <>{" · "}{overdue && <Late />}{fmtWhen(note.dueAt)}</> : ""}{note.tags?.length ? ` · ${note.tags.map((t) => `#${t}`).join(" ")}` : ""}{note.body ? ` · ${note.body}` : ""}</span></div>}
         </button>
+        {!open && <DelegatedChip d={note.delegated} compact />}
         {!open && <OpenTaskButton tasks={note.projectTasks} compact />}
         {!note.done && !note.archivedAt && (
           <div className="hidden group-hover:flex items-center gap-1 flex-shrink-0">
@@ -864,7 +879,7 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
               <button onClick={() => onQuick({ set: { important: !(note.important ?? true) } })} className={`text-[10px] px-2 py-0.5 rounded-full border ${(note.important ?? true) ? "bg-fuchsia-600/20 border-fuchsia-500/40 text-white" : "bg-[#0f1623] border-[#253449] text-slate-500"}`}>importante</button>
               <button onClick={() => onQuick({ set: { urgent: !(note.urgent ?? false) } })} className={`text-[10px] px-2 py-0.5 rounded-full border ${(note.urgent ?? false) ? "bg-fuchsia-600/20 border-fuchsia-500/40 text-white" : "bg-[#0f1623] border-[#253449] text-slate-500"}`}>urgente</button>
               <span className="flex-1" />
-              {q === "delegar" && users.length > 0 && (
+              {q === "delegar" && !note.delegated && users.length > 0 && (
                 <select defaultValue="" onChange={(e) => { if (e.target.value) onQuick({ delegate: e.target.value }); }} className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-200">
                   <option value="">delegar pra…</option>
                   {users.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
@@ -873,6 +888,12 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
               {q === "eliminar" && !note.archivedAt && <button onClick={() => onQuick("archive")} className="text-[10px] px-2 py-0.5 rounded-full bg-slate-500/15 border border-slate-500/30 text-slate-300 hover:text-white inline-flex items-center gap-1"><Archive className="w-3 h-3" /> arquivar</button>}
               {q === "agendar" && !note.dueAt && <button onClick={() => onQuick("week")} className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-200 hover:text-white inline-flex items-center gap-1"><CalendarDays className="w-3 h-3" /> marcar pra daqui 7 dias</button>}
               {note.archivedAt && <button onClick={() => onQuick("unarchive")} className="text-[10px] px-2 py-0.5 rounded-full bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white inline-flex items-center gap-1"><ArchiveRestore className="w-3 h-3" /> desarquivar</button>}
+            </div>
+          )}
+          {note.delegated && (
+            <div className="flex flex-wrap items-center gap-2 text-[10px] text-slate-500">
+              <DelegatedChip d={note.delegated} />
+              <span>delegado{note.delegated.at ? ` em ${fmtWhen(note.delegated.at)}` : ""} · some sozinho quando o chamado for resolvido</span>
             </div>
           )}
           {note.projectTasks?.length ? (

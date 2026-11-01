@@ -153,6 +153,12 @@ model AssistantNote {
   // concluídas (ou excluídas). Preenchido pelo MCP ou extraído do link
   // /projetos/<id>?tarefa=<id> no texto.
   projectTaskIds  String[]  @default([])
+  // Delegado: vira chamado interno do responsável, mas o item continua ABERTO
+  // no quadrante Delegar pra acompanhar (fora da fila e dos lembretes). Conclui
+  // sozinho quando o chamado é resolvido/fechado.
+  delegatedTicketId String?
+  delegatedToName   String?
+  delegatedAt       DateTime?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   events          AssistantNoteEvent[]

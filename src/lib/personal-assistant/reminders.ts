@@ -37,7 +37,7 @@ export async function dispatchDueReminders(): Promise<{ sent: number }> {
   const now = new Date();
   const due = await prisma.assistantNote.findMany({
     where: {
-      kind: { in: ["REMINDER", "TASK"] }, done: false, archivedAt: null, remindedAt: null, dueAt: { lte: now },
+      kind: { in: ["REMINDER", "TASK"] }, done: false, archivedAt: null, remindedAt: null, dueAt: { lte: now }, delegatedTicketId: null,
       NOT: { kind: "TASK", source: { in: ["MCP", "WEBHOOK"] } },
     },
     select: { id: true, userId: true, kind: true, title: true, body: true, dueAt: true },

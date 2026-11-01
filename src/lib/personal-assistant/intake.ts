@@ -150,6 +150,27 @@ export async function intakeNote(ctx: IntakeCtx, draftIn: IntakeDraft): Promise<
   return { action: "created", id: n.id, title, message: `${label}: "${title}"${draft.dueAt ? ` · ${fmtDateTime(draft.dueAt)}` : ""}${rule ? ` (regra "${rule.pattern}" aplicada)` : ""} — ${link}` };
 }
 
+/**
+ * Delega um item: chamado interno pro responsável e o item fica no quadrante
+ * Delegar pra acompanhar (não conclui — fecha sozinho quando o chamado fechar,
+ * ver task-links.ts).
+ */
+export async function delegateNote(
+  actor: { companyId: string; userId: string; userName: string; role: string },
+  note: { id: string; title: string; body: string | null; dueAt: Date | null },
+  assignee: { id: string; name: string },
+  opts: { dueAt?: Date | null; instructions?: string | null; source: string },
+): Promise<{ ticketId: string; url: string }> {
+  const ticketId = await delegateToTicket(actor, { title: note.title, body: note.body, dueAt: opts.dueAt ?? note.dueAt, instructions: opts.instructions ?? null }, assignee.id);
+  const url = appUrl(`/chamados/${ticketId}`);
+  await prisma.assistantNote.update({
+    where: { id: note.id },
+    data: { important: false, urgent: true, delegatedTicketId: ticketId, delegatedToName: assignee.name, delegatedAt: new Date() },
+  });
+  await logNoteEvent(note.id, "DELEGATED", opts.source, `para ${assignee.name} — chamado ${url}`);
+  return { ticketId, url };
+}
+
 /** Cria o chamado interno de uma delegação (usado pela regra e pela tool delegar_item). */
 export async function delegateToTicket(
   actor: { companyId: string; userId: string; userName: string; role: string },

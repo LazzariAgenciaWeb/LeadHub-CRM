@@ -76,7 +76,7 @@ export async function buildFilaDoDia(params: { userId: string; companyId: string
       orderBy: { dueDate: "asc" }, take: 20,
     }),
     prisma.assistantNote.findMany({
-      where: { userId, done: false, archivedAt: null },
+      where: { userId, done: false, archivedAt: null, delegatedTicketId: null }, // delegado: acompanha na matriz, não cobra
       select: { id: true, kind: true, title: true, dueAt: true, createdAt: true, important: true, urgent: true, source: true },
       orderBy: [{ urgent: "desc" }, { important: "desc" }, { dueAt: { sort: "asc", nulls: "last" } }, { createdAt: "desc" }], take: 80,
     }),

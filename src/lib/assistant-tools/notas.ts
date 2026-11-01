@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { type ToolDef, ok, fail, parseDate, fmtDateTime, appUrl } from "./types";
 import { logNoteEvent, describeEdit } from "@/lib/personal-assistant/note-events";
 import { appendToNote, normalizeText } from "@/lib/personal-assistant/dedupe";
-import { intakeNote, delegateToTicket } from "@/lib/personal-assistant/intake";
+import { intakeNote, delegateNote } from "@/lib/personal-assistant/intake";
 import { reconcileTaskNotes } from "@/lib/personal-assistant/task-links";
 
 /**
@@ -223,7 +223,7 @@ export const arquivarItens: ToolDef<{ ids: string[]; desarquivar?: boolean }> = 
 
 export const delegarItem: ToolDef<{ id: string; assigneeId?: string; assigneeName?: string; dueDate?: string; instrucoes?: string }> = {
   name: "delegar_item",
-  description: "Delega um item do bloquinho: cria um chamado INTERNO no GoHub atribuído ao responsável (assigneeId de listar_usuarios, ou assigneeName pra eu achar) com o conteúdo do item, e conclui o item como 'delegado'. dueDate opcional (ISO 8601; default fim do próximo dia útil). Quadrante 'delegar' da matriz.",
+  description: "Delega um item do bloquinho: cria um chamado INTERNO no GoHub atribuído ao responsável (assigneeId de listar_usuarios, ou assigneeName pra eu achar) com o conteúdo do item. O item continua no quadrante Delegar pra acompanhamento (fora da fila e dos lembretes) e se conclui sozinho quando o chamado for resolvido. dueDate opcional (ISO 8601; default fim do próximo dia útil). Quadrante 'delegar' da matriz.",
   input_schema: { type: "object", properties: { id: { type: "string" }, assigneeId: { type: "string" }, assigneeName: { type: "string" }, dueDate: { type: "string" }, instrucoes: { type: "string", description: "O que o responsável deve fazer, se diferente do item" } }, required: ["id"] },
   mutating: true,
   run: async (input, ctx) => {
@@ -235,11 +235,8 @@ export const delegarItem: ToolDef<{ id: string; assigneeId?: string; assigneeNam
     }
     if (!assignee) return fail("Responsável não encontrado. Use listar_usuarios e informe assigneeId.");
     const due = input.dueDate ? parseDate(input.dueDate) : n.dueAt;
-    const ticketId = await delegateToTicket({ companyId: ctx.companyId, userId: ctx.userId, userName: ctx.userName, role: ctx.role }, { title: n.title, body: n.body, dueAt: due, instructions: input.instrucoes }, assignee.id);
-    const doneNote = `Delegado para ${assignee.name} — chamado ${appUrl(`/chamados/${ticketId}`)}`;
-    await prisma.assistantNote.update({ where: { id: n.id }, data: { done: true, doneAt: ctx.now, doneNote, important: false, urgent: true } });
-    await logNoteEvent(n.id, "DONE", ctx.channel, doneNote);
-    return ok(`👉 Delegado para ${assignee.name}: chamado interno "${n.title}"`, { data: { ticketId, assigneeId: assignee.id }, link: appUrl(`/chamados/${ticketId}`) });
+    const { ticketId, url } = await delegateNote({ companyId: ctx.companyId, userId: ctx.userId, userName: ctx.userName, role: ctx.role }, n, assignee, { dueAt: due, instructions: input.instrucoes, source: ctx.channel });
+    return ok(`👉 Delegado para ${assignee.name}: chamado interno "${n.title}" — segue no quadrante Delegar até o chamado fechar.`, { data: { ticketId, assigneeId: assignee.id }, link: url });
   },
 };
 

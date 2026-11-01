@@ -51,7 +51,7 @@ export async function taskInfo(ids: string[]): Promise<Map<string, { id: string;
  * (cron). Barato: só olha itens abertos com vínculo/link.
  */
 export async function reconcileTaskNotes(userId?: string): Promise<number> {
-  const scope = { done: false, ...(userId ? { userId } : {}) };
+  const scope = { done: false as const, ...(userId ? { userId } : {}) };
 
   // 1. Itens criados antes do vínculo existir (link solto no corpo).
   const loose = await prisma.assistantNote.findMany({
@@ -70,10 +70,10 @@ export async function reconcileTaskNotes(userId?: string): Promise<number> {
     select: { id: true, projectTaskIds: true },
     take: 500,
   });
-  if (!linked.length) return 0;
+  let closed = await closeDelegatedNotes(scope);
+  if (!linked.length) return closed;
   const info = await taskInfo(linked.flatMap((n) => n.projectTaskIds));
   const now = new Date();
-  let closed = 0;
   for (const n of linked) {
     const open = n.projectTaskIds.filter((id) => info.get(id) && !info.get(id)!.done);
     if (open.length) continue;
@@ -83,6 +83,44 @@ export async function reconcileTaskNotes(userId?: string): Promise<number> {
       : "A tarefa do projeto foi excluída.";
     const r = await prisma.assistantNote.updateMany({ where: { id: n.id, done: false }, data: { done: true, doneAt: now, doneNote } });
     if (r.count) { closed++; await logNoteEvent(n.id, "DONE", "PROJETO", doneNote); }
+  }
+  return closed;
+}
+
+/** Delegado: conclui o item quando o chamado do responsável é resolvido/fechado (ou excluído). */
+async function closeDelegatedNotes(scope: { done: false; userId?: string }): Promise<number> {
+  // Delegados antes desta mudança eram concluídos na hora ("Delegado para X — chamado …/chamados/<id>").
+  // Se o chamado ainda está aberto, volta pro quadrante Delegar pra acompanhar. (Os da regra automática ficam.)
+  if (scope.userId) {
+    const old = await prisma.assistantNote.findMany({
+      where: { userId: scope.userId, done: true, delegatedTicketId: null, doneNote: { startsWith: "Delegado para " }, NOT: { doneNote: { contains: "pela regra" } } },
+      select: { id: true, doneNote: true, doneAt: true },
+      take: 100,
+    });
+    for (const n of old) {
+      const m = n.doneNote!.match(/^Delegado para (.+?) — chamado \S*\/chamados\/([\w-]+)/);
+      if (!m) continue;
+      const t = await prisma.ticket.findUnique({ where: { id: m[2] }, select: { status: true } });
+      if (!t || (t.status !== "OPEN" && t.status !== "IN_PROGRESS")) continue;
+      await prisma.assistantNote.update({ where: { id: n.id }, data: { done: false, doneAt: null, doneNote: null, important: false, urgent: true, delegatedTicketId: m[2], delegatedToName: m[1], delegatedAt: n.doneAt } });
+    }
+  }
+  const notes = await prisma.assistantNote.findMany({
+    where: { ...scope, delegatedTicketId: { not: null } },
+    select: { id: true, delegatedTicketId: true, delegatedToName: true },
+    take: 500,
+  });
+  if (!notes.length) return 0;
+  const tickets = await prisma.ticket.findMany({ where: { id: { in: notes.map((n) => n.delegatedTicketId!) } }, select: { id: true, status: true } });
+  const status = new Map(tickets.map((t) => [t.id, t.status as string]));
+  const now = new Date();
+  let closed = 0;
+  for (const n of notes) {
+    const st = status.get(n.delegatedTicketId!);
+    if (st === "OPEN" || st === "IN_PROGRESS") continue;
+    const doneNote = st ? `${n.delegatedToName ?? "O responsável"} ${st === "RESOLVED" ? "resolveu" : "fechou"} o chamado.` : "O chamado da delegação foi excluído.";
+    const r = await prisma.assistantNote.updateMany({ where: { id: n.id, done: false }, data: { done: true, doneAt: now, doneNote } });
+    if (r.count) { closed++; await logNoteEvent(n.id, "DONE", "CHAMADO", doneNote); }
   }
   return closed;
 }
