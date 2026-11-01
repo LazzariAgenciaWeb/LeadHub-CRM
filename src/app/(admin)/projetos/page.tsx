@@ -3,7 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { getViewer, projectVisibilityWhere } from "@/lib/visibility";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import ProjetosBoard from "./ProjetosBoard";
+import ProjetosViews, { type PV } from "./ProjetosViews";
+import { readPref } from "@/lib/projetos-view-pref";
 import SyncAllButton from "./SyncAllButton";
 import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
@@ -52,6 +53,52 @@ export default async function ProjetosPage({
       : Promise.resolve([] as { id: string; name: string }[]),
   ]);
 
+  // Etapas e tarefas de cada projeto — o que importa é o andamento das TAREFAS
+  // (o status do projeto é só a pasta). Campos leves: nada de comentários/anexos.
+  const ids = projects.map((p) => p.id);
+  const [steps, tasks, pref] = await Promise.all([
+    ids.length
+      ? prisma.projectService.findMany({
+          where:   { projectId: { in: ids } },
+          orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+          select:  { id: true, projectId: true, name: true, order: true, service: { select: { name: true } } },
+        })
+      : Promise.resolve([]),
+    ids.length
+      ? prisma.projectTask.findMany({
+          where:   { projectId: { in: ids }, ignoredAt: null },
+          orderBy: [{ dueDate: "asc" }, { createdAt: "asc" }],
+          select: {
+            id: true, projectId: true, title: true, status: true, done: true, dueDate: true,
+            projectServiceId: true, updatedAt: true, approvalSentAt: true,
+            assignee: { select: { id: true, name: true } },
+          },
+        })
+      : Promise.resolve([]),
+    readPref(userId ?? ""),
+  ]);
+
+  const views: PV[] = projects.map((p) => {
+    const pt = tasks.filter((t) => t.projectId === p.id);
+    const last = Math.max(new Date(p.updatedAt).getTime(), ...pt.map((t) => t.updatedAt.getTime()));
+    return {
+      id: p.id, name: p.name, type: p.type, status: p.status,
+      setor: p.setor, client: p.clientCompany,
+      dueDate: p.dueDate?.toISOString() ?? null,
+      lastActivity: new Date(last).toISOString(),
+      memberIds: p.members.map((m) => m.user.id),
+      members: p.members.map((m) => m.user.name),
+      steps: steps.filter((s) => s.projectId === p.id).map((s) => ({ id: s.id, name: s.name || s.service?.name || "Etapa" })),
+      tasks: pt.map((t) => ({
+        id: t.id, title: t.title, status: t.status, done: t.done,
+        dueDate: t.dueDate?.toISOString() ?? null,
+        stepId: t.projectServiceId,
+        assigneeId: t.assignee?.id ?? null, assignee: t.assignee?.name ?? null,
+        approvalSentAt: t.approvalSentAt?.toISOString() ?? null,
+      })),
+    };
+  });
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -72,12 +119,11 @@ export default async function ProjetosPage({
         </div>
       </div>
 
-      <ProjetosBoard
-        projects={projects as any}
+      <ProjetosViews
+        items={views}
+        pref={pref}
         currentUserId={userId ?? ""}
-        isSuperAdmin={isSuperAdmin}
-        companies={companies}
-        filterCompanyId={filterCompanyId}
+        kanban={{ projects: projects as any, isSuperAdmin, companies, filterCompanyId }}
       />
     </div>
   );
