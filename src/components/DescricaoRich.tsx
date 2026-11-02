@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { ExternalLink } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Descritivo de tarefa com imagens/prints INLINE de forma SEGURA.
@@ -22,6 +21,8 @@ export function extractLinks(text: string | null | undefined): string[] {
   return text ? [...new Set(text.match(URL_RE) ?? [])] : [];
 }
 
+/** Endereço longo vira "docs.google.com/document/d/1lHB…" — o completo fica no title/href. */
+const shortUrl = (u: string) => { const b = u.replace(/^https?:\/\/(www\.)?/i, ""); return b.length > 48 ? `${b.slice(0, 46)}…` : b; };
 const hrefOf = (u: string) => (/^https?:\/\//i.test(u) ? u : `https://${u}`);
 
 /** Texto com os endereços clicáveis (nova aba). Só gera <a> — nada de HTML do texto. */
@@ -31,7 +32,7 @@ function Linkified({ text }: { text: string }) {
     <>
       {parts.map((p, i) =>
         i % 2 === 1
-          ? <a key={i} href={hrefOf(p)} target="_blank" rel="noopener noreferrer" className="text-indigo-300 hover:text-indigo-200 underline decoration-indigo-400/40 break-all">{p}</a>
+          ? <a key={i} href={hrefOf(p)} target="_blank" rel="noopener noreferrer" title={p} className="text-indigo-300 hover:text-indigo-200 underline decoration-indigo-400/40 break-all">{shortUrl(p)}</a>
           : p,
       )}
     </>
@@ -109,6 +110,10 @@ export function DescricaoEditor({
 }) {
   const ref = useRef<HTMLTextAreaElement>(null);
   const [uploading, setUploading] = useState(false);
+  // Leitura (links clicáveis, como no ClickUp) até clicar no texto; vazio já abre editando.
+  const [editing, setEditing] = useState(!value.trim());
+  useEffect(() => { if (editing) ref.current?.focus(); }, [editing]);
+  useEffect(() => { if (!value.trim()) setEditing(true); }, [value]);
   const [err, setErr] = useState("");
 
   async function insertImage(file: File) {
@@ -144,37 +149,41 @@ export function DescricaoEditor({
 
   return (
     <div>
-      <textarea
-        ref={ref}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onBlur={onBlur}
-        onPaste={handlePaste}
-        rows={rows}
-        placeholder={placeholder}
-        className={className}
-      />
+      {editing ? (
+        <textarea
+          ref={ref}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={() => { onBlur?.(); if (value.trim()) setEditing(false); }}
+          onPaste={handlePaste}
+          rows={rows}
+          placeholder={placeholder}
+          className={className}
+        />
+      ) : (
+        <div
+          role="textbox"
+          tabIndex={0}
+          title="Clique pra editar"
+          onClick={(e) => { if (!(e.target as HTMLElement).closest("a")) setEditing(true); }}
+          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); setEditing(true); } }}
+          style={{ minHeight: `${rows * 1.5}em` }}
+          className={`${className ?? ""} cursor-text whitespace-pre-wrap break-words`}
+        >
+          <DescricaoView text={value} mediaUrl={mediaUrl} className="" />
+        </div>
+      )}
       <div className="flex items-center gap-2 mt-1 flex-wrap">
         <label className="text-[11px] text-indigo-300 hover:underline cursor-pointer">
           <input type="file" accept="image/*" className="hidden" onChange={handleFile} />
           + Adicionar print
         </label>
         <span className="text-[10px] text-slate-600">ou cole a imagem (Ctrl+V) direto aqui</span>
+        {!editing && <button type="button" onClick={() => setEditing(true)} className="text-[11px] text-slate-400 hover:text-white">· editar texto</button>}
         {uploading && <span className="text-[10px] text-amber-400">enviando…</span>}
         {err && <span className="text-[10px] text-red-400">{err}</span>}
       </div>
-      {/* No campo de edição link não clica — os da descrição ficam aqui embaixo. */}
-      {extractLinks(value).length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {extractLinks(value).map((u) => (
-            <a key={u} href={hrefOf(u)} target="_blank" rel="noopener noreferrer" title={u}
-              className="inline-flex items-center gap-1 max-w-full text-[11px] px-2 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 hover:bg-indigo-500/20 hover:text-white">
-              <ExternalLink className="w-3 h-3 flex-shrink-0" /><span className="truncate">{u.replace(/^https?:\/\/(www\.)?/i, "").slice(0, 60)}</span>
-            </a>
-          ))}
-        </div>
-      )}
-      {hasInlineImages(value) && (
+      {editing && hasInlineImages(value) && (
         <div className="mt-2 p-3 rounded-lg border border-[#1e2d45] bg-[#0a0f1a]">
           <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-wide">Prévia (como o cliente vê)</p>
           <DescricaoView text={value} mediaUrl={mediaUrl} />
