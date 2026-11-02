@@ -10,6 +10,7 @@ import IncidentReporter from "./IncidentReporter";
 import VisibilityControl from "@/components/VisibilityControl";
 import ProjectServiceSelector from "./ProjectServiceSelector";
 import ProjectServicesEditor from "./ProjectServicesEditor";
+import ProjectVigencia, { type ContractOpt } from "./ProjectVigencia";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
 import { ApprovalCard, TaskApprovalBar, type TaskApproval } from "./ProjectApproval";
@@ -50,14 +51,6 @@ type Project = {
   members:             { user: { id: string; name: string; email: string } }[];
 };
 
-const STATUS_LABEL: Record<ProjectStatus, { label: string; color: string; activeColor: string; ringColor: string }> = {
-  PLANEJAMENTO:       { label: "Planejamento",       color: "bg-slate-500/20 text-slate-300", activeColor: "bg-slate-500/40 text-slate-100",   ringColor: "ring-slate-400/50" },
-  EM_ANDAMENTO:       { label: "Em andamento",       color: "bg-blue-500/20 text-blue-300",    activeColor: "bg-blue-500/40 text-blue-50",      ringColor: "ring-blue-400/60" },
-  AGUARDANDO_CLIENTE: { label: "Aguardando cliente", color: "bg-cyan-500/20 text-cyan-300",    activeColor: "bg-cyan-500/40 text-cyan-50",      ringColor: "ring-cyan-400/60" },
-  PAUSADO:            { label: "Pausado",            color: "bg-amber-500/20 text-amber-300",  activeColor: "bg-amber-500/40 text-amber-50",    ringColor: "ring-amber-400/60" },
-  ENTREGUE:           { label: "Entregue",           color: "bg-emerald-500/20 text-emerald-300", activeColor: "bg-emerald-500/40 text-emerald-50", ringColor: "ring-emerald-400/60" },
-  CANCELADO:          { label: "Cancelado",          color: "bg-red-500/20 text-red-300",      activeColor: "bg-red-500/40 text-red-50",        ringColor: "ring-red-400/60" },
-};
 
 const ACTIVITY_META: Record<string, { icon: string; text: string; color: string }> = {
   TASK_CREATED:    { icon: "✨", text: "Criada:",            color: "text-cyan-300"    },
@@ -66,17 +59,10 @@ const ACTIVITY_META: Record<string, { icon: string; text: string; color: string 
   CLIENT_FOLLOWUP: { icon: "📨", text: "Cobrança ao cliente", color: "text-fuchsia-300" },
   APPROVAL_STALE:  { icon: "⏳", text: "Aprovação travada:", color: "text-orange-300"  },
   INCIDENT:        { icon: "⚠️", text: "Incidente:",          color: "text-red-400"     },
+  PROJECT_DELIVERED: { icon: "🏁", text: "Projeto:",          color: "text-emerald-300" },
 };
 
 // Ordem sequencial pra navegação com setas
-const STATUS_ORDER: ProjectStatus[] = [
-  "PLANEJAMENTO",
-  "EM_ANDAMENTO",
-  "AGUARDANDO_CLIENTE",
-  "PAUSADO",
-  "ENTREGUE",
-  "CANCELADO",
-];
 
 type Activity = {
   id:          string;
@@ -249,7 +235,7 @@ const TICKET_STATUS_LABEL: Record<string, string> = {
 
 export default function ProjectDetail({
   project, availableUsers, companyUsers, companySetores, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
-  catalogServices, serviceSteps, currentServiceId, materials, publicToken,
+  catalogServices, serviceSteps, currentServiceId, materials, publicToken, contracts,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
@@ -266,6 +252,7 @@ export default function ProjectDetail({
   currentServiceId: string | null;
   materials: { id: string; kind: string; taskId: string | null; stage: string | null; title: string; docHtml: string | null; url: string | null; ata: string | null; featured: boolean; visibleToClient: boolean }[];
   publicToken: string | null;
+  contracts: ContractOpt[];
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -318,7 +305,6 @@ export default function ProjectDetail({
     description: project.description ?? "",
     dueDate:     project.dueDate     ? new Date(project.dueDate).toISOString().slice(0, 10) : "",
     startDate:   project.startDate   ? new Date(project.startDate).toISOString().slice(0, 10) : "",
-    status:      project.status,
   });
   const [memberIds, setMemberIds] = useState(project.members.map((m) => m.user.id));
 
@@ -333,16 +319,6 @@ export default function ProjectDetail({
     router.refresh();
   }
 
-  async function changeStatus(status: ProjectStatus) {
-    setSaving(true);
-    await fetch(`/api/projetos/${project.id}`, {
-      method:  "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ status }),
-    });
-    setSaving(false);
-    router.refresh();
-  }
 
   async function deleteProject() {
     if (!confirm("Excluir o projeto? Os pontos atrelados serão revertidos.")) return;
@@ -430,27 +406,15 @@ export default function ProjectDetail({
               ⚙ Configurar projeto
             </button>
           </div>
-          {/* Status — pipeline horizontal com navegação */}
-          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-slate-500 text-xs uppercase tracking-wider">Status</span>
-            </div>
-
-            <StatusPipeline
-              current={project.status}
-              onChange={changeStatus}
-              disabled={saving}
-            />
-
-            {project.deliveredAt && (
-              <div className="mt-3 text-emerald-300 text-xs">
-                ✓ Entregue em {formatBrazilDateTime(project.deliveredAt)}
-              </div>
-            )}
-            {project.status === "AGUARDANDO_CLIENTE" && (
-              <FollowupBlock project={project} />
-            )}
-          </div>
+          {/* Vigência (Ativo · Pausado · Encerrado) — vem dos contratos ligados */}
+          <ProjectVigencia
+            projectId={project.id}
+            status={project.status}
+            deliveredAt={project.deliveredAt}
+            hasClient={!!project.clientCompany}
+            contracts={contracts}
+          />
+          {project.status === "AGUARDANDO_CLIENTE" && <FollowupBlock project={project} />}
 
           {/* Aprovação de peças pelo cliente (link + grupo do WhatsApp) */}
           <ApprovalCard
@@ -829,66 +793,6 @@ export default function ProjectDetail({
           </div>
         )}
       </div>
-    </div>
-  );
-}
-
-/**
- * Pipeline horizontal de status. O ativo aparece colorido com a cor da
- * categoria; os outros ficam discretos. Setas <> permitem navegar
- * sequencialmente; clique direto em qualquer pílula faz jump.
- */
-function StatusPipeline({
-  current, onChange, disabled,
-}: {
-  current:  ProjectStatus;
-  onChange: (s: ProjectStatus) => void;
-  disabled: boolean;
-}) {
-  const idx = STATUS_ORDER.indexOf(current);
-  const prev = idx > 0 ? STATUS_ORDER[idx - 1] : null;
-  const next = idx < STATUS_ORDER.length - 1 ? STATUS_ORDER[idx + 1] : null;
-
-  return (
-    <div className="flex items-center gap-2">
-      <button
-        onClick={() => prev && onChange(prev)}
-        disabled={disabled || !prev}
-        title={prev ? `Voltar pra ${STATUS_LABEL[prev].label}` : ""}
-        className="w-8 h-8 flex-shrink-0 rounded-lg bg-[#080b12] hover:bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
-      >
-        <ChevronLeft className="w-4 h-4" />
-      </button>
-
-      <div className="flex-1 flex items-center gap-1 overflow-x-auto">
-        {STATUS_ORDER.map((s) => {
-          const meta = STATUS_LABEL[s];
-          const isActive = s === current;
-          return (
-            <button
-              key={s}
-              onClick={() => !isActive && onChange(s)}
-              disabled={disabled || isActive}
-              className={`flex-1 min-w-fit text-[11px] font-medium px-2.5 py-2 rounded-lg transition-all whitespace-nowrap ${
-                isActive
-                  ? `${meta.activeColor} ring-2 ${meta.ringColor} font-bold shadow-lg`
-                  : "bg-[#080b12] hover:bg-[#161f30] border border-[#1e2d45] text-slate-500 hover:text-slate-300"
-              }`}
-            >
-              {meta.label}
-            </button>
-          );
-        })}
-      </div>
-
-      <button
-        onClick={() => next && onChange(next)}
-        disabled={disabled || !next}
-        title={next ? `Avançar pra ${STATUS_LABEL[next].label}` : ""}
-        className="w-8 h-8 flex-shrink-0 rounded-lg bg-[#080b12] hover:bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
-      >
-        <ChevronRight className="w-4 h-4" />
-      </button>
     </div>
   );
 }

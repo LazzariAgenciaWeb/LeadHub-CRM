@@ -38,20 +38,16 @@ export default async function ProjetosPage({
   const visWhere = projectVisibilityWhere(viewer);
   if (visWhere) where.AND = [...(where.AND ?? []), visWhere];
 
-  const [projects, companies] = await Promise.all([
-    prisma.setorClickupList.findMany({
-      where,
-      include: {
-        setor:         { select: { id: true, name: true } },
-        clientCompany: { select: { id: true, name: true } },
-        members:       { include: { user: { select: { id: true, name: true } } } },
-      },
-      orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
-    }),
-    isSuperAdmin
-      ? prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
-      : Promise.resolve([] as { id: string; name: string }[]),
-  ]);
+  const projects = await prisma.setorClickupList.findMany({
+    where,
+    include: {
+      setor:         { select: { id: true, name: true } },
+      clientCompany: { select: { id: true, name: true } },
+      members:       { include: { user: { select: { id: true, name: true } } } },
+      contracts:     { select: { id: true, label: true, status: true, isRecurring: true, billingCycle: true } },
+    },
+    orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
+  });
 
   // Etapas e tarefas de cada projeto — o que importa é o andamento das TAREFAS
   // (o status do projeto é só a pasta). Campos leves: nada de comentários/anexos.
@@ -83,6 +79,7 @@ export default async function ProjetosPage({
     const last = Math.max(new Date(p.updatedAt).getTime(), ...pt.map((t) => t.updatedAt.getTime()));
     return {
       id: p.id, name: p.name, type: p.type, status: p.status, clickup: !!p.clickupListId,
+      contracts: p.contracts.map((c) => ({ id: c.id, label: c.label, status: c.status, recurring: c.isRecurring, cycle: c.billingCycle })),
       setor: p.setor, client: p.clientCompany,
       dueDate: p.dueDate?.toISOString() ?? null,
       lastActivity: new Date(last).toISOString(),
@@ -123,7 +120,6 @@ export default async function ProjetosPage({
         items={views}
         pref={pref}
         currentUserId={userId ?? ""}
-        kanban={{ projects: projects as any, isSuperAdmin, companies, filterCompanyId }}
       />
     </div>
   );

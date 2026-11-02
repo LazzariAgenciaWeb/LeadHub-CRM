@@ -5,6 +5,7 @@ import { Prisma } from "@/generated/prisma";
 import { cleanCobranca } from "@/lib/client-service-billing";
 import { cleanVigencia } from "@/lib/client-service-vigencia";
 import { logFinance, agencyOf } from "@/lib/finance-log";
+import { syncProjectStatus } from "@/lib/project-vigencia";
 
 const STATUSES = ["ATIVO", "EM_IMPLANTACAO", "PAUSADO", "ENCERRADO"];
 
@@ -110,6 +111,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       session,
     });
   }
+  // Projeto que entrega este contrato herda a vigência (encerrou → arquiva).
+  if (data.status !== undefined) await syncProjectStatus(updated.projectId);
   return NextResponse.json(updated);
 }
 
@@ -120,6 +123,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const res = await loadAndAuth(session, id, csId);
   if ("error" in res) return res.error;
   await prisma.clientService.delete({ where: { id: csId } });
+  await syncProjectStatus(res.cs.projectId);
   await logFinance({
     companyId: await agencyOf(id),
     clientCompanyId: id,

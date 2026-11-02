@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { ProjectStatus } from "@/generated/prisma";
-import { addScoreOnce } from "@/lib/gamification";
+import { awardProjectDelivery, syncProjectStatus } from "@/lib/project-vigencia";
 import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
 
@@ -207,31 +207,17 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     }
   }
 
-  // Gamificação
-  if (becameDelivered && existing.setor.companyId) {
-    const members = await prisma.projectMember.findMany({
-      where:  { projectId: id },
-      select: { userId: true },
+  // Gamificação (mesma regra do botão Entregar — lib/project-vigencia)
+  if (becameDelivered) {
+    await awardProjectDelivery({
+      projectId: id, companyId: existing.setor.companyId, dueDate: existing.dueDate,
+      deliveredAt: project.deliveredAt ?? new Date(), fallbackUserId: userId,
     });
-
-    // Se ninguém marcado, dá pontos pra quem fechou
-    const recipients = members.length > 0
-      ? members.map((m) => m.userId)
-      : userId ? [userId] : [];
-
-    const noPrazo = !existing.dueDate || project.deliveredAt! <= existing.dueDate;
-    const atrasado = existing.dueDate && project.deliveredAt! > existing.dueDate;
-
-    for (const uid of recipients) {
-      void addScoreOnce(uid, existing.setor.companyId, "PROJETO_ENTREGUE", id).catch(() => {});
-      if (noPrazo) {
-        void addScoreOnce(uid, existing.setor.companyId, "PROJETO_ENTREGUE_NO_PRAZO", id).catch(() => {});
-      }
-      if (atrasado) {
-        void addScoreOnce(uid, existing.setor.companyId, "PROJETO_ATRASADO", id).catch(() => {});
-      }
-    }
   }
+
+  // Projeto que entrega contratos: a vigência vem deles — status manual que
+  // contradiz o contrato (ex.: "Entregue" com a gestão ainda ativa) é corrigido.
+  if (status !== undefined) await syncProjectStatus(id);
 
   // Nota: NÃO penalizamos mais por empurrar dueDate de projeto. As tarefas
   // sem prazo / atrasadas no ClickUp já cobrem essa lógica via cron diário,

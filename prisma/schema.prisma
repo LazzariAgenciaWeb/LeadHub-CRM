@@ -1675,6 +1675,7 @@ model SetorClickupList {
   materials     ProjectMaterial[]
   serviceSteps  ProjectService[]    @relation("ProjectServicesList") // serviços entregues neste projeto, em sequência
   sales         Sale[]              @relation("SaleProject") // vendas da esteira que este projeto entrega
+  contracts     ClientService[]     @relation("ProjectContracts") // contratos do cliente que este projeto entrega (definem a vigência)
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
@@ -4289,6 +4290,12 @@ model ClientService {
   // duplicata que acabou de ser mesclada.
   externalClientName String?
 
+  // Projeto que ENTREGA este contrato. É daqui que o projeto tira a vigência
+  // (ativo/pausado/encerrado) — ver lib/project-vigencia. Um contrato tem no
+  // máximo um projeto; um projeto pode entregar vários (gestão + hospedagem).
+  project   SetorClickupList? @relation("ProjectContracts", fields: [projectId], references: [id], onDelete: SetNull)
+  projectId String?
+
   invoices     ClientInvoice[] // cobranças ligadas a este serviço
   bonuses      Bonus[] // bonificações geradas por este contrato, por competência
   billingSkips BillingSkip[] // competências em que foi ignorado na fila
@@ -4302,6 +4309,7 @@ model ClientService {
   @@index([clientCompanyId, endedAt])
   @@index([provider, externalId])
   @@index([provider, externalClientName])
+  @@index([projectId])
 }
 
 // Contrato ignorado na fila "a faturar" de UMA competência, com o porquê.

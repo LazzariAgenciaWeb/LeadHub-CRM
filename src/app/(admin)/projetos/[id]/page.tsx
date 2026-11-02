@@ -211,7 +211,7 @@ export default async function ProjectDetailPage({
   const serviceStepsRaw = await prisma.projectService.findMany({
     where:   { projectId: project.id },
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-    select:  { id: true, name: true, order: true, visibleToClient: true, clickupTaskId: true, service: { select: { name: true } } },
+    select:  { id: true, name: true, order: true, visibleToClient: true, clickupTaskId: true, serviceId: true, service: { select: { name: true } } },
   });
   const serviceSteps = serviceStepsRaw.map((s) => ({
     id: s.id, order: s.order, name: s.name || s.service?.name || "Serviço",
@@ -225,6 +225,33 @@ export default async function ProjectDetailPage({
     taskCount: internalTasks.filter((t) => t.projectServiceId === s.id && !t.ignored).length,
     doneCount: internalTasks.filter((t) => t.projectServiceId === s.id && !t.ignored && t.done).length,
   }));
+
+  // Contratos do cliente (Financeiro) — os ligados definem a vigência do
+  // projeto; os soltos aparecem pra ligar, com sugestão pelo serviço das etapas.
+  const contractsRaw = await prisma.clientService.findMany({
+    where: project.clientCompanyId
+      ? { OR: [{ projectId: project.id }, { clientCompanyId: project.clientCompanyId }] }
+      : { projectId: project.id },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select: {
+      id: true, label: true, status: true, isRecurring: true, billingCycle: true, startedAt: true, endedAt: true,
+      serviceId: true, projectId: true, service: { select: { name: true } }, project: { select: { name: true } },
+    },
+  });
+  const norm = (t: string) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  const stepSvcIds = new Set([...serviceStepsRaw.map((s) => s.serviceId), (project as any).serviceId].filter(Boolean));
+  const stepNames = new Set(serviceStepsRaw.map((s) => norm(s.service?.name || s.name || "")).filter(Boolean));
+  const statusOrder = ["ATIVO", "EM_IMPLANTACAO", "PAUSADO", "ENCERRADO"];
+  const contracts = contractsRaw
+    .map((c) => ({
+      id: c.id, label: c.label, status: c.status, isRecurring: c.isRecurring, billingCycle: c.billingCycle,
+      startedAt: c.startedAt?.toISOString() ?? null, endedAt: c.endedAt?.toISOString() ?? null,
+      service: c.service?.name ?? null, projectId: c.projectId, projectName: c.project?.name ?? null,
+      suggested: c.status !== "ENCERRADO" && (
+        (!!c.serviceId && stepSvcIds.has(c.serviceId)) || stepNames.has(norm(c.label)) || (!!c.service && stepNames.has(norm(c.service.name)))
+      ),
+    }))
+    .sort((a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status));
 
   // Materiais do projeto (documentos/links/vídeos/anexos), opcionalmente por tarefa.
   return (
@@ -252,6 +279,7 @@ export default async function ProjectDetailPage({
       }))}
       materials={materials}
       publicToken={project.publicToken ?? null}
+      contracts={contracts}
     />
     </>
   );

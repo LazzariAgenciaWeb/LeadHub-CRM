@@ -118,38 +118,49 @@ model User {
 // capturadas por texto/áudio (app, WhatsApp ou Claude via MCP). Não é chamado
 // nem tarefa de projeto — é o que antes ficava só na cabeça.
 model AssistantNote {
-  id              String               @id @default(cuid())
-  userId          String
-  user            User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  companyId       String?
-  kind            String // IDEA | NOTE | REMINDER | TASK
-  title           String
-  body            String?              @db.Text
-  dueAt           DateTime? // lembrete/tarefa: quando avisar / prazo
-  done            Boolean              @default(false)
-  doneAt          DateTime?
-  remindedAt      DateTime? // lembrete já disparado (WhatsApp/push)
-  source          String               @default("APP") // APP | WHATSAPP | MCP | WEBHOOK | IPHONE
+  id                String               @id @default(cuid())
+  userId            String
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId         String?
+  kind              String // IDEA | NOTE | REMINDER | TASK
+  title             String
+  body              String?              @db.Text
+  dueAt             DateTime? // lembrete/tarefa: quando avisar / prazo
+  done              Boolean              @default(false)
+  doneAt            DateTime?
+  remindedAt        DateTime? // lembrete já disparado (WhatsApp/push)
+  source            String               @default("APP") // APP | WHATSAPP | MCP | WEBHOOK | IPHONE
   // Nome do recurso no CalDAV (Lembretes do iPhone) quando o item nasceu lá.
-  caldavUid       String?
+  caldavUid         String?
   // Lembrete exatamente como o iPhone gravou (com os campos internos dele) e quando.
   // Enquanto o GoHub não mexer no item, devolvemos esse texto igual — senão o
   // iOS vê "mudança", recarrega a lista e tira o usuário da tela.
-  caldavIcs       String?              @db.Text
-  caldavIcsAt     DateTime?
-  clientCompanyId String? // opcional: sobre qual cliente é
-  tags            String[]             @default([]) // etiquetas livres: pessoal, financeiro, cliente…
-  doneNote        String?              @db.Text // o que foi feito na conclusão (opcional)
+  caldavIcs         String?              @db.Text
+  caldavIcsAt       DateTime?
+  clientCompanyId   String? // opcional: sobre qual cliente é
+  tags              String[]             @default([]) // etiquetas livres: pessoal, financeiro, cliente…
+  doneNote          String?              @db.Text // o que foi feito na conclusão (opcional)
   // Matriz de Eisenhower: importante × urgente. Quadrantes: fazer (ambos),
   // agendar (importante, não urgente), delegar (urgente, não importante),
   // eliminar (nenhum). Inferido pela IA, editável.
-  important       Boolean              @default(true)
-  urgent          Boolean              @default(false)
+  important         Boolean              @default(true)
+  urgent            Boolean              @default(false)
   // Arquivado: guardado sem ocupar o bloquinho (ideia/nota que não vira ação).
-  archivedAt      DateTime?
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
-  events          AssistantNoteEvent[]
+  archivedAt        DateTime?
+  // Tarefas de projeto (ProjectTask.id) que este item acompanha. O bloquinho
+  // mostra "Abrir tarefa" e o item se conclui sozinho quando TODAS estiverem
+  // concluídas (ou excluídas). Preenchido pelo MCP ou extraído do link
+  // /projetos/<id>?tarefa=<id> no texto.
+  projectTaskIds    String[]             @default([])
+  // Delegado: vira chamado interno do responsável, mas o item continua ABERTO
+  // no quadrante Delegar pra acompanhar (fora da fila e dos lembretes). Conclui
+  // sozinho quando o chamado é resolvido/fechado.
+  delegatedTicketId String?
+  delegatedToName   String?
+  delegatedAt       DateTime?
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  events            AssistantNoteEvent[]
 
   @@index([userId, kind, done])
   @@index([kind, done, dueAt])
@@ -1663,6 +1674,7 @@ model SetorClickupList {
   materials     ProjectMaterial[]
   serviceSteps  ProjectService[]    @relation("ProjectServicesList") // serviços entregues neste projeto, em sequência
   sales         Sale[]              @relation("SaleProject") // vendas da esteira que este projeto entrega
+  contracts     ClientService[]     @relation("ProjectContracts") // contratos do cliente que este projeto entrega (definem a vigência)
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
@@ -1708,8 +1720,13 @@ model ProjectTask {
   startDate        DateTime? // início — pro cliente acompanhar o cronograma
   dueDate          DateTime? // fim / prazo
 
-  assignee   User?   @relation("ProjectTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
-  assigneeId String?
+  assignee     User?     @relation("ProjectTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  assigneeId   String?
+  // "Com o Claude (IA)": o Diego despachou a tarefa pro Claude fazer. Não é um
+  // usuário de verdade (senão ele apareceria em transferência de WhatsApp,
+  // chamados, ranking…). assigneeId continua sendo quem pediu — é pra quem a
+  // tarefa volta. Só existe no GoHub: o sync do ClickUp não lê nem grava isto.
+  aiAssignedAt DateTime?
 
   createdBy   User?   @relation("ProjectTaskCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   createdById String?
@@ -1749,6 +1766,7 @@ model ProjectTask {
   events      ProjectTaskEvent[]
 
   @@index([projectId, done])
+  @@index([aiAssignedAt])
   @@index([assigneeId])
   @@index([projectServiceId])
   @@index([status, approvalSentAt])
@@ -4271,6 +4289,12 @@ model ClientService {
   // duplicata que acabou de ser mesclada.
   externalClientName String?
 
+  // Projeto que ENTREGA este contrato. É daqui que o projeto tira a vigência
+  // (ativo/pausado/encerrado) — ver lib/project-vigencia. Um contrato tem no
+  // máximo um projeto; um projeto pode entregar vários (gestão + hospedagem).
+  project   SetorClickupList? @relation("ProjectContracts", fields: [projectId], references: [id], onDelete: SetNull)
+  projectId String?
+
   invoices     ClientInvoice[] // cobranças ligadas a este serviço
   bonuses      Bonus[] // bonificações geradas por este contrato, por competência
   billingSkips BillingSkip[] // competências em que foi ignorado na fila
@@ -4284,6 +4308,7 @@ model ClientService {
   @@index([clientCompanyId, endedAt])
   @@index([provider, externalId])
   @@index([provider, externalClientName])
+  @@index([projectId])
 }
 
 // Contrato ignorado na fila "a faturar" de UMA competência, com o porquê.

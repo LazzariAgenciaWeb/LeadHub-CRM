@@ -20,6 +20,7 @@
  */
 
 import { prisma } from "./prisma";
+import { syncProjectStatus } from "./project-vigencia";
 
 export const LISTA_CONTRATOS_PADRAO = "900100018035";
 
@@ -541,7 +542,8 @@ export async function aplicarImportacao(
     };
 
     if (existente) {
-      await prisma.clientService.update({ where: { id: existente.id }, data: dados });
+      const salvo = await prisma.clientService.update({ where: { id: existente.id }, data: dados, select: { projectId: true } });
+      await syncProjectStatus(salvo.projectId);
       atualizados++;
     } else {
       await prisma.clientService.create({ data: dados });

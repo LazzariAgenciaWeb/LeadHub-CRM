@@ -169,6 +169,10 @@ exports.Prisma.AssistantNoteScalarFieldEnum = {
   important: 'important',
   urgent: 'urgent',
   archivedAt: 'archivedAt',
+  projectTaskIds: 'projectTaskIds',
+  delegatedTicketId: 'delegatedTicketId',
+  delegatedToName: 'delegatedToName',
+  delegatedAt: 'delegatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -756,6 +760,7 @@ exports.Prisma.ProjectTaskScalarFieldEnum = {
   startDate: 'startDate',
   dueDate: 'dueDate',
   assigneeId: 'assigneeId',
+  aiAssignedAt: 'aiAssignedAt',
   createdById: 'createdById',
   approvalToken: 'approvalToken',
   approvalRound: 'approvalRound',
@@ -1901,6 +1906,7 @@ exports.Prisma.ClientServiceScalarFieldEnum = {
   externalId: 'externalId',
   provider: 'provider',
   externalClientName: 'externalClientName',
+  projectId: 'projectId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

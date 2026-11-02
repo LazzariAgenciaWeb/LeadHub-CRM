@@ -15654,6 +15654,7 @@ export namespace Prisma {
     materials: number
     serviceSteps: number
     sales: number
+    contracts: number
   }
 
   export type SetorClickupListCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15667,6 +15668,7 @@ export namespace Prisma {
     materials?: boolean | SetorClickupListCountOutputTypeCountMaterialsArgs
     serviceSteps?: boolean | SetorClickupListCountOutputTypeCountServiceStepsArgs
     sales?: boolean | SetorClickupListCountOutputTypeCountSalesArgs
+    contracts?: boolean | SetorClickupListCountOutputTypeCountContractsArgs
   }
 
   // Custom InputTypes
@@ -15748,6 +15750,13 @@ export namespace Prisma {
    */
   export type SetorClickupListCountOutputTypeCountSalesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SaleWhereInput
+  }
+
+  /**
+   * SetorClickupListCountOutputType without action
+   */
+  export type SetorClickupListCountOutputTypeCountContractsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientServiceWhereInput
   }
 
 
@@ -18817,6 +18826,9 @@ export namespace Prisma {
     important: boolean | null
     urgent: boolean | null
     archivedAt: Date | null
+    delegatedTicketId: string | null
+    delegatedToName: string | null
+    delegatedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18841,6 +18853,9 @@ export namespace Prisma {
     important: boolean | null
     urgent: boolean | null
     archivedAt: Date | null
+    delegatedTicketId: string | null
+    delegatedToName: string | null
+    delegatedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18866,6 +18881,10 @@ export namespace Prisma {
     important: number
     urgent: number
     archivedAt: number
+    projectTaskIds: number
+    delegatedTicketId: number
+    delegatedToName: number
+    delegatedAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -18892,6 +18911,9 @@ export namespace Prisma {
     important?: true
     urgent?: true
     archivedAt?: true
+    delegatedTicketId?: true
+    delegatedToName?: true
+    delegatedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18916,6 +18938,9 @@ export namespace Prisma {
     important?: true
     urgent?: true
     archivedAt?: true
+    delegatedTicketId?: true
+    delegatedToName?: true
+    delegatedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18941,6 +18966,10 @@ export namespace Prisma {
     important?: true
     urgent?: true
     archivedAt?: true
+    projectTaskIds?: true
+    delegatedTicketId?: true
+    delegatedToName?: true
+    delegatedAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -19039,6 +19068,10 @@ export namespace Prisma {
     important: boolean
     urgent: boolean
     archivedAt: Date | null
+    projectTaskIds: string[]
+    delegatedTicketId: string | null
+    delegatedToName: string | null
+    delegatedAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: AssistantNoteCountAggregateOutputType | null
@@ -19081,6 +19114,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: boolean
+    projectTaskIds?: boolean
+    delegatedTicketId?: boolean
+    delegatedToName?: boolean
+    delegatedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -19109,6 +19146,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: boolean
+    projectTaskIds?: boolean
+    delegatedTicketId?: boolean
+    delegatedToName?: boolean
+    delegatedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -19135,6 +19176,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: boolean
+    projectTaskIds?: boolean
+    delegatedTicketId?: boolean
+    delegatedToName?: boolean
+    delegatedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -19175,6 +19220,10 @@ export namespace Prisma {
       important: boolean
       urgent: boolean
       archivedAt: Date | null
+      projectTaskIds: string[]
+      delegatedTicketId: string | null
+      delegatedToName: string | null
+      delegatedAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["assistantNote"]>
@@ -19592,6 +19641,10 @@ export namespace Prisma {
     readonly important: FieldRef<"AssistantNote", 'Boolean'>
     readonly urgent: FieldRef<"AssistantNote", 'Boolean'>
     readonly archivedAt: FieldRef<"AssistantNote", 'DateTime'>
+    readonly projectTaskIds: FieldRef<"AssistantNote", 'String[]'>
+    readonly delegatedTicketId: FieldRef<"AssistantNote", 'String'>
+    readonly delegatedToName: FieldRef<"AssistantNote", 'String'>
+    readonly delegatedAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly createdAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly updatedAt: FieldRef<"AssistantNote", 'DateTime'>
   }
@@ -60191,6 +60244,7 @@ export namespace Prisma {
     materials?: boolean | SetorClickupList$materialsArgs<ExtArgs>
     serviceSteps?: boolean | SetorClickupList$serviceStepsArgs<ExtArgs>
     sales?: boolean | SetorClickupList$salesArgs<ExtArgs>
+    contracts?: boolean | SetorClickupList$contractsArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setorClickupList"]>
 
@@ -60273,6 +60327,7 @@ export namespace Prisma {
     materials?: boolean | SetorClickupList$materialsArgs<ExtArgs>
     serviceSteps?: boolean | SetorClickupList$serviceStepsArgs<ExtArgs>
     sales?: boolean | SetorClickupList$salesArgs<ExtArgs>
+    contracts?: boolean | SetorClickupList$contractsArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SetorClickupListIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -60297,6 +60352,7 @@ export namespace Prisma {
       materials: Prisma.$ProjectMaterialPayload<ExtArgs>[]
       serviceSteps: Prisma.$ProjectServicePayload<ExtArgs>[]
       sales: Prisma.$SalePayload<ExtArgs>[]
+      contracts: Prisma.$ClientServicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -60704,6 +60760,7 @@ export namespace Prisma {
     materials<T extends SetorClickupList$materialsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMaterialPayload<ExtArgs>, T, "findMany"> | Null>
     serviceSteps<T extends SetorClickupList$serviceStepsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$serviceStepsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findMany"> | Null>
     sales<T extends SetorClickupList$salesArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$salesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany"> | Null>
+    contracts<T extends SetorClickupList$contractsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientServicePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -61309,6 +61366,26 @@ export namespace Prisma {
   }
 
   /**
+   * SetorClickupList.contracts
+   */
+  export type SetorClickupList$contractsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientService
+     */
+    select?: ClientServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientServiceInclude<ExtArgs> | null
+    where?: ClientServiceWhereInput
+    orderBy?: ClientServiceOrderByWithRelationInput | ClientServiceOrderByWithRelationInput[]
+    cursor?: ClientServiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClientServiceScalarFieldEnum | ClientServiceScalarFieldEnum[]
+  }
+
+  /**
    * SetorClickupList without action
    */
   export type SetorClickupListDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -61368,6 +61445,7 @@ export namespace Prisma {
     startDate: Date | null
     dueDate: Date | null
     assigneeId: string | null
+    aiAssignedAt: Date | null
     createdById: string | null
     approvalToken: string | null
     approvalRound: number | null
@@ -61406,6 +61484,7 @@ export namespace Prisma {
     startDate: Date | null
     dueDate: Date | null
     assigneeId: string | null
+    aiAssignedAt: Date | null
     createdById: string | null
     approvalToken: string | null
     approvalRound: number | null
@@ -61446,6 +61525,7 @@ export namespace Prisma {
     startDate: number
     dueDate: number
     assigneeId: number
+    aiAssignedAt: number
     createdById: number
     approvalToken: number
     approvalRound: number
@@ -61504,6 +61584,7 @@ export namespace Prisma {
     startDate?: true
     dueDate?: true
     assigneeId?: true
+    aiAssignedAt?: true
     createdById?: true
     approvalToken?: true
     approvalRound?: true
@@ -61542,6 +61623,7 @@ export namespace Prisma {
     startDate?: true
     dueDate?: true
     assigneeId?: true
+    aiAssignedAt?: true
     createdById?: true
     approvalToken?: true
     approvalRound?: true
@@ -61582,6 +61664,7 @@ export namespace Prisma {
     startDate?: true
     dueDate?: true
     assigneeId?: true
+    aiAssignedAt?: true
     createdById?: true
     approvalToken?: true
     approvalRound?: true
@@ -61711,6 +61794,7 @@ export namespace Prisma {
     startDate: Date | null
     dueDate: Date | null
     assigneeId: string | null
+    aiAssignedAt: Date | null
     createdById: string | null
     approvalToken: string | null
     approvalRound: number
@@ -61772,6 +61856,7 @@ export namespace Prisma {
     startDate?: boolean
     dueDate?: boolean
     assigneeId?: boolean
+    aiAssignedAt?: boolean
     createdById?: boolean
     approvalToken?: boolean
     approvalRound?: boolean
@@ -61822,6 +61907,7 @@ export namespace Prisma {
     startDate?: boolean
     dueDate?: boolean
     assigneeId?: boolean
+    aiAssignedAt?: boolean
     createdById?: boolean
     approvalToken?: boolean
     approvalRound?: boolean
@@ -61868,6 +61954,7 @@ export namespace Prisma {
     startDate?: boolean
     dueDate?: boolean
     assigneeId?: boolean
+    aiAssignedAt?: boolean
     createdById?: boolean
     approvalToken?: boolean
     approvalRound?: boolean
@@ -61938,6 +62025,7 @@ export namespace Prisma {
       startDate: Date | null
       dueDate: Date | null
       assigneeId: string | null
+      aiAssignedAt: Date | null
       createdById: string | null
       approvalToken: string | null
       approvalRound: number
@@ -62377,6 +62465,7 @@ export namespace Prisma {
     readonly startDate: FieldRef<"ProjectTask", 'DateTime'>
     readonly dueDate: FieldRef<"ProjectTask", 'DateTime'>
     readonly assigneeId: FieldRef<"ProjectTask", 'String'>
+    readonly aiAssignedAt: FieldRef<"ProjectTask", 'DateTime'>
     readonly createdById: FieldRef<"ProjectTask", 'String'>
     readonly approvalToken: FieldRef<"ProjectTask", 'String'>
     readonly approvalRound: FieldRef<"ProjectTask", 'Int'>
@@ -140628,6 +140717,7 @@ export namespace Prisma {
     externalId: string | null
     provider: string | null
     externalClientName: string | null
+    projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -140652,6 +140742,7 @@ export namespace Prisma {
     externalId: string | null
     provider: string | null
     externalClientName: string | null
+    projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -140677,6 +140768,7 @@ export namespace Prisma {
     externalId: number
     provider: number
     externalClientName: number
+    projectId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -140715,6 +140807,7 @@ export namespace Prisma {
     externalId?: true
     provider?: true
     externalClientName?: true
+    projectId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -140739,6 +140832,7 @@ export namespace Prisma {
     externalId?: true
     provider?: true
     externalClientName?: true
+    projectId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -140764,6 +140858,7 @@ export namespace Prisma {
     externalId?: true
     provider?: true
     externalClientName?: true
+    projectId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -140876,6 +140971,7 @@ export namespace Prisma {
     externalId: string | null
     provider: string | null
     externalClientName: string | null
+    projectId: string | null
     createdAt: Date
     updatedAt: Date
     _count: ClientServiceCountAggregateOutputType | null
@@ -140920,10 +141016,12 @@ export namespace Prisma {
     externalId?: boolean
     provider?: boolean
     externalClientName?: boolean
+    projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
     service?: boolean | ClientService$serviceArgs<ExtArgs>
+    project?: boolean | ClientService$projectArgs<ExtArgs>
     invoices?: boolean | ClientService$invoicesArgs<ExtArgs>
     bonuses?: boolean | ClientService$bonusesArgs<ExtArgs>
     billingSkips?: boolean | ClientService$billingSkipsArgs<ExtArgs>
@@ -140951,10 +141049,12 @@ export namespace Prisma {
     externalId?: boolean
     provider?: boolean
     externalClientName?: boolean
+    projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
     service?: boolean | ClientService$serviceArgs<ExtArgs>
+    project?: boolean | ClientService$projectArgs<ExtArgs>
   }, ExtArgs["result"]["clientService"]>
 
   export type ClientServiceSelectScalar = {
@@ -140978,6 +141078,7 @@ export namespace Prisma {
     externalId?: boolean
     provider?: boolean
     externalClientName?: boolean
+    projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -140985,6 +141086,7 @@ export namespace Prisma {
   export type ClientServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
     service?: boolean | ClientService$serviceArgs<ExtArgs>
+    project?: boolean | ClientService$projectArgs<ExtArgs>
     invoices?: boolean | ClientService$invoicesArgs<ExtArgs>
     bonuses?: boolean | ClientService$bonusesArgs<ExtArgs>
     billingSkips?: boolean | ClientService$billingSkipsArgs<ExtArgs>
@@ -140993,6 +141095,7 @@ export namespace Prisma {
   export type ClientServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
     service?: boolean | ClientService$serviceArgs<ExtArgs>
+    project?: boolean | ClientService$projectArgs<ExtArgs>
   }
 
   export type $ClientServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -141000,6 +141103,7 @@ export namespace Prisma {
     objects: {
       clientCompany: Prisma.$CompanyPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs> | null
+      project: Prisma.$SetorClickupListPayload<ExtArgs> | null
       invoices: Prisma.$ClientInvoicePayload<ExtArgs>[]
       bonuses: Prisma.$BonusPayload<ExtArgs>[]
       billingSkips: Prisma.$BillingSkipPayload<ExtArgs>[]
@@ -141025,6 +141129,7 @@ export namespace Prisma {
       externalId: string | null
       provider: string | null
       externalClientName: string | null
+      projectId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["clientService"]>
@@ -141393,6 +141498,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     clientCompany<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     service<T extends ClientService$serviceArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    project<T extends ClientService$projectArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$projectArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     invoices<T extends ClientService$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany"> | Null>
     bonuses<T extends ClientService$bonusesArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$bonusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany"> | Null>
     billingSkips<T extends ClientService$billingSkipsArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$billingSkipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingSkipPayload<ExtArgs>, T, "findMany"> | Null>
@@ -141445,6 +141551,7 @@ export namespace Prisma {
     readonly externalId: FieldRef<"ClientService", 'String'>
     readonly provider: FieldRef<"ClientService", 'String'>
     readonly externalClientName: FieldRef<"ClientService", 'String'>
+    readonly projectId: FieldRef<"ClientService", 'String'>
     readonly createdAt: FieldRef<"ClientService", 'DateTime'>
     readonly updatedAt: FieldRef<"ClientService", 'DateTime'>
   }
@@ -141777,6 +141884,21 @@ export namespace Prisma {
      */
     include?: ServiceInclude<ExtArgs> | null
     where?: ServiceWhereInput
+  }
+
+  /**
+   * ClientService.project
+   */
+  export type ClientService$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    where?: SetorClickupListWhereInput
   }
 
   /**
@@ -171156,6 +171278,10 @@ export namespace Prisma {
     important: 'important',
     urgent: 'urgent',
     archivedAt: 'archivedAt',
+    projectTaskIds: 'projectTaskIds',
+    delegatedTicketId: 'delegatedTicketId',
+    delegatedToName: 'delegatedToName',
+    delegatedAt: 'delegatedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -171854,6 +171980,7 @@ export namespace Prisma {
     startDate: 'startDate',
     dueDate: 'dueDate',
     assigneeId: 'assigneeId',
+    aiAssignedAt: 'aiAssignedAt',
     createdById: 'createdById',
     approvalToken: 'approvalToken',
     approvalRound: 'approvalRound',
@@ -173224,6 +173351,7 @@ export namespace Prisma {
     externalId: 'externalId',
     provider: 'provider',
     externalClientName: 'externalClientName',
+    projectId: 'projectId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -174941,6 +175069,10 @@ export namespace Prisma {
     important?: BoolFilter<"AssistantNote"> | boolean
     urgent?: BoolFilter<"AssistantNote"> | boolean
     archivedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    projectTaskIds?: StringNullableListFilter<"AssistantNote">
+    delegatedTicketId?: StringNullableFilter<"AssistantNote"> | string | null
+    delegatedToName?: StringNullableFilter<"AssistantNote"> | string | null
+    delegatedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -174968,6 +175100,10 @@ export namespace Prisma {
     important?: SortOrder
     urgent?: SortOrder
     archivedAt?: SortOrderInput | SortOrder
+    projectTaskIds?: SortOrder
+    delegatedTicketId?: SortOrderInput | SortOrder
+    delegatedToName?: SortOrderInput | SortOrder
+    delegatedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -174998,6 +175134,10 @@ export namespace Prisma {
     important?: BoolFilter<"AssistantNote"> | boolean
     urgent?: BoolFilter<"AssistantNote"> | boolean
     archivedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    projectTaskIds?: StringNullableListFilter<"AssistantNote">
+    delegatedTicketId?: StringNullableFilter<"AssistantNote"> | string | null
+    delegatedToName?: StringNullableFilter<"AssistantNote"> | string | null
+    delegatedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -175025,6 +175165,10 @@ export namespace Prisma {
     important?: SortOrder
     urgent?: SortOrder
     archivedAt?: SortOrderInput | SortOrder
+    projectTaskIds?: SortOrder
+    delegatedTicketId?: SortOrderInput | SortOrder
+    delegatedToName?: SortOrderInput | SortOrder
+    delegatedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AssistantNoteCountOrderByAggregateInput
@@ -175056,6 +175200,10 @@ export namespace Prisma {
     important?: BoolWithAggregatesFilter<"AssistantNote"> | boolean
     urgent?: BoolWithAggregatesFilter<"AssistantNote"> | boolean
     archivedAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
+    projectTaskIds?: StringNullableListFilter<"AssistantNote">
+    delegatedTicketId?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
+    delegatedToName?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
+    delegatedAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AssistantNote"> | Date | string
   }
@@ -178824,6 +178972,7 @@ export namespace Prisma {
     materials?: ProjectMaterialListRelationFilter
     serviceSteps?: ProjectServiceListRelationFilter
     sales?: SaleListRelationFilter
+    contracts?: ClientServiceListRelationFilter
   }
 
   export type SetorClickupListOrderByWithRelationInput = {
@@ -178868,6 +179017,7 @@ export namespace Prisma {
     materials?: ProjectMaterialOrderByRelationAggregateInput
     serviceSteps?: ProjectServiceOrderByRelationAggregateInput
     sales?: SaleOrderByRelationAggregateInput
+    contracts?: ClientServiceOrderByRelationAggregateInput
   }
 
   export type SetorClickupListWhereUniqueInput = Prisma.AtLeast<{
@@ -178916,6 +179066,7 @@ export namespace Prisma {
     materials?: ProjectMaterialListRelationFilter
     serviceSteps?: ProjectServiceListRelationFilter
     sales?: SaleListRelationFilter
+    contracts?: ClientServiceListRelationFilter
   }, "id" | "publicToken" | "setorId_clickupListId">
 
   export type SetorClickupListOrderByWithAggregationInput = {
@@ -179010,6 +179161,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     dueDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableFilter<"ProjectTask"> | string | null
+    aiAssignedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
     approvalToken?: StringNullableFilter<"ProjectTask"> | string | null
     approvalRound?: IntFilter<"ProjectTask"> | number
@@ -179059,6 +179211,7 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     dueDate?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
+    aiAssignedAt?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     approvalToken?: SortOrderInput | SortOrder
     approvalRound?: SortOrder
@@ -179112,6 +179265,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     dueDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableFilter<"ProjectTask"> | string | null
+    aiAssignedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
     approvalRound?: IntFilter<"ProjectTask"> | number
     approvalCommentAt?: StringNullableFilter<"ProjectTask"> | string | null
@@ -179160,6 +179314,7 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     dueDate?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
+    aiAssignedAt?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     approvalToken?: SortOrderInput | SortOrder
     approvalRound?: SortOrder
@@ -179210,6 +179365,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     dueDate?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
+    aiAssignedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     createdById?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     approvalToken?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     approvalRound?: IntWithAggregatesFilter<"ProjectTask"> | number
@@ -186163,10 +186319,12 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"ClientService"> | string | null
     provider?: StringNullableFilter<"ClientService"> | string | null
     externalClientName?: StringNullableFilter<"ClientService"> | string | null
+    projectId?: StringNullableFilter<"ClientService"> | string | null
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
+    project?: XOR<SetorClickupListNullableRelationFilter, SetorClickupListWhereInput> | null
     invoices?: ClientInvoiceListRelationFilter
     bonuses?: BonusListRelationFilter
     billingSkips?: BillingSkipListRelationFilter
@@ -186193,10 +186351,12 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
     externalClientName?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     clientCompany?: CompanyOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
+    project?: SetorClickupListOrderByWithRelationInput
     invoices?: ClientInvoiceOrderByRelationAggregateInput
     bonuses?: BonusOrderByRelationAggregateInput
     billingSkips?: BillingSkipOrderByRelationAggregateInput
@@ -186226,10 +186386,12 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"ClientService"> | string | null
     provider?: StringNullableFilter<"ClientService"> | string | null
     externalClientName?: StringNullableFilter<"ClientService"> | string | null
+    projectId?: StringNullableFilter<"ClientService"> | string | null
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
+    project?: XOR<SetorClickupListNullableRelationFilter, SetorClickupListWhereInput> | null
     invoices?: ClientInvoiceListRelationFilter
     bonuses?: BonusListRelationFilter
     billingSkips?: BillingSkipListRelationFilter
@@ -186256,6 +186418,7 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
     externalClientName?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClientServiceCountOrderByAggregateInput
@@ -186289,6 +186452,7 @@ export namespace Prisma {
     externalId?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     provider?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     externalClientName?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
+    projectId?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
   }
@@ -189197,6 +189361,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: Date | string | null
+    projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
+    delegatedTicketId?: string | null
+    delegatedToName?: string | null
+    delegatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAssistantNotesInput
@@ -189224,6 +189392,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: Date | string | null
+    projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
+    delegatedTicketId?: string | null
+    delegatedToName?: string | null
+    delegatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: AssistantNoteEventUncheckedCreateNestedManyWithoutNoteInput
@@ -189249,6 +189421,10 @@ export namespace Prisma {
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
+    delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedToName?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAssistantNotesNestedInput
@@ -189276,6 +189452,10 @@ export namespace Prisma {
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
+    delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedToName?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: AssistantNoteEventUncheckedUpdateManyWithoutNoteNestedInput
@@ -189302,6 +189482,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: Date | string | null
+    projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
+    delegatedTicketId?: string | null
+    delegatedToName?: string | null
+    delegatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -189326,6 +189510,10 @@ export namespace Prisma {
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
+    delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedToName?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -189351,6 +189539,10 @@ export namespace Prisma {
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
+    delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedToName?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -193597,6 +193789,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateInput = {
@@ -193638,6 +193831,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUpdateInput = {
@@ -193679,6 +193873,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateInput = {
@@ -193720,6 +193915,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateManyInput = {
@@ -193828,6 +194024,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -193876,6 +194073,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -193918,6 +194116,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -193966,6 +194165,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -194011,6 +194211,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -194050,6 +194251,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194091,6 +194293,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -201850,6 +202053,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    project?: SetorClickupListCreateNestedOneWithoutContractsInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusCreateNestedManyWithoutClientServiceInput
     billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
@@ -201876,6 +202080,7 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     externalClientName?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -201906,6 +202111,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    project?: SetorClickupListUpdateOneWithoutContractsNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
     billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
@@ -201932,6 +202138,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -201960,6 +202167,7 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     externalClientName?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -202008,6 +202216,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -205474,6 +205683,10 @@ export namespace Prisma {
     important?: SortOrder
     urgent?: SortOrder
     archivedAt?: SortOrder
+    projectTaskIds?: SortOrder
+    delegatedTicketId?: SortOrder
+    delegatedToName?: SortOrder
+    delegatedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -205498,6 +205711,9 @@ export namespace Prisma {
     important?: SortOrder
     urgent?: SortOrder
     archivedAt?: SortOrder
+    delegatedTicketId?: SortOrder
+    delegatedToName?: SortOrder
+    delegatedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -205522,6 +205738,9 @@ export namespace Prisma {
     important?: SortOrder
     urgent?: SortOrder
     archivedAt?: SortOrder
+    delegatedTicketId?: SortOrder
+    delegatedToName?: SortOrder
+    delegatedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -208871,6 +209090,7 @@ export namespace Prisma {
     startDate?: SortOrder
     dueDate?: SortOrder
     assigneeId?: SortOrder
+    aiAssignedAt?: SortOrder
     createdById?: SortOrder
     approvalToken?: SortOrder
     approvalRound?: SortOrder
@@ -208919,6 +209139,7 @@ export namespace Prisma {
     startDate?: SortOrder
     dueDate?: SortOrder
     assigneeId?: SortOrder
+    aiAssignedAt?: SortOrder
     createdById?: SortOrder
     approvalToken?: SortOrder
     approvalRound?: SortOrder
@@ -208957,6 +209178,7 @@ export namespace Prisma {
     startDate?: SortOrder
     dueDate?: SortOrder
     assigneeId?: SortOrder
+    aiAssignedAt?: SortOrder
     createdById?: SortOrder
     approvalToken?: SortOrder
     approvalRound?: SortOrder
@@ -213666,6 +213888,7 @@ export namespace Prisma {
     externalId?: SortOrder
     provider?: SortOrder
     externalClientName?: SortOrder
+    projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -213696,6 +213919,7 @@ export namespace Prisma {
     externalId?: SortOrder
     provider?: SortOrder
     externalClientName?: SortOrder
+    projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -213720,6 +213944,7 @@ export namespace Prisma {
     externalId?: SortOrder
     provider?: SortOrder
     externalClientName?: SortOrder
+    projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -217055,6 +217280,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type AssistantNoteCreateprojectTaskIdsInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutAssistantNotesInput = {
     create?: XOR<UserCreateWithoutAssistantNotesInput, UserUncheckedCreateWithoutAssistantNotesInput>
     connectOrCreate?: UserCreateOrConnectWithoutAssistantNotesInput
@@ -217076,6 +217305,11 @@ export namespace Prisma {
   }
 
   export type AssistantNoteUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type AssistantNoteUpdateprojectTaskIdsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -223841,6 +224075,13 @@ export namespace Prisma {
     connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
   }
 
+  export type ClientServiceCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ClientServiceCreateWithoutProjectInput, ClientServiceUncheckedCreateWithoutProjectInput> | ClientServiceCreateWithoutProjectInput[] | ClientServiceUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutProjectInput | ClientServiceCreateOrConnectWithoutProjectInput[]
+    createMany?: ClientServiceCreateManyProjectInputEnvelope
+    connect?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+  }
+
   export type ProjectMemberUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -223909,6 +224150,13 @@ export namespace Prisma {
     connectOrCreate?: SaleCreateOrConnectWithoutProjectInput | SaleCreateOrConnectWithoutProjectInput[]
     createMany?: SaleCreateManyProjectInputEnvelope
     connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+  }
+
+  export type ClientServiceUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ClientServiceCreateWithoutProjectInput, ClientServiceUncheckedCreateWithoutProjectInput> | ClientServiceCreateWithoutProjectInput[] | ClientServiceUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutProjectInput | ClientServiceCreateOrConnectWithoutProjectInput[]
+    createMany?: ClientServiceCreateManyProjectInputEnvelope
+    connect?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
   }
 
   export type EnumProjectStatusFieldUpdateOperationsInput = {
@@ -224083,6 +224331,20 @@ export namespace Prisma {
     deleteMany?: SaleScalarWhereInput | SaleScalarWhereInput[]
   }
 
+  export type ClientServiceUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ClientServiceCreateWithoutProjectInput, ClientServiceUncheckedCreateWithoutProjectInput> | ClientServiceCreateWithoutProjectInput[] | ClientServiceUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutProjectInput | ClientServiceCreateOrConnectWithoutProjectInput[]
+    upsert?: ClientServiceUpsertWithWhereUniqueWithoutProjectInput | ClientServiceUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ClientServiceCreateManyProjectInputEnvelope
+    set?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+    disconnect?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+    delete?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+    connect?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+    update?: ClientServiceUpdateWithWhereUniqueWithoutProjectInput | ClientServiceUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ClientServiceUpdateManyWithWhereWithoutProjectInput | ClientServiceUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ClientServiceScalarWhereInput | ClientServiceScalarWhereInput[]
+  }
+
   export type ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -224221,6 +224483,20 @@ export namespace Prisma {
     update?: SaleUpdateWithWhereUniqueWithoutProjectInput | SaleUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: SaleUpdateManyWithWhereWithoutProjectInput | SaleUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: SaleScalarWhereInput | SaleScalarWhereInput[]
+  }
+
+  export type ClientServiceUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ClientServiceCreateWithoutProjectInput, ClientServiceUncheckedCreateWithoutProjectInput> | ClientServiceCreateWithoutProjectInput[] | ClientServiceUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutProjectInput | ClientServiceCreateOrConnectWithoutProjectInput[]
+    upsert?: ClientServiceUpsertWithWhereUniqueWithoutProjectInput | ClientServiceUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ClientServiceCreateManyProjectInputEnvelope
+    set?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+    disconnect?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+    delete?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+    connect?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+    update?: ClientServiceUpdateWithWhereUniqueWithoutProjectInput | ClientServiceUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ClientServiceUpdateManyWithWhereWithoutProjectInput | ClientServiceUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ClientServiceScalarWhereInput | ClientServiceScalarWhereInput[]
   }
 
   export type SetorClickupListCreateNestedOneWithoutInternalTasksInput = {
@@ -227282,6 +227558,12 @@ export namespace Prisma {
     connect?: ServiceWhereUniqueInput
   }
 
+  export type SetorClickupListCreateNestedOneWithoutContractsInput = {
+    create?: XOR<SetorClickupListCreateWithoutContractsInput, SetorClickupListUncheckedCreateWithoutContractsInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutContractsInput
+    connect?: SetorClickupListWhereUniqueInput
+  }
+
   export type ClientInvoiceCreateNestedManyWithoutClientServiceInput = {
     create?: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput> | ClientInvoiceCreateWithoutClientServiceInput[] | ClientInvoiceUncheckedCreateWithoutClientServiceInput[]
     connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientServiceInput | ClientInvoiceCreateOrConnectWithoutClientServiceInput[]
@@ -227340,6 +227622,16 @@ export namespace Prisma {
     delete?: ServiceWhereInput | boolean
     connect?: ServiceWhereUniqueInput
     update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutClientInstancesInput, ServiceUpdateWithoutClientInstancesInput>, ServiceUncheckedUpdateWithoutClientInstancesInput>
+  }
+
+  export type SetorClickupListUpdateOneWithoutContractsNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutContractsInput, SetorClickupListUncheckedCreateWithoutContractsInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutContractsInput
+    upsert?: SetorClickupListUpsertWithoutContractsInput
+    disconnect?: SetorClickupListWhereInput | boolean
+    delete?: SetorClickupListWhereInput | boolean
+    connect?: SetorClickupListWhereUniqueInput
+    update?: XOR<XOR<SetorClickupListUpdateToOneWithWhereWithoutContractsInput, SetorClickupListUpdateWithoutContractsInput>, SetorClickupListUncheckedUpdateWithoutContractsInput>
   }
 
   export type ClientInvoiceUpdateManyWithoutClientServiceNestedInput = {
@@ -231026,6 +231318,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -231072,6 +231365,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -231124,6 +231418,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -231171,6 +231466,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -231935,6 +232231,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: Date | string | null
+    projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
+    delegatedTicketId?: string | null
+    delegatedToName?: string | null
+    delegatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: AssistantNoteEventCreateNestedManyWithoutNoteInput
@@ -231960,6 +232260,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: Date | string | null
+    projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
+    delegatedTicketId?: string | null
+    delegatedToName?: string | null
+    delegatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: AssistantNoteEventUncheckedCreateNestedManyWithoutNoteInput
@@ -232951,6 +233255,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     dueDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableFilter<"ProjectTask"> | string | null
+    aiAssignedAt?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
     approvalToken?: StringNullableFilter<"ProjectTask"> | string | null
     approvalRound?: IntFilter<"ProjectTask"> | number
@@ -233550,6 +233855,10 @@ export namespace Prisma {
     important?: BoolFilter<"AssistantNote"> | boolean
     urgent?: BoolFilter<"AssistantNote"> | boolean
     archivedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
+    projectTaskIds?: StringNullableListFilter<"AssistantNote">
+    delegatedTicketId?: StringNullableFilter<"AssistantNote"> | string | null
+    delegatedToName?: StringNullableFilter<"AssistantNote"> | string | null
+    delegatedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     createdAt?: DateTimeFilter<"AssistantNote"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantNote"> | Date | string
   }
@@ -233998,6 +234307,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: Date | string | null
+    projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
+    delegatedTicketId?: string | null
+    delegatedToName?: string | null
+    delegatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAssistantNotesInput
@@ -234024,6 +234337,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: Date | string | null
+    projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
+    delegatedTicketId?: string | null
+    delegatedToName?: string | null
+    delegatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -234064,6 +234381,10 @@ export namespace Prisma {
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
+    delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedToName?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAssistantNotesNestedInput
@@ -234090,6 +234411,10 @@ export namespace Prisma {
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
+    delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedToName?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -237201,6 +237526,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutClientCompanyInput = {
@@ -237241,6 +237567,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutClientCompanyInput = {
@@ -238400,6 +238727,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    project?: SetorClickupListCreateNestedOneWithoutContractsInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusCreateNestedManyWithoutClientServiceInput
     billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
@@ -238425,6 +238753,7 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     externalClientName?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -242286,6 +242615,7 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"ClientService"> | string | null
     provider?: StringNullableFilter<"ClientService"> | string | null
     externalClientName?: StringNullableFilter<"ClientService"> | string | null
+    projectId?: StringNullableFilter<"ClientService"> | string | null
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
   }
@@ -261098,6 +261428,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTicketsInput = {
@@ -261138,6 +261469,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTicketsInput = {
@@ -262361,6 +262693,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTicketsInput = {
@@ -262401,6 +262734,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TicketMessageUpsertWithWhereUniqueWithoutTicketInput = {
@@ -263229,6 +263563,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutSetorInput = {
@@ -263269,6 +263604,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutSetorInput = {
@@ -264614,6 +264950,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -264660,6 +264997,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -264891,6 +265229,72 @@ export namespace Prisma {
 
   export type SaleCreateManyProjectInputEnvelope = {
     data: SaleCreateManyProjectInput | SaleCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClientServiceCreateWithoutProjectInput = {
+    id?: string
+    label: string
+    status?: string
+    renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    url?: string | null
+    notes?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    amountCents?: number | null
+    isRecurring?: boolean
+    billingCycle?: string | null
+    billingDay?: number | null
+    bonusEligible?: boolean
+    externalId?: string | null
+    provider?: string | null
+    externalClientName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
+    service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
+  }
+
+  export type ClientServiceUncheckedCreateWithoutProjectInput = {
+    id?: string
+    clientCompanyId: string
+    serviceId?: string | null
+    label: string
+    status?: string
+    renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    url?: string | null
+    notes?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    amountCents?: number | null
+    isRecurring?: boolean
+    billingCycle?: string | null
+    billingDay?: number | null
+    bonusEligible?: boolean
+    externalId?: string | null
+    provider?: string | null
+    externalClientName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
+    billingSkips?: BillingSkipUncheckedCreateNestedManyWithoutClientServiceInput
+  }
+
+  export type ClientServiceCreateOrConnectWithoutProjectInput = {
+    where: ClientServiceWhereUniqueInput
+    create: XOR<ClientServiceCreateWithoutProjectInput, ClientServiceUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ClientServiceCreateManyProjectInputEnvelope = {
+    data: ClientServiceCreateManyProjectInput | ClientServiceCreateManyProjectInput[]
     skipDuplicates?: boolean
   }
 
@@ -265557,6 +265961,22 @@ export namespace Prisma {
     data: XOR<SaleUpdateManyMutationInput, SaleUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type ClientServiceUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ClientServiceWhereUniqueInput
+    update: XOR<ClientServiceUpdateWithoutProjectInput, ClientServiceUncheckedUpdateWithoutProjectInput>
+    create: XOR<ClientServiceCreateWithoutProjectInput, ClientServiceUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ClientServiceUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ClientServiceWhereUniqueInput
+    data: XOR<ClientServiceUpdateWithoutProjectInput, ClientServiceUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ClientServiceUpdateManyWithWhereWithoutProjectInput = {
+    where: ClientServiceScalarWhereInput
+    data: XOR<ClientServiceUpdateManyMutationInput, ClientServiceUncheckedUpdateManyWithoutProjectInput>
+  }
+
   export type SetorClickupListCreateWithoutInternalTasksInput = {
     id?: string
     clickupListId?: string | null
@@ -265595,6 +266015,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutInternalTasksInput = {
@@ -265635,6 +266056,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutInternalTasksInput = {
@@ -266116,6 +266538,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutInternalTasksInput = {
@@ -266156,6 +266579,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectServiceUpsertWithoutTasksInput = {
@@ -266559,6 +266983,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutServiceStepsInput = {
@@ -266599,6 +267024,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutServiceStepsInput = {
@@ -266663,6 +267089,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -266709,6 +267136,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -266794,6 +267222,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutServiceStepsInput = {
@@ -266834,6 +267263,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ServiceUpsertWithoutProjectStepsInput = {
@@ -266915,6 +267345,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -266962,6 +267393,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -267030,6 +267462,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTaskEventsInput = {
@@ -267070,6 +267503,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTaskEventsInput = {
@@ -267104,6 +267538,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -267151,6 +267586,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -267225,6 +267661,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTaskEventsInput = {
@@ -267265,6 +267702,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TicketCreateWithoutAccessUsersInput = {
@@ -267713,6 +268151,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutAccessUsersInput = {
@@ -267753,6 +268192,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutAccessUsersInput = {
@@ -267944,6 +268384,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutAccessUsersInput = {
@@ -267984,6 +268425,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectAccessInput = {
@@ -268165,6 +268607,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTaskStatesInput = {
@@ -268205,6 +268648,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTaskStatesInput = {
@@ -268261,6 +268705,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTaskStatesInput = {
@@ -268301,6 +268746,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateWithoutActivitiesInput = {
@@ -268341,6 +268787,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutActivitiesInput = {
@@ -268381,6 +268828,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutActivitiesInput = {
@@ -268437,6 +268885,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutActivitiesInput = {
@@ -268477,6 +268926,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateWithoutMembersInput = {
@@ -268517,6 +268967,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutMembersInput = {
@@ -268557,6 +269008,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutMembersInput = {
@@ -268748,6 +269200,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutMembersInput = {
@@ -268788,6 +269241,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectMembershipsInput = {
@@ -268969,6 +269423,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutMaterialsInput = {
@@ -269009,6 +269464,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutMaterialsInput = {
@@ -269032,6 +269488,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -269079,6 +269536,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -269158,6 +269616,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutMaterialsInput = {
@@ -269198,6 +269657,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectTaskUpsertWithoutMaterialsInput = {
@@ -269227,6 +269687,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -269274,6 +269735,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -307490,6 +307952,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
+    project?: SetorClickupListCreateNestedOneWithoutContractsInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusCreateNestedManyWithoutClientServiceInput
     billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
@@ -307515,6 +307978,7 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     externalClientName?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -307570,6 +308034,7 @@ export namespace Prisma {
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
     sales?: SaleCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutServiceInput = {
@@ -307610,6 +308075,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
     sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutServiceInput = {
@@ -308319,6 +308785,93 @@ export namespace Prisma {
     create: XOR<ServiceCreateWithoutClientInstancesInput, ServiceUncheckedCreateWithoutClientInstancesInput>
   }
 
+  export type SetorClickupListCreateWithoutContractsInput = {
+    id?: string
+    clickupListId?: string | null
+    name: string
+    description?: string | null
+    type?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    publicToken?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutClickupListsInput
+    clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+    service?: ServiceCreateNestedOneWithoutProjectsInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
+    tickets?: TicketCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
+    materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    sales?: SaleCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListUncheckedCreateWithoutContractsInput = {
+    id?: string
+    setorId: string
+    clickupListId?: string | null
+    name: string
+    description?: string | null
+    type?: string | null
+    clientCompanyId?: string | null
+    serviceId?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    publicToken?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    approvalGroupJid?: string | null
+    approvalGroupName?: string | null
+    approvalReminderDays?: number
+    approvalMaxReminders?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
+    materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    sales?: SaleUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListCreateOrConnectWithoutContractsInput = {
+    where: SetorClickupListWhereUniqueInput
+    create: XOR<SetorClickupListCreateWithoutContractsInput, SetorClickupListUncheckedCreateWithoutContractsInput>
+  }
+
   export type ClientInvoiceCreateWithoutClientServiceInput = {
     id?: string
     description: string
@@ -308775,6 +309328,99 @@ export namespace Prisma {
     projectSteps?: ProjectServiceUncheckedUpdateManyWithoutServiceNestedInput
   }
 
+  export type SetorClickupListUpsertWithoutContractsInput = {
+    update: XOR<SetorClickupListUpdateWithoutContractsInput, SetorClickupListUncheckedUpdateWithoutContractsInput>
+    create: XOR<SetorClickupListCreateWithoutContractsInput, SetorClickupListUncheckedCreateWithoutContractsInput>
+    where?: SetorClickupListWhereInput
+  }
+
+  export type SetorClickupListUpdateToOneWithWhereWithoutContractsInput = {
+    where?: SetorClickupListWhereInput
+    data: XOR<SetorClickupListUpdateWithoutContractsInput, SetorClickupListUncheckedUpdateWithoutContractsInput>
+  }
+
+  export type SetorClickupListUpdateWithoutContractsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+    service?: ServiceUpdateOneWithoutProjectsNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
+    materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    sales?: SaleUpdateManyWithoutProjectNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateWithoutContractsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalGroupJid?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalGroupName?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalReminderDays?: IntFieldUpdateOperationsInput | number
+    approvalMaxReminders?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
+    materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
   export type ClientInvoiceUpsertWithWhereUniqueWithoutClientServiceInput = {
     where: ClientInvoiceWhereUniqueInput
     update: XOR<ClientInvoiceUpdateWithoutClientServiceInput, ClientInvoiceUncheckedUpdateWithoutClientServiceInput>
@@ -308858,6 +309504,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    project?: SetorClickupListCreateNestedOneWithoutContractsInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
     bonuses?: BonusCreateNestedManyWithoutClientServiceInput
   }
@@ -308883,6 +309530,7 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     externalClientName?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -308928,6 +309576,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    project?: SetorClickupListUpdateOneWithoutContractsNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
   }
@@ -308953,6 +309602,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -309267,6 +309917,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    project?: SetorClickupListCreateNestedOneWithoutContractsInput
     bonuses?: BonusCreateNestedManyWithoutClientServiceInput
     billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
   }
@@ -309292,6 +309943,7 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     externalClientName?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
@@ -309691,6 +310343,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    project?: SetorClickupListUpdateOneWithoutContractsNestedInput
     bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
     billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
   }
@@ -309716,6 +310369,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -310610,6 +311264,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutSalesInput = {
@@ -310650,6 +311305,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
     serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
+    contracts?: ClientServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutSalesInput = {
@@ -311445,6 +312101,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutSalesInput = {
@@ -311485,6 +312142,7 @@ export namespace Prisma {
     taskEvents?: ProjectTaskEventUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type CompanyCreateWithoutBonusClosuresInput = {
@@ -312434,6 +313092,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    project?: SetorClickupListCreateNestedOneWithoutContractsInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
     billingSkips?: BillingSkipCreateNestedManyWithoutClientServiceInput
   }
@@ -312459,6 +313118,7 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     externalClientName?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -312999,6 +313659,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    project?: SetorClickupListUpdateOneWithoutContractsNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
     billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
   }
@@ -313024,6 +313685,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -320375,6 +321037,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -320422,6 +321085,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -321048,6 +321712,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -321095,6 +321760,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -324677,6 +325343,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
     dueDate?: Date | string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -324719,6 +325386,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     approvalToken?: string | null
     approvalRound?: number
     approvalCommentAt?: string | null
@@ -325013,6 +325681,10 @@ export namespace Prisma {
     important?: boolean
     urgent?: boolean
     archivedAt?: Date | string | null
+    projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
+    delegatedTicketId?: string | null
+    delegatedToName?: string | null
+    delegatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -325818,6 +326490,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325864,6 +326537,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -325908,6 +326582,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -325947,6 +326622,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -325994,6 +326670,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -326038,6 +326715,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -326860,6 +327538,10 @@ export namespace Prisma {
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
+    delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedToName?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: AssistantNoteEventUpdateManyWithoutNoteNestedInput
@@ -326885,6 +327567,10 @@ export namespace Prisma {
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
+    delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedToName?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: AssistantNoteEventUncheckedUpdateManyWithoutNoteNestedInput
@@ -326910,6 +327596,10 @@ export namespace Prisma {
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
+    delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedToName?: NullableStringFieldUpdateOperationsInput | string | null
+    delegatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -327597,6 +328287,7 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     externalClientName?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -329114,6 +329805,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutClientCompanyInput = {
@@ -329154,6 +329846,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -330449,6 +331142,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    project?: SetorClickupListUpdateOneWithoutContractsNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
     billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
@@ -330474,6 +331168,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -330501,6 +331196,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -336303,6 +336999,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutSetorInput = {
@@ -336343,6 +337040,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutSetorInput = {
@@ -336482,6 +337180,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -336572,6 +337271,31 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientServiceCreateManyProjectInput = {
+    id?: string
+    clientCompanyId: string
+    serviceId?: string | null
+    label: string
+    status?: string
+    renewsAt?: Date | string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    url?: string | null
+    notes?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    amountCents?: number | null
+    isRecurring?: boolean
+    billingCycle?: string | null
+    billingDay?: number | null
+    bonusEligible?: boolean
+    externalId?: string | null
+    provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -336770,6 +337494,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -336816,6 +337541,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -336860,6 +337586,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -337102,6 +337829,87 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ClientServiceUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    amountCents?: NullableIntFieldUpdateOperationsInput | number | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
+    service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
+  }
+
+  export type ClientServiceUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    amountCents?: NullableIntFieldUpdateOperationsInput | number | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
+    billingSkips?: BillingSkipUncheckedUpdateManyWithoutClientServiceNestedInput
+  }
+
+  export type ClientServiceUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    amountCents?: NullableIntFieldUpdateOperationsInput | number | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProjectMaterialCreateManyTaskInput = {
     id?: string
     projectId: string
@@ -337314,6 +338122,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
+    aiAssignedAt?: Date | string | null
     createdById?: string | null
     approvalToken?: string | null
     approvalRound?: number
@@ -337353,6 +338162,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
     approvalCommentAt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -337399,6 +338209,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -337443,6 +338254,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     approvalToken?: NullableStringFieldUpdateOperationsInput | string | null
     approvalRound?: IntFieldUpdateOperationsInput | number
@@ -339130,6 +339942,7 @@ export namespace Prisma {
     externalId?: string | null
     provider?: string | null
     externalClientName?: string | null
+    projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -339196,6 +340009,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
+    project?: SetorClickupListUpdateOneWithoutContractsNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
     bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
     billingSkips?: BillingSkipUpdateManyWithoutClientServiceNestedInput
@@ -339221,6 +340035,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -339248,6 +340063,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -339290,6 +340106,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
     sales?: SaleUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutServiceInput = {
@@ -339330,6 +340147,7 @@ export namespace Prisma {
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
     serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
     sales?: SaleUncheckedUpdateManyWithoutProjectNestedInput
+    contracts?: ClientServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutServiceInput = {

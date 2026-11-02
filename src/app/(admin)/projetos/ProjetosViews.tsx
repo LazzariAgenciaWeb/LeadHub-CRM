@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { LayoutGrid, List, Network, Columns3, Star, ChevronRight, ChevronDown, Search, Plus } from "lucide-react";
-import ProjetosBoard from "./ProjetosBoard";
 import type { ViewPref } from "@/lib/projetos-view-pref";
 
 /**
@@ -21,6 +20,7 @@ export type PVTask = {
 };
 export type PV = {
   id: string; name: string; type: string | null; status: string; clickup: boolean;
+  contracts: { id: string; label: string; status: string; recurring: boolean; cycle: string | null }[];
   setor: { id: string; name: string }; client: { id: string; name: string } | null;
   dueDate: string | null; lastActivity: string;
   memberIds: string[]; members: string[];
@@ -108,6 +108,41 @@ function agoLabel(iso: string) {
 }
 const initials = (n: string) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0]!.toUpperCase()).join("");
 
+// Vigência: Ativo · Pausado · Encerrado. Com contrato ligado, o status do
+// projeto é cache da vigência dos contratos (lib/project-vigencia).
+type Vig = "ATIVO" | "PAUSADO" | "ENCERRADO";
+const vigOf = (status: string): Vig =>
+  status === "ENTREGUE" || status === "CANCELADO" ? "ENCERRADO" : status === "PAUSADO" ? "PAUSADO" : "ATIVO";
+const VIG: Record<Vig, { label: string; chip: string; col: string }> = {
+  ATIVO:     { label: "Ativos",     chip: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30", col: "border-emerald-500/30 bg-emerald-500/5" },
+  PAUSADO:   { label: "Pausados",   chip: "bg-amber-500/15 text-amber-300 border-amber-500/30",       col: "border-amber-500/30 bg-amber-500/5" },
+  ENCERRADO: { label: "Encerrados", chip: "bg-slate-500/15 text-slate-400 border-slate-500/30",       col: "border-slate-600/40 bg-slate-500/5" },
+};
+const CICLO: Record<string, string> = { MENSAL: "mensal", TRIMESTRAL: "trimestral", ANUAL: "anual" };
+
+// Contratos vivos do projeto como chips (🔁 recorrente · 📦 pontual).
+function ContractChips({ p, max = 3 }: { p: PV; max?: number }) {
+  const live = p.contracts.filter((c) => c.status !== "ENCERRADO");
+  if (!live.length) return null;
+  return (
+    <span className="flex items-center gap-1 flex-wrap min-w-0">
+      {live.slice(0, max).map((c) => (
+        <span key={c.id} title={`${c.label} · ${c.recurring ? `recorrente${c.cycle ? ` ${CICLO[c.cycle] ?? ""}` : ""}` : "pontual"}${c.status === "PAUSADO" ? " · pausado" : ""}`}
+          className={`px-1.5 py-0.5 rounded text-[10px] truncate max-w-[10rem] ${c.status === "PAUSADO" ? "bg-amber-500/10 text-amber-300" : "bg-[#111a2b] text-slate-300"}`}>
+          {c.recurring ? "🔁" : "📦"} {c.label}
+        </span>
+      ))}
+      {live.length > max && <span className="text-[10px] text-slate-500">+{live.length - max}</span>}
+    </span>
+  );
+}
+
+function VigChip({ status }: { status: string }) {
+  const v = vigOf(status);
+  if (v === "ATIVO") return null;
+  return <span className={`px-1.5 py-0.5 rounded border text-[10px] font-semibold ${VIG[v].chip}`}>{v === "PAUSADO" ? "Pausado" : "Encerrado"}</span>;
+}
+
 const taskHref = (pid: string, tid: string) => `/projetos/${pid}?tarefa=${tid}`;
 
 // Etapas + "Sem etapa" (tarefas soltas / a organizar), cada uma com suas tarefas.
@@ -120,12 +155,11 @@ function stepsWithTasks(p: PV) {
 }
 
 export default function ProjetosViews({
-  items, pref, currentUserId, kanban,
+  items, pref, currentUserId,
 }: {
   items: PV[];
   pref: ViewPref;
   currentUserId: string;
-  kanban: { projects: any[]; isSuperAdmin: boolean; companies: { id: string; name: string }[]; filterCompanyId: string };
 }) {
   const [view, setView] = useState<View>(pref.view);
   const [groupBy, setGroupBy] = useState<GroupBy>(pref.groupBy);
@@ -154,7 +188,8 @@ export default function ProjetosViews({
     return items
       .map((p) => ({ p, s: summarize(p, today) }))
       .filter(({ p, s }) => {
-        if (!showClosed && (p.status === "ENTREGUE" || p.status === "CANCELADO")) return false;
+        // Kanban mostra as três colunas; as outras visões escondem os encerrados.
+        if (view !== "kanban" && !showClosed && vigOf(p.status) === "ENCERRADO") return false;
         if (quick === "meus" && !(p.memberIds.includes(currentUserId) || p.tasks.some((t) => !t.done && t.assigneeId === currentUserId))) return false;
         if (quick === "atraso" && s.overdue === 0) return false;
         if (quick === "aguardando" && s.awaiting === 0) return false;
@@ -169,7 +204,7 @@ export default function ProjetosViews({
         if (sortBy === "atividade") return b.p.lastActivity.localeCompare(a.p.lastActivity);
         return (a.s.next ?? "9999").localeCompare(b.s.next ?? "9999"); // entrega
       });
-  }, [items, search, quick, showClosed, sortBy, currentUserId, today]);
+  }, [items, search, quick, showClosed, sortBy, currentUserId, today, view]);
 
   const groups = useMemo(() => {
     if (groupBy === "nenhum") return [{ key: "all", label: "", rows }];
@@ -187,7 +222,7 @@ export default function ProjetosViews({
   }, [rows, groupBy, today]);
 
   const counts = useMemo(() => {
-    const all = items.map((p) => ({ p, s: summarize(p, today) })).filter(({ p }) => showClosed || (p.status !== "ENTREGUE" && p.status !== "CANCELADO"));
+    const all = items.map((p) => ({ p, s: summarize(p, today) })).filter(({ p }) => showClosed || vigOf(p.status) !== "ENCERRADO");
     return {
       meus: all.filter(({ p }) => p.memberIds.includes(currentUserId) || p.tasks.some((t) => !t.done && t.assigneeId === currentUserId)).length,
       atraso: all.filter(({ s }) => s.overdue > 0).length,
@@ -247,10 +282,7 @@ export default function ProjetosViews({
         </button>
       </div>
 
-      {view === "kanban" ? (
-        <ProjetosBoard {...kanban} currentUserId={currentUserId} />
-      ) : (
-        <>
+      <>
           {/* Busca + atalhos */}
           <div className="flex items-center gap-2 flex-wrap mb-4">
             <div className="relative">
@@ -269,14 +301,18 @@ export default function ProjetosViews({
                 {b.label}{b.n !== undefined && <span className="ml-1 opacity-70">{b.n}</span>}
               </button>
             ))}
-            <label className="flex items-center gap-1.5 text-xs text-slate-500 ml-1 cursor-pointer">
-              <input type="checkbox" checked={showClosed} onChange={(e) => setShowClosed(e.target.checked)} className="accent-indigo-500" />
-              Entregues e cancelados
-            </label>
+            {view !== "kanban" && (
+              <label className="flex items-center gap-1.5 text-xs text-slate-500 ml-1 cursor-pointer">
+                <input type="checkbox" checked={showClosed} onChange={(e) => setShowClosed(e.target.checked)} className="accent-indigo-500" />
+                Mostrar encerrados
+              </label>
+            )}
             <span className="ml-auto text-xs text-slate-600">{rows.length} projeto{rows.length === 1 ? "" : "s"}</span>
           </div>
 
-          {rows.length === 0 ? (
+          {view === "kanban" ? (
+            <KanbanView rows={rows} today={today} />
+          ) : rows.length === 0 ? (
             <p className="text-slate-500 text-sm py-10 text-center">Nenhum projeto com esses filtros.</p>
           ) : (
             <div className="space-y-6">
@@ -296,13 +332,57 @@ export default function ProjetosViews({
               ))}
             </div>
           )}
-        </>
-      )}
+      </>
     </>
   );
 }
 
 type Row = { p: PV; s: Sum };
+
+// ─── Kanban por vigência (Ativo · Pausado · Encerrado) ───────────────────────
+// Sem arrastar: com contrato ligado a vigência vem do Financeiro, e sem
+// contrato ela muda no próprio projeto (quadro Vigência).
+function KanbanView({ rows, today }: { rows: Row[]; today: number }) {
+  const cols: Vig[] = ["ATIVO", "PAUSADO", "ENCERRADO"];
+  return (
+    <div className="grid gap-3 md:grid-cols-3">
+      {cols.map((v) => {
+        const list = rows.filter(({ p }) => vigOf(p.status) === v);
+        return (
+          <div key={v} className={`rounded-xl border ${VIG[v].col} p-2.5 min-h-[8rem]`}>
+            <div className="flex items-center gap-2 px-1 pb-2 text-xs font-semibold text-slate-300">
+              {VIG[v].label}<span className="text-slate-600 font-normal">· {list.length}</span>
+            </div>
+            <div className="space-y-2">
+              {list.map(({ p, s }) => {
+                const seg = segOf(p.type);
+                const due = dueLabel(v === "ENCERRADO" ? null : s.next, today);
+                return (
+                  <Link key={p.id} href={`/projetos/${p.id}`}
+                    className={`block rounded-lg border border-[#1e2d45] border-l-4 ${seg.bar} bg-[#0a0f1a] hover:bg-[#0d1424] p-3`}>
+                    <div className="flex items-center gap-1.5 mb-1">
+                      {v !== "ENCERRADO" && <span className={`w-2 h-2 rounded-full ${HEALTH[s.health].dot}`} title={HEALTH[s.health].label} />}
+                      <span className="text-sm text-white font-medium truncate">{p.name}</span>
+                    </div>
+                    <div className="text-[11px] text-slate-500 truncate">{p.client?.name ?? "Sem cliente"} · {seg.label}</div>
+                    <div className="mt-1.5"><ContractChips p={p} max={2} /></div>
+                    {v !== "ENCERRADO" && (
+                      <div className="mt-2 flex items-center gap-2">
+                        <div className="flex-1"><Progress s={s} /></div>
+                        <span className={`text-[11px] shrink-0 ${due.cls}`}>{due.text}</span>
+                      </div>
+                    )}
+                  </Link>
+                );
+              })}
+              {list.length === 0 && <p className="text-[11px] text-slate-600 px-1 py-2">Nenhum projeto.</p>}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 function Progress({ s }: { s: Sum }) {
   const pct = s.total ? Math.round((s.done / s.total) * 100) : 0;
@@ -347,6 +427,9 @@ function CardsView({ rows, today }: { rows: Row[]; today: number }) {
             </div>
             <div className="text-white text-sm font-semibold leading-snug group-hover:text-indigo-200 line-clamp-2">{p.name}</div>
             <div className="text-xs text-slate-400 mt-0.5 truncate">{p.client?.name ?? "Sem cliente"}</div>
+            {(p.contracts.length > 0 || vigOf(p.status) !== "ATIVO") && (
+              <div className="mt-2 flex items-center gap-1 flex-wrap"><VigChip status={p.status} /><ContractChips p={p} /></div>
+            )}
             <div className="mt-3"><Progress s={s} /></div>
             <div className="mt-2.5 flex items-center gap-1.5 flex-wrap text-[11px]">
               <span className="text-slate-500">Próxima entrega:</span>
@@ -513,6 +596,7 @@ function ListaView({ rows, today }: { rows: Row[]; today: number }) {
                 <div className="text-sm text-white font-medium truncate">{p.name}</div>
                 <div className="text-[11px] text-slate-500 truncate">{p.client?.name ?? "Sem cliente"} · {p.setor.name}</div>
               </button>
+              <span className="hidden lg:flex items-center gap-1 shrink-0 max-w-[16rem]"><VigChip status={p.status} /><ContractChips p={p} max={2} /></span>
               <span className={`hidden md:inline px-1.5 py-0.5 rounded border text-[10px] font-semibold shrink-0 ${seg.cls}`}>{seg.label}</span>
               <div className="hidden md:block w-36 shrink-0"><Progress s={s} /></div>
               <span className={`hidden sm:block w-32 shrink-0 text-xs text-right ${due.cls}`}>{due.text}</span>
