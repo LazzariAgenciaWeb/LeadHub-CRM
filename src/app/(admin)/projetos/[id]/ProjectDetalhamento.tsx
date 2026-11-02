@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Bold, Italic, Heading2, List, ListOrdered, ListChecks, FileText, ChevronDown, ChevronUp, Pencil } from "lucide-react";
+import { Bold, Italic, Heading2, List, ListOrdered, ListChecks, FileText, Pencil, X } from "lucide-react";
 import { MarkdownDoc, toggleCheckLine } from "@/components/MarkdownDoc";
 
 /**
@@ -42,15 +42,26 @@ const PREFIX = { h: "## ", ul: "- ", ol: "1. ", check: "- [ ] " } as const;
 const ANY_PREFIX = /^(\s*)(#{1,6}\s+|[-*+]\s+\[(?: |x|X)\]\s+|[-*+]\s+|\d+[.)]\s+)/;
 
 export function DetalhamentoEditor({
-  value, onChange, onSave,
+  value, onChange, onSave, startEditing = false, tall = false,
 }: {
   value: string;
   onChange: (next: string) => void;
   /** Chamado com o texto atual ao sair do campo (auto-salva sem botão) e ao marcar item. */
   onSave: (text: string) => void;
+  /** Abre já na aba Escrever (com foco). */
+  startEditing?: boolean;
+  /** Ocupa a altura do modal grande. */
+  tall?: boolean;
 }) {
   const ref = useRef<HTMLTextAreaElement>(null);
-  const [tab, setTab] = useState<"escrever" | "ver">(value.trim() ? "ver" : "escrever");
+  const [tab, setTab] = useState<"escrever" | "ver">(startEditing || !value.trim() ? "escrever" : "ver");
+  // Abre com o cursor no fim, pronto pra acrescentar.
+  useEffect(() => {
+    const ta = ref.current;
+    if (!startEditing || !ta) return;
+    ta.focus();
+    ta.setSelectionRange(ta.value.length, ta.value.length);
+  }, [startEditing]);
   const pendingSel = useRef<[number, number] | null>(null);
 
   useEffect(() => {
@@ -169,11 +180,11 @@ export function DetalhamentoEditor({
           onBlur={() => onSave(value)}
           rows={16}
           placeholder={"## O que foi vendido\n- Site institucional 5 páginas\n- 2 revisões\n\n## O que deve ser feito\n- [ ] Coletar textos e fotos\n- [ ] Layout da home"}
-          className="w-full bg-transparent px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none resize-y font-mono leading-relaxed min-h-[16rem]"
+          className={`w-full bg-transparent px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none resize-y font-mono leading-relaxed ${tall ? "min-h-[55vh]" : "min-h-[16rem]"}`}
         />
       ) : (
         <div
-          className="px-3 py-2 min-h-[16rem] cursor-text"
+          className={`px-3 py-2 cursor-text ${tall ? "min-h-[55vh]" : "min-h-[16rem]"}`}
           onClick={(e) => { if (!(e.target as HTMLElement).closest("a,button")) setTab("escrever"); }}
           title="Clique pra editar"
         >
@@ -189,66 +200,98 @@ export function DetalhamentoEditor({
   );
 }
 
-/** Acesso rápido no topo do projeto: fechado mostra o resumo, aberto mostra tudo. */
-export function DetalhamentoCard({
-  projectId, text, onEdit, onToggle,
-}: {
-  projectId: string;
-  text: string;
-  onEdit: () => void;
-  /** Marcar/desmarcar um item do checklist direto daqui (já salva). */
-  onToggle: (next: string) => void;
-}) {
-  const storeKey = `projeto-detalhamento-${projectId}`;
-  const [open, setOpen] = useState(false);
-  // Lê depois de montar: no servidor não há localStorage (evita hidratação divergente).
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    try { if (localStorage.getItem(storeKey) === "1") setOpen(true); } catch {}
-  }, [storeKey]);
-  function toggle() {
-    setOpen((o) => {
-      try { localStorage.setItem(storeKey, o ? "0" : "1"); } catch {}
-      return !o;
-    });
-  }
-
-  if (!text.trim()) {
-    return (
-      <button
-        onClick={onEdit}
-        className="mt-2 inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg border border-dashed border-[#1e2d45] text-slate-500 hover:text-white hover:border-indigo-500/50"
-      >
-        <FileText className="w-3.5 h-3.5" /> Adicionar detalhamento (o que foi vendido e o que fazer)
-      </button>
-    );
-  }
-
+/** Botão de destaque que abre o detalhamento (cabeçalho e card de vigência). */
+export function DetalhamentoButton({ text, onOpen, size = "md" }: { text: string; onOpen: () => void; size?: "sm" | "md" }) {
+  const vazio = !text.trim();
   const { total, feitos } = checkProgress(text);
   return (
-    <div className="mt-2">
-      <div className="flex items-center gap-2">
-        <button
-          onClick={toggle}
-          className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg border transition-colors ${
-            open ? "border-indigo-500/50 bg-indigo-500/10 text-indigo-200" : "border-[#1e2d45] text-slate-300 hover:text-white"
-          }`}
-        >
-          <FileText className="w-3.5 h-3.5" /> Detalhamento
-          {total > 0 && <span className="text-[10px] text-slate-400">· {feitos}/{total} feitos</span>}
-          {open ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-        </button>
-        {open && (
-          <button onClick={onEdit} className="text-[11px] text-slate-500 hover:text-white inline-flex items-center gap-1">
-            <Pencil className="w-3 h-3" /> editar
-          </button>
-        )}
-      </div>
-      {open && (
-        <div className="mt-2 bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-4 max-h-[28rem] overflow-y-auto">
-          <MarkdownDoc text={text} breaks className={MD_CLASS} onToggleCheck={(line) => onToggle(toggleCheckLine(text, line))} />
+    <button
+      type="button"
+      onClick={onOpen}
+      className={`inline-flex items-center gap-1.5 rounded-lg font-medium transition-colors ${
+        size === "sm" ? "text-xs px-2.5 py-1" : "text-sm px-3 py-1.5"
+      } ${vazio
+        ? "border border-dashed border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/10"
+        : "bg-indigo-600 hover:bg-indigo-500 text-white"}`}
+    >
+      <FileText className={size === "sm" ? "w-3.5 h-3.5" : "w-4 h-4"} />
+      {vazio ? "Escrever detalhamento" : "Ver detalhamento"}
+      {total > 0 && <span className={`text-[11px] ${vazio ? "" : "text-indigo-100/80"}`}>· {feitos}/{total}</span>}
+    </button>
+  );
+}
+
+/**
+ * Modal grande (≈75% da tela) com o detalhamento: lê formatado, marca item do
+ * checklist e alterna pra edição sem sair dali.
+ */
+export function DetalhamentoModal({
+  open, onClose, title, value, onChange, onSave,
+}: {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  value: string;
+  onChange: (next: string) => void;
+  onSave: (text: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  useEffect(() => {
+    if (!open) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEditing(!value.trim());
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+  if (!open) return null;
+
+  const { total, feitos } = checkProgress(value);
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={onClose}>
+      <div
+        role="dialog"
+        aria-label="Detalhamento do projeto"
+        className="w-full md:w-[75vw] max-w-6xl h-[90vh] md:h-[80vh] flex flex-col bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center gap-3 px-6 py-4 border-b border-[#1e2d45]">
+          <FileText className="w-5 h-5 text-indigo-300 flex-none" />
+          <div className="min-w-0">
+            <h2 className="text-white font-semibold truncate">Detalhamento · {title}</h2>
+            <p className="text-[11px] text-slate-500">
+              O que foi vendido e o que deve ser feito{total > 0 && <> · <span className="text-indigo-300">{feitos}/{total} feitos</span></>}
+            </p>
+          </div>
+          <div className="ml-auto flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => { if (editing) onSave(value); setEditing((e) => !e); }}
+              className={`text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 ${
+                editing ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "border border-[#1e2d45] text-slate-300 hover:text-white"
+              }`}
+            >
+              {editing ? <>Concluir edição</> : <><Pencil className="w-3.5 h-3.5" /> Editar</>}
+            </button>
+            <button type="button" onClick={onClose} className="p-1.5 text-slate-500 hover:text-white" aria-label="Fechar"><X className="w-5 h-5" /></button>
+          </div>
         </div>
-      )}
+        <div className="flex-1 overflow-y-auto px-6 py-5">
+          {editing ? (
+            <DetalhamentoEditor value={value} onChange={onChange} onSave={onSave} startEditing tall />
+          ) : value.trim() ? (
+            <MarkdownDoc
+              text={value}
+              breaks
+              className={`${MD_CLASS} text-[15px] max-w-3xl`}
+              onToggleCheck={(line) => { const next = toggleCheckLine(value, line); onChange(next); onSave(next); }}
+            />
+          ) : (
+            <p className="text-slate-500 text-sm">Nada escrito ainda.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

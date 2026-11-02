@@ -44,9 +44,11 @@ function tipo(c: ContractOpt) {
 }
 
 export default function ProjectVigencia({
-  projectId, status, deliveredAt, hasClient, contracts,
+  projectId, status, deliveredAt, hasClient, contracts, extra,
 }: {
   projectId: string; status: string; deliveredAt: string | Date | null; hasClient: boolean; contracts: ContractOpt[];
+  /** Ação extra na coluna dos botões (ex.: ver o detalhamento). */
+  extra?: React.ReactNode;
 }) {
   const router = useRouter();
   const linked = contracts.filter((c) => c.projectId === projectId);
@@ -104,7 +106,8 @@ export default function ProjectVigencia({
         <span className="text-[11px] text-slate-600">
           {linked.length ? "vem dos contratos ligados" : "manual — projeto sem contrato ligado"}
         </span>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex flex-col items-end gap-2">
+        <div className="flex items-center gap-2">
           {hasClient && (
             <button type="button" onClick={openPicker} disabled={busy}
               className="text-xs px-2.5 py-1 rounded-lg border border-[#1e2d45] text-slate-300 hover:text-white flex items-center gap-1.5">
@@ -117,6 +120,8 @@ export default function ProjectVigencia({
               <Flag className="w-3.5 h-3.5" /> Entregar projeto
             </button>
           )}
+        </div>
+        {extra}
         </div>
       </div>
 

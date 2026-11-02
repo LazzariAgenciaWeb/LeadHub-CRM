@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Pencil, Plus, Link2, X, Check, Lock, Eye, EyeOff, RotateCcw, Clock, MessageSquare } from "lucide-react";
+import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Pencil, Plus, Link2, X, Check, Lock, Eye, EyeOff, RotateCcw, Clock, MessageSquare, ArrowUp, Flag, Megaphone, BarChart3, ListChecks, Paperclip, LifeBuoy, History, FileText, Settings } from "lucide-react";
 import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
@@ -11,7 +11,8 @@ import VisibilityControl from "@/components/VisibilityControl";
 import ProjectServiceSelector from "./ProjectServiceSelector";
 import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectVigencia, { type ContractOpt } from "./ProjectVigencia";
-import { DetalhamentoCard, DetalhamentoEditor } from "./ProjectDetalhamento";
+import { DetalhamentoButton, DetalhamentoEditor, DetalhamentoModal } from "./ProjectDetalhamento";
+import ProjectSectionNav, { type NavSection } from "./ProjectSectionNav";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
 import { ApprovalCard, TaskApprovalBar, type TaskApproval } from "./ProjectApproval";
@@ -234,6 +235,17 @@ const TICKET_STATUS_LABEL: Record<string, string> = {
   OPEN: "Aberto", IN_PROGRESS: "Em andamento", RESOLVED: "Resolvido", CLOSED: "Fechado",
 };
 
+const NAV_SECTIONS: NavSection[] = [
+  { id: "sec-topo",      label: "Topo",              icon: ArrowUp },
+  { id: "sec-vigencia",  label: "Vigência",          icon: Flag },
+  { id: "sec-aprovacao", label: "Aprovação",         icon: Megaphone },
+  { id: "sec-progresso", label: "Progresso ClickUp", icon: BarChart3 },
+  { id: "sec-tarefas",   label: "Tarefas",           icon: ListChecks },
+  { id: "sec-materiais", label: "Materiais",         icon: Paperclip },
+  { id: "sec-chamados",  label: "Chamados",          icon: LifeBuoy },
+  { id: "sec-historico", label: "Histórico",         icon: History },
+];
+
 export default function ProjectDetail({
   project, availableUsers, companyUsers, companySetores, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
   catalogServices, serviceSteps, currentServiceId, materials, publicToken, contracts,
@@ -258,6 +270,7 @@ export default function ProjectDetail({
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [configOpen, setConfigOpen] = useState(false);
+  const [detOpen, setDetOpen] = useState(false);
   // Colapsáveis do rodapé — reduzem a percepção de "muita coisa" na página.
   // Chamados abre por padrão só quando tem pouca coisa; histórico começa fechado.
   const [chamadosOpen, setChamadosOpen] = useState(false);
@@ -365,13 +378,13 @@ export default function ProjectDetail({
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="p-6 lg:pr-20 max-w-5xl lg:max-w-[calc(64rem+3.5rem)] mx-auto">
       <Link href="/projetos" className="inline-flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-4">
         <ArrowLeft className="w-4 h-4" /> Voltar pra projetos
       </Link>
 
       {/* Header */}
-      <div className="flex items-start gap-4 mb-6">
+      <div id="sec-topo" className="flex items-start gap-4 mb-5 scroll-mt-4">
         <div className="flex-1 min-w-0">
           <input
             value={form.name}
@@ -390,13 +403,13 @@ export default function ProjectDetail({
               <span className="text-slate-500 text-xs">{project.type}</span>
             </>}
           </div>
-          {/* Detalhamento — o que foi vendido e o que deve ser feito */}
-          <DetalhamentoCard
-            projectId={project.id}
-            text={form.description}
-            onEdit={() => setConfigOpen(true)}
-            onToggle={(next) => { setForm((p) => ({ ...p, description: next })); save({ description: next }); }}
-          />
+        </div>
+        {/* Detalhamento (o que foi vendido e o que fazer) em destaque + configuração */}
+        <div className="flex items-center gap-2 flex-none">
+          <DetalhamentoButton text={form.description} onOpen={() => setDetOpen(true)} />
+          <button onClick={() => setConfigOpen(true)} className="text-sm px-3 py-1.5 rounded-lg border border-[#1e2d45] text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors">
+            <Settings className="w-4 h-4" /> <span className="hidden sm:inline">Configurar</span>
+          </button>
         </div>
         <button
           onClick={deleteProject}
@@ -407,33 +420,54 @@ export default function ProjectDetail({
         </button>
       </div>
 
+      {/* Detalhamento em modal grande (≈75% da tela) */}
+      <DetalhamentoModal
+        open={detOpen}
+        onClose={() => setDetOpen(false)}
+        title={project.name}
+        value={form.description}
+        onChange={(v) => setForm((p) => ({ ...p, description: v }))}
+        onSave={(v) => save({ description: v })}
+      />
+
+      {/* Trilho de ícones à direita: pula entre as seções */}
+      <ProjectSectionNav
+        sections={NAV_SECTIONS}
+        extra={
+          <button type="button" title="Detalhamento" aria-label="Detalhamento" onClick={() => setDetOpen(true)}
+            className="p-2 rounded-xl text-indigo-300 hover:text-white hover:bg-indigo-500/20">
+            <FileText className="w-4 h-4" />
+          </button>
+        }
+      />
+
       <div>
         {/* Coluna principal — full width; toda a config foi pro modal (botão abaixo) */}
         <div className="space-y-5">
-          <div className="flex justify-end">
-            <button onClick={() => setConfigOpen(true)} className="text-xs px-3 py-1.5 rounded-lg border border-[#1e2d45] text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors">
-              ⚙ Configurar projeto
-            </button>
-          </div>
           {/* Vigência (Ativo · Pausado · Encerrado) — vem dos contratos ligados */}
+          <div id="sec-vigencia" className="scroll-mt-4">
           <ProjectVigencia
             projectId={project.id}
             status={project.status}
             deliveredAt={project.deliveredAt}
             hasClient={!!project.clientCompany}
             contracts={contracts}
+            extra={<DetalhamentoButton size="sm" text={form.description} onOpen={() => setDetOpen(true)} />}
           />
+          </div>
           {project.status === "AGUARDANDO_CLIENTE" && <FollowupBlock project={project} />}
 
           {/* Aprovação de peças pelo cliente (link + grupo do WhatsApp) */}
+          <div id="sec-aprovacao" className="scroll-mt-4 empty:hidden">
           <ApprovalCard
             project={project}
             tasks={internalTasks.filter((t) => !t.ignored).map((t) => ({ id: t.id, title: t.title, status: t.status, approval: t.approval }))}
           />
+          </div>
 
           {/* Progresso ClickUp — só quando há lista vinculada */}
           {project.clickupListId && (
-          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
+          <div id="sec-progresso" className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5 scroll-mt-4">
             <div className="flex items-center justify-between mb-3">
               <div>
                 <span className="text-white text-sm font-semibold">Progresso (ClickUp)</span>
@@ -520,6 +554,7 @@ export default function ProjectDetail({
 
           {/* Tarefas do projeto (LeadHub + ClickUp) — a Caixa de entrada virou
               a aba "A organizar" lá dentro, pra não repetir as mesmas tarefas. */}
+          <div id="sec-tarefas" className="scroll-mt-4">
           <ProjectTasksCard
             projectId={project.id}
             availableUsers={availableUsers}
@@ -529,9 +564,10 @@ export default function ProjectDetail({
             clientId={project.clientCompany?.id ?? null}
             hasApprovalGroup={!!project.approvalGroupJid}
           />
+          </div>
 
           {/* Materiais, anexos, links & link do cliente */}
-          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5 space-y-4">
+          <div id="sec-materiais" className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5 space-y-4 scroll-mt-4">
             <h3 className="text-white font-semibold text-sm flex items-center gap-2">📎 Materiais, anexos &amp; link do cliente</h3>
             <ProjectMateriais
               projectId={project.id}
@@ -543,7 +579,7 @@ export default function ProjectDetail({
 
           {/* Chamados agrupados no projeto — colapsável, começa fechado */}
           {chamados.length > 0 && (
-            <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
+            <div id="sec-chamados" className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden scroll-mt-4">
               <button
                 onClick={() => setChamadosOpen((v) => !v)}
                 className="w-full flex items-center justify-between gap-2 px-5 py-3.5 hover:bg-[#080b12] transition-colors text-left"
@@ -590,7 +626,7 @@ export default function ProjectDetail({
           )}
 
           {/* Histórico de tarefas (do ClickUp) — colapsável, começa fechado */}
-          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
+          <div id="sec-historico" className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden scroll-mt-4">
             <button
               onClick={() => setHistoricoOpen((v) => !v)}
               className="w-full flex items-center justify-between gap-2 px-5 py-3.5 hover:bg-[#080b12] transition-colors text-left"
