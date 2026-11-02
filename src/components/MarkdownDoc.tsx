@@ -6,7 +6,8 @@ import type { ReactNode } from "react";
  * Feito pra ler matéria de blog no link de aprovação, que é PÚBLICO: um .md
  * com <script> ou onerror=… vira texto, nunca código. Cobre o que um artigo
  * usa — títulos, parágrafos, **negrito**, *itálico*, `código`, [links](url),
- * listas, citações, blocos de código, linha horizontal e imagens https.
+ * listas (com "[ ]"/"[x]" de checklist), citações, blocos de código, linha
+ * horizontal, imagens https e endereço solto clicável.
  * Tabela e HTML embutido aparecem como texto.
  */
 
@@ -15,7 +16,7 @@ const SAFE_URL = /^(https?:\/\/|mailto:)/i;
 function inline(text: string, keyBase: string): ReactNode[] {
   const out: ReactNode[] = [];
   // Ordem importa: imagem antes de link; código antes de ênfase.
-  const re = /!\[([^\]]*)\]\(([^)\s]+)\)|\[([^\]]+)\]\(([^)\s]+)\)|`([^`]+)`|\*\*([^*]+)\*\*|__([^_]+)__|\*([^*\s][^*]*)\*|(?<![A-Za-z0-9])_([^_\s][^_]*)_(?![A-Za-z0-9])/g;
+  const re = /!\[([^\]]*)\]\(([^)\s]+)\)|\[([^\]]+)\]\(([^)\s]+)\)|`([^`]+)`|\*\*([^*]+)\*\*|__([^_]+)__|\*([^*\s][^*]*)\*|(?<![A-Za-z0-9])_([^_\s][^_]*)_(?![A-Za-z0-9])|(https?:\/\/[^\s<>"'()]+[^\s<>"'.,;:!?()])/g;
   let last = 0;
   let m: RegExpExecArray | null;
   let k = 0;
@@ -31,6 +32,7 @@ function inline(text: string, keyBase: string): ReactNode[] {
         : m[3]);
     } else if (m[5] !== undefined) out.push(<code key={key}>{m[5]}</code>);
     else if (m[6] !== undefined || m[7] !== undefined) out.push(<strong key={key}>{inline(m[6] ?? m[7], key)}</strong>);
+    else if (m[10] !== undefined) out.push(<a key={key} href={m[10]} target="_blank" rel="noopener noreferrer nofollow">{m[10].replace(/^https?:\/\/(www\.)?/i, "")}</a>);
     else out.push(<em key={key}>{inline(m[8] ?? m[9], key)}</em>);
     last = m.index + m[0].length;
   }
@@ -38,7 +40,35 @@ function inline(text: string, keyBase: string): ReactNode[] {
   return out;
 }
 
-export function MarkdownDoc({ text, className }: { text: string; className?: string }) {
+/** Item de lista "[ ] fazer" / "[x] feito" vira ☐/☑. */
+function listItem(it: string, key: string, line: number, onToggle?: (line: number) => void): ReactNode {
+  const t = /^\[( |x|X)\]\s+(.*)$/.exec(it);
+  if (!t) return inline(it, key);
+  const done = t[1] !== " ";
+  const box = onToggle
+    ? <button type="button" onClick={() => onToggle(line)} className="md-check" aria-label={done ? "Desmarcar" : "Marcar como feito"}>{done ? "☑" : "☐"}</button>
+    : <span aria-hidden className="md-check">{done ? "☑" : "☐"}</span>;
+  return <>{box} <span className={done ? "md-done" : undefined}>{inline(t[2], key)}</span></>;
+}
+
+/** Inverte o "[ ]"/"[x]" da linha `line` (índice do texto original). */
+export function toggleCheckLine(text: string, line: number): string {
+  const lines = text.replace(/\r\n?/g, "\n").split("\n");
+  const l = lines[line];
+  if (l === undefined) return text;
+  lines[line] = l.replace(/^(\s*(?:[-*+]|\d+[.)])\s+)\[( |x|X)\]/, (_m, pre, c) => `${pre}[${c === " " ? "x" : " "}]`);
+  return lines.join("\n");
+}
+
+/**
+ * `breaks`: cada quebra de linha do texto vira quebra na tela (bom pra
+ * anotação escrita linha a linha); sem ela, linhas seguidas viram um parágrafo.
+ */
+export function MarkdownDoc({ text, className, breaks = false, onToggleCheck }: {
+  text: string; className?: string; breaks?: boolean;
+  /** Com ele, o ☐ do checklist vira botão (recebe o índice da linha). */
+  onToggleCheck?: (line: number) => void;
+}) {
   const lines = text.replace(/\r\n?/g, "\n").split("\n");
   const blocks: ReactNode[] = [];
   let i = 0;
@@ -84,16 +114,16 @@ export function MarkdownDoc({ text, className }: { text: string; className?: str
     }
 
     if (/^\s*[-*+]\s+/.test(line)) {
-      const items: string[] = [];
-      while (i < lines.length && /^\s*[-*+]\s+/.test(lines[i])) items.push(lines[i++].replace(/^\s*[-*+]\s+/, ""));
-      blocks.push(<ul key={key}>{items.map((it, j) => <li key={j}>{inline(it, `${key}-${j}`)}</li>)}</ul>);
+      const items: { t: string; at: number }[] = [];
+      while (i < lines.length && /^\s*[-*+]\s+/.test(lines[i])) { items.push({ t: lines[i].replace(/^\s*[-*+]\s+/, ""), at: i }); i++; }
+      blocks.push(<ul key={key}>{items.map((it, j) => <li key={j}>{listItem(it.t, `${key}-${j}`, it.at, onToggleCheck)}</li>)}</ul>);
       continue;
     }
 
     if (/^\s*\d+[.)]\s+/.test(line)) {
-      const items: string[] = [];
-      while (i < lines.length && /^\s*\d+[.)]\s+/.test(lines[i])) items.push(lines[i++].replace(/^\s*\d+[.)]\s+/, ""));
-      blocks.push(<ol key={key}>{items.map((it, j) => <li key={j}>{inline(it, `${key}-${j}`)}</li>)}</ol>);
+      const items: { t: string; at: number }[] = [];
+      while (i < lines.length && /^\s*\d+[.)]\s+/.test(lines[i])) { items.push({ t: lines[i].replace(/^\s*\d+[.)]\s+/, ""), at: i }); i++; }
+      blocks.push(<ol key={key}>{items.map((it, j) => <li key={j}>{listItem(it.t, `${key}-${j}`, it.at, onToggleCheck)}</li>)}</ol>);
       continue;
     }
 
@@ -104,7 +134,9 @@ export function MarkdownDoc({ text, className }: { text: string; className?: str
       !/^\s*(```|#{1,6}\s|>|[-*+]\s+|\d+[.)]\s+)/.test(lines[i]) &&
       !/^\s*([-*_])(\s*\1){2,}\s*$/.test(lines[i])
     ) para.push(lines[i++].trim());
-    blocks.push(<p key={key}>{inline(para.join(" "), key)}</p>);
+    blocks.push(<p key={key}>{breaks
+      ? para.map((l, j) => <span key={j}>{j > 0 && <br />}{inline(l, `${key}-${j}`)}</span>)
+      : inline(para.join(" "), key)}</p>);
   }
 
   return <div className={className}>{blocks}</div>;

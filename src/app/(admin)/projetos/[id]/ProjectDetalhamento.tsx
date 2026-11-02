@@ -1,0 +1,254 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { Bold, Italic, Heading2, List, ListOrdered, ListChecks, FileText, ChevronDown, ChevronUp, Pencil } from "lucide-react";
+import { MarkdownDoc, toggleCheckLine } from "@/components/MarkdownDoc";
+
+/**
+ * Detalhamento do projeto: o que foi vendido e o que precisa ser feito.
+ *
+ * Mora em SetorClickupList.description, como markdown leve (títulos, **negrito**,
+ * listas e checklist "- [ ]"). Escrito na Configuração e lido no topo do
+ * projeto — e pelo assistente (ver_detalhamento_projeto), que busca o escopo
+ * daqui antes de opinar sobre o projeto.
+ */
+
+/** Estilo do markdown renderizado (MarkdownDoc não traz CSS próprio). */
+export const MD_CLASS =
+  "text-sm text-slate-200 leading-relaxed space-y-2 break-words " +
+  "[&_h1]:text-base [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:text-white [&_h2]:mt-3 " +
+  "[&_h3]:text-sm [&_h3]:font-medium [&_h3]:text-slate-100 [&_h4]:text-sm [&_h4]:text-slate-300 " +
+  "[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-0.5 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:space-y-0.5 " +
+  "[&_li:has(.md-check)]:list-none [&_li:has(.md-check)]:-ml-5 " +
+  "[&_.md-check]:text-indigo-300 [&_.md-done]:line-through [&_.md-done]:text-slate-500 " +
+  "[&_strong]:text-white [&_strong]:font-semibold [&_a]:text-indigo-300 [&_a]:underline [&_a]:break-all " +
+  "[&_blockquote]:border-l-2 [&_blockquote]:border-indigo-500/40 [&_blockquote]:pl-3 [&_blockquote]:text-slate-400 " +
+  "[&_code]:bg-[#111827] [&_code]:px-1 [&_code]:rounded [&_hr]:border-[#1e2d45]";
+
+const CHECK_RE = /^\s*(?:[-*+]|\d+[.)])\s+\[( |x|X)\]/;
+
+/** Quantos itens de checklist há e quantos estão feitos. */
+function checkProgress(text: string): { total: number; feitos: number } {
+  let total = 0, feitos = 0;
+  for (const l of text.split("\n")) {
+    const m = CHECK_RE.exec(l);
+    if (m) { total++; if (m[1] !== " ") feitos++; }
+  }
+  return { total, feitos };
+}
+
+// Prefixos de linha da barra de ferramentas.
+const PREFIX = { h: "## ", ul: "- ", ol: "1. ", check: "- [ ] " } as const;
+const ANY_PREFIX = /^(\s*)(#{1,6}\s+|[-*+]\s+\[(?: |x|X)\]\s+|[-*+]\s+|\d+[.)]\s+)/;
+
+export function DetalhamentoEditor({
+  value, onChange, onSave,
+}: {
+  value: string;
+  onChange: (next: string) => void;
+  /** Chamado com o texto atual ao sair do campo (auto-salva sem botão) e ao marcar item. */
+  onSave: (text: string) => void;
+}) {
+  const ref = useRef<HTMLTextAreaElement>(null);
+  const [tab, setTab] = useState<"escrever" | "ver">(value.trim() ? "ver" : "escrever");
+  const pendingSel = useRef<[number, number] | null>(null);
+
+  useEffect(() => {
+    const s = pendingSel.current;
+    if (s && ref.current) { ref.current.setSelectionRange(s[0], s[1]); pendingSel.current = null; }
+  });
+
+  function apply(next: string, selStart: number, selEnd: number) {
+    pendingSel.current = [selStart, selEnd];
+    onChange(next);
+    requestAnimationFrame(() => ref.current?.focus());
+  }
+
+  /** **negrito** / _itálico_ em volta da seleção (ou insere o par vazio). */
+  function wrap(mark: string) {
+    const ta = ref.current;
+    if (!ta) return;
+    const { selectionStart: a, selectionEnd: b } = ta;
+    const sel = value.slice(a, b);
+    if (sel.startsWith(mark) && sel.endsWith(mark) && sel.length >= mark.length * 2) {
+      const inner = sel.slice(mark.length, sel.length - mark.length);
+      apply(value.slice(0, a) + inner + value.slice(b), a, a + inner.length);
+      return;
+    }
+    apply(value.slice(0, a) + mark + sel + mark + value.slice(b), a + mark.length, b + mark.length);
+  }
+
+  /** Liga/desliga o prefixo nas linhas da seleção (título, lista, checklist). */
+  function linePrefix(kind: keyof typeof PREFIX) {
+    const ta = ref.current;
+    if (!ta) return;
+    const { selectionStart: a, selectionEnd: b } = ta;
+    const start = value.lastIndexOf("\n", a - 1) + 1;
+    const endNl = value.indexOf("\n", b);
+    const end = endNl === -1 ? value.length : endNl;
+    const lines = value.slice(start, end).split("\n");
+    const want = PREFIX[kind];
+    const has = (l: string) => {
+      const m = ANY_PREFIX.exec(l);
+      if (!m) return false;
+      const p = m[2];
+      if (kind === "h") return p.startsWith("#");
+      if (kind === "check") return /\[(?: |x|X)\]/.test(p);
+      if (kind === "ol") return /^\d/.test(p);
+      return /^[-*+]\s+$/.test(p);
+    };
+    const allHave = lines.filter((l) => l.trim()).every(has);
+    let n = 0;
+    const out = lines.map((l) => {
+      if (!l.trim() && lines.length > 1) return l;
+      const bare = l.replace(ANY_PREFIX, "$1");
+      if (allHave) return bare;
+      n++;
+      const p = kind === "ol" ? `${n}. ` : want;
+      return bare.replace(/^(\s*)/, `$1${p}`);
+    });
+    const block = out.join("\n");
+    apply(value.slice(0, start) + block + value.slice(end), start, start + block.length);
+  }
+
+  function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    const mod = e.metaKey || e.ctrlKey;
+    if (mod && e.key.toLowerCase() === "b") { e.preventDefault(); wrap("**"); return; }
+    if (mod && e.key.toLowerCase() === "i") { e.preventDefault(); wrap("_"); return; }
+    if (e.key !== "Enter" || e.shiftKey || mod) return;
+    // Enter numa linha de lista continua a lista; item vazio + Enter sai dela.
+    const ta = e.currentTarget;
+    const a = ta.selectionStart;
+    if (a !== ta.selectionEnd) return;
+    const start = value.lastIndexOf("\n", a - 1) + 1;
+    const line = value.slice(start, a);
+    const m = /^(\s*)([-*+]\s+\[(?: |x|X)\]\s+|[-*+]\s+|(\d+)([.)])\s+)/.exec(line);
+    if (!m) return;
+    e.preventDefault();
+    if (line.trim() === m[0].trim()) {
+      apply(value.slice(0, start) + value.slice(a), start, start);
+      return;
+    }
+    const next = m[3]
+      ? `${m[1]}${Number(m[3]) + 1}${m[4]} `
+      : `${m[1]}${m[2].replace(/\[(?:x|X)\]/, "[ ]")}`;
+    const ins = `\n${next}`;
+    apply(value.slice(0, a) + ins + value.slice(a), a + ins.length, a + ins.length);
+  }
+
+  const btn = "p-1.5 rounded hover:bg-[#1e2d45] text-slate-400 hover:text-white";
+  return (
+    <div className="rounded-lg border border-[#1e2d45] bg-[#080b12] focus-within:border-indigo-500">
+      <div className="flex items-center gap-0.5 px-2 py-1 border-b border-[#1e2d45]">
+        {tab === "escrever" && <>
+          <button type="button" className={btn} title="Negrito (Ctrl+B)" onMouseDown={(e) => e.preventDefault()} onClick={() => wrap("**")}><Bold className="w-3.5 h-3.5" /></button>
+          <button type="button" className={btn} title="Itálico (Ctrl+I)" onMouseDown={(e) => e.preventDefault()} onClick={() => wrap("_")}><Italic className="w-3.5 h-3.5" /></button>
+          <button type="button" className={btn} title="Título" onMouseDown={(e) => e.preventDefault()} onClick={() => linePrefix("h")}><Heading2 className="w-3.5 h-3.5" /></button>
+          <span className="w-px h-4 bg-[#1e2d45] mx-1" />
+          <button type="button" className={btn} title="Lista com marcador" onMouseDown={(e) => e.preventDefault()} onClick={() => linePrefix("ul")}><List className="w-3.5 h-3.5" /></button>
+          <button type="button" className={btn} title="Lista numerada" onMouseDown={(e) => e.preventDefault()} onClick={() => linePrefix("ol")}><ListOrdered className="w-3.5 h-3.5" /></button>
+          <button type="button" className={btn} title="Checklist (o que deve ser feito)" onMouseDown={(e) => e.preventDefault()} onClick={() => linePrefix("check")}><ListChecks className="w-3.5 h-3.5" /></button>
+        </>}
+        <div className="ml-auto flex text-[11px]">
+          {(["escrever", "ver"] as const).map((t) => (
+            <button
+              key={t} type="button" onClick={() => setTab(t)}
+              className={`px-2 py-0.5 rounded ${tab === t ? "bg-[#1e2d45] text-white" : "text-slate-500 hover:text-slate-300"}`}
+            >
+              {t === "escrever" ? "Escrever" : "Visualizar"}
+            </button>
+          ))}
+        </div>
+      </div>
+      {tab === "escrever" ? (
+        <textarea
+          ref={ref}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={onKeyDown}
+          onBlur={() => onSave(value)}
+          rows={16}
+          placeholder={"## O que foi vendido\n- Site institucional 5 páginas\n- 2 revisões\n\n## O que deve ser feito\n- [ ] Coletar textos e fotos\n- [ ] Layout da home"}
+          className="w-full bg-transparent px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none resize-y font-mono leading-relaxed min-h-[16rem]"
+        />
+      ) : (
+        <div
+          className="px-3 py-2 min-h-[16rem] cursor-text"
+          onClick={(e) => { if (!(e.target as HTMLElement).closest("a,button")) setTab("escrever"); }}
+          title="Clique pra editar"
+        >
+          {value.trim()
+            ? <MarkdownDoc text={value} breaks className={MD_CLASS} onToggleCheck={(line) => { const next = toggleCheckLine(value, line); onChange(next); onSave(next); }} />
+            : <p className="text-slate-600 text-sm">Nada escrito ainda — clique pra escrever.</p>}
+        </div>
+      )}
+      <p className="px-3 py-1 border-t border-[#1e2d45] text-[10px] text-slate-600">
+        **negrito** · _itálico_ · ## título · - item · - [ ] a fazer · Enter continua a lista · salva ao sair do campo
+      </p>
+    </div>
+  );
+}
+
+/** Acesso rápido no topo do projeto: fechado mostra o resumo, aberto mostra tudo. */
+export function DetalhamentoCard({
+  projectId, text, onEdit, onToggle,
+}: {
+  projectId: string;
+  text: string;
+  onEdit: () => void;
+  /** Marcar/desmarcar um item do checklist direto daqui (já salva). */
+  onToggle: (next: string) => void;
+}) {
+  const storeKey = `projeto-detalhamento-${projectId}`;
+  const [open, setOpen] = useState(false);
+  // Lê depois de montar: no servidor não há localStorage (evita hidratação divergente).
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    try { if (localStorage.getItem(storeKey) === "1") setOpen(true); } catch {}
+  }, [storeKey]);
+  function toggle() {
+    setOpen((o) => {
+      try { localStorage.setItem(storeKey, o ? "0" : "1"); } catch {}
+      return !o;
+    });
+  }
+
+  if (!text.trim()) {
+    return (
+      <button
+        onClick={onEdit}
+        className="mt-2 inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg border border-dashed border-[#1e2d45] text-slate-500 hover:text-white hover:border-indigo-500/50"
+      >
+        <FileText className="w-3.5 h-3.5" /> Adicionar detalhamento (o que foi vendido e o que fazer)
+      </button>
+    );
+  }
+
+  const { total, feitos } = checkProgress(text);
+  return (
+    <div className="mt-2">
+      <div className="flex items-center gap-2">
+        <button
+          onClick={toggle}
+          className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg border transition-colors ${
+            open ? "border-indigo-500/50 bg-indigo-500/10 text-indigo-200" : "border-[#1e2d45] text-slate-300 hover:text-white"
+          }`}
+        >
+          <FileText className="w-3.5 h-3.5" /> Detalhamento
+          {total > 0 && <span className="text-[10px] text-slate-400">· {feitos}/{total} feitos</span>}
+          {open ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+        </button>
+        {open && (
+          <button onClick={onEdit} className="text-[11px] text-slate-500 hover:text-white inline-flex items-center gap-1">
+            <Pencil className="w-3 h-3" /> editar
+          </button>
+        )}
+      </div>
+      {open && (
+        <div className="mt-2 bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-4 max-h-[28rem] overflow-y-auto">
+          <MarkdownDoc text={text} breaks className={MD_CLASS} onToggleCheck={(line) => onToggle(toggleCheckLine(text, line))} />
+        </div>
+      )}
+    </div>
+  );
+}

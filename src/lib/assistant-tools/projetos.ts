@@ -549,6 +549,52 @@ export const sincronizarProjeto: ToolDef<{ projetoId: string }> = {
   },
 };
 
+export const verDetalhamentoProjeto: ToolDef<{ projetoId: string }> = {
+  name: "ver_detalhamento_projeto",
+  description:
+    "Lê o DETALHAMENTO do projeto — o que foi vendido ao cliente e o que deve ser feito (escopo, entregáveis, checklist '- [ ]' / '- [x]'), escrito pela equipe na Configuração do projeto. Traz também prazo, vigência e os contratos do Financeiro ligados ao projeto. Use SEMPRE antes de planejar, criar ou cobrar tarefas de um projeto, pra saber o que está no escopo e o que já foi feito. Use listar_projetos pra pegar o projetoId.",
+  input_schema: {
+    type: "object",
+    properties: { projetoId: { type: "string", description: "Id do projeto (listar_projetos)." } },
+    required: ["projetoId"],
+  },
+  run: async ({ projetoId }, ctx) => {
+    const p = await prisma.setorClickupList.findFirst({
+      where:  { id: projetoId, setor: { companyId: ctx.companyId } },
+      select: {
+        id: true, name: true, description: true, status: true, startDate: true, dueDate: true, deliveredAt: true,
+        clientCompany: { select: { name: true } },
+        contracts: { select: { label: true, status: true, isRecurring: true, billingCycle: true, service: { select: { name: true } } } },
+      },
+    });
+    if (!p) return fail("Projeto não encontrado. Use listar_projetos pra conferir o projetoId.");
+
+    const texto = (p.description ?? "").trim();
+    const linhas = texto.split("\n");
+    const total  = linhas.filter((l) => /^\s*(?:[-*+]|\d+[.)])\s+\[( |x|X)\]/.test(l)).length;
+    const feitos = linhas.filter((l) => /^\s*(?:[-*+]|\d+[.)])\s+\[(x|X)\]/.test(l)).length;
+    const contratos = p.contracts.map((c) =>
+      `${c.label || c.service?.name || "contrato"} (${c.status}${c.isRecurring ? `, recorrente${c.billingCycle ? ` ${c.billingCycle}` : ""}` : ", pontual"})`,
+    );
+
+    const cab = [
+      `Projeto "${p.name}" · ${p.clientCompany?.name ?? "sem cliente"} · ${p.status}`,
+      `início ${fmtDate(p.startDate)} · prazo ${fmtDate(p.dueDate)}${p.deliveredAt ? ` · entregue em ${fmtDate(p.deliveredAt)}` : ""}`,
+      `contratos: ${contratos.join("; ") || "nenhum ligado"}`,
+    ];
+    if (!texto) {
+      return ok(
+        `${cab.join("\n")}\n\nO projeto ainda não tem detalhamento escrito. Peça pra equipe preencher em Configurar projeto → Detalhamento (o que foi vendido e o que deve ser feito).`,
+        { data: { ...p, description: null }, link: appUrl(`/projetos/${p.id}`) },
+      );
+    }
+    return ok(
+      `${cab.join("\n")}${total ? `\nchecklist: ${feitos}/${total} feitos` : ""}\n\n--- detalhamento ---\n${texto.slice(0, 8000)}${texto.length > 8000 ? "\n…(cortado)" : ""}`,
+      { data: p, link: appUrl(`/projetos/${p.id}`) },
+    );
+  },
+};
+
 
 const MODELO_PADRAO = "nano-banana-pro";
 
@@ -644,6 +690,7 @@ export const gerarImagemTarefa: ToolDef<{
 };
 
 export const projetosTools: ToolDef[] = [
+  verDetalhamentoProjeto,
   listarEtapasProjeto,
   criarEtapaProjeto,
   listarTarefasProjeto,

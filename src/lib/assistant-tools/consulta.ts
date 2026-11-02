@@ -39,10 +39,15 @@ export const buscarCliente: ToolDef<{ query: string }> = {
   },
 };
 
+function resumo(s: string, n: number): string {
+  const t = s.replace(/\s+/g, " ").trim();
+  return t.length > n ? `${t.slice(0, n)}…` : t;
+}
+
 export const listarProjetos: ToolDef<{ clientCompanyId?: string; query?: string; apenasAtivos?: boolean }> = {
   name: "listar_projetos",
   description:
-    "Lista projetos da empresa. Filtre por cliente (clientCompanyId) e/ou trecho do nome. Retorna id, nome, cliente, status, prazo, nº de tarefas abertas e as etapas de cada projeto (id e nome). Use pra descobrir o projetoId antes de criar uma tarefa de projeto; pras etapas com contagem, use listar_etapas_projeto.",
+    "Lista projetos da empresa. Filtre por cliente (clientCompanyId) e/ou trecho do nome. Retorna id, nome, cliente, status, prazo, nº de tarefas abertas e as etapas de cada projeto (id e nome). Inclui o começo do detalhamento (escopo vendido / o que fazer); o texto completo vem de ver_detalhamento_projeto. Use pra descobrir o projetoId antes de criar uma tarefa de projeto; pras etapas com contagem, use listar_etapas_projeto.",
   input_schema: {
     type: "object",
     properties: {
@@ -60,7 +65,7 @@ export const listarProjetos: ToolDef<{ clientCompanyId?: string; query?: string;
         ...(apenasAtivos ? { status: { notIn: ["ENTREGUE", "CANCELADO"] } } : {}),
       },
       select: {
-        id: true, name: true, status: true, dueDate: true, type: true,
+        id: true, name: true, status: true, dueDate: true, type: true, description: true,
         clientCompany: { select: { id: true, name: true } },
         _count: { select: { internalTasks: { where: { done: false, ignoredAt: null } } } },
         serviceSteps: {
@@ -75,7 +80,8 @@ export const listarProjetos: ToolDef<{ clientCompanyId?: string; query?: string;
     const lines = rows.map((p) => {
       const etapas = p.serviceSteps.map((e) => `${(e.name || e.service?.name || "Serviço").trim()} (id=${e.id})`);
       return `- ${p.name} · id=${p.id} · ${p.clientCompany?.name ?? "sem cliente"} · ${p.status} · prazo ${fmtDate(p.dueDate)} · ${p._count.internalTasks} tarefa(s) aberta(s)` +
-        (etapas.length ? `\n    etapas: ${etapas.join(" · ")}` : "\n    sem etapas");
+        (etapas.length ? `\n    etapas: ${etapas.join(" · ")}` : "\n    sem etapas") +
+        (p.description?.trim() ? `\n    detalhamento: ${resumo(p.description, 160)} (ver_detalhamento_projeto)` : "");
     });
     return ok(lines.join("\n"), { data: rows });
   },

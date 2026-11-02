@@ -11,6 +11,7 @@ import VisibilityControl from "@/components/VisibilityControl";
 import ProjectServiceSelector from "./ProjectServiceSelector";
 import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectVigencia, { type ContractOpt } from "./ProjectVigencia";
+import { DetalhamentoCard, DetalhamentoEditor } from "./ProjectDetalhamento";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
 import { ApprovalCard, TaskApprovalBar, type TaskApproval } from "./ProjectApproval";
@@ -308,12 +309,13 @@ export default function ProjectDetail({
   });
   const [memberIds, setMemberIds] = useState(project.members.map((m) => m.user.id));
 
-  async function save() {
+  // `over` leva o valor recém-digitado quando o state ainda não atualizou (ex.: marcar item do checklist).
+  async function save(over?: Partial<typeof form>) {
     setSaving(true);
     await fetch(`/api/projetos/${project.id}`, {
       method:  "PATCH",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ ...form, memberIds }),
+      body:    JSON.stringify({ ...form, ...over, memberIds }),
     });
     setSaving(false);
     router.refresh();
@@ -374,7 +376,7 @@ export default function ProjectDetail({
           <input
             value={form.name}
             onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-            onBlur={save}
+            onBlur={() => save()}
             className="text-white font-bold text-xl bg-transparent border-0 focus:outline-none focus:bg-[#0a0f1a] rounded px-1 -mx-1 w-full"
           />
           <div className="flex items-center gap-2 mt-1">
@@ -388,6 +390,13 @@ export default function ProjectDetail({
               <span className="text-slate-500 text-xs">{project.type}</span>
             </>}
           </div>
+          {/* Detalhamento — o que foi vendido e o que deve ser feito */}
+          <DetalhamentoCard
+            projectId={project.id}
+            text={form.description}
+            onEdit={() => setConfigOpen(true)}
+            onToggle={(next) => { setForm((p) => ({ ...p, description: next })); save({ description: next }); }}
+          />
         </div>
         <button
           onClick={deleteProject}
@@ -654,11 +663,24 @@ export default function ProjectDetail({
         {/* Configuração do projeto — modal (abre pelo botão "⚙ Configurar projeto") */}
         {configOpen && (
           <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm" onClick={() => setConfigOpen(false)}>
-            <div className="w-full max-w-md h-full overflow-y-auto bg-[#0b111c] border-l border-[#1e2d45] p-5 space-y-5" onClick={(e) => e.stopPropagation()}>
+            <div className="w-full max-w-2xl h-full overflow-y-auto bg-[#0b111c] border-l border-[#1e2d45] p-5 space-y-5" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-center justify-between">
                 <h3 className="text-white font-semibold text-sm">⚙ Configuração do projeto</h3>
                 <button onClick={() => setConfigOpen(false)} className="text-slate-500 hover:text-white" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
+          {/* Detalhamento do projeto — escopo vendido + o que fazer (o assistente lê daqui) */}
+          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5 space-y-2">
+            <div>
+              <span className="text-slate-500 text-xs uppercase tracking-wider block">Detalhamento do projeto</span>
+              <span className="text-slate-600 text-[11px]">O que foi vendido e o que deve ser feito. Aparece no topo do projeto e o assistente consulta daqui.</span>
+            </div>
+            <DetalhamentoEditor
+              value={form.description}
+              onChange={(v) => setForm((p) => ({ ...p, description: v }))}
+              onSave={(v) => save({ description: v })}
+            />
+          </div>
+
           {/* Datas */}
           <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5 space-y-3">
             <div>
@@ -667,7 +689,7 @@ export default function ProjectDetail({
                 type="date"
                 value={form.startDate}
                 onChange={(e) => setForm((p) => ({ ...p, startDate: e.target.value }))}
-                onBlur={save}
+                onBlur={() => save()}
                 className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
               />
             </div>
@@ -679,7 +701,7 @@ export default function ProjectDetail({
                 type="date"
                 value={form.dueDate}
                 onChange={(e) => setForm((p) => ({ ...p, dueDate: e.target.value }))}
-                onBlur={save}
+                onBlur={() => save()}
                 className={`w-full bg-[#080b12] border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 ${
                   isOverdue ? "border-red-500/40" : "border-[#1e2d45]"
                 }`}
@@ -689,17 +711,6 @@ export default function ProjectDetail({
                   {formatBrazilDate(dueDate)}
                 </p>
               )}
-            </div>
-            <div>
-              <label className="text-slate-500 text-xs uppercase tracking-wider block mb-1">Descrição</label>
-              <textarea
-                value={form.description}
-                onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
-                onBlur={save}
-                rows={3}
-                placeholder="Escopo, observações, links..."
-                className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
-              />
             </div>
           </div>
 
@@ -729,7 +740,7 @@ export default function ProjectDetail({
               </div>
             )}
             <button
-              onClick={save}
+              onClick={() => save()}
               disabled={saving}
               className="mt-3 w-full px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50"
             >
