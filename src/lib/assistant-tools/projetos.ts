@@ -689,8 +689,117 @@ export const gerarImagemTarefa: ToolDef<{
   },
 };
 
+const TIPOS_PROJETO = ["SITE", "MIDIA", "CAMPANHA", "OUTRO"] as const;
+
+/** Quantos itens de checklist o texto tem, e quantos estão marcados. */
+function contaChecklist(texto: string): { total: number; feitos: number } {
+  const linhas = texto.split("\n");
+  return {
+    total:  linhas.filter((l) => /^\s*(?:[-*+]|\d+[.)])\s+\[( |x|X)\]/.test(l)).length,
+    feitos: linhas.filter((l) => /^\s*(?:[-*+]|\d+[.)])\s+\[(x|X)\]/.test(l)).length,
+  };
+}
+
+export const atualizarProjeto: ToolDef<{
+  projetoId: string; detalhamento?: string; modo?: string;
+  tipo?: string; inicio?: string | null; prazo?: string | null;
+}> = {
+  name: "atualizar_projeto",
+  description:
+    "ESCREVE o detalhamento do projeto (o que foi vendido e o que deve ser feito) e ajusta tipo, início e prazo. O detalhamento aceita markdown leve: **negrito**, títulos com #, listas com '- ' e checklist com '- [ ] item' / '- [x] item' — é o mesmo texto que a equipe vê no botão Detalhamento e onde marca os itens. Leia com ver_detalhamento_projeto ANTES: quando o projeto já tem texto, é obrigatório dizer o modo (substituir = troca tudo; acrescentar = adiciona no fim), pra não apagar escopo escrito pela equipe. Não mexe em status (isso move pontuação e vem dos contratos) — faça pela tela.",
+  mutating: true,
+  input_schema: {
+    type: "object",
+    properties: {
+      projetoId:    { type: "string", description: "Id do projeto (listar_projetos)." },
+      detalhamento: { type: "string", description: "Texto em markdown. Vazio ('') apaga o detalhamento (exige modo=substituir)." },
+      modo:         { type: "string", description: "'substituir' troca o texto todo; 'acrescentar' adiciona no fim. Obrigatório quando já existe texto." },
+      tipo:         { type: "string", description: `Segmento: ${TIPOS_PROJETO.join(" | ")}.` },
+      inicio:       { type: "string", description: "Data de início (ISO 8601 com fuso). null remove." },
+      prazo:        { type: "string", description: "Prazo final (ISO 8601 com fuso). null remove." },
+    },
+    required: ["projetoId"],
+  },
+  run: async (input, ctx) => {
+    const p = await prisma.setorClickupList.findFirst({
+      where:  { id: input.projetoId, setor: { companyId: ctx.companyId } },
+      select: { id: true, name: true, description: true },
+    });
+    if (!p) return fail(`Projeto ${input.projetoId} não encontrado nesta empresa. Use listar_projetos pra pegar o projetoId certo.`);
+
+    const data: Prisma.SetorClickupListUpdateInput = {};
+    const feito: string[] = [];
+
+    if (input.detalhamento !== undefined) {
+      const novo  = input.detalhamento.trim();
+      const atual = (p.description ?? "").trim();
+      const modo  = (input.modo ?? "").trim().toLowerCase();
+
+      if (atual && !modo) {
+        const { total, feitos } = contaChecklist(atual);
+        return fail(
+          `O projeto "${p.name}" já tem detalhamento escrito (${atual.length} caracteres` +
+          `${total ? `, checklist ${feitos}/${total}` : ""}). Leia com ver_detalhamento_projeto e chame de novo com ` +
+          `modo="acrescentar" (adiciona no fim) ou modo="substituir" (troca tudo, apagando o que a equipe escreveu).`,
+        );
+      }
+      if (modo && modo !== "substituir" && modo !== "acrescentar") {
+        return fail(`modo "${input.modo}" não existe. Use "substituir" ou "acrescentar".`);
+      }
+      if (modo === "acrescentar") {
+        if (!novo) return fail("Nada pra acrescentar — o detalhamento veio vazio.");
+        data.description = atual ? `${atual}\n\n${novo}` : novo;
+        feito.push("detalhamento acrescentado");
+      } else {
+        data.description = novo || null;
+        feito.push(novo ? "detalhamento reescrito" : "detalhamento apagado");
+      }
+    }
+
+    if (input.tipo !== undefined) {
+      const t = (input.tipo ?? "").trim().toUpperCase();
+      if (!TIPOS_PROJETO.includes(t as (typeof TIPOS_PROJETO)[number])) {
+        return fail(`Tipo "${input.tipo}" não existe. Use: ${TIPOS_PROJETO.join(", ")}.`);
+      }
+      data.type = t;
+      feito.push(`tipo ${t}`);
+    }
+
+    for (const [campo, valor, rotulo] of [
+      ["startDate", input.inicio, "início"],
+      ["dueDate",   input.prazo,  "prazo"],
+    ] as const) {
+      if (valor === undefined) continue;
+      if (valor === null) {
+        (data as Record<string, unknown>)[campo] = null;
+        feito.push(`${rotulo} removido`);
+        continue;
+      }
+      const d = parseDate(valor);
+      if (!d) return fail(`Não entendi a data de ${rotulo} ("${valor}"). Use ISO 8601 com fuso, ex.: 2026-11-30T18:00:00-03:00.`);
+      (data as Record<string, unknown>)[campo] = d;
+      feito.push(`${rotulo} ${fmtDate(d)}`);
+    }
+
+    if (feito.length === 0) return fail("Nada pra atualizar — informe detalhamento, tipo, inicio ou prazo.");
+
+    const atualizado = await prisma.setorClickupList.update({
+      where:  { id: p.id },
+      data,
+      select: { id: true, name: true, description: true, type: true, startDate: true, dueDate: true },
+    });
+
+    const { total, feitos } = contaChecklist(atualizado.description ?? "");
+    return ok(
+      `Projeto "${atualizado.name}": ${feito.join(" · ")}.` + (total ? ` Checklist agora: ${feitos}/${total} feitos.` : ""),
+      { data: atualizado, link: appUrl(`/projetos/${atualizado.id}`) },
+    );
+  },
+};
+
 export const projetosTools: ToolDef[] = [
   verDetalhamentoProjeto,
+  atualizarProjeto,
   listarEtapasProjeto,
   criarEtapaProjeto,
   listarTarefasProjeto,
