@@ -452,7 +452,6 @@ export default function ProjectDetail({
             deliveredAt={project.deliveredAt}
             hasClient={!!project.clientCompany}
             contracts={contracts}
-            extra={<DetalhamentoButton size="sm" text={form.description} onOpen={() => setDetOpen(true)} />}
           />
           </div>
           {project.status === "AGUARDANDO_CLIENTE" && <FollowupBlock project={project} />}
