@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
-import { LayoutGrid, List, Network, Columns3, Star, ChevronRight, ChevronDown, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { LayoutGrid, List, Network, Columns3, Star, ChevronRight, ChevronDown, Search, Plus } from "lucide-react";
 import ProjetosBoard from "./ProjetosBoard";
 import type { ViewPref } from "@/lib/projetos-view-pref";
 
@@ -19,7 +20,7 @@ export type PVTask = {
   stepId: string | null; assigneeId: string | null; assignee: string | null; approvalSentAt: string | null;
 };
 export type PV = {
-  id: string; name: string; type: string | null; status: string;
+  id: string; name: string; type: string | null; status: string; clickup: boolean;
   setor: { id: string; name: string }; client: { id: string; name: string } | null;
   dueDate: string | null; lastActivity: string;
   memberIds: string[]; members: string[];
@@ -382,28 +383,110 @@ function TaskLine({ pid, t, today }: { pid: string; t: PVTask; today: number }) 
   );
 }
 
-function StepBlock({ pid, step, today }: { pid: string; step: { id: string; name: string; tasks: PVTask[] }; today: number }) {
+// Linha "+ Nova tarefa" no fim da etapa, estilo ClickUp: clica, digita o
+// título, Enter salva e já abre a próxima; Esc fecha. Dentro de etapa a API
+// sobe a tarefa sozinha pro ClickUp como subtarefa da etapa. "Sem etapa" fica
+// só no LeadHub (subiria solta na raiz da lista).
+function QuickAdd({ pid, stepId, clickup, onAdded }: { pid: string; stepId: string | null; clickup: boolean; onAdded: (t: PVTask) => void }) {
+  const router = useRouter();
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<{ text: string; err?: boolean } | null>(null);
+
+  async function save() {
+    const t = title.trim();
+    if (!t || busy) return;
+    setBusy(true); setMsg(null);
+    try {
+      const res = await fetch(`/api/projetos/${pid}/tasks`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: t, ...(stepId ? { projectServiceId: stepId } : {}) }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.task) { setMsg({ text: data.error || "Não consegui criar a tarefa.", err: true }); return; }
+      onAdded({
+        id: data.task.id, title: data.task.title, status: data.task.status ?? "NOVA", done: false, dueDate: null,
+        stepId, assigneeId: null, assignee: null, approvalSentAt: null,
+      });
+      setTitle("");
+      setMsg(!clickup ? { text: "✓ criada" }
+        : !stepId ? { text: "✓ criada (sem etapa: fica só no LeadHub)" }
+        : data.clickup ? { text: "✓ criada e enviada ao ClickUp" }
+        : { text: "✓ criada, mas não subiu pro ClickUp — abra a tarefa e use Sincronizar", err: true });
+      router.refresh();
+    } catch {
+      setMsg({ text: "Falha de conexão.", err: true });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (!editing) {
+    return (
+      <div className="flex items-center gap-2">
+        <button type="button" onClick={() => { setEditing(true); setMsg(null); }}
+          className="flex items-center gap-1 text-[11px] text-slate-500 hover:text-indigo-300 px-2 py-1">
+          <Plus className="w-3 h-3" /> Nova tarefa
+        </button>
+        {msg && <span className={`text-[11px] ${msg.err ? "text-amber-400" : "text-emerald-400"}`}>{msg.text}</span>}
+      </div>
+    );
+  }
+  return (
+    <div className="px-2 py-1">
+      <div className="flex items-center gap-2 rounded-md border border-indigo-500/40 bg-[#0d1424] px-2 py-1">
+        <Plus className="w-3 h-3 text-slate-500 shrink-0" />
+        <input
+          autoFocus value={title} disabled={busy}
+          onChange={(e) => setTitle(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") { e.preventDefault(); void save(); }
+            if (e.key === "Escape") { setEditing(false); setTitle(""); }
+          }}
+          onBlur={() => { if (!title.trim() && !busy) setEditing(false); }}
+          placeholder={clickup && stepId ? "Título da tarefa — Enter salva e sobe pro ClickUp" : "Título da tarefa — Enter salva"}
+          className="flex-1 min-w-0 bg-transparent text-xs text-slate-100 placeholder:text-slate-600 outline-none"
+        />
+        <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => void save()} disabled={busy || !title.trim()}
+          className="text-[11px] px-2 py-0.5 rounded bg-indigo-600 text-white disabled:opacity-40 shrink-0">
+          {busy ? "Salvando…" : "Salvar"}
+        </button>
+      </div>
+      {msg && <p className={`text-[11px] mt-1 ${msg.err ? "text-amber-400" : "text-emerald-400"}`}>{msg.text}</p>}
+    </div>
+  );
+}
+
+function StepBlock({ pid, clickup, step, today }: { pid: string; clickup: boolean; step: { id: string; name: string; tasks: PVTask[] }; today: number }) {
   const [open, setOpen] = useState(true);
   const [showDone, setShowDone] = useState(false);
-  const openT = step.tasks.filter((t) => !t.done);
-  const doneT = step.tasks.filter((t) => t.done);
+  // Criadas aqui aparecem na hora; somem desta lista quando o refresh já as trouxer.
+  const [added, setAdded] = useState<PVTask[]>([]);
+  const known = new Set(step.tasks.map((t) => t.id));
+  const tasks = [...step.tasks, ...added.filter((t) => !known.has(t.id))];
+  const openT = tasks.filter((t) => !t.done);
+  const doneT = tasks.filter((t) => t.done);
+  const realStepId = step.id.endsWith(":sem") ? null : step.id;
   return (
     <div>
       <button type="button" onClick={() => setOpen((v) => !v)} className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white py-1">
         {open ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
         {step.name}
-        <span className="text-slate-600 font-normal">{doneT.length}/{step.tasks.length}</span>
+        <span className="text-slate-600 font-normal">{doneT.length}/{tasks.length}</span>
       </button>
       {open && (
         <div className="ml-4 border-l border-[#1e2d45] pl-2">
           {openT.map((t) => <TaskLine key={t.id} pid={pid} t={t} today={today} />)}
-          {openT.length === 0 && <p className="text-[11px] text-slate-600 px-2 py-1">{step.tasks.length ? "tudo concluído ✓" : "sem tarefas"}</p>}
+          {openT.length === 0 && <p className="text-[11px] text-slate-600 px-2 py-1">{tasks.length ? "tudo concluído ✓" : "sem tarefas"}</p>}
           {doneT.length > 0 && (
             <button type="button" onClick={() => setShowDone((v) => !v)} className="text-[11px] text-slate-500 hover:text-slate-300 px-2 py-1">
               {showDone ? "ocultar concluídas" : `mostrar ${doneT.length} concluída${doneT.length > 1 ? "s" : ""}`}
             </button>
           )}
           {showDone && doneT.map((t) => <TaskLine key={t.id} pid={pid} t={t} today={today} />)}
+          <QuickAdd pid={pid} stepId={realStepId} clickup={clickup} onAdded={(t) => setAdded((a) => [...a, t])} />
         </div>
       )}
     </div>
@@ -439,8 +522,10 @@ function ListaView({ rows, today }: { rows: Row[]; today: number }) {
             </div>
             {isOpen && (
               <div className="px-10 pb-3 pt-1 bg-[#080c14] space-y-1">
-                {stepsWithTasks(p).map((st) => <StepBlock key={st.id} pid={p.id} step={st} today={today} />)}
-                {p.tasks.length === 0 && <p className="text-xs text-slate-600 py-1">Nenhuma tarefa ainda.</p>}
+                {stepsWithTasks(p).map((st) => <StepBlock key={st.id} pid={p.id} clickup={p.clickup} step={st} today={today} />)}
+                {p.steps.length === 0 && p.tasks.length === 0 && (
+                  <StepBlock pid={p.id} clickup={p.clickup} step={{ id: `${p.id}:sem`, name: "Sem etapa", tasks: [] }} today={today} />
+                )}
               </div>
             )}
           </div>

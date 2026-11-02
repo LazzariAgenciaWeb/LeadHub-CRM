@@ -82,7 +82,7 @@ export default async function ProjetosPage({
     const pt = tasks.filter((t) => t.projectId === p.id);
     const last = Math.max(new Date(p.updatedAt).getTime(), ...pt.map((t) => t.updatedAt.getTime()));
     return {
-      id: p.id, name: p.name, type: p.type, status: p.status,
+      id: p.id, name: p.name, type: p.type, status: p.status, clickup: !!p.clickupListId,
       setor: p.setor, client: p.clientCompany,
       dueDate: p.dueDate?.toISOString() ?? null,
       lastActivity: new Date(last).toISOString(),
