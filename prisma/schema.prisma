@@ -2498,6 +2498,11 @@ model IgConversation {
   // Agente IA do Direct: ACTIVE = bot pode responder; PAUSED_HUMAN = atendente
   // assumiu (reply na inbox pausa); OFF = desligado manualmente nesta conversa.
   aiMode          AiMode          @default(ACTIVE)
+  // Diagnóstico: resultado da última tentativa do agente nesta conversa
+  // ("ok:NONE", "aiMode_OFF", "follow_pedido", "ia_QUOTA"...) — o anel em
+  // memória some no restart e a pergunta "por que não respondeu?" ficava sem resposta.
+  aiLastResult    String?
+  aiLastRunAt     DateTime?
   // Vínculo com o Lead do CRM (casado pelo @ da prospecção; backfill no match).
   lead            Lead?           @relation(fields: [leadId], references: [id], onDelete: SetNull)
   leadId          String?

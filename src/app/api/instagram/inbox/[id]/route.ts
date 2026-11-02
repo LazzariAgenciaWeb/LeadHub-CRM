@@ -21,6 +21,8 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       needsReply: true,
       hadAutomation: true,
       aiMode: true,
+      aiLastResult: true,
+      aiLastRunAt: true,
       lead: { select: { id: true, name: true, pipeline: true, instagram: true } },
     },
   });

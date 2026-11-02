@@ -42,6 +42,35 @@ const FOLLOW_BADGE: Record<string, { label: string; cls: string; hint: string }>
   NOT_FOLLOWING: { label: "❌ não segue", cls: "border-red-400/30 bg-red-500/10 text-red-300", hint: "A Meta respondeu que não segue o perfil que recebe este DM." },
   UNKNOWN: { label: "⚠️ não verificado", cls: "border-amber-400/30 bg-amber-500/10 text-amber-300", hint: "A Meta não respondeu se segue — o sistema liberou no benefício da dúvida." },
 };
+// Motivo da última tentativa do agente (IgConversation.aiLastResult).
+// warn = ele queria responder e algo impediu — fica à vista.
+function describeIgResult(code: string | null | undefined): { text: string; warn: boolean } | null {
+  if (!code) return null;
+  if (code === "ok:NONE:sem_envio") return { text: "leu e não viu nada a responder", warn: false };
+  if (code.startsWith("ok:HANDOFF")) return { text: "respondeu e passou pro time", warn: false };
+  if (code.startsWith("ok:")) return { text: "respondeu", warn: false };
+  const map: Record<string, { text: string; warn: boolean }> = {
+    aiMode_PAUSED_HUMAN: { text: "pausada — um humano assumiu (clique em Continuar atendimento)", warn: false },
+    aiMode_OFF: { text: "desligada nesta conversa", warn: false },
+    ja_respondida: { text: "a conversa já estava respondida", warn: false },
+    sem_agente_vinculado: { text: "nenhum agente ativo ligado a esta conta do Instagram", warn: true },
+    automacao_em_andamento: { text: "uma automação ou pedido de follow está em andamento com esse contato", warn: true },
+    conversa_de_automacao: { text: "a conversa nasceu de automação (opção \"não assumir\" ligada)", warn: true },
+    conta_sem_token: { text: "conta do Instagram sem token — reconectar", warn: true },
+    fora_janela_24h: { text: "passou da janela de 24h da Meta — só dá pra responder manualmente", warn: true },
+    sem_texto_do_contato: { text: "o contato mandou só mídia/figurinha, sem texto", warn: false },
+    contato_e_robo: { text: "quem respondeu foi o robô de atendimento do contato", warn: false },
+    follow_pedido: { text: "pediu o follow e está esperando a confirmação", warn: false },
+    respondida_durante_ia: { text: "alguém respondeu enquanto ela pensava", warn: false },
+    contato_escreveu_durante_ia: { text: "o contato mandou outra mensagem — respondeu tudo junto na rodada seguinte", warn: false },
+    ia_QUOTA: { text: "cota de IA da empresa esgotada", warn: true },
+    ia_NO_CONFIG: { text: "IA sem configuração (chave/modelo)", warn: true },
+    ia_AI_ERROR: { text: "o provedor de IA não respondeu", warn: true },
+    envio_falhou: { text: "a mensagem não saiu pelo Instagram", warn: true },
+  };
+  return map[code] ?? { text: code, warn: false };
+}
+
 const CHANNEL: Record<string, { label: string; cls: string }> = {
   INSTAGRAM: { label: "Instagram", cls: "bg-pink-500/20 text-pink-300" },
   MESSENGER: { label: "Messenger", cls: "bg-blue-500/20 text-blue-300" },
@@ -63,6 +92,7 @@ export default function IgInbox() {
   const [aiSaving, setAiSaving] = useState(false);
   const [convoLead, setConvoLead] = useState<ConvoLead | null>(null);
   const [followGate, setFollowGate] = useState<FollowGate>(null);
+  const [aiLast, setAiLast] = useState<{ result: string | null; at: string | null }>({ result: null, at: null });
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -102,6 +132,7 @@ export default function IgInbox() {
       setAiMode(res.conversation?.aiMode ?? null);
       setConvoLead(res.conversation?.lead ?? null);
       setFollowGate(res.followGate ?? null);
+      setAiLast({ result: res.conversation?.aiLastResult ?? null, at: res.conversation?.aiLastRunAt ?? null });
     } finally {
       setThreadLoading(false);
     }
@@ -214,11 +245,24 @@ export default function IgInbox() {
                       {followGate.status === "AWAITING_FOLLOW" ? " · aguardando" : ""}
                     </span>
                   )}
+                  {selected.channel === "INSTAGRAM" && describeIgResult(aiLast.result)?.warn && (
+                    <span
+                      className="text-[10px] px-2 py-1 rounded-lg border border-amber-400/30 bg-amber-500/10 text-amber-300"
+                      title="Motivo da última vez que o agente tentou responder nesta conversa"
+                    >
+                      ⚠️ IA não respondeu: {describeIgResult(aiLast.result)!.text}
+                    </span>
+                  )}
                   {selected.channel === "INSTAGRAM" && aiMode && (
                     <button
                       onClick={toggleAi}
                       disabled={aiSaving}
-                      title={AI_MODE_LABEL[aiMode]}
+                      title={
+                        AI_MODE_LABEL[aiMode] +
+                        (describeIgResult(aiLast.result)
+                          ? `\n\nÚltima tentativa${aiLast.at ? ` (${new Date(aiLast.at).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })})` : ""}: ${describeIgResult(aiLast.result)!.text}`
+                          : "")
+                      }
                       className={`text-[10px] px-2 py-1 rounded-lg border disabled:opacity-50 ${
                         aiMode === "ACTIVE"
                           ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"

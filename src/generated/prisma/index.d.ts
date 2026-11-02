@@ -85579,6 +85579,8 @@ export namespace Prisma {
     needsReply: boolean | null
     hadAutomation: boolean | null
     aiMode: $Enums.AiMode | null
+    aiLastResult: string | null
+    aiLastRunAt: Date | null
     leadId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -85598,6 +85600,8 @@ export namespace Prisma {
     needsReply: boolean | null
     hadAutomation: boolean | null
     aiMode: $Enums.AiMode | null
+    aiLastResult: string | null
+    aiLastRunAt: Date | null
     leadId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -85617,6 +85621,8 @@ export namespace Prisma {
     needsReply: number
     hadAutomation: number
     aiMode: number
+    aiLastResult: number
+    aiLastRunAt: number
     leadId: number
     createdAt: number
     updatedAt: number
@@ -85638,6 +85644,8 @@ export namespace Prisma {
     needsReply?: true
     hadAutomation?: true
     aiMode?: true
+    aiLastResult?: true
+    aiLastRunAt?: true
     leadId?: true
     createdAt?: true
     updatedAt?: true
@@ -85657,6 +85665,8 @@ export namespace Prisma {
     needsReply?: true
     hadAutomation?: true
     aiMode?: true
+    aiLastResult?: true
+    aiLastRunAt?: true
     leadId?: true
     createdAt?: true
     updatedAt?: true
@@ -85676,6 +85686,8 @@ export namespace Prisma {
     needsReply?: true
     hadAutomation?: true
     aiMode?: true
+    aiLastResult?: true
+    aiLastRunAt?: true
     leadId?: true
     createdAt?: true
     updatedAt?: true
@@ -85768,6 +85780,8 @@ export namespace Prisma {
     needsReply: boolean
     hadAutomation: boolean
     aiMode: $Enums.AiMode
+    aiLastResult: string | null
+    aiLastRunAt: Date | null
     leadId: string | null
     createdAt: Date
     updatedAt: Date
@@ -85804,6 +85818,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: boolean
+    aiLastResult?: boolean
+    aiLastRunAt?: boolean
     leadId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -85828,6 +85844,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: boolean
+    aiLastResult?: boolean
+    aiLastRunAt?: boolean
     leadId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -85850,6 +85868,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: boolean
+    aiLastResult?: boolean
+    aiLastRunAt?: boolean
     leadId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -85890,6 +85910,8 @@ export namespace Prisma {
       needsReply: boolean
       hadAutomation: boolean
       aiMode: $Enums.AiMode
+      aiLastResult: string | null
+      aiLastRunAt: Date | null
       leadId: string | null
       createdAt: Date
       updatedAt: Date
@@ -86303,6 +86325,8 @@ export namespace Prisma {
     readonly needsReply: FieldRef<"IgConversation", 'Boolean'>
     readonly hadAutomation: FieldRef<"IgConversation", 'Boolean'>
     readonly aiMode: FieldRef<"IgConversation", 'AiMode'>
+    readonly aiLastResult: FieldRef<"IgConversation", 'String'>
+    readonly aiLastRunAt: FieldRef<"IgConversation", 'DateTime'>
     readonly leadId: FieldRef<"IgConversation", 'String'>
     readonly createdAt: FieldRef<"IgConversation", 'DateTime'>
     readonly updatedAt: FieldRef<"IgConversation", 'DateTime'>
@@ -172395,6 +172419,8 @@ export namespace Prisma {
     needsReply: 'needsReply',
     hadAutomation: 'hadAutomation',
     aiMode: 'aiMode',
+    aiLastResult: 'aiLastResult',
+    aiLastRunAt: 'aiLastRunAt',
     leadId: 'leadId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -181361,6 +181387,8 @@ export namespace Prisma {
     needsReply?: BoolFilter<"IgConversation"> | boolean
     hadAutomation?: BoolFilter<"IgConversation"> | boolean
     aiMode?: EnumAiModeFilter<"IgConversation"> | $Enums.AiMode
+    aiLastResult?: StringNullableFilter<"IgConversation"> | string | null
+    aiLastRunAt?: DateTimeNullableFilter<"IgConversation"> | Date | string | null
     leadId?: StringNullableFilter<"IgConversation"> | string | null
     createdAt?: DateTimeFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeFilter<"IgConversation"> | Date | string
@@ -181384,6 +181412,8 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    aiLastResult?: SortOrderInput | SortOrder
+    aiLastRunAt?: SortOrderInput | SortOrder
     leadId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -181411,6 +181441,8 @@ export namespace Prisma {
     needsReply?: BoolFilter<"IgConversation"> | boolean
     hadAutomation?: BoolFilter<"IgConversation"> | boolean
     aiMode?: EnumAiModeFilter<"IgConversation"> | $Enums.AiMode
+    aiLastResult?: StringNullableFilter<"IgConversation"> | string | null
+    aiLastRunAt?: DateTimeNullableFilter<"IgConversation"> | Date | string | null
     leadId?: StringNullableFilter<"IgConversation"> | string | null
     createdAt?: DateTimeFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeFilter<"IgConversation"> | Date | string
@@ -181434,6 +181466,8 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    aiLastResult?: SortOrderInput | SortOrder
+    aiLastRunAt?: SortOrderInput | SortOrder
     leadId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -181459,6 +181493,8 @@ export namespace Prisma {
     needsReply?: BoolWithAggregatesFilter<"IgConversation"> | boolean
     hadAutomation?: BoolWithAggregatesFilter<"IgConversation"> | boolean
     aiMode?: EnumAiModeWithAggregatesFilter<"IgConversation"> | $Enums.AiMode
+    aiLastResult?: StringNullableWithAggregatesFilter<"IgConversation"> | string | null
+    aiLastRunAt?: DateTimeNullableWithAggregatesFilter<"IgConversation"> | Date | string | null
     leadId?: StringNullableWithAggregatesFilter<"IgConversation"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"IgConversation"> | Date | string
@@ -196490,6 +196526,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
@@ -196512,6 +196550,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -196530,6 +196570,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
@@ -196552,6 +196594,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -196572,6 +196616,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -196589,6 +196635,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -196607,6 +196655,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -210496,6 +210546,8 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    aiLastResult?: SortOrder
+    aiLastRunAt?: SortOrder
     leadId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -210515,6 +210567,8 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    aiLastResult?: SortOrder
+    aiLastRunAt?: SortOrder
     leadId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -210534,6 +210588,8 @@ export namespace Prisma {
     needsReply?: SortOrder
     hadAutomation?: SortOrder
     aiMode?: SortOrder
+    aiLastResult?: SortOrder
+    aiLastRunAt?: SortOrder
     leadId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -239885,6 +239941,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     account?: InstagramAccountCreateNestedOneWithoutConversationsInput
@@ -239905,6 +239963,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -243472,6 +243532,8 @@ export namespace Prisma {
     needsReply?: BoolFilter<"IgConversation"> | boolean
     hadAutomation?: BoolFilter<"IgConversation"> | boolean
     aiMode?: EnumAiModeFilter<"IgConversation"> | $Enums.AiMode
+    aiLastResult?: StringNullableFilter<"IgConversation"> | string | null
+    aiLastRunAt?: DateTimeNullableFilter<"IgConversation"> | Date | string | null
     leadId?: StringNullableFilter<"IgConversation"> | string | null
     createdAt?: DateTimeFilter<"IgConversation"> | Date | string
     updatedAt?: DateTimeFilter<"IgConversation"> | Date | string
@@ -246800,6 +246862,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
@@ -246821,6 +246885,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: IgMessageUncheckedCreateNestedManyWithoutConversationInput
@@ -275883,6 +275949,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
@@ -275903,6 +275971,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -278886,6 +278956,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgConversationsInput
@@ -278907,6 +278979,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -278940,6 +279014,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
@@ -278961,6 +279037,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -328675,6 +328753,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -332371,6 +332451,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     account?: InstagramAccountUpdateOneWithoutConversationsNestedInput
@@ -332391,6 +332473,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -332410,6 +332494,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -334548,6 +334634,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -334712,6 +334800,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
@@ -334733,6 +334823,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: IgMessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -334752,6 +334844,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -338504,6 +338598,8 @@ export namespace Prisma {
     needsReply?: boolean
     hadAutomation?: boolean
     aiMode?: $Enums.AiMode
+    aiLastResult?: string | null
+    aiLastRunAt?: Date | string | null
     leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -338683,6 +338779,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgConversationsNestedInput
@@ -338703,6 +338801,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -338722,6 +338822,8 @@ export namespace Prisma {
     needsReply?: BoolFieldUpdateOperationsInput | boolean
     hadAutomation?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiLastResult?: NullableStringFieldUpdateOperationsInput | string | null
+    aiLastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

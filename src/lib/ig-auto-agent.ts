@@ -26,7 +26,7 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v9-robo-do-contato";
+export const IG_AUTO_AGENT_REV = "v10-motivo-gravado";
 
 /**
  * Resposta automática do RÔBO de atendimento do contato (menus de opções,
@@ -52,6 +52,16 @@ const recentRuns: Record<string, unknown>[] = (globalThis as any).__igAutoAgentR
 export function getRecentIgAutoAgentRuns() {
   return recentRuns;
 }
+/**
+ * Grava na conversa o resultado da última tentativa — a Inbox do Instagram
+ * mostra isso. Fire-and-forget: diagnóstico nunca segura o atendimento.
+ */
+function persistIgResult(conversationId: string, result: string) {
+  prisma.igConversation
+    .update({ where: { id: conversationId }, data: { aiLastResult: result, aiLastRunAt: new Date() } as any })
+    .catch(() => {});
+}
+
 function recordRun(entry: Record<string, unknown>) {
   recentRuns.unshift({ ts: new Date().toISOString(), ...entry });
   if (recentRuns.length > 12) recentRuns.pop();
@@ -213,6 +223,7 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
   const skip = (reason: string, extra?: Record<string, unknown>) => {
     recordRun({ conv: conversationId, skip: reason, ...extra });
     console.log(`[IgAgent] skip conv=${conversationId}: ${reason}`);
+    if (conv) persistIgResult(conversationId, reason);
   };
 
   if (!conv) return skip("conversa_inexistente");
@@ -293,6 +304,7 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
     );
     if (gate === "ASKED") {
       recordRun({ conv: conv.id, gate: "follow_pedido_via_automacao" });
+      persistIgResult(conv.id, "follow_pedido");
       console.log(`[IgAgent] follow-gate acionado conv=${conv.id} — agente aguarda o follow`);
       return;
     }
@@ -509,6 +521,7 @@ Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "ma
     } catch (e: any) {
       console.error(`[IgAgent] envio falhou conv=${conv.id}:`, e?.message);
       recordRun({ conv: conv.id, error: `envio: ${e?.message?.slice(0, 200)}` });
+      persistIgResult(conv.id, "envio_falhou");
       return;
     }
     if (decision.reply.length > 1) await new Promise((r) => setTimeout(r, BUBBLE_DELAY_MS));
@@ -522,5 +535,6 @@ Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "ma
   }
 
   recordRun({ conv: conv.id, action: decision.action, bubbles: decision.reply.length, follows });
+  persistIgResult(conv.id, `ok:${decision.action}${decision.reply.length ? "" : ":sem_envio"}`);
   console.log(`[IgAgent] conv=${conv.id} action=${decision.action} bolhas=${decision.reply.length}`);
 }
