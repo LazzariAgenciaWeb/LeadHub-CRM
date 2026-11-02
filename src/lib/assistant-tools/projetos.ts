@@ -14,6 +14,7 @@ import { syncProjectFromClickup } from "@/lib/project-sync";
 import { generateImageForTask } from "@/lib/task-image";
 import { listImageModels, configuredProviders, isRatio, RATIOS, type Ratio } from "@/lib/image-gen";
 import { storageEnabled } from "@/lib/storage/s3";
+import { awardProjectDelivery, syncProjectStatus } from "@/lib/project-vigencia";
 
 /**
  * Etapas e tarefas de projeto pelo assistente.
@@ -689,7 +690,8 @@ export const gerarImagemTarefa: ToolDef<{
   },
 };
 
-const TIPOS_PROJETO = ["SITE", "MIDIA", "CAMPANHA", "OUTRO"] as const;
+const TIPOS_PROJETO  = ["SITE", "MIDIA", "CAMPANHA", "OUTRO"] as const;
+const STATUS_PROJETO = ["PLANEJAMENTO", "EM_ANDAMENTO", "AGUARDANDO_CLIENTE", "PAUSADO", "ENTREGUE", "CANCELADO"] as const;
 
 /** Quantos itens de checklist o texto tem, e quantos estão marcados. */
 function contaChecklist(texto: string): { total: number; feitos: number } {
@@ -702,11 +704,11 @@ function contaChecklist(texto: string): { total: number; feitos: number } {
 
 export const atualizarProjeto: ToolDef<{
   projetoId: string; detalhamento?: string; modo?: string;
-  tipo?: string; inicio?: string | null; prazo?: string | null;
+  tipo?: string; status?: string; inicio?: string | null; prazo?: string | null;
 }> = {
   name: "atualizar_projeto",
   description:
-    "ESCREVE o detalhamento do projeto (o que foi vendido e o que deve ser feito) e ajusta tipo, início e prazo. O detalhamento aceita markdown leve: **negrito**, títulos com #, listas com '- ' e checklist com '- [ ] item' / '- [x] item' — é o mesmo texto que a equipe vê no botão Detalhamento e onde marca os itens. Leia com ver_detalhamento_projeto ANTES: quando o projeto já tem texto, é obrigatório dizer o modo (substituir = troca tudo; acrescentar = adiciona no fim), pra não apagar escopo escrito pela equipe. Não mexe em status (isso move pontuação e vem dos contratos) — faça pela tela.",
+    "ESCREVE o detalhamento do projeto (o que foi vendido e o que deve ser feito) e ajusta tipo, início e prazo. O detalhamento aceita markdown leve: **negrito**, títulos com #, listas com '- ' e checklist com '- [ ] item' / '- [x] item' — é o mesmo texto que a equipe vê no botão Detalhamento e onde marca os itens. Leia com ver_detalhamento_projeto ANTES: quando o projeto já tem texto, é obrigatório dizer o modo (substituir = troca tudo; acrescentar = adiciona no fim), pra não apagar escopo escrito pela equipe. Muda também o status; pôr ENTREGUE marca a data de entrega e dá os pontos da entrega pro time, e projeto que entrega contrato tem o status reconciliado com o Financeiro (a resposta avisa se ele foi corrigido).",
   mutating: true,
   input_schema: {
     type: "object",
@@ -715,6 +717,7 @@ export const atualizarProjeto: ToolDef<{
       detalhamento: { type: "string", description: "Texto em markdown. Vazio ('') apaga o detalhamento (exige modo=substituir)." },
       modo:         { type: "string", description: "'substituir' troca o texto todo; 'acrescentar' adiciona no fim. Obrigatório quando já existe texto." },
       tipo:         { type: "string", description: `Segmento: ${TIPOS_PROJETO.join(" | ")}.` },
+      status:       { type: "string", description: `Andamento: ${STATUS_PROJETO.join(" | ")}. ENTREGUE registra a entrega e pontua o time (uma vez só).` },
       inicio:       { type: "string", description: "Data de início (ISO 8601 com fuso). null remove." },
       prazo:        { type: "string", description: "Prazo final (ISO 8601 com fuso). null remove." },
     },
@@ -723,7 +726,10 @@ export const atualizarProjeto: ToolDef<{
   run: async (input, ctx) => {
     const p = await prisma.setorClickupList.findFirst({
       where:  { id: input.projetoId, setor: { companyId: ctx.companyId } },
-      select: { id: true, name: true, description: true },
+      select: {
+        id: true, name: true, description: true, status: true, dueDate: true,
+        setor: { select: { companyId: true } },
+      },
     });
     if (!p) return fail(`Projeto ${input.projetoId} não encontrado nesta empresa. Use listar_projetos pra pegar o projetoId certo.`);
 
@@ -765,6 +771,24 @@ export const atualizarProjeto: ToolDef<{
       feito.push(`tipo ${t}`);
     }
 
+    // Entrega: marca a data e pontua UMA vez (addScoreOnce por projeto). O
+    // "no prazo" é julgado pelo prazo que o projeto JÁ tinha, não por um que
+    // venha nesta mesma chamada — senão bastaria mover o prazo pra hoje pra
+    // nunca atrasar. Mesma regra do PATCH da tela.
+    let statusPedido: (typeof STATUS_PROJETO)[number] | null = null;
+    let virouEntregue = false;
+    if (input.status !== undefined) {
+      const st = (input.status ?? "").trim().toUpperCase().replace(/[\s-]+/g, "_");
+      if (!STATUS_PROJETO.includes(st as (typeof STATUS_PROJETO)[number])) {
+        return fail(`Status "${input.status}" não existe. Use: ${STATUS_PROJETO.join(", ")}.`);
+      }
+      statusPedido  = st as (typeof STATUS_PROJETO)[number];
+      virouEntregue = statusPedido === "ENTREGUE" && p.status !== "ENTREGUE";
+      data.status   = statusPedido;
+      if (virouEntregue) data.deliveredAt = new Date();
+      feito.push(`status ${statusPedido}`);
+    }
+
     for (const [campo, valor, rotulo] of [
       ["startDate", input.inicio, "início"],
       ["dueDate",   input.prazo,  "prazo"],
@@ -781,18 +805,43 @@ export const atualizarProjeto: ToolDef<{
       feito.push(`${rotulo} ${fmtDate(d)}`);
     }
 
-    if (feito.length === 0) return fail("Nada pra atualizar — informe detalhamento, tipo, inicio ou prazo.");
+    if (feito.length === 0) return fail("Nada pra atualizar — informe detalhamento, tipo, status, inicio ou prazo.");
 
     const atualizado = await prisma.setorClickupList.update({
       where:  { id: p.id },
       data,
-      select: { id: true, name: true, description: true, type: true, startDate: true, dueDate: true },
+      select: { id: true, name: true, description: true, type: true, status: true, startDate: true, dueDate: true, deliveredAt: true },
     });
+
+    if (virouEntregue) {
+      await awardProjectDelivery({
+        projectId:   p.id,
+        companyId:   p.setor.companyId,
+        dueDate:     p.dueDate,
+        deliveredAt: atualizado.deliveredAt ?? new Date(),
+        fallbackUserId: ctx.userId,
+      }).catch(() => {});
+    }
+
+    // Projeto que entrega contrato tem a vigência mandando no status: dizer
+    // "entregue" com a gestão ainda ativa no Financeiro é corrigido aqui. Se
+    // isso acontecer, quem chamou precisa saber — senão acha que gravou.
+    let corrigido: string | null = null;
+    if (statusPedido) {
+      await syncProjectStatus(p.id).catch(() => {});
+      const depois = await prisma.setorClickupList.findUnique({
+        where: { id: p.id }, select: { status: true },
+      });
+      if (depois && depois.status !== statusPedido) corrigido = depois.status;
+    }
 
     const { total, feitos } = contaChecklist(atualizado.description ?? "");
     return ok(
-      `Projeto "${atualizado.name}": ${feito.join(" · ")}.` + (total ? ` Checklist agora: ${feitos}/${total} feitos.` : ""),
-      { data: atualizado, link: appUrl(`/projetos/${atualizado.id}`) },
+      `Projeto "${atualizado.name}": ${feito.join(" · ")}.` +
+        (total ? ` Checklist agora: ${feitos}/${total} feitos.` : "") +
+        (virouEntregue ? " Entrega registrada e pontuada pro time." : "") +
+        (corrigido ? ` ATENÇÃO: o status voltou pra ${corrigido} — os contratos do cliente no Financeiro mandam na vigência deste projeto.` : ""),
+      { data: { ...atualizado, ...(corrigido ? { status: corrigido } : {}) }, link: appUrl(`/projetos/${atualizado.id}`) },
     );
   },
 };
