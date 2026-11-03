@@ -166,7 +166,6 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   const [showArchived, setShowArchived] = useState(false);
   const [quadFilter, setQuadFilter] = useState<Slot | null>(null);
   const [kindFilter, setKindFilter] = useState<string | null>(null);
-  const [matrixSrc, setMatrixSrc] = useState<MatrixSrc>("meu");
   const [chatOpen, setChatOpen] = useState(false);
   const [users, setUsers] = useState<CompanyUser[]>([]);
   const [triage, setTriage] = useState(false);
@@ -306,7 +305,8 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
     setTimeout(() => document.getElementById(`note-${n.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
   }
   const isRoutine = (n: Note) => n.source === "MCP" || n.source === "WEBHOOK";
-  const inMatrixSrc = (n: Note) => matrixSrc === "tudo" || !!n.delegated || (matrixSrc === "rotinas") === isRoutine(n);
+  // Itens do bloquinho/entrada que estão na fila do dia (a matriz pinta de verde).
+  const filaNoteIds = new Set(fila ? [...fila.esperandoPorMim, ...fila.hoje, ...fila.followUps, ...fila.semProximaAcao, ...fila.financeiro, ...fila.atrasadosAntigos].map((it) => it.noteId).filter((x): x is string => !!x) : []);
   const myNotes = notes.filter((n) => !isRoutine(n));
   const inboxNotes = notes.filter(isRoutine);
   const pool = tab === "entrada" ? inboxNotes : myNotes;
@@ -489,22 +489,19 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
         {/* ── Matriz de Eisenhower ── */}
         <div className="lg:col-span-7 lg:sticky lg:top-4">
           <EisenhowerMatrix
-            notes={notes.filter((n) => !n.done && !n.archivedAt && inMatrixSrc(n))}
+            notes={notes.filter((n) => !n.done && !n.archivedAt)}
+            isRoutine={isRoutine}
+            filaIds={filaNoteIds}
             all={notes}
             users={users}
-            src={matrixSrc}
-            onSrc={setMatrixSrc}
             onOpen={openFromMatrix}
             onMove={(id, q) => {
               const set = q === "anotado" ? { inMatrix: false } : { ...QUAD_FLAGS[q], inMatrix: true };
-              const n = notes.find((x) => x.id === id);
-              // Veio da outra aba (Entrada com a matriz em Bloquinho, ou vice-versa): mostra tudo pra não "sumir".
-              if (n && q !== "anotado" && !inMatrixSrc(n)) setMatrixSrc("tudo");
               setNotes((ns) => ns.map((x) => (x.id === id ? { ...x, ...set } : x)));
               quick(id, { set });
             }}
             onQuick={(id, op) => quick(id, op)}
-            onFilter={(q) => { if (tab === "fila") setTab(matrixSrc === "rotinas" ? "entrada" : "bloquinho"); setQuadFilter(quadFilter === q ? null : q); }}
+            onFilter={(q) => { if (tab === "fila") setTab("bloquinho"); setQuadFilter(quadFilter === q ? null : q); }}
             activeFilter={tab === "fila" ? null : quadFilter}
           />
         </div>
@@ -750,11 +747,15 @@ function NoteFilters({ pool, tags, quad, onQuad, kind, onKind, tag, onTag, showD
 }
 
 /* ── Matriz de Eisenhower (visão) ─────────────────────────────────────────── */
-type MatrixSrc = "meu" | "rotinas" | "tudo";
+/** Cor da origem do card na matriz (a barra da esquerda). */
+const ORIGIN = {
+  bloquinho: { label: "Bloquinho", bar: "border-l-fuchsia-400", dot: "bg-fuchsia-400" },
+  entrada:   { label: "Entrada",   bar: "border-l-sky-400",     dot: "bg-sky-400" },
+} as const;
 const MATRIX_ORDER: Quadrant[] = ["fazer", "agendar", "delegar", "eliminar"]; // linhas: importante/não · colunas: urgente/não
 
-function EisenhowerMatrix({ notes, all, users, src, onSrc, onOpen, onMove, onQuick, onFilter, activeFilter }: {
-  notes: Note[]; all: Note[]; users: CompanyUser[]; src: MatrixSrc; onSrc: (s: MatrixSrc) => void;
+function EisenhowerMatrix({ notes, all, users, isRoutine, filaIds, onOpen, onMove, onQuick, onFilter, activeFilter }: {
+  notes: Note[]; all: Note[]; users: CompanyUser[]; isRoutine: (n: Note) => boolean; filaIds: Set<string>;
   onOpen: (n: Note) => void; onMove: (id: string, q: Slot) => void;
   onQuick: (id: string, op: QuickOp) => void; onFilter: (q: Slot) => void; activeFilter: Slot | null;
 }) {
@@ -774,10 +775,9 @@ function EisenhowerMatrix({ notes, all, users, src, onSrc, onOpen, onMove, onQui
           <h3 className="text-sm font-semibold">Matriz de Eisenhower</h3>
           <p className="text-[10px] text-slate-500">Arraste da lista (fila, bloquinho, entrada) ou entre quadrantes · clique pra abrir na lista</p>
         </div>
-        <div className="flex items-center gap-0.5 bg-[#131c2c] border border-[#1e2d45] rounded-lg p-0.5">
-          {([["meu", "Bloquinho"], ["rotinas", "Entrada"], ["tudo", "Tudo"]] as [MatrixSrc, string][]).map(([k, label]) => (
-            <button key={k} onClick={() => onSrc(k)} className={`text-[10px] px-2 py-1 rounded-md ${src === k ? "bg-fuchsia-600/25 text-white" : "text-slate-400 hover:text-white"}`}>{label}</button>
-          ))}
+        <div className="flex items-center gap-2.5 text-[10px] text-slate-400" title="A barra da esquerda é de onde o item veio; fundo verde = está na fila do dia">
+          {Object.values(ORIGIN).map((o) => <span key={o.label} className="inline-flex items-center gap-1"><span className={`w-1 h-3 rounded-full ${o.dot}`} />{o.label}</span>)}
+          <span className="inline-flex items-center gap-1"><span className="w-2.5 h-2.5 rounded bg-emerald-500/30 border border-emerald-400/60" />Fila do dia</span>
         </div>
       </div>
 
@@ -812,7 +812,8 @@ function EisenhowerMatrix({ notes, all, users, src, onSrc, onOpen, onMove, onQui
                       key={n.id}
                       draggable
                       onDragStart={(e) => dragNote(e, n.id)}
-                      className="group flex items-start gap-1.5 px-2 py-1.5 rounded-lg bg-[#0f1623]/80 hover:bg-[#182234] border border-transparent hover:border-[#253449] cursor-grab active:cursor-grabbing"
+                      title={`${isRoutine(n) ? ORIGIN.entrada.label : ORIGIN.bloquinho.label}${filaIds.has(n.id) ? " · na fila do dia" : ""}`}
+                      className={`group flex items-start gap-1.5 px-2 py-1.5 rounded-lg border-l-[3px] ${isRoutine(n) ? ORIGIN.entrada.bar : ORIGIN.bloquinho.bar} ${filaIds.has(n.id) ? "bg-emerald-500/15 hover:bg-emerald-500/25" : "bg-[#0f1623]/80 hover:bg-[#182234]"} cursor-grab active:cursor-grabbing`}
                     >
                       <span className="mt-0.5"><KindIcon kind={n.kind} className="w-3 h-3" /></span>
                       <button onClick={() => onOpen(n)} className="flex-1 min-w-0 text-left">
@@ -843,7 +844,7 @@ function EisenhowerMatrix({ notes, all, users, src, onSrc, onOpen, onMove, onQui
         {loose.length > 0 && (
           <div className="flex flex-wrap gap-1 max-h-[120px] overflow-y-auto">
             {loose.map((n) => (
-              <button key={n.id} draggable onDragStart={(e) => dragNote(e, n.id)} onClick={() => onOpen(n)} title="Arraste pra um quadrante pra voltar à matriz" className="max-w-[220px] inline-flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg bg-[#131c2c] border border-[#1e2d45] text-slate-300 hover:text-white cursor-grab active:cursor-grabbing">
+              <button key={n.id} draggable onDragStart={(e) => dragNote(e, n.id)} onClick={() => onOpen(n)} title="Arraste pra um quadrante pra voltar à matriz" className={`max-w-[220px] inline-flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg bg-[#131c2c] border border-[#1e2d45] border-l-[3px] ${isRoutine(n) ? ORIGIN.entrada.bar : ORIGIN.bloquinho.bar} text-slate-300 hover:text-white cursor-grab active:cursor-grabbing`}>
                 <KindIcon kind={n.kind} className="w-3 h-3" /><span className="truncate">{n.title}</span>
               </button>
             ))}
