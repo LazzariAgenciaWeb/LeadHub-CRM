@@ -13,6 +13,7 @@ import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectVigencia, { type ContractOpt } from "./ProjectVigencia";
 import { DetalhamentoButton, DetalhamentoEditor, DetalhamentoModal } from "./ProjectDetalhamento";
 import ProjectSectionNav, { type NavSection } from "./ProjectSectionNav";
+import { DEFAULT_SEGMENTS, SEGMENT_MAX, segmentLabel } from "@/lib/project-segments";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
 import { ApprovalCard, TaskApprovalBar, type TaskApproval } from "./ProjectApproval";
@@ -247,13 +248,14 @@ const NAV_SECTIONS: NavSection[] = [
 ];
 
 export default function ProjectDetail({
-  project, availableUsers, companyUsers, companySetores, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
+  project, availableUsers, companyUsers, companySetores, companySegments, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
   catalogServices, serviceSteps, currentServiceId, materials, publicToken, contracts,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
   companyUsers: { id: string; name: string }[];
   companySetores: { id: string; name: string }[];
+  companySegments: string[];
   accessUserIds: string[];
   activities: Activity[];
   clientCompanies: { id: string; name: string }[];
@@ -400,7 +402,7 @@ export default function ProjectDetail({
             </>}
             {project.type && <>
               <span className="text-slate-700">·</span>
-              <span className="text-slate-500 text-xs">{project.type}</span>
+              <span className="text-slate-500 text-xs">{segmentLabel(project.type)}</span>
             </>}
           </div>
         </div>
@@ -790,6 +792,13 @@ export default function ProjectDetail({
             setores={companySetores}
             restricted={(project.visibility ?? "OPEN") === "RESTRICTED"}
             memberCount={project.members.length}
+          />
+
+          {/* Segmento — organiza a lista de projetos (padrões + criados pela equipe) */}
+          <SegmentoSelector
+            projectId={project.id}
+            current={project.type}
+            used={companySegments}
           />
 
           {/* Cliente vinculado (editável + criar novo) */}
@@ -3247,6 +3256,93 @@ function ClickupListIdEditor({ projectId, current }: { projectId: string; curren
       ) : (
         <p className="text-slate-500 text-xs italic">Sem ClickUp — projeto só interno.</p>
       )}
+    </div>
+  );
+}
+
+/**
+ * Segmento do projeto (Site, Mídia…). Organiza a lista/kanban por segmento.
+ * Além dos quatro padrões, a equipe cria segmento novo digitando o nome — ele
+ * passa a aparecer como opção nos outros projetos da empresa assim que é usado.
+ */
+function SegmentoSelector({
+  projectId, current, used,
+}: {
+  projectId: string;
+  current: string | null;
+  used: string[];
+}) {
+  const router = useRouter();
+  const [novo, setNovo] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
+
+  const padroes = DEFAULT_SEGMENTS.map((x) => x.value as string);
+  const criados = Array.from(new Set([...used, ...(current ? [current] : [])]))
+    .filter((t) => !padroes.includes(t))
+    .sort((a, b) => a.localeCompare(b, "pt-BR"));
+
+  async function salvar(type: string | null) {
+    if ((type ?? null) === (current ?? null)) { setNovo(null); return; }
+    setSaving(true);
+    setErro(null);
+    const res = await fetch(`/api/projetos/${projectId}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ type }),
+    });
+    setSaving(false);
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setErro(body?.error ?? "Não foi possível salvar o segmento.");
+      return;
+    }
+    setNovo(null);
+    router.refresh();
+  }
+
+  return (
+    <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
+      <span className="block text-slate-500 text-xs uppercase tracking-wider mb-2">Segmento</span>
+      {novo === null ? (
+        <select
+          value={current ?? ""}
+          onChange={(e) => (e.target.value === "__novo" ? setNovo("") : salvar(e.target.value || null))}
+          disabled={saving}
+          className="w-full bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+        >
+          <option value="">Sem segmento</option>
+          {DEFAULT_SEGMENTS.map((x) => <option key={x.value} value={x.value}>{x.label}</option>)}
+          {criados.length > 0 && (
+            <optgroup label="Criados pela equipe">
+              {criados.map((t) => <option key={t} value={t}>{t}</option>)}
+            </optgroup>
+          )}
+          <option value="__novo">+ Novo segmento…</option>
+        </select>
+      ) : (
+        <form
+          onSubmit={(e) => { e.preventDefault(); if (novo.trim()) salvar(novo); }}
+          className="flex gap-2"
+        >
+          <input
+            autoFocus
+            value={novo}
+            onChange={(e) => setNovo(e.target.value)}
+            maxLength={SEGMENT_MAX}
+            placeholder="Ex.: Branding, Consultoria"
+            className="flex-1 min-w-0 bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+          />
+          <button type="submit" disabled={saving || !novo.trim()} className="px-3 py-1.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-xs disabled:opacity-50">
+            Criar
+          </button>
+          <button type="button" onClick={() => setNovo(null)} className="px-2 py-1.5 text-slate-500 hover:text-white text-xs">
+            Cancelar
+          </button>
+        </form>
+      )}
+      {erro && <p className="text-red-400 text-[11px] mt-2">{erro}</p>}
+      {saving && <p className="text-slate-500 text-[11px] mt-2">Salvando...</p>}
     </div>
   );
 }

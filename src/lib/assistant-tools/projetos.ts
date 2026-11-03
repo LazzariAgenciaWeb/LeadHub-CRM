@@ -15,6 +15,7 @@ import { generateImageForTask } from "@/lib/task-image";
 import { listImageModels, configuredProviders, isRatio, RATIOS, type Ratio } from "@/lib/image-gen";
 import { storageEnabled } from "@/lib/storage/s3";
 import { awardProjectDelivery, syncProjectStatus } from "@/lib/project-vigencia";
+import { DEFAULT_SEGMENTS, normalizeSegment, segmentLabel } from "@/lib/project-segments";
 
 /**
  * Etapas e tarefas de projeto pelo assistente.
@@ -690,7 +691,6 @@ export const gerarImagemTarefa: ToolDef<{
   },
 };
 
-const TIPOS_PROJETO  = ["SITE", "MIDIA", "CAMPANHA", "OUTRO"] as const;
 const STATUS_PROJETO = ["PLANEJAMENTO", "EM_ANDAMENTO", "AGUARDANDO_CLIENTE", "PAUSADO", "ENTREGUE", "CANCELADO"] as const;
 
 /** Quantos itens de checklist o texto tem, e quantos estão marcados. */
@@ -716,7 +716,7 @@ export const atualizarProjeto: ToolDef<{
       projetoId:    { type: "string", description: "Id do projeto (listar_projetos)." },
       detalhamento: { type: "string", description: "Texto em markdown. Vazio ('') apaga o detalhamento (exige modo=substituir)." },
       modo:         { type: "string", description: "'substituir' troca o texto todo; 'acrescentar' adiciona no fim. Obrigatório quando já existe texto." },
-      tipo:         { type: "string", description: `Segmento: ${TIPOS_PROJETO.join(" | ")}.` },
+      tipo:         { type: "string", description: `Segmento: ${DEFAULT_SEGMENTS.map((x) => x.value).join(" | ")} ou um segmento novo com o nome que a equipe usa (ex.: Branding). '' tira o segmento.` },
       status:       { type: "string", description: `Andamento: ${STATUS_PROJETO.join(" | ")}. ENTREGUE registra a entrega e pontua o time (uma vez só).` },
       inicio:       { type: "string", description: "Data de início (ISO 8601 com fuso). null remove." },
       prazo:        { type: "string", description: "Prazo final (ISO 8601 com fuso). null remove." },
@@ -763,12 +763,9 @@ export const atualizarProjeto: ToolDef<{
     }
 
     if (input.tipo !== undefined) {
-      const t = (input.tipo ?? "").trim().toUpperCase();
-      if (!TIPOS_PROJETO.includes(t as (typeof TIPOS_PROJETO)[number])) {
-        return fail(`Tipo "${input.tipo}" não existe. Use: ${TIPOS_PROJETO.join(", ")}.`);
-      }
+      const t = normalizeSegment(input.tipo ?? "");
       data.type = t;
-      feito.push(`tipo ${t}`);
+      feito.push(t ? `segmento ${segmentLabel(t)}` : "segmento removido");
     }
 
     // Entrega: marca a data e pontua UMA vez (addScoreOnce por projeto). O

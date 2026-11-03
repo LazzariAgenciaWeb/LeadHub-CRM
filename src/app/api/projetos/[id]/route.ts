@@ -5,6 +5,7 @@ import { ProjectStatus } from "@/generated/prisma";
 import { awardProjectDelivery, syncProjectStatus } from "@/lib/project-vigencia";
 import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
+import { normalizeSegment } from "@/lib/project-segments";
 
 // GET /api/projetos/[id]
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -93,7 +94,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const data: any = {};
   if (name        !== undefined) data.name = name;
   if (description !== undefined) data.description = description ?? null;
-  if (type        !== undefined) data.type = type ?? null;
+  if (type        !== undefined) data.type = normalizeSegment(type);
   if (status      !== undefined) data.status = status as ProjectStatus;
   if (startDate   !== undefined) data.startDate = startDate ? new Date(startDate) : null;
   if (dueDate     !== undefined) data.dueDate = dueDate ? new Date(dueDate) : null;

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { findOrCreateClientCompany } from "@/lib/client-company";
 import { loadCompanyHours, clampDueDateToBusinessHours } from "@/lib/business-hours";
 import { type ToolDef, ok, fail, appUrl, parseDate, fmtDateTime, fmtDate } from "./types";
+import { normalizeSegment } from "@/lib/project-segments";
 
 /** Ferramentas de CRIAÇÃO: chamado, tarefa de projeto, projeto, cliente. */
 
@@ -197,7 +198,7 @@ export const criarProjeto: ToolDef<{
 }> = {
   name: "criar_projeto",
   description:
-    "Cria um projeto rápido. O projeto nasce SÓ no LeadHub, sem lista no ClickUp — então etapas e tarefas dele não sobem pro ClickUp até alguém vincular uma lista na tela do projeto. Informe o cliente por clientCompanyId ou clientCompanyName. setorId só é necessário se a empresa tiver mais de um setor (use listar_setores). type opcional: SITE, MIDIA, CAMPANHA, OUTRO.",
+    "Cria um projeto rápido. O projeto nasce SÓ no LeadHub, sem lista no ClickUp — então etapas e tarefas dele não sobem pro ClickUp até alguém vincular uma lista na tela do projeto. Informe o cliente por clientCompanyId ou clientCompanyName. setorId só é necessário se a empresa tiver mais de um setor (use listar_setores). type opcional: SITE, MIDIA, CAMPANHA, OUTRO ou um segmento novo pelo nome.",
   input_schema: {
     type: "object",
     properties: {
@@ -236,7 +237,7 @@ export const criarProjeto: ToolDef<{
         setorId,
         name: input.name.trim(),
         clickupListId: null,
-        type: input.type?.trim() || null,
+        type: normalizeSegment(input.type),
         description: input.description?.trim() || null,
         clientCompanyId: clientId,
         dueDate: due,

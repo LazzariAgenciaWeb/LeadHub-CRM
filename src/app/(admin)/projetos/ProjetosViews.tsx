@@ -40,7 +40,11 @@ const SEG: Record<string, { label: string; cls: string; bar: string; dot: string
   CAMPANHA: { label: "Campanha", cls: "bg-amber-500/15 text-amber-300 border-amber-500/30",       bar: "border-l-amber-400",   dot: "bg-amber-400" },
   OUTRO:    { label: "Outro",    cls: "bg-slate-500/15 text-slate-300 border-slate-500/30",       bar: "border-l-slate-400",   dot: "bg-slate-400" },
 };
-const segOf = (t: string | null) => SEG[t ?? ""] ?? { label: "Sem segmento", cls: "bg-slate-500/10 text-slate-400 border-slate-600/30", bar: "border-l-slate-600", dot: "bg-slate-600" };
+// Segmento criado pela equipe (texto livre) ganha cor única, com o nome que foi digitado.
+const SEG_CUSTOM = { cls: "bg-teal-500/15 text-teal-300 border-teal-500/30", bar: "border-l-teal-400", dot: "bg-teal-400" };
+const segOf = (t: string | null) =>
+  (t ? SEG[t] ?? { label: t, ...SEG_CUSTOM } : null)
+  ?? { label: "Sem segmento", cls: "bg-slate-500/10 text-slate-400 border-slate-600/30", bar: "border-l-slate-600", dot: "bg-slate-600" };
 
 const TST: Record<string, { label: string; dot: string; cls: string }> = {
   NOVA:               { label: "Nova",               dot: "bg-slate-400",   cls: "text-slate-300" },

@@ -62,6 +62,14 @@ export default async function ProjectDetailPage({
     select:  { id: true, name: true },
   });
 
+  // Segmentos já usados na empresa — os criados pela equipe aparecem como opção
+  // no seletor junto dos quatro padrões.
+  const segmentosUsados = await prisma.setorClickupList.findMany({
+    where:    { setor: { companyId: project.setor.companyId }, type: { not: null } },
+    distinct: ["type"],
+    select:   { type: true },
+  });
+
   // Usuários da empresa-agência (pra liberar acesso extra em projeto restrito).
   // Exclui SUPER_ADMIN (dono da plataforma, não atendente).
   const companyUsers = await prisma.user.findMany({
@@ -261,6 +269,7 @@ export default async function ProjectDetailPage({
       availableUsers={setorUsers.map((su) => su.user)}
       companyUsers={companyUsers}
       companySetores={companySetores}
+      companySegments={segmentosUsados.map((x) => x.type as string)}
       accessUserIds={project.accessUsers.map((a) => a.userId)}
       activities={activities}
       clientCompanies={clientCompanies}
