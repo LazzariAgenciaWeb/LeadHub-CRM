@@ -770,12 +770,12 @@ function EisenhowerMatrix({ notes, all, users, isRoutine, filaIds, onOpen, onMov
 
   return (
     <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-3 space-y-2">
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h3 className="text-sm font-semibold">Matriz de Eisenhower</h3>
           <p className="text-[10px] text-slate-500">Arraste da lista (fila, bloquinho, entrada) ou entre quadrantes · clique pra abrir na lista</p>
         </div>
-        <div className="flex items-center gap-2.5 text-[10px] text-slate-400" title="A barra da esquerda é de onde o item veio; fundo verde = está na fila do dia">
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[10px] text-slate-400 whitespace-nowrap" title="A barra da esquerda é de onde o item veio; fundo verde = está na fila do dia">
           {Object.values(ORIGIN).map((o) => <span key={o.label} className="inline-flex items-center gap-1"><span className={`w-1 h-3 rounded-full ${o.dot}`} />{o.label}</span>)}
           <span className="inline-flex items-center gap-1"><span className="w-2.5 h-2.5 rounded bg-emerald-500/30 border border-emerald-400/60" />Fila do dia</span>
         </div>
