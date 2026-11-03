@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
   Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, CreditCard, Trophy,
-  UserCircle, Search, Bot, Target, Receipt,
+  UserCircle, Search, Bot, Target, Receipt, ShieldCheck,
   ChevronDown, ChevronRight,
   type LucideIcon,
 } from "lucide-react";
@@ -63,6 +63,7 @@ const SECTIONS: SectionItem[] = [
   { type: "item", key: "custom-fields", Icon: FileText, grad: "pipeline",  label: "Campos personalizados", desc: "Atributos extras dos leads" },
   { type: "item", key: "assistentes", Icon: Bot,      grad: "openai",      label: "Assistentes de IA", desc: "Agentes, manuais e cota" },
   { type: "item", key: "catalogo",    Icon: Tag,      grad: "pipeline",    label: "Catálogo de Serviços", desc: "O que você oferece (IA + cliente)" },
+  { type: "item", key: "plataforma-admins", Icon: ShieldCheck, grad: "dashboard", label: "Administradores", desc: "Donos da plataforma (super admin)" },
 ];
 
 function isIntegSubKey(key: string) {
@@ -127,6 +128,7 @@ const SECTION_GATE: Record<string, keyof EnabledSections | (keyof EnabledSection
   "integracoes-webhook":    "crm",
   "integracoes-meta":       ["crm", "marketing"],
   "integracoes-bling":      "bling", // AZZ (moduleBling) + SUPER_ADMIN
+  "plataforma-admins":      null,
 };
 
 // Itens visíveis APENAS pro SUPER_ADMIN (Lazzari) — porque referem a config
@@ -135,22 +137,32 @@ const SECTION_GATE: Record<string, keyof EnabledSections | (keyof EnabledSection
 //     ADMIN da empresa configura o SMTP próprio em /campanhas/email.
 const SUPER_ADMIN_ONLY = new Set<string>(["email"]);
 
+// Itens do SUPER_ADMIN REAL: continuam visíveis enquanto ele impersona um
+// cliente (lá o role efetivo vira ADMIN). Config da plataforma, não do cliente
+// — e a API confere a sessão real, não a efetiva.
+//   - plataforma-admins = quem é dono da plataforma (outro SUPER_ADMIN).
+const REAL_SUPER_ADMIN_ONLY = new Set<string>(["plataforma-admins"]);
+
 export default function SettingsLayout({
   activeSection,
   children,
   enabledSections,
   isSuperAdmin = false,
+  isRealSuperAdmin,
 }: {
   activeSection: string;
   children: React.ReactNode;
   enabledSections?: EnabledSections;
   isSuperAdmin?: boolean;
+  /** SUPER_ADMIN real — true também durante impersonação. Default: isSuperAdmin. */
+  isRealSuperAdmin?: boolean;
 }) {
   const router = useRouter();
   const en = enabledSections ?? ALL_ENABLED;
 
   function isVisible(key: string): boolean {
     if (SUPER_ADMIN_ONLY.has(key) && !isSuperAdmin) return false;
+    if (REAL_SUPER_ADMIN_ONLY.has(key) && !(isRealSuperAdmin ?? isSuperAdmin)) return false;
     const gate = SECTION_GATE[key];
     if (gate === null || gate === undefined) return true;
     return Array.isArray(gate) ? gate.some((g) => en[g]) : en[gate];

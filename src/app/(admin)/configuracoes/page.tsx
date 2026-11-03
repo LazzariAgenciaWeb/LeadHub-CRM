@@ -29,6 +29,7 @@ import { isBlingConfigured, BLING_REDIRECT_URI } from "@/lib/bling";
 import { getAiSpend } from "@/lib/ai-costs";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
 import CompanySubscription from "../empresas/[id]/CompanySubscription";
+import PlatformAdminsSettings from "./PlatformAdminsSettings";
 
 export default async function ConfiguracoesPage({
   searchParams,
@@ -648,6 +649,54 @@ export default async function ConfiguracoesPage({
       // ADMIN entrou via URL direta — redireciona pra onde a coisa mora.
       redirect("/campanhas/email");
     }
+  } else if (secao === "plataforma-admins") {
+    // Quem é dono da plataforma. Vale também impersonando (role efetivo vira
+    // ADMIN, mas quem está logado é o dono) — a API confere a sessão real.
+    // Criar SUPER_ADMIN não passa por /api/companies/[id]/users (que recusa o
+    // papel de propósito): mora aqui.
+    if (!realIsSuperAdmin) {
+      redirect("/configuracoes?secao=meu-perfil");
+    } else {
+      const [adminsRaw, linkedRaw, companies] = await Promise.all([
+        prisma.user.findMany({
+          where: { role: "SUPER_ADMIN" },
+          orderBy: { createdAt: "asc" },
+          select: { id: true, name: true, email: true, createdAt: true },
+        }),
+        prisma.user.findMany({
+          where: { linkedSuperAdminId: { not: null } },
+          select: {
+            id: true, name: true, email: true, role: true, linkedSuperAdminId: true,
+            company: { select: { id: true, name: true, tradeName: true } },
+          },
+        }),
+        prisma.company.findMany({
+          where: { status: "ACTIVE" },
+          orderBy: { name: "asc" },
+          select: { id: true, name: true, tradeName: true },
+        }),
+      ]);
+      const meId = (session?.user as any)?.id as string | undefined;
+      content = (
+        <PlatformAdminsSettings
+          admins={adminsRaw.map((a) => ({
+            id: a.id,
+            name: a.name,
+            email: a.email,
+            createdAt: a.createdAt.toISOString(),
+            isMe: a.id === meId,
+            linked: linkedRaw
+              .filter((u) => u.linkedSuperAdminId === a.id)
+              .map((u) => ({
+                id: u.id, name: u.name, email: u.email, role: u.role,
+                companyId: u.company?.id ?? null,
+                companyName: u.company?.tradeName || u.company?.name || null,
+              })),
+          }))}
+          companies={companies.map((c) => ({ id: c.id, name: c.tradeName || c.name }))}
+        />
+      );
+    }
   } else if (secao === "atendimento") {
     const cId = userCompanyId ?? "";
 
@@ -768,7 +817,7 @@ export default async function ConfiguracoesPage({
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <SettingsLayout activeSection={secao} enabledSections={enabledSections} isSuperAdmin={isSuperAdmin}>
+      <SettingsLayout activeSection={secao} enabledSections={enabledSections} isSuperAdmin={isSuperAdmin} isRealSuperAdmin={realIsSuperAdmin}>
         {content}
       </SettingsLayout>
     </div>

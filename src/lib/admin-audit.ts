@@ -17,7 +17,9 @@ export type AdminAuditAction =
   | "MODULE_TOGGLE"
   | "USER_PASSWORD_RESET"
   | "USER_DELETE"
-  | "COMPANY_DELETE";
+  | "COMPANY_DELETE"
+  | "SUPER_ADMIN_CREATE"
+  | "SUPER_ADMIN_LINK";
 
 interface RecordAdminActionInput {
   adminUserId: string;
