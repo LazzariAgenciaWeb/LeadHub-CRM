@@ -146,6 +146,9 @@ model AssistantNote {
   // eliminar (nenhum). Inferido pela IA, editável.
   important       Boolean   @default(true)
   urgent          Boolean   @default(false)
+  // Fora da matriz: o item continua na fila/bloquinho/entrada, só não ocupa
+  // quadrante ("só anotado"). Volta pra matriz ao ser arrastado pra um quadrante.
+  inMatrix        Boolean   @default(true)
   // Arquivado: guardado sem ocupar o bloquinho (ideia/nota que não vira ação).
   archivedAt      DateTime?
   // Tarefas de projeto (ProjectTask.id) que este item acompanha. O bloquinho

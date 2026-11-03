@@ -21,6 +21,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (typeof body?.title === "string" && body.title.trim()) data.title = body.title.trim();
   if (typeof body?.important === "boolean") data.important = body.important;
   if (typeof body?.urgent === "boolean") data.urgent = body.urgent;
+  if (typeof body?.inMatrix === "boolean") data.inMatrix = body.inMatrix;
   if (typeof body?.archived === "boolean") data.archivedAt = body.archived ? new Date() : null;
   if (typeof body?.kind === "string" && ["IDEA", "NOTE", "REMINDER", "TASK"].includes(body.kind)) data.kind = body.kind;
   if (body?.tags !== undefined) data.tags = parseTags(body.tags);

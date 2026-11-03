@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
-import { AlarmClock, Archive, ArchiveRestore, Banknote, Bot, CalendarDays, Check, CircleCheck, CircleDashed, CircleX, Ellipsis, ExternalLink, Filter, Flame, Forward, Hourglass, Lightbulb, MessageSquare, Mic, Pencil, Plug, Plus, RefreshCw, Repeat, RotateCcw, Send, Smartphone, Square, SquareCheck, StickyNote, Trash2, TriangleAlert, Wallet, X } from "lucide-react";
+import { AlarmClock, Archive, ArchiveRestore, Banknote, Bot, CalendarDays, Check, CircleCheck, CircleDashed, CircleX, Ellipsis, ExternalLink, Filter, Flame, Forward, Hourglass, Lightbulb, MessageSquare, Mic, NotebookPen, Pencil, Plug, Plus, RefreshCw, Repeat, RotateCcw, Send, Smartphone, Square, SquareCheck, StickyNote, Trash2, TriangleAlert, Wallet, X } from "lucide-react";
 
 /* ── tipos espelhando as APIs ─────────────────────────────────────────────── */
 interface ExecutedAction { tool: string; ok: boolean; message: string; link?: string }
@@ -29,9 +29,20 @@ const QUAD_FLAGS: Record<Quadrant, { important: boolean; urgent: boolean }> = {
   delegar: { important: false, urgent: true }, eliminar: { important: false, urgent: false },
 };
 const quadrantOf = (n: { important?: boolean; urgent?: boolean }): Quadrant => (n.important ?? true) ? ((n.urgent ?? false) ? "fazer" : "agendar") : ((n.urgent ?? false) ? "delegar" : "eliminar");
+/** Onde o item está: num quadrante ou fora da matriz ("só anotado" — segue na lista). */
+type Slot = Quadrant | "anotado";
+const slotOf = (n: { important?: boolean; urgent?: boolean; inMatrix?: boolean }): Slot => (n.inMatrix === false ? "anotado" : quadrantOf(n));
+const ANOTADO = { label: "Só anotado", hint: "fora da matriz: fica na lista, sem quadrante" };
+function SlotIcon({ s, className = "w-3.5 h-3.5" }: { s: Slot; className?: string }) {
+  if (s === "anotado") return <span title={ANOTADO.hint} className="inline-flex flex-shrink-0"><NotebookPen className={`${className} text-slate-400`} strokeWidth={2.25} /></span>;
+  return <QuadIcon q={s} className={className} />;
+}
+const slotLabel = (s: Slot) => (s === "anotado" ? ANOTADO.label : QUAD[s].label);
+/** Arrastar da lista pra matriz: o card carrega o id do item. */
+function dragNote(e: React.DragEvent, id: string) { e.dataTransfer.setData("text/plain", id); e.dataTransfer.effectAllowed = "move"; }
 function plusDays(d: number, hour = 9): string { const x = new Date(); x.setDate(x.getDate() + d); x.setHours(hour, 0, 0, 0); return x.toISOString(); }
 interface NoteEvent { id: string; type: "CREATED" | "EDITED" | "DONE" | "REOPENED" | string; detail: string | null; source: string; createdAt: string }
-interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[]; important?: boolean; urgent?: boolean; archivedAt?: string | null; source?: string; projectTasks?: ProjectTaskRef[]; delegated?: Delegation | null }
+interface Note { id: string; kind: string; title: string; body: string | null; dueAt: string | null; done: boolean; doneAt?: string | null; doneNote?: string | null; createdAt: string; tags: string[]; events?: NoteEvent[]; important?: boolean; urgent?: boolean; inMatrix?: boolean; archivedAt?: string | null; source?: string; projectTasks?: ProjectTaskRef[]; delegated?: Delegation | null }
 /** Item delegado: chamado interno do responsável; fica em Delegar até o chamado fechar. */
 interface Delegation { ticketId: string; link: string; to: string | null; at: string | null; status: string | null }
 const TICKET_STATUS: Record<string, string> = { OPEN: "aberto", IN_PROGRESS: "em andamento", RESOLVED: "resolvido", CLOSED: "fechado" };
@@ -153,7 +164,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   const [noteTags, setNoteTags] = useState("");
   const [openNote, setOpenNote] = useState<string | null>(null);
   const [showArchived, setShowArchived] = useState(false);
-  const [quadFilter, setQuadFilter] = useState<Quadrant | null>(null);
+  const [quadFilter, setQuadFilter] = useState<Slot | null>(null);
   const [kindFilter, setKindFilter] = useState<string | null>(null);
   const [matrixSrc, setMatrixSrc] = useState<MatrixSrc>("meu");
   const [chatOpen, setChatOpen] = useState(false);
@@ -175,7 +186,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
   useEffect(() => { fetch("/api/assistente/usuarios").then(async (r) => { if (r.ok) setUsers(await r.json()); }).catch(() => {}); }, []);
 
   /** Ações rápidas de um item (lista, entrada, fila e triagem). */
-  async function quick(id: string, op: "done" | "reopen" | "tomorrow" | "week" | "nodate" | "archive" | "unarchive" | "delete" | { set: Partial<{ important: boolean; urgent: boolean }> } | { delegate: string }) {
+  async function quick(id: string, op: "done" | "reopen" | "tomorrow" | "week" | "nodate" | "archive" | "unarchive" | "delete" | { set: Partial<{ important: boolean; urgent: boolean; inMatrix: boolean }> } | { delegate: string }) {
     let r: Response;
     if (op === "delete") { if (!confirm("Excluir este item?")) return; r = await fetch(`/api/assistente/notas/${id}`, { method: "DELETE" }); }
     else if (typeof op === "object" && "delegate" in op) r = await fetch(`/api/assistente/notas/${id}/delegar`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ assigneeId: op.delegate }) });
@@ -295,13 +306,14 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
     setTimeout(() => document.getElementById(`note-${n.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
   }
   const isRoutine = (n: Note) => n.source === "MCP" || n.source === "WEBHOOK";
+  const inMatrixSrc = (n: Note) => matrixSrc === "tudo" || !!n.delegated || (matrixSrc === "rotinas") === isRoutine(n);
   const myNotes = notes.filter((n) => !isRoutine(n));
   const inboxNotes = notes.filter(isRoutine);
   const pool = tab === "entrada" ? inboxNotes : myNotes;
   const allTags = [...new Set(pool.flatMap((n) => n.tags ?? []))].sort();
   const visibleNotes = pool
     .filter((n) => !tagFilter || (n.tags ?? []).includes(tagFilter))
-    .filter((n) => !quadFilter || quadrantOf(n) === quadFilter)
+    .filter((n) => !quadFilter || slotOf(n) === quadFilter)
     .filter((n) => !kindFilter || n.kind === kindFilter);
   const totalFila = fila ? fila.esperandoPorMim.length + fila.hoje.length + fila.followUps.length + fila.semProximaAcao.length + fila.financeiro.length : 0;
   const openCount = (arr: Note[]) => arr.filter((n) => !n.done && !n.archivedAt).length;
@@ -396,7 +408,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
                   </div>
                   <div className="space-y-1.5 max-h-[260px] overflow-y-auto pr-0.5">
                     {items.map((it) => (
-                      <div key={it.id} className="group flex items-start gap-2 px-2.5 py-2 rounded-lg bg-[#131c2c] hover:bg-[#182234] border border-transparent hover:border-[#253449] transition-colors">
+                      <div key={it.id} draggable={!!it.noteId} onDragStart={(e) => it.noteId && dragNote(e, it.noteId)} title={it.noteId ? "Arraste pra um quadrante da matriz" : undefined} className={`group flex items-start gap-2 px-2.5 py-2 rounded-lg bg-[#131c2c] hover:bg-[#182234] border border-transparent hover:border-[#253449] transition-colors ${it.noteId ? "cursor-grab active:cursor-grabbing" : ""}`}>
                         {it.quadrant && <span className="mt-0.5"><QuadIcon q={it.quadrant} /></span>}
                         <a {...linkProps(it.link)} onClick={(e) => { const n = it.noteId && notes.find((x) => x.id === it.noteId); if (n) { e.preventDefault(); openFromMatrix(n); } }} className="flex-1 min-w-0">
                           <div className={`text-xs truncate ${it.overdue ? "text-red-300" : "text-slate-200"}`}>{it.overdue && <Late />}{it.title}</div>
@@ -477,13 +489,18 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
         {/* ── Matriz de Eisenhower ── */}
         <div className="lg:col-span-7 lg:sticky lg:top-4">
           <EisenhowerMatrix
-            notes={notes.filter((n) => !n.done && !n.archivedAt && (matrixSrc === "tudo" || !!n.delegated || (matrixSrc === "rotinas") === isRoutine(n)))}
+            notes={notes.filter((n) => !n.done && !n.archivedAt && inMatrixSrc(n))}
+            all={notes}
+            users={users}
             src={matrixSrc}
             onSrc={setMatrixSrc}
             onOpen={openFromMatrix}
             onMove={(id, q) => {
-              const set = QUAD_FLAGS[q];
-              setNotes((ns) => ns.map((n) => (n.id === id ? { ...n, ...set } : n)));
+              const set = q === "anotado" ? { inMatrix: false } : { ...QUAD_FLAGS[q], inMatrix: true };
+              const n = notes.find((x) => x.id === id);
+              // Veio da outra aba (Entrada com a matriz em Bloquinho, ou vice-versa): mostra tudo pra não "sumir".
+              if (n && q !== "anotado" && !inMatrixSrc(n)) setMatrixSrc("tudo");
+              setNotes((ns) => ns.map((x) => (x.id === id ? { ...x, ...set } : x)));
               quick(id, { set });
             }}
             onQuick={(id, op) => quick(id, op)}
@@ -649,7 +666,7 @@ export default function AssistantHome({ userName, whatsappLinked, aiConfigured, 
 /* ── Filtros da lista (um botão só: matriz, tipo, # e o que mostrar) ──────── */
 function NoteFilters({ pool, tags, quad, onQuad, kind, onKind, tag, onTag, showDone, onShowDone, showArchived, onShowArchived, shown }: {
   pool: Note[]; tags: string[];
-  quad: Quadrant | null; onQuad: (q: Quadrant | null) => void;
+  quad: Slot | null; onQuad: (q: Slot | null) => void;
   kind: string | null; onKind: (k: string | null) => void;
   tag: string | null; onTag: (t: string | null) => void;
   showDone: boolean; onShowDone: (v: boolean) => void;
@@ -687,10 +704,10 @@ function NoteFilters({ pool, tags, quad, onQuad, kind, onKind, tag, onTag, showD
             <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
             <div className="absolute left-0 top-full mt-1.5 z-20 w-64 max-h-[70vh] overflow-y-auto bg-[#0c1220] border border-[#1e2d45] rounded-xl shadow-xl p-1.5">
               <Section title="Matriz" />
-              {(Object.keys(QUAD) as Quadrant[]).map((q) => (
-                <button key={q} onClick={() => onQuad(quad === q ? null : q)} title={QUAD[q].hint} className={opt(quad === q)}>
-                  <Box on={quad === q} /><QuadIcon q={q} /><span className="flex-1 text-left">{QUAD[q].label}</span>
-                  <span className="text-[10px] text-slate-500 tabular-nums">{live.filter((x) => quadrantOf(x) === q).length}</span>
+              {([...Object.keys(QUAD), "anotado"] as Slot[]).map((q) => (
+                <button key={q} onClick={() => onQuad(quad === q ? null : q)} title={q === "anotado" ? ANOTADO.hint : QUAD[q].hint} className={opt(quad === q)}>
+                  <Box on={quad === q} /><SlotIcon s={q} /><span className="flex-1 text-left">{slotLabel(q)}</span>
+                  <span className="text-[10px] text-slate-500 tabular-nums">{live.filter((x) => slotOf(x) === q).length}</span>
                 </button>
               ))}
               <Section title="Tipo" />
@@ -721,7 +738,7 @@ function NoteFilters({ pool, tags, quad, onQuad, kind, onKind, tag, onTag, showD
           </>
         )}
       </div>
-      {quad && <Chip onClear={() => onQuad(null)}><QuadIcon q={quad} className="w-3 h-3" /> {QUAD[quad].label}</Chip>}
+      {quad && <Chip onClear={() => onQuad(null)}><SlotIcon s={quad} className="w-3 h-3" /> {slotLabel(quad)}</Chip>}
       {kind && <Chip onClear={() => onKind(null)}><KindIcon kind={kind} className="w-3 h-3" /> {KIND_LABEL[kind]}</Chip>}
       {tag && <Chip onClear={() => onTag(null)}>#{tag}</Chip>}
       {showDone && <Chip onClear={() => onShowDone(false)}>concluídas</Chip>}
@@ -736,15 +753,18 @@ function NoteFilters({ pool, tags, quad, onQuad, kind, onKind, tag, onTag, showD
 type MatrixSrc = "meu" | "rotinas" | "tudo";
 const MATRIX_ORDER: Quadrant[] = ["fazer", "agendar", "delegar", "eliminar"]; // linhas: importante/não · colunas: urgente/não
 
-function EisenhowerMatrix({ notes, src, onSrc, onOpen, onMove, onQuick, onFilter, activeFilter }: {
-  notes: Note[]; src: MatrixSrc; onSrc: (s: MatrixSrc) => void;
-  onOpen: (n: Note) => void; onMove: (id: string, q: Quadrant) => void;
-  onQuick: (id: string, op: QuickOp) => void; onFilter: (q: Quadrant) => void; activeFilter: Quadrant | null;
+function EisenhowerMatrix({ notes, all, users, src, onSrc, onOpen, onMove, onQuick, onFilter, activeFilter }: {
+  notes: Note[]; all: Note[]; users: CompanyUser[]; src: MatrixSrc; onSrc: (s: MatrixSrc) => void;
+  onOpen: (n: Note) => void; onMove: (id: string, q: Slot) => void;
+  onQuick: (id: string, op: QuickOp) => void; onFilter: (q: Slot) => void; activeFilter: Slot | null;
 }) {
-  const [over, setOver] = useState<Quadrant | null>(null);
+  const [over, setOver] = useState<Slot | null>(null);
   const [now] = useState(() => Date.now());
+  // Depois de soltar num quadrante: a ação que ele pede (delegar pra quem, agendar quando, arquivar).
+  const [after, setAfter] = useState<{ id: string; q: Quadrant } | null>(null);
+  const loose = notes.filter((n) => n.inMatrix === false);
   const byQuad = (q: Quadrant) => notes
-    .filter((n) => quadrantOf(n) === q)
+    .filter((n) => n.inMatrix !== false && quadrantOf(n) === q)
     .sort((a, b) => (a.dueAt ? new Date(a.dueAt).getTime() : Infinity) - (b.dueAt ? new Date(b.dueAt).getTime() : Infinity));
 
   return (
@@ -752,7 +772,7 @@ function EisenhowerMatrix({ notes, src, onSrc, onOpen, onMove, onQuick, onFilter
       <div className="flex items-center justify-between gap-2">
         <div>
           <h3 className="text-sm font-semibold">Matriz de Eisenhower</h3>
-          <p className="text-[10px] text-slate-500">Arraste um item pra outro quadrante · clique pra abrir na lista</p>
+          <p className="text-[10px] text-slate-500">Arraste da lista (fila, bloquinho, entrada) ou entre quadrantes · clique pra abrir na lista</p>
         </div>
         <div className="flex items-center gap-0.5 bg-[#131c2c] border border-[#1e2d45] rounded-lg p-0.5">
           {([["meu", "Bloquinho"], ["rotinas", "Entrada"], ["tudo", "Tudo"]] as [MatrixSrc, string][]).map(([k, label]) => (
@@ -775,15 +795,14 @@ function EisenhowerMatrix({ notes, src, onSrc, onOpen, onMove, onQuick, onFilter
             ),
             <div
               key={q}
-              onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; if (over !== q) setOver(q); }}
-              onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setOver((o) => (o === q ? null : o)); }}
-              onDrop={(e) => { e.preventDefault(); setOver(null); const id = e.dataTransfer.getData("text/plain"); if (id) onMove(id, q); }}
+              {...dropProps(q)}
               className={`rounded-xl border p-2 flex flex-col min-h-[220px] transition-colors ${QUAD[q].cls.replace(/text-[^ ]+/, "")} ${over === q ? "ring-2 ring-fuchsia-400/60" : ""}`}
             >
               <button onClick={() => onFilter(q)} title="Filtrar a lista por este quadrante" className={`flex items-center justify-between gap-2 mb-1.5 text-left ${activeFilter === q ? "underline underline-offset-4" : ""}`}>
                 <span className="text-xs font-semibold text-white inline-flex items-center gap-1.5"><QuadIcon q={q} /> {QUAD[q].label} <span className="text-[10px] text-slate-400 font-normal hidden xl:inline">· {QUAD[q].hint}</span></span>
                 <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-black/25 text-slate-200 tabular-nums">{items.length}</span>
               </button>
+              {after?.q === q && <AfterDrop note={all.find((n) => n.id === after.id)} q={q} users={users} onQuick={(op) => { onQuick(after.id, op); setAfter(null); }} onClose={() => setAfter(null)} />}
               <div className="space-y-1 overflow-y-auto max-h-[300px] pr-0.5 flex-1">
                 {items.length === 0 && <div className="text-[10px] text-slate-500 px-1 py-2">{over === q ? "Solte aqui" : "—"}</div>}
                 {items.map((n) => {
@@ -792,7 +811,7 @@ function EisenhowerMatrix({ notes, src, onSrc, onOpen, onMove, onQuick, onFilter
                     <div
                       key={n.id}
                       draggable
-                      onDragStart={(e) => { e.dataTransfer.setData("text/plain", n.id); e.dataTransfer.effectAllowed = "move"; }}
+                      onDragStart={(e) => dragNote(e, n.id)}
                       className="group flex items-start gap-1.5 px-2 py-1.5 rounded-lg bg-[#0f1623]/80 hover:bg-[#182234] border border-transparent hover:border-[#253449] cursor-grab active:cursor-grabbing"
                     >
                       <span className="mt-0.5"><KindIcon kind={n.kind} className="w-3 h-3" /></span>
@@ -804,6 +823,7 @@ function EisenhowerMatrix({ notes, src, onSrc, onOpen, onMove, onQuick, onFilter
                       <div className="hidden group-hover:flex items-center gap-0.5 flex-shrink-0">
                         <button onClick={() => onQuick(n.id, "done")} title="Feito" className="text-[10px] px-1 py-0.5 rounded bg-emerald-600/30 text-emerald-200 hover:bg-emerald-600/50"><Check className="w-3 h-3" /></button>
                         {q === "eliminar" && <button onClick={() => onQuick(n.id, "archive")} title="Arquivar" className="text-[10px] px-1 py-0.5 rounded bg-[#1a2535] text-slate-300 hover:text-white"><Archive className="w-3 h-3" /></button>}
+                        <button onClick={() => onMove(n.id, "anotado")} title="Tirar da matriz (continua na lista, só anotado)" className="text-[10px] px-1 py-0.5 rounded bg-[#1a2535] text-slate-400 hover:text-white"><X className="w-3 h-3" /></button>
                       </div>
                     </div>
                   );
@@ -813,12 +833,68 @@ function EisenhowerMatrix({ notes, src, onSrc, onOpen, onMove, onQuick, onFilter
           ];
         })}
       </div>
+
+      {/* Fora da matriz: segue na lista, só não ocupa quadrante. */}
+      <div {...dropProps("anotado")} className={`rounded-xl border border-dashed p-2 transition-colors ${over === "anotado" ? "border-fuchsia-400/60 bg-fuchsia-500/5" : "border-[#253449]"}`}>
+        <button onClick={() => onFilter("anotado")} title="Filtrar a lista pelos só anotados" className={`flex items-center justify-between gap-2 w-full text-left ${loose.length ? "mb-1.5" : ""} ${activeFilter === "anotado" ? "underline underline-offset-4" : ""}`}>
+          <span className="text-xs font-semibold text-slate-300 inline-flex items-center gap-1.5"><SlotIcon s="anotado" /> {ANOTADO.label} <span className="text-[10px] text-slate-500 font-normal">· solte aqui pra tirar da matriz sem concluir nem excluir</span></span>
+          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-black/25 text-slate-300 tabular-nums">{loose.length}</span>
+        </button>
+        {loose.length > 0 && (
+          <div className="flex flex-wrap gap-1 max-h-[120px] overflow-y-auto">
+            {loose.map((n) => (
+              <button key={n.id} draggable onDragStart={(e) => dragNote(e, n.id)} onClick={() => onOpen(n)} title="Arraste pra um quadrante pra voltar à matriz" className="max-w-[220px] inline-flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg bg-[#131c2c] border border-[#1e2d45] text-slate-300 hover:text-white cursor-grab active:cursor-grabbing">
+                <KindIcon kind={n.kind} className="w-3 h-3" /><span className="truncate">{n.title}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  function dropProps(q: Slot) {
+    return {
+      onDragOver: (e: React.DragEvent) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; if (over !== q) setOver(q); },
+      onDragLeave: (e: React.DragEvent) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setOver((o) => (o === q ? null : o)); },
+      onDrop: (e: React.DragEvent) => {
+        e.preventDefault(); setOver(null);
+        const id = e.dataTransfer.getData("text/plain");
+        if (!id) return;
+        const n = all.find((x) => x.id === id);
+        onMove(id, q);
+        // Pergunta o próximo passo do quadrante quando ainda falta.
+        const needs = n && q !== "anotado" && (q === "delegar" ? !n.delegated && users.length > 0 : q === "agendar" ? !n.dueAt : q === "eliminar");
+        setAfter(needs ? { id, q: q as Quadrant } : null);
+      },
+    };
+  }
+}
+
+/** Logo depois de soltar: o que o quadrante pede pra esse item. */
+function AfterDrop({ note, q, users, onQuick, onClose }: { note?: Note; q: Quadrant; users: CompanyUser[]; onQuick: (op: QuickOp) => void; onClose: () => void }) {
+  if (!note) return null;
+  const btn = "text-[10px] px-2 py-0.5 rounded-full bg-black/30 border border-white/10 text-slate-200 hover:text-white";
+  return (
+    <div className="mb-1.5 px-2 py-1.5 rounded-lg bg-black/30 border border-white/10 space-y-1">
+      <div className="text-[10px] text-slate-300 truncate">“{note.title}”: {q === "delegar" ? "pra quem?" : q === "agendar" ? "pra quando?" : "arquivar?"}</div>
+      <div className="flex flex-wrap items-center gap-1">
+        {q === "delegar" && (
+          <select autoFocus defaultValue="" onChange={(e) => { if (e.target.value) onQuick({ delegate: e.target.value }); }} className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-200">
+            <option value="">delegar pra…</option>
+            {users.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
+          </select>
+        )}
+        {q === "agendar" && <><button onClick={() => onQuick("tomorrow")} className={btn}>amanhã</button><button onClick={() => onQuick("week")} className={btn}>daqui 7 dias</button></>}
+        {q === "eliminar" && <button onClick={() => onQuick("archive")} className={`${btn} inline-flex items-center gap-1`}><Archive className="w-3 h-3" /> arquivar</button>}
+        <button onClick={onClose} className="text-[10px] px-2 py-0.5 text-slate-400 hover:text-white">{q === "eliminar" ? "manter" : "depois"}</button>
+      </div>
     </div>
   );
 }
 
 /** Item do bloquinho: fechado mostra resumo; aberto mostra tudo e permite editar. */
-type QuickOp = "done" | "reopen" | "tomorrow" | "week" | "nodate" | "archive" | "unarchive" | "delete" | { set: Partial<{ important: boolean; urgent: boolean }> } | { delegate: string };
+type QuickOp = "done" | "reopen" | "tomorrow" | "week" | "nodate" | "archive" | "unarchive" | "delete" | { set: Partial<{ important: boolean; urgent: boolean; inMatrix: boolean }> } | { delegate: string };
 
 function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onSave, onQuick }: {
   note: Note; users: CompanyUser[]; open: boolean; onToggleOpen: () => void; onToggleDone: (doneNote?: string) => void; onDelete: () => void;
@@ -826,6 +902,7 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
   onQuick: (op: QuickOp) => void;
 }) {
   const q = quadrantOf(note);
+  const slot = slotOf(note);
   const overdue = !!note.dueAt && !note.done && new Date(note.dueAt) < new Date();
   const [editing, setEditing] = useState(false);
   const [concluding, setConcluding] = useState(false);
@@ -837,7 +914,8 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
   const [due, setDue] = useState(note.dueAt ? toLocalInput(note.dueAt) : "");
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => { setTitle(note.title); setBody(note.body ?? ""); setKind(note.kind); setTags((note.tags ?? []).join(", ")); setDue(note.dueAt ? toLocalInput(note.dueAt) : ""); setEditing(false); setConcluding(false); setDoneNote(""); }, [note]);
+  useEffect(() => { setTitle(note.title); setBody(note.body ?? ""); setKind(note.kind); setTags((note.tags ?? []).join(", ")); setDue(note.dueAt ? toLocalInput(note.dueAt) : ""); setEditing(false); setConcluding(false); setDoneNote(""); }, // eslint-disable-next-line react-hooks/exhaustive-deps
+  [note.id, note.title, note.body, note.kind, note.dueAt, note.done, (note.tags ?? []).join(",")]); // mudar o quadrante não fecha a edição
 
   async function save() {
     setSaving(true);
@@ -847,12 +925,12 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
   }
 
   return (
-    <div className={`group rounded-lg border transition-colors ${open ? "bg-[#131c2c] border-fuchsia-500/30" : "bg-[#131c2c] border-transparent hover:border-[#253449]"} ${note.done || note.archivedAt ? "opacity-60" : ""}`}>
+    <div draggable={!open && !note.done && !note.archivedAt} onDragStart={(e) => dragNote(e, note.id)} className={`group rounded-lg border transition-colors ${!open && !note.done && !note.archivedAt ? "cursor-grab active:cursor-grabbing" : ""} ${open ? "bg-[#131c2c] border-fuchsia-500/30" : "bg-[#131c2c] border-transparent hover:border-[#253449]"} ${note.done || note.archivedAt ? "opacity-60" : ""}`}>
       <div className="flex items-start gap-2 px-2.5 py-2">
         <button onClick={() => { if (note.done) onToggleDone(); else { if (!open) onToggleOpen(); setConcluding(true); } }} title={note.done ? "Reabrir" : "Concluir"} className="mt-0.5 flex-shrink-0">{note.done ? <CircleCheck className="w-4 h-4 text-emerald-400" /> : <KindIcon kind={note.kind} className="w-4 h-4" />}</button>
         <button onClick={onToggleOpen} className="flex-1 min-w-0 text-left">
           <div className={`text-xs ${note.done ? "line-through text-slate-500" : overdue ? "text-red-300" : "text-slate-200"} ${open ? "" : "truncate"}`}>{note.archivedAt && <Archive className="inline w-3 h-3 -mt-0.5 mr-1 text-slate-500" />}{note.title}</div>
-          {!open && <div className="text-[10px] text-slate-500 truncate flex items-center gap-1"><QuadIcon q={q} className="w-3 h-3" /><span className="truncate">{note.dueAt ? <>{" · "}{overdue && <Late />}{fmtWhen(note.dueAt)}</> : ""}{note.tags?.length ? ` · ${note.tags.map((t) => `#${t}`).join(" ")}` : ""}{note.body ? ` · ${note.body}` : ""}</span></div>}
+          {!open && <div className="text-[10px] text-slate-500 truncate flex items-center gap-1"><SlotIcon s={slot} className="w-3 h-3" /><span className="truncate">{note.dueAt ? <>{" · "}{overdue && <Late />}{fmtWhen(note.dueAt)}</> : ""}{note.tags?.length ? ` · ${note.tags.map((t) => `#${t}`).join(" ")}` : ""}{note.body ? ` · ${note.body}` : ""}</span></div>}
         </button>
         {!open && <DelegatedChip d={note.delegated} compact />}
         {!open && <OpenTaskButton tasks={note.projectTasks} compact />}
@@ -875,18 +953,21 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
           {/* Matriz de Eisenhower: dois toggles + ação do quadrante */}
           {!note.done && (
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className={`text-[10px] px-2 py-0.5 rounded-full border ${QUAD[q].cls} inline-flex items-center gap-1`}><QuadIcon q={q} className="w-3 h-3" /> {QUAD[q].label}</span>
-              <button onClick={() => onQuick({ set: { important: !(note.important ?? true) } })} className={`text-[10px] px-2 py-0.5 rounded-full border ${(note.important ?? true) ? "bg-fuchsia-600/20 border-fuchsia-500/40 text-white" : "bg-[#0f1623] border-[#253449] text-slate-500"}`}>importante</button>
-              <button onClick={() => onQuick({ set: { urgent: !(note.urgent ?? false) } })} className={`text-[10px] px-2 py-0.5 rounded-full border ${(note.urgent ?? false) ? "bg-fuchsia-600/20 border-fuchsia-500/40 text-white" : "bg-[#0f1623] border-[#253449] text-slate-500"}`}>urgente</button>
+              {slot === "anotado"
+                ? <span className="text-[10px] px-2 py-0.5 rounded-full border border-slate-500/30 bg-slate-500/10 text-slate-300 inline-flex items-center gap-1"><SlotIcon s="anotado" className="w-3 h-3" /> {ANOTADO.label}</span>
+                : <span className={`text-[10px] px-2 py-0.5 rounded-full border ${QUAD[q].cls} inline-flex items-center gap-1`}><QuadIcon q={q} className="w-3 h-3" /> {QUAD[q].label}</span>}
+              <button onClick={() => onQuick({ set: { important: !(note.important ?? true), inMatrix: true } })} className={`text-[10px] px-2 py-0.5 rounded-full border ${(note.important ?? true) ? "bg-fuchsia-600/20 border-fuchsia-500/40 text-white" : "bg-[#0f1623] border-[#253449] text-slate-500"}`}>importante</button>
+              <button onClick={() => onQuick({ set: { urgent: !(note.urgent ?? false), inMatrix: true } })} className={`text-[10px] px-2 py-0.5 rounded-full border ${(note.urgent ?? false) ? "bg-fuchsia-600/20 border-fuchsia-500/40 text-white" : "bg-[#0f1623] border-[#253449] text-slate-500"}`}>urgente</button>
+              <button onClick={() => onQuick({ set: { inMatrix: slot === "anotado" } })} title={slot === "anotado" ? "Voltar pra matriz" : "Tirar da matriz sem concluir nem excluir"} className="text-[10px] px-2 py-0.5 rounded-full border bg-[#0f1623] border-[#253449] text-slate-400 hover:text-white">{slot === "anotado" ? "pôr na matriz" : "tirar da matriz"}</button>
               <span className="flex-1" />
-              {q === "delegar" && !note.delegated && users.length > 0 && (
+              {slot !== "anotado" && q === "delegar" && !note.delegated && users.length > 0 && (
                 <select defaultValue="" onChange={(e) => { if (e.target.value) onQuick({ delegate: e.target.value }); }} className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-200">
                   <option value="">delegar pra…</option>
                   {users.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
                 </select>
               )}
-              {q === "eliminar" && !note.archivedAt && <button onClick={() => onQuick("archive")} className="text-[10px] px-2 py-0.5 rounded-full bg-slate-500/15 border border-slate-500/30 text-slate-300 hover:text-white inline-flex items-center gap-1"><Archive className="w-3 h-3" /> arquivar</button>}
-              {q === "agendar" && !note.dueAt && <button onClick={() => onQuick("week")} className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-200 hover:text-white inline-flex items-center gap-1"><CalendarDays className="w-3 h-3" /> marcar pra daqui 7 dias</button>}
+              {slot !== "anotado" && q === "eliminar" && !note.archivedAt && <button onClick={() => onQuick("archive")} className="text-[10px] px-2 py-0.5 rounded-full bg-slate-500/15 border border-slate-500/30 text-slate-300 hover:text-white inline-flex items-center gap-1"><Archive className="w-3 h-3" /> arquivar</button>}
+              {slot !== "anotado" && q === "agendar" && !note.dueAt && <button onClick={() => onQuick("week")} className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-200 hover:text-white inline-flex items-center gap-1"><CalendarDays className="w-3 h-3" /> marcar pra daqui 7 dias</button>}
               {note.archivedAt && <button onClick={() => onQuick("unarchive")} className="text-[10px] px-2 py-0.5 rounded-full bg-[#1a2535] border border-[#253449] text-slate-300 hover:text-white inline-flex items-center gap-1"><ArchiveRestore className="w-3 h-3" /> desarquivar</button>}
             </div>
           )}
@@ -947,6 +1028,16 @@ function NoteItem({ note, users, open, onToggleOpen, onToggleDone, onDelete, onS
 
       {open && editing && (
         <div className="px-2.5 pb-2.5 space-y-2">
+          {!note.done && (
+            <div className="flex flex-wrap items-center gap-1">
+              <span className="text-[10px] text-slate-500 mr-0.5">Matriz:</span>
+              {([...MATRIX_ORDER, "anotado"] as Slot[]).map((sl) => (
+                <button key={sl} onClick={() => onQuick({ set: sl === "anotado" ? { inMatrix: false } : { ...QUAD_FLAGS[sl], inMatrix: true } })} title={sl === "anotado" ? ANOTADO.hint : QUAD[sl].hint} className={`text-[10px] px-2 py-0.5 rounded-full border inline-flex items-center gap-1 ${slot === sl ? (sl === "anotado" ? "border-slate-400/50 bg-slate-500/15 text-white" : QUAD[sl].cls) : "bg-[#0f1623] border-[#253449] text-slate-400 hover:text-white"}`}>
+                  <SlotIcon s={sl} className="w-3 h-3" /> {slotLabel(sl)}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="flex gap-2">
             <select value={kind} onChange={(e) => setKind(e.target.value)} className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white">
               <option value="TASK">Tarefa</option><option value="IDEA">Ideia</option><option value="NOTE">Nota</option><option value="REMINDER">Lembrete</option>

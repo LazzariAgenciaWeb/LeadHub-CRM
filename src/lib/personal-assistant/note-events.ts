@@ -13,7 +13,8 @@ export async function logNoteEvent(noteId: string, type: NoteEventType, source: 
 
 /** Descreve os campos alterados numa edição ("alterou título, data"). */
 export function describeEdit(data: Record<string, unknown>): string {
-  const names: Record<string, string> = { title: "título", body: "texto", kind: "tipo", dueAt: "data", tags: "etiquetas" };
-  const changed = Object.keys(data).filter((k) => names[k]).map((k) => names[k]);
+  if (data.inMatrix === false) return "tirou da matriz (só anotado)";
+  const names: Record<string, string> = { title: "título", body: "texto", kind: "tipo", dueAt: "data", tags: "etiquetas", important: "quadrante da matriz", urgent: "quadrante da matriz", inMatrix: "quadrante da matriz" };
+  const changed = [...new Set(Object.keys(data).filter((k) => names[k]).map((k) => names[k]))];
   return changed.length ? `alterou ${changed.join(", ")}` : "editou";
 }
