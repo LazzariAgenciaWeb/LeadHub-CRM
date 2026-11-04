@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v28-followup";
+export const AUTO_AGENT_REV = "v29-agenda-sem-link";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -937,6 +937,7 @@ TARDE: ${fmt(tarde)}
 Regras do agendamento:
 - Ofereça no MÁXIMO 2 opções por vez: 1 de manhã e 1 de tarde (das listas acima). Se um período não tiver horário, ofereça 2 do outro.
 - Ofereça SOMENTE horários que estão nas listas. NUNCA invente nem confirme horário fora delas.
+- NUNCA envie link/URL de agenda (calendar.app.google, Calendly, Cal.com, etc.), mesmo que apareça no manual, no FAQ ou nos aprendizados: esses trechos estão VENCIDOS. A oferta é o horário escrito na mensagem, não um link.
 - NUNCA agende ou prometa horário pra HOJE — as listas já começam no próximo dia útil; se o contato pedir "hoje", explique com leveza que a agenda abre a partir de amanhã e ofereça as opções.
 - Se nenhum servir pro contato, pergunte a preferência dele (dia/período) e ofereça outras 2 opções das listas.
 - Antes de confirmar, peça o E-MAIL do contato ("pra te enviar o convite da reunião 😊").
@@ -1686,6 +1687,18 @@ async function runAutoAgentCore(
           };
     }
   }
+  // Agenda conectada + link de agenda na resposta = sobra do manual antigo. O
+  // contato recebe os 2 horários livres em vez da URL (que é justamente o que
+  // o agendamento direto existe pra substituir).
+  if (scheduling?.slots.length && decision.action !== "AGENDAR") {
+    const scrub = stripSchedulingLinks(decision.replies, scheduling.slots, assistant.schedulingLink);
+    if (scrub.stripped) {
+      diag.linkAgendaRemovido = true;
+      console.warn(`[AutoAgent] link de agenda removido conv=${conv.id} — oferecendo horários livres da agenda`);
+      decision = { ...decision, replies: scrub.replies };
+    }
+  }
+
   diag.bolhas = decision.replies.length;
   if (decision.agendarInicio) diag.agendarInicio = decision.agendarInicio;
 
@@ -2075,6 +2088,34 @@ function contactChoseSlot(history: { direction: string; body: string }[], slot: 
     const t = normTxt(m.body ?? "");
     return mentionsTime(t) || mentionsDay(t) || AFFIRM_RE.test(t);
   });
+}
+
+// Links de agenda que o modelo copia do manual antigo (FAQ, aprendizados) mesmo
+// com o agendamento direto ligado. Com agenda conectada, quem oferece horário é
+// o motor — a URL vira oferta de 2 horários livres antes de sair pro contato.
+// O domínio tem que vir em fronteira de host ("//cal.com", ".cal.com") pra não
+// casar com o site de um cliente ("https://meulocal.com.br").
+const AGENDA_LINK_RE =
+  /https?:\/\/(?:\S*[./])?(?:calendar\.app\.google|calendar\.google\.com|calendly\.com|cal\.com|appt\.link|meetings?\.hubspot\.com|agendor\.com)\S*/i;
+
+/**
+ * Remove as bolhas que mandam o contato agendar por link e garante que a
+ * resposta ofereça horário concreto. Só roda com slots disponíveis — sem
+ * horário livre pra oferecer, tirar o link deixaria o contato sem caminho.
+ */
+function stripSchedulingLinks(
+  replies: string[],
+  slots: Slot[],
+  configuredLink: string | null,
+): { replies: string[]; stripped: boolean } {
+  const configured = configuredLink?.trim() || null;
+  const hasLink = (t: string) => AGENDA_LINK_RE.test(t) || (!!configured && t.includes(configured));
+
+  const kept = replies.filter((r) => !hasLink(r));
+  if (kept.length === replies.length) return { replies, stripped: false };
+
+  if (!repliesOfferSlots(kept, slots)) kept.push(slotOfferText(slots));
+  return { replies: kept.slice(0, 3), stripped: true };
 }
 
 /** Alguma bolha cita um horário da agenda (hora + dia)? = está oferecendo horário. */

@@ -912,6 +912,9 @@ export default function AssistantsSettings({
                 placeholder="https://calendar.app.google/..."
                 className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
               />
+              <p className="text-slate-600 text-[11px] mt-1.5">
+                Só entra em cena <strong className="text-slate-400">sem agenda selecionada</strong> acima. Com agenda conectada o agente oferece 2 horários livres e não manda link — se o manual dele ainda mandar um link de agenda, o sistema troca a URL pelos horários antes de enviar.
+              </p>
             </div>
               </div>
             ))}
