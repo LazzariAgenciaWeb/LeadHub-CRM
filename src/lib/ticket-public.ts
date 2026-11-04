@@ -8,7 +8,7 @@ export async function ticketByPublicToken(token: string) {
   const ticket = await prisma.ticket.findUnique({
     where: { publicToken: token },
     select: {
-      id: true, title: true, status: true, isInternal: true,
+      id: true, title: true, status: true, ticketStage: true, isInternal: true,
       companyId: true, clickupTaskId: true, assigneeId: true, createdById: true,
     },
   });

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { loadTicketStages, syncStageStatus } from "@/lib/ticket-stages";
 
 // Detalhe + resposta de um chamado/pedido PELO CLIENTE logado.
 // Escopo: o ticket precisa ser da empresa do cliente (clientCompanyId === companyId)
@@ -9,7 +10,7 @@ import { prisma } from "@/lib/prisma";
 async function loadOwned(id: string, companyId: string) {
   const ticket = await prisma.ticket.findUnique({
     where: { id },
-    select: { id: true, title: true, category: true, status: true, description: true, createdAt: true, clientCompanyId: true, isInternal: true },
+    select: { id: true, title: true, category: true, status: true, ticketStage: true, companyId: true, description: true, createdAt: true, clientCompanyId: true, isInternal: true },
   });
   if (!ticket || ticket.isInternal || ticket.clientCompanyId !== companyId) return null;
   return ticket;
@@ -104,9 +105,19 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   // Resposta do cliente reabre o chamado se ele estava encerrado.
   const reopened = ticket.status === "RESOLVED" || ticket.status === "CLOSED";
+  // Reabrir tira o card da coluna final do kanban também.
+  const stage = reopened
+    ? syncStageStatus({
+        stages:  await loadTicketStages(ticket.companyId),
+        current: { status: ticket.status, ticketStage: ticket.ticketStage },
+        next:    { status: "OPEN" },
+      }).ticketStage
+    : undefined;
   await prisma.ticket.update({
     where: { id },
-    data: reopened ? { status: "OPEN", updatedAt: new Date() } : { updatedAt: new Date() },
+    data: reopened
+      ? { status: "OPEN", ...(stage ? { ticketStage: stage } : {}), updatedAt: new Date() }
+      : { updatedAt: new Date() },
   });
 
   return NextResponse.json({ ok: true, message: shape(msg), status: reopened ? "OPEN" : ticket.status }, { status: 201 });

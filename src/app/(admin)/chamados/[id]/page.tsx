@@ -5,12 +5,15 @@ import { getViewer, canSeeTicket } from "@/lib/visibility";
 import { notFound } from "next/navigation";
 import { startOfTodayInSystemTZ, endOfTodayInSystemTZ } from "@/lib/datetime";
 import { storageEnabled } from "@/lib/storage/s3";
+import { loadTicketStages } from "@/lib/ticket-stages";
 import TicketDetail from "./TicketDetail";
 
 export default async function TicketPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ config?: string }>;
 }) {
   const session = await getEffectiveSession();
   const role = (session?.user as any)?.role as string;
@@ -144,33 +147,9 @@ export default async function TicketPage({
   const whatsappEnabled =
     isSuperAdmin || (currentCompany?.moduleWhatsapp === true && whatsappInstanceCount > 0);
 
-  // Load CHAMADOS stages
-  const stagesWhere = isSuperAdmin
-    ? { pipeline: "CHAMADOS" as const }
-    : { pipeline: "CHAMADOS" as const, companyId: userCompanyId ?? "" };
-
-  let stages = await prisma.pipelineStageConfig.findMany({
-    where: stagesWhere,
-    orderBy: { order: "asc" },
-  });
-
-  // Deduplicate for super admin
-  if (isSuperAdmin) {
-    const seen = new Set<string>();
-    stages = stages.filter((s) => (seen.has(s.name) ? false : (seen.add(s.name), true)));
-  }
-
-  // Fallback default stages if none configured
-  if (stages.length === 0) {
-    stages = [
-      { id: "d0", name: "Novo",               color: "#6366f1", order: 0, isFinal: false, pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
-      { id: "d1", name: "Em Análise",         color: "#8b5cf6", order: 1, isFinal: false, pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
-      { id: "d2", name: "Aguardando Cliente", color: "#f59e0b", order: 2, isFinal: false, pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
-      { id: "d3", name: "Em Execução",        color: "#3b82f6", order: 3, isFinal: false, pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
-      { id: "d4", name: "Resolvido ✅",       color: "#22c55e", order: 4, isFinal: true,  pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
-      { id: "d5", name: "Fechado",            color: "#64748b", order: 5, isFinal: true,  pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
-    ] as any;
-  }
+  // Etapas da empresa dona do chamado — as mesmas que o servidor usa pra
+  // ligar etapa ↔ status (lib/ticket-stages).
+  const stages = await loadTicketStages(ticket.companyId);
 
   return (
     <TicketDetail
@@ -178,7 +157,8 @@ export default async function TicketPage({
       isSuperAdmin={isSuperAdmin}
       canManage={canManage}
       currentUserName={session?.user?.name ?? "Usuário"}
-      stages={stages as any}
+      stages={stages}
+      openConfig={(await searchParams).config === "1"}
       users={users as any}
       setores={setores as any}
       clientCompanies={clientCompanies as any}

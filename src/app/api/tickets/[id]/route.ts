@@ -4,12 +4,13 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncTicketToClickup, recreateTicketTaskInList } from "@/lib/clickup";
 import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
-import { ActivityType } from "@/generated/prisma";
+import { ActivityType, type TicketStatus } from "@/generated/prisma";
 import { formatBrazilDateTime } from "@/lib/datetime";
 import { createConversationEvent } from "@/lib/conversation-events";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { getViewer, canSeeTicket } from "@/lib/visibility";
 import { notifyClientOnTicketClose } from "@/lib/ticket-notify";
+import { loadTicketStages, syncStageStatus, isFinalStatus } from "@/lib/ticket-stages";
 
 // GET /api/tickets/[id]
 export async function GET(
@@ -85,7 +86,7 @@ export async function PATCH(
   const { id } = await params;
   const body = await req.json();
   const {
-    status, priority, category, title, clickupTaskId, ticketStage, companyId,
+    status: statusIn, priority, category, title, clickupTaskId, ticketStage: ticketStageIn, companyId,
     dueDate, assigneeId, setorId, clientCompanyId, projetoId,
     visibility, accessUserIds, phone,
     // sharePublic: "on" gera novo publicToken se não existir; "off" remove.
@@ -135,6 +136,28 @@ export async function PATCH(
   if (!perms) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   if (!perms.isAdmin && !perms.canViewTickets) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+
+  // Etapa e status andam juntos (lib/ticket-stages): arrastar pra "Resolvido"
+  // conclui de verdade, e "Resolver" leva o card pra coluna final.
+  const synced = statusIn !== undefined || ticketStageIn !== undefined
+    ? syncStageStatus({
+        stages:  await loadTicketStages(existing.companyId),
+        current: { status: existing.status, ticketStage: existing.ticketStage },
+        next:    { status: statusIn, ticketStage: ticketStageIn },
+      })
+    : {};
+  const status = (statusIn ?? synced.status) as TicketStatus | undefined;
+  const ticketStage: string | null | undefined = ticketStageIn !== undefined ? ticketStageIn : synced.ticketStage;
+
+  // Chamado de cliente só conclui com o cliente definido — senão some da
+  // lista sem ninguém saber de quem era. Tarefa interna não tem cliente.
+  const nextClient = clientCompanyId !== undefined ? clientCompanyId : existing.clientCompanyId;
+  if (existing.type === "SUPPORT" && isFinalStatus(status) && !isFinalStatus(existing.status) && !nextClient) {
+    return NextResponse.json(
+      { error: "Defina o cliente antes de concluir o chamado.", code: "CLIENT_REQUIRED" },
+      { status: 409 },
+    );
   }
 
   const ticket = await prisma.ticket.update({

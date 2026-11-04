@@ -12,9 +12,11 @@ import AttachmentList from "@/components/attachments/AttachmentList";
 import { uploadFile, type StoredFile } from "@/components/attachments/upload";
 import {
   Info, Inbox, MessageSquare, MessageCircle, Lock, Settings, Mail, Link2,
-  FileText, Paperclip, type LucideIcon,
+  FileText, Paperclip, X, CheckCircle2, AlertTriangle, Clock, Building2, User as UserIcon,
+  ChevronDown, type LucideIcon,
 } from "lucide-react";
 import { gradStroke, type GradientKey } from "@/components/IconGradients";
+import { syncStageStatus } from "@/lib/ticket-stage-sync";
 
 /**
  * Marcador da linha do tempo por tipo de item (feed do chamado). Mesmo
@@ -232,6 +234,7 @@ export default function TicketDetail({
   whatsappWindow,
   storageEnabled = false,
   currentUserId,
+  openConfig = false,
 }: {
   ticket: Ticket;
   isSuperAdmin: boolean;
@@ -250,6 +253,8 @@ export default function TicketDetail({
   // MinIO configurado → 📎 aceita qualquer arquivo (não só imagem em base64).
   storageEnabled?: boolean;
   currentUserId?: string;
+  // ?config=1 — a lista manda pra cá quando barrou a conclusão sem cliente.
+  openConfig?: boolean;
 }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -259,7 +264,7 @@ export default function TicketDetail({
   // mostra só a descrição. As demais são filtros do feed (Todas / Mensagens /
   // Notas internas / Sistema) ou view dedicada (WhatsApp). Replica o padrão
   // das filter pills do CRM.
-  const [feedTab, setFeedTab] = useState<"info" | "all" | "messages" | "internal" | "system" | "whatsapp" | "email">("all");
+  const [feedTab, setFeedTab] = useState<"info" | "all" | "messages" | "internal" | "system" | "whatsapp" | "email" | "files">("all");
 
   // Conversa WhatsApp — carregada sob demanda quando user clica na aba.
   // Evita SSR de conversas longas (50+ mensagens) só pra abrir o chamado.
@@ -448,6 +453,39 @@ export default function TicketDetail({
   const [editingDue, setEditingDue] = useState(false);
   const [savingMeta, setSavingMeta] = useState(false);
 
+  // Gaveta "⚙ Dados do chamado": tudo que antes ficava empilhado na lateral.
+  const isSupport = ticket.type !== "INTERNAL";
+  const [configOpen, setConfigOpen] = useState(openConfig);
+  const [configNotice, setConfigNotice] = useState<string | null>(
+    openConfig && isSupport && !ticket.clientCompanyId ? "Defina o cliente do chamado pra poder concluir." : null,
+  );
+  function openConfigDrawer() { setConfigNotice(null); setConfigOpen(true); }
+  // Chamado de cliente só conclui com cliente definido (o servidor recusa com
+  // 409 CLIENT_REQUIRED). Aqui já abre a gaveta com o aviso, em vez de deixar
+  // o clique sem efeito.
+  function askClient() {
+    setConfigNotice("Defina o cliente do chamado pra poder concluir.");
+    setConfigOpen(true);
+  }
+  // Quando só o status muda, o servidor leva o card pra coluna certa — aqui
+  // espelha o mesmo ajuste (lib/ticket-stage-sync) sem esperar o refresh.
+  function followStage(nextStatus: string) {
+    const st = syncStageStatus({ stages, current: { status, ticketStage }, next: { status: nextStatus } }).ticketStage;
+    if (st) setTicketStage(st);
+  }
+  async function patchOrExplain(payload: Record<string, unknown>): Promise<boolean> {
+    const res = await fetch(`/api/tickets/${ticket.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }).catch(() => null);
+    if (res?.ok) return true;
+    const data = await res?.json().catch(() => ({}));
+    if (data?.code === "CLIENT_REQUIRED") askClient();
+    else alert(data?.error ?? "Não foi possível salvar.");
+    return false;
+  }
+
   async function patchTicket(payload: Record<string, unknown>) {
     setSavingMeta(true);
     try {
@@ -478,6 +516,7 @@ export default function TicketDetail({
 
   async function handleClientChange(newId: string | null) {
     setClientId(newId);
+    if (newId) setConfigNotice(null);
     const c = (clientCompanies ?? []).find((x) => x.id === newId);
     setClientName(c?.name ?? null);
     await patchTicket({ clientCompanyId: newId });
@@ -729,15 +768,20 @@ export default function TicketDetail({
   })();
 
   async function handleSuggestClose() {
+    if (isSupport && !clientId) { askClient(); return; }
     setUpdatingStage(true);
-    await fetch(`/api/tickets/${ticket.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "RESOLVED" }),
-    });
-    setStatus("RESOLVED");
+    const ok = await patchOrExplain({ status: "RESOLVED" });
+    if (ok) { followStage("RESOLVED"); setStatus("RESOLVED"); }
     setUpdatingStage(false);
     startTransition(() => router.refresh());
+  }
+
+  // "✓ Resolver" do topo: leva pra 1ª etapa final (o servidor acerta o status).
+  async function handleResolve() {
+    if (isSupport && !clientId) { askClient(); return; }
+    const finalStage = stages.find((s) => s.isFinal);
+    if (finalStage) await handleStageChange(finalStage.name);
+    else await handleStatusChange("RESOLVED");
   }
 
   async function handleReopen() {
@@ -747,6 +791,7 @@ export default function TicketDetail({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "IN_PROGRESS" }),
     });
+    followStage("IN_PROGRESS");
     setStatus("IN_PROGRESS");
     setReopening(false);
     startTransition(() => router.refresh());
@@ -796,34 +841,26 @@ export default function TicketDetail({
   }
 
   async function handleArchive() {
-    await fetch(`/api/tickets/${ticket.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "CLOSED" }),
-    });
-    setStatus("CLOSED");
+    if (isSupport && !clientId) { setConfirmDelete(false); askClient(); return; }
+    const ok = await patchOrExplain({ status: "CLOSED" });
+    if (ok) { followStage("CLOSED"); setStatus("CLOSED"); }
     setConfirmDelete(false);
     startTransition(() => router.refresh());
   }
 
   async function handleStageChange(newStage: string) {
+    const stageObj = stages.find((s) => s.name === newStage);
+    if (stageObj?.isFinal && isSupport && !clientId) { askClient(); return; }
+    const prev = { stage: ticketStage, status };
     setUpdatingStage(true);
     setTicketStage(newStage);
+    // Espelha o que o servidor faz (lib/ticket-stages): etapa final conclui,
+    // sair dela reabre.
+    if (stageObj?.isFinal) setStatus("RESOLVED");
+    else if (status === "RESOLVED" || status === "CLOSED") setStatus("IN_PROGRESS");
 
-    // Se a etapa destino é final, sincroniza o status com RESOLVED
-    // para que os filtros openOnly=true parem de retornar este chamado
-    const stageObj = stages.find((s) => s.name === newStage);
-    const newStatus = stageObj?.isFinal ? "RESOLVED" : undefined;
-    if (newStatus) setStatus(newStatus);
-
-    await fetch(`/api/tickets/${ticket.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ticketStage: newStage,
-        ...(newStatus ? { status: newStatus } : {}),
-      }),
-    });
+    const ok = await patchOrExplain({ ticketStage: newStage });
+    if (!ok) { setTicketStage(prev.stage); setStatus(prev.status); }
     setUpdatingStage(false);
     startTransition(() => router.refresh());
   }
@@ -839,12 +876,13 @@ export default function TicketDetail({
   }
 
   async function handleStatusChange(newStatus: string) {
+    const concluding = newStatus === "RESOLVED" || newStatus === "CLOSED";
+    if (concluding && isSupport && !clientId) { askClient(); return; }
+    const prev = status;
     setStatus(newStatus);
-    await fetch(`/api/tickets/${ticket.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: newStatus }),
-    });
+    const ok = await patchOrExplain({ status: newStatus });
+    if (ok) followStage(newStatus);
+    else setStatus(prev);
     startTransition(() => router.refresh());
   }
 
@@ -912,6 +950,22 @@ export default function TicketDetail({
   const currentStageObj = stages.find((s) => s.name === ticketStage);
   const isClosed = status === "CLOSED" || currentStageObj?.isFinal;
 
+  // Prazo no topo: dia-calendário (vence no fim do dia, não na hora marcada).
+  const dueChip = (() => {
+    if (!dueDate) return { label: "Sem prazo", cls: "text-slate-500 border-[#1e2d45] bg-[#0f1623]" };
+    const due = new Date(dueDate);
+    const days = diffCalendarDays(new Date(), due);
+    const dm = due.toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "2-digit" });
+    const hm = due.toLocaleTimeString("pt-BR", { timeZone: "America/Sao_Paulo", hour: "2-digit", minute: "2-digit" });
+    if (isClosed) return { label: dm, cls: "text-slate-400 border-[#1e2d45] bg-[#0f1623]" };
+    if (days < 0) return { label: `Atrasado · ${dm}`, cls: "text-red-300 border-red-500/40 bg-red-500/10" };
+    if (days === 0) return { label: `Hoje · ${hm}`, cls: "text-orange-300 border-orange-500/40 bg-orange-500/10" };
+    if (days === 1) return { label: `Amanhã · ${hm}`, cls: "text-amber-300 border-amber-500/30 bg-amber-500/5" };
+    if (days < 7) return { label: `Em ${days} dias · ${dm}`, cls: "text-slate-300 border-[#1e2d45] bg-[#0f1623]" };
+    return { label: dm, cls: "text-slate-300 border-[#1e2d45] bg-[#0f1623]" };
+  })();
+  const chip = "inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full border transition-colors";
+
   // "description" is always messages[0] body (the initial request), subsequent are updates
   const [initialMsg, ...updates] = messages;
 
@@ -938,6 +992,9 @@ export default function TicketDetail({
       : []),
     ...(showEmailTab
       ? [{ id: "email" as const, Icon: Mail, grad: "email" as GradientKey, label: "E-mail", count: ticketEmails?.length ?? null }]
+      : []),
+    ...(storageEnabled
+      ? [{ id: "files" as const, Icon: Paperclip, grad: "dashboard" as GradientKey, label: "Arquivos", count: null }]
       : []),
   ];
 
@@ -1047,8 +1104,8 @@ export default function TicketDetail({
           <span className="text-slate-700">/</span>
           <span className="text-slate-500 truncate max-w-xs">{ticket.title}</span>
         </div>
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div className="flex-1 min-w-[16rem]">
             {editingTitle && canManage ? (
               <input
                 autoFocus
@@ -1070,31 +1127,76 @@ export default function TicketDetail({
                 {title}
               </h1>
             )}
-            <div className="flex items-center gap-2 mt-2 flex-wrap">
-              {/* Stage badge */}
-              {currentStageObj && (
+            {/* Resumo do chamado — o essencial à vista, cada item clicável.
+                Etapa e prioridade mudam aqui mesmo; o resto abre a gaveta. */}
+            <div className="flex items-center gap-2 mt-2.5 flex-wrap">
+              {currentStageObj && (canManage && stages.length > 0 ? (
+                <label
+                  className={`${chip} font-semibold pr-1.5 cursor-pointer`}
+                  style={{ color: currentStageObj.color, backgroundColor: currentStageObj.color + "20", borderColor: currentStageObj.color + "40" }}
+                  title="Mudar etapa"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: currentStageObj.color }} />
+                  <select
+                    value={ticketStage}
+                    onChange={(e) => void handleStageChange(e.target.value)}
+                    disabled={updatingStage}
+                    className="bg-transparent appearance-none cursor-pointer focus:outline-none"
+                  >
+                    {stages.map((s) => (
+                      <option key={s.id} value={s.name} className="bg-[#0f1623] text-slate-200">{s.name}</option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-3 h-3 opacity-70" />
+                </label>
+              ) : (
                 <span
-                  className="flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full border"
+                  className={`${chip} font-semibold`}
                   style={{ color: currentStageObj.color, backgroundColor: currentStageObj.color + "20", borderColor: currentStageObj.color + "40" }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: currentStageObj.color }} />
                   {currentStageObj.name}
                 </span>
+              ))}
+              {canManage ? (
+                <label className={`${chip} pr-1.5 border-[#1e2d45] bg-[#0f1623] cursor-pointer ${pc.color}`} title="Mudar prioridade">
+                  <select
+                    value={priority}
+                    onChange={(e) => void handlePriorityChange(e.target.value)}
+                    className="bg-transparent appearance-none cursor-pointer focus:outline-none font-semibold"
+                  >
+                    {Object.entries(PRIORITY_CONFIG).map(([k, v]) => (
+                      <option key={k} value={k} className="bg-[#0f1623] text-slate-200">{v.icon} {v.label}</option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-3 h-3 opacity-70" />
+                </label>
+              ) : (
+                <span className={`text-[11px] font-semibold ${pc.color}`}>{pc.icon} {pc.label}</span>
               )}
-              {/* Priority */}
-              <span className={`text-[11px] font-semibold ${pc.color}`}>{pc.icon} {pc.label}</span>
-              {/* Company */}
-              <span className="text-slate-500 text-[11px]">🏢 {ticket.company.name}</span>
-              {/* Category */}
+              {isSupport && (clientName ? (
+                <button type="button" onClick={openConfigDrawer} className={`${chip} text-slate-200 border-blue-500/30 bg-blue-500/10 hover:border-blue-400/60`} title="Cliente do chamado">
+                  <Building2 className="w-3 h-3 text-blue-300" /> {clientName}
+                </button>
+              ) : (
+                <button type="button" onClick={askClient} className={`${chip} text-amber-200 border-amber-500/50 bg-amber-500/10 hover:bg-amber-500/20 font-semibold`}>
+                  <AlertTriangle className="w-3 h-3" /> Definir cliente
+                </button>
+              ))}
+              <button type="button" onClick={openConfigDrawer} className={`${chip} border-[#1e2d45] bg-[#0f1623] hover:border-slate-500 ${assigneeName ? "text-slate-200" : "text-slate-500"}`} title="Responsável">
+                <UserIcon className="w-3 h-3" /> {assigneeName ?? "Sem responsável"}
+              </button>
+              <button type="button" onClick={openConfigDrawer} className={`${chip} hover:border-slate-500 ${dueChip.cls}`} title="Prazo de encerramento">
+                <Clock className="w-3 h-3" /> {dueChip.label}
+              </button>
               {ticket.category && (
                 <span className="text-[11px] text-slate-500 bg-white/5 px-2 py-0.5 rounded">{ticket.category}</span>
               )}
-              {/* Messages count */}
-              <span className="text-slate-600 text-[11px] inline-flex items-center gap-1"><MessageSquare className="w-3 h-3" /> {messages.length} mensagen{messages.length !== 1 ? "s" : ""}</span>
+              <span className="text-slate-600 text-[11px] inline-flex items-center gap-1 font-mono">#{ticket.id.slice(-6)}</span>
             </div>
           </div>
           {/* Atalhos rápidos */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
             {ticket.phone && (
               <Link
                 href={`/whatsapp?abrir=${encodeURIComponent(ticket.phone)}`}
@@ -1123,14 +1225,38 @@ export default function TicketDetail({
                 </button>
               )
             )}
+            {!isClosed && (canManage ? (
+              <button
+                onClick={() => void handleResolve()}
+                disabled={updatingStage}
+                title={isSupport && !clientId ? "Defina o cliente pra concluir" : "Concluir o chamado"}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold disabled:opacity-50 transition-colors"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5" /> Resolver
+              </button>
+            ) : (
+              // Status muda pela etapa; quem não gerencia o kanban só fecha.
+              <button
+                onClick={() => void handleStatusChange("CLOSED")}
+                className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
+              >
+                Fechar chamado
+              </button>
+            ))}
+            <button
+              onClick={openConfigDrawer}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#1e2d45] text-slate-300 hover:text-white hover:border-slate-500 text-xs font-medium transition-colors"
+            >
+              <Settings className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Configurar</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Body: two columns */}
+      {/* Body: conversa na largura toda; os dados do chamado ficam na gaveta ⚙ */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left: description + activity + reply */}
-        <div className="flex-1 flex flex-col overflow-hidden border-r border-[#1e2d45]">
+        <div className="flex-1 flex flex-col overflow-hidden">
           {/* Abas do chamado — sempre visíveis no topo. "Informações" é a principal.
               Estilo replicado das filter pills do CRM (TIMELINE_FILTERS). */}
           <div className="flex-shrink-0 px-6 py-2.5 border-b border-[#1e2d45] flex flex-wrap gap-1.5 bg-[#0a0f1a]/40">
@@ -1174,64 +1300,6 @@ export default function TicketDetail({
             )}
           </div>
           <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
-            {/* Link público de acompanhamento — visível pra gestores. Se já existe,
-                mostra a URL + botões abrir/copiar/revogar. Se não, um botão pra
-                gerar. Sempre visível (nas abas Informações e Todas) — em outras
-                abas fica escondido pra não poluir. */}
-            {canManage && (feedTab === "info" || feedTab === "all") && (
-              publicToken ? (
-                <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3 flex items-center gap-2">
-                  <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wide flex-shrink-0 inline-flex items-center gap-1"><Link2 className="w-3 h-3" /> Link do cliente</span>
-                  <input
-                    readOnly
-                    value={publicUrl ?? ""}
-                    onClick={(e) => (e.target as HTMLInputElement).select()}
-                    className="flex-1 min-w-0 bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1 text-[11px] text-slate-300 font-mono focus:outline-none focus:border-emerald-500/50"
-                  />
-                  <button
-                    type="button"
-                    onClick={copyPublicLink}
-                    title="Copiar URL"
-                    className="text-[10px] px-2 py-1 rounded bg-[#0a0f1a] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-emerald-500/40 transition-colors whitespace-nowrap"
-                  >
-                    {copiedShare ? "✓ Copiado" : "⧉ Copiar"}
-                  </button>
-                  <a
-                    href={publicUrl ?? "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="Abrir em nova aba"
-                    className="text-[10px] px-2 py-1 rounded bg-[#0a0f1a] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-emerald-500/40 transition-colors whitespace-nowrap"
-                  >
-                    ↗ Abrir
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (confirm("Revogar o link? O cliente vai perder o acesso.")) void toggleShareLink(false);
-                    }}
-                    disabled={togglingShare}
-                    title="Revogar link (cliente perde acesso)"
-                    className="text-[10px] px-2 py-1 rounded text-slate-500 hover:text-red-400 transition-colors whitespace-nowrap disabled:opacity-40"
-                  >
-                    {togglingShare ? "..." : "Revogar"}
-                  </button>
-                </div>
-              ) : (
-                <div className="bg-slate-500/5 border border-dashed border-slate-500/30 rounded-xl px-3 py-2 flex items-center gap-2 text-[11px]">
-                  <span className="text-slate-500 flex-1">Sem link público — o cliente não acompanha nem responde este chamado.</span>
-                  <button
-                    type="button"
-                    onClick={() => void toggleShareLink(true)}
-                    disabled={togglingShare}
-                    className="text-[10px] px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium disabled:opacity-40 transition-colors whitespace-nowrap"
-                  >
-                    {togglingShare ? "Gerando..." : <span className="inline-flex items-center gap-1"><Link2 className="w-3 h-3" /> Gerar link</span>}
-                  </button>
-                </div>
-              )
-            )}
-
             {/* Original request card — aparece nas abas Informações, Todas e Mensagens.
                 Faz sentido omitir em Notas internas/Sistema (não é nota nem evento). */}
             {initialMsg && (feedTab === "info" || feedTab === "all" || feedTab === "messages") && (
@@ -1277,7 +1345,7 @@ export default function TicketDetail({
                 Filtrado pela aba ativa. Na aba "Informações" o feed é omitido — só a
                 descrição é mostrada acima pra um overview limpo. A aba "WhatsApp" tem
                 view dedicada (logo abaixo) então também não renderiza o feed. */}
-            {feedTab !== "info" && feedTab !== "whatsapp" && feedTab !== "email" && (() => {
+            {feedTab !== "info" && feedTab !== "whatsapp" && feedTab !== "email" && feedTab !== "files" && (() => {
               type FeedItem =
                 | { kind: "msg"; createdAt: string; data: TicketMessage }
                 | { kind: "act"; createdAt: string; data: TicketActivity }
@@ -1472,6 +1540,17 @@ export default function TicketDetail({
                     );
               }
             })()}
+
+            {/* Arquivos do chamado (MinIO) — inclui os enviados pela conversa */}
+            {feedTab === "files" && storageEnabled && (
+              <AttachmentsPanel
+                target={{ ticketId: ticket.id }}
+                currentUserId={currentUserId}
+                canManage={canManage}
+                refreshKey={messages.length}
+                libraryClientId={canManage ? clientId : null}
+              />
+            )}
 
             {/* WhatsApp tab — view dedicada. Carrega conversa do telefone vinculado
                 sob demanda. Direction "OUTBOUND" alinha à direita (nosso), "INBOUND"
@@ -1697,41 +1776,21 @@ export default function TicketDetail({
           )}
         </div>
 
-        {/* Right sidebar: metadata */}
-        <div className="w-[260px] min-w-[260px] flex-shrink-0 overflow-y-auto p-4 space-y-4">
-          {/* Arquivos do chamado (MinIO) — inclui os enviados pela conversa */}
-          {storageEnabled && (
-            <AttachmentsPanel
-              target={{ ticketId: ticket.id }}
-              currentUserId={currentUserId}
-              canManage={canManage}
-              refreshKey={messages.length}
-              libraryClientId={canManage ? clientId : null}
-            />
-          )}
+      </div>
 
-          {/* Stage */}
-          {canManage && stages.length > 0 && (
-            <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-2">Etapa</div>
-              <div className="space-y-1">
-                {stages.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => handleStageChange(s.name)}
-                    disabled={updatingStage || ticketStage === s.name}
-                    className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-colors text-left ${
-                      ticketStage === s.name
-                        ? "bg-white/10 text-white"
-                        : "text-slate-400 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: s.color }} />
-                    {s.name}
-                    {ticketStage === s.name && <span className="ml-auto text-[10px] text-slate-500">atual</span>}
-                  </button>
-                ))}
-              </div>
+      {/* Gaveta "⚙ Dados do chamado" — o que antes ficava empilhado na lateral.
+          Etapa e prioridade também mudam direto no topo. */}
+      {configOpen && (
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm" onClick={() => setConfigOpen(false)}>
+        <div className="w-full max-w-md h-full overflow-y-auto bg-[#0b111c] border-l border-[#1e2d45] p-5 space-y-4" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center justify-between">
+            <h3 className="text-white font-semibold text-sm flex items-center gap-2"><Settings className="w-4 h-4" /> Dados do chamado</h3>
+            <button onClick={() => setConfigOpen(false)} className="text-slate-500 hover:text-white" aria-label="Fechar"><X className="w-5 h-5" /></button>
+          </div>
+          {configNotice && (
+            <div className="flex items-start gap-2 bg-amber-500/10 border border-amber-500/40 text-amber-200 text-xs rounded-lg p-3">
+              <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+              <span>{configNotice}</span>
             </div>
           )}
 
@@ -1945,6 +2004,62 @@ export default function TicketDetail({
             </div>
           )}
 
+        {/* Link do cliente (acompanha e responde sem login) — só gestores.
+            Já existe: URL + abrir/copiar/revogar. Não existe: botão pra gerar. */}
+          {canManage && (
+            publicToken ? (
+              <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3 flex items-center gap-2 flex-wrap">
+                <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wide flex-shrink-0 inline-flex items-center gap-1"><Link2 className="w-3 h-3" /> Link do cliente</span>
+                <input
+                  readOnly
+                  value={publicUrl ?? ""}
+                  onClick={(e) => (e.target as HTMLInputElement).select()}
+                  className="flex-1 min-w-[12rem] bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1 text-[11px] text-slate-300 font-mono focus:outline-none focus:border-emerald-500/50"
+                />
+                <button
+                  type="button"
+                  onClick={copyPublicLink}
+                  title="Copiar URL"
+                  className="text-[10px] px-2 py-1 rounded bg-[#0a0f1a] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-emerald-500/40 transition-colors whitespace-nowrap"
+                >
+                  {copiedShare ? "✓ Copiado" : "⧉ Copiar"}
+                </button>
+                <a
+                  href={publicUrl ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Abrir em nova aba"
+                  className="text-[10px] px-2 py-1 rounded bg-[#0a0f1a] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-emerald-500/40 transition-colors whitespace-nowrap"
+                >
+                  ↗ Abrir
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (confirm("Revogar o link? O cliente vai perder o acesso.")) void toggleShareLink(false);
+                  }}
+                  disabled={togglingShare}
+                  title="Revogar link (cliente perde acesso)"
+                  className="text-[10px] px-2 py-1 rounded text-slate-500 hover:text-red-400 transition-colors whitespace-nowrap disabled:opacity-40"
+                >
+                  {togglingShare ? "..." : "Revogar"}
+                </button>
+              </div>
+            ) : (
+              <div className="bg-slate-500/5 border border-dashed border-slate-500/30 rounded-xl px-3 py-2 flex items-center gap-2 text-[11px]">
+                <span className="text-slate-500 flex-1">Sem link público — o cliente não acompanha nem responde este chamado.</span>
+                <button
+                  type="button"
+                  onClick={() => void toggleShareLink(true)}
+                  disabled={togglingShare}
+                  className="text-[10px] px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium disabled:opacity-40 transition-colors whitespace-nowrap"
+                >
+                  {togglingShare ? "Gerando..." : <span className="inline-flex items-center gap-1"><Link2 className="w-3 h-3" /> Gerar link</span>}
+                </button>
+              </div>
+            )
+          )}
+
           {/* Visibilidade: aberto/restrito + pessoas extras */}
           {canManage && (
             <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
@@ -2110,18 +2225,6 @@ export default function TicketDetail({
             </div>
           </div>
 
-          {/* Status muda automaticamente conforme a Etapa do pipeline (acima).
-              Mantemos só o botão "Fechar chamado" pra clientes finais que não
-              têm acesso ao kanban de etapas. */}
-          {!canManage && !isClosed && (
-            <button
-              onClick={() => handleStatusChange("CLOSED")}
-              className="w-full py-2 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
-            >
-              Fechar chamado
-            </button>
-          )}
-
           {/* Excluir / Arquivar — só SUPER_ADMIN */}
           {isSuperAdmin && (
             <div className="pt-2 border-t border-[#1e2d45] space-y-2">
@@ -2162,7 +2265,8 @@ export default function TicketDetail({
             </div>
           )}
         </div>
-      </div>
+        </div>
+      )}
 
       {/* Modal leitor de e-mail — corpo completo com iframe sandboxed (mesmo
           padrão da Caixa de E-mail: sandbox sem allow-scripts, HTML de

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { ticketByPublicToken } from "@/lib/ticket-public";
 import { getClickupSettings, addCommentToClickupTask } from "@/lib/clickup";
 import { sendPushToUser } from "@/lib/push";
+import { loadTicketStages, syncStageStatus } from "@/lib/ticket-stages";
 
 // POST /api/acompanhar/[token]
 // Body: { name: string, text?: string, attachmentIds?: string[] }
@@ -58,9 +59,19 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
   }
 
   const reopened = ticket.status === "RESOLVED" || ticket.status === "CLOSED";
+  // Reabrir tira o card da coluna final do kanban também.
+  const stage = reopened
+    ? syncStageStatus({
+        stages:  await loadTicketStages(ticket.companyId),
+        current: { status: ticket.status, ticketStage: ticket.ticketStage },
+        next:    { status: "OPEN" },
+      }).ticketStage
+    : undefined;
   await prisma.ticket.update({
     where: { id: ticket.id },
-    data:  reopened ? { status: "OPEN", updatedAt: new Date() } : { updatedAt: new Date() },
+    data:  reopened
+      ? { status: "OPEN", ...(stage ? { ticketStage: stage } : {}), updatedAt: new Date() }
+      : { updatedAt: new Date() },
   });
 
   if (reopened) {

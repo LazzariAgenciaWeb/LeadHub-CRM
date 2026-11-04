@@ -1,94 +1,66 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getViewer, ticketVisibilityWhere } from "@/lib/visibility";
-import TicketsBoard from "./TicketsBoard";
+import { loadTicketStages } from "@/lib/ticket-stages";
+import { readPref } from "@/lib/chamados-view-pref";
+import TicketsBoard, { type BoardTicket } from "./TicketsBoard";
 import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
-const DEFAULT_STAGES = [
-  { id: "d0", name: "Novo",               color: "#6366f1", order: 0, isFinal: false },
-  { id: "d1", name: "Em Análise",         color: "#8b5cf6", order: 1, isFinal: false },
-  { id: "d2", name: "Aguardando Cliente", color: "#f59e0b", order: 2, isFinal: false },
-  { id: "d3", name: "Em Execução",        color: "#3b82f6", order: 3, isFinal: false },
-  { id: "d4", name: "Resolvido ✅",       color: "#22c55e", order: 4, isFinal: true  },
-  { id: "d5", name: "Fechado",            color: "#64748b", order: 5, isFinal: true  },
-];
+export const dynamic = "force-dynamic";
 
-export default async function ChamadosPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ companyId?: string }>;
-}) {
+export default async function ChamadosPage() {
   const session = await getEffectiveSession();
-  const isSuperAdmin = (session?.user as any)?.role === "SUPER_ADMIN";
-  const userCompanyId = (session?.user as any)?.companyId as string | undefined;
+  const user = session?.user as { id?: string; role?: string; companyId?: string } | undefined;
 
   // Super admin sem impersonar: chamados são por empresa — pede o cliente primeiro.
-  if (isSuperAdmin) return <SuperAdminCompanyGate title="Chamados" />;
+  if (user?.role === "SUPER_ADMIN") return <SuperAdminCompanyGate title="Chamados" />;
 
-  const sp = await searchParams;
-  const filterCompanyId = isSuperAdmin ? (sp.companyId ?? "") : (userCompanyId ?? "");
+  const companyId = user?.companyId ?? "";
+  const userId = user?.id ?? "";
 
-  // Load stages for CHAMADOS
-  let stages = await prisma.pipelineStageConfig.findMany({
-    where: {
-      pipeline: "CHAMADOS",
-      ...(filterCompanyId ? { companyId: filterCompanyId } : {}),
-    },
-    orderBy: { order: "asc" },
-  });
-
-  // If SUPER_ADMIN, deduplicate by name
-  if (isSuperAdmin && stages.length > 0) {
-    const seen = new Set<string>();
-    stages = stages.filter((s) => (seen.has(s.name) ? false : (seen.add(s.name), true)));
-  }
-
-  // Fallback to default if none configured
-  if (stages.length === 0) {
-    stages = DEFAULT_STAGES as any;
-  }
-
-  const where: any = {};
-  if (filterCompanyId) where.companyId = filterCompanyId;
-  if (!isSuperAdmin) where.isInternal = false;
-
+  const where: Record<string, unknown> = { companyId, isInternal: false };
   // Visibilidade aberto/restrito
-  const viewer = await getViewer(session);
-  const visWhere = ticketVisibilityWhere(viewer);
-  if (visWhere) where.AND = [...(where.AND ?? []), visWhere];
+  const visWhere = ticketVisibilityWhere(await getViewer(session));
+  if (visWhere) where.AND = [visWhere];
 
-  const [tickets, companies] = await Promise.all([
+  const [stages, pref, rows] = await Promise.all([
+    loadTicketStages(companyId),
+    readPref(userId),
     prisma.ticket.findMany({
       where,
       orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
       include: {
-        company:       { select: { id: true, name: true } },
         clientCompany: { select: { id: true, name: true } },
         assignee:      { select: { id: true, name: true } },
         setor:         { select: { id: true, name: true } },
         _count:        { select: { messages: true } },
+        // Última mensagem visível ao cliente: se foi ELE quem falou por último,
+        // o chamado está esperando a gente (selo "Cliente aguardando"). Vale a
+        // origem, não o papel — atendente da agência também tem role CLIENT;
+        // o cliente de fato escreve pelo Meu Espaço ou pelo link (CLIENT_PORTAL).
+        messages: {
+          where:   { isInternal: false },
+          orderBy: { createdAt: "desc" },
+          take:    1,
+          select:  { source: true, createdAt: true },
+        },
       },
     }),
-    isSuperAdmin
-      ? prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
-      : [],
   ]);
 
-  const currentUserId = (session?.user as any)?.id as string | undefined;
+  const tickets: BoardTicket[] = rows.map((t) => {
+    const last = t.messages[0];
+    return {
+      id: t.id, title: t.title, status: t.status, priority: t.priority, category: t.category,
+      ticketStage: t.ticketStage, type: t.type === "INTERNAL" ? "INTERNAL" : "SUPPORT",
+      visibility: t.visibility,
+      dueDate: t.dueDate?.toISOString() ?? null,
+      createdAt: t.createdAt.toISOString(), updatedAt: t.updatedAt.toISOString(),
+      assignee: t.assignee, setor: t.setor, clientCompany: t.clientCompany,
+      messages: t._count.messages,
+      clientWaitingSince: last?.source === "CLIENT_PORTAL" ? last.createdAt.toISOString() : null,
+    };
+  });
 
-  const pipelineCompanyId = filterCompanyId || (
-    isSuperAdmin ? (await prisma.company.findFirst({ orderBy: { createdAt: "asc" }, select: { id: true } }))?.id ?? "" : ""
-  );
-
-  return (
-    <TicketsBoard
-      tickets={tickets as any}
-      stages={stages as any}
-      isSuperAdmin={isSuperAdmin}
-      companies={companies}
-      filterCompanyId={filterCompanyId}
-      pipelineCompanyId={pipelineCompanyId}
-      currentUserId={currentUserId ?? ""}
-    />
-  );
+  return <TicketsBoard tickets={tickets} stages={stages} pref={pref} currentUserId={userId} />;
 }
