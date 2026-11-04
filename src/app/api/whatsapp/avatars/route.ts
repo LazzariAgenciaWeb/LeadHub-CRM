@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
-import { evolutionFetchProfilePicture } from "@/lib/evolution";
+import { evolutionFetchProfilePicture, evolutionProfilePictureDebug } from "@/lib/evolution";
 import { getHiddenInstanceIds, conversationVisibilityAnd } from "@/lib/whatsapp-visibility";
 
 // POST /api/whatsapp/avatars
@@ -101,4 +101,81 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ avatars });
+}
+
+
+// GET /api/whatsapp/avatars  → diagnóstico (ADMIN / SUPER_ADMIN)
+// Responde por que a foto não apareceu: se a coluna existe no banco, se há
+// instância conectada e o que exatamente a Evolution devolveu para um contato
+// e para um grupo. Sem isso, "não apareceu" vira adivinhação.
+export async function GET(req: NextRequest) {
+  const session = await getEffectiveSession();
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const role = (session.user as any).role;
+  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+    return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
+
+  const isSuperAdmin = role === "SUPER_ADMIN";
+  const userCompanyId = (session.user as any).companyId as string | undefined;
+  const { searchParams } = new URL(req.url);
+  const companyId = isSuperAdmin ? (searchParams.get("companyId") ?? userCompanyId ?? "") : (userCompanyId ?? "");
+
+  const out: Record<string, unknown> = { companyId: companyId || "(global)" };
+
+  // 1) A coluna existe? (db push pode ter falhado no startup)
+  try {
+    const comFoto = await prisma.conversation.count({ where: { avatarUrl: { not: null } } });
+    const jaConsultadas = await prisma.conversation.count({ where: { avatarCheckedAt: { not: null } } });
+    out.colunaOk = true;
+    out.conversasComFoto = comFoto;
+    out.conversasJaConsultadas = jaConsultadas;
+  } catch (err: any) {
+    out.colunaOk = false;
+    out.erroColuna = String(err?.message ?? err).slice(0, 300);
+    return NextResponse.json(out);
+  }
+
+  // 2) Tem instância conectada pra perguntar?
+  const inst = await prisma.whatsappInstance.findFirst({
+    where: { ...(companyId ? { companyId } : {}), status: "CONNECTED" },
+    select: { instanceName: true, instanceToken: true },
+  });
+  out.instancia = inst?.instanceName ?? null;
+  if (!inst) return NextResponse.json({ ...out, conclusao: "Nenhuma instância CONNECTED — nada a consultar." });
+
+  // 3) O que a Evolution responde, de verdade, pra um contato e pra um grupo
+  const alvoParam = searchParams.get("phone");
+  const contato = alvoParam && !alvoParam.includes("@g.us")
+    ? { phone: alvoParam }
+    : await prisma.conversation.findFirst({
+        where: { ...(companyId ? { companyId } : {}), isGroup: false, phone: { not: { contains: "@" } } },
+        orderBy: { lastMessageAt: "desc" },
+        select: { phone: true },
+      });
+  const grupo = alvoParam && alvoParam.includes("@g.us")
+    ? { phone: alvoParam }
+    : await prisma.conversation.findFirst({
+        where: { ...(companyId ? { companyId } : {}), phone: { contains: "@g.us" } },
+        orderBy: { lastMessageAt: "desc" },
+        select: { phone: true },
+      });
+
+  if (contato) {
+    out.contato = {
+      phone: contato.phone,
+      ...(await evolutionProfilePictureDebug(inst.instanceName, contato.phone.replace(/\D/g, ""), inst.instanceToken)),
+    };
+  }
+  if (grupo) {
+    out.grupo = {
+      phone: grupo.phone,
+      ...(await evolutionProfilePictureDebug(inst.instanceName, grupo.phone, inst.instanceToken)),
+    };
+  }
+
+  return NextResponse.json(out);
 }

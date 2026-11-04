@@ -662,6 +662,36 @@ export async function evolutionFetchProfilePicture(
   }
 }
 
+/**
+ * Versão CRUA da busca de foto — devolve endpoint, status HTTP e corpo da
+ * resposta da Evolution. Existe só para a rota de diagnóstico: quando a foto
+ * não aparece, a pergunta é "o endpoint respondeu o quê?", e engolir isso num
+ * `null` deixa a gente adivinhando.
+ */
+export async function evolutionProfilePictureDebug(
+  instanceName: string,
+  numberOrJid: string,
+  instanceToken?: string | null,
+): Promise<{ endpoint: string; status: number | string; body: string }> {
+  const { baseUrl, apiKey } = await getConfig();
+  const token = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
+  const isGroup = numberOrJid.includes("@g.us");
+  const endpoint = isGroup
+    ? `${baseUrl}/group/findGroupInfos/${instanceName}?groupJid=${encodeURIComponent(numberOrJid)}`
+    : `${baseUrl}/chat/fetchProfilePictureUrl/${instanceName}`;
+  try {
+    const res = await fetch(endpoint, {
+      method: isGroup ? "GET" : "POST",
+      headers: headers(token),
+      ...(isGroup ? {} : { body: JSON.stringify({ number: numberOrJid }) }),
+    });
+    const body = (await res.text()).slice(0, 600);
+    return { endpoint: endpoint.replace(baseUrl, "<evolution>"), status: res.status, body };
+  } catch (err: any) {
+    return { endpoint: endpoint.replace(baseUrl, "<evolution>"), status: "erro", body: String(err?.message ?? err).slice(0, 300) };
+  }
+}
+
 export async function evolutionCheckWhatsappNumbers(
   instanceName: string,
   numbers: string[],
