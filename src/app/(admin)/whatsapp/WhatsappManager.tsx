@@ -72,20 +72,24 @@ function UrgencyMeter({ progress, color, pulse, children }: {
  * que a caixa sempre mostrou. Foto é enfeite: nunca some com o avatar nem
  * quebra o termômetro de urgência em volta.
  */
-function ConvPhoto({ url, size, fallback }: {
-  url?: string | null; size: number; fallback: React.ReactNode;
+function ConvPhoto({ phone, hasPhoto, size, fallback, bust }: {
+  phone: string; hasPhoto: boolean; size: number; fallback: React.ReactNode; bust?: number;
 }) {
   const [broken, setBroken] = useState(false);
-  if (!url || broken) return <>{fallback}</>;
+  useEffect(() => { setBroken(false); }, [bust, phone]);
+  if (!hasPhoto || broken) return <>{fallback}</>;
   return (
+    // A imagem vem do NOSSO domínio (proxy), não do CDN da Meta: bloqueador de
+    // rastreador (Opera GX, Brave, uBlock) corta pps.whatsapp.net e a foto
+    // nunca chegava na tela.
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={url}
+      src={`/api/whatsapp/avatar?phone=${encodeURIComponent(phone)}${bust ? `&v=${bust}` : ""}`}
       alt=""
+      loading="lazy"
       className="rounded-full object-cover"
       style={{ width: size, height: size }}
       onError={() => setBroken(true)}
-      referrerPolicy="no-referrer"
     />
   );
 }
@@ -1544,6 +1548,9 @@ export default function WhatsappManager({
   // Força a releitura da foto no WhatsApp (clique na foto do cabeçalho) —
   // serve quando o contato/grupo trocou a imagem e a nossa está velha.
   const [refreshingAvatar, setRefreshingAvatar] = useState(false);
+  // Muda a cada atualização forçada — entra na URL da imagem pra furar o cache
+  // do navegador (o proxy manda guardar por 30 min).
+  const [avatarBust, setAvatarBust] = useState(0);
   async function refreshAvatar(phone: string) {
     setRefreshingAvatar(true);
     try {
@@ -1555,6 +1562,7 @@ export default function WhatsappManager({
       if (res.ok) {
         const d = await res.json();
         if (d?.avatars) setAvatarByPhone((prev) => ({ ...prev, ...d.avatars }));
+        setAvatarBust(Date.now());
       }
     } catch {
       // sem drama: a foto antiga (ou as iniciais) continua na tela
@@ -3675,11 +3683,11 @@ export default function WhatsappManager({
                             <div className="flex flex-col items-center gap-0.5 flex-shrink-0 w-8">
                               {meter ? (
                                 <UrgencyMeter progress={meter.progress} color={meter.color} pulse={pulse}>
-                                  <ConvPhoto url={avatarByPhone[conv.phone]} size={25} fallback={conv.phone.slice(-2)} />
+                                  <ConvPhoto phone={conv.phone} hasPhoto={!!avatarByPhone[conv.phone]} size={25} fallback={conv.phone.slice(-2)} />
                                 </UrgencyMeter>
                               ) : (
                                 <div className={`w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center overflow-hidden text-[11px] font-bold text-slate-300 ${ring} ${pulse ? "animate-pulse" : ""}`}>
-                                  <ConvPhoto url={avatarByPhone[conv.phone]} size={32} fallback={conv.phone.slice(-2)} />
+                                  <ConvPhoto phone={conv.phone} hasPhoto={!!avatarByPhone[conv.phone]} size={32} fallback={conv.phone.slice(-2)} />
                                 </div>
                               )}
                               {Icon && (
@@ -3924,7 +3932,7 @@ export default function WhatsappManager({
                       title="Clique para atualizar a foto pelo WhatsApp"
                       className={`flex-shrink-0 rounded-full transition-opacity hover:opacity-80 ${refreshingAvatar ? "animate-pulse" : ""}`}
                     >
-                      <ConvPhoto url={avatarByPhone[selectedConv.phone]} size={36} fallback={null} />
+                      <ConvPhoto phone={selectedConv.phone} hasPhoto size={36} fallback={null} bust={avatarBust} />
                     </button>
                   )}
                   {editingName ? (
