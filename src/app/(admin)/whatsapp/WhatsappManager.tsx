@@ -526,6 +526,9 @@ export default function WhatsappManager({
   const [ticketForm, setTicketForm] = useState({ title: "", description: "" });
   // Acompanhamento do cliente: gerar link público + avisar no WhatsApp
   const [ticketShare, setTicketShare] = useState(true);
+  // Sugestão da IA pro chamado (lê a conversa e preenche assunto + descrição)
+  const [suggestingTicket, setSuggestingTicket] = useState(false);
+  const [suggestError, setSuggestError] = useState<string | null>(null);
   const [ticketNotify, setTicketNotify] = useState(true);
   const [convertingTicket, setConvertingTicket] = useState(false);
   const [ticketCreated, setTicketCreated] = useState(false);
@@ -2263,8 +2266,34 @@ export default function WhatsappManager({
     }
   }
 
-  async function handleCreateTicket(e: React.FormEvent) {
-    e.preventDefault();
+  // Pede pra IA ler a conversa e sugerir assunto/descrição. Não envia nada:
+  // preenche os campos pro atendente revisar e ajustar antes de abrir.
+  async function handleSuggestTicket() {
+    if (!selectedConv) return;
+    setSuggestingTicket(true);
+    setSuggestError(null);
+    try {
+      const params = new URLSearchParams({ phone: selectedConv.phone });
+      if (selectedConv.companyId) params.set("companyId", selectedConv.companyId);
+      const res = await fetch(`/api/ai/ticket-draft?${params}`);
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setSuggestError(d.error ?? "Não consegui gerar a sugestão.");
+        return;
+      }
+      setTicketForm((prev) => ({
+        title: d.title || prev.title,
+        description: d.description || prev.description,
+      }));
+    } catch {
+      setSuggestError("Falha de conexão ao falar com a IA.");
+    } finally {
+      setSuggestingTicket(false);
+    }
+  }
+
+  async function handleCreateTicket(e?: React.FormEvent) {
+    e?.preventDefault();
     if (!selectedConv) return;
     setConvertingTicket(true);
     setTicketError(null);
@@ -4579,89 +4608,129 @@ export default function WhatsappManager({
               )}
 
               {/* Form: Abrir Chamado */}
+              {/* Modal: Abrir Chamado — era um bloco inline espremido no topo da
+                  conversa; virou modal pra caber descrição multilinha + sugestão da IA. */}
               {showTicketForm && (
-                <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-orange-500/5 flex-shrink-0">
-                  <p className="text-orange-400 text-xs font-semibold mb-2">🎫 Abrir Chamado de Suporte</p>
-                  {/* O que já vai preenchido: cliente da conversa + quem abre */}
-                  <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                    {selectedConv.companyContact?.company?.name ? (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-300">
-                        🏢 Cliente: {selectedConv.companyContact.company.name}
-                      </span>
-                    ) : (
-                      <span
-                        className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-[#1e2d45] text-slate-500"
-                        title={selectedConv.phone.includes("@g.us")
-                          ? "Este grupo não está atribuído a uma empresa. Use +Ações → Atribuir empresa."
-                          : "Este contato não está vinculado a uma empresa cliente."}
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/70" onClick={() => setShowTicketForm(false)} />
+                  <div className="relative bg-[#0c1220] border border-[#1e2d45] rounded-2xl w-full max-w-xl mx-4 shadow-2xl max-h-[88vh] flex flex-col">
+                    <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Ticket className="w-4 h-4 text-orange-400" strokeWidth={2.5} />
+                        <span className="text-sm font-semibold text-white">Abrir chamado de suporte</span>
+                      </div>
+                      <button onClick={() => setShowTicketForm(false)} className="text-slate-500 hover:text-white text-lg leading-none">×</button>
+                    </div>
+
+                    <div className="px-5 py-4 overflow-y-auto space-y-3">
+                      {/* O que já vai preenchido: cliente da conversa + quem abre */}
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        {selectedConv.companyContact?.company?.name ? (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-300">
+                            🏢 Cliente: {selectedConv.companyContact.company.name}
+                          </span>
+                        ) : (
+                          <span
+                            className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-[#1e2d45] text-slate-500"
+                            title={selectedConv.phone.includes("@g.us")
+                              ? "Este grupo não está atribuído a uma empresa. Use +Ações → Atribuir empresa."
+                              : "Este contato não está vinculado a uma empresa cliente."}
+                          >
+                            🏢 Sem cliente vinculado
+                          </span>
+                        )}
+                        {userName && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-300">
+                            👤 Responsável: {userName.split(" ")[0]}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Sugestão da IA a partir da conversa */}
+                      <button
+                        type="button"
+                        onClick={handleSuggestTicket}
+                        disabled={suggestingTicket}
+                        className="w-full flex items-center justify-center gap-2 py-2 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-200 text-xs font-medium hover:bg-violet-500/20 disabled:opacity-50 transition-colors"
+                        title="A IA lê a conversa e sugere assunto e descrição — você revisa antes de abrir."
                       >
-                        🏢 Sem cliente vinculado
-                      </span>
-                    )}
-                    {userName && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-300">
-                        👤 Responsável: {userName.split(" ")[0]}
-                      </span>
-                    )}
-                  </div>
-                  {/* Cliente acompanha? (link público) + avisar agora no WhatsApp */}
-                  <div className="flex flex-wrap items-center gap-4 mb-3">
-                    <label className="flex items-center gap-1.5 cursor-pointer select-none" title="Gera um link sem login onde o cliente vê o status e as atualizações do chamado.">
-                      <input
-                        type="checkbox"
-                        checked={ticketShare}
-                        onChange={(e) => setTicketShare(e.target.checked)}
-                        className="w-3.5 h-3.5 rounded accent-orange-500"
-                      />
-                      <span className={`text-[11px] ${ticketShare ? "text-orange-300" : "text-slate-500"}`}>
-                        🔗 Cliente pode acompanhar (link)
-                      </span>
-                    </label>
-                    <label className="flex items-center gap-1.5 cursor-pointer select-none" title="Manda uma mensagem agora nesta conversa avisando da abertura.">
-                      <input
-                        type="checkbox"
-                        checked={ticketNotify}
-                        onChange={(e) => setTicketNotify(e.target.checked)}
-                        className="w-3.5 h-3.5 rounded accent-orange-500"
-                      />
-                      <span className={`text-[11px] ${ticketNotify ? "text-orange-300" : "text-slate-500"}`}>
-                        💬 Avisar no WhatsApp agora
-                      </span>
-                    </label>
-                  </div>
-                  {ticketError && (
-                    <p className="text-red-400 text-xs mb-2">{ticketError}</p>
-                  )}
-                  <form onSubmit={handleCreateTicket} className="flex flex-wrap gap-3 items-end">
-                    <div className="flex-1 min-w-[200px]">
-                      <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">Assunto</label>
-                      <input
-                        type="text"
-                        value={ticketForm.title}
-                        onChange={(e) => setTicketForm({ ...ticketForm, title: e.target.value })}
-                        placeholder={`Suporte — ${selectedConv.lead?.name ?? selectedConv.phone}`}
-                        className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-orange-500"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-[200px]">
-                      <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">Descrição (opcional)</label>
-                      <input
-                        type="text"
-                        value={ticketForm.description}
-                        onChange={(e) => setTicketForm({ ...ticketForm, description: e.target.value })}
-                        placeholder={`Contato via WhatsApp: ${selectedConv.phone}`}
-                        className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-orange-500"
-                      />
-                    </div>
-                    <div className="flex gap-2">
-                      <button type="submit" disabled={convertingTicket} className="px-4 py-1.5 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-500 disabled:opacity-50 transition-colors">
-                        {convertingTicket ? "Criando..." : "Criar Chamado"}
+                        <Sparkles className="w-3.5 h-3.5" strokeWidth={2.5} />
+                        {suggestingTicket ? "Lendo a conversa…" : "Preencher com IA a partir da conversa"}
                       </button>
-                      <button type="button" onClick={() => setShowTicketForm(false)} className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-sm hover:text-white transition-colors">
+                      {suggestError && <p className="text-amber-400 text-[11px]">{suggestError}</p>}
+
+                      <div>
+                        <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">Assunto</label>
+                        <input
+                          type="text"
+                          value={ticketForm.title}
+                          onChange={(e) => setTicketForm({ ...ticketForm, title: e.target.value })}
+                          placeholder={`Suporte — ${selectedConv.lead?.name ?? selectedConv.phone}`}
+                          className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-orange-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">
+                          Descrição <span className="text-slate-600 normal-case">(Enter quebra linha)</span>
+                        </label>
+                        <textarea
+                          value={ticketForm.description}
+                          onChange={(e) => setTicketForm({ ...ticketForm, description: e.target.value })}
+                          placeholder={`Contato via WhatsApp: ${selectedConv.phone}`}
+                          rows={8}
+                          className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-orange-500 resize-y overflow-y-auto leading-relaxed"
+                          style={{ minHeight: "160px", maxHeight: "40vh" }}
+                        />
+                      </div>
+
+                      {/* Cliente acompanha? (link público) + avisar agora no WhatsApp */}
+                      <div className="flex flex-wrap items-center gap-4 pt-1">
+                        <label className="flex items-center gap-1.5 cursor-pointer select-none" title="Gera um link sem login onde o cliente vê o status e as atualizações do chamado.">
+                          <input
+                            type="checkbox"
+                            checked={ticketShare}
+                            onChange={(e) => setTicketShare(e.target.checked)}
+                            className="w-3.5 h-3.5 rounded accent-orange-500"
+                          />
+                          <span className={`text-[11px] ${ticketShare ? "text-orange-300" : "text-slate-500"}`}>
+                            🔗 Cliente pode acompanhar (link)
+                          </span>
+                        </label>
+                        <label className="flex items-center gap-1.5 cursor-pointer select-none" title="Manda uma mensagem agora nesta conversa avisando da abertura.">
+                          <input
+                            type="checkbox"
+                            checked={ticketNotify}
+                            onChange={(e) => setTicketNotify(e.target.checked)}
+                            className="w-3.5 h-3.5 rounded accent-orange-500"
+                          />
+                          <span className={`text-[11px] ${ticketNotify ? "text-orange-300" : "text-slate-500"}`}>
+                            💬 Avisar no WhatsApp agora
+                          </span>
+                        </label>
+                      </div>
+
+                      {ticketError && <p className="text-red-400 text-xs">{ticketError}</p>}
+                    </div>
+
+                    <div className="px-5 py-3 border-t border-[#1e2d45] flex justify-end gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setShowTicketForm(false)}
+                        className="px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white transition-colors"
+                      >
                         Cancelar
                       </button>
+                      <button
+                        type="button"
+                        onClick={handleCreateTicket}
+                        disabled={convertingTicket}
+                        className="px-4 py-1.5 rounded-lg bg-orange-600 text-white text-xs font-semibold hover:bg-orange-500 disabled:opacity-50 transition-colors"
+                      >
+                        {convertingTicket ? "Criando..." : "Criar chamado"}
+                      </button>
                     </div>
-                  </form>
+                  </div>
                 </div>
               )}
 
@@ -6127,7 +6196,7 @@ export default function WhatsappManager({
                       }
                       disabled={sendingReply}
                       rows={1}
-                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50 resize-none overflow-hidden"
+                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50 resize-none overflow-y-auto"
                       style={{ minHeight: "42px", maxHeight: "160px" }}
                     />
                     {/* Menção (@) é feita clicando no participante na lista do topo
