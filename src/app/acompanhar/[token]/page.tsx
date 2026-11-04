@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { SYSTEM_TIMEZONE } from "@/lib/business-hours";
 import { storageEnabled } from "@/lib/storage/s3";
+import { clientePendencias } from "@/lib/client-pendencias";
+import ClientePendencias from "@/components/ClientePendencias";
 import ClienteResponder from "./ClienteResponder";
 
 export const dynamic = "force-dynamic";
@@ -62,7 +64,7 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
       company:       { select: { name: true } },
       clientCompany: { select: { name: true } },
       assignee:      { select: { name: true } },
-      id: true,
+      id: true, companyId: true, clientCompanyId: true,
       messages: {
         where: { isInternal: false },
         orderBy: { createdAt: "asc" },
@@ -86,7 +88,9 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
 
   // Prints: imagem embutida antiga (sem carregar o base64 aqui — vem pela rota
   // de mídia) + arquivos do storage. As rotas aceitam ?t=<token> deste link.
-  const [withMedia, ticketFiles] = await Promise.all([
+  // Alerta de "tem mais coisa esperando você": peça pra aprovar e os OUTROS
+  // chamados dele em aberto — este não entra na lista.
+  const [withMedia, ticketFiles, pendencias] = await Promise.all([
     prisma.ticketMessage.findMany({
       where:  { ticketId: ticket.id, isInternal: false, mediaBase64: { not: null } },
       select: { id: true },
@@ -95,6 +99,11 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
       where:   { ticketId: ticket.id, ticketMessageId: null, status: "READY" },
       orderBy: { createdAt: "asc" },
       select:  { id: true, fileName: true, mimeType: true },
+    }),
+    clientePendencias({
+      agencyCompanyId: ticket.companyId,
+      clientCompanyId: ticket.clientCompanyId,
+      exceto:          { ticketId: ticket.id },
     }),
   ]);
   const mediaIds = new Set(withMedia.map((m) => m.id));
@@ -176,6 +185,14 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
         </div>
 
         <ClienteResponder token={token} status={ticket.status} storageOn={storageEnabled()} />
+
+        <ClientePendencias
+          aprovacoes={pendencias.aprovacoes}
+          chamados={pendencias.chamados}
+          temAcesso={pendencias.temAcesso}
+          agencia={pendencias.agencia}
+          origem={{ kind: "chamado", token }}
+        />
 
         <p style={{ marginTop: 28, fontSize: 11, color: "#475569" }}>
           Esta página atualiza sozinha conforme o atendimento avança. Guarde o link para consultar e responder quando quiser.

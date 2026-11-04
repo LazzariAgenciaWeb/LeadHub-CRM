@@ -4,6 +4,7 @@ import { clientComments } from "@/lib/checklist";
 import { appBaseUrl, pieceFileIds, pieceLinks, embedOf, linkItemId } from "@/lib/approval";
 import { fileVisibleToClient } from "@/lib/client-task-files";
 import { getObjectBuffer, presignDownload, MEDIA_TTL_SEC } from "@/lib/storage/s3";
+import { clientePendencias } from "@/lib/client-pendencias";
 import AprovarClient, { type ApprovalFile } from "./AprovarClient";
 
 export const dynamic = "force-dynamic";
@@ -27,9 +28,9 @@ async function load(token: string) {
       approvalText: true, approvalRound: true, approvalCommentAt: true, approvalFileIds: true, approvalLinks: true, approvalSentAt: true, approvedAt: true, approvedByName: true,
       project: {
         select: {
-          name: true, publicToken: true, clientCompany: { select: { name: true } },
+          name: true, publicToken: true, clientCompanyId: true, clientCompany: { select: { name: true } },
           // Agência dona do projeto: a tela veste a identidade dela.
-          setor: { select: { company: { select: { name: true, tradeName: true, logoUrl: true, brandColor: true } } } },
+          setor: { select: { companyId: true, company: { select: { name: true, tradeName: true, logoUrl: true, brandColor: true } } } },
         },
       },
     },
@@ -240,6 +241,15 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
   }
 
   const { task, files, links, history, highlights, previous, versionText } = data;
+
+  // Alerta de "tem mais coisa esperando você": as OUTRAS peças em aprovação
+  // (esta não entra) e os chamados dele em aberto.
+  const pendencias = await clientePendencias({
+    agencyCompanyId: task.project.setor.companyId,
+    clientCompanyId: task.project.clientCompanyId,
+    exceto:          { taskId: task.id },
+  });
+
   return (
     <AprovarClient
       token={token}
@@ -268,6 +278,7 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
       }}
       history={history}
       highlights={highlights}
+      pendencias={pendencias}
     />
   );
 }

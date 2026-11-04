@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MarkdownDoc } from "@/components/MarkdownDoc";
+import ClientePendencias, { type ItemPendente } from "@/components/ClientePendencias";
 
 /**
  * Tela do CLIENTE pra aprovar uma peça pelo link do WhatsApp (sem login).
@@ -46,6 +47,13 @@ type Props = {
     files: { id: string; fileName: string; mimeType: string }[];
   }[];
   highlights: { text: string; at: string }[];
+  /** Outras peças/chamados esperando o cliente + porta do portal. */
+  pendencias: {
+    aprovacoes: ItemPendente[];
+    chamados:   ItemPendente[];
+    temAcesso:  boolean;
+    agencia:    { name: string; phone: string | null };
+  };
   /** URL dos prints do descritivo, com `__ID__` no lugar do id do material. */
   mediaBase: string;
 };
@@ -606,9 +614,16 @@ export default function AprovarClient(p: Props) {
           </div>
         </div>
 
+        <ClientePendencias
+          aprovacoes={p.pendencias.aprovacoes}
+          chamados={p.pendencias.chamados}
+          temAcesso={p.pendencias.temAcesso}
+          agencia={p.pendencias.agencia}
+          origem={{ kind: "aprovacao", token: p.token }}
+        />
+
         <div className="links">
           {p.panelToken && <Link href={`/c/${p.panelToken}`}>Ver todas as entregas de {p.projectName} →</Link>}
-          <Link href="/meu-espaco">Entrar no meu painel →</Link>
         </div>
         <div className="made">{p.brand.name}</div>
       </div>
