@@ -7,6 +7,7 @@ import { googleFetch } from "@/lib/google/token";
 import { listGoogleAdsAccounts } from "@/lib/google/google-ads-sync";
 import { listMetaAdAccounts } from "@/lib/meta/meta-ads";
 import { assertModule } from "@/lib/billing";
+import { classifyScProperty } from "@/lib/search-console-property";
 
 /**
  * GET /api/companies/[id]/integrations/[integrationId]/properties
@@ -85,13 +86,21 @@ export async function GET(
         return NextResponse.json({ error: `Google API: ${r.status} ${txt}` }, { status: 502 });
       }
       const data = await r.json();
+      // A lista traz os dois tipos de propriedade: site (URL-prefix e
+      // `sc-domain:`) e plataforma — perfil do Instagram/TikTok/X e canal do
+      // YouTube, que o Search Console passou a aceitar. O id é sempre o
+      // `siteUrl` cru (é o que a API aceita no searchAnalytics); só o rótulo
+      // muda, porque `instagram.com/usuario` na lista não diz nada.
       const items = (data.siteEntry ?? [])
         .filter((s: any) => s.permissionLevel !== "siteUnverifiedUser")
-        .map((s: any) => ({
-          id: s.siteUrl,             // ex: "sc-domain:azz.com.br" ou "https://azz.com.br/"
-          label: s.siteUrl,
-          group: s.permissionLevel,  // siteOwner, siteFullUser…
-        }));
+        .map((s: any) => {
+          const info = classifyScProperty(s.siteUrl);
+          return {
+            id: s.siteUrl,           // ex: "sc-domain:azz.com.br" ou "instagram.com/azz"
+            label: info.kind === "platform" ? info.label : s.siteUrl,
+            group: info.kind === "platform" ? "Redes sociais" : s.permissionLevel,
+          };
+        });
       return NextResponse.json({ items });
     }
 

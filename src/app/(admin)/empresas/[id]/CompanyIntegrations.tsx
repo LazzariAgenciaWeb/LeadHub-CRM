@@ -7,6 +7,7 @@ import {
   Check, X, AlertTriangle, RefreshCw, Trash2,
   Loader2, CheckCircle2,
 } from "lucide-react";
+import { scIntegrationLabel } from "@/lib/search-console-property";
 
 type Provider = "GA4" | "SEARCH_CONSOLE" | "BUSINESS_PROFILE" | "GOOGLE_ADS" | "META_ADS";
 type Status = "ACTIVE" | "EXPIRED" | "ERROR" | "DISCONNECTED";
@@ -442,7 +443,13 @@ export default function CompanyIntegrations({
                           {integ.accountLabel ? (
                             <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                               <p className="text-slate-300 text-xs truncate">
-                                {integ.nickname || integ.accountLabel}
+                                {/* Search Console: perfil de rede conectado
+                                    antes deste rótulo existir ficou com a URL
+                                    crua salva em accountLabel — o helper
+                                    reclassifica pelo accountId. */}
+                                {provider === "SEARCH_CONSOLE"
+                                  ? scIntegrationLabel(integ)
+                                  : integ.nickname || integ.accountLabel}
                                 {/* Com apelido, o nome da Google vira detalhe —
                                     mas continua visível pra ninguém perder de
                                     vista qual recurso está ligado ali. */}

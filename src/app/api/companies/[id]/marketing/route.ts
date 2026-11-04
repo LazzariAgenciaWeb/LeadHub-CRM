@@ -13,6 +13,7 @@ import {
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { classifyTrafficSource, type TrafficBucket } from "@/lib/traffic-classifier";
 import { assertModule } from "@/lib/billing";
+import { classifyScProperty, isScPlatformProperty } from "@/lib/search-console-property";
 import { resolveUf, ufName } from "@/lib/br-states";
 
 // GET /api/companies/[id]/marketing?days=30&ga4=<integrationId>&sc=<integrationId>
@@ -80,9 +81,24 @@ export async function GET(
         lastSyncAt: i.lastSyncAt,
       }));
 
+  // O Search Console tem dois tipos de propriedade: site e perfil de rede
+  // (Instagram, TikTok, YouTube, X). Separamos aqui porque o bloco de busca do
+  // site não pode somar a busca do perfil social — são superfícies diferentes,
+  // e no consolidado ("todos os sites") o número viraria uma média sem dono.
+  const scTodas = sourcesFor("SEARCH_CONSOLE");
+  const scPlataformas = scTodas
+    .filter((s) => isScPlatformProperty(s.accountId))
+    .map((s) => {
+      const info = classifyScProperty(s.accountId);
+      return { ...s, label: s.nickname || info.label, channel: info.channel, handle: info.handle };
+    });
+  const scPlatformIds = scPlataformas.map((s) => s.id);
+
   const sources = {
     ga4: sourcesFor("GA4"),
-    sc: sourcesFor("SEARCH_CONSOLE"),
+    sc: scTodas.filter((s) => !isScPlatformProperty(s.accountId)),
+    // Perfis de rede — quem consome é a aba Redes; o bloco de site ignora.
+    scPlatform: scPlataformas,
     gbp: sourcesFor("BUSINESS_PROFILE"),
   };
 
@@ -101,7 +117,11 @@ export async function GET(
   const ga4Sel = resolveSource(url.searchParams.get("ga4"), sources.ga4);
   const scSel = resolveSource(url.searchParams.get("sc"), sources.sc);
   const ga4Where = ga4Sel.where; // {} = todas as propriedades (consolidado)
-  const scWhere = scSel.where;
+  // No consolidado, os perfis de rede saem da conta do site.
+  const scWhere =
+    scSel.selected === "all" && scPlatformIds.length > 0
+      ? { NOT: { integrationId: { in: scPlatformIds } } }
+      : scSel.where;
 
   const today = new Date();
   today.setUTCHours(0, 0, 0, 0);
@@ -685,8 +705,10 @@ export async function GET(
   // dela; no consolidado, o mais ANTIGO entre as ativas — "atualizado até" só é
   // verdade se valer pra todas, senão o rodapé prometeria dado mais fresco do
   // que o relatório tem.
-  const statusDoRecorte = (provider: string, selecionado: string) => {
-    const doProvider = allIntegrations.filter((i) => i.provider === provider && i.accountId);
+  const statusDoRecorte = (provider: string, selecionado: string, excluir: string[] = []) => {
+    const doProvider = allIntegrations.filter(
+      (i) => i.provider === provider && i.accountId && !excluir.includes(i.id)
+    );
     if (doProvider.length === 0) return null;
     if (selecionado !== "all") {
       return doProvider.find((i) => i.id === selecionado) ?? null;
@@ -699,7 +721,7 @@ export async function GET(
   };
   const integrationStatus = {
     ga4: statusDoRecorte("GA4", ga4Sel.selected),
-    sc: statusDoRecorte("SEARCH_CONSOLE", scSel.selected),
+    sc: statusDoRecorte("SEARCH_CONSOLE", scSel.selected, scPlatformIds),
     // GBP tem endpoint próprio (marketing/gbp) com seletor próprio; aqui só o
     // status pro cabeçalho.
     gbp: statusDoRecorte("BUSINESS_PROFILE", "all"),

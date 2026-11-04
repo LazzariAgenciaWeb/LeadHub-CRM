@@ -14,6 +14,7 @@ import { BUCKET_META, type TrafficBucket } from "@/lib/traffic-classifier";
 import { flagFromCountryCode, ptCountryName } from "@/lib/country-flags";
 import WorldGeoMap from "@/components/WorldGeoMap";
 import CompanyGbpSection from "./CompanyGbpSection";
+import CompanyScSocialSection from "./CompanyScSocialSection";
 import CompanyAdsSection from "./CompanyAdsSection";
 import MarketingEventsBlock from "./MarketingEventsBlock";
 import MarketingFunnel from "./MarketingFunnel";
@@ -79,7 +80,9 @@ interface MarketingData {
   };
   // Conexões disponíveis por provider. Vazio/1 item = empresa com uma
   // propriedade só (o caso comum) e o seletor nem aparece.
-  sources?: { ga4: MktSource[]; sc: MktSource[]; gbp: MktSource[] };
+  // `scPlatform` são os perfis de rede no Search Console (Instagram, TikTok,
+  // YouTube, X) — separados de `sc`, que é só site.
+  sources?: { ga4: MktSource[]; sc: MktSource[]; scPlatform?: MktSource[]; gbp: MktSource[] };
   // Recorte que a API aplicou de fato ("all" = consolidado).
   selected?: { ga4: string; sc: string };
   hasData: boolean;
@@ -96,13 +99,20 @@ export interface MktSource {
 }
 
 // Abas do dashboard. "geral" é o painel de entrada (resumo); "organico" reúne
-// site + busca + Meu Negócio; "pago" reúne as plataformas de mídia.
-type MktTab = "geral" | "organico" | "pago";
+// site + busca no Google + Meu Negócio; "redes" é o desempenho dos perfis de
+// rede na Busca (propriedade de plataforma do Search Console); "pago" reúne as
+// plataformas de mídia.
+//
+// Rede fica em aba própria porque o público é outro: o site responde a quem
+// procura o serviço, o perfil responde a quem procura a marca. Somados no mesmo
+// bloco, os dois números deixam de significar coisa alguma.
+type MktTab = "geral" | "organico" | "redes" | "pago";
 
 const MKT_TABS: { id: MktTab; label: string; icon: string; hint: string }[] = [
-  { id: "geral",    label: "Visão geral",  icon: "📊", hint: "Resumo de visualizações, pessoas e conversões" },
-  { id: "organico", label: "Orgânico",     icon: "🌱", hint: "Site, busca, origens e Meu Negócio" },
-  { id: "pago",     label: "Patrocinado",  icon: "📣", hint: "Google Ads e Meta Ads" },
+  { id: "geral",    label: "Visão geral",   icon: "📊", hint: "Resumo de visualizações, pessoas e conversões" },
+  { id: "organico", label: "Site & Busca",  icon: "🌱", hint: "Site, busca no Google, origens e Meu Negócio" },
+  { id: "redes",    label: "Redes",         icon: "📱", hint: "Instagram, TikTok, YouTube e X na Busca do Google" },
+  { id: "pago",     label: "Patrocinado",   icon: "📣", hint: "Google Ads e Meta Ads" },
 ];
 
 const PERIODS = [
@@ -318,7 +328,12 @@ export default function CompanyMarketing({
 
       {/* Abas: entrada · orgânico · patrocinado */}
       <div className="flex gap-1 border-b border-[#1e2d45] overflow-x-auto">
-        {MKT_TABS.map((t) => {
+        {MKT_TABS.filter((t) => {
+          // No portal do cliente, aba sem perfil conectado é só um vazio a
+          // mais — a agência continua vendo (é lá que se conecta).
+          if (t.id !== "redes") return true;
+          return !isClient || (data.sources?.scPlatform?.length ?? 0) > 0;
+        }).map((t) => {
           const on = tab === t.id;
           return (
             <button
@@ -683,6 +698,11 @@ export default function CompanyMarketing({
       </div>
       )}
 
+      {/* ─── Aba: Redes ───────────────────────────────────────────────────── */}
+      {tab === "redes" && (
+        <CompanyScSocialSection companyId={companyId} days={days} readOnly={isClient} />
+      )}
+
       {/* ─── Aba: Patrocinado ─────────────────────────────────────────────── */}
       {tab === "pago" && (
       <div className="space-y-6">
@@ -895,7 +915,7 @@ function PositionDelta({ delta }: { delta: number | null }) {
 function SourcePickerBar({
   sources, ga4, sc, onGa4, onSc,
 }: {
-  sources?: { ga4: MktSource[]; sc: MktSource[]; gbp: MktSource[] };
+  sources?: { ga4: MktSource[]; sc: MktSource[]; scPlatform?: MktSource[]; gbp: MktSource[] };
   ga4: string;
   sc: string;
   onGa4: (v: string) => void;
