@@ -617,6 +617,51 @@ export async function evolutionGetGroupName(instanceName: string, groupJid: stri
  * que não tem). Falha graceful: se nenhuma instância passada ou erro de
  * rede, retorna Map vazio (caller decide o que fazer com null).
  */
+/**
+ * Busca a URL da foto de perfil de um contato — ou a foto do grupo, quando o
+ * JID é @g.us (aí o dado vem de findGroupInfos, que é onde a Evolution expõe
+ * `pictureUrl`). Devolve null quando não há foto, quando o contato restringiu
+ * a privacidade ou quando a consulta falha: foto é enfeite, nunca motivo de
+ * erro na tela.
+ *
+ * A URL é do CDN do WhatsApp e EXPIRA — o caller cacheia com data e refaz a
+ * consulta de tempo em tempo.
+ */
+export async function evolutionFetchProfilePicture(
+  instanceName: string,
+  numberOrJid: string,
+  instanceToken?: string | null,
+): Promise<string | null> {
+  try {
+    const { baseUrl, apiKey } = await getConfig();
+    const token = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
+
+    if (numberOrJid.includes("@g.us")) {
+      const res = await fetch(
+        `${baseUrl}/group/findGroupInfos/${instanceName}?groupJid=${encodeURIComponent(numberOrJid)}`,
+        { headers: headers(token) },
+      );
+      if (!res.ok) return null;
+      const data = await res.json();
+      const info = Array.isArray(data) ? data[0] : data;
+      const url = info?.pictureUrl ?? info?.profilePictureUrl ?? null;
+      return typeof url === "string" && url.startsWith("http") ? url : null;
+    }
+
+    const res = await fetch(`${baseUrl}/chat/fetchProfilePictureUrl/${instanceName}`, {
+      method: "POST",
+      headers: headers(token),
+      body: JSON.stringify({ number: numberOrJid }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const url = data?.profilePictureUrl ?? data?.profilePicUrl ?? null;
+    return typeof url === "string" && url.startsWith("http") ? url : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function evolutionCheckWhatsappNumbers(
   instanceName: string,
   numbers: string[],

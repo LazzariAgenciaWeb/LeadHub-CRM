@@ -18825,6 +18825,7 @@ export namespace Prisma {
     doneNote: string | null
     important: boolean | null
     urgent: boolean | null
+    inMatrix: boolean | null
     archivedAt: Date | null
     delegatedTicketId: string | null
     delegatedToName: string | null
@@ -18852,6 +18853,7 @@ export namespace Prisma {
     doneNote: string | null
     important: boolean | null
     urgent: boolean | null
+    inMatrix: boolean | null
     archivedAt: Date | null
     delegatedTicketId: string | null
     delegatedToName: string | null
@@ -18880,6 +18882,7 @@ export namespace Prisma {
     doneNote: number
     important: number
     urgent: number
+    inMatrix: number
     archivedAt: number
     projectTaskIds: number
     delegatedTicketId: number
@@ -18910,6 +18913,7 @@ export namespace Prisma {
     doneNote?: true
     important?: true
     urgent?: true
+    inMatrix?: true
     archivedAt?: true
     delegatedTicketId?: true
     delegatedToName?: true
@@ -18937,6 +18941,7 @@ export namespace Prisma {
     doneNote?: true
     important?: true
     urgent?: true
+    inMatrix?: true
     archivedAt?: true
     delegatedTicketId?: true
     delegatedToName?: true
@@ -18965,6 +18970,7 @@ export namespace Prisma {
     doneNote?: true
     important?: true
     urgent?: true
+    inMatrix?: true
     archivedAt?: true
     projectTaskIds?: true
     delegatedTicketId?: true
@@ -19067,6 +19073,7 @@ export namespace Prisma {
     doneNote: string | null
     important: boolean
     urgent: boolean
+    inMatrix: boolean
     archivedAt: Date | null
     projectTaskIds: string[]
     delegatedTicketId: string | null
@@ -19113,6 +19120,7 @@ export namespace Prisma {
     doneNote?: boolean
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: boolean
     projectTaskIds?: boolean
     delegatedTicketId?: boolean
@@ -19145,6 +19153,7 @@ export namespace Prisma {
     doneNote?: boolean
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: boolean
     projectTaskIds?: boolean
     delegatedTicketId?: boolean
@@ -19175,6 +19184,7 @@ export namespace Prisma {
     doneNote?: boolean
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: boolean
     projectTaskIds?: boolean
     delegatedTicketId?: boolean
@@ -19219,6 +19229,7 @@ export namespace Prisma {
       doneNote: string | null
       important: boolean
       urgent: boolean
+      inMatrix: boolean
       archivedAt: Date | null
       projectTaskIds: string[]
       delegatedTicketId: string | null
@@ -19640,6 +19651,7 @@ export namespace Prisma {
     readonly doneNote: FieldRef<"AssistantNote", 'String'>
     readonly important: FieldRef<"AssistantNote", 'Boolean'>
     readonly urgent: FieldRef<"AssistantNote", 'Boolean'>
+    readonly inMatrix: FieldRef<"AssistantNote", 'Boolean'>
     readonly archivedAt: FieldRef<"AssistantNote", 'DateTime'>
     readonly projectTaskIds: FieldRef<"AssistantNote", 'String[]'>
     readonly delegatedTicketId: FieldRef<"AssistantNote", 'String'>
@@ -51733,6 +51745,8 @@ export namespace Prisma {
     returnNote: string | null
     instanceId: string | null
     syncBlocked: boolean | null
+    avatarUrl: string | null
+    avatarCheckedAt: Date | null
     excludeFromGamification: boolean | null
     aiMode: $Enums.AiMode | null
     aiPausedAt: Date | null
@@ -51767,6 +51781,8 @@ export namespace Prisma {
     returnNote: string | null
     instanceId: string | null
     syncBlocked: boolean | null
+    avatarUrl: string | null
+    avatarCheckedAt: Date | null
     excludeFromGamification: boolean | null
     aiMode: $Enums.AiMode | null
     aiPausedAt: Date | null
@@ -51801,6 +51817,8 @@ export namespace Prisma {
     returnNote: number
     instanceId: number
     syncBlocked: number
+    avatarUrl: number
+    avatarCheckedAt: number
     excludeFromGamification: number
     aiMode: number
     aiPausedAt: number
@@ -51847,6 +51865,8 @@ export namespace Prisma {
     returnNote?: true
     instanceId?: true
     syncBlocked?: true
+    avatarUrl?: true
+    avatarCheckedAt?: true
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
@@ -51881,6 +51901,8 @@ export namespace Prisma {
     returnNote?: true
     instanceId?: true
     syncBlocked?: true
+    avatarUrl?: true
+    avatarCheckedAt?: true
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
@@ -51915,6 +51937,8 @@ export namespace Prisma {
     returnNote?: true
     instanceId?: true
     syncBlocked?: true
+    avatarUrl?: true
+    avatarCheckedAt?: true
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
@@ -52036,6 +52060,8 @@ export namespace Prisma {
     returnNote: string | null
     instanceId: string | null
     syncBlocked: boolean
+    avatarUrl: string | null
+    avatarCheckedAt: Date | null
     excludeFromGamification: boolean
     aiMode: $Enums.AiMode
     aiPausedAt: Date | null
@@ -52089,6 +52115,8 @@ export namespace Prisma {
     returnNote?: boolean
     instanceId?: boolean
     syncBlocked?: boolean
+    avatarUrl?: boolean
+    avatarCheckedAt?: boolean
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
@@ -52132,6 +52160,8 @@ export namespace Prisma {
     returnNote?: boolean
     instanceId?: boolean
     syncBlocked?: boolean
+    avatarUrl?: boolean
+    avatarCheckedAt?: boolean
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
@@ -52170,6 +52200,8 @@ export namespace Prisma {
     returnNote?: boolean
     instanceId?: boolean
     syncBlocked?: boolean
+    avatarUrl?: boolean
+    avatarCheckedAt?: boolean
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
@@ -52234,6 +52266,8 @@ export namespace Prisma {
       returnNote: string | null
       instanceId: string | null
       syncBlocked: boolean
+      avatarUrl: string | null
+      avatarCheckedAt: Date | null
       excludeFromGamification: boolean
       aiMode: $Enums.AiMode
       aiPausedAt: Date | null
@@ -52666,6 +52700,8 @@ export namespace Prisma {
     readonly returnNote: FieldRef<"Conversation", 'String'>
     readonly instanceId: FieldRef<"Conversation", 'String'>
     readonly syncBlocked: FieldRef<"Conversation", 'Boolean'>
+    readonly avatarUrl: FieldRef<"Conversation", 'String'>
+    readonly avatarCheckedAt: FieldRef<"Conversation", 'DateTime'>
     readonly excludeFromGamification: FieldRef<"Conversation", 'Boolean'>
     readonly aiMode: FieldRef<"Conversation", 'AiMode'>
     readonly aiPausedAt: FieldRef<"Conversation", 'DateTime'>
@@ -171301,6 +171337,7 @@ export namespace Prisma {
     doneNote: 'doneNote',
     important: 'important',
     urgent: 'urgent',
+    inMatrix: 'inMatrix',
     archivedAt: 'archivedAt',
     projectTaskIds: 'projectTaskIds',
     delegatedTicketId: 'delegatedTicketId',
@@ -171814,6 +171851,8 @@ export namespace Prisma {
     returnNote: 'returnNote',
     instanceId: 'instanceId',
     syncBlocked: 'syncBlocked',
+    avatarUrl: 'avatarUrl',
+    avatarCheckedAt: 'avatarCheckedAt',
     excludeFromGamification: 'excludeFromGamification',
     aiMode: 'aiMode',
     aiPausedAt: 'aiPausedAt',
@@ -175094,6 +175133,7 @@ export namespace Prisma {
     doneNote?: StringNullableFilter<"AssistantNote"> | string | null
     important?: BoolFilter<"AssistantNote"> | boolean
     urgent?: BoolFilter<"AssistantNote"> | boolean
+    inMatrix?: BoolFilter<"AssistantNote"> | boolean
     archivedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     projectTaskIds?: StringNullableListFilter<"AssistantNote">
     delegatedTicketId?: StringNullableFilter<"AssistantNote"> | string | null
@@ -175125,6 +175165,7 @@ export namespace Prisma {
     doneNote?: SortOrderInput | SortOrder
     important?: SortOrder
     urgent?: SortOrder
+    inMatrix?: SortOrder
     archivedAt?: SortOrderInput | SortOrder
     projectTaskIds?: SortOrder
     delegatedTicketId?: SortOrderInput | SortOrder
@@ -175159,6 +175200,7 @@ export namespace Prisma {
     doneNote?: StringNullableFilter<"AssistantNote"> | string | null
     important?: BoolFilter<"AssistantNote"> | boolean
     urgent?: BoolFilter<"AssistantNote"> | boolean
+    inMatrix?: BoolFilter<"AssistantNote"> | boolean
     archivedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     projectTaskIds?: StringNullableListFilter<"AssistantNote">
     delegatedTicketId?: StringNullableFilter<"AssistantNote"> | string | null
@@ -175190,6 +175232,7 @@ export namespace Prisma {
     doneNote?: SortOrderInput | SortOrder
     important?: SortOrder
     urgent?: SortOrder
+    inMatrix?: SortOrder
     archivedAt?: SortOrderInput | SortOrder
     projectTaskIds?: SortOrder
     delegatedTicketId?: SortOrderInput | SortOrder
@@ -175225,6 +175268,7 @@ export namespace Prisma {
     doneNote?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
     important?: BoolWithAggregatesFilter<"AssistantNote"> | boolean
     urgent?: BoolWithAggregatesFilter<"AssistantNote"> | boolean
+    inMatrix?: BoolWithAggregatesFilter<"AssistantNote"> | boolean
     archivedAt?: DateTimeNullableWithAggregatesFilter<"AssistantNote"> | Date | string | null
     projectTaskIds?: StringNullableListFilter<"AssistantNote">
     delegatedTicketId?: StringNullableWithAggregatesFilter<"AssistantNote"> | string | null
@@ -178116,6 +178160,8 @@ export namespace Prisma {
     returnNote?: StringNullableFilter<"Conversation"> | string | null
     instanceId?: StringNullableFilter<"Conversation"> | string | null
     syncBlocked?: BoolFilter<"Conversation"> | boolean
+    avatarUrl?: StringNullableFilter<"Conversation"> | string | null
+    avatarCheckedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -178158,6 +178204,8 @@ export namespace Prisma {
     returnNote?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     syncBlocked?: SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
+    avatarCheckedAt?: SortOrderInput | SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrderInput | SortOrder
@@ -178204,6 +178252,8 @@ export namespace Prisma {
     returnNote?: StringNullableFilter<"Conversation"> | string | null
     instanceId?: StringNullableFilter<"Conversation"> | string | null
     syncBlocked?: BoolFilter<"Conversation"> | boolean
+    avatarUrl?: StringNullableFilter<"Conversation"> | string | null
+    avatarCheckedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -178246,6 +178296,8 @@ export namespace Prisma {
     returnNote?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     syncBlocked?: SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
+    avatarCheckedAt?: SortOrderInput | SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrderInput | SortOrder
@@ -178288,6 +178340,8 @@ export namespace Prisma {
     returnNote?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
     instanceId?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
     syncBlocked?: BoolWithAggregatesFilter<"Conversation"> | boolean
+    avatarUrl?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
+    avatarCheckedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     excludeFromGamification?: BoolWithAggregatesFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeWithAggregatesFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
@@ -189396,6 +189450,7 @@ export namespace Prisma {
     doneNote?: string | null
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: Date | string | null
     projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
     delegatedTicketId?: string | null
@@ -189427,6 +189482,7 @@ export namespace Prisma {
     doneNote?: string | null
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: Date | string | null
     projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
     delegatedTicketId?: string | null
@@ -189456,6 +189512,7 @@ export namespace Prisma {
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
+    inMatrix?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
     delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189487,6 +189544,7 @@ export namespace Prisma {
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
+    inMatrix?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
     delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189517,6 +189575,7 @@ export namespace Prisma {
     doneNote?: string | null
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: Date | string | null
     projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
     delegatedTicketId?: string | null
@@ -189545,6 +189604,7 @@ export namespace Prisma {
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
+    inMatrix?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
     delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189574,6 +189634,7 @@ export namespace Prisma {
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
+    inMatrix?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
     delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192826,6 +192887,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -192867,6 +192930,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -192902,6 +192967,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -192943,6 +193010,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -192981,6 +193050,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -193012,6 +193083,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -193045,6 +193118,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -205732,6 +205807,7 @@ export namespace Prisma {
     doneNote?: SortOrder
     important?: SortOrder
     urgent?: SortOrder
+    inMatrix?: SortOrder
     archivedAt?: SortOrder
     projectTaskIds?: SortOrder
     delegatedTicketId?: SortOrder
@@ -205760,6 +205836,7 @@ export namespace Prisma {
     doneNote?: SortOrder
     important?: SortOrder
     urgent?: SortOrder
+    inMatrix?: SortOrder
     archivedAt?: SortOrder
     delegatedTicketId?: SortOrder
     delegatedToName?: SortOrder
@@ -205787,6 +205864,7 @@ export namespace Prisma {
     doneNote?: SortOrder
     important?: SortOrder
     urgent?: SortOrder
+    inMatrix?: SortOrder
     archivedAt?: SortOrder
     delegatedTicketId?: SortOrder
     delegatedToName?: SortOrder
@@ -208387,6 +208465,8 @@ export namespace Prisma {
     returnNote?: SortOrder
     instanceId?: SortOrder
     syncBlocked?: SortOrder
+    avatarUrl?: SortOrder
+    avatarCheckedAt?: SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
@@ -208426,6 +208506,8 @@ export namespace Prisma {
     returnNote?: SortOrder
     instanceId?: SortOrder
     syncBlocked?: SortOrder
+    avatarUrl?: SortOrder
+    avatarCheckedAt?: SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
@@ -208460,6 +208542,8 @@ export namespace Prisma {
     returnNote?: SortOrder
     instanceId?: SortOrder
     syncBlocked?: SortOrder
+    avatarUrl?: SortOrder
+    avatarCheckedAt?: SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
@@ -230855,6 +230939,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -230894,6 +230980,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -232286,6 +232374,7 @@ export namespace Prisma {
     doneNote?: string | null
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: Date | string | null
     projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
     delegatedTicketId?: string | null
@@ -232315,6 +232404,7 @@ export namespace Prisma {
     doneNote?: string | null
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: Date | string | null
     projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
     delegatedTicketId?: string | null
@@ -232878,6 +232968,8 @@ export namespace Prisma {
     returnNote?: StringNullableFilter<"Conversation"> | string | null
     instanceId?: StringNullableFilter<"Conversation"> | string | null
     syncBlocked?: BoolFilter<"Conversation"> | boolean
+    avatarUrl?: StringNullableFilter<"Conversation"> | string | null
+    avatarCheckedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -233910,6 +234002,7 @@ export namespace Prisma {
     doneNote?: StringNullableFilter<"AssistantNote"> | string | null
     important?: BoolFilter<"AssistantNote"> | boolean
     urgent?: BoolFilter<"AssistantNote"> | boolean
+    inMatrix?: BoolFilter<"AssistantNote"> | boolean
     archivedAt?: DateTimeNullableFilter<"AssistantNote"> | Date | string | null
     projectTaskIds?: StringNullableListFilter<"AssistantNote">
     delegatedTicketId?: StringNullableFilter<"AssistantNote"> | string | null
@@ -234362,6 +234455,7 @@ export namespace Prisma {
     doneNote?: string | null
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: Date | string | null
     projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
     delegatedTicketId?: string | null
@@ -234392,6 +234486,7 @@ export namespace Prisma {
     doneNote?: string | null
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: Date | string | null
     projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
     delegatedTicketId?: string | null
@@ -234436,6 +234531,7 @@ export namespace Prisma {
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
+    inMatrix?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
     delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -234466,6 +234562,7 @@ export namespace Prisma {
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
+    inMatrix?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
     delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -239387,6 +239484,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -239427,6 +239526,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -247018,6 +247119,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -247058,6 +247161,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -248017,6 +248122,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -248057,6 +248164,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -254973,6 +255082,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -255012,6 +255123,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -256227,6 +256340,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -256267,6 +256382,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -256966,6 +257083,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -257006,6 +257125,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -259276,6 +259397,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -259316,6 +259439,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -259366,6 +259491,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -259406,6 +259533,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -259440,6 +259569,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -259480,6 +259611,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -259997,6 +260130,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -260037,6 +260172,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -263520,6 +263657,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -263559,6 +263698,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -325229,6 +325370,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -325758,6 +325901,7 @@ export namespace Prisma {
     doneNote?: string | null
     important?: boolean
     urgent?: boolean
+    inMatrix?: boolean
     archivedAt?: Date | string | null
     projectTaskIds?: AssistantNoteCreateprojectTaskIdsInput | string[]
     delegatedTicketId?: string | null
@@ -325990,6 +326134,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -326029,6 +326175,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -326066,6 +326214,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -327615,6 +327765,7 @@ export namespace Prisma {
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
+    inMatrix?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
     delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -327644,6 +327795,7 @@ export namespace Prisma {
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
+    inMatrix?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
     delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -327673,6 +327825,7 @@ export namespace Prisma {
     doneNote?: NullableStringFieldUpdateOperationsInput | string | null
     important?: BoolFieldUpdateOperationsInput | boolean
     urgent?: BoolFieldUpdateOperationsInput | boolean
+    inMatrix?: BoolFieldUpdateOperationsInput | boolean
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectTaskIds?: AssistantNoteUpdateprojectTaskIdsInput | string[]
     delegatedTicketId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -328561,6 +328714,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -331845,6 +332000,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -331885,6 +332042,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -331922,6 +332081,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -335427,6 +335588,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -335605,6 +335768,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -335644,6 +335809,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -335681,6 +335848,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -336765,6 +336934,8 @@ export namespace Prisma {
     returnNote?: string | null
     instanceId?: string | null
     syncBlocked?: boolean
+    avatarUrl?: string | null
+    avatarCheckedAt?: Date | string | null
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -336961,6 +337132,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -337000,6 +337173,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -337037,6 +337212,8 @@ export namespace Prisma {
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

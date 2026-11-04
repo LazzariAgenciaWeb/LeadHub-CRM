@@ -145,6 +145,9 @@ model AssistantNote {
   // eliminar (nenhum). Inferido pela IA, editável.
   important         Boolean              @default(true)
   urgent            Boolean              @default(false)
+  // Fora da matriz: o item continua na fila/bloquinho/entrada, só não ocupa
+  // quadrante ("só anotado"). Volta pra matriz ao ser arrastado pra um quadrante.
+  inMatrix          Boolean              @default(true)
   // Arquivado: guardado sem ocupar o bloquinho (ideia/nota que não vira ação).
   archivedAt        DateTime?
   // Tarefas de projeto (ProjectTask.id) que este item acompanha. O bloquinho
@@ -1273,6 +1276,14 @@ model Conversation {
   // sincronizar mensagens novas dela. Desbloquear traz de volta. Usado pra
   // esconder chats pessoais que não devem aparecer no LeadHub.
   syncBlocked Boolean @default(false)
+
+  // Foto de perfil do contato / do grupo, buscada na Evolution e cacheada aqui.
+  // Guardamos só a URL do CDN do WhatsApp (nada de base64 no banco — já nos
+  // custou OOM antes). A URL expira, então avatarCheckedAt controla o refresh;
+  // "sem foto" também fica cacheado (url null + data preenchida) pra não
+  // reconsultar o WhatsApp a cada abertura da caixa.
+  avatarUrl       String?
+  avatarCheckedAt DateTime?
 
   // Gamificação — admin pode desligar pontos pra conversas internas (grupos
   // do time, testes etc). Default false = pontua normal.

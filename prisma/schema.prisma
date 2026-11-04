@@ -1278,6 +1278,14 @@ model Conversation {
   // esconder chats pessoais que não devem aparecer no LeadHub.
   syncBlocked Boolean @default(false)
 
+  // Foto de perfil do contato / do grupo, buscada na Evolution e cacheada aqui.
+  // Guardamos só a URL do CDN do WhatsApp (nada de base64 no banco — já nos
+  // custou OOM antes). A URL expira, então avatarCheckedAt controla o refresh;
+  // "sem foto" também fica cacheado (url null + data preenchida) pra não
+  // reconsultar o WhatsApp a cada abertura da caixa.
+  avatarUrl       String?
+  avatarCheckedAt DateTime?
+
   // Gamificação — admin pode desligar pontos pra conversas internas (grupos
   // do time, testes etc). Default false = pontua normal.
   excludeFromGamification Boolean @default(false)

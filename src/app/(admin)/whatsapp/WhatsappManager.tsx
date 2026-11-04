@@ -66,6 +66,30 @@ function UrgencyMeter({ progress, color, pulse, children }: {
   );
 }
 
+/**
+ * Foto do contato / do grupo (vem do CDN do WhatsApp via Evolution).
+ * Sem foto — ou com a URL já expirada (onError) — cai nas iniciais, que é o
+ * que a caixa sempre mostrou. Foto é enfeite: nunca some com o avatar nem
+ * quebra o termômetro de urgência em volta.
+ */
+function ConvPhoto({ url, size, fallback }: {
+  url?: string | null; size: number; fallback: React.ReactNode;
+}) {
+  const [broken, setBroken] = useState(false);
+  if (!url || broken) return <>{fallback}</>;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={url}
+      alt=""
+      className="rounded-full object-cover"
+      style={{ width: size, height: size }}
+      onError={() => setBroken(true)}
+      referrerPolicy="no-referrer"
+    />
+  );
+}
+
 const CONV_STATUS_META: Record<ConvStatus, { label: string; dot: string; chip: string }> = {
   OPEN:             { label: "Aberta",            dot: "bg-cyan-400",                      chip: "bg-cyan-500/15 text-cyan-300 border-cyan-500/25" },
   PENDING:          { label: "Sem atendimento",   dot: "bg-red-400 animate-pulse",         chip: "bg-red-500/15 text-red-300 border-red-500/25" },
@@ -1477,6 +1501,68 @@ export default function WhatsappManager({
   }, [conversations, serverSearchResults, search, instanceFilter, statusFilter, convStatusOverride, hideGroups, isSuperAdmin, defaultCompanyId]);
 
   // Contagem por filtro de status (para mostrar badges nos chips)
+  // ─── Fotos de perfil (contato / grupo) ─────────────────────────────────────
+  // Buscadas sob demanda pelas conversas que estão na tela, em lotes pequenos,
+  // e cacheadas no banco (Conversation.avatarUrl) — cada consulta é um
+  // round-trip ao WhatsApp, e a caixa tem centenas de conversas. `avatarAsked`
+  // garante uma pergunta por conversa por sessão.
+  const [avatarByPhone, setAvatarByPhone] = useState<Record<string, string | null>>({});
+  const avatarAsked = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    // A conversa aberta entra na frente — ela pode estar fora das 40 primeiras
+    // da lista (busca, rolagem) e é onde a foto mais aparece.
+    const candidates = [
+      ...(selectedConv ? [selectedConv.phone] : []),
+      ...filteredConvs.slice(0, 40).map((c) => c.phone),
+    ];
+    const pending = [...new Set(candidates)].filter((p) => !avatarAsked.current.has(p));
+    if (pending.length === 0) return;
+    for (const p of pending) avatarAsked.current.add(p);
+
+    let alive = true;
+    (async () => {
+      for (let i = 0; i < pending.length; i += 12) {
+        try {
+          const res = await fetch("/api/whatsapp/avatars", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phones: pending.slice(i, i + 12) }),
+          });
+          if (!res.ok) continue;
+          const d = await res.json();
+          if (!alive) return;
+          if (d?.avatars) setAvatarByPhone((prev) => ({ ...prev, ...d.avatars }));
+        } catch {
+          // foto é enfeite — falha silenciosa, as iniciais continuam lá
+        }
+      }
+    })();
+    return () => { alive = false; };
+  }, [filteredConvs, selectedConv]);
+
+  // Força a releitura da foto no WhatsApp (clique na foto do cabeçalho) —
+  // serve quando o contato/grupo trocou a imagem e a nossa está velha.
+  const [refreshingAvatar, setRefreshingAvatar] = useState(false);
+  async function refreshAvatar(phone: string) {
+    setRefreshingAvatar(true);
+    try {
+      const res = await fetch("/api/whatsapp/avatars", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phones: [phone], force: true }),
+      });
+      if (res.ok) {
+        const d = await res.json();
+        if (d?.avatars) setAvatarByPhone((prev) => ({ ...prev, ...d.avatars }));
+      }
+    } catch {
+      // sem drama: a foto antiga (ou as iniciais) continua na tela
+    } finally {
+      setRefreshingAvatar(false);
+    }
+  }
+
   const filterCounts = useMemo(() => {
     const counts: Record<string, number> = {
       URGENT: 0, UNANSWERED: 0, IN_PROGRESS: 0, RESOLVED: 0, SCHEDULED: 0,
@@ -3589,11 +3675,11 @@ export default function WhatsappManager({
                             <div className="flex flex-col items-center gap-0.5 flex-shrink-0 w-8">
                               {meter ? (
                                 <UrgencyMeter progress={meter.progress} color={meter.color} pulse={pulse}>
-                                  {conv.phone.slice(-2)}
+                                  <ConvPhoto url={avatarByPhone[conv.phone]} size={25} fallback={conv.phone.slice(-2)} />
                                 </UrgencyMeter>
                               ) : (
-                                <div className={`w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-[11px] font-bold text-slate-300 ${ring} ${pulse ? "animate-pulse" : ""}`}>
-                                  {conv.phone.slice(-2)}
+                                <div className={`w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center overflow-hidden text-[11px] font-bold text-slate-300 ${ring} ${pulse ? "animate-pulse" : ""}`}>
+                                  <ConvPhoto url={avatarByPhone[conv.phone]} size={32} fallback={conv.phone.slice(-2)} />
                                 </div>
                               )}
                               {Icon && (
@@ -3829,6 +3915,18 @@ export default function WhatsappManager({
                 </button>
                 {/* Nome / edição */}
                 <div className="flex items-center gap-3 min-w-0 flex-1">
+                  {/* Foto do contato / grupo — só aparece quando existe
+                      (sem foto o cabeçalho segue como sempre foi) */}
+                  {avatarByPhone[selectedConv.phone] && (
+                    <button
+                      onClick={() => refreshAvatar(selectedConv.phone)}
+                      disabled={refreshingAvatar}
+                      title="Clique para atualizar a foto pelo WhatsApp"
+                      className={`flex-shrink-0 rounded-full transition-opacity hover:opacity-80 ${refreshingAvatar ? "animate-pulse" : ""}`}
+                    >
+                      <ConvPhoto url={avatarByPhone[selectedConv.phone]} size={36} fallback={null} />
+                    </button>
+                  )}
                   {editingName ? (
                     <form onSubmit={handleSaveName} className="flex items-center gap-2">
                       <input
