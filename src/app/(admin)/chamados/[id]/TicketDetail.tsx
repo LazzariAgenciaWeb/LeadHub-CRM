@@ -1219,7 +1219,7 @@ export default function TicketDetail({
                 </div>
               ) : (
                 <div className="bg-slate-500/5 border border-dashed border-slate-500/30 rounded-xl px-3 py-2 flex items-center gap-2 text-[11px]">
-                  <span className="text-slate-500 flex-1">Sem link público — o cliente não acompanha este chamado.</span>
+                  <span className="text-slate-500 flex-1">Sem link público — o cliente não acompanha nem responde este chamado.</span>
                   <button
                     type="button"
                     onClick={() => void toggleShareLink(true)}

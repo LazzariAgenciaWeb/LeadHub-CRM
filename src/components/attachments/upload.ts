@@ -14,16 +14,24 @@ export type StoredFile = {
 
 export type UploadTarget = { ticketId: string } | { projectTaskId: string } | { libraryCompanyId: string };
 
+// ticketToken: link público de acompanhamento do chamado (/acompanhar/[token]).
+// Sem login, o token sozinho autoriza o anexo DAQUELE chamado — as rotas em
+// /api/acompanhar/[token]/arquivos têm o mesmo formato de /api/storage.
 export async function uploadFile(
   file: File,
-  target: UploadTarget,
-  opts: { draft?: boolean; onProgress?: (pct: number) => void } = {},
+  // null no modo ticketToken: o chamado vem do próprio link, não do corpo.
+  target: UploadTarget | null,
+  opts: { draft?: boolean; ticketToken?: string; onProgress?: (pct: number) => void } = {},
 ): Promise<StoredFile> {
-  const res = await fetch("/api/storage", {
+  const base = opts.ticketToken
+    ? `/api/acompanhar/${encodeURIComponent(opts.ticketToken)}/arquivos`
+    : "/api/storage";
+
+  const res = await fetch(base, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      ...target,
+      ...(target ?? {}),
       fileName: file.name || "arquivo",
       mimeType: file.type || "application/octet-stream",
       size: file.size,
@@ -48,7 +56,7 @@ export async function uploadFile(
     xhr.send(form);
   });
 
-  const done = await fetch(`/api/storage/${data.id}/complete`, {
+  const done = await fetch(`${base}/${data.id}/complete`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ draft: opts.draft }),

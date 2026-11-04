@@ -1,12 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { SYSTEM_TIMEZONE } from "@/lib/business-hours";
+import { storageEnabled } from "@/lib/storage/s3";
+import ClienteResponder from "./ClienteResponder";
 
 export const dynamic = "force-dynamic";
 
 // Página pública de acompanhamento do chamado (sem login), no padrão do painel
 // do cliente em /c/[token]. Só existe quando o atendente marcou "cliente pode
 // acompanhar" — revogar o link é apagar o publicToken.
-// Mostra: status, assunto, quem atende e o andamento (mensagens NÃO internas).
+// Mostra: status, assunto, quem atende e o andamento (mensagens NÃO internas),
+// e deixa o cliente escrever de volta (texto + anexo) pela caixa no fim.
 
 const STATUS: Record<string, { label: string; color: string; hint: string }> = {
   OPEN:        { label: "Aberto",        color: "#38BDF8", hint: "Recebemos seu chamado e ele está na fila." },
@@ -172,8 +175,10 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
           })}
         </div>
 
+        <ClienteResponder token={token} status={ticket.status} storageOn={storageEnabled()} />
+
         <p style={{ marginTop: 28, fontSize: 11, color: "#475569" }}>
-          Esta página atualiza sozinha conforme o atendimento avança. Guarde o link para consultar quando quiser.
+          Esta página atualiza sozinha conforme o atendimento avança. Guarde o link para consultar e responder quando quiser.
         </p>
       </div>
     </div>
