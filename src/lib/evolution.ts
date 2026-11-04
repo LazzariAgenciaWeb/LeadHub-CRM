@@ -187,6 +187,36 @@ export async function evolutionSendReaction(
   return res.json();
 }
 
+/**
+ * Apaga uma mensagem PARA TODOS no WhatsApp (mesmo "apagar para todos" do app).
+ * Só funciona em mensagem nossa (fromMe) e dentro da janela que o WhatsApp
+ * permite — passado o prazo, a Evolution devolve erro e o caller avisa.
+ * A key é a da mensagem alvo (remoteJid da conversa, id = externalId).
+ */
+export async function evolutionDeleteMessage(
+  instanceName: string,
+  key: { remoteJid: string; fromMe: boolean; id: string; participant?: string | null },
+  instanceToken?: string | null,
+) {
+  const { baseUrl, apiKey } = await getConfig();
+  const token = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
+  const res = await fetch(`${baseUrl}/chat/deleteMessageForEveryone/${instanceName}`, {
+    method: "DELETE",
+    headers: headers(token),
+    body: JSON.stringify({
+      id: key.id,
+      remoteJid: key.remoteJid,
+      fromMe: key.fromMe,
+      ...(key.participant ? { participant: key.participant } : {}),
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Evolution deleteMessage: ${res.status} ${err}`);
+  }
+  return res.json().catch(() => ({}));
+}
+
 /** Busca token da instância via fetchInstances (para autenticar endpoints que precisam do token) */
 async function evolutionGetInstanceToken(instanceName: string): Promise<string | null> {
   const { baseUrl, apiKey } = await getConfig();

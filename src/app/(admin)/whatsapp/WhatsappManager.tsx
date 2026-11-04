@@ -8,7 +8,7 @@ import {
   MessageCircle, MessageSquare, Hourglass, Calendar,
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
   Send, StickyNote, Target, DollarSign, Search, Bot, BotOff, Pause, Building2, Link2,
-  ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle, Zap, Eye, EyeOff, RefreshCw,
+  ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle, Zap, Eye, EyeOff, RefreshCw, Trash2,
   type LucideIcon,
 } from "lucide-react";
 import QuickReplies from "./QuickReplies";
@@ -594,6 +594,33 @@ export default function WhatsappManager({
   // Reagir (emoji) a uma mensagem — picker rápido no hover do balão
   const [reactionPickerFor, setReactionPickerFor] = useState<string | null>(null);
   const QUICK_REACTIONS = ["👍", "❤️", "😂", "😮", "😢", "🙏"];
+
+  // Apagar para todos no WhatsApp (mesmo efeito do app). O REGISTRO PERMANECE
+  // aqui, marcado como apagada — igual ao que já fazemos quando o cliente
+  // apaga: o histórico do atendimento não se perde por um clique.
+  const [deleteConfirmFor, setDeleteConfirmFor] = useState<string | null>(null);
+  const [deletingMsgId, setDeletingMsgId]       = useState<string | null>(null);
+
+  async function handleDeleteMessage(msg: WaMessage) {
+    setDeletingMsgId(msg.id);
+    setReplyError(null);
+    try {
+      const res = await fetch(`/api/whatsapp/messages/${msg.id}`, { method: "DELETE" });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setConvMessages((prev) =>
+          prev.map((m) => (m.id === msg.id ? { ...m, deletedAt: d.deletedAt ?? new Date().toISOString() } : m))
+        );
+        setDeleteConfirmFor(null);
+      } else {
+        setReplyError(d.error ?? "Não consegui apagar a mensagem no WhatsApp");
+      }
+    } catch {
+      setReplyError("Não consegui apagar a mensagem no WhatsApp");
+    } finally {
+      setDeletingMsgId(null);
+    }
+  }
 
   async function handleReact(msg: WaMessage, emoji: string) {
     setReactionPickerFor(null);
@@ -5145,6 +5172,46 @@ export default function WhatsappManager({
                           </div>
                         )}
 
+                        {/* Botão Apagar para todos — só mensagem NOSSA que saiu da
+                            instância (o WhatsApp não revoga mensagem de terceiro,
+                            nem a que saiu do celular de alguém da equipe). */}
+                        {modoAtendimento !== "VISAO" && isOut && !isTeamOutbound && msg.externalId && !msg.deletedAt && (
+                          <div className="relative flex-shrink-0 mb-1">
+                            <button
+                              onClick={() => setDeleteConfirmFor(deleteConfirmFor === msg.id ? null : msg.id)}
+                              className={`transition-opacity w-6 h-6 rounded-full bg-[#1e2d45] hover:bg-red-600/80 flex items-center justify-center text-slate-400 hover:text-white ${
+                                deleteConfirmFor === msg.id ? "opacity-100 bg-red-600/80 text-white" : "opacity-0 group-hover/msg:opacity-100"
+                              }`}
+                              title="Apagar para todos no WhatsApp"
+                            >
+                              <Trash2 className="w-3 h-3" strokeWidth={2.5} />
+                            </button>
+                            {deleteConfirmFor === msg.id && (
+                              <div className="absolute bottom-full right-0 mb-1.5 z-40 w-60 bg-[#0d1525] border border-[#1e2d45] rounded-lg p-2.5 shadow-2xl text-left">
+                                <p className="text-[11px] text-slate-300 leading-snug mb-2">
+                                  Apagar no WhatsApp de quem recebeu? O registro continua aqui no GoHub,
+                                  marcado como apagada.
+                                </p>
+                                <div className="flex items-center gap-1.5">
+                                  <button
+                                    onClick={() => handleDeleteMessage(msg)}
+                                    disabled={deletingMsgId === msg.id}
+                                    className="flex-1 text-[11px] font-semibold px-2 py-1 rounded bg-red-600 hover:bg-red-500 text-white disabled:opacity-60"
+                                  >
+                                    {deletingMsgId === msg.id ? "Apagando…" : "Apagar para todos"}
+                                  </button>
+                                  <button
+                                    onClick={() => setDeleteConfirmFor(null)}
+                                    className="text-[11px] px-2 py-1 rounded bg-[#1e2d45] hover:bg-[#2a3d5a] text-slate-300"
+                                  >
+                                    Cancelar
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                         <div className={`flex flex-col ${bubbleAlign} max-w-[75%]`}>
                           <div className={`rounded-2xl px-4 py-2.5 ${bubbleStyle}`}>
 
@@ -5212,7 +5279,7 @@ export default function WhatsappManager({
                                 }`}
                                 title={`Apagada no WhatsApp em ${new Date(msg.deletedAt).toLocaleString("pt-BR")} — o conteúdo permanece registrado no LeadHub`}
                               >
-                                🗑️ Apagada pelo remetente
+                                🗑️ {isOut || isOursInGroup ? "Apagada para todos" : "Apagada pelo remetente"}
                               </div>
                             )}
 
