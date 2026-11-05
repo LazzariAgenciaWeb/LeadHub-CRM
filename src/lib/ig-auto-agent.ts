@@ -526,11 +526,11 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
         console.warn(`[IgAgent] conexão de agenda sem escopo de escrita (user=${calendarUserId}) — usando link`);
       } else {
         const durationMin = ((assistant as any).meetingDurationMin as number) || 15;
-        igScheduling = {
-          connectionId: connCal.id,
-          durationMin,
-          slots: await computeAvailableSlots({ companyId: conv.companyId, connectionId: connCal.id, durationMin }),
-        };
+        const slots = await computeAvailableSlots({ companyId: conv.companyId, connectionId: connCal.id, durationMin });
+        igScheduling = { connectionId: connCal.id, durationMin, slots };
+        // Rastro de sucesso: é o único jeito de confirmar nos logs que o Direct
+        // está oferecendo horários (os casos de falha já avisam acima).
+        console.log(`[IgAgent] agenda ativa no Direct (user=${calendarUserId}, ${durationMin}min, ${slots.length} horários livres)`);
       }
     } catch (err: any) {
       console.error(`[IgAgent] falha ao montar agenda conv=${conv.id} (fallback pro link):`, err?.message);
