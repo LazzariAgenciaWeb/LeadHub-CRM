@@ -26,7 +26,7 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v11-objecao-e-retomada";
+export const IG_AUTO_AGENT_REV = "v12-elogio-um-ponto-15min";
 
 /**
  * Resposta automática do RÔBO de atendimento do contato (menus de opções,
@@ -367,7 +367,7 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
   }
   const prospectBlock = lead
     ? `\n\n# ACHADOS DA EQUIPE SOBRE ESTE PROSPECT — é ESTE o material do "diagnóstico" que a abordagem prometeu.\n` +
-      `Use como CONTEÚDO da conversa: quando o contato aceitar ver / pedir pra mostrar, entregue 2-3 achados concretos daqui, com as suas palavras, um por bolha. NÃO copie a ficha inteira, não leia como lista e nunca diga que existe uma ficha.\n` +
+      `Use como CONTEÚDO da conversa, com as suas palavras: o que é POSITIVO vira o elogio de abertura; o que dá pra melhorar vira o ponto que você entrega de graça (UM só) e os demais são o motivo da conversa de 15 minutos. NÃO copie a ficha inteira, não leia como lista, não despeje tudo de uma vez e nunca diga que existe uma ficha.\n` +
       [
         lead.name ? `- Nome/negócio: ${lead.name}` : null,
         lead.segment ? `- Segmento: ${lead.segment}` : null,
@@ -426,7 +426,8 @@ Responda o que ela perguntou, seja útil de graça e ENCERRE com simpatia — ou
 Como responder (1 a 2 bolhas curtas):
 - Respeite quem já cuida: nunca critique, duvide ou insinue que o atual é ruim.
 - ENTREGUE na hora um achado concreto dos ACHADOS DA EQUIPE — o ponto específico que motivou a abordagem, em linguagem simples. É isso que separa a gente de quem só manda proposta.
-- Feche com UMA pergunta leve, de baixo compromisso (se aquilo já está no radar de quem cuida), nunca com convite pra reunião na mesma mensagem.
+- Deixe claro que a gente NÃO vem pra tomar o lugar de quem já cuida: a gente COMPLEMENTA. O time dele toca o dia a dia e a gente entra nas frentes que faltam — site, campanhas patrocinadas (tráfego) e consultoria pra usar ferramentas de IA no dia a dia da empresa. Cite só as frentes que fazem sentido pro caso dele (olhe o CATÁLOGO DE SERVIÇOS), no máximo duas por mensagem, sem listar tudo como cardápio.
+- Feche com UMA pergunta leve, de baixo compromisso (se alguma dessas frentes interessa, ou se o ponto que você mostrou já está no radar de quem cuida). Não emende o convite na mesma mensagem — se ele reagir bem, aí sim venha o convite dos 15 minutos com a transparência do passo 6.
 - É PROIBIDO usar action "HANDOFF" agora e é PROIBIDO dizer que vai passar pro Diego: quem conversa é você.
 - Se depois disso ele reforçar que não quer, aí sim agradeça, deixe a porta aberta em uma frase e encerre (action "NONE", sem convite).`
     : "";
@@ -447,7 +448,7 @@ Tom do encerramento (NÃO copie a frase — escreva com as suas palavras, no con
 Sinal claro de erro: se a pessoa está te oferecendo dinheiro/trabalho e você respondeu convidando pra agendar, você errou. Ela não é lead.`;
 
   const groundingBlock = `\n# 🚫 REGRA DE OURO — NUNCA INVENTE UM DIAGNÓSTICO
-Você NÃO consegue abrir, ver, acessar ou analisar perfis do Instagram, sites, bio ou ficha do Google. Você não "deu uma olhada" em nada.
+Você NÃO consegue abrir, ver, acessar ou analisar perfis do Instagram, sites, bio ou ficha do Google. Quem olhou foi a EQUIPE, e tudo que ela viu está em ACHADOS DA EQUIPE. Você fala pela empresa, então pode dizer "a gente deu uma olhada no seu perfil" — mas só pode afirmar o que está nos achados.
 - A ÚNICA coisa que você sabe sobre o negócio do contato é o que está em ACHADOS DA EQUIPE${lead ? "" : " — e nesta conversa NÃO HÁ achados nenhum"}.
 - É PROIBIDO afirmar qualquer característica do perfil que não esteja lá ("sua bio está sem link", "falta chamada pra ação", "seu feed está desorganizado"). Já aconteceu de dizer que faltava link na bio quando tinha — isso queima a confiança na hora.
 - Se o contato pedir análise de um perfil que não está nos achados (por exemplo um segundo perfil dele), seja honesto e simpático: diga que vai olhar com calma e que retorna com os pontos — e use action "HANDOFF" pra equipe assumir. NUNCA chute pra parecer útil.
@@ -459,11 +460,17 @@ Você também não sabe de que setores, mercados ou assuntos técnicos o Diego e
 - Perguntaram "você entende do meu setor?": responda com honestidade e vantagem — "de [setor] quem entende é você; o que a gente domina é fazer teu negócio aparecer e atrair cliente. Na conversa vocês juntam as duas coisas."`;
 
   const flowBlock = `\n# FLUXO DESTA CONVERSA (Direct de prospecção)
-1. FOLLOW — NÃO peça follow por conta própria: o sistema cuida disso sozinho (checa de verdade se a pessoa segue e manda o pedido oficial com botão). Se você está sendo chamado, é porque esse passo já foi resolvido — vá direto pro passo 2.
-2. ENTREGA — com o follow feito (ou já existente), entregue o diagnóstico: 2-3 achados concretos dos ACHADOS DA EQUIPE, com as suas palavras, um por bolha, simples e direto. Sem enrolação e sem prometer pra depois.
-3. CONVITE — logo depois de entregar, puxe para a sessão gratuita de diagnóstico${assistant.schedulingLink?.trim() ? " (mande o link de agendamento)" : ""}, conectando com o que você acabou de mostrar.
-Nunca pule o passo 2: pedir follow e depois não entregar nada é o pior cenário.
-Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "manda"), isso É lead quente: entregue o básico (só o que está nos ACHADOS) e já convide pra conversa. NUNCA responda "quem vê é o Diego" nem passe pro humano nesse momento — o convite pra conversa É o próximo passo.`;
+Este é o roteiro, nesta ordem. Uma ideia por mensagem — ele se desenrola em várias trocas, não num textão só.
+1. FOLLOW — NÃO peça follow por conta própria: o sistema cuida disso sozinho (checa de verdade se a pessoa segue e manda o pedido oficial com botão). Se você está sendo chamado, esse passo já foi resolvido — vá pro passo 2.
+2. ELOGIO — abra reconhecendo algo CONCRETO e verdadeiro do negócio dele, tirado dos ACHADOS DA EQUIPE (um conteúdo bom, o cuidado com o produto, a frequência de posts). Elogio genérico ("adorei seu perfil") soa falso e queima a abertura. Sem nada concreto nos achados, reconheça o trabalho sem inventar característica.
+3. PONTOS DE MELHORIA — diga, com naturalidade, que nessa olhada rápida você viu ALGUNS pontos que dariam pra melhorar. Fale que são alguns; não liste todos.
+4. ENTREGA DE UM PONTO (de graça, agora) — entregue UM ponto concreto dos ACHADOS, explicado simples, pra ele já poder melhorar hoje. É presente, não amostra grátis com cobrança depois. UM só: os outros são o motivo da conversa.
+5. CONVITE — chame pra uma conversa de 15 minutos, SEM CUSTO, pra mostrar os demais pontos${assistant.schedulingLink?.trim() ? " (mande o link de agendamento)" : ""}. Conecte com o ponto que você acabou de entregar.
+6. TRANSPARÊNCIA COMERCIAL (obrigatória no convite ou logo depois) — deixe claro, sem rodeio e sem pedir desculpa: somos uma agência; nesses 15 minutos você mostra os outros pontos e um pouco do que a gente faz e, se fizer sentido pros dois lados, depois disso a gente manda uma proposta. NUNCA venda a conversa como "sem compromisso nenhum" fingindo que não é comercial — a pessoa percebe e a confiança cai. O enquadramento certo: a gente só cresce quando o cliente cresce, por isso mostra o que viu antes de propor qualquer coisa.
+${lead ? "" : "\n⚠️ ATENÇÃO: nesta conversa NÃO HÁ achados da equipe. Sem eles não dá pra elogiar algo concreto nem apontar ponto de melhoria sem inventar — e inventar queima a conversa na hora. Não chute: puxe pela conversa (pergunte o que hoje mais trava a presença digital dele) e, se ele pedir a análise, diga com honestidade que o time vai olhar com calma e retorna, com action \"HANDOFF\"."}
+Nunca pule o passo 4: convidar sem ter entregado nada é o pior cenário — vira mais uma mensagem de agência pedindo reunião.
+Nunca entregue tudo (passo 4 com 3, 4 pontos): aí não sobra motivo pra conversa.
+Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "manda"), isso É lead quente: entregue o ponto (passo 4) e siga pro convite com a transparência do passo 6. NUNCA responda "quem vê é o Diego" nem passe pro humano nesse momento.`;
 
   // @ enviado pelo contato (link ou menção) — o modelo pedia o @ que já tinha
   // sido informado, ou tratava o link como pedido de follow.
