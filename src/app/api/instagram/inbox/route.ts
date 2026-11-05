@@ -2,18 +2,37 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireInstagramCompany } from "@/lib/instagram-api";
 import { prisma } from "@/lib/prisma";
 import { decryptAccountToken, getIgUserProfile } from "@/lib/instagram";
+import { aggregateConversations, flagsOf, matchesMessageFilter, type MessageFilter } from "@/lib/ig-inbox-stats";
+
+/** Filtros da lista. `returned`/`interacted` dependem do histórico de mensagens. */
+const FILTERS = ["all", "needsReply", "returned", "interacted", "lead", "automation"] as const;
+type Filter = (typeof FILTERS)[number];
+
+const PAGE = 100;
+/** Candidatos lidos antes de aplicar filtro derivado de mensagem. */
+const CANDIDATES = 400;
 
 // GET /api/instagram/inbox?filter=needsReply → conversas de DM da empresa.
 export async function GET(req: NextRequest) {
   const ctx = await requireInstagramCompany();
   if (!ctx.ok) return ctx.res;
 
-  const needsReply = new URL(req.url).searchParams.get("filter") === "needsReply";
+  const raw = new URL(req.url).searchParams.get("filter") ?? "all";
+  const filter: Filter = (FILTERS as readonly string[]).includes(raw) ? (raw as Filter) : "all";
 
-  const conversations = await prisma.igConversation.findMany({
-    where: { companyId: ctx.companyId, ...(needsReply ? { needsReply: true } : {}) },
+  const where = {
+    companyId: ctx.companyId,
+    ...(filter === "needsReply" ? { needsReply: true } : {}),
+    ...(filter === "lead" ? { leadId: { not: null } } : {}),
+    ...(filter === "automation" ? { hadAutomation: true } : {}),
+  };
+
+  const isMessageFilter = filter === "returned" || filter === "interacted";
+
+  const candidates = await prisma.igConversation.findMany({
+    where,
     orderBy: { lastMessageAt: "desc" },
-    take: 100,
+    take: isMessageFilter ? CANDIDATES : PAGE,
     select: {
       id: true,
       channel: true,
@@ -25,8 +44,18 @@ export async function GET(req: NextRequest) {
       lastDirection: true,
       needsReply: true,
       hadAutomation: true,
+      lead: { select: { id: true, name: true, pipeline: true } },
     },
   });
+
+  // Uma agregação pra todos os candidatos: serve ao filtro e aos selos da lista
+  // ("retornou", "só nosso contato"), que antes não existiam em lugar nenhum.
+  const aggs = await aggregateConversations(candidates.map((c) => c.id));
+
+  const filtered = isMessageFilter
+    ? candidates.filter((c) => matchesMessageFilter(filter as MessageFilter, aggs.get(c.id)))
+    : candidates;
+  const conversations = filtered.slice(0, PAGE).map((c) => ({ ...c, flags: flagsOf(aggs.get(c.id)) }));
 
   // Backfill do @: conversas nascidas de echo (DM que NÓS mandamos primeiro,
   // ex. prospecção) entram sem username e a lista mostraria o IGSID cru. A API
@@ -44,7 +73,7 @@ export async function GET(req: NextRequest) {
   }
 
   const pending = await prisma.igConversation.count({ where: { companyId: ctx.companyId, needsReply: true } });
-  return NextResponse.json({ count: conversations.length, pending, conversations });
+  return NextResponse.json({ count: conversations.length, pending, filter, conversations });
 }
 
 /** Janela em que a API de perfil ainda resolve o IGSID. */
