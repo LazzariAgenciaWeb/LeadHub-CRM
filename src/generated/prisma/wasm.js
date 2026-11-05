@@ -1111,6 +1111,8 @@ exports.Prisma.IgConversationScalarFieldEnum = {
   aiMode: 'aiMode',
   aiLastResult: 'aiLastResult',
   aiLastRunAt: 'aiLastRunAt',
+  aiPausedBy: 'aiPausedBy',
+  aiResumedAt: 'aiResumedAt',
   leadId: 'leadId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

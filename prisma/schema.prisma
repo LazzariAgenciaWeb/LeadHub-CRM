@@ -2514,6 +2514,12 @@ model IgConversation {
   // memória some no restart e a pergunta "por que não respondeu?" ficava sem resposta.
   aiLastResult    String?
   aiLastRunAt     DateTime?
+  // Quem pausou o agente: "HUMAN" (atendente assumiu, na inbox ou pelo app do
+  // Instagram) ou "AI" (o próprio agente deu handoff). Handoff do agente com
+  // o contato continuando a falar e ninguém do time entrando = abandono —
+  // nesse caso o agente volta UMA vez (aiResumedAt marca que já voltou).
+  aiPausedBy      String?
+  aiResumedAt     DateTime?
   // Vínculo com o Lead do CRM (casado pelo @ da prospecção; backfill no match).
   lead            Lead?           @relation(fields: [leadId], references: [id], onDelete: SetNull)
   leadId          String?

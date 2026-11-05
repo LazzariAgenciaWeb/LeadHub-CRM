@@ -26,7 +26,7 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v10-motivo-gravado";
+export const IG_AUTO_AGENT_REV = "v11-objecao-e-retomada";
 
 /**
  * Resposta automática do RÔBO de atendimento do contato (menus de opções,
@@ -34,6 +34,22 @@ export const IG_AUTO_AGENT_REV = "v10-motivo-gravado";
  */
 const AUTO_REPLY_RE =
   /(apert(e|ar|a)|cli(que|car|ca)|to(que|car|ca)|selecion(e|ar)|escolh(a|er)|digit(e|ar))\s+(em\s+)?(uma\s+das|um\s+dos|a|o|um|uma)?\s*(op[çc]|n[úu]mero|bot[ãa]o)|transferi(r|mos|remos)?\s+(voc[êe]\s+|lhe\s+)?(para|pra)\s+(um|o|uma|a)\s+(humano|atendente)|falar com (o|um|nosso) atendente|mensagem autom[áa]tica|resposta autom[áa]tica|assistente virtual|fora do (nosso )?hor[áa]rio de atendimento|bem-vindo\(a\)|estaremos (aqui|[àa] disposi[çc][ãa]o)/i;
+
+/**
+ * Objeção clássica de quem recebe prospecção: "já temos quem cuida", "já tenho
+ * agência", "no momento não". NÃO é fim de conversa nem "não é lead" — é onde a
+ * conversa começa de verdade. O agente já tratou isso como fora de escopo e
+ * passou pro humano na primeira resposta, matando o contato.
+ */
+const OBJECTION_RE =
+  /\b(j[áa]\s+(tem|temos|tenho|t[êe]m|trabalho|trabalhamos|fa[çc]o|fazemos|cuido|cuidamos|possu[oi]|resolvi|resolvemos)|(tenho|temos)\s+(ag[êe]ncia|quem|algu[ée]m|equipe|um time|pessoa|profissional|social media)|(n[ãa]o|nao)\s+(tenho|temos|estamos com)\s+interesse|(no momento|agora|hoje)\s+(n[ãa]o|nao)|fica\s+pra\s+depois|(obrigad[ao]|valeu)[,.!\s]*(mas|j[áa]))\b/i;
+
+/**
+ * Sinais REAIS de "não é lead" (vaga, parceria, quem vende pra gente). Só
+ * estes justificam encerrar e passar pro humano na primeira resposta.
+ */
+const NOT_LEAD_RE =
+  /\b(vaga|vagas|emprego|contratar\s+(voc[êe]|o diego)|curr[íi]culo|clt|sal[áa]rio|freela(ncer)?|parceria|permuta|podcast|entrevista|patroc[íi]nio|divulga[çc][ãa]o|revenda|representante|afiliado)\b/i;
 
 /** Texto vazio ou só pontuação ("—", ".") — o card sem texto que a inbox mostra como "—". */
 function isPlaceholderText(t: string): boolean {
@@ -228,7 +244,31 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
 
   if (!conv) return skip("conversa_inexistente");
   if (conv.channel !== "INSTAGRAM" || !conv.account) return skip("canal_nao_suportado");
-  if (conv.aiMode !== "ACTIVE") return skip(`aiMode_${conv.aiMode}`);
+  // RETOMADA: o handoff foi do PRÓPRIO agente ("já passei pro time"), ninguém
+  // do time entrou e o contato continuou falando. Deixar parado aí é abandono —
+  // o agente volta UMA vez por conversa (aiResumedAt) e segue a conversa.
+  let resumedAfterHandoff = false;
+  if (conv.aiMode === "PAUSED_HUMAN" && (conv as any).aiPausedBy === "AI" && !(conv as any).aiResumedAt) {
+    const humanReplied = await prisma.igMessage.findFirst({
+      where: {
+        conversationId: conv.id,
+        direction: "OUT",
+        source: { in: ["EXTERNAL", "AGENT"] },
+        createdAt: { gt: conv.aiLastRunAt ?? conv.createdAt },
+      },
+      select: { id: true },
+    });
+    if (humanReplied) return skip("aiMode_PAUSED_HUMAN");
+    await prisma.igConversation.update({
+      where: { id: conv.id },
+      data: { aiMode: "ACTIVE", aiResumedAt: new Date() } as any,
+    });
+    conv.aiMode = "ACTIVE";
+    resumedAfterHandoff = true;
+    console.log(`[IgAgent] retomando conv=${conv.id} — handoff do agente sem ninguém do time entrar`);
+  } else if (conv.aiMode !== "ACTIVE") {
+    return skip(`aiMode_${conv.aiMode}`);
+  }
   // Só responde quando a ÚLTIMA mensagem é do contato (se OUT depois do
   // agendamento, alguém — humano ou automação — já respondeu).
   if (conv.lastDirection !== "IN") return skip("ja_respondida");
@@ -376,13 +416,34 @@ Não convide de novo, não pergunte "vamos agendar?", não reformule o convite. 
 Responda o que ela perguntou, seja útil de graça e ENCERRE com simpatia — ou passe pro humano com action "HANDOFF". Insistir daqui pra frente só queima a imagem do Diego.`
       : "";
 
+  // Objeção na mensagem nova (e nenhum sinal de que não é lead): é o momento
+  // mais importante da prospecção — e era exatamente onde o agente desistia.
+  const contactObjected =
+    pendingTexts.some((t) => OBJECTION_RE.test(t)) && !pendingTexts.some((t) => NOT_LEAD_RE.test(t));
+  const objectionBlock = contactObjected
+    ? `\n# 💬 O CONTATO LEVANTOU UMA OBJEÇÃO (prioridade máxima — isto NÃO é handoff)
+"Já temos quem cuida", "já tenho agência", "temos equipe interna", "no momento não" é a resposta mais comum de quem recebe prospecção. NÃO significa que a conversa acabou, NÃO significa que ele não é lead e NÃO é assunto de humano: é aqui que a conversa começa.
+Como responder (1 a 2 bolhas curtas):
+- Respeite quem já cuida: nunca critique, duvide ou insinue que o atual é ruim.
+- ENTREGUE na hora um achado concreto dos ACHADOS DA EQUIPE — o ponto específico que motivou a abordagem, em linguagem simples. É isso que separa a gente de quem só manda proposta.
+- Feche com UMA pergunta leve, de baixo compromisso (se aquilo já está no radar de quem cuida), nunca com convite pra reunião na mesma mensagem.
+- É PROIBIDO usar action "HANDOFF" agora e é PROIBIDO dizer que vai passar pro Diego: quem conversa é você.
+- Se depois disso ele reforçar que não quer, aí sim agradeça, deixe a porta aberta em uma frase e encerre (action "NONE", sem convite).`
+    : "";
+
+  const resumeBlock = resumedAfterHandoff
+    ? `\n# ↩️ VOCÊ JÁ TINHA PASSADO ESTA CONVERSA PRO TIME E O CONTATO CONTINUOU FALANDO
+Ninguém do time entrou ainda e ele escreveu de novo — deixar no vácuo é o pior desfecho. Responda VOCÊ a mensagem nova: nada de recomeçar a conversa, nada de repetir que vai passar pra alguém, nada de se desculpar. Trate o que ele acabou de dizer e faça a conversa andar.`
+    : "";
+
   const notLeadBlock = `\n# 🚩 QUANDO NÃO É LEAD (pare de vender na hora)
 Estes casos NÃO são clientes em potencial. NÃO convide pra conversa, NÃO insista, NÃO tente qualificar. Responda UMA frase educada e use action "HANDOFF":
 - Proposta de EMPREGO ou vaga (CLT, freelancer fixo, salário, "ofereço R$X + benefícios"), ou alguém querendo contratar o Diego como funcionário.
 - Parceria, permuta, convite para evento/podcast, pedido de divulgação.
 - Alguém vendendo algo PARA nós (serviço, curso, ferramenta).
 - Assunto pessoal, cobrança ou qualquer coisa fora de prospecção.
-Exemplo: "Essa parte quem vê é o Diego mesmo — já passei pra ele te responder por aqui 👍"
+NÃO entram aqui (são OBJEÇÃO, você mesmo responde): "já temos quem cuida", "já tenho agência", "temos equipe interna", "não tenho interesse", "no momento não". Passar essas pro humano é abandonar o contato no melhor momento da conversa.
+Tom do encerramento (NÃO copie a frase — escreva com as suas palavras, no contexto): dizer que quem cuida disso é o Diego e que você já passou pra ele responder por ali.
 Sinal claro de erro: se a pessoa está te oferecendo dinheiro/trabalho e você respondeu convidando pra agendar, você errou. Ela não é lead.`;
 
   const groundingBlock = `\n# 🚫 REGRA DE OURO — NUNCA INVENTE UM DIAGNÓSTICO
@@ -415,6 +476,8 @@ Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "ma
     `QUEM É QUEM: você fala PELA NOSSA EMPRESA (o lado que mandou a abordagem — mensagens "assistant" e as marcadas [equipe]). O contato é a pessoa/negócio que recebeu a abordagem. NUNCA escreva como se fosse o contato (ex.: "sou eu que cuido do negócio", "quero ver o que vocês encontraram") — essas falas são DELE, não suas.`,
     `Você atende o DIRECT DO INSTAGRAM de uma empresa. Estilo: mensagens curtas de chat (1 a 3 bolhas de no máximo ~2 frases), tom humano e natural, no idioma do contato.`,
     continuityBlock,
+    resumeBlock,
+    objectionBlock,
     notLeadBlock,
     inviteGuard,
     groundingBlock,
@@ -483,7 +546,37 @@ Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "ma
   });
   if (!result.ok) return skip(`ia_${result.code}`, { error: result.error });
 
-  const decision = parseDecision(result.text) ?? { reply: [result.text.trim()].filter(Boolean).slice(0, 1), action: "NONE" as const };
+  let decision: AgentDecision =
+    parseDecision(result.text) ?? { reply: [result.text.trim()].filter(Boolean).slice(0, 1), action: "NONE" };
+
+  // TRAVA: handoff em cima de objeção é o erro mais caro do Direct — o contato
+  // diz "já temos quem cuida", o agente responde "já passei pro Diego" e a
+  // conversa morre pausada. O prompt já proíbe; aqui o motor confere e manda
+  // responder de novo, agora tratando a objeção.
+  if (decision.action === "HANDOFF" && contactObjected) {
+    console.warn(`[IgAgent] handoff em objeção conv=${conv.id} — refazendo a resposta`);
+    const retry = await runAssistant({
+      companyId: conv.companyId,
+      endpoint: "ig-auto-agent",
+      messages: [
+        ...chat,
+        {
+          role: "system",
+          content:
+            '⛔ NÃO passe pro humano e NÃO diga que vai passar pro Diego: o contato levantou uma OBJEÇÃO comum de prospecção ("já temos quem cuida"), não um assunto fora de escopo. Responda você: respeite quem já cuida em meia frase, entregue UM achado concreto dos ACHADOS DA EQUIPE e feche com uma pergunta leve. Use action "NONE".',
+        },
+      ],
+      assistantId: assistant.id,
+      model: assistant.model,
+      temperature: assistant.temperature,
+      maxTokens: MAX_REPLY_TOKENS,
+    });
+    const second = retry.ok ? parseDecision(retry.text) : null;
+    if (second && second.action === "NONE" && second.reply.length) {
+      decision = second;
+      recordRun({ conv: conv.id, handoffEmObjecao: true });
+    }
+  }
 
   // Reconfere que ninguém respondeu enquanto a IA pensava.
   const fresh = await prisma.igConversation.findUnique({
@@ -528,9 +621,11 @@ Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "ma
   }
 
   if (decision.action === "HANDOFF") {
+    // aiPausedBy="AI": foi o agente que saiu de cena, não um atendente. Se o
+    // contato continuar falando e ninguém do time entrar, o agente volta UMA vez.
     await prisma.igConversation.update({
       where: { id: conv.id },
-      data: { aiMode: "PAUSED_HUMAN", needsReply: true },
+      data: { aiMode: "PAUSED_HUMAN", needsReply: true, aiPausedBy: "AI" } as any,
     });
   }
 

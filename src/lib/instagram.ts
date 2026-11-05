@@ -614,7 +614,7 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
       if (!systemEcho && contactWasWaiting) {
         const paused = await prisma.igConversation.updateMany({
           where: { id: convoId, aiMode: "ACTIVE" },
-          data: { aiMode: "PAUSED_HUMAN" },
+          data: { aiMode: "PAUSED_HUMAN", aiPausedBy: "HUMAN" } as any,
         }).catch(() => ({ count: 0 }));
         if (paused.count > 0) console.log(`[IG] humano assumiu pelo app — agente pausado na conv ${convoId}`);
       }
