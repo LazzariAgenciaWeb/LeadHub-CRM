@@ -62,6 +62,15 @@ export function looksLikeHtml(text: string): boolean {
   return /<(p|div|h[1-6]|ul|ol|li|table|section|article|strong|b|em|br|span|blockquote|a|img|hr|details|input)\b[^>]*>/i.test(text);
 }
 
+/**
+ * HTML "de página": traz CSS próprio (<style>, class=, <html>/<body>, folha
+ * externa). Esse precisa do HtmlFrame pra aparecer como foi desenhado — a lista
+ * branca daqui descarta CSS e classes.
+ */
+export function isStyledHtml(text: string): boolean {
+  return /<!doctype|<html[\s>]|<head[\s>]|<body[\s>]|<style[\s>]|<link\b[^>]*stylesheet|\sclass\s*=/i.test(text);
+}
+
 const CHECKBOX_RE = /<input\b[^>]*\btype\s*=\s*["']?checkbox\b[^>]*>/gi;
 
 /** Checklist do HTML: <input type="checkbox"> (marcado = atributo checked). */

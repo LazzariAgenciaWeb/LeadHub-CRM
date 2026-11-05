@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Bold, Italic, Heading2, List, ListOrdered, ListChecks, FileText, Pencil, X } from "lucide-react";
 import { MarkdownDoc, toggleCheckLine } from "@/components/MarkdownDoc";
-import { HtmlDoc, looksLikeHtml, htmlCheckProgress, toggleHtmlCheck } from "@/components/HtmlDoc";
+import { HtmlDoc, looksLikeHtml, isStyledHtml, htmlCheckProgress, toggleHtmlCheck } from "@/components/HtmlDoc";
+import { HtmlFrame } from "@/components/HtmlFrame";
 
 /**
  * Detalhamento do projeto: o que foi vendido e o que precisa ser feito.
@@ -50,10 +51,11 @@ function checkProgress(text: string): { total: number; feitos: number } {
 }
 
 /**
- * Mostra o detalhamento formatado: HTML (se o texto tiver tags) ou markdown.
- * Em ambos os casos o checklist marca direto e salva.
+ * Mostra o detalhamento formatado: página HTML com CSS próprio (iframe isolado),
+ * HTML simples (lista branca) ou markdown. Em todos o checklist marca e salva.
  */
 function DetalhamentoView({ value, className, onToggle }: { value: string; className: string; onToggle: (next: string) => void }) {
+  if (isStyledHtml(value)) return <HtmlFrame html={value} onToggleCheck={(i) => onToggle(toggleHtmlCheck(value, i))} />;
   return looksLikeHtml(value)
     ? <HtmlDoc text={value} className={className} onToggleCheck={(i) => onToggle(toggleHtmlCheck(value, i))} />
     : <MarkdownDoc text={value} breaks className={className} onToggleCheck={(line) => onToggle(toggleCheckLine(value, line))} />;
@@ -305,7 +307,7 @@ export function DetalhamentoModal({
           ) : value.trim() ? (
             <DetalhamentoView
               value={value}
-              className={`${MD_CLASS} text-[15px] ${looksLikeHtml(value) ? "" : "max-w-3xl"}`}
+              className={`${MD_CLASS} text-[15px] ${looksLikeHtml(value) || isStyledHtml(value) ? "" : "max-w-3xl"}`}
               onToggle={(next) => { onChange(next); onSave(next); }}
             />
           ) : (
