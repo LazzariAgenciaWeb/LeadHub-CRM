@@ -1,6 +1,10 @@
 import { prisma } from "./prisma";
 import { runAssistant, getServicesCatalogBlock, type ChatMessage } from "./assistant";
 import {
+  getAgentCalendarConnection, connectionCanWrite, computeAvailableSlots,
+  isSlotStillFree, createMeetEvent, nowLabel, type Slot,
+} from "./scheduling";
+import {
   decryptAccountToken,
   getUserFollowStatus,
   sendMessageToUser,
@@ -26,7 +30,7 @@ import {
  * conta não tem agente ativo com autoRespond vinculado.
  */
 
-export const IG_AUTO_AGENT_REV = "v12-elogio-um-ponto-15min";
+export const IG_AUTO_AGENT_REV = "v13-agenda-no-direct";
 
 /**
  * Resposta automática do RÔBO de atendimento do contato (menus de opções,
@@ -173,7 +177,20 @@ export async function promoteIgProspectOnReply(
 }
 
 // ─── Parser tolerante do JSON da IA ──────────────────────────────────────────
-type AgentDecision = { reply: string[]; action: "NONE" | "HANDOFF" };
+type AgentDecision = {
+  reply: string[];
+  action: "NONE" | "HANDOFF" | "AGENDAR";
+  /** Código do horário escolhido ("S1") — só na action AGENDAR. */
+  agendarInicio?: string | null;
+  agendarEmail?: string | null;
+};
+
+/** Agenda conectada do agente + horários livres desta rodada. */
+interface IgScheduling {
+  connectionId: string;
+  durationMin: number;
+  slots: Slot[];
+}
 
 /**
  * O histórico marca as mensagens do time com "[equipe] " pra dar contexto ao
@@ -223,11 +240,122 @@ function parseDecision(raw: string): AgentDecision | null {
       : typeof obj.reply === "string" && obj.reply.trim()
         ? [stripInternalTags(obj.reply)].filter(Boolean)
         : [];
-    const action = obj.action === "HANDOFF" ? "HANDOFF" : "NONE";
-    return { reply: reply.slice(0, 3), action };
+    const action =
+      obj.action === "HANDOFF" ? "HANDOFF" : obj.action === "AGENDAR" ? "AGENDAR" : "NONE";
+    return {
+      reply: reply.slice(0, 3),
+      action,
+      agendarInicio: typeof obj.agendarInicio === "string" ? obj.agendarInicio.trim() : null,
+      agendarEmail: typeof obj.agendarEmail === "string" ? obj.agendarEmail.trim() : null,
+    };
   } catch {
     return null;
   }
+}
+
+
+// ─── Agendamento: casar o horário escolhido ──────────────────────────────────
+
+const normTxt = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+const WEEKDAY_WORDS: Record<string, string[]> = {
+  dom: ["dom", "domingo"], seg: ["seg", "segunda"], ter: ["ter", "terca"],
+  qua: ["qua", "quarta"], qui: ["qui", "quinta"], sex: ["sex", "sexta"], sab: ["sab", "sabado"],
+};
+
+/** Pedaços do label "ter 05/11 09:00" pra reconhecer no texto do contato. */
+function slotTokens(slot: Slot): { days: string[]; times: string[] } {
+  const m = slot.label.match(/^(\w{3})\s+(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})$/);
+  if (!m) return { days: [], times: [] };
+  const [, wd, dd, mm, hh, mi] = m;
+  const day = Number(dd), month = Number(mm), hour = Number(hh);
+  return {
+    days: [`${dd}/${mm}`, `${day}/${month}`, `dia ${day}`, ...(WEEKDAY_WORDS[normTxt(wd)] ?? [])],
+    times: [`${hh}:${mi}`, `${hour}:${mi}`, `${hour}h${mi === "00" ? "" : mi}`, `${hour}h`, ...(mi === "00" ? [`${hour} horas`, `${hour}`] : [])],
+  };
+}
+
+/** Token isolado (não casar "9" dentro de "19"). */
+function hasToken(text: string, token: string): boolean {
+  const esc = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(^|[^0-9a-z])${esc}([^0-9a-z]|$)`, "i").test(text);
+}
+
+function mentionsSlot(text: string, slot: Slot): { time: boolean; day: boolean } {
+  const t = normTxt(text);
+  const { days, times } = slotTokens(slot);
+  return { time: times.some((x) => hasToken(t, x)), day: days.some((x) => hasToken(t, x)) };
+}
+
+/** Horários que NÓS oferecemos na última mensagem (é entre eles que ele escolhe). */
+export function slotsWeOffered(lastOutText: string | null | undefined, slots: Slot[]): Slot[] {
+  if (!lastOutText) return [];
+  return slots.filter((sl) => {
+    const hit = mentionsSlot(lastOutText, sl);
+    return hit.time && hit.day;
+  });
+}
+
+/**
+ * Horário escolhido: código do JSON ("S1") primeiro; depois o texto do contato
+ * (dia + hora); por último só a hora, quando ela identifica sem ambiguidade um
+ * dos horários que oferecemos.
+ */
+export function resolveIgSlot(slots: Slot[], code: string | null | undefined, contactText: string, offered: Slot[]): Slot | null {
+  const byCode = (code ?? "").trim().match(/^\[?s(\d{1,2})\]?$/i);
+  if (byCode) {
+    const idx = Number(byCode[1]) - 1;
+    if (slots[idx]) return slots[idx];
+  }
+  const exact = slots.find((sl) => {
+    const hit = mentionsSlot(contactText, sl);
+    return hit.time && hit.day;
+  });
+  if (exact) return exact;
+  const byTime = offered.filter((sl) => mentionsSlot(contactText, sl).time);
+  if (byTime.length === 1) return byTime[0];
+  // Ofereceu 1 horário só e ele apenas concordou ("pode ser", "fechado").
+  if (offered.length === 1 && looksLikeAcceptance(contactText)) return offered[0];
+  return null;
+}
+
+/** "ter 05/11 09:00" → "ter 05/11 às 09:00" (slot livre ou reunião já criada). */
+const prettySlot = (sl: { label: string }) => sl.label.replace(/ (\d{1,2}:\d{2})$/, " às $1");
+
+/** 1 de manhã + 1 de tarde, como manda a regra do agendamento. */
+function pickTwo(slots: Slot[]): Slot[] {
+  const manha = slots.find((sl) => sl.period === "manha");
+  const tarde = slots.find((sl) => sl.period === "tarde");
+  return manha && tarde ? [manha, tarde] : slots.slice(0, 2);
+}
+
+const PLACEHOLDER_EMAIL_RE =
+  /@(example|exemplo|email|e-mail|teste|test|dominio|domain|seudominio|suaempresa|empresa)\.(com|com\.br|br|org|net)$/i;
+
+/**
+ * Bloco de agenda do Direct: horários livres com código curto (S1, S2…) — o
+ * modelo devolve o código, muito mais confiável que copiar data/hora sem errar.
+ */
+function igSchedulingBlock(ctx: IgScheduling): string {
+  const indexed = ctx.slots.map((sl, i) => ({ sl, code: `S${i + 1}` }));
+  const fmt = (list: { sl: Slot; code: string }[]) =>
+    list.length ? list.map((x) => `[${x.code}] ${x.sl.label}`).join(" | ") : "(nenhum)";
+
+  return `\n# AGENDAMENTO DIRETO (você marca a conversa aqui mesmo — NUNCA mande link de agenda)
+⚠️ Esta seção vale mais que qualquer instrução do manual sobre agendamento ("mande o link", "o time vê a agenda"). A agenda está na SUA mão: os horários livres estão abaixo.
+Agora: ${nowLabel()} (horário de Brasília). Conversa de ${ctx.durationMin} minutos no Google Meet.
+Horários LIVRES:
+MANHÃ: ${fmt(indexed.filter((x) => x.sl.period === "manha").slice(0, 6))}
+TARDE: ${fmt(indexed.filter((x) => x.sl.period === "tarde").slice(0, 6))}
+
+Regras do agendamento:
+- Ofereça no MÁXIMO 2 opções por vez: 1 de manhã e 1 de tarde. Se um período não tiver horário, ofereça 2 do outro.
+- Ofereça SOMENTE horários das listas. NUNCA invente nem confirme horário fora delas, e NUNCA mande link de agenda (nem o que estiver no manual).
+- NUNCA ofereça horário pra HOJE — as listas já começam no próximo dia útil.
+- Se nenhum servir, pergunte a preferência dele (dia ou período) e ofereça outras 2 opções das listas.
+- Peça o e-mail UMA vez ("pra te mandar o convite"). Se ele não quiser passar, confirme assim mesmo — o link do Meet vai por aqui no Direct.
+- Quando o contato ESCOLHER um horário, use action "AGENDAR" com "agendarInicio" = o CÓDIGO do horário (ex.: "S1"), "agendarEmail" = o e-mail (ou null) e "reply" vazio ([]): o sistema confirma e manda o link do Meet sozinho.
+- Listas vazias (sem horário livre): avise que o time retorna pra combinar o melhor horário e use action "HANDOFF". NUNCA confirme conversa sem horário livre.`;
 }
 
 // ─── Motor ───────────────────────────────────────────────────────────────────
@@ -385,9 +513,35 @@ export async function runIgAutoAgentNow(conversationId: string): Promise<void> {
   const learnings = assistant.learnings?.trim()
     ? `\n\n# APRENDIZADOS (correções do gestor — respeite sempre)\n${assistant.learnings.trim()}`
     : "";
-  const scheduling = assistant.schedulingLink?.trim()
-    ? `\n\nLink de agendamento (copie EXATAMENTE quando for convidar para reunião): ${assistant.schedulingLink.trim()}`
-    : "";
+  // Agendamento direto no Direct: agenda Google do usuário vinculado ao agente
+  // ∩ horários de atendimento da empresa. Qualquer falha → fallback pro link.
+  let igScheduling: IgScheduling | null = null;
+  const calendarUserId = (assistant as any).calendarUserId as string | null;
+  if (calendarUserId) {
+    try {
+      const connCal = await getAgentCalendarConnection(calendarUserId);
+      if (!connCal) {
+        console.warn(`[IgAgent] agenda do agente sem conexão ativa (user=${calendarUserId}) — usando link`);
+      } else if (!connectionCanWrite(connCal)) {
+        console.warn(`[IgAgent] conexão de agenda sem escopo de escrita (user=${calendarUserId}) — usando link`);
+      } else {
+        const durationMin = ((assistant as any).meetingDurationMin as number) || 15;
+        igScheduling = {
+          connectionId: connCal.id,
+          durationMin,
+          slots: await computeAvailableSlots({ companyId: conv.companyId, connectionId: connCal.id, durationMin }),
+        };
+      }
+    } catch (err: any) {
+      console.error(`[IgAgent] falha ao montar agenda conv=${conv.id} (fallback pro link):`, err?.message);
+    }
+  }
+  const meetingMin = igScheduling?.durationMin ?? 15;
+  const scheduling = igScheduling
+    ? igSchedulingBlock(igScheduling)
+    : assistant.schedulingLink?.trim()
+      ? `\n\nLink de agendamento (copie EXATAMENTE quando for convidar para reunião): ${assistant.schedulingLink.trim()}`
+      : "";
 
   // Continuidade: a abordagem (enviada pela equipe) costuma terminar com uma
   // oferta — "posso te mostrar o que vi?". Quando o contato aceita, o pecado é
@@ -465,8 +619,8 @@ Este é o roteiro, nesta ordem. Uma ideia por mensagem — ele se desenrola em v
 2. ELOGIO — abra reconhecendo algo CONCRETO e verdadeiro do negócio dele, tirado dos ACHADOS DA EQUIPE (um conteúdo bom, o cuidado com o produto, a frequência de posts). Elogio genérico ("adorei seu perfil") soa falso e queima a abertura. Sem nada concreto nos achados, reconheça o trabalho sem inventar característica.
 3. PONTOS DE MELHORIA — diga, com naturalidade, que nessa olhada rápida você viu ALGUNS pontos que dariam pra melhorar. Fale que são alguns; não liste todos.
 4. ENTREGA DE UM PONTO (de graça, agora) — entregue UM ponto concreto dos ACHADOS, explicado simples, pra ele já poder melhorar hoje. É presente, não amostra grátis com cobrança depois. UM só: os outros são o motivo da conversa.
-5. CONVITE — chame pra uma conversa de 15 minutos, SEM CUSTO, pra mostrar os demais pontos${assistant.schedulingLink?.trim() ? " (mande o link de agendamento)" : ""}. Conecte com o ponto que você acabou de entregar.
-6. TRANSPARÊNCIA COMERCIAL (obrigatória no convite ou logo depois) — deixe claro, sem rodeio e sem pedir desculpa: somos uma agência; nesses 15 minutos você mostra os outros pontos e um pouco do que a gente faz e, se fizer sentido pros dois lados, depois disso a gente manda uma proposta. NUNCA venda a conversa como "sem compromisso nenhum" fingindo que não é comercial — a pessoa percebe e a confiança cai. O enquadramento certo: a gente só cresce quando o cliente cresce, por isso mostra o que viu antes de propor qualquer coisa.
+5. CONVITE — chame pra uma conversa de ${meetingMin} minutos, SEM CUSTO, pra mostrar os demais pontos${igScheduling ? " (ofereça 2 horários livres da seção AGENDAMENTO DIRETO — nunca um link)" : assistant.schedulingLink?.trim() ? " (mande o link de agendamento)" : ""}. Conecte com o ponto que você acabou de entregar.
+6. TRANSPARÊNCIA COMERCIAL (obrigatória no convite ou logo depois) — deixe claro, sem rodeio e sem pedir desculpa: somos uma agência; nesses ${meetingMin} minutos você mostra os outros pontos e um pouco do que a gente faz e, se fizer sentido pros dois lados, depois disso a gente manda uma proposta. NUNCA venda a conversa como "sem compromisso nenhum" fingindo que não é comercial — a pessoa percebe e a confiança cai. O enquadramento certo: a gente só cresce quando o cliente cresce, por isso mostra o que viu antes de propor qualquer coisa.
 ${lead ? "" : "\n⚠️ ATENÇÃO: nesta conversa NÃO HÁ achados da equipe. Sem eles não dá pra elogiar algo concreto nem apontar ponto de melhoria sem inventar — e inventar queima a conversa na hora. Não chute: puxe pela conversa (pergunte o que hoje mais trava a presença digital dele) e, se ele pedir a análise, diga com honestidade que o time vai olhar com calma e retorna, com action \"HANDOFF\"."}
 Nunca pule o passo 4: convidar sem ter entregado nada é o pior cenário — vira mais uma mensagem de agência pedindo reunião.
 Nunca entregue tudo (passo 4 com 3, 4 pontos): aí não sobra motivo pra conversa.
@@ -511,7 +665,7 @@ Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "ma
 - As mensagens marcadas [equipe] são NOSSAS (a abordagem de prospecção costuma ser uma delas). Uma pergunta feita ali JÁ FOI FEITA — se o contato respondeu, use a resposta e avance; NUNCA repita a pergunta, nem com outras palavras.
 - Antes de perguntar qualquer coisa, confira no histórico se o contato já disse aquilo. Respostas curtas contam ("os dois", "sim", "pelo Google").
 - Quando o contato manda várias mensagens seguidas (cumprimento + resposta), responda o CONTEÚDO, não só o cumprimento: no máximo um "bom dia" rápido e já siga a partir do que ele respondeu.`,
-    `\n# FORMATO DA RESPOSTA\nResponda SOMENTE com um JSON válido, sem texto fora dele:\n{"reply": ["bolha 1", "bolha 2 (opcional)"], "action": "NONE"}\n- "reply": 1 a 3 bolhas CURTAS; resposta simples = 1 bolha; UMA pergunta no máximo, na última bolha; no máximo 1 emoji no total.\n- "action": "NONE" para continuar conversando; "HANDOFF" quando o contato pedir atendimento humano ou você não souber ajudar (nesse caso "reply" avisa que alguém do time vai assumir).\n- Se não houver nada útil a dizer, responda {"reply": [], "action": "NONE"}.`,
+    `\n# FORMATO DA RESPOSTA\nResponda SOMENTE com um JSON válido, sem texto fora dele:\n{"reply": ["bolha 1", "bolha 2 (opcional)"], "action": "NONE"}\n- "reply": 1 a 3 bolhas CURTAS; resposta simples = 1 bolha; UMA pergunta no máximo, na última bolha; no máximo 1 emoji no total.\n- "action": "NONE" para continuar conversando; "HANDOFF" quando o contato pedir atendimento humano ou você não souber ajudar (nesse caso "reply" avisa que alguém do time vai assumir).${igScheduling ? `\n- "AGENDAR" quando o contato escolher um horário: {"reply": [], "action": "AGENDAR", "agendarInicio": "S1", "agendarEmail": "contato@email.com ou null"} — sem o "agendarInicio" o agendamento NÃO acontece.` : ""}\n- Se não houver nada útil a dizer, responda {"reply": [], "action": "NONE"}.`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -604,9 +758,10 @@ Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "ma
     return skip("contato_escreveu_durante_ia");
   }
 
-  for (const bubble of decision.reply) {
+  // Envio de uma bolha — reaproveitado pelo agendamento.
+  const sendBubble = async (text: string): Promise<boolean> => {
     try {
-      const mid = await sendMessageToUser(conv.participantId, bubble, token);
+      const mid = await sendMessageToUser(conv.participantId, text, token);
       await recordIgMessage({
         companyId: conv.companyId,
         channel: "INSTAGRAM",
@@ -615,12 +770,40 @@ Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "ma
         participantId: conv.participantId,
         direction: "OUT",
         source: "AI",
-        text: bubble,
+        text,
         mid,
       });
+      return true;
     } catch (e: any) {
       console.error(`[IgAgent] envio falhou conv=${conv.id}:`, e?.message);
       recordRun({ conv: conv.id, error: `envio: ${e?.message?.slice(0, 200)}` });
+      return false;
+    }
+  };
+
+  // AGENDAR: quem confirma é o motor (revalida o horário, cria o evento e manda
+  // o Meet). As bolhas do modelo são ignoradas — nessa action ele devolve [].
+  if (decision.action === "AGENDAR") {
+    if (!igScheduling) return skip("agendar_sem_agenda");
+    const lastOut = [...history].reverse().find((m) => m.direction === "OUT");
+    const marcou = await bookIgMeeting({
+      conv: { id: conv.id, companyId: conv.companyId, participantUsername: conv.participantUsername },
+      scheduling: igScheduling,
+      decision,
+      contactText: lastIn.text ?? "",
+      lastOutText: lastOut?.text ?? null,
+      inboundTexts: history.filter((m) => m.direction === "IN").map((m) => m.text ?? ""),
+      lead,
+      send: sendBubble,
+    });
+    recordRun({ conv: conv.id, action: "AGENDAR", agendado: marcou });
+    persistIgResult(conv.id, marcou ? "ok:AGENDAR" : "agendar_nao_concluido");
+    console.log(`[IgAgent] conv=${conv.id} action=AGENDAR agendado=${marcou}`);
+    return;
+  }
+
+  for (const bubble of decision.reply) {
+    if (!(await sendBubble(bubble))) {
       persistIgResult(conv.id, "envio_falhou");
       return;
     }
@@ -639,4 +822,123 @@ Quando o contato aceitar ver o que encontramos ("quero ver", "pode mostrar", "ma
   recordRun({ conv: conv.id, action: decision.action, bubbles: decision.reply.length, follows });
   persistIgResult(conv.id, `ok:${decision.action}${decision.reply.length ? "" : ":sem_envio"}`);
   console.log(`[IgAgent] conv=${conv.id} action=${decision.action} bolhas=${decision.reply.length}`);
+}
+
+const EMAIL_RE = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi;
+
+/**
+ * Confirma a conversa escolhida pelo contato: revalida o horário (nunca marca
+ * em cima de compromisso), cria o evento com Google Meet, manda a confirmação
+ * no Direct e registra no lead. Devolve false quando não deu pra marcar — aí a
+ * própria função já falou com o contato (pedindo o horário ou oferecendo outro).
+ */
+async function bookIgMeeting(args: {
+  conv: { id: string; companyId: string; participantUsername: string | null };
+  scheduling: IgScheduling;
+  decision: AgentDecision;
+  contactText: string;
+  lastOutText: string | null;
+  inboundTexts: string[];
+  lead: { id: string; name: string | null; email: string | null; notes: string | null } | null;
+  send: (text: string) => Promise<boolean>;
+}): Promise<boolean> {
+  const { conv, scheduling, decision, contactText, lastOutText, inboundTexts, lead, send } = args;
+
+  const offered = slotsWeOffered(lastOutText, scheduling.slots);
+  const slot = resolveIgSlot(scheduling.slots, decision.agendarInicio, contactText, offered);
+  // O contato TEM que ter escolhido: precisa ter havido oferta nossa e sinal
+  // dele (citou o horário ou concordou). Sem isso o agente marcaria sozinho —
+  // evento real na agenda que ninguém pediu.
+  const escolheu =
+    offered.length > 0 &&
+    (looksLikeAcceptance(contactText) || scheduling.slots.some((sl) => mentionsSlot(contactText, sl).time));
+
+  if (!slot || !escolheu) {
+    console.warn(`[IgAgent] AGENDAR sem escolha clara conv=${conv.id} (slot=${slot?.label ?? "-"}, oferecidos=${offered.length})`);
+    const opts = pickTwo(offered.length ? offered : scheduling.slots).map(prettySlot);
+    await send(
+      opts.length >= 2
+        ? `Deixa eu confirmar o horário: consigo ${opts[0]} ou ${opts[1]}. Qual fecha pra você?`
+        : opts.length === 1
+          ? `Deixa eu confirmar: consigo ${opts[0]} — fecha pra você?`
+          : "Me diz o dia e o horário que ficam melhores pra você que eu confiro aqui.",
+    );
+    return false;
+  }
+
+  let livre = false;
+  try {
+    livre = await isSlotStillFree(scheduling.connectionId, slot.startISO, scheduling.durationMin);
+  } catch (err: any) {
+    console.error(`[IgAgent] falha ao revalidar horário conv=${conv.id}:`, err?.message);
+  }
+  if (!livre) {
+    let alt = "";
+    try {
+      const frescos = await computeAvailableSlots({
+        companyId: conv.companyId,
+        connectionId: scheduling.connectionId,
+        durationMin: scheduling.durationMin,
+        maxSlots: 8,
+      });
+      const opts = pickTwo(frescos).map(prettySlot);
+      if (opts.length) alt = ` Consigo ${opts.join(" ou ")} — algum desses te atende?`;
+    } catch { /* sem alternativa, vai só o aviso */ }
+    await send(`Poxa, esse horário acabou de ser preenchido aqui 😅${alt}`);
+    return false;
+  }
+
+  // E-mail: o modelo inventa endereço quando não tem um. Só vale o que o
+  // contato digitou no Direct (ou o que já está no cadastro do lead).
+  const digitados = inboundTexts
+    .flatMap((t) => t.match(EMAIL_RE) ?? [])
+    .map((e) => e.toLowerCase())
+    .filter((e) => !PLACEHOLDER_EMAIL_RE.test(e));
+  const doModelo = decision.agendarEmail?.toLowerCase() ?? null;
+  const attendeeEmail =
+    (doModelo && digitados.includes(doModelo) ? doModelo : null) ??
+    digitados[0] ??
+    (lead?.email && !PLACEHOLDER_EMAIL_RE.test(lead.email) ? lead.email : null);
+
+  const quem = lead?.name ?? (conv.participantUsername ? `@${conv.participantUsername}` : "contato do Instagram");
+  let booked;
+  try {
+    booked = await createMeetEvent({
+      connectionId: scheduling.connectionId,
+      startISO: slot.startISO,
+      durationMin: scheduling.durationMin,
+      summary: `Conversa de ${scheduling.durationMin} min — ${quem}`,
+      description: [
+        `Prospect do Instagram${conv.participantUsername ? ` (@${conv.participantUsername})` : ""}.`,
+        attendeeEmail ? `E-mail: ${attendeeEmail}` : null,
+        "Agendado pelo agente de IA do Direct (LeadHub).",
+      ].filter(Boolean).join("\n"),
+      attendeeEmail,
+    });
+  } catch (err: any) {
+    console.error(`[IgAgent] falha ao criar evento conv=${conv.id}:`, err?.message);
+    await send("Tive um probleminha pra confirmar aqui 😅 Vou pedir pro time garantir seu horário, tá?");
+    await prisma.igConversation
+      .update({ where: { id: conv.id }, data: { aiMode: "PAUSED_HUMAN", needsReply: true, aiPausedBy: "AI" } as any })
+      .catch(() => {});
+    return false;
+  }
+
+  await send(`Fechado! Nossa conversa está marcada pra ${prettySlot(booked)} 🎉`);
+  await new Promise((r) => setTimeout(r, BUBBLE_DELAY_MS));
+  await send(
+    booked.meetLink
+      ? `Aqui o link do Google Meet: ${booked.meetLink}${attendeeEmail ? " — o convite também foi pro seu e-mail 😉" : ""}`
+      : "O convite com o link da conversa foi pro seu e-mail 😉",
+  );
+
+  if (lead) {
+    const stamp = `Conversa agendada pelo agente do Direct: ${prettySlot(booked)}${attendeeEmail ? ` · convite pra ${attendeeEmail}` : ""}${booked.meetLink ? `\nMeet: ${booked.meetLink}` : ""}`;
+    await prisma.lead
+      .update({ where: { id: lead.id }, data: { notes: lead.notes ? `${lead.notes}\n\n${stamp}` : stamp } })
+      .catch(() => {/* acessório */});
+  }
+
+  console.log(`[IgAgent] reunião marcada conv=${conv.id} em ${booked.label}`);
+  return true;
 }

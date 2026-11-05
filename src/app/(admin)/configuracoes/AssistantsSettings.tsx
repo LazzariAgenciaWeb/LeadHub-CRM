@@ -899,7 +899,7 @@ export default function AssistantsSettings({
                       </div>
                     )}
                     <p className="text-slate-600 text-[11px] mt-1.5">
-                      Respeita os horários de atendimento da empresa. Sugere 1 horário de manhã + 1 de tarde nos próximos 3 dias úteis (nunca hoje), não confirma horário ocupado, envia o link do Meet no WhatsApp e manda lembrete 1h antes.
+                      Vale no WhatsApp e no Direct do Instagram. Respeita os horários de atendimento da empresa, sugere 1 horário de manhã + 1 de tarde nos próximos 3 dias úteis (nunca hoje), não confirma horário ocupado e envia o link do Meet na própria conversa. O lembrete 1h antes só existe no WhatsApp.
                     </p>
                   </div>
 

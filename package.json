@@ -19,6 +19,7 @@
     "test:business-hours": "tsx scripts/test-business-hours.ts",
     "test:messaging": "tsx scripts/test-messaging-flow.ts",
     "test:followup": "tsx scripts/test-followup.ts",
+    "test:ig-slots": "tsx scripts/test-ig-slots.ts",
     "test:email-scan": "tsx scripts/test-email-scan.ts",
     "test:email-group": "tsx scripts/test-email-group.ts",
     "test:html-sanitize": "tsx scripts/test-html-sanitize.ts",
