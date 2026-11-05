@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Bold, Italic, Heading2, List, ListOrdered, ListChecks, FileText, Pencil, X } from "lucide-react";
 import { MarkdownDoc, toggleCheckLine } from "@/components/MarkdownDoc";
+import { HtmlDoc, looksLikeHtml, htmlCheckProgress, toggleHtmlCheck } from "@/components/HtmlDoc";
 
 /**
  * Detalhamento do projeto: o que foi vendido e o que precisa ser feito.
  *
  * Mora em SetorClickupList.description, como markdown leve (títulos, **negrito**,
- * listas e checklist "- [ ]"). Escrito na Configuração e lido no topo do
+ * listas e checklist "- [ ]") ou HTML colado (tabela, cores, checkbox) — o HTML
+ * passa pela lista branca do HtmlDoc. Escrito na Configuração e lido no topo do
  * projeto — e pelo assistente (ver_detalhamento_projeto), que busca o escopo
  * daqui antes de opinar sobre o projeto.
  */
@@ -23,18 +25,38 @@ export const MD_CLASS =
   "[&_.md-check]:text-indigo-300 [&_.md-done]:line-through [&_.md-done]:text-slate-500 " +
   "[&_strong]:text-white [&_strong]:font-semibold [&_a]:text-indigo-300 [&_a]:underline [&_a]:break-all " +
   "[&_blockquote]:border-l-2 [&_blockquote]:border-indigo-500/40 [&_blockquote]:pl-3 [&_blockquote]:text-slate-400 " +
-  "[&_code]:bg-[#111827] [&_code]:px-1 [&_code]:rounded [&_hr]:border-[#1e2d45]";
+  "[&_code]:bg-[#111827] [&_code]:px-1 [&_code]:rounded [&_hr]:border-[#1e2d45] " +
+  // Extras do HTML colado: tabela, imagem, checkbox, details.
+  "[&_em]:italic [&_i]:italic [&_u]:underline [&_mark]:bg-amber-400/30 [&_mark]:text-amber-100 [&_mark]:rounded [&_mark]:px-0.5 " +
+  "[&_h5]:text-xs [&_h5]:font-semibold [&_h5]:text-slate-300 [&_h6]:text-xs [&_h6]:text-slate-400 " +
+  "[&_table]:w-full [&_table]:border-collapse [&_table]:text-[13px] [&_caption]:text-slate-400 [&_caption]:text-xs [&_caption]:mb-1 " +
+  "[&_th]:border [&_th]:border-[#1e2d45] [&_th]:bg-[#111827] [&_th]:px-2 [&_th]:py-1 [&_th]:text-left [&_th]:text-white [&_th]:font-medium " +
+  "[&_td]:border [&_td]:border-[#1e2d45] [&_td]:px-2 [&_td]:py-1 [&_td]:align-top " +
+  "[&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg [&_pre]:bg-[#111827] [&_pre]:p-3 [&_pre]:rounded-lg [&_pre]:overflow-x-auto " +
+  "[&_li:has(>.md-html-check)]:list-none [&_li:has(>.md-html-check)]:-ml-5 [&_.md-html-check]:mr-1.5 [&_.md-html-check]:accent-indigo-500 [&_.md-html-check]:align-middle " +
+  "[&_details]:border [&_details]:border-[#1e2d45] [&_details]:rounded-lg [&_details]:px-3 [&_details]:py-2 [&_summary]:cursor-pointer [&_summary]:text-white";
 
 const CHECK_RE = /^\s*(?:[-*+]|\d+[.)])\s+\[( |x|X)\]/;
 
 /** Quantos itens de checklist há e quantos estão feitos. */
 function checkProgress(text: string): { total: number; feitos: number } {
+  if (looksLikeHtml(text)) return htmlCheckProgress(text);
   let total = 0, feitos = 0;
   for (const l of text.split("\n")) {
     const m = CHECK_RE.exec(l);
     if (m) { total++; if (m[1] !== " ") feitos++; }
   }
   return { total, feitos };
+}
+
+/**
+ * Mostra o detalhamento formatado: HTML (se o texto tiver tags) ou markdown.
+ * Em ambos os casos o checklist marca direto e salva.
+ */
+function DetalhamentoView({ value, className, onToggle }: { value: string; className: string; onToggle: (next: string) => void }) {
+  return looksLikeHtml(value)
+    ? <HtmlDoc text={value} className={className} onToggleCheck={(i) => onToggle(toggleHtmlCheck(value, i))} />
+    : <MarkdownDoc text={value} breaks className={className} onToggleCheck={(line) => onToggle(toggleCheckLine(value, line))} />;
 }
 
 // Prefixos de linha da barra de ferramentas.
@@ -185,16 +207,16 @@ export function DetalhamentoEditor({
       ) : (
         <div
           className={`px-3 py-2 cursor-text ${tall ? "min-h-[55vh]" : "min-h-[16rem]"}`}
-          onClick={(e) => { if (!(e.target as HTMLElement).closest("a,button")) setTab("escrever"); }}
+          onClick={(e) => { if (!(e.target as HTMLElement).closest("a,button,input,summary")) setTab("escrever"); }}
           title="Clique pra editar"
         >
           {value.trim()
-            ? <MarkdownDoc text={value} breaks className={MD_CLASS} onToggleCheck={(line) => { const next = toggleCheckLine(value, line); onChange(next); onSave(next); }} />
+            ? <DetalhamentoView value={value} className={MD_CLASS} onToggle={(next) => { onChange(next); onSave(next); }} />
             : <p className="text-slate-600 text-sm">Nada escrito ainda — clique pra escrever.</p>}
         </div>
       )}
       <p className="px-3 py-1 border-t border-[#1e2d45] text-[10px] text-slate-600">
-        **negrito** · _itálico_ · ## título · - item · - [ ] a fazer · Enter continua a lista · salva ao sair do campo
+        **negrito** · _itálico_ · ## título · - item · - [ ] a fazer · Enter continua a lista · ou cole HTML (tabela, cores, &lt;input type=&quot;checkbox&quot;&gt;) · salva ao sair do campo
       </p>
     </div>
   );
@@ -281,11 +303,10 @@ export function DetalhamentoModal({
           {editing ? (
             <DetalhamentoEditor value={value} onChange={onChange} onSave={onSave} startEditing tall />
           ) : value.trim() ? (
-            <MarkdownDoc
-              text={value}
-              breaks
-              className={`${MD_CLASS} text-[15px] max-w-3xl`}
-              onToggleCheck={(line) => { const next = toggleCheckLine(value, line); onChange(next); onSave(next); }}
+            <DetalhamentoView
+              value={value}
+              className={`${MD_CLASS} text-[15px] ${looksLikeHtml(value) ? "" : "max-w-3xl"}`}
+              onToggle={(next) => { onChange(next); onSave(next); }}
             />
           ) : (
             <p className="text-slate-500 text-sm">Nada escrito ainda.</p>

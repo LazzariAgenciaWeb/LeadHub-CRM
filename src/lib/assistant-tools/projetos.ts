@@ -16,6 +16,7 @@ import { listImageModels, configuredProviders, isRatio, RATIOS, type Ratio } fro
 import { storageEnabled } from "@/lib/storage/s3";
 import { awardProjectDelivery, syncProjectStatus } from "@/lib/project-vigencia";
 import { DEFAULT_SEGMENTS, normalizeSegment, segmentLabel } from "@/lib/project-segments";
+import { looksLikeHtml, htmlCheckProgress } from "@/components/HtmlDoc";
 
 /**
  * Etapas e tarefas de projeto pelo assistente.
@@ -572,9 +573,7 @@ export const verDetalhamentoProjeto: ToolDef<{ projetoId: string }> = {
     if (!p) return fail("Projeto não encontrado. Use listar_projetos pra conferir o projetoId.");
 
     const texto = (p.description ?? "").trim();
-    const linhas = texto.split("\n");
-    const total  = linhas.filter((l) => /^\s*(?:[-*+]|\d+[.)])\s+\[( |x|X)\]/.test(l)).length;
-    const feitos = linhas.filter((l) => /^\s*(?:[-*+]|\d+[.)])\s+\[(x|X)\]/.test(l)).length;
+    const { total, feitos } = contaChecklist(texto);
     const contratos = p.contracts.map((c) =>
       `${c.label || c.service?.name || "contrato"} (${c.status}${c.isRecurring ? `, recorrente${c.billingCycle ? ` ${c.billingCycle}` : ""}` : ", pontual"})`,
     );
@@ -695,6 +694,7 @@ const STATUS_PROJETO = ["PLANEJAMENTO", "EM_ANDAMENTO", "AGUARDANDO_CLIENTE", "P
 
 /** Quantos itens de checklist o texto tem, e quantos estão marcados. */
 function contaChecklist(texto: string): { total: number; feitos: number } {
+  if (looksLikeHtml(texto)) return htmlCheckProgress(texto);
   const linhas = texto.split("\n");
   return {
     total:  linhas.filter((l) => /^\s*(?:[-*+]|\d+[.)])\s+\[( |x|X)\]/.test(l)).length,
@@ -708,7 +708,7 @@ export const atualizarProjeto: ToolDef<{
 }> = {
   name: "atualizar_projeto",
   description:
-    "ESCREVE o detalhamento do projeto (o que foi vendido e o que deve ser feito) e ajusta tipo, início e prazo. O detalhamento aceita markdown leve: **negrito**, títulos com #, listas com '- ' e checklist com '- [ ] item' / '- [x] item' — é o mesmo texto que a equipe vê no botão Detalhamento e onde marca os itens. Leia com ver_detalhamento_projeto ANTES: quando o projeto já tem texto, é obrigatório dizer o modo (substituir = troca tudo; acrescentar = adiciona no fim), pra não apagar escopo escrito pela equipe. Muda também o status; pôr ENTREGUE marca a data de entrega e dá os pontos da entrega pro time, e projeto que entrega contrato tem o status reconciliado com o Financeiro (a resposta avisa se ele foi corrigido).",
+    "ESCREVE o detalhamento do projeto (o que foi vendido e o que deve ser feito) e ajusta tipo, início e prazo. O detalhamento aceita markdown leve (**negrito**, títulos com #, listas com '- ' e checklist com '- [ ] item' / '- [x] item') OU HTML (tabelas, <strong>, <ul>, cores via style, checklist com <input type=\"checkbox\"> e checked) — não misture os dois no mesmo texto; ao acrescentar, siga o formato que já está lá. É o mesmo texto que a equipe vê no botão Detalhamento e onde marca os itens. Leia com ver_detalhamento_projeto ANTES: quando o projeto já tem texto, é obrigatório dizer o modo (substituir = troca tudo; acrescentar = adiciona no fim), pra não apagar escopo escrito pela equipe. Muda também o status; pôr ENTREGUE marca a data de entrega e dá os pontos da entrega pro time, e projeto que entrega contrato tem o status reconciliado com o Financeiro (a resposta avisa se ele foi corrigido).",
   mutating: true,
   input_schema: {
     type: "object",

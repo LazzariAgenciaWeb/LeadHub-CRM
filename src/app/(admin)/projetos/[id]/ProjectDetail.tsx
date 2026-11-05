@@ -337,9 +337,13 @@ export default function ProjectDetail({
   }
 
 
+  // Excluir fica no fim da Configuração, em dois passos (botão → confirmação na própria caixa).
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   async function deleteProject() {
-    if (!confirm("Excluir o projeto? Os pontos atrelados serão revertidos.")) return;
-    await fetch(`/api/projetos/${project.id}`, { method: "DELETE" });
+    setDeleting(true);
+    const res = await fetch(`/api/projetos/${project.id}`, { method: "DELETE" });
+    if (!res.ok) { setDeleting(false); alert("Não foi possível excluir o projeto."); return; }
     router.push("/projetos");
   }
 
@@ -413,13 +417,6 @@ export default function ProjectDetail({
             <Settings className="w-4 h-4" /> <span className="hidden sm:inline">Configurar</span>
           </button>
         </div>
-        <button
-          onClick={deleteProject}
-          className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400"
-          title="Excluir"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
       </div>
 
       {/* Detalhamento em modal grande (≈75% da tela) */}
@@ -844,6 +841,34 @@ export default function ProjectDetail({
             projectId={project.id}
             members={project.members.map((m) => ({ id: m.user.id, name: m.user.name }))}
           />
+
+          {/* Zona de perigo — no fim de tudo pra não ser clicada sem querer */}
+          <div className="border border-red-500/30 bg-red-500/5 rounded-xl p-5">
+            <span className="text-red-300 text-xs uppercase tracking-wider block">Excluir projeto</span>
+            <p className="text-slate-500 text-[11px] mt-1">Apaga o projeto do LeadHub e reverte os pontos atrelados a ele. Não dá pra desfazer.</p>
+            {!confirmDelete ? (
+              <button
+                onClick={() => setConfirmDelete(true)}
+                className="mt-3 px-3 py-1.5 rounded-lg border border-red-500/40 text-red-300 hover:bg-red-500/10 text-xs flex items-center gap-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" /> Excluir projeto
+              </button>
+            ) : (
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="text-xs text-red-200">Excluir &quot;{project.name}&quot; de vez?</span>
+                <button
+                  onClick={deleteProject}
+                  disabled={deleting}
+                  className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-medium disabled:opacity-50"
+                >
+                  {deleting ? "Excluindo..." : "Sim, excluir"}
+                </button>
+                <button onClick={() => setConfirmDelete(false)} disabled={deleting} className="px-3 py-1.5 text-slate-400 hover:text-white text-xs">
+                  Cancelar
+                </button>
+              </div>
+            )}
+          </div>
             </div>
           </div>
         )}
