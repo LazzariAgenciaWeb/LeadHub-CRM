@@ -110,7 +110,8 @@ const LEARNINGS_PLACEHOLDER = `Correções e orientações que o agente deve seg
 type TabKey = "comportamento" | "regras" | "encaminhamento" | "agenda" | "followup" | "sentinelas" | "instagram";
 
 // ── Follow-up em etapas ──────────────────────────────────────────────────────
-type FollowUpStep = { delayMin: number; text: string };
+// mode "ai": text é a INSTRUÇÃO e a IA escreve a mensagem lendo a conversa.
+type FollowUpStep = { delayMin: number; text: string; mode: "fixed" | "ai" };
 const FOLLOWUP_DELAYS: { min: number; label: string }[] = [
   { min: 10, label: "10 min (teste)" },
   { min: 60, label: "1 hora" },
@@ -129,19 +130,23 @@ function delayOptions(current: number) {
   const label = current % 1440 === 0 ? `${current / 1440} dia(s)` : current % 60 === 0 ? `${current / 60} hora(s)` : `${current} min`;
   return [...FOLLOWUP_DELAYS, { min: current, label }].sort((a, b) => a.min - b.min);
 }
-// Retomada leve → valor/convite → despedida educada. Uma variação por linha.
+// Retomada leve → valor/convite → despedida educada. Instruções pra IA, que
+// escreve cada mensagem lendo a conversa daquele contato.
 const FOLLOWUP_SUGGESTION: FollowUpStep[] = [
   {
     delayMin: 1440,
-    text: "Oi {nome}! Passando pra saber se ficou alguma dúvida do que conversamos 😊\nOi {nome}, tudo bem? Nossa conversa parou por aqui — quer seguir de onde paramos?",
+    mode: "ai",
+    text: "Retome puxando pelo último assunto que o contato trouxe (o que ele perguntou ou contou do negócio). Pergunte de forma leve se ficou alguma dúvida.",
   },
   {
     delayMin: 4320,
-    text: "Oi {nome}! Ainda faz sentido pra você? Se quiser, te explico tudo numa conversa rápida de 15 minutos.\nOi {nome}! Separei um tempinho essa semana pra te ajudar com isso — topa uma conversa rápida?",
+    mode: "ai",
+    text: "Traga um benefício concreto ligado ao que o contato contou da situação dele e convide pra uma conversa rápida de 15 minutos.",
   },
   {
     delayMin: 10080,
-    text: "Oi {nome}, vou parar de te chamar por aqui pra não incomodar. Quando fizer sentido, é só me mandar uma mensagem que a gente retoma 🤝\nOi {nome}! Vou deixar nossa conversa em pausa por enquanto — qualquer coisa, estou por aqui.",
+    mode: "ai",
+    text: "Despedida educada: diga que vai parar de chamar pra não incomodar e que é só responder quando fizer sentido. Sem pressão.",
   },
 ];
 
@@ -277,9 +282,9 @@ export default function AssistantsSettings({
       : [];
     setFuSteps(
       savedSteps.length
-        ? savedSteps.map((x) => ({ delayMin: x.delayMin, text: x.text ?? "" }))
+        ? savedSteps.map((x) => ({ delayMin: x.delayMin, text: x.text ?? "", mode: x.mode === "ai" ? ("ai" as const) : ("fixed" as const) }))
         : (a.revivalDelayMin ?? 0) > 0
-          ? [{ delayMin: a.revivalDelayMin!, text: a.revivalText?.trim() || "Oi {nome}! Passando pra saber se você ainda tem interesse 😊 se quiser seguir de onde paramos, é só me chamar por aqui." }]
+          ? [{ delayMin: a.revivalDelayMin!, mode: "fixed" as const, text: a.revivalText?.trim() || "Oi {nome}! Passando pra saber se você ainda tem interesse 😊 se quiser seguir de onde paramos, é só me chamar por aqui." }]
           : []
     );
     setFuEnabled(a.followUpEnabled === true);
@@ -984,6 +989,19 @@ export default function AssistantsSettings({
                               ))}
                             </select>
                             <span>depois {idx === 0 ? "da nossa última mensagem" : `da etapa ${idx}`}</span>
+                            <span className="inline-flex rounded-lg border border-[#1e2d45] overflow-hidden ml-1">
+                              {(["ai", "fixed"] as const).map((m) => (
+                                <button
+                                  key={m}
+                                  type="button"
+                                  onClick={() => setFuStep(idx, { mode: m })}
+                                  className={`px-2 py-1 text-[10px] ${st.mode === m ? "bg-indigo-500/20 text-indigo-200" : "text-slate-500 hover:text-slate-300"}`}
+                                  title={m === "ai" ? "A IA lê a conversa e escreve a mensagem seguindo sua instrução" : "Manda exatamente o texto escrito"}
+                                >
+                                  {m === "ai" ? "✨ IA escreve" : "✍️ Texto fixo"}
+                                </button>
+                              ))}
+                            </span>
                             <button
                               type="button"
                               onClick={() => setFuSteps((prev) => prev.filter((_, i) => i !== idx))}
@@ -997,7 +1015,11 @@ export default function AssistantsSettings({
                             value={st.text}
                             onChange={(e) => setFuStep(idx, { text: e.target.value })}
                             rows={2}
-                            placeholder={"Oi {nome}! Passando pra saber se ficou alguma dúvida 😊\n(uma variação por linha — o sistema sorteia uma a cada envio)"}
+                            placeholder={
+                              st.mode === "ai"
+                                ? "Instrução pra IA (ela lê a conversa e escreve a mensagem). Ex.: Retome pelo que o contato perguntou e convide pra uma conversa de 15 minutos."
+                                : "Oi {nome}! Passando pra saber se ficou alguma dúvida 😊\n(uma variação por linha — o sistema sorteia uma a cada envio)"
+                            }
                             className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
                           />
                         </div>
@@ -1007,7 +1029,7 @@ export default function AssistantsSettings({
                       {fuSteps.length < 4 && (
                         <button
                           type="button"
-                          onClick={() => setFuSteps((prev) => [...prev, { delayMin: prev.length ? 4320 : 1440, text: "" }])}
+                          onClick={() => setFuSteps((prev) => [...prev, { delayMin: prev.length ? 4320 : 1440, text: "", mode: "ai" }])}
                           className="text-emerald-400 text-xs hover:text-emerald-300"
                         >
                           + Adicionar etapa
@@ -1021,7 +1043,7 @@ export default function AssistantsSettings({
                         }}
                         className="text-indigo-300 text-xs hover:text-indigo-200"
                       >
-                        ✨ Usar sugestão (1, 3 e 7 dias)
+                        ✨ Usar sugestão (IA escreve · 1, 3 e 7 dias)
                       </button>
                     </div>
 
@@ -1074,6 +1096,7 @@ export default function AssistantsSettings({
                           onChange={(e) => setFuReplyIntent(e.target.value)}
                           className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
                         >
+                          <option value="__IA__">✨ A IA continua o atendimento (ex.: pra agendar)</option>
                           <option value="">— devolver pro setor atual da conversa —</option>
                           {fRoutes.filter((r) => r.intent.trim()).map((r) => (
                             <option key={r.intent} value={r.intent.trim().toUpperCase()}>
@@ -1082,6 +1105,7 @@ export default function AssistantsSettings({
                           ))}
                         </select>
                       </div>
+                      {fuReplyIntent !== "__IA__" && (
                       <textarea
                         value={fuReplyText}
                         onChange={(e) => setFuReplyText(e.target.value)}
@@ -1089,8 +1113,11 @@ export default function AssistantsSettings({
                         placeholder={"Aviso pro contato ao voltar (opcional). Ex.: Que bom que voltou, {nome}! 😊 Já chamei o time pra continuar com você.\n(vazio = não manda nada; uma variação por linha)"}
                         className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
                       />
+                      )}
                       <p className="text-slate-600 text-[11px] mt-1.5">
-                        A sequência para na hora e a conversa entra na fila do time com a nota &quot;🔁 Respondeu ao follow-up (etapa N)&quot;. Se a conversa já era de um atendente, ela continua com ele.
+                        {fuReplyIntent === "__IA__"
+                          ? "A sequência para na hora e a própria IA responde, continuando de onde a conversa parou — inclusive oferecendo horários se a agenda estiver conectada. Se a conversa estava com um atendente, a IA reassume."
+                          : "A sequência para na hora e a conversa entra na fila do time com a nota “🔁 Respondeu ao follow-up (etapa N)”. Se a conversa já era de um atendente, ela continua com ele."}
                       </p>
                     </div>
 

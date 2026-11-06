@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v29-agenda-sem-link";
+export const AUTO_AGENT_REV = "v30-followup-ia";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -121,7 +121,9 @@ const REVIVAL_MAX_PER_RUN = 40;
 // dias, 7 dias), cada uma contando da mensagem anterior. A conversa guarda em
 // que etapa está (Conversation.followUpStage); quando o contato responde, a
 // sequência zera e a conversa cai pro time (ver handleFollowUpReply).
-export type FollowUpStep = { delayMin: number; text: string };
+// mode "ai": text é a INSTRUÇÃO e a IA escreve a mensagem lendo a conversa;
+// "fixed" (ou ausente, etapas antigas): text é a mensagem pronta.
+export type FollowUpStep = { delayMin: number; text: string; mode?: "fixed" | "ai" };
 
 const FOLLOWUP_MAX_STEPS = 4;
 // Depois da última etapa, quanto esperar antes de carimbar "sem retorno".
@@ -137,7 +139,11 @@ export function getFollowUpSteps(a: {
     const steps = (a.followUpSteps as any[])
       .filter((x) => x && typeof x.delayMin === "number" && x.delayMin > 0 && typeof x.text === "string" && x.text.trim())
       .slice(0, FOLLOWUP_MAX_STEPS)
-      .map((x) => ({ delayMin: Math.round(x.delayMin), text: String(x.text).trim() }));
+      .map((x) => ({
+        delayMin: Math.round(x.delayMin),
+        text: String(x.text).trim(),
+        mode: x.mode === "ai" ? ("ai" as const) : ("fixed" as const),
+      }));
     if (steps.length) return steps;
   }
   const rd = a.revivalDelayMin ?? 0;
@@ -345,7 +351,44 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
         const word = ((a as any).reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
         const waLink = inst.phone ? `https://wa.me/${inst.phone}?text=${encodeURIComponent(word)}` : null;
         const nome = await getContactFirstName(a.companyId, c.phone).catch(() => null);
-        const text = resolvePlaceholders(pickVariation(steps[decision.stage].text), { word, waLink, nome });
+        const step = steps[decision.stage];
+        let text: string;
+        if (step.mode === "ai") {
+          // A IA lê a conversa e escreve a retomada daquele contato, seguindo a
+          // instrução da etapa. Falhou a IA → tenta de novo na próxima rodada
+          // (nada sai e a etapa não avança).
+          const gen = await generateFollowUpMessage({
+            assistant: a,
+            conversationId: c.id,
+            instruction: step.text,
+            stage: decision.stage + 1,
+            totalSteps: steps.length,
+            nome,
+            silentSinceMs: c.lastMessageAt ? now - new Date(c.lastMessageAt).getTime() : null,
+          });
+          if (gen.kind === "skip") {
+            // A IA viu na conversa que não cabe cobrar (sem interesse, já
+            // resolvido, retorno combinado) → encerra a sequência com nota.
+            await prisma.conversation.update({ where: { id: c.id }, data: { followUpExhaustedAt: new Date() } as any });
+            await prisma.conversationNote.create({
+              data: {
+                conversationId: c.id,
+                authorName: "🤖 Agente IA",
+                type: "SYSTEM",
+                body: `Follow-up interrompido na etapa ${decision.stage + 1}: ${gen.reason}`,
+              },
+            }).catch(() => {});
+            exhausted++;
+            continue;
+          }
+          if (gen.kind === "error") {
+            recordRun({ conv: c.id, followUp: `ia falhou (${gen.reason})` });
+            continue;
+          }
+          text = gen.text;
+        } else {
+          text = resolvePlaceholders(pickVariation(step.text), { word, waLink, nome });
+        }
 
         const ok = await sendBotText(
           {
@@ -358,7 +401,7 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
             conversationId: c.id,
           },
           text,
-          { followUp: true, followUpStage: decision.stage + 1 },
+          { followUp: true, followUpStage: decision.stage + 1, ...(step.mode === "ai" ? { followUpAi: true } : {}) },
         );
         if (ok) {
           await prisma.conversation.update({
@@ -379,6 +422,105 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
   }
   return { checked, sent, exhausted };
 }
+
+/** "3 dias", "5 horas"… pra IA saber há quanto tempo o contato sumiu. */
+function humanizeSilence(ms: number | null): string {
+  if (!ms || ms < 0) return "algum tempo";
+  const h = Math.round(ms / 3_600_000);
+  if (h < 24) return `${Math.max(1, h)} hora(s)`;
+  return `${Math.round(h / 24)} dia(s)`;
+}
+
+/**
+ * Follow-up escrito pela IA: lê a conversa daquele contato e escreve UMA
+ * mensagem de retomada seguindo a instrução da etapa.
+ *
+ * A conversa vai como TRANSCRIÇÃO dentro de uma única mensagem do usuário, não
+ * como turnos de chat: o último turno seria nosso, e modelo chamado com o
+ * último turno "assistant" continua o diálogo escrevendo a fala do outro lado
+ * (já aconteceu no Instagram).
+ */
+async function generateFollowUpMessage(args: {
+  assistant: any;
+  conversationId: string;
+  instruction: string;
+  stage: number;
+  totalSteps: number;
+  nome: string | null;
+  silentSinceMs: number | null;
+}): Promise<{ kind: "ok"; text: string } | { kind: "skip"; reason: string } | { kind: "error"; reason: string }> {
+  const { assistant: a } = args;
+  const conv = await prisma.conversation.findUnique({
+    where: { id: args.conversationId },
+    select: { aiCycleResetAt: true },
+  });
+  const msgs = await prisma.message.findMany({
+    where: {
+      conversationId: args.conversationId,
+      ...(conv?.aiCycleResetAt ? { receivedAt: { gt: conv.aiCycleResetAt } } : {}),
+    },
+    orderBy: { receivedAt: "desc" },
+    take: HISTORY_LIMIT,
+    select: { body: true, direction: true, rawPayload: true },
+  });
+  msgs.reverse();
+  const transcript = msgs
+    .filter((m) => (m.body ?? "").trim())
+    .map((m) => {
+      const raw = m.rawPayload as any;
+      const who = m.direction === "INBOUND"
+        ? "CONTATO"
+        : raw?.followUp
+          ? "NÓS (follow-up)"
+          : raw?.autoAgent
+            ? "NÓS (agente)"
+            : "NÓS (atendente)";
+      return `[${who}] ${(m.body ?? "").trim().slice(0, 600)}`;
+    })
+    .join("\n");
+  if (!transcript) return { kind: "error", reason: "sem_historico" };
+
+  const system = [
+    `Você escreve a mensagem de RETOMADA (follow-up) de uma conversa de WhatsApp da empresa. O contato não responde há ${humanizeSilence(args.silentSinceMs)}. Esta é a etapa ${args.stage} de ${args.totalSteps} do follow-up.`,
+    a.manual?.trim() ? `# SOBRE A EMPRESA (manual do agente — use só como contexto)\n${String(a.manual).trim().slice(0, 4000)}` : "",
+    `# INSTRUÇÃO DESTA ETAPA (siga)\n${args.instruction}`,
+    `# REGRAS
+- UMA mensagem curta (1 a 2 frases), tom humano de WhatsApp, no máximo 1 emoji. Nada de saudação formal nem assinatura.
+- Puxe por algo ESPECÍFICO que o contato disse ou pediu na conversa — nunca uma mensagem genérica que serviria pra qualquer um.
+- As mensagens marcadas "NÓS (follow-up)" já foram enviadas: NÃO repita nem parafraseie; traga outro ângulo.
+- NÃO invente preço, prazo, desconto, case ou informação que não esteja na conversa ou no manual.
+- Sem cobrança nem pressão; não diga que ele "sumiu" ou "não respondeu".
+- ${args.nome ? `O primeiro nome do contato é ${args.nome} — use no máximo uma vez, se soar natural.` : "Não sabemos o nome do contato — não invente um."}
+- Se a conversa mostra que NÃO cabe retomar (o contato disse que não tem interesse, encerrou, já resolveu, ou um atendente já combinou retorno/próximo passo), responda com "skip": true e diga o motivo em "motivo".
+Responda SOMENTE um JSON: {"reply": "a mensagem", "skip": false, "motivo": null}`,
+  ].filter(Boolean).join("\n\n");
+
+  const result = await runAssistant({
+    companyId: a.companyId,
+    endpoint: "auto-agent-followup",
+    messages: [
+      { role: "system", content: system },
+      { role: "user", content: `CONVERSA ATÉ AQUI (da mais antiga pra mais recente):\n${transcript}\n\nEscreva a mensagem de retomada da etapa ${args.stage}.` },
+    ],
+    assistantId: a.id,
+    model: a.model,
+    temperature: a.temperature,
+    maxTokens: 400,
+  });
+  if (!result.ok) return { kind: "error", reason: `ia_${result.code}` };
+  const start = result.text.indexOf("{");
+  const end = result.text.lastIndexOf("}");
+  let obj: any = null;
+  try { obj = start >= 0 && end > start ? JSON.parse(result.text.slice(start, end + 1)) : null; } catch { obj = null; }
+  if (!obj) return { kind: "error", reason: "bad_json" };
+  if (obj.skip === true) return { kind: "skip", reason: typeof obj.motivo === "string" && obj.motivo.trim() ? obj.motivo.trim().slice(0, 200) : "a IA avaliou que não cabia retomar" };
+  const text = typeof obj.reply === "string" ? obj.reply.trim().replace(/^["“]|["”]$/g, "").slice(0, 500) : "";
+  if (!text) return { kind: "error", reason: "resposta_vazia" };
+  return { kind: "ok", text };
+}
+
+/** followUpReplyIntent especial: quem responde volta pra IA, não pra um setor. */
+const FOLLOWUP_REPLY_AI = "__IA__";
 
 /** @deprecated nome antigo — o resgate virou a etapa 1 do follow-up. */
 export const runRevivalSweep = runFollowUpSweep;
@@ -407,11 +549,29 @@ async function handleFollowUpReply(args: {
       conversationId: conv.id,
       authorName: "🤖 Agente IA",
       type: "SYSTEM",
-      body: conv.followUpStage > 0
+      body: (conv.followUpStage > 0
         ? `🔁 Respondeu ao follow-up (etapa ${conv.followUpStage}).`
-        : `🔁 Respondeu depois do follow-up esgotado.`,
+        : `🔁 Respondeu depois do follow-up esgotado.`) +
+        (((assistant.followUpReplyIntent as string | null) ?? "").trim().toUpperCase() === FOLLOWUP_REPLY_AI
+          ? " A IA continua o atendimento."
+          : ""),
     },
   }).catch(() => {});
+
+  // "A IA continua o atendimento": em vez de mandar pra um setor, o próprio
+  // agente retoma a conversa (ex.: pra agendar) — senão o contato responde e
+  // a conversa para na fila do time. Reativa a IA se estava pausada; o
+  // chamador segue o fluxo normal e o agente responde.
+  const intentRaw = (assistant.followUpReplyIntent as string | null)?.trim().toUpperCase() ?? "";
+  if (intentRaw === FOLLOWUP_REPLY_AI) {
+    if (conv.aiMode !== "ACTIVE") {
+      await prisma.conversation.update({
+        where: { id: conv.id },
+        data: { aiMode: "ACTIVE", aiPausedAt: null, aiEngagedAt: new Date() } as any,
+      });
+    }
+    return false;
+  }
 
   // Conversa de ATENDENTE: continua dele. O responsável já recebe push de
   // mensagem nova; sem responsável, avisa o setor.
@@ -434,7 +594,7 @@ async function handleFollowUpReply(args: {
     const word = (assistant.reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
     await sendBotText(sender, resolvePlaceholders(pickVariation(replyText), { word, waLink: null, nome }));
   }
-  const intent = (assistant.followUpReplyIntent as string | null)?.trim().toUpperCase();
+  const intent = intentRaw;
   const route = intent
     ? await prisma.assistantRoute.findFirst({
         where: { assistantId: assistant.id, intent },
@@ -1420,6 +1580,13 @@ async function runAutoAgentCore(
     });
     diag.followUp = "respondeu";
     if (consumed) return { ok: false, skipped: "followup_respondeu_time" };
+    if (((assistant as any).followUpReplyIntent ?? "").trim().toUpperCase() === FOLLOWUP_REPLY_AI) {
+      // A IA reassumiu (handleFollowUpReply já gravou): reflete no objeto local
+      // pra passar pelas travas de gatilho/aiMode logo abaixo e responder agora.
+      conv.aiMode = "ACTIVE";
+      conv.aiEngagedAt = conv.aiEngagedAt ?? new Date();
+      diag.followUp = "respondeu_ia_reassumiu";
+    }
   }
 
   // MODO DE ATIVAÇÃO: no TRIGGER o agente só assume a conversa quando o gatilho
