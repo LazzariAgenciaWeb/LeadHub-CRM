@@ -1099,11 +1099,17 @@ export default function WhatsappManager({
   // Marca o próximo render como "preservar scroll" pra não pular ao prepender mensagens antigas
   const preserveScrollRef = useRef<{ prevHeight: number; prevTop: number } | null>(null);
 
+  // "Grudado no fim": decidido por onde o USUÁRIO deixou o scroll, não por uma
+  // medição na hora do efeito. Enquanto ele está lendo mensagem antiga lá em
+  // cima, nada — nem mensagem nova, nem imagem/áudio que termina de carregar e
+  // muda a altura — tem o direito de puxar a conversa pro fim.
+  const stickToBottomRef = useRef(true);
+
   function scrollToBottom(force = false) {
     const el = messagesContainerRef.current;
     if (!el) return;
-    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 120;
-    if (force || nearBottom) {
+    if (force) stickToBottomRef.current = true;
+    if (force || stickToBottomRef.current) {
       // Scroll direto no container (evita scrollIntoView scrollar o body/page errado)
       el.scrollTop = el.scrollHeight;
     }
@@ -1114,6 +1120,10 @@ export default function WhatsappManager({
     if (!el) return;
     const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
     setShowScrollBtn(distFromBottom > 200);
+    // Saiu do fim = está lendo o histórico. Isso também desarma o "pin" dos
+    // primeiros 700ms da abertura: subir a conversa logo depois de abrir não
+    // pode ser desfeito por um timer.
+    stickToBottomRef.current = distFromBottom < 120;
 
     // Scroll perto do topo (< 100px) e ainda há mensagens antigas → carrega mais
     if (el.scrollTop < 100 && hasMoreMessages && !loadingOlderMessages) {
@@ -1185,7 +1195,10 @@ export default function WhatsappManager({
       // Ao abrir conversa: imagens/áudios carregam DEPOIS do 1º layout e
       // mudam scrollHeight — um único rAF deixava a conversa "quase" no fim.
       // Reaplica o scroll algumas vezes nos ms seguintes pra garantir o fundo.
+      stickToBottomRef.current = true;
       const pin = () => {
+        // Se o usuário já subiu a conversa nesse meio tempo, o pin desiste.
+        if (!stickToBottomRef.current) return;
         const el = messagesContainerRef.current;
         if (el) el.scrollTop = el.scrollHeight;
       };
@@ -4977,7 +4990,7 @@ export default function WhatsappManager({
               {showScrollBtn && (
                 <div className="absolute bottom-[80px] right-6 z-20">
                   <button
-                    onClick={() => { const el = messagesContainerRef.current; if (el) el.scrollTop = el.scrollHeight; }}
+                    onClick={() => scrollToBottom(true)}
                     className="w-9 h-9 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg flex items-center justify-center text-base transition-colors"
                     title="Ir para o final"
                   >

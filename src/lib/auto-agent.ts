@@ -540,6 +540,20 @@ function humanizeSilence(ms: number | null): string {
  * último turno "assistant" continua o diálogo escrevendo a fala do outro lado
  * (já aconteceu no Instagram).
  */
+/**
+ * Texto da mensagem COMO O MODELO DEVE LER.
+ * Áudio chega no histórico como "🎵 Áudio" — placeholder, sem conteúdo. Desde
+ * que passamos a transcrever o áudio recebido, o que o contato DISSE existe:
+ * entregar isso ao agente é a diferença entre responder o pedido dele e
+ * pedir de novo o que ele acabou de falar.
+ */
+function bodyForModel(m: { body: string | null; transcript?: string | null }): string {
+  const body = (m.body ?? "").trim();
+  const t = (m.transcript ?? "").trim();
+  if (!t) return body;
+  return `🎵 Áudio (transcrição): ${t}`;
+}
+
 async function generateFollowUpMessage(args: {
   assistant: any;
   conversationId: string;
@@ -563,11 +577,11 @@ async function generateFollowUpMessage(args: {
     },
     orderBy: { receivedAt: "desc" },
     take: HISTORY_LIMIT,
-    select: { body: true, direction: true, rawPayload: true },
+    select: { body: true, transcript: true, direction: true, rawPayload: true },
   });
   msgs.reverse();
   const transcript = msgs
-    .filter((m) => (m.body ?? "").trim())
+    .filter((m) => bodyForModel(m).trim())
     .map((m) => {
       const raw = m.rawPayload as any;
       const who = m.direction === "INBOUND"
@@ -577,7 +591,7 @@ async function generateFollowUpMessage(args: {
           : raw?.autoAgent
             ? "NÓS (agente)"
             : "NÓS (atendente)";
-      return `[${who}] ${(m.body ?? "").trim().slice(0, 600)}`;
+      return `[${who}] ${bodyForModel(m).slice(0, 600)}`;
     })
     .join("\n");
   if (!transcript) return { kind: "error", reason: "sem_historico" };
@@ -1362,7 +1376,8 @@ ${scheduling ? `- "AGENDAR" → confirmar a reunião escolhida (siga as regras d
 
 # REGRAS DE ENCAMINHAMENTO
 - Ao encaminhar (qualquer action ≠ NONE), o "reply" deve avisar o contato de forma simpática que o time certo vai assumir a conversa. Depois disso você para de responder.
-- Se o contato mandou áudio, imagem ou arquivo (aparece como "🎵 Áudio", "🖼️ Imagem", "📎 ..." no histórico), diga educadamente que por aqui você atende por texto e peça pra escrever.
+- Áudio do contato vem TRANSCRITO, marcado "🎵 Áudio (transcrição): ...". Trate como se ele tivesse escrito aquilo — responda o que foi pedido e NÃO peça de novo o que ele já disse ali.
+- Só quando aparecer "🎵 Áudio" SEM transcrição (ou "🖼️ Imagem", "📎 ...") é que você não tem o conteúdo: aí diga educadamente que por aqui você atende por texto e peça pra escrever.
 
 # FORMATO DA RESPOSTA (obrigatório)
 Responda SOMENTE com um JSON válido, sem texto fora dele, neste formato:
@@ -1758,7 +1773,7 @@ async function runAutoAgentCore(
     orderBy: { receivedAt: "desc" },
     take: HISTORY_LIMIT,
     // participantName só existe em grupo — identifica QUEM falou lá dentro.
-    select: { body: true, direction: true, receivedAt: true, participantName: true },
+    select: { body: true, transcript: true, direction: true, receivedAt: true, participantName: true },
   });
   history.reverse();
 
@@ -1875,12 +1890,12 @@ async function runAutoAgentCore(
             role: "user",
             content:
               m.direction === "INBOUND"
-                ? `${m.participantName?.trim() || "Cliente"}: ${m.body}`
-                : `[NOSSA EQUIPE]: ${m.body}`,
+                ? `${m.participantName?.trim() || "Cliente"}: ${bodyForModel(m)}`
+                : `[NOSSA EQUIPE]: ${bodyForModel(m)}`,
           }
         : {
             role: m.direction === "INBOUND" ? "user" : "assistant",
-            content: m.body,
+            content: bodyForModel(m),
           }
     ),
     // Lembrete FINAL depois do histórico — modelos seguem melhor a última
@@ -2246,9 +2261,36 @@ async function sendBotText(s: BotSender, text: string, meta?: Record<string, unk
       convId = updatedConv.id;
     }
 
+    // UPSERT, não create: o eco do webhook (messages.upsert com fromMe) pode
+    // chegar ANTES desta gravação e criar a linha primeiro — sem sentByAI.
+    // Quando isso acontecia, a resposta do agente aparecia na conversa como
+    // mensagem comum da instância, sem o 🤖, e ninguém sabia que fora a IA.
+    const ownExternalId = await resolveOwnExternalId(externalId, s.companyId);
+    const marca = { autoAgent: true, assistantId: s.assistantId, ...(meta ?? {}) };
+    const existente = await prisma.message.findUnique({
+      where: { externalId: ownExternalId },
+      select: { id: true, rawPayload: true },
+    }).catch(() => null);
+
+    if (existente) {
+      // O eco do webhook (messages.upsert com fromMe) chegou ANTES desta
+      // gravação e criou a linha sem sentByAI — a resposta do agente aparecia
+      // na conversa como mensagem comum da instância, sem o 🤖. Carimba a
+      // autoria PRESERVANDO o rawPayload do eco (é dele que sai a chave usada
+      // pra buscar mídia na Evolution).
+      await prisma.message.update({
+        where: { id: existente.id },
+        data: {
+          sentByAI: true,
+          rawPayload: { ...((existente.rawPayload as any) ?? {}), ...marca } as any,
+        },
+      }).catch(() => {});
+      return true;
+    }
+
     await prisma.message.create({
       data: {
-        externalId: await resolveOwnExternalId(externalId, s.companyId),
+        externalId: ownExternalId,
         body: text,
         direction: "OUTBOUND",
         phone: s.phone,
@@ -2258,8 +2300,15 @@ async function sendBotText(s: BotSender, text: string, meta?: Record<string, unk
         ack: 1,
         sentByAI: true,
         // Marca de origem: mensagem gerada pelo agente autônomo.
-        rawPayload: { autoAgent: true, assistantId: s.assistantId, ...(meta ?? {}) } as any,
+        rawPayload: marca as any,
       },
+    }).catch(async (err: any) => {
+      // Corrida invertida: o eco entrou entre o findUnique e o create.
+      if (err?.code !== "P2002") throw err;
+      await prisma.message.updateMany({
+        where: { externalId: ownExternalId },
+        data: { sentByAI: true },
+      }).catch(() => {});
     });
     return true;
   } catch (err) {
