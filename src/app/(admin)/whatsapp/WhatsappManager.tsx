@@ -287,6 +287,8 @@ interface WaMessage {
   // se tem mídia e busca via /api/whatsapp/messages/[id]/media (browser cacheia).
   hasMedia?: boolean;
   mediaType?: string | null;
+  // Transcrição do áudio — uso interno, nunca volta pro WhatsApp.
+  transcript?: string | null;
 }
 
 const LEAD_STATUS_COLOR: Record<string, string> = {
@@ -647,6 +649,30 @@ export default function WhatsappManager({
       setReplyError("Não consegui apagar a mensagem no WhatsApp");
     } finally {
       setDeletingMsgId(null);
+    }
+  }
+
+  // Transcrever áudio sob demanda (áudio antigo, longo, ou tentativa que
+  // falhou). O recebido novo já chega transcrito pelo webhook.
+  const [transcribingId, setTranscribingId] = useState<string | null>(null);
+
+  async function handleTranscribe(msg: WaMessage) {
+    setTranscribingId(msg.id);
+    setReplyError(null);
+    try {
+      const res = await fetch(`/api/whatsapp/messages/${msg.id}/transcribe`, { method: "POST" });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setConvMessages((prev) =>
+          prev.map((m) => (m.id === msg.id ? { ...m, transcript: d.transcript || "(áudio sem fala reconhecível)" } : m))
+        );
+      } else {
+        setReplyError(d.error ?? "Não consegui transcrever esse áudio");
+      }
+    } catch {
+      setReplyError("Não consegui transcrever esse áudio");
+    } finally {
+      setTranscribingId(null);
     }
   }
 
@@ -5411,9 +5437,33 @@ export default function WhatsappManager({
                               </>
                             ) : msg.hasMedia && msg.mediaType?.startsWith("audio/") ? (
                               /* Player de áudio — preload metadata só (não baixa o áudio inteiro até dar play) */
-                              <audio controls preload="metadata" className="w-full mt-1" style={{ minWidth: 200, maxWidth: 280 }}>
-                                <source src={`/api/whatsapp/messages/${msg.id}/media`} type={msg.mediaType ?? undefined} />
-                              </audio>
+                              <>
+                                <audio controls preload="metadata" className="w-full mt-1" style={{ minWidth: 200, maxWidth: 280 }}>
+                                  <source src={`/api/whatsapp/messages/${msg.id}/media`} type={msg.mediaType ?? undefined} />
+                                </audio>
+                                {/* Transcrição (interna) — texto do áudio logo abaixo do player */}
+                                {msg.transcript ? (
+                                  <div
+                                    className={`mt-1.5 pl-2 border-l-2 ${isOut || isOursInGroup ? "border-indigo-300/40" : "border-slate-500/40"}`}
+                                    title="Transcrição automática — só aparece aqui no GoHub"
+                                  >
+                                    <div className={`text-[9px] font-semibold uppercase tracking-wide mb-0.5 ${isOut || isOursInGroup ? "text-indigo-200/70" : "text-slate-500"}`}>
+                                      📝 Transcrição
+                                    </div>
+                                    <p className={`text-[12px] leading-snug whitespace-pre-wrap break-words ${isOut || isOursInGroup ? "text-indigo-100/90" : "text-slate-300"}`}>
+                                      {msg.transcript}
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <button
+                                    onClick={() => handleTranscribe(msg)}
+                                    disabled={transcribingId === msg.id}
+                                    className={`mt-1 text-[10px] font-semibold underline underline-offset-2 disabled:opacity-60 ${isOut || isOursInGroup ? "text-indigo-200/80 hover:text-white" : "text-slate-500 hover:text-slate-300"}`}
+                                  >
+                                    {transcribingId === msg.id ? "Transcrevendo…" : "📝 Transcrever"}
+                                  </button>
+                                )}
+                              </>
                             ) : (
                               <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
                             )}

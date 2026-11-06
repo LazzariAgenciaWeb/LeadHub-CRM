@@ -644,8 +644,22 @@ async function safeCreateMessage(data: Prisma.MessageUncheckedCreateInput) {
     return prisma.message.create({ data: d });
   };
 
+  // Áudio RECEBIDO → transcrição automática em segundo plano (uso interno).
+  // Solta de propósito: a ingestão da mensagem não espera a OpenAI, e falha
+  // na transcrição nunca pode custar a mensagem.
+  const autoTranscribe = (row: { id: string; companyId: string } | null) => {
+    if (!row) return;
+    if (data.direction !== "INBOUND") return;
+    if (!String(data.mediaType ?? "").startsWith("audio/")) return;
+    void import("./transcribe").then(({ maybeAutoTranscribe }) =>
+      maybeAutoTranscribe(row.id, row.companyId),
+    ).catch(() => {});
+  };
+
   try {
-    return await write(data);
+    const row = await write(data);
+    autoTranscribe(row);
+    return row;
   } catch (e: any) {
     // Mídia em formato inesperado NUNCA pode custar a mensagem inteira: re-tenta
     // sem o blob. A linha ainda registra mediaType (hasMedia na UI) e o binário
@@ -654,7 +668,9 @@ async function safeCreateMessage(data: Prisma.MessageUncheckedCreateInput) {
     if ((data as any).mediaBase64) {
       console.warn(`[safeCreateMessage] falha com mediaBase64 (${e?.message?.slice(0, 120)}) — regravando sem o blob`);
       const { mediaBase64: _drop, ...rest } = data as any;
-      return write(rest);
+      const row = await write(rest);
+      autoTranscribe(row);
+      return row;
     }
     throw e;
   }

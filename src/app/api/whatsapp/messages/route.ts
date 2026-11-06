@@ -90,6 +90,7 @@ export async function GET(req: NextRequest) {
     quotedId:          true,
     quotedBody:        true,
     mediaType:         true, // tipo MIME — UI usa pra decidir entre img/audio/etc.
+    transcript:        true, // texto do áudio (interno) — mostrado abaixo do player
     companyId:         true,
     instanceId:        true,
     campaignId:        true,

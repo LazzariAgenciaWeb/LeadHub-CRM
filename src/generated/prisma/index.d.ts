@@ -47633,6 +47633,8 @@ export namespace Prisma {
     conversationId: string | null
     sentByUserId: string | null
     sentByAI: boolean | null
+    transcript: string | null
+    transcriptAt: Date | null
     deletedAt: Date | null
   }
 
@@ -47659,6 +47661,8 @@ export namespace Prisma {
     conversationId: string | null
     sentByUserId: string | null
     sentByAI: boolean | null
+    transcript: string | null
+    transcriptAt: Date | null
     deletedAt: Date | null
   }
 
@@ -47686,6 +47690,8 @@ export namespace Prisma {
     conversationId: number
     sentByUserId: number
     sentByAI: number
+    transcript: number
+    transcriptAt: number
     deletedAt: number
     reactions: number
     receiptsByUser: number
@@ -47724,6 +47730,8 @@ export namespace Prisma {
     conversationId?: true
     sentByUserId?: true
     sentByAI?: true
+    transcript?: true
+    transcriptAt?: true
     deletedAt?: true
   }
 
@@ -47750,6 +47758,8 @@ export namespace Prisma {
     conversationId?: true
     sentByUserId?: true
     sentByAI?: true
+    transcript?: true
+    transcriptAt?: true
     deletedAt?: true
   }
 
@@ -47777,6 +47787,8 @@ export namespace Prisma {
     conversationId?: true
     sentByUserId?: true
     sentByAI?: true
+    transcript?: true
+    transcriptAt?: true
     deletedAt?: true
     reactions?: true
     receiptsByUser?: true
@@ -47893,6 +47905,8 @@ export namespace Prisma {
     conversationId: string | null
     sentByUserId: string | null
     sentByAI: boolean
+    transcript: string | null
+    transcriptAt: Date | null
     deletedAt: Date | null
     reactions: JsonValue | null
     receiptsByUser: JsonValue | null
@@ -47941,6 +47955,8 @@ export namespace Prisma {
     conversationId?: boolean
     sentByUserId?: boolean
     sentByAI?: boolean
+    transcript?: boolean
+    transcriptAt?: boolean
     deletedAt?: boolean
     reactions?: boolean
     receiptsByUser?: boolean
@@ -47976,6 +47992,8 @@ export namespace Prisma {
     conversationId?: boolean
     sentByUserId?: boolean
     sentByAI?: boolean
+    transcript?: boolean
+    transcriptAt?: boolean
     deletedAt?: boolean
     reactions?: boolean
     receiptsByUser?: boolean
@@ -48011,6 +48029,8 @@ export namespace Prisma {
     conversationId?: boolean
     sentByUserId?: boolean
     sentByAI?: boolean
+    transcript?: boolean
+    transcriptAt?: boolean
     deletedAt?: boolean
     reactions?: boolean
     receiptsByUser?: boolean
@@ -48067,6 +48087,8 @@ export namespace Prisma {
       conversationId: string | null
       sentByUserId: string | null
       sentByAI: boolean
+      transcript: string | null
+      transcriptAt: Date | null
       deletedAt: Date | null
       reactions: Prisma.JsonValue | null
       receiptsByUser: Prisma.JsonValue | null
@@ -48492,6 +48514,8 @@ export namespace Prisma {
     readonly conversationId: FieldRef<"Message", 'String'>
     readonly sentByUserId: FieldRef<"Message", 'String'>
     readonly sentByAI: FieldRef<"Message", 'Boolean'>
+    readonly transcript: FieldRef<"Message", 'String'>
+    readonly transcriptAt: FieldRef<"Message", 'DateTime'>
     readonly deletedAt: FieldRef<"Message", 'DateTime'>
     readonly reactions: FieldRef<"Message", 'Json'>
     readonly receiptsByUser: FieldRef<"Message", 'Json'>
@@ -171817,6 +171841,8 @@ export namespace Prisma {
     conversationId: 'conversationId',
     sentByUserId: 'sentByUserId',
     sentByAI: 'sentByAI',
+    transcript: 'transcript',
+    transcriptAt: 'transcriptAt',
     deletedAt: 'deletedAt',
     reactions: 'reactions',
     receiptsByUser: 'receiptsByUser'
@@ -177845,6 +177871,8 @@ export namespace Prisma {
     conversationId?: StringNullableFilter<"Message"> | string | null
     sentByUserId?: StringNullableFilter<"Message"> | string | null
     sentByAI?: BoolFilter<"Message"> | boolean
+    transcript?: StringNullableFilter<"Message"> | string | null
+    transcriptAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     reactions?: JsonNullableFilter<"Message">
     receiptsByUser?: JsonNullableFilter<"Message">
@@ -177880,6 +177908,8 @@ export namespace Prisma {
     conversationId?: SortOrderInput | SortOrder
     sentByUserId?: SortOrderInput | SortOrder
     sentByAI?: SortOrder
+    transcript?: SortOrderInput | SortOrder
+    transcriptAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     reactions?: SortOrderInput | SortOrder
     receiptsByUser?: SortOrderInput | SortOrder
@@ -177918,6 +177948,8 @@ export namespace Prisma {
     conversationId?: StringNullableFilter<"Message"> | string | null
     sentByUserId?: StringNullableFilter<"Message"> | string | null
     sentByAI?: BoolFilter<"Message"> | boolean
+    transcript?: StringNullableFilter<"Message"> | string | null
+    transcriptAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     reactions?: JsonNullableFilter<"Message">
     receiptsByUser?: JsonNullableFilter<"Message">
@@ -177953,6 +177985,8 @@ export namespace Prisma {
     conversationId?: SortOrderInput | SortOrder
     sentByUserId?: SortOrderInput | SortOrder
     sentByAI?: SortOrder
+    transcript?: SortOrderInput | SortOrder
+    transcriptAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     reactions?: SortOrderInput | SortOrder
     receiptsByUser?: SortOrderInput | SortOrder
@@ -177990,6 +178024,8 @@ export namespace Prisma {
     conversationId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     sentByUserId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     sentByAI?: BoolWithAggregatesFilter<"Message"> | boolean
+    transcript?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    transcriptAt?: DateTimeNullableWithAggregatesFilter<"Message"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Message"> | Date | string | null
     reactions?: JsonNullableWithAggregatesFilter<"Message">
     receiptsByUser?: JsonNullableWithAggregatesFilter<"Message">
@@ -192558,6 +192594,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -192593,6 +192631,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -192616,6 +192656,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -192651,6 +192693,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -192680,6 +192724,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -192703,6 +192749,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -192732,6 +192780,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -208244,6 +208294,8 @@ export namespace Prisma {
     conversationId?: SortOrder
     sentByUserId?: SortOrder
     sentByAI?: SortOrder
+    transcript?: SortOrder
+    transcriptAt?: SortOrder
     deletedAt?: SortOrder
     reactions?: SortOrder
     receiptsByUser?: SortOrder
@@ -208276,6 +208328,8 @@ export namespace Prisma {
     conversationId?: SortOrder
     sentByUserId?: SortOrder
     sentByAI?: SortOrder
+    transcript?: SortOrder
+    transcriptAt?: SortOrder
     deletedAt?: SortOrder
   }
 
@@ -208302,6 +208356,8 @@ export namespace Prisma {
     conversationId?: SortOrder
     sentByUserId?: SortOrder
     sentByAI?: SortOrder
+    transcript?: SortOrder
+    transcriptAt?: SortOrder
     deletedAt?: SortOrder
   }
 
@@ -231374,6 +231430,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -231407,6 +231465,8 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -233365,6 +233425,8 @@ export namespace Prisma {
     conversationId?: StringNullableFilter<"Message"> | string | null
     sentByUserId?: StringNullableFilter<"Message"> | string | null
     sentByAI?: BoolFilter<"Message"> | boolean
+    transcript?: StringNullableFilter<"Message"> | string | null
+    transcriptAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     reactions?: JsonNullableFilter<"Message">
     receiptsByUser?: JsonNullableFilter<"Message">
@@ -238700,6 +238762,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -238733,6 +238797,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -245229,6 +245295,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -245262,6 +245330,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -247336,6 +247406,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -247369,6 +247441,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -255087,6 +255161,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -255120,6 +255196,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -258575,6 +258653,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -258608,6 +258688,8 @@ export namespace Prisma {
     leadId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -325589,6 +325671,8 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -326624,6 +326708,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -326657,6 +326743,8 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -326685,6 +326773,8 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -328513,6 +328603,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -331175,6 +331267,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -331208,6 +331302,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -331236,6 +331332,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -334276,6 +334374,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -334484,6 +334584,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -334517,6 +334619,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -334545,6 +334649,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -334930,6 +335036,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -335177,6 +335285,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -335210,6 +335320,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -335238,6 +335350,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -335662,6 +335776,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -335783,6 +335899,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -335816,6 +335934,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -335844,6 +335964,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -336178,6 +336300,8 @@ export namespace Prisma {
     leadId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    transcript?: string | null
+    transcriptAt?: Date | string | null
     deletedAt?: Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -336269,6 +336393,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -336302,6 +336428,8 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue
@@ -336330,6 +336458,8 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reactions?: NullableJsonNullValueInput | InputJsonValue
     receiptsByUser?: NullableJsonNullValueInput | InputJsonValue

@@ -1154,6 +1154,13 @@ model Message {
   // diferente. (Antes só dava pra saber via rawPayload.autoAgent, que é pesado.)
   sentByAI Boolean @default(false)
 
+  // Transcrição do áudio (uso INTERNO — nunca volta pro WhatsApp). Preenchida
+  // automaticamente no áudio recebido e sob demanda pelo botão da conversa.
+  // transcriptAt marca a TENTATIVA: com data e transcript null, já tentamos e
+  // não deu — não fica repetindo chamada paga em loop.
+  transcript   String?   @db.Text
+  transcriptAt DateTime?
+
   // Apagada no WhatsApp (revoke/protocolMessage). MANTEMOS o conteúdo — valor
   // pro atendimento — e a UI mostra o aviso "apagada pelo remetente".
   deletedAt DateTime?
