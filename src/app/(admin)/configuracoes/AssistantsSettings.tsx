@@ -1026,7 +1026,7 @@ export default function AssistantsSettings({
                       ))}
                     </div>
                     <div className="flex items-center gap-4 mt-2">
-                      {fuSteps.length < 4 && (
+                      {fuSteps.length < 10 && (
                         <button
                           type="button"
                           onClick={() => setFuSteps((prev) => [...prev, { delayMin: prev.length ? 4320 : 1440, text: "", mode: "ai" }])}

@@ -4054,7 +4054,7 @@ model Assistant {
   revivalDelayMin Int     @default(0)
   revivalText     String? @db.Text
 
-  // FOLLOW-UP EM ETAPAS (sucessor do resgate): [{ delayMin, text }], até 4.
+  // FOLLOW-UP EM ETAPAS (sucessor do resgate): [{ delayMin, text, mode }], até 10.
   // delayMin conta da mensagem ANTERIOR (etapa 1 = da nossa última fala).
   // Vazio + revivalDelayMin > 0 = o resgate antigo vira a etapa 1.
   followUpSteps        Json?

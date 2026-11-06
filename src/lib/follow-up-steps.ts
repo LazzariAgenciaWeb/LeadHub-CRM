@@ -8,9 +8,9 @@ export type FollowUpStepInput = { delayMin: number; text: string; mode: "fixed" 
 
 export const FOLLOWUP_MIN_DELAY_MIN = 10; // "10 min (teste)"
 export const FOLLOWUP_MAX_DELAY_MIN = 14 * 24 * 60; // 14 dias
-export const FOLLOWUP_MAX_STEPS = 4;
+export const FOLLOWUP_MAX_STEPS = 10;
 
-/** Até 4 etapas, atraso entre 10 min e 14 dias, texto obrigatório; o resto é descartado. */
+/** Até 10 etapas, atraso entre 10 min e 14 dias, texto obrigatório; o resto é descartado. */
 export function sanitizeFollowUpSteps(raw: unknown): FollowUpStepInput[] | null {
   if (!Array.isArray(raw)) return null;
   const steps = raw

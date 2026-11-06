@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v30-followup-ia";
+export const AUTO_AGENT_REV = "v31-followup-10-etapas";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -117,7 +117,7 @@ const REVIVAL_MAX_PER_RUN = 40;
  * /api/cron/agent-revival. Nunca lança — devolve o que fez pra telemetria.
  */
 // ── Follow-up em etapas ──────────────────────────────────────────────────────
-// Sucessor do resgate: em vez de UMA mensagem, até 4 etapas (ex.: 1 dia, 3
+// Sucessor do resgate: em vez de UMA mensagem, até 10 etapas (ex.: 1 dia, 3
 // dias, 7 dias), cada uma contando da mensagem anterior. A conversa guarda em
 // que etapa está (Conversation.followUpStage); quando o contato responde, a
 // sequência zera e a conversa cai pro time (ver handleFollowUpReply).
@@ -125,7 +125,7 @@ const REVIVAL_MAX_PER_RUN = 40;
 // "fixed" (ou ausente, etapas antigas): text é a mensagem pronta.
 export type FollowUpStep = { delayMin: number; text: string; mode?: "fixed" | "ai" };
 
-const FOLLOWUP_MAX_STEPS = 4;
+const FOLLOWUP_MAX_STEPS = 10;
 // Depois da última etapa, quanto esperar antes de carimbar "sem retorno".
 const FOLLOWUP_EXHAUST_AFTER_MS = 48 * 60 * 60_000;
 
