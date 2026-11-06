@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v31-followup-10-etapas";
+export const AUTO_AGENT_REV = "v32-followup-sabe-quando-parar";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -176,6 +176,10 @@ export function nextFollowUpStep(args: {
   scopes?: { trigger: boolean; requested: boolean };
   /** Quando o follow-up foi ligado; conversa parada antes disso não entra. */
   armedAt?: Date | null;
+  /** A última fala do CONTATO foi encerramento ("certo, obrigada", "ok 👍"). */
+  lastInboundTerminal?: boolean;
+  /** Já tem reunião marcada (lembrete do agente) ou link de sala de reunião enviado. */
+  meetingArranged?: boolean;
   now: number;
 }): FollowUpDecision {
   const { steps, lastMsg, now } = args;
@@ -205,6 +209,14 @@ export function nextFollowUpStep(args: {
     return { kind: "skip", reason: "fora_do_escopo" };
   }
   if (!args.lastMessageAt) return { kind: "skip", reason: "sem_data" };
+  // Reunião marcada = o próximo passo já existe; cobrar "alguma dúvida? bora
+  // marcar?" é ruído (caso real: a etapa convidou pra marcar quem já tinha o
+  // link do Meet). O pedido manual do atendente passa por cima.
+  if (args.meetingArranged && !viaPedido) return { kind: "skip", reason: "reuniao_marcada" };
+  // Conversa que terminou em despedida ("certo, obrigada" → "por nada, ótimo
+  // dia") não é abandono: não abre sequência nova. Sequência já em andamento
+  // segue — ali o contato sumiu antes de encerrar.
+  if (stage === 0 && args.lastInboundTerminal && !viaPedido) return { kind: "skip", reason: "conversa_encerrada" };
 
   // Pedido manual mais novo que a última fala: a etapa 1 conta do PEDIDO
   // (senão uma conversa parada há dias dispararia na hora em que foi marcada).
@@ -317,7 +329,15 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
           orderBy: { receivedAt: "desc" },
           select: { direction: true, rawPayload: true },
         });
+        const lastIn = await prisma.message.findFirst({
+          where: { conversationId: c.id, direction: "INBOUND" },
+          orderBy: { receivedAt: "desc" },
+          select: { body: true },
+        });
+        const meetingArranged = await hasMeetingArranged(a.companyId, c.id, c.phone);
         const decision = nextFollowUpStep({
+          lastInboundTerminal: !!lastIn && isTerminalMessage(lastIn.body ?? ""),
+          meetingArranged,
           stage: c.followUpStage ?? 0,
           exhaustedAt: c.followUpExhaustedAt ?? null,
           lastMessageAt: c.lastMessageAt ?? null,
@@ -387,6 +407,32 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
           }
           text = gen.text;
         } else {
+          // Texto fixo sai sem olhar a conversa — então a IA confere antes se
+          // cabe retomar (reunião combinada, assunto resolvido, sem interesse).
+          // Sem resposta da IA, envia: as travas mecânicas já filtraram o grosso.
+          const judge = await generateFollowUpMessage({
+            assistant: a,
+            conversationId: c.id,
+            instruction: "",
+            stage: decision.stage + 1,
+            totalSteps: steps.length,
+            nome,
+            silentSinceMs: c.lastMessageAt ? now - new Date(c.lastMessageAt).getTime() : null,
+            judgeOnly: true,
+          });
+          if (judge.kind === "skip") {
+            await prisma.conversation.update({ where: { id: c.id }, data: { followUpExhaustedAt: new Date() } as any });
+            await prisma.conversationNote.create({
+              data: {
+                conversationId: c.id,
+                authorName: "🤖 Agente IA",
+                type: "SYSTEM",
+                body: `Follow-up interrompido na etapa ${decision.stage + 1}: ${judge.reason}`,
+              },
+            }).catch(() => {});
+            exhausted++;
+            continue;
+          }
           text = resolvePlaceholders(pickVariation(step.text), { word, waLink, nome });
         }
 
@@ -423,6 +469,41 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
   return { checked, sent, exhausted };
 }
 
+// Quando NÃO cobrar — mesmo critério pra IA que escreve e pra que só avalia.
+const NAO_CABE_RETOMAR =
+  "já tem REUNIÃO MARCADA ou foi enviado link de reunião/convite com dia e horário; o contato disse que não tem interesse; a conversa terminou num encerramento natural (agradecimento + despedida) sem pendência dele; o assunto foi resolvido; ou um atendente combinou retorno/próximo passo. Na dúvida entre retomar e incomodar, NÃO retome.";
+
+// Link de SALA de reunião (não de página de agendamento): se foi enviado, a
+// reunião já está combinada.
+const MEETING_ROOM_LINK_RE = /meet\.google\.com\/[a-z]|zoom\.us\/j\/|teams\.microsoft\.com\/l\/meetup|teams\.live\.com\/meet/i;
+
+/**
+ * Reunião já combinada com o contato: lembrete de reunião agendado pelo agente
+ * (futuro ou dos últimos 3 dias) ou link de sala de reunião enviado por nós nos
+ * últimos 14 dias — inclusive à mão pelo atendente.
+ */
+async function hasMeetingArranged(companyId: string, conversationId: string, phone: string): Promise<boolean> {
+  const now = Date.now();
+  const reminder = await prisma.scheduledMessage.findFirst({
+    where: {
+      companyId,
+      phone,
+      kind: "meeting_reminder",
+      status: { not: "CANCELED" },
+      sendAt: { gte: new Date(now - 3 * 24 * 60 * 60_000) },
+    },
+    select: { id: true },
+  });
+  if (reminder) return true;
+  const recentOut = await prisma.message.findMany({
+    where: { conversationId, direction: "OUTBOUND", receivedAt: { gte: new Date(now - 14 * 24 * 60 * 60_000) } },
+    select: { body: true },
+    orderBy: { receivedAt: "desc" },
+    take: 40,
+  });
+  return recentOut.some((m) => MEETING_ROOM_LINK_RE.test(m.body ?? ""));
+}
+
 /** "3 dias", "5 horas"… pra IA saber há quanto tempo o contato sumiu. */
 function humanizeSilence(ms: number | null): string {
   if (!ms || ms < 0) return "algum tempo";
@@ -448,6 +529,8 @@ async function generateFollowUpMessage(args: {
   totalSteps: number;
   nome: string | null;
   silentSinceMs: number | null;
+  /** Só decide se cabe retomar (etapa de texto fixo) — não escreve mensagem. */
+  judgeOnly?: boolean;
 }): Promise<{ kind: "ok"; text: string } | { kind: "skip"; reason: string } | { kind: "error"; reason: string }> {
   const { assistant: a } = args;
   const conv = await prisma.conversation.findUnique({
@@ -491,16 +574,23 @@ async function generateFollowUpMessage(args: {
 - NÃO invente preço, prazo, desconto, case ou informação que não esteja na conversa ou no manual.
 - Sem cobrança nem pressão; não diga que ele "sumiu" ou "não respondeu".
 - ${args.nome ? `O primeiro nome do contato é ${args.nome} — use no máximo uma vez, se soar natural.` : "Não sabemos o nome do contato — não invente um."}
-- Se a conversa mostra que NÃO cabe retomar (o contato disse que não tem interesse, encerrou, já resolveu, ou um atendente já combinou retorno/próximo passo), responda com "skip": true e diga o motivo em "motivo".
+- NÃO CABE RETOMAR (responda "skip": true com o motivo em "motivo") quando a conversa mostra que: ${NAO_CABE_RETOMAR}
 Responda SOMENTE um JSON: {"reply": "a mensagem", "skip": false, "motivo": null}`,
   ].filter(Boolean).join("\n\n");
+  const judgeSystem = `Você avalia se cabe mandar uma mensagem de RETOMADA (follow-up) numa conversa de WhatsApp da empresa. O contato não responde há ${humanizeSilence(args.silentSinceMs)}.
+NÃO CABE RETOMAR quando a conversa mostra que: ${NAO_CABE_RETOMAR}
+CABE RETOMAR quando ficou algo em aberto do lado do contato (pergunta sem resposta dele, proposta/orçamento sem retorno, escolha de horário pendente, conversa interrompida no meio).
+Responda SOMENTE um JSON: {"retomar": true ou false, "motivo": "frase curta"}`;
 
   const result = await runAssistant({
     companyId: a.companyId,
     endpoint: "auto-agent-followup",
     messages: [
-      { role: "system", content: system },
-      { role: "user", content: `CONVERSA ATÉ AQUI (da mais antiga pra mais recente):\n${transcript}\n\nEscreva a mensagem de retomada da etapa ${args.stage}.` },
+      { role: "system", content: args.judgeOnly ? judgeSystem : system },
+      {
+        role: "user",
+        content: `CONVERSA ATÉ AQUI (da mais antiga pra mais recente):\n${transcript}\n\n${args.judgeOnly ? "Cabe retomar agora?" : `Escreva a mensagem de retomada da etapa ${args.stage}.`}`,
+      },
     ],
     assistantId: a.id,
     model: a.model,
@@ -513,6 +603,11 @@ Responda SOMENTE um JSON: {"reply": "a mensagem", "skip": false, "motivo": null}
   let obj: any = null;
   try { obj = start >= 0 && end > start ? JSON.parse(result.text.slice(start, end + 1)) : null; } catch { obj = null; }
   if (!obj) return { kind: "error", reason: "bad_json" };
+  if (args.judgeOnly) {
+    return obj.retomar === false
+      ? { kind: "skip", reason: typeof obj.motivo === "string" && obj.motivo.trim() ? obj.motivo.trim().slice(0, 200) : "a IA avaliou que não cabia retomar" }
+      : { kind: "ok", text: "" };
+  }
   if (obj.skip === true) return { kind: "skip", reason: typeof obj.motivo === "string" && obj.motivo.trim() ? obj.motivo.trim().slice(0, 200) : "a IA avaliou que não cabia retomar" };
   const text = typeof obj.reply === "string" ? obj.reply.trim().replace(/^["“]|["”]$/g, "").slice(0, 500) : "";
   if (!text) return { kind: "error", reason: "resposta_vazia" };
