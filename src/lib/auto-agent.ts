@@ -34,7 +34,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v32-followup-sabe-quando-parar";
+export const AUTO_AGENT_REV = "v33-followup-encerra-com-reuniao";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -352,6 +352,25 @@ export async function runFollowUpSweep(): Promise<{ checked: number; sent: numbe
           armedAt: a.followUpArmedAt ?? null,
           now,
         });
+
+        // Sequência em andamento que esbarrou em reunião marcada: o próximo
+        // passo já existe — encerra a sequência (o selo "Follow-up N" some)
+        // em vez de deixá-la parada pra sempre.
+        if (decision.kind === "skip" && decision.reason === "reuniao_marcada" && (c.followUpStage ?? 0) > 0) {
+          await prisma.conversation.update({
+            where: { id: c.id },
+            data: { followUpStage: 0, followUpLastAt: null } as any,
+          });
+          await prisma.conversationNote.create({
+            data: {
+              conversationId: c.id,
+              authorName: "🤖 Agente IA",
+              type: "SYSTEM",
+              body: "Follow-up encerrado: já tem reunião marcada com o contato.",
+            },
+          }).catch(() => {});
+          continue;
+        }
 
         if (decision.kind === "exhaust") {
           await prisma.conversation.update({ where: { id: c.id }, data: { followUpExhaustedAt: new Date() } as any });
