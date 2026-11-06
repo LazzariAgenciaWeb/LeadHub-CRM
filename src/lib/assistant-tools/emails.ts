@@ -11,8 +11,10 @@ import { type ToolDef, type ToolContext, ok, fail, appUrl, fmtDateTime, parseDat
  * vínculo a lead e chamado. Estas ferramentas abrem esse acervo pro assistente
  * buscar informação na hora de montar proposta, briefing, chamado ou resposta.
  *
- * Nada aqui escreve, responde ou apaga: mandar email em nome da agência é
- * irreversível e sai pro cliente — isso fica fora, de propósito.
+ * Escreve só RASCUNHO. Nada aqui dispara email: o rascunho cai na gaveta
+ * "Rascunhos" do dono (EmailDraft é pessoal, por userId), que confere na tela
+ * e aperta enviar. Mandar email em nome da agência é irreversível e sai pro
+ * cliente — essa última tecla continua sendo de gente.
  *
  * A restrição por caixa é respeitada: usuário de setor só enxerga as contas
  * liberadas pra ele (SetorEmailAccount), igual à tela.
@@ -197,7 +199,7 @@ export const listarEmails: ToolDef<{
         "Pro texto inteiro e os anexos: ler_email com o id.",
         AVISO_CONTEUDO,
       ].join("\n"),
-      { data: { emails }, link: appUrl("/email") },
+      { data: { emails }, link: appUrl("/emails") },
     );
   },
 };
@@ -280,9 +282,134 @@ export const lerEmail: ToolDef<{ emailId: string; incluirConversa?: boolean }> =
 
     return ok(partes.join("\n"), {
       data: { email: { ...e, textoLimpo: corpo }, conversa: outros },
-      link: appUrl("/email"),
+      link: appUrl("/emails"),
     });
   },
 };
 
-export const emailsTools: ToolDef[] = [listarEmails, lerEmail];
+export const criarRascunhoEmail: ToolDef<{
+  texto: string; para?: string; assunto?: string; cc?: string; cco?: string;
+  responderA?: string; contaId?: string; rascunhoId?: string;
+}> = {
+  name: "criar_rascunho_email",
+  description:
+    "Deixa um email ESCRITO E PRONTO na gaveta Rascunhos, pro usuário conferir na tela e enviar. NÃO ENVIA NADA — nunca diga que o email foi enviado, diga que o rascunho está esperando conferência. Com responderA (id de um email), já preenche destinatário, assunto 'Re: …' e a conta certa a partir do email original; sem ele, informe `para`. Use depois de ler_email, pra responder com o que foi combinado em mãos. Passe rascunhoId pra reescrever um rascunho que você mesmo deixou, em vez de criar outro.",
+  mutating: true,
+  input_schema: {
+    type: "object",
+    properties: {
+      texto:      { type: "string", description: "Corpo do email, em texto. Escreva pronto pra enviar, assinado como a empresa." },
+      para:       { type: "string", description: "Destinatário(s), separados por vírgula. Dispensável quando vem responderA." },
+      assunto:    { type: "string", description: "Assunto. Com responderA, o padrão é 'Re: <assunto original>'." },
+      cc:         { type: "string", description: "Cópia, separados por vírgula." },
+      cco:        { type: "string", description: "Cópia oculta, separados por vírgula." },
+      responderA: { type: "string", description: "Id do email que está sendo respondido (listar_emails / ler_email)." },
+      contaId:    { type: "string", description: "Conta remetente. Default: a do email respondido, ou a única ativa da empresa." },
+      rascunhoId: { type: "string", description: "Id de um rascunho seu, pra sobrescrever em vez de criar outro." },
+    },
+    required: ["texto"],
+  },
+  run: async (input, ctx) => {
+    const corpo = (input.texto ?? "").trim();
+    if (!corpo) return fail("O rascunho precisa de texto — escreva o corpo do email.");
+
+    const contas = await contasPermitidas(ctx);
+    if (contas && contas.length === 0) {
+      return fail("Seu usuário não tem nenhuma caixa de email liberada. Peça pro ADMIN vincular uma conta ao seu setor.");
+    }
+
+    // Respondendo: puxa destinatário, assunto e conta do email original.
+    let original: {
+      id: string; fromEmail: string; fromName: string | null; subject: string; accountId: string | null;
+    } | null = null;
+    if (input.responderA) {
+      original = await prisma.inboxEmail.findFirst({
+        where: {
+          id: input.responderA, companyId: ctx.companyId,
+          ...(contas ? { accountId: { in: contas } } : {}),
+        },
+        select: { id: true, fromEmail: true, fromName: true, subject: true, accountId: true },
+      });
+      if (!original) return fail(`Email ${input.responderA} não encontrado (ou é de uma caixa que você não pode ler). Use listar_emails pra pegar o id.`);
+    }
+
+    const para = (input.para ?? "").trim() || (original ? original.fromEmail : "");
+    if (!para) return fail("Informe `para` (destinatário) ou `responderA` (o email que está sendo respondido).");
+
+    const assuntoOriginal = original?.subject?.trim() ?? "";
+    const assunto =
+      (input.assunto ?? "").trim() ||
+      (assuntoOriginal ? (/^re:/i.test(assuntoOriginal) ? assuntoOriginal : `Re: ${assuntoOriginal}`) : "");
+
+    // Conta remetente: a escolhida, a do email respondido, ou a única ativa.
+    const ativas = await prisma.emailAccount.findMany({
+      where: { companyId: ctx.companyId, active: true, ...(contas ? { id: { in: contas } } : {}) },
+      select: { id: true, label: true, fromEmail: true },
+    });
+    let contaId: string | null = null;
+    if (input.contaId) {
+      const escolhida = ativas.find((a) => a.id === input.contaId);
+      if (!escolhida) {
+        return fail(
+          `Conta ${input.contaId} não existe, está desligada ou não é sua. Ativas: ${ativas.map((a) => `${a.label ?? a.fromEmail} (id=${a.id})`).join("; ") || "nenhuma"}.`,
+        );
+      }
+      contaId = escolhida.id;
+    } else {
+      contaId = original?.accountId ?? (ativas.length === 1 ? ativas[0].id : null);
+    }
+
+    const dados = {
+      accountId: contaId,
+      replyToId: original?.id ?? null,
+      toEmail:   para.slice(0, 2000),
+      ccEmail:   (input.cc ?? "").trim().slice(0, 2000),
+      bccEmail:  (input.cco ?? "").trim().slice(0, 2000),
+      subject:   assunto.slice(0, 500),
+      textBody:  corpo.slice(0, 200_000),
+    };
+
+    let rascunhoId: string;
+    if (input.rascunhoId) {
+      // Rascunho é pessoal: o dono entra no where, então id de outra pessoa não atualiza nada.
+      const r = await prisma.emailDraft.updateMany({
+        where: { id: input.rascunhoId, companyId: ctx.companyId, userId: ctx.userId },
+        data:  dados,
+      });
+      if (r.count === 0) return fail(`Rascunho ${input.rascunhoId} não encontrado entre os seus. Chame sem rascunhoId pra criar um novo.`);
+      rascunhoId = input.rascunhoId;
+    } else {
+      const novo = await prisma.emailDraft.create({
+        data:   { ...dados, companyId: ctx.companyId, userId: ctx.userId },
+        select: { id: true },
+      });
+      rascunhoId = novo.id;
+    }
+
+    const conta = ativas.find((a) => a.id === contaId);
+    const avisos: string[] = [];
+    if (!conta) {
+      avisos.push(
+        ativas.length === 0
+          ? "Nenhuma conta de envio ativa — a tela vai pedir uma antes de enviar."
+          : `Conta remetente não definida; na tela escolha entre: ${ativas.map((a) => a.label ?? a.fromEmail).join(", ")}.`,
+      );
+    }
+
+    return ok(
+      [
+        `Rascunho ${input.rascunhoId ? "atualizado" : "criado"} — NÃO foi enviado.`,
+        `Para: ${dados.toEmail}${dados.ccEmail ? ` · Cc: ${dados.ccEmail}` : ""}${dados.bccEmail ? ` · Cco: ${dados.bccEmail}` : ""}`,
+        `Assunto: ${dados.subject || "(sem assunto)"}`,
+        conta ? `Sai por: ${conta.label ?? conta.fromEmail}` : null,
+        original ? `Respondendo "${texto(original.subject, 80)}" de ${remetente(original)}.` : null,
+        ...avisos,
+        `Está em Rascunhos, na coluna da esquerda do Email — confira e envie por lá: ${appUrl("/emails")}`,
+        `id do rascunho: ${rascunhoId}`,
+      ].filter(Boolean).join("\n"),
+      { data: { rascunhoId, ...dados, enviado: false }, link: appUrl("/emails") },
+    );
+  },
+};
+
+export const emailsTools: ToolDef[] = [listarEmails, lerEmail, criarRascunhoEmail];
