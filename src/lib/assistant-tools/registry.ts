@@ -9,6 +9,7 @@ import { avisarNoWhatsapp } from "./avisos";
 import { leadsTools } from "./leads";
 import { gruposTools } from "./grupos";
 import { projetosTools } from "./projetos";
+import { emailsTools } from "./emails";
 
 export type { ToolDef, ToolContext, ToolResult, ToolChannel } from "./types";
 export { buildFilaDoDia, formatFila, type FilaDoDia, type FilaItem } from "./fila";
@@ -19,6 +20,7 @@ export const ALL_TOOLS: ToolDef[] = [
   ...consultaTools,
   ...gruposTools,
   ...projetosTools,
+  ...emailsTools,
   ...notasTools,
   ...criarTools,
   ...leadsTools,
