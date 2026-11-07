@@ -78,7 +78,7 @@ export async function getOwnerSummary(companyId: string, pageId: string, { asAdm
     prisma.bioSubmission.findMany({
       where: { pageId, createdAt: { gte: since } },
       orderBy: { createdAt: "asc" },
-      select: { id: true, name: true, phone: true, createdAt: true, answers: detailed },
+      select: { id: true, name: true, phone: true, email: detailed, createdAt: true, answers: detailed },
     }),
     detailed ? partialAnswers(pageId, since) : Promise.resolve([]),
   ]);
@@ -103,6 +103,8 @@ export async function getOwnerSummary(companyId: string, pageId: string, { asAdm
         id: c.id,
         name: c.name,
         phone: c.phone,
+        // E-mail vai junto do detalhe (plano pago ou admin); grátis vê nome e telefone.
+        email: detailed ? (c.email ?? null) : null,
         createdAt: c.createdAt.toISOString(),
         answers: detailed ? (c.answers as { question: string; answer: string }[]) : null,
       })),
