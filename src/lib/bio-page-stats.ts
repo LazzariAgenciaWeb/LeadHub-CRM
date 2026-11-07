@@ -78,7 +78,7 @@ export async function getOwnerSummary(companyId: string, pageId: string, { asAdm
     prisma.bioSubmission.findMany({
       where: { pageId, createdAt: { gte: since } },
       orderBy: { createdAt: "asc" },
-      select: { id: true, name: true, phone: true, email: detailed, createdAt: true, answers: detailed },
+      select: { id: true, name: true, phone: true, email: detailed, social: detailed, createdAt: true, answers: detailed },
     }),
     detailed ? partialAnswers(pageId, since) : Promise.resolve([]),
   ]);
@@ -105,6 +105,7 @@ export async function getOwnerSummary(companyId: string, pageId: string, { asAdm
         phone: c.phone,
         // E-mail vai junto do detalhe (plano pago ou admin); grátis vê nome e telefone.
         email: detailed ? (c.email ?? null) : null,
+        social: detailed ? (c.social ?? null) : null,
         createdAt: c.createdAt.toISOString(),
         answers: detailed ? (c.answers as { question: string; answer: string }[]) : null,
       })),
@@ -181,7 +182,7 @@ export async function getPageDetail(pageId: string, days = 30) {
       orderBy: { createdAt: "desc" },
       take: 200,
       select: {
-        id: true, name: true, phone: true, email: true, answers: true, createdAt: true,
+        id: true, name: true, phone: true, email: true, social: true, answers: true, createdAt: true,
         referrer: true, utmSource: true, utmCampaign: true,
       },
     }),
@@ -225,6 +226,7 @@ export async function getPageDetail(pageId: string, days = 30) {
       name: s.name,
       phone: s.phone,
       email: s.email,
+      social: s.social,
       createdAt: s.createdAt.toISOString(),
       origin: s.utmSource ? `utm: ${s.utmSource}${s.utmCampaign ? ` / ${s.utmCampaign}` : ""}` : referrerLabel(s.referrer),
       answers: s.answers as { question: string; answer: string }[],

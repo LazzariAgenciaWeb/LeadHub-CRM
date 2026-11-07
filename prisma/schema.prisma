@@ -5143,6 +5143,7 @@ model BioSubmission {
   name    String?
   phone   String
   email   String?
+  social  String? // campo livre "Instagram ou site" do formulário
   consent Boolean @default(false)
 
   visitorId   String? // cookie anônimo da página — liga o envio aos eventos

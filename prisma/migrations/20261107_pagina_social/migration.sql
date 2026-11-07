@@ -1,0 +1,1 @@
+ALTER TABLE "BioSubmission" ADD COLUMN IF NOT EXISTS "social" TEXT;

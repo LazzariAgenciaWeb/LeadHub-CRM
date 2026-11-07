@@ -70,6 +70,7 @@ export default function PaginaResultados({ summary, adminDetailHref }: { summary
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-white truncate">{c.name ?? "Sem nome"}</p>
                     <p className="text-xs text-slate-500">{phoneLabel(c.phone)} · {WHEN.format(new Date(c.createdAt))}</p>
+                    {!compact && c.social && <p className="truncate text-xs text-pink-300">{c.social}</p>}
                     {!compact && c.email && (
                       <a href={`mailto:${c.email}`} className="block truncate text-xs text-indigo-300 hover:underline">{c.email}</a>
                     )}

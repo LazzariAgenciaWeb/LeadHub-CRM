@@ -2294,6 +2294,7 @@ exports.Prisma.BioSubmissionScalarFieldEnum = {
   name: 'name',
   phone: 'phone',
   email: 'email',
+  social: 'social',
   consent: 'consent',
   visitorId: 'visitorId',
   referrer: 'referrer',

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, extractIp } from "@/lib/webhook-auth";
 import { isValidWaPhone, normalizeWaPhone } from "@/lib/whatsapp-link-tool";
-import { BIO_LEAD_SOURCE, bioSnapshotAnswers, bioTrackingFields } from "@/lib/bio-page";
+import { BIO_LEAD_SOURCE, bioParseSocial, bioSnapshotAnswers, bioTrackingFields } from "@/lib/bio-page";
 
 // POST /api/pagina/contato
 // Público (sem sessão): o visitante da /p/[slug] respondeu as perguntas e
@@ -47,6 +47,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "É preciso concordar com o uso dos dados" }, { status: 400 });
   }
   const email = emailRaw || null;
+  // "Instagram ou site" — campo livre e opcional (`website` é a armadilha de robô).
+  const { social, instagram, website } = bioParseSocial(body.social);
 
   const page = await prisma.bioPage.findFirst({
     where: { slug, published: true, company: { status: "ACTIVE" } },
@@ -69,7 +71,7 @@ export async function POST(req: NextRequest) {
   const existing = await prisma.lead.findFirst({
     where: { companyId: page.companyId, phone },
     orderBy: { createdAt: "desc" },
-    select: { id: true, name: true, email: true, notes: true },
+    select: { id: true, name: true, email: true, notes: true, instagram: true, website: true },
   });
 
   let leadId: string;
@@ -80,6 +82,8 @@ export async function POST(req: NextRequest) {
       data: {
         name: existing.name || name,
         email: existing.email || email,
+        instagram: existing.instagram || instagram,
+        website: existing.website || website,
         notes: existing.notes?.includes(NOTE)
           ? existing.notes
           : existing.notes ? `${existing.notes}\n\n${NOTE}` : NOTE,
@@ -97,6 +101,8 @@ export async function POST(req: NextRequest) {
         name,
         phone,
         email,
+        instagram,
+        website,
         source: BIO_LEAD_SOURCE,
         status: "NEW",
         pipeline: "LEADS",
@@ -120,6 +126,7 @@ export async function POST(req: NextRequest) {
         name,
         phone,
         email,
+        social,
         consent: true,
         clientIp,
         userAgent,

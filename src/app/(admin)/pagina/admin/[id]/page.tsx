@@ -149,6 +149,7 @@ export default async function PaginaAdminDetail({
                   <span className="text-sm text-white">{s.name ?? "Sem nome"}</span>
                   <a href={`https://wa.me/${s.phone}`} target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-300 hover:underline">+{s.phone}</a>
                   {s.email && <span className="text-xs text-slate-400">{s.email}</span>}
+                  {s.social && <span className="text-xs text-pink-300">{s.social}</span>}
                   <span className="text-[11px] text-slate-500 ml-auto">{s.origin} · {WHEN.format(new Date(s.createdAt))}</span>
                 </div>
                 {s.answers.length > 0 && (

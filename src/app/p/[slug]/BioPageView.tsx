@@ -836,6 +836,7 @@ function ContactForm({
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [social, setSocial] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [website, setWebsite] = useState(""); // armadilha pra robô
   const [sending, setSending] = useState(false);
@@ -856,7 +857,7 @@ function ContactForm({
       const res = await fetch("/api/pagina/contato", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug, name, phone, email, consent: true, answers, website, ...origin() }),
+        body: JSON.stringify({ slug, name, phone, email, social, consent: true, answers, website, ...origin() }),
       });
       if (!res.ok) {
         const j = await res.json().catch(() => ({}));
@@ -879,6 +880,7 @@ function ContactForm({
       <input className={input} placeholder="Seu nome" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} maxLength={120} />
       <input className={input} placeholder="WhatsApp ou telefone com DDD" autoComplete="tel" inputMode="tel" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={30} />
       <input className={input} placeholder="E-mail (opcional)" autoComplete="email" inputMode="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={200} />
+      <input className={input} placeholder="@ do Instagram ou site (opcional)" autoComplete="off" autoCapitalize="none" spellCheck={false} value={social} onChange={(e) => setSocial(e.target.value)} maxLength={200} />
       <input
         tabIndex={-1}
         autoComplete="off"

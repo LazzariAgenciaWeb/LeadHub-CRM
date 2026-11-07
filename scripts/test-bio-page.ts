@@ -3,7 +3,7 @@
  * plano grátis. Rodar: npm run test:bio-page
  */
 import type { BioEditorBlock, BioEditorInput } from "../src/lib/bio-page";
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioParseSocial, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
 
@@ -148,6 +148,24 @@ const snap = bioSnapshotAnswers(qs, [
 ]);
 ok("respostas: ordem da pergunta, só opção que existe, única fica com uma",
   snap.length === 2 && snap[0].answer === "Instagram, Site" && snap[1].answer === "Agora");
+
+// Campo livre "Instagram ou site"
+{
+  const a = bioParseSocial("@Loja.Bela");
+  ok("social: @ vira instagram minúsculo", a.instagram === "loja.bela" && a.website === null);
+  const b = bioParseSocial("https://www.instagram.com/lojabela/?hl=pt");
+  ok("social: link do instagram vira usuário", b.instagram === "lojabela" && b.website === null);
+  const c = bioParseSocial("lojabela.com.br");
+  ok("social: domínio vira site com https", c.website === "https://lojabela.com.br" && c.instagram === null);
+  const d = bioParseSocial("@lojabela, www.lojabela.com");
+  ok("social: os dois juntos", d.instagram === "lojabela" && d.website === "https://www.lojabela.com");
+  const e = bioParseSocial("joao.silva");
+  ok("social: handle com ponto não vira site", e.instagram === "joao.silva" && e.website === null);
+  const f = bioParseSocial("   ");
+  ok("social: vazio é nulo", f.social === null && f.instagram === null && f.website === null);
+  const g = bioParseSocial("não tenho ainda");
+  ok("social: texto solto fica só no original", g.social === "não tenho ainda" && g.website === null && g.instagram === null);
+}
 
 if (falhas) {
   console.error(`\n${falhas} falha(s)`);

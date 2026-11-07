@@ -183,6 +183,38 @@ export const BIO_LIMITS = {
 export const BIO_DEFAULT_BOOKING_TEXT = "Escolha o melhor dia e horário pra você.";
 
 /** E-mail com cara de e-mail — o resto é com o dono da página. */
+/**
+ * Campo livre "Instagram ou site" do formulário. Separa o que der pra
+ * reconhecer (pode vir os dois juntos: "@loja loja.com.br"):
+ *   - @user, instagram.com/user ou um handle solto → instagram (sem @, minúsculo,
+ *     igual ao webhook de leads);
+ *   - http(s)://, www. ou domínio com extensão conhecida → website com https://.
+ * O texto original vai inteiro pro envio, então nada se perde se não reconhecer.
+ */
+const BIO_SITE_TLD = /\.(com|net|org|br|io|app|dev|site|online|store|shop|me|co|info|biz|art|blog|digital|tech)(\.[a-z]{2})?(\/.*)?$/i;
+
+export function bioParseSocial(raw: unknown): { social: string | null; instagram: string | null; website: string | null } {
+  const social = String(raw ?? "").trim().replace(/\s+/g, " ").slice(0, 200) || null;
+  let instagram: string | null = null;
+  let website: string | null = null;
+  const tokens = (social ?? "").split(/[\s,;|]+/).filter(Boolean);
+  for (const token of tokens) {
+    const ig = token.match(/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/([a-z0-9._]{1,30})/i);
+    if (ig) { instagram ??= ig[1].toLowerCase(); continue; }
+    if (/^@[a-z0-9._]{1,30}$/i.test(token)) { instagram ??= token.slice(1).toLowerCase(); continue; }
+    if (/^https?:\/\//i.test(token) || /^www\./i.test(token) || (BIO_SITE_TLD.test(token) && /^[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i.test(token))) {
+      try {
+        const url = new URL(/^https?:\/\//i.test(token) ? token : `https://${token}`);
+        if (url.hostname.includes(".")) website ??= url.toString().replace(/\/$/, "");
+      } catch { /* ignora */ }
+      continue;
+    }
+    // Handle sem @ só quando é a única coisa escrita — senão "não tenho ainda" vira @tenho.
+    if (tokens.length === 1 && /^[a-z0-9._]{2,30}$/i.test(token) && /[a-z]/i.test(token)) instagram ??= token.toLowerCase();
+  }
+  return { social, instagram, website };
+}
+
 export function bioEmailOk(v: string | null | undefined): boolean {
   const s = (v ?? "").trim();
   return !s || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);

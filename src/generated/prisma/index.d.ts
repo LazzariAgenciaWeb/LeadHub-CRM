@@ -169371,6 +169371,7 @@ export namespace Prisma {
     name: string | null
     phone: string | null
     email: string | null
+    social: string | null
     consent: boolean | null
     visitorId: string | null
     referrer: string | null
@@ -169389,6 +169390,7 @@ export namespace Prisma {
     name: string | null
     phone: string | null
     email: string | null
+    social: string | null
     consent: boolean | null
     visitorId: string | null
     referrer: string | null
@@ -169408,6 +169410,7 @@ export namespace Prisma {
     name: number
     phone: number
     email: number
+    social: number
     consent: number
     visitorId: number
     referrer: number
@@ -169428,6 +169431,7 @@ export namespace Prisma {
     name?: true
     phone?: true
     email?: true
+    social?: true
     consent?: true
     visitorId?: true
     referrer?: true
@@ -169446,6 +169450,7 @@ export namespace Prisma {
     name?: true
     phone?: true
     email?: true
+    social?: true
     consent?: true
     visitorId?: true
     referrer?: true
@@ -169465,6 +169470,7 @@ export namespace Prisma {
     name?: true
     phone?: true
     email?: true
+    social?: true
     consent?: true
     visitorId?: true
     referrer?: true
@@ -169557,6 +169563,7 @@ export namespace Prisma {
     name: string | null
     phone: string
     email: string | null
+    social: string | null
     consent: boolean
     visitorId: string | null
     referrer: string | null
@@ -169593,6 +169600,7 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     email?: boolean
+    social?: boolean
     consent?: boolean
     visitorId?: boolean
     referrer?: boolean
@@ -169615,6 +169623,7 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     email?: boolean
+    social?: boolean
     consent?: boolean
     visitorId?: boolean
     referrer?: boolean
@@ -169636,6 +169645,7 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     email?: boolean
+    social?: boolean
     consent?: boolean
     visitorId?: boolean
     referrer?: boolean
@@ -169672,6 +169682,7 @@ export namespace Prisma {
       name: string | null
       phone: string
       email: string | null
+      social: string | null
       consent: boolean
       visitorId: string | null
       referrer: string | null
@@ -170084,6 +170095,7 @@ export namespace Prisma {
     readonly name: FieldRef<"BioSubmission", 'String'>
     readonly phone: FieldRef<"BioSubmission", 'String'>
     readonly email: FieldRef<"BioSubmission", 'String'>
+    readonly social: FieldRef<"BioSubmission", 'String'>
     readonly consent: FieldRef<"BioSubmission", 'Boolean'>
     readonly visitorId: FieldRef<"BioSubmission", 'String'>
     readonly referrer: FieldRef<"BioSubmission", 'String'>
@@ -175112,6 +175124,7 @@ export namespace Prisma {
     name: 'name',
     phone: 'phone',
     email: 'email',
+    social: 'social',
     consent: 'consent',
     visitorId: 'visitorId',
     referrer: 'referrer',
@@ -190181,6 +190194,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"BioSubmission"> | string | null
     phone?: StringFilter<"BioSubmission"> | string
     email?: StringNullableFilter<"BioSubmission"> | string | null
+    social?: StringNullableFilter<"BioSubmission"> | string | null
     consent?: BoolFilter<"BioSubmission"> | boolean
     visitorId?: StringNullableFilter<"BioSubmission"> | string | null
     referrer?: StringNullableFilter<"BioSubmission"> | string | null
@@ -190203,6 +190217,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     phone?: SortOrder
     email?: SortOrderInput | SortOrder
+    social?: SortOrderInput | SortOrder
     consent?: SortOrder
     visitorId?: SortOrderInput | SortOrder
     referrer?: SortOrderInput | SortOrder
@@ -190228,6 +190243,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"BioSubmission"> | string | null
     phone?: StringFilter<"BioSubmission"> | string
     email?: StringNullableFilter<"BioSubmission"> | string | null
+    social?: StringNullableFilter<"BioSubmission"> | string | null
     consent?: BoolFilter<"BioSubmission"> | boolean
     visitorId?: StringNullableFilter<"BioSubmission"> | string | null
     referrer?: StringNullableFilter<"BioSubmission"> | string | null
@@ -190250,6 +190266,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     phone?: SortOrder
     email?: SortOrderInput | SortOrder
+    social?: SortOrderInput | SortOrder
     consent?: SortOrder
     visitorId?: SortOrderInput | SortOrder
     referrer?: SortOrderInput | SortOrder
@@ -190275,6 +190292,7 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
     phone?: StringWithAggregatesFilter<"BioSubmission"> | string
     email?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
+    social?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
     consent?: BoolWithAggregatesFilter<"BioSubmission"> | boolean
     visitorId?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
     referrer?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
@@ -206330,6 +206348,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -206352,6 +206371,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -206370,6 +206390,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206392,6 +206413,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206412,6 +206434,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -206429,6 +206452,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206448,6 +206472,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217150,6 +217175,7 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrder
+    social?: SortOrder
     consent?: SortOrder
     visitorId?: SortOrder
     referrer?: SortOrder
@@ -217168,6 +217194,7 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrder
+    social?: SortOrder
     consent?: SortOrder
     visitorId?: SortOrder
     referrer?: SortOrder
@@ -217186,6 +217213,7 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrder
+    social?: SortOrder
     consent?: SortOrder
     visitorId?: SortOrder
     referrer?: SortOrder
@@ -248750,6 +248778,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -248770,6 +248799,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -249771,6 +249801,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"BioSubmission"> | string | null
     phone?: StringFilter<"BioSubmission"> | string
     email?: StringNullableFilter<"BioSubmission"> | string | null
+    social?: StringNullableFilter<"BioSubmission"> | string | null
     consent?: BoolFilter<"BioSubmission"> | boolean
     visitorId?: StringNullableFilter<"BioSubmission"> | string | null
     referrer?: StringNullableFilter<"BioSubmission"> | string | null
@@ -325631,6 +325662,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -325651,6 +325683,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -327172,6 +327205,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -327193,6 +327227,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -327305,6 +327340,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -327326,6 +327362,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -337028,6 +337065,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -337245,6 +337283,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -337265,6 +337304,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -337284,6 +337324,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -343292,6 +343333,7 @@ export namespace Prisma {
     name?: string | null
     phone: string
     email?: string | null
+    social?: string | null
     consent?: boolean
     visitorId?: string | null
     referrer?: string | null
@@ -343511,6 +343553,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -343531,6 +343574,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -343550,6 +343594,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    social?: NullableStringFieldUpdateOperationsInput | string | null
     consent?: BoolFieldUpdateOperationsInput | boolean
     visitorId?: NullableStringFieldUpdateOperationsInput | string | null
     referrer?: NullableStringFieldUpdateOperationsInput | string | null
