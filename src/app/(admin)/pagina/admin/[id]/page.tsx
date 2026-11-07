@@ -106,8 +106,34 @@ export default async function PaginaAdminDetail({
           <Bars rows={d.clicks} />
         </section>
         <section className={card}>
-          <h2 className="text-white text-sm font-semibold mb-3">De onde vêm as visitas</h2>
-          <Bars rows={d.origins} />
+          <h2 className="text-white text-sm font-semibold mb-3">Origem: visitas e contatos</h2>
+          {d.conversionByOrigin.length === 0 ? (
+            <p className="text-slate-500 text-xs">Sem dados no período.</p>
+          ) : (
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="text-slate-500 text-left">
+                  <th className="font-normal pb-1.5">Origem</th>
+                  <th className="font-normal pb-1.5 text-right">Visitas</th>
+                  <th className="font-normal pb-1.5 text-right">Contatos</th>
+                  <th className="font-normal pb-1.5 text-right">Conversão</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#1e2d45]">
+                {d.conversionByOrigin.map((o) => (
+                  <tr key={o.label} className="text-slate-300">
+                    <td className="py-1.5 pr-2 truncate max-w-[10rem]">{o.label}</td>
+                    <td className="py-1.5 text-right tabular-nums">{o.views}</td>
+                    <td className={`py-1.5 text-right tabular-nums ${o.contacts > 0 ? "text-emerald-300 font-semibold" : ""}`}>{o.contacts}</td>
+                    <td className="py-1.5 text-right tabular-nums text-slate-400">{pct(o.contacts, o.views)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          <p className="text-slate-600 text-[11px] mt-2">
+            Pra separar Instagram, WhatsApp e anúncio, use links com <code>?utm_source=</code> (ex.: /p/{d.page.slug}?utm_source=instagram).
+          </p>
         </section>
       </div>
 

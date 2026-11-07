@@ -19,6 +19,9 @@ function phoneLabel(digits: string): string {
 
 export default function PaginaResultados({ summary, adminDetailHref }: { summary: OwnerSummary; adminDetailHref: string | null }) {
   const [showAll, setShowAll] = useState(false);
+  // Admin tem o relatório completo (respostas, origem, quem parou no meio):
+  // aqui fica só o essencial pra não poluir o editor.
+  const compact = adminDetailHref !== null;
   const shown = showAll ? summary.contacts : summary.contacts.slice(0, 5);
 
   const cards = [
@@ -33,11 +36,11 @@ export default function PaginaResultados({ summary, adminDetailHref }: { summary
         <h2 className="text-white text-sm font-semibold">Resultados de {summary.monthLabel}</h2>
         {adminDetailHref && (
           <Link href={adminDetailHref} className="text-xs text-indigo-300 hover:text-white">
-            Relatório completo →
+            Respostas, origem e mais →
           </Link>
         )}
       </div>
-      {summary.adminView && (
+      {summary.adminView && !compact && (
         <p className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-indigo-500/10 px-2 py-1 text-[11px] text-indigo-200">
           <ShieldCheck className="w-3.5 h-3.5" /> Visão de admin: as respostas aparecem só pra vocês, o cliente não vê no plano dele.
         </p>
@@ -67,7 +70,7 @@ export default function PaginaResultados({ summary, adminDetailHref }: { summary
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-white truncate">{c.name ?? "Sem nome"}</p>
                     <p className="text-xs text-slate-500">{phoneLabel(c.phone)} · {WHEN.format(new Date(c.createdAt))}</p>
-                    {c.email && (
+                    {!compact && c.email && (
                       <a href={`mailto:${c.email}`} className="block truncate text-xs text-indigo-300 hover:underline">{c.email}</a>
                     )}
                   </div>
@@ -80,7 +83,7 @@ export default function PaginaResultados({ summary, adminDetailHref }: { summary
                     <MessageCircle className="w-3.5 h-3.5" /> Chamar
                   </a>
                 </div>
-                {c.answers && c.answers.length > 0 && (
+                {!compact && c.answers && c.answers.length > 0 && (
                   <dl className="mt-2 space-y-1 rounded-md bg-[#0f1623] px-2.5 py-2">
                     {c.answers.map((a, i) => (
                       <div key={i} className="text-xs">
@@ -101,7 +104,7 @@ export default function PaginaResultados({ summary, adminDetailHref }: { summary
         </div>
       )}
 
-      <PartialAnswers rows={summary.partials} />
+      {!compact && <PartialAnswers rows={summary.partials} />}
 
       {summary.hidden > 0 && (
         <div className="mt-3 flex items-start gap-2 rounded-lg border border-amber-500/25 bg-amber-500/10 p-3">
@@ -113,7 +116,7 @@ export default function PaginaResultados({ summary, adminDetailHref }: { summary
         </div>
       )}
 
-      {!summary.detailed && summary.contactsTotal > 0 && summary.hidden === 0 && (
+      {!compact && !summary.detailed && summary.contactsTotal > 0 && summary.hidden === 0 && (
         <p className="text-slate-600 text-[11px] mt-3">
           No Starter você também vê as respostas de cada contato e quais botões recebem mais cliques.
         </p>

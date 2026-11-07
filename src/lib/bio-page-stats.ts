@@ -194,6 +194,15 @@ export async function getPageDetail(pageId: string, days = 30) {
     const key = o.utmSource ? `utm: ${o.utmSource}` : referrerLabel(o.referrer);
     originCount.set(key, (originCount.get(key) ?? 0) + 1);
   }
+  // Mesma chave nos contatos, pra cruzar visitas × conversões por origem.
+  const contactCount = new Map<string, number>();
+  for (const s of submissions) {
+    const key = s.utmSource ? `utm: ${s.utmSource}` : referrerLabel(s.referrer);
+    contactCount.set(key, (contactCount.get(key) ?? 0) + 1);
+  }
+  const conversionByOrigin = [...new Set([...originCount.keys(), ...contactCount.keys()])]
+    .map((label) => ({ label, views: originCount.get(label) ?? 0, contacts: contactCount.get(label) ?? 0 }))
+    .sort((a, b) => b.contacts - a.contacts || b.views - a.views);
 
   return {
     page: {
@@ -208,6 +217,7 @@ export async function getPageDetail(pageId: string, days = 30) {
     funnel,
     clicks: clicks.map((c) => ({ label: c.targetLabel ?? "(item apagado)", count: c._count._all })),
     origins: [...originCount.entries()].map(([label, count]) => ({ label, count })).sort((a, b) => b.count - a.count),
+    conversionByOrigin,
     partials,
     referrals: page.referrals.map((r) => ({ slug: r.slug, title: r.title, createdAt: r.createdAt.toISOString() })),
     submissions: submissions.map((s) => ({
