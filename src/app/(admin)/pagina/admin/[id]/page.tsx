@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
-import { canSeeBioAdmin } from "@/lib/bio-page-server";
+import { bioPublicUrl, canSeeBioAdmin } from "@/lib/bio-page-server";
 import { getPageDetail } from "@/lib/bio-page-stats";
-import { BIO_PUBLIC_PATH } from "@/lib/bio-page";
 import PartialAnswers from "../../PartialAnswers";
 
 // Detalhe de uma Página do Negócio para a agência: funil, cliques por botão,
@@ -70,7 +69,7 @@ export default async function PaginaAdminDetail({
             <p className="text-slate-500 text-sm flex items-center gap-2">
               {d.page.plan ?? "sem plano"} · {d.page.published ? "no ar" : "rascunho"}
               {d.page.published && (
-                <a href={`${BIO_PUBLIC_PATH}/${d.page.slug}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 hover:text-white">
+                <a href={bioPublicUrl(d.page.slug)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 hover:text-white">
                   /p/{d.page.slug} <ExternalLink className="w-3 h-3" />
                 </a>
               )}

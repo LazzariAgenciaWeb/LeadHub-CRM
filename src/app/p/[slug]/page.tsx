@@ -12,6 +12,7 @@ import {
   bioViewExtras,
   safeBioHref,
 } from "@/lib/bio-page";
+import { appBase, bioPublicUrl } from "@/lib/bio-page-server";
 import BioPageView, { type BioViewData } from "./BioPageView";
 
 // Página do Negócio — pública (sem auth). Link na bio + vitrine + perguntas que
@@ -40,10 +41,15 @@ export async function generateMetadata({
   const page = await loadPage(slug);
   if (!page) return { title: "Página não encontrada" };
   const image = page.avatarUrl ?? page.company.logoUrl;
+  // Endereço oficial (gohub.com.br): a mesma página também abre no domínio do
+  // sistema, e o Google precisa saber qual é o link de verdade.
+  const url = bioPublicUrl(page.slug);
   return {
     title: page.title,
     description: page.headline ?? undefined,
+    alternates: { canonical: url },
     openGraph: {
+      url,
       title: page.title,
       description: page.headline ?? undefined,
       images: image ? [image] : undefined,
@@ -88,6 +94,7 @@ export default async function BioPublicPage({
     coverUrl: safeBioHref(page.coverUrl),
     accent: bioAccent(page.accentColor),
     badge: bioShowsBadge(page.company.subscription?.plan),
+    appBase: appBase(),
     blocks,
     ...bioViewExtras(page),
     quiz: page.quizEnabled

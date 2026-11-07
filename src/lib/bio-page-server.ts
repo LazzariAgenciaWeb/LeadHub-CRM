@@ -238,8 +238,23 @@ export async function resolveAgencyCompanyId(): Promise<string | null> {
 
 export class EmailTakenError extends Error {}
 
-function publicBase(): string {
+/** Endereço do sistema (login, editor, /comecar). */
+export function appBase(): string {
   return (process.env.NEXT_PUBLIC_BASE_URL ?? process.env.NEXTAUTH_URL ?? "http://localhost:3000").replace(/\/+$/, "");
+}
+
+/**
+ * Endereço das páginas públicas. Em produção é https://gohub.com.br: um Worker
+ * da Cloudflare repassa gohub.com.br/p/*, /_next/* e /api/pagina/* pra cá — o
+ * resto do domínio segue no site institucional. Sem a variável, usa o do sistema.
+ */
+export function bioPublicBase(): string {
+  return (process.env.BIO_PUBLIC_BASE_URL || appBase()).replace(/\/+$/, "");
+}
+
+/** Link público de uma página: https://gohub.com.br/p/{slug}. */
+export function bioPublicUrl(slug: string): string {
+  return `${bioPublicBase()}${BIO_PUBLIC_PATH}/${slug}`;
 }
 
 async function freeCompanySlug(seed: string): Promise<string> {
@@ -306,7 +321,7 @@ export async function recordSignupLead(agencyId: string, input: BioSignupInput, 
   const lines = [
     "Cadastrou-se na Página do Negócio (grátis).",
     `Negócio: ${input.businessName} — ${input.segment} — ${input.city}`,
-    `Página: ${publicBase()}${BIO_PUBLIC_PATH}/${pageSlug}`,
+    `Página: ${bioPublicUrl(pageSlug)}`,
     input.ref ? `Veio pelo selo da página /p/${input.ref}` : null,
   ].filter(Boolean);
   const note = lines.join("\n");
@@ -353,9 +368,8 @@ function esc(s: string): string {
 }
 
 export async function sendBioWelcome(input: BioSignupInput, pageSlug: string) {
-  const base = publicBase();
-  const editor = `${base}/pagina`;
-  const pageUrl = `${base}${BIO_PUBLIC_PATH}/${pageSlug}`;
+  const editor = `${appBase()}/pagina`;
+  const pageUrl = bioPublicUrl(pageSlug);
   const first = esc(input.name.split(" ")[0] ?? "");
   await sendMail({
     to: input.email,

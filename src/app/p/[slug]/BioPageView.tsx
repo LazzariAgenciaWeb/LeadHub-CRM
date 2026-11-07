@@ -30,6 +30,8 @@ export interface BioViewData {
   accent: string;
   /** Rodapé "Feito com GoHub" → /comecar?ref=slug (página do plano grátis). */
   badge?: boolean;
+  /** Endereço do sistema: a página pode abrir em outro domínio (gohub.com.br). */
+  appBase?: string;
   blocks: BioViewBlock[];
   quiz: {
     title: string;
@@ -372,7 +374,7 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
       {data.badge && (
         <footer className="pb-8 text-center">
           <a
-            href={preview ? undefined : `/comecar?ref=${encodeURIComponent(slug)}&utm_source=pagina-negocio&utm_medium=selo`}
+            href={preview ? undefined : `${data.appBase ?? ""}/comecar?ref=${encodeURIComponent(slug)}&utm_source=pagina-negocio&utm_medium=selo`}
             className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[11px] text-slate-500 shadow-sm ring-1 ring-slate-200 transition hover:text-slate-800"
           >
             Feito com <strong className="text-slate-700">GoHub</strong> · Crie a sua grátis

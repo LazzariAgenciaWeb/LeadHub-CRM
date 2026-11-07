@@ -79,7 +79,7 @@ export default function BioPageMarketing({ companyId, days }: { companyId: strin
           {data.page.published ? "no ar" : "rascunho"}
         </span>
         {data.page.published && (
-          <a href={`/p/${data.page.slug}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[11px] text-slate-400 hover:text-white">
+          <a href={data.page.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[11px] text-slate-400 hover:text-white">
             /p/{data.page.slug} <ExternalLink className="w-3 h-3" />
           </a>
         )}

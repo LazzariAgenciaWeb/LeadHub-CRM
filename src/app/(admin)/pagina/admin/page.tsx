@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ExternalLink } from "lucide-react";
-import { canSeeBioAdmin } from "@/lib/bio-page-server";
+import { bioPublicUrl, canSeeBioAdmin } from "@/lib/bio-page-server";
 import { getAdminOverview } from "@/lib/bio-page-stats";
-import { BIO_PUBLIC_PATH } from "@/lib/bio-page";
 
 // Painel da agência: todas as Páginas do Negócio com números de 30 dias.
 // O cliente do grátis vê só os totais dele; o detalhe mora aqui.
@@ -66,7 +65,7 @@ export default async function PaginasAdminPage() {
                   <div className="flex items-center gap-2 text-[11px] text-slate-500">
                     <span className={p.published ? "text-emerald-400" : ""}>{p.published ? "no ar" : "rascunho"}</span>
                     {p.published && (
-                      <a href={`${BIO_PUBLIC_PATH}/${p.slug}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 hover:text-white">
+                      <a href={bioPublicUrl(p.slug)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 hover:text-white">
                         /p/{p.slug} <ExternalLink className="w-3 h-3" />
                       </a>
                     )}

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { storageEnabled } from "@/lib/storage/s3";
-import { canSeeBioAdmin, ensureBioPage, loadEditorPage, toEditorInput } from "@/lib/bio-page-server";
+import { bioPublicBase, canSeeBioAdmin, ensureBioPage, loadEditorPage, toEditorInput } from "@/lib/bio-page-server";
 import { BIO_PUBLIC_PATH, bioDefaultConsent } from "@/lib/bio-page";
 import { prisma } from "@/lib/prisma";
 import PaginaEditor from "./PaginaEditor";
@@ -41,12 +41,11 @@ export default async function PaginaPage() {
   const asAdmin = await canSeeBioAdmin();
   const summary = await getOwnerSummary(companyId, page.id, { asAdmin });
 
-  const base = (process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 
   return (
     <PaginaEditor
       initial={toEditorInput(page)}
-      publicBase={`${base}${BIO_PUBLIC_PATH}/`}
+      publicBase={`${bioPublicBase()}${BIO_PUBLIC_PATH}/`}
       uploadsEnabled={storageEnabled()}
       defaultConsent={bioDefaultConsent(company.tradeName ?? company.name)}
       hasBottomNav={!(session.user as any)?.pageOnly}

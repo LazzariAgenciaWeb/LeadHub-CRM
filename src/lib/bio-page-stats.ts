@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getCompanyPlan } from "@/lib/limits";
+import { bioPublicUrl } from "@/lib/bio-page-server";
 import { bioShowsBadge, referrerLabel, visibleLeadCount } from "@/lib/bio-page";
 
 // Números da Página do Negócio. Dois recortes, por decisão de produto:
@@ -260,7 +261,7 @@ export async function getPageMarketingStats(companyId: string, days: number, vie
   return {
     hasPage: true as const,
     paid,
-    page: { slug: page.slug, title: page.title, published: page.published },
+    page: { slug: page.slug, title: page.title, published: page.published, url: bioPublicUrl(page.slug) },
     totals,
     detailed,
     clicks: detail?.clicks ?? [],

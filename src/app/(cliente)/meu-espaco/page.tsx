@@ -9,6 +9,7 @@ import { hasModule } from "@/lib/permissions";
 import { assertModule } from "@/lib/billing";
 import { visibleCategoriesWhere } from "@/lib/videos";
 import { startOfMonth } from "@/lib/bio-page-stats";
+import { bioPublicUrl } from "@/lib/bio-page-server";
 
 export const dynamic = "force-dynamic";
 
@@ -94,7 +95,7 @@ export default async function MeuEspacoPage() {
   const bioViews = bioMonth.find((r) => r.kind === "VIEW")?._count._all ?? 0;
   const bioLeads = bioMonth.find((r) => r.kind === "LEAD")?._count._all ?? 0;
   const canEditBio = company.fullSystemAccess && role === "ADMIN";
-  const bioHref = canEditBio ? "/pagina" : bioPage?.published ? `/p/${bioPage.slug}` : null;
+  const bioHref = canEditBio ? "/pagina" : bioPage?.published ? bioPublicUrl(bioPage.slug) : null;
 
   const projects = await prisma.setorClickupList.findMany({
     where:   { clientCompanyId: companyId, status: { not: "CANCELADO" } },
