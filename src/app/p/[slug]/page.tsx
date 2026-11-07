@@ -12,7 +12,7 @@ import {
   bioViewExtras,
   safeBioHref,
 } from "@/lib/bio-page";
-import { appBase, bioPublicUrl } from "@/lib/bio-page-server";
+import { bioPublicBase, bioPublicUrl } from "@/lib/bio-page-server";
 import BioPageView, { type BioViewData } from "./BioPageView";
 
 // Página do Negócio — pública (sem auth). Link na bio + vitrine + perguntas que
@@ -94,7 +94,7 @@ export default async function BioPublicPage({
     coverUrl: safeBioHref(page.coverUrl),
     accent: bioAccent(page.accentColor),
     badge: bioShowsBadge(page.company.subscription?.plan),
-    appBase: appBase(),
+    signupBase: bioPublicBase(),
     blocks,
     ...bioViewExtras(page),
     quiz: page.quizEnabled

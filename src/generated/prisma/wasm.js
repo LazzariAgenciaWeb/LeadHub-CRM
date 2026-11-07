@@ -2336,6 +2336,14 @@ exports.Prisma.BioEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.LoginHandoffScalarFieldEnum = {
+  tokenHash: 'tokenHash',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2967,7 +2975,8 @@ exports.Prisma.ModelName = {
   BioQuestion: 'BioQuestion',
   BioSubmission: 'BioSubmission',
   BioProgress: 'BioProgress',
-  BioEvent: 'BioEvent'
+  BioEvent: 'BioEvent',
+  LoginHandoff: 'LoginHandoff'
 };
 
 /**

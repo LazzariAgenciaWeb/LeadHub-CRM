@@ -10,11 +10,13 @@ import { BIO_PASSWORD_MIN } from "@/lib/bio-page";
 const OTHER = "__outro__";
 
 export default function ComecarForm({
-  segments, refSlug, refTitle,
+  segments, refSlug, refTitle, appBase,
 }: {
   segments: string[];
   refSlug: string | null;
   refTitle: string | null;
+  /** Painel (login/editor) — o cadastro pode abrir em outro domínio (gohub.com.br). */
+  appBase: string;
 }) {
   const router = useRouter();
   const [f, setF] = useState({
@@ -50,6 +52,11 @@ export default function ComecarForm({
       if (!res.ok) {
         setError(j.error ?? "Não deu pra criar a conta agora. Tente de novo.");
         setEmailTaken(!!j.emailTaken);
+        return;
+      }
+      // Código de uso único: entra no painel já logado, em qualquer domínio.
+      if (typeof j.next === "string" && j.next) {
+        window.location.assign(j.next);
         return;
       }
       const login = await signIn("credentials", { email: f.email.trim().toLowerCase(), password: f.password, redirect: false });
@@ -167,7 +174,7 @@ export default function ComecarForm({
           {error && (
             <p className="text-sm text-red-600">
               {error}{" "}
-              {emailTaken && <Link href="/login" className="font-semibold underline">Entrar</Link>}
+              {emailTaken && <Link href={`${appBase}/login`} className="font-semibold underline">Entrar</Link>}
             </p>
           )}
 
@@ -180,7 +187,7 @@ export default function ComecarForm({
             Criar minha página grátis
           </button>
           <p className="text-center text-xs text-slate-500">
-            Já tem conta? <Link href="/login" className="font-semibold text-indigo-600">Entrar</Link>
+            Já tem conta? <Link href={`${appBase}/login`} className="font-semibold text-indigo-600">Entrar</Link>
           </p>
         </form>
       </div>

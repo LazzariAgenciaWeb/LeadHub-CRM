@@ -5211,3 +5211,17 @@ model BioEvent {
   @@index([pageId, createdAt])
   @@index([pageId, kind, createdAt])
 }
+
+// Passagem de login entre domínios: o cadastro roda em gohub.com.br/comecar e
+// o painel em app.azzagencia.com.br — sessão não atravessa domínio. O cadastro
+// gera um código de uso único (guardado só o hash) que o /entrar do painel troca
+// por sessão. Vale 2 minutos.
+model LoginHandoff {
+  tokenHash String    @id
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([expiresAt])
+}

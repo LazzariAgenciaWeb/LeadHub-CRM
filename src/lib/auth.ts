@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 import { getCompanyPlan } from "./limits";
 import { PAGE_LINE_TIERS } from "./plans";
+import { consumeLoginHandoff } from "@/lib/login-handoff";
 
 // Quando o usuário está em múltiplos setores, fazemos UNIÃO (OR) das
 // permissões — basta um setor liberar para o usuário ter a permissão.
@@ -94,12 +95,16 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Senha", type: "password" },
+        // Código de uso único do cadastro em outro domínio (lib/login-handoff).
+        handoff: { label: "Código", type: "text" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        const handoffUserId = credentials?.handoff ? await consumeLoginHandoff(credentials.handoff) : null;
+        if (credentials?.handoff && !handoffUserId) return null;
+        if (!handoffUserId && (!credentials?.email || !credentials?.password)) return null;
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: handoffUserId ? { id: handoffUserId } : { email: credentials!.email },
           include: {
             company: {
               select: {
@@ -127,12 +132,10 @@ export const authOptions: NextAuthOptions = {
 
         if (!user) return null;
 
-        const passwordMatch = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!passwordMatch) return null;
+        if (!handoffUserId) {
+          const passwordMatch = await bcrypt.compare(credentials!.password, user.password);
+          if (!passwordMatch) return null;
+        }
 
         const allSetores = user.setores.map((s) => s.setor);
         const mergedPerms = mergeSetorPermissions(allSetores);

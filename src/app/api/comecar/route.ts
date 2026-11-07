@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit, extractIp } from "@/lib/webhook-auth";
 import { normalizeWaPhone } from "@/lib/whatsapp-link-tool";
 import { parseBioSignup } from "@/lib/bio-page";
+import { prisma } from "@/lib/prisma";
+import { createLoginHandoff } from "@/lib/login-handoff";
 import {
   EmailTakenError,
+  appBase,
   createBioSignup,
   recordSignupLead,
   resolveAgencyCompanyId,
@@ -15,8 +18,10 @@ export const runtime = "nodejs";
 // POST /api/comecar
 // Cadastro público do plano grátis da Página do Negócio. Cria empresa (sub da
 // agência), assinatura PAGINA, usuário ADMIN e o rascunho da página; registra
-// o lead no CRM da agência e manda o e-mail de boas-vindas. O navegador entra
-// em seguida com o e-mail e a senha (signIn de credentials).
+// o lead no CRM da agência e manda o e-mail de boas-vindas.
+// O cadastro pode rodar em gohub.com.br (Worker) e o painel em outro domínio:
+// a resposta traz `next` = /entrar do painel com um código de uso único, que
+// faz o login lá sem pedir a senha de novo.
 export async function POST(req: NextRequest) {
   const ip = extractIp(req);
   if (!checkRateLimit(`comecar:${ip}`, 5, 60 * 60_000).ok) {
@@ -56,5 +61,14 @@ export async function POST(req: NextRequest) {
     sendBioWelcome(input, created.pageSlug).catch((e) => console.error("[comecar] e-mail de boas-vindas", e)),
   ]);
 
-  return NextResponse.json({ ok: true, email: input.email }, { status: 201 });
+  // Sem o código, o navegador cai no login normal — a conta já existe.
+  let next: string | null = null;
+  try {
+    const user = await prisma.user.findUnique({ where: { email: input.email }, select: { id: true } });
+    if (user) next = `${appBase()}/entrar#t=${await createLoginHandoff(user.id)}`;
+  } catch (e) {
+    console.error("[comecar] código de entrada", e);
+  }
+
+  return NextResponse.json({ ok: true, email: input.email, next }, { status: 201 });
 }

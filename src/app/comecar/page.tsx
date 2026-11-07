@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { BIO_SEGMENTS, bioSlugProblem } from "@/lib/bio-page";
+import { appBase } from "@/lib/bio-page-server";
 import ComecarForm from "./ComecarForm";
 
 // Cadastro público do plano grátis da Página do Negócio.
@@ -34,6 +35,7 @@ export default async function ComecarPage({
       segments={[...BIO_SEGMENTS]}
       refSlug={referrer?.slug ?? null}
       refTitle={referrer?.title ?? null}
+      appBase={appBase()}
     />
   );
 }
