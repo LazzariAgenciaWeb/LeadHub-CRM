@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, extractIp } from "@/lib/webhook-auth";
 import { isValidWaPhone, normalizeWaPhone } from "@/lib/whatsapp-link-tool";
-import { BIO_LEAD_SOURCE, bioTrackingFields } from "@/lib/bio-page";
+import { BIO_LEAD_SOURCE, bioSnapshotAnswers, bioTrackingFields } from "@/lib/bio-page";
 
 // POST /api/pagina/contato
 // Público (sem sessão): o visitante da /p/[slug] respondeu as perguntas e
@@ -13,8 +13,6 @@ import { BIO_LEAD_SOURCE, bioTrackingFields } from "@/lib/bio-page";
 // grátis o cliente vê nome e telefone; o detalhe é argumento do Starter.
 
 const NOTE = "Página do Negócio — deixou o contato pela página.";
-
-interface AnswerIn { questionId?: unknown; answer?: unknown }
 
 export async function POST(req: NextRequest) {
   const ip = extractIp(req);
@@ -60,19 +58,7 @@ export async function POST(req: NextRequest) {
   });
   if (!page) return NextResponse.json({ error: "Página não encontrada" }, { status: 404 });
 
-  // Snapshot das respostas: só pergunta desta página e opção que existe nela.
-  const byId = new Map(page.questions.map((q) => [q.id, q]));
-  const answers: { questionId: string; question: string; answer: string }[] = [];
-  for (const a of Array.isArray(body.answers) ? (body.answers as AnswerIn[]) : []) {
-    const q = typeof a?.questionId === "string" ? byId.get(a.questionId) : undefined;
-    if (!q || answers.some((x) => x.questionId === q.id)) continue;
-    // Pergunta de várias respostas chega como lista; vale só o que é opção dela.
-    const picked = (Array.isArray(a?.answer) ? a.answer : [a?.answer])
-      .filter((v): v is string => typeof v === "string" && q.options.includes(v));
-    const chosen = q.multiple ? q.options.filter((o) => picked.includes(o)) : picked.slice(0, 1);
-    if (chosen.length === 0) continue;
-    answers.push({ questionId: q.id, question: q.text, answer: chosen.join(", ") });
-  }
+  const answers = bioSnapshotAnswers(page.questions, body.answers);
 
   const tracking = bioTrackingFields(body);
   const userAgent = req.headers.get("user-agent")?.slice(0, 500) || null;
@@ -125,7 +111,7 @@ export async function POST(req: NextRequest) {
     leadId = lead.id;
   }
 
-  await prisma.$transaction([
+  const [submission] = await prisma.$transaction([
     prisma.bioSubmission.create({
       data: {
         pageId: page.id,
@@ -144,6 +130,14 @@ export async function POST(req: NextRequest) {
       data: { pageId: page.id, kind: "LEAD", ...tracking },
     }),
   ]);
+
+  // Fecha o progresso salvo etapa a etapa: esse visitante virou contato.
+  if (tracking.visitorId) {
+    await prisma.bioProgress.updateMany({
+      where: { pageId: page.id, visitorId: tracking.visitorId, convertedAt: null },
+      data: { convertedAt: new Date(), submissionId: submission.id, answers, reachedForm: true },
+    }).catch(() => {});
+  }
 
   return NextResponse.json({ ok: true }, { status: 201 });
 }

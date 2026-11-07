@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, Lock, MessageCircle, MousePointerClick, Users } from "lucide-react";
+import Link from "next/link";
+import { Eye, Lock, MessageCircle, MousePointerClick, ShieldCheck, Users } from "lucide-react";
 import type { OwnerSummary } from "@/lib/bio-page-stats";
+import PartialAnswers from "./PartialAnswers";
 
 // Resultados do mês para o dono da página. No grátis: totais e nome/telefone
 // dos contatos até o limite; no Starter, também as respostas de cada um.
 
-const MONTH = new Intl.DateTimeFormat("pt-BR", { month: "long" });
 const WHEN = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
 
 function phoneLabel(digits: string): string {
@@ -16,9 +17,8 @@ function phoneLabel(digits: string): string {
   return m ? `(${m[1]}) ${m[2]}-${m[3]}` : `+${digits}`;
 }
 
-export default function PaginaResultados({ summary }: { summary: OwnerSummary }) {
+export default function PaginaResultados({ summary, adminDetailHref }: { summary: OwnerSummary; adminDetailHref: string | null }) {
   const [showAll, setShowAll] = useState(false);
-  const month = MONTH.format(new Date(summary.since));
   const shown = showAll ? summary.contacts : summary.contacts.slice(0, 5);
 
   const cards = [
@@ -29,7 +29,19 @@ export default function PaginaResultados({ summary }: { summary: OwnerSummary })
 
   return (
     <section className="mb-5 bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4">
-      <h2 className="text-white text-sm font-semibold">Resultados de {month}</h2>
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-white text-sm font-semibold">Resultados de {summary.monthLabel}</h2>
+        {adminDetailHref && (
+          <Link href={adminDetailHref} className="text-xs text-indigo-300 hover:text-white">
+            Relatório completo →
+          </Link>
+        )}
+      </div>
+      {summary.adminView && (
+        <p className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-indigo-500/10 px-2 py-1 text-[11px] text-indigo-200">
+          <ShieldCheck className="w-3.5 h-3.5" /> Visão de admin: as respostas aparecem só pra vocês, o cliente não vê no plano dele.
+        </p>
+      )}
       <div className="grid grid-cols-3 gap-2 mt-3">
         {cards.map(({ label, value, Icon }) => (
           <div key={label} className="rounded-lg bg-[#0b111c] border border-[#1e2d45] p-3">
@@ -66,13 +78,14 @@ export default function PaginaResultados({ summary }: { summary: OwnerSummary })
                   </a>
                 </div>
                 {c.answers && c.answers.length > 0 && (
-                  <ul className="mt-1.5 space-y-0.5">
+                  <dl className="mt-2 space-y-1 rounded-md bg-[#0f1623] px-2.5 py-2">
                     {c.answers.map((a, i) => (
-                      <li key={i} className="text-[11px] text-slate-400">
-                        <span className="text-slate-500">{a.question}</span> {a.answer}
-                      </li>
+                      <div key={i} className="text-xs">
+                        <dt className="text-slate-500">{a.question}</dt>
+                        <dd className="text-slate-200">{a.answer}</dd>
+                      </div>
                     ))}
-                  </ul>
+                  </dl>
                 )}
               </li>
             ))}
@@ -84,6 +97,8 @@ export default function PaginaResultados({ summary }: { summary: OwnerSummary })
           )}
         </div>
       )}
+
+      <PartialAnswers rows={summary.partials} />
 
       {summary.hidden > 0 && (
         <div className="mt-3 flex items-start gap-2 rounded-lg border border-amber-500/25 bg-amber-500/10 p-3">

@@ -2305,6 +2305,22 @@ exports.Prisma.BioSubmissionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.BioProgressScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  visitorId: 'visitorId',
+  answers: 'answers',
+  reachedForm: 'reachedForm',
+  convertedAt: 'convertedAt',
+  submissionId: 'submissionId',
+  referrer: 'referrer',
+  utmSource: 'utmSource',
+  utmMedium: 'utmMedium',
+  utmCampaign: 'utmCampaign',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.BioEventScalarFieldEnum = {
   id: 'id',
   pageId: 'pageId',
@@ -2949,6 +2965,7 @@ exports.Prisma.ModelName = {
   BioBlock: 'BioBlock',
   BioQuestion: 'BioQuestion',
   BioSubmission: 'BioSubmission',
+  BioProgress: 'BioProgress',
   BioEvent: 'BioEvent'
 };
 

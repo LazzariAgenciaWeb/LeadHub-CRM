@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { storageEnabled } from "@/lib/storage/s3";
-import { ensureBioPage, loadEditorPage, toEditorInput } from "@/lib/bio-page-server";
+import { canSeeBioAdmin, ensureBioPage, loadEditorPage, toEditorInput } from "@/lib/bio-page-server";
 import { BIO_PUBLIC_PATH, bioDefaultConsent } from "@/lib/bio-page";
 import { prisma } from "@/lib/prisma";
 import PaginaEditor from "./PaginaEditor";
@@ -38,7 +38,8 @@ export default async function PaginaPage() {
     loadEditorPage(companyId),
     prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { name: true, tradeName: true } }),
   ]);
-  const summary = await getOwnerSummary(companyId, page.id);
+  const asAdmin = await canSeeBioAdmin();
+  const summary = await getOwnerSummary(companyId, page.id, { asAdmin });
 
   const base = (process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 
@@ -49,7 +50,7 @@ export default async function PaginaPage() {
       uploadsEnabled={storageEnabled()}
       defaultConsent={bioDefaultConsent(company.tradeName ?? company.name)}
       hasBottomNav={!(session.user as any)?.pageOnly}
-      results={<PaginaResultados summary={summary} />}
+      results={<PaginaResultados summary={summary} adminDetailHref={asAdmin ? `/pagina/admin/${page.id}` : null} />}
     />
   );
 }

@@ -5087,6 +5087,7 @@ model BioPage {
   questions   BioQuestion[]
   submissions BioSubmission[]
   events      BioEvent[]
+  progress    BioProgress[]
 }
 
 model BioBlock {
@@ -5154,8 +5155,37 @@ model BioSubmission {
 
   createdAt DateTime @default(now())
 
+  progress BioProgress?
+
   @@index([pageId, createdAt])
   @@index([leadId])
+}
+
+// Respostas guardadas a cada etapa, antes do contato: quem desiste no meio
+// ainda conta o que queria. Anônimo (sem nome/telefone — dado pessoal só com
+// o consentimento do envio). Um por visitante; o envio marca convertedAt.
+model BioProgress {
+  id        String  @id @default(cuid())
+  page      BioPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId    String
+  visitorId String
+
+  answers     Json      @default("[]") // [{ questionId, question, answer }]
+  reachedForm Boolean   @default(false) // chegou no formulário de contato
+  convertedAt DateTime? // deixou o contato
+  submission   BioSubmission? @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+  submissionId String?        @unique
+
+  referrer    String? @db.Text
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([pageId, visitorId])
+  @@index([pageId, updatedAt])
 }
 
 model BioEvent {

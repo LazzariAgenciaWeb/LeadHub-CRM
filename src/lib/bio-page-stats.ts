@@ -19,6 +19,30 @@ export function daysAgo(n: number): Date {
   return d;
 }
 
+/**
+ * Quem respondeu perguntas e não deixou contato (salvo etapa a etapa). Só
+ * respostas — é anônimo.
+ */
+async function partialAnswers(pageId: string, since: Date) {
+  const rows = await prisma.bioProgress.findMany({
+    where: { pageId, convertedAt: null, updatedAt: { gte: since } },
+    orderBy: { updatedAt: "desc" },
+    take: 50,
+    select: { id: true, answers: true, reachedForm: true, updatedAt: true, referrer: true, utmSource: true },
+  });
+  return rows
+    .map((r) => ({
+      id: r.id,
+      answers: r.answers as { question: string; answer: string }[],
+      reachedForm: r.reachedForm,
+      updatedAt: r.updatedAt.toISOString(),
+      origin: r.utmSource ? `utm: ${r.utmSource}` : referrerLabel(r.referrer),
+    }))
+    .filter((r) => r.answers.length > 0);
+}
+
+export type PartialAnswer = Awaited<ReturnType<typeof partialAnswers>>[number];
+
 async function eventCounts(pageId: string, since: Date) {
   const rows = await prisma.bioEvent.groupBy({
     by: ["kind"],
@@ -35,15 +59,20 @@ async function eventCounts(pageId: string, since: Date) {
   };
 }
 
-/** O que o dono da página vê. `detailed` = plano pago (vê também as respostas). */
-export async function getOwnerSummary(companyId: string, pageId: string) {
+/**
+ * O que o dono da página vê. `detailed` = plano pago (vê também as respostas).
+ * `asAdmin`: quem olha é admin da agência (inclusive visualizando como
+ * cliente) — vê tudo, sem o recorte do plano.
+ */
+export async function getOwnerSummary(companyId: string, pageId: string, { asAdmin = false } = {}) {
   const since = startOfMonth();
   const ctx = await getCompanyPlan(companyId);
-  const limit = ctx.effectiveLimits.leadsPerMonth;
+  const limit = asAdmin ? -1 : ctx.effectiveLimits.leadsPerMonth;
   // Detalhe (respostas) é de plano pago — mesma régua do selo.
-  const detailed = !bioShowsBadge(ctx.tier);
+  const paid = !bioShowsBadge(ctx.tier);
+  const detailed = paid || asAdmin;
 
-  const [counts, contacts] = await Promise.all([
+  const [counts, contacts, partials] = await Promise.all([
     eventCounts(pageId, since),
     // Os primeiros do mês ficam visíveis; os que passam do limite, só no total.
     prisma.bioSubmission.findMany({
@@ -51,16 +80,22 @@ export async function getOwnerSummary(companyId: string, pageId: string) {
       orderBy: { createdAt: "asc" },
       select: { id: true, name: true, phone: true, createdAt: true, answers: detailed },
     }),
+    detailed ? partialAnswers(pageId, since) : Promise.resolve([]),
   ]);
   const { visible, hidden } = visibleLeadCount(contacts.length, limit);
 
   return {
     since: since.toISOString(),
+    // Nome do mês no fuso do servidor, o mesmo que fez o corte — formatar a
+    // data no navegador (fuso -3h) mostrava o mês anterior.
+    monthLabel: new Intl.DateTimeFormat("pt-BR", { month: "long" }).format(since),
     detailed,
+    adminView: asAdmin && !paid,
     views: counts.views,
     clicks: counts.clicks,
     contactsTotal: contacts.length,
     hidden,
+    partials,
     contacts: contacts
       .slice(0, visible)
       .reverse()
@@ -127,7 +162,7 @@ export async function getPageDetail(pageId: string, days = 30) {
   });
   if (!page) return null;
 
-  const [funnel, clicks, origins, submissions] = await Promise.all([
+  const [funnel, clicks, origins, submissions, partials] = await Promise.all([
     eventCounts(pageId, since),
     prisma.bioEvent.groupBy({
       by: ["targetLabel"],
@@ -148,6 +183,7 @@ export async function getPageDetail(pageId: string, days = 30) {
         referrer: true, utmSource: true, utmCampaign: true,
       },
     }),
+    partialAnswers(pageId, since),
   ]);
 
   // Origem: UTM manda (o dono marcou o link); sem UTM, o domínio do referrer.
@@ -170,6 +206,7 @@ export async function getPageDetail(pageId: string, days = 30) {
     funnel,
     clicks: clicks.map((c) => ({ label: c.targetLabel ?? "(item apagado)", count: c._count._all })),
     origins: [...originCount.entries()].map(([label, count]) => ({ label, count })).sort((a, b) => b.count - a.count),
+    partials,
     referrals: page.referrals.map((r) => ({ slug: r.slug, title: r.title, createdAt: r.createdAt.toISOString() })),
     submissions: submissions.map((s) => ({
       id: s.id,

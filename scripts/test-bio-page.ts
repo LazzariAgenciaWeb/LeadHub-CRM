@@ -3,7 +3,7 @@
  * plano grátis. Rodar: npm run test:bio-page
  */
 import type { BioEditorBlock, BioEditorInput } from "../src/lib/bio-page";
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
 
@@ -135,6 +135,19 @@ const auto5 = bioAutosaveInput({ ...salvo, bookingUrl: "javascript:x", contactPh
 ok("autosave grava o telefone e espera a agenda inválida",
   auto5.input.contactPhone === "11 3333-4444" && auto5.input.bookingUrl === null && auto5.pending.includes("Link da agenda inválido"));
 
+
+// ── Respostas salvas etapa a etapa ──
+const qs = [
+  { id: "q1", text: "O que melhorar?", options: ["Instagram", "Google", "Site"], multiple: true },
+  { id: "q2", text: "Quando?", options: ["Agora", "Depois"], multiple: false },
+];
+const snap = bioSnapshotAnswers(qs, [
+  { questionId: "q1", answer: ["Site", "Instagram", "Inventado"] },
+  { questionId: "q2", answer: ["Agora", "Depois"] },
+  { questionId: "q9", answer: "x" },
+]);
+ok("respostas: ordem da pergunta, só opção que existe, única fica com uma",
+  snap.length === 2 && snap[0].answer === "Instagram, Site" && snap[1].answer === "Agora");
 
 if (falhas) {
   console.error(`\n${falhas} falha(s)`);

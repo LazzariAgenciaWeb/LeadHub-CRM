@@ -727,6 +727,11 @@ export type BioQuestion = $Result.DefaultSelection<Prisma.$BioQuestionPayload>
  */
 export type BioSubmission = $Result.DefaultSelection<Prisma.$BioSubmissionPayload>
 /**
+ * Model BioProgress
+ * 
+ */
+export type BioProgress = $Result.DefaultSelection<Prisma.$BioProgressPayload>
+/**
  * Model BioEvent
  * 
  */
@@ -3122,6 +3127,16 @@ export class PrismaClient<
   get bioSubmission(): Prisma.BioSubmissionDelegate<ExtArgs>;
 
   /**
+   * `prisma.bioProgress`: Exposes CRUD operations for the **BioProgress** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BioProgresses
+    * const bioProgresses = await prisma.bioProgress.findMany()
+    * ```
+    */
+  get bioProgress(): Prisma.BioProgressDelegate<ExtArgs>;
+
+  /**
    * `prisma.bioEvent`: Exposes CRUD operations for the **BioEvent** model.
     * Example usage:
     * ```ts
@@ -3712,6 +3727,7 @@ export namespace Prisma {
     BioBlock: 'BioBlock',
     BioQuestion: 'BioQuestion',
     BioSubmission: 'BioSubmission',
+    BioProgress: 'BioProgress',
     BioEvent: 'BioEvent'
   };
 
@@ -3728,7 +3744,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioEvent"
+      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioProgress" | "bioEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -13602,6 +13618,76 @@ export namespace Prisma {
           }
         }
       }
+      BioProgress: {
+        payload: Prisma.$BioProgressPayload<ExtArgs>
+        fields: Prisma.BioProgressFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BioProgressFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BioProgressFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload>
+          }
+          findFirst: {
+            args: Prisma.BioProgressFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BioProgressFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload>
+          }
+          findMany: {
+            args: Prisma.BioProgressFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload>[]
+          }
+          create: {
+            args: Prisma.BioProgressCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload>
+          }
+          createMany: {
+            args: Prisma.BioProgressCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BioProgressCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload>[]
+          }
+          delete: {
+            args: Prisma.BioProgressDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload>
+          }
+          update: {
+            args: Prisma.BioProgressUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload>
+          }
+          deleteMany: {
+            args: Prisma.BioProgressDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BioProgressUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BioProgressUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioProgressPayload>
+          }
+          aggregate: {
+            args: Prisma.BioProgressAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBioProgress>
+          }
+          groupBy: {
+            args: Prisma.BioProgressGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BioProgressGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BioProgressCountArgs<ExtArgs>
+            result: $Utils.Optional<BioProgressCountAggregateOutputType> | number
+          }
+        }
+      }
       BioEvent: {
         payload: Prisma.$BioEventPayload<ExtArgs>
         fields: Prisma.BioEventFieldRefs
@@ -16627,6 +16713,7 @@ export namespace Prisma {
     questions: number
     submissions: number
     events: number
+    progress: number
   }
 
   export type BioPageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16635,6 +16722,7 @@ export namespace Prisma {
     questions?: boolean | BioPageCountOutputTypeCountQuestionsArgs
     submissions?: boolean | BioPageCountOutputTypeCountSubmissionsArgs
     events?: boolean | BioPageCountOutputTypeCountEventsArgs
+    progress?: boolean | BioPageCountOutputTypeCountProgressArgs
   }
 
   // Custom InputTypes
@@ -16681,6 +16769,13 @@ export namespace Prisma {
    */
   export type BioPageCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BioEventWhereInput
+  }
+
+  /**
+   * BioPageCountOutputType without action
+   */
+  export type BioPageCountOutputTypeCountProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioProgressWhereInput
   }
 
 
@@ -166172,6 +166267,7 @@ export namespace Prisma {
     questions?: boolean | BioPage$questionsArgs<ExtArgs>
     submissions?: boolean | BioPage$submissionsArgs<ExtArgs>
     events?: boolean | BioPage$eventsArgs<ExtArgs>
+    progress?: boolean | BioPage$progressArgs<ExtArgs>
     _count?: boolean | BioPageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bioPage"]>
 
@@ -166243,6 +166339,7 @@ export namespace Prisma {
     questions?: boolean | BioPage$questionsArgs<ExtArgs>
     submissions?: boolean | BioPage$submissionsArgs<ExtArgs>
     events?: boolean | BioPage$eventsArgs<ExtArgs>
+    progress?: boolean | BioPage$progressArgs<ExtArgs>
     _count?: boolean | BioPageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BioPageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -166260,6 +166357,7 @@ export namespace Prisma {
       questions: Prisma.$BioQuestionPayload<ExtArgs>[]
       submissions: Prisma.$BioSubmissionPayload<ExtArgs>[]
       events: Prisma.$BioEventPayload<ExtArgs>[]
+      progress: Prisma.$BioProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -166659,6 +166757,7 @@ export namespace Prisma {
     questions<T extends BioPage$questionsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioQuestionPayload<ExtArgs>, T, "findMany"> | Null>
     submissions<T extends BioPage$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findMany"> | Null>
     events<T extends BioPage$eventsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "findMany"> | Null>
+    progress<T extends BioPage$progressArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$progressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -167144,6 +167243,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BioEventScalarFieldEnum | BioEventScalarFieldEnum[]
+  }
+
+  /**
+   * BioPage.progress
+   */
+  export type BioPage$progressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    where?: BioProgressWhereInput
+    orderBy?: BioProgressOrderByWithRelationInput | BioProgressOrderByWithRelationInput[]
+    cursor?: BioProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BioProgressScalarFieldEnum | BioProgressScalarFieldEnum[]
   }
 
   /**
@@ -169485,6 +169604,7 @@ export namespace Prisma {
     createdAt?: boolean
     page?: boolean | BioPageDefaultArgs<ExtArgs>
     lead?: boolean | BioSubmission$leadArgs<ExtArgs>
+    progress?: boolean | BioSubmission$progressArgs<ExtArgs>
   }, ExtArgs["result"]["bioSubmission"]>
 
   export type BioSubmissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -169530,6 +169650,7 @@ export namespace Prisma {
   export type BioSubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     page?: boolean | BioPageDefaultArgs<ExtArgs>
     lead?: boolean | BioSubmission$leadArgs<ExtArgs>
+    progress?: boolean | BioSubmission$progressArgs<ExtArgs>
   }
   export type BioSubmissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     page?: boolean | BioPageDefaultArgs<ExtArgs>
@@ -169541,6 +169662,7 @@ export namespace Prisma {
     objects: {
       page: Prisma.$BioPagePayload<ExtArgs>
       lead: Prisma.$LeadPayload<ExtArgs> | null
+      progress: Prisma.$BioProgressPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -169925,6 +170047,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     page<T extends BioPageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BioPageDefaultArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     lead<T extends BioSubmission$leadArgs<ExtArgs> = {}>(args?: Subset<T, BioSubmission$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    progress<T extends BioSubmission$progressArgs<ExtArgs> = {}>(args?: Subset<T, BioSubmission$progressArgs<ExtArgs>>): Prisma__BioProgressClient<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -170303,6 +170426,21 @@ export namespace Prisma {
   }
 
   /**
+   * BioSubmission.progress
+   */
+  export type BioSubmission$progressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    where?: BioProgressWhereInput
+  }
+
+  /**
    * BioSubmission without action
    */
   export type BioSubmissionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -170314,6 +170452,1052 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BioSubmissionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BioProgress
+   */
+
+  export type AggregateBioProgress = {
+    _count: BioProgressCountAggregateOutputType | null
+    _min: BioProgressMinAggregateOutputType | null
+    _max: BioProgressMaxAggregateOutputType | null
+  }
+
+  export type BioProgressMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    visitorId: string | null
+    reachedForm: boolean | null
+    convertedAt: Date | null
+    submissionId: string | null
+    referrer: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioProgressMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    visitorId: string | null
+    reachedForm: boolean | null
+    convertedAt: Date | null
+    submissionId: string | null
+    referrer: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioProgressCountAggregateOutputType = {
+    id: number
+    pageId: number
+    visitorId: number
+    answers: number
+    reachedForm: number
+    convertedAt: number
+    submissionId: number
+    referrer: number
+    utmSource: number
+    utmMedium: number
+    utmCampaign: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BioProgressMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    visitorId?: true
+    reachedForm?: true
+    convertedAt?: true
+    submissionId?: true
+    referrer?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioProgressMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    visitorId?: true
+    reachedForm?: true
+    convertedAt?: true
+    submissionId?: true
+    referrer?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioProgressCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    visitorId?: true
+    answers?: true
+    reachedForm?: true
+    convertedAt?: true
+    submissionId?: true
+    referrer?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BioProgressAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioProgress to aggregate.
+     */
+    where?: BioProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioProgresses to fetch.
+     */
+    orderBy?: BioProgressOrderByWithRelationInput | BioProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BioProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BioProgresses
+    **/
+    _count?: true | BioProgressCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BioProgressMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BioProgressMaxAggregateInputType
+  }
+
+  export type GetBioProgressAggregateType<T extends BioProgressAggregateArgs> = {
+        [P in keyof T & keyof AggregateBioProgress]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBioProgress[P]>
+      : GetScalarType<T[P], AggregateBioProgress[P]>
+  }
+
+
+
+
+  export type BioProgressGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioProgressWhereInput
+    orderBy?: BioProgressOrderByWithAggregationInput | BioProgressOrderByWithAggregationInput[]
+    by: BioProgressScalarFieldEnum[] | BioProgressScalarFieldEnum
+    having?: BioProgressScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BioProgressCountAggregateInputType | true
+    _min?: BioProgressMinAggregateInputType
+    _max?: BioProgressMaxAggregateInputType
+  }
+
+  export type BioProgressGroupByOutputType = {
+    id: string
+    pageId: string
+    visitorId: string
+    answers: JsonValue
+    reachedForm: boolean
+    convertedAt: Date | null
+    submissionId: string | null
+    referrer: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BioProgressCountAggregateOutputType | null
+    _min: BioProgressMinAggregateOutputType | null
+    _max: BioProgressMaxAggregateOutputType | null
+  }
+
+  type GetBioProgressGroupByPayload<T extends BioProgressGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BioProgressGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BioProgressGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BioProgressGroupByOutputType[P]>
+            : GetScalarType<T[P], BioProgressGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BioProgressSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    visitorId?: boolean
+    answers?: boolean
+    reachedForm?: boolean
+    convertedAt?: boolean
+    submissionId?: boolean
+    referrer?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+    submission?: boolean | BioProgress$submissionArgs<ExtArgs>
+  }, ExtArgs["result"]["bioProgress"]>
+
+  export type BioProgressSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    visitorId?: boolean
+    answers?: boolean
+    reachedForm?: boolean
+    convertedAt?: boolean
+    submissionId?: boolean
+    referrer?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+    submission?: boolean | BioProgress$submissionArgs<ExtArgs>
+  }, ExtArgs["result"]["bioProgress"]>
+
+  export type BioProgressSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    visitorId?: boolean
+    answers?: boolean
+    reachedForm?: boolean
+    convertedAt?: boolean
+    submissionId?: boolean
+    referrer?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BioProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+    submission?: boolean | BioProgress$submissionArgs<ExtArgs>
+  }
+  export type BioProgressIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+    submission?: boolean | BioProgress$submissionArgs<ExtArgs>
+  }
+
+  export type $BioProgressPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BioProgress"
+    objects: {
+      page: Prisma.$BioPagePayload<ExtArgs>
+      submission: Prisma.$BioSubmissionPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      visitorId: string
+      answers: Prisma.JsonValue
+      reachedForm: boolean
+      convertedAt: Date | null
+      submissionId: string | null
+      referrer: string | null
+      utmSource: string | null
+      utmMedium: string | null
+      utmCampaign: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bioProgress"]>
+    composites: {}
+  }
+
+  type BioProgressGetPayload<S extends boolean | null | undefined | BioProgressDefaultArgs> = $Result.GetResult<Prisma.$BioProgressPayload, S>
+
+  type BioProgressCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BioProgressFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BioProgressCountAggregateInputType | true
+    }
+
+  export interface BioProgressDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BioProgress'], meta: { name: 'BioProgress' } }
+    /**
+     * Find zero or one BioProgress that matches the filter.
+     * @param {BioProgressFindUniqueArgs} args - Arguments to find a BioProgress
+     * @example
+     * // Get one BioProgress
+     * const bioProgress = await prisma.bioProgress.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BioProgressFindUniqueArgs>(args: SelectSubset<T, BioProgressFindUniqueArgs<ExtArgs>>): Prisma__BioProgressClient<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BioProgress that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BioProgressFindUniqueOrThrowArgs} args - Arguments to find a BioProgress
+     * @example
+     * // Get one BioProgress
+     * const bioProgress = await prisma.bioProgress.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BioProgressFindUniqueOrThrowArgs>(args: SelectSubset<T, BioProgressFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BioProgressClient<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BioProgress that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioProgressFindFirstArgs} args - Arguments to find a BioProgress
+     * @example
+     * // Get one BioProgress
+     * const bioProgress = await prisma.bioProgress.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BioProgressFindFirstArgs>(args?: SelectSubset<T, BioProgressFindFirstArgs<ExtArgs>>): Prisma__BioProgressClient<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BioProgress that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioProgressFindFirstOrThrowArgs} args - Arguments to find a BioProgress
+     * @example
+     * // Get one BioProgress
+     * const bioProgress = await prisma.bioProgress.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BioProgressFindFirstOrThrowArgs>(args?: SelectSubset<T, BioProgressFindFirstOrThrowArgs<ExtArgs>>): Prisma__BioProgressClient<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BioProgresses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioProgressFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BioProgresses
+     * const bioProgresses = await prisma.bioProgress.findMany()
+     * 
+     * // Get first 10 BioProgresses
+     * const bioProgresses = await prisma.bioProgress.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bioProgressWithIdOnly = await prisma.bioProgress.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BioProgressFindManyArgs>(args?: SelectSubset<T, BioProgressFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BioProgress.
+     * @param {BioProgressCreateArgs} args - Arguments to create a BioProgress.
+     * @example
+     * // Create one BioProgress
+     * const BioProgress = await prisma.bioProgress.create({
+     *   data: {
+     *     // ... data to create a BioProgress
+     *   }
+     * })
+     * 
+     */
+    create<T extends BioProgressCreateArgs>(args: SelectSubset<T, BioProgressCreateArgs<ExtArgs>>): Prisma__BioProgressClient<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BioProgresses.
+     * @param {BioProgressCreateManyArgs} args - Arguments to create many BioProgresses.
+     * @example
+     * // Create many BioProgresses
+     * const bioProgress = await prisma.bioProgress.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BioProgressCreateManyArgs>(args?: SelectSubset<T, BioProgressCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BioProgresses and returns the data saved in the database.
+     * @param {BioProgressCreateManyAndReturnArgs} args - Arguments to create many BioProgresses.
+     * @example
+     * // Create many BioProgresses
+     * const bioProgress = await prisma.bioProgress.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BioProgresses and only return the `id`
+     * const bioProgressWithIdOnly = await prisma.bioProgress.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BioProgressCreateManyAndReturnArgs>(args?: SelectSubset<T, BioProgressCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BioProgress.
+     * @param {BioProgressDeleteArgs} args - Arguments to delete one BioProgress.
+     * @example
+     * // Delete one BioProgress
+     * const BioProgress = await prisma.bioProgress.delete({
+     *   where: {
+     *     // ... filter to delete one BioProgress
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BioProgressDeleteArgs>(args: SelectSubset<T, BioProgressDeleteArgs<ExtArgs>>): Prisma__BioProgressClient<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BioProgress.
+     * @param {BioProgressUpdateArgs} args - Arguments to update one BioProgress.
+     * @example
+     * // Update one BioProgress
+     * const bioProgress = await prisma.bioProgress.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BioProgressUpdateArgs>(args: SelectSubset<T, BioProgressUpdateArgs<ExtArgs>>): Prisma__BioProgressClient<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BioProgresses.
+     * @param {BioProgressDeleteManyArgs} args - Arguments to filter BioProgresses to delete.
+     * @example
+     * // Delete a few BioProgresses
+     * const { count } = await prisma.bioProgress.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BioProgressDeleteManyArgs>(args?: SelectSubset<T, BioProgressDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BioProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioProgressUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BioProgresses
+     * const bioProgress = await prisma.bioProgress.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BioProgressUpdateManyArgs>(args: SelectSubset<T, BioProgressUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BioProgress.
+     * @param {BioProgressUpsertArgs} args - Arguments to update or create a BioProgress.
+     * @example
+     * // Update or create a BioProgress
+     * const bioProgress = await prisma.bioProgress.upsert({
+     *   create: {
+     *     // ... data to create a BioProgress
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BioProgress we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BioProgressUpsertArgs>(args: SelectSubset<T, BioProgressUpsertArgs<ExtArgs>>): Prisma__BioProgressClient<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BioProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioProgressCountArgs} args - Arguments to filter BioProgresses to count.
+     * @example
+     * // Count the number of BioProgresses
+     * const count = await prisma.bioProgress.count({
+     *   where: {
+     *     // ... the filter for the BioProgresses we want to count
+     *   }
+     * })
+    **/
+    count<T extends BioProgressCountArgs>(
+      args?: Subset<T, BioProgressCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BioProgressCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BioProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioProgressAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BioProgressAggregateArgs>(args: Subset<T, BioProgressAggregateArgs>): Prisma.PrismaPromise<GetBioProgressAggregateType<T>>
+
+    /**
+     * Group by BioProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioProgressGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BioProgressGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BioProgressGroupByArgs['orderBy'] }
+        : { orderBy?: BioProgressGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BioProgressGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBioProgressGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BioProgress model
+   */
+  readonly fields: BioProgressFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BioProgress.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BioProgressClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends BioPageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BioPageDefaultArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    submission<T extends BioProgress$submissionArgs<ExtArgs> = {}>(args?: Subset<T, BioProgress$submissionArgs<ExtArgs>>): Prisma__BioSubmissionClient<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BioProgress model
+   */ 
+  interface BioProgressFieldRefs {
+    readonly id: FieldRef<"BioProgress", 'String'>
+    readonly pageId: FieldRef<"BioProgress", 'String'>
+    readonly visitorId: FieldRef<"BioProgress", 'String'>
+    readonly answers: FieldRef<"BioProgress", 'Json'>
+    readonly reachedForm: FieldRef<"BioProgress", 'Boolean'>
+    readonly convertedAt: FieldRef<"BioProgress", 'DateTime'>
+    readonly submissionId: FieldRef<"BioProgress", 'String'>
+    readonly referrer: FieldRef<"BioProgress", 'String'>
+    readonly utmSource: FieldRef<"BioProgress", 'String'>
+    readonly utmMedium: FieldRef<"BioProgress", 'String'>
+    readonly utmCampaign: FieldRef<"BioProgress", 'String'>
+    readonly createdAt: FieldRef<"BioProgress", 'DateTime'>
+    readonly updatedAt: FieldRef<"BioProgress", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BioProgress findUnique
+   */
+  export type BioProgressFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which BioProgress to fetch.
+     */
+    where: BioProgressWhereUniqueInput
+  }
+
+  /**
+   * BioProgress findUniqueOrThrow
+   */
+  export type BioProgressFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which BioProgress to fetch.
+     */
+    where: BioProgressWhereUniqueInput
+  }
+
+  /**
+   * BioProgress findFirst
+   */
+  export type BioProgressFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which BioProgress to fetch.
+     */
+    where?: BioProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioProgresses to fetch.
+     */
+    orderBy?: BioProgressOrderByWithRelationInput | BioProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioProgresses.
+     */
+    cursor?: BioProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioProgresses.
+     */
+    distinct?: BioProgressScalarFieldEnum | BioProgressScalarFieldEnum[]
+  }
+
+  /**
+   * BioProgress findFirstOrThrow
+   */
+  export type BioProgressFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which BioProgress to fetch.
+     */
+    where?: BioProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioProgresses to fetch.
+     */
+    orderBy?: BioProgressOrderByWithRelationInput | BioProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioProgresses.
+     */
+    cursor?: BioProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioProgresses.
+     */
+    distinct?: BioProgressScalarFieldEnum | BioProgressScalarFieldEnum[]
+  }
+
+  /**
+   * BioProgress findMany
+   */
+  export type BioProgressFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which BioProgresses to fetch.
+     */
+    where?: BioProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioProgresses to fetch.
+     */
+    orderBy?: BioProgressOrderByWithRelationInput | BioProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BioProgresses.
+     */
+    cursor?: BioProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioProgresses.
+     */
+    skip?: number
+    distinct?: BioProgressScalarFieldEnum | BioProgressScalarFieldEnum[]
+  }
+
+  /**
+   * BioProgress create
+   */
+  export type BioProgressCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BioProgress.
+     */
+    data: XOR<BioProgressCreateInput, BioProgressUncheckedCreateInput>
+  }
+
+  /**
+   * BioProgress createMany
+   */
+  export type BioProgressCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BioProgresses.
+     */
+    data: BioProgressCreateManyInput | BioProgressCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BioProgress createManyAndReturn
+   */
+  export type BioProgressCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BioProgresses.
+     */
+    data: BioProgressCreateManyInput | BioProgressCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BioProgress update
+   */
+  export type BioProgressUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BioProgress.
+     */
+    data: XOR<BioProgressUpdateInput, BioProgressUncheckedUpdateInput>
+    /**
+     * Choose, which BioProgress to update.
+     */
+    where: BioProgressWhereUniqueInput
+  }
+
+  /**
+   * BioProgress updateMany
+   */
+  export type BioProgressUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BioProgresses.
+     */
+    data: XOR<BioProgressUpdateManyMutationInput, BioProgressUncheckedUpdateManyInput>
+    /**
+     * Filter which BioProgresses to update
+     */
+    where?: BioProgressWhereInput
+  }
+
+  /**
+   * BioProgress upsert
+   */
+  export type BioProgressUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BioProgress to update in case it exists.
+     */
+    where: BioProgressWhereUniqueInput
+    /**
+     * In case the BioProgress found by the `where` argument doesn't exist, create a new BioProgress with this data.
+     */
+    create: XOR<BioProgressCreateInput, BioProgressUncheckedCreateInput>
+    /**
+     * In case the BioProgress was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BioProgressUpdateInput, BioProgressUncheckedUpdateInput>
+  }
+
+  /**
+   * BioProgress delete
+   */
+  export type BioProgressDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
+    /**
+     * Filter which BioProgress to delete.
+     */
+    where: BioProgressWhereUniqueInput
+  }
+
+  /**
+   * BioProgress deleteMany
+   */
+  export type BioProgressDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioProgresses to delete
+     */
+    where?: BioProgressWhereInput
+  }
+
+  /**
+   * BioProgress.submission
+   */
+  export type BioProgress$submissionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioSubmission
+     */
+    select?: BioSubmissionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioSubmissionInclude<ExtArgs> | null
+    where?: BioSubmissionWhereInput
+  }
+
+  /**
+   * BioProgress without action
+   */
+  export type BioProgressDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioProgress
+     */
+    select?: BioProgressSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioProgressInclude<ExtArgs> | null
   }
 
 
@@ -173940,6 +175124,25 @@ export namespace Prisma {
   };
 
   export type BioSubmissionScalarFieldEnum = (typeof BioSubmissionScalarFieldEnum)[keyof typeof BioSubmissionScalarFieldEnum]
+
+
+  export const BioProgressScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    visitorId: 'visitorId',
+    answers: 'answers',
+    reachedForm: 'reachedForm',
+    convertedAt: 'convertedAt',
+    submissionId: 'submissionId',
+    referrer: 'referrer',
+    utmSource: 'utmSource',
+    utmMedium: 'utmMedium',
+    utmCampaign: 'utmCampaign',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BioProgressScalarFieldEnum = (typeof BioProgressScalarFieldEnum)[keyof typeof BioProgressScalarFieldEnum]
 
 
   export const BioEventScalarFieldEnum: {
@@ -188649,6 +189852,7 @@ export namespace Prisma {
     questions?: BioQuestionListRelationFilter
     submissions?: BioSubmissionListRelationFilter
     events?: BioEventListRelationFilter
+    progress?: BioProgressListRelationFilter
   }
 
   export type BioPageOrderByWithRelationInput = {
@@ -188685,6 +189889,7 @@ export namespace Prisma {
     questions?: BioQuestionOrderByRelationAggregateInput
     submissions?: BioSubmissionOrderByRelationAggregateInput
     events?: BioEventOrderByRelationAggregateInput
+    progress?: BioProgressOrderByRelationAggregateInput
   }
 
   export type BioPageWhereUniqueInput = Prisma.AtLeast<{
@@ -188724,6 +189929,7 @@ export namespace Prisma {
     questions?: BioQuestionListRelationFilter
     submissions?: BioSubmissionListRelationFilter
     events?: BioEventListRelationFilter
+    progress?: BioProgressListRelationFilter
   }, "id" | "companyId" | "slug">
 
   export type BioPageOrderByWithAggregationInput = {
@@ -188986,6 +190192,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"BioSubmission"> | Date | string
     page?: XOR<BioPageRelationFilter, BioPageWhereInput>
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
+    progress?: XOR<BioProgressNullableRelationFilter, BioProgressWhereInput> | null
   }
 
   export type BioSubmissionOrderByWithRelationInput = {
@@ -189007,6 +190214,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     page?: BioPageOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
+    progress?: BioProgressOrderByWithRelationInput
   }
 
   export type BioSubmissionWhereUniqueInput = Prisma.AtLeast<{
@@ -189031,6 +190239,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"BioSubmission"> | Date | string
     page?: XOR<BioPageRelationFilter, BioPageWhereInput>
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
+    progress?: XOR<BioProgressNullableRelationFilter, BioProgressWhereInput> | null
   }, "id">
 
   export type BioSubmissionOrderByWithAggregationInput = {
@@ -189075,6 +190284,105 @@ export namespace Prisma {
     clientIp?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
     userAgent?: StringNullableWithAggregatesFilter<"BioSubmission"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BioSubmission"> | Date | string
+  }
+
+  export type BioProgressWhereInput = {
+    AND?: BioProgressWhereInput | BioProgressWhereInput[]
+    OR?: BioProgressWhereInput[]
+    NOT?: BioProgressWhereInput | BioProgressWhereInput[]
+    id?: StringFilter<"BioProgress"> | string
+    pageId?: StringFilter<"BioProgress"> | string
+    visitorId?: StringFilter<"BioProgress"> | string
+    answers?: JsonFilter<"BioProgress">
+    reachedForm?: BoolFilter<"BioProgress"> | boolean
+    convertedAt?: DateTimeNullableFilter<"BioProgress"> | Date | string | null
+    submissionId?: StringNullableFilter<"BioProgress"> | string | null
+    referrer?: StringNullableFilter<"BioProgress"> | string | null
+    utmSource?: StringNullableFilter<"BioProgress"> | string | null
+    utmMedium?: StringNullableFilter<"BioProgress"> | string | null
+    utmCampaign?: StringNullableFilter<"BioProgress"> | string | null
+    createdAt?: DateTimeFilter<"BioProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"BioProgress"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+    submission?: XOR<BioSubmissionNullableRelationFilter, BioSubmissionWhereInput> | null
+  }
+
+  export type BioProgressOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    visitorId?: SortOrder
+    answers?: SortOrder
+    reachedForm?: SortOrder
+    convertedAt?: SortOrderInput | SortOrder
+    submissionId?: SortOrderInput | SortOrder
+    referrer?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    page?: BioPageOrderByWithRelationInput
+    submission?: BioSubmissionOrderByWithRelationInput
+  }
+
+  export type BioProgressWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    submissionId?: string
+    pageId_visitorId?: BioProgressPageIdVisitorIdCompoundUniqueInput
+    AND?: BioProgressWhereInput | BioProgressWhereInput[]
+    OR?: BioProgressWhereInput[]
+    NOT?: BioProgressWhereInput | BioProgressWhereInput[]
+    pageId?: StringFilter<"BioProgress"> | string
+    visitorId?: StringFilter<"BioProgress"> | string
+    answers?: JsonFilter<"BioProgress">
+    reachedForm?: BoolFilter<"BioProgress"> | boolean
+    convertedAt?: DateTimeNullableFilter<"BioProgress"> | Date | string | null
+    referrer?: StringNullableFilter<"BioProgress"> | string | null
+    utmSource?: StringNullableFilter<"BioProgress"> | string | null
+    utmMedium?: StringNullableFilter<"BioProgress"> | string | null
+    utmCampaign?: StringNullableFilter<"BioProgress"> | string | null
+    createdAt?: DateTimeFilter<"BioProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"BioProgress"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+    submission?: XOR<BioSubmissionNullableRelationFilter, BioSubmissionWhereInput> | null
+  }, "id" | "submissionId" | "pageId_visitorId">
+
+  export type BioProgressOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    visitorId?: SortOrder
+    answers?: SortOrder
+    reachedForm?: SortOrder
+    convertedAt?: SortOrderInput | SortOrder
+    submissionId?: SortOrderInput | SortOrder
+    referrer?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BioProgressCountOrderByAggregateInput
+    _max?: BioProgressMaxOrderByAggregateInput
+    _min?: BioProgressMinOrderByAggregateInput
+  }
+
+  export type BioProgressScalarWhereWithAggregatesInput = {
+    AND?: BioProgressScalarWhereWithAggregatesInput | BioProgressScalarWhereWithAggregatesInput[]
+    OR?: BioProgressScalarWhereWithAggregatesInput[]
+    NOT?: BioProgressScalarWhereWithAggregatesInput | BioProgressScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BioProgress"> | string
+    pageId?: StringWithAggregatesFilter<"BioProgress"> | string
+    visitorId?: StringWithAggregatesFilter<"BioProgress"> | string
+    answers?: JsonWithAggregatesFilter<"BioProgress">
+    reachedForm?: BoolWithAggregatesFilter<"BioProgress"> | boolean
+    convertedAt?: DateTimeNullableWithAggregatesFilter<"BioProgress"> | Date | string | null
+    submissionId?: StringNullableWithAggregatesFilter<"BioProgress"> | string | null
+    referrer?: StringNullableWithAggregatesFilter<"BioProgress"> | string | null
+    utmSource?: StringNullableWithAggregatesFilter<"BioProgress"> | string | null
+    utmMedium?: StringNullableWithAggregatesFilter<"BioProgress"> | string | null
+    utmCampaign?: StringNullableWithAggregatesFilter<"BioProgress"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BioProgress"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BioProgress"> | Date | string
   }
 
   export type BioEventWhereInput = {
@@ -204629,6 +205937,7 @@ export namespace Prisma {
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
+    progress?: BioProgressCreateNestedManyWithoutPageInput
   }
 
   export type BioPageUncheckedCreateInput = {
@@ -204663,6 +205972,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+    progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type BioPageUpdateInput = {
@@ -204697,6 +206007,7 @@ export namespace Prisma {
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateInput = {
@@ -204731,6 +206042,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageCreateManyInput = {
@@ -205029,6 +206341,7 @@ export namespace Prisma {
     createdAt?: Date | string
     page: BioPageCreateNestedOneWithoutSubmissionsInput
     lead?: LeadCreateNestedOneWithoutBioSubmissionsInput
+    progress?: BioProgressCreateNestedOneWithoutSubmissionInput
   }
 
   export type BioSubmissionUncheckedCreateInput = {
@@ -205048,6 +206361,7 @@ export namespace Prisma {
     clientIp?: string | null
     userAgent?: string | null
     createdAt?: Date | string
+    progress?: BioProgressUncheckedCreateNestedOneWithoutSubmissionInput
   }
 
   export type BioSubmissionUpdateInput = {
@@ -205067,6 +206381,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     page?: BioPageUpdateOneRequiredWithoutSubmissionsNestedInput
     lead?: LeadUpdateOneWithoutBioSubmissionsNestedInput
+    progress?: BioProgressUpdateOneWithoutSubmissionNestedInput
   }
 
   export type BioSubmissionUncheckedUpdateInput = {
@@ -205086,6 +206401,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progress?: BioProgressUncheckedUpdateOneWithoutSubmissionNestedInput
   }
 
   export type BioSubmissionCreateManyInput = {
@@ -205141,6 +206457,116 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioProgressCreateInput = {
+    id?: string
+    visitorId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: boolean
+    convertedAt?: Date | string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    page: BioPageCreateNestedOneWithoutProgressInput
+    submission?: BioSubmissionCreateNestedOneWithoutProgressInput
+  }
+
+  export type BioProgressUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    visitorId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: boolean
+    convertedAt?: Date | string | null
+    submissionId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioProgressUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitorId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: BoolFieldUpdateOperationsInput | boolean
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: BioPageUpdateOneRequiredWithoutProgressNestedInput
+    submission?: BioSubmissionUpdateOneWithoutProgressNestedInput
+  }
+
+  export type BioProgressUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    visitorId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: BoolFieldUpdateOperationsInput | boolean
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submissionId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioProgressCreateManyInput = {
+    id?: string
+    pageId: string
+    visitorId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: boolean
+    convertedAt?: Date | string | null
+    submissionId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioProgressUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitorId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: BoolFieldUpdateOperationsInput | boolean
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioProgressUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    visitorId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: BoolFieldUpdateOperationsInput | boolean
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submissionId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BioEventCreateInput = {
@@ -215468,6 +216894,12 @@ export namespace Prisma {
     none?: BioEventWhereInput
   }
 
+  export type BioProgressListRelationFilter = {
+    every?: BioProgressWhereInput
+    some?: BioProgressWhereInput
+    none?: BioProgressWhereInput
+  }
+
   export type BioPageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -215481,6 +216913,10 @@ export namespace Prisma {
   }
 
   export type BioEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BioProgressOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -215701,6 +217137,11 @@ export namespace Prisma {
     order?: SortOrder
   }
 
+  export type BioProgressNullableRelationFilter = {
+    is?: BioProgressWhereInput | null
+    isNot?: BioProgressWhereInput | null
+  }
+
   export type BioSubmissionCountOrderByAggregateInput = {
     id?: SortOrder
     pageId?: SortOrder
@@ -215754,6 +217195,62 @@ export namespace Prisma {
     clientIp?: SortOrder
     userAgent?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type BioSubmissionNullableRelationFilter = {
+    is?: BioSubmissionWhereInput | null
+    isNot?: BioSubmissionWhereInput | null
+  }
+
+  export type BioProgressPageIdVisitorIdCompoundUniqueInput = {
+    pageId: string
+    visitorId: string
+  }
+
+  export type BioProgressCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    visitorId?: SortOrder
+    answers?: SortOrder
+    reachedForm?: SortOrder
+    convertedAt?: SortOrder
+    submissionId?: SortOrder
+    referrer?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioProgressMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    visitorId?: SortOrder
+    reachedForm?: SortOrder
+    convertedAt?: SortOrder
+    submissionId?: SortOrder
+    referrer?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioProgressMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    visitorId?: SortOrder
+    reachedForm?: SortOrder
+    convertedAt?: SortOrder
+    submissionId?: SortOrder
+    referrer?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumBioEventKindFilter<$PrismaModel = never> = {
@@ -228937,6 +230434,13 @@ export namespace Prisma {
     connect?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
   }
 
+  export type BioProgressCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioProgressCreateWithoutPageInput, BioProgressUncheckedCreateWithoutPageInput> | BioProgressCreateWithoutPageInput[] | BioProgressUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioProgressCreateOrConnectWithoutPageInput | BioProgressCreateOrConnectWithoutPageInput[]
+    createMany?: BioProgressCreateManyPageInputEnvelope
+    connect?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+  }
+
   export type BioPageUncheckedCreateNestedManyWithoutReferredByInput = {
     create?: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput> | BioPageCreateWithoutReferredByInput[] | BioPageUncheckedCreateWithoutReferredByInput[]
     connectOrCreate?: BioPageCreateOrConnectWithoutReferredByInput | BioPageCreateOrConnectWithoutReferredByInput[]
@@ -228970,6 +230474,13 @@ export namespace Prisma {
     connectOrCreate?: BioEventCreateOrConnectWithoutPageInput | BioEventCreateOrConnectWithoutPageInput[]
     createMany?: BioEventCreateManyPageInputEnvelope
     connect?: BioEventWhereUniqueInput | BioEventWhereUniqueInput[]
+  }
+
+  export type BioProgressUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<BioProgressCreateWithoutPageInput, BioProgressUncheckedCreateWithoutPageInput> | BioProgressCreateWithoutPageInput[] | BioProgressUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioProgressCreateOrConnectWithoutPageInput | BioProgressCreateOrConnectWithoutPageInput[]
+    createMany?: BioProgressCreateManyPageInputEnvelope
+    connect?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
   }
 
   export type EnumBioTemplateFieldUpdateOperationsInput = {
@@ -229064,6 +230575,20 @@ export namespace Prisma {
     deleteMany?: BioEventScalarWhereInput | BioEventScalarWhereInput[]
   }
 
+  export type BioProgressUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioProgressCreateWithoutPageInput, BioProgressUncheckedCreateWithoutPageInput> | BioProgressCreateWithoutPageInput[] | BioProgressUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioProgressCreateOrConnectWithoutPageInput | BioProgressCreateOrConnectWithoutPageInput[]
+    upsert?: BioProgressUpsertWithWhereUniqueWithoutPageInput | BioProgressUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioProgressCreateManyPageInputEnvelope
+    set?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+    disconnect?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+    delete?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+    connect?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+    update?: BioProgressUpdateWithWhereUniqueWithoutPageInput | BioProgressUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioProgressUpdateManyWithWhereWithoutPageInput | BioProgressUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioProgressScalarWhereInput | BioProgressScalarWhereInput[]
+  }
+
   export type BioPageUncheckedUpdateManyWithoutReferredByNestedInput = {
     create?: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput> | BioPageCreateWithoutReferredByInput[] | BioPageUncheckedCreateWithoutReferredByInput[]
     connectOrCreate?: BioPageCreateOrConnectWithoutReferredByInput | BioPageCreateOrConnectWithoutReferredByInput[]
@@ -229134,6 +230659,20 @@ export namespace Prisma {
     deleteMany?: BioEventScalarWhereInput | BioEventScalarWhereInput[]
   }
 
+  export type BioProgressUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<BioProgressCreateWithoutPageInput, BioProgressUncheckedCreateWithoutPageInput> | BioProgressCreateWithoutPageInput[] | BioProgressUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: BioProgressCreateOrConnectWithoutPageInput | BioProgressCreateOrConnectWithoutPageInput[]
+    upsert?: BioProgressUpsertWithWhereUniqueWithoutPageInput | BioProgressUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: BioProgressCreateManyPageInputEnvelope
+    set?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+    disconnect?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+    delete?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+    connect?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+    update?: BioProgressUpdateWithWhereUniqueWithoutPageInput | BioProgressUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: BioProgressUpdateManyWithWhereWithoutPageInput | BioProgressUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: BioProgressScalarWhereInput | BioProgressScalarWhereInput[]
+  }
+
   export type BioPageCreateNestedOneWithoutBlocksInput = {
     create?: XOR<BioPageCreateWithoutBlocksInput, BioPageUncheckedCreateWithoutBlocksInput>
     connectOrCreate?: BioPageCreateOrConnectWithoutBlocksInput
@@ -229187,6 +230726,18 @@ export namespace Prisma {
     connect?: LeadWhereUniqueInput
   }
 
+  export type BioProgressCreateNestedOneWithoutSubmissionInput = {
+    create?: XOR<BioProgressCreateWithoutSubmissionInput, BioProgressUncheckedCreateWithoutSubmissionInput>
+    connectOrCreate?: BioProgressCreateOrConnectWithoutSubmissionInput
+    connect?: BioProgressWhereUniqueInput
+  }
+
+  export type BioProgressUncheckedCreateNestedOneWithoutSubmissionInput = {
+    create?: XOR<BioProgressCreateWithoutSubmissionInput, BioProgressUncheckedCreateWithoutSubmissionInput>
+    connectOrCreate?: BioProgressCreateOrConnectWithoutSubmissionInput
+    connect?: BioProgressWhereUniqueInput
+  }
+
   export type BioPageUpdateOneRequiredWithoutSubmissionsNestedInput = {
     create?: XOR<BioPageCreateWithoutSubmissionsInput, BioPageUncheckedCreateWithoutSubmissionsInput>
     connectOrCreate?: BioPageCreateOrConnectWithoutSubmissionsInput
@@ -229203,6 +230754,56 @@ export namespace Prisma {
     delete?: LeadWhereInput | boolean
     connect?: LeadWhereUniqueInput
     update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutBioSubmissionsInput, LeadUpdateWithoutBioSubmissionsInput>, LeadUncheckedUpdateWithoutBioSubmissionsInput>
+  }
+
+  export type BioProgressUpdateOneWithoutSubmissionNestedInput = {
+    create?: XOR<BioProgressCreateWithoutSubmissionInput, BioProgressUncheckedCreateWithoutSubmissionInput>
+    connectOrCreate?: BioProgressCreateOrConnectWithoutSubmissionInput
+    upsert?: BioProgressUpsertWithoutSubmissionInput
+    disconnect?: BioProgressWhereInput | boolean
+    delete?: BioProgressWhereInput | boolean
+    connect?: BioProgressWhereUniqueInput
+    update?: XOR<XOR<BioProgressUpdateToOneWithWhereWithoutSubmissionInput, BioProgressUpdateWithoutSubmissionInput>, BioProgressUncheckedUpdateWithoutSubmissionInput>
+  }
+
+  export type BioProgressUncheckedUpdateOneWithoutSubmissionNestedInput = {
+    create?: XOR<BioProgressCreateWithoutSubmissionInput, BioProgressUncheckedCreateWithoutSubmissionInput>
+    connectOrCreate?: BioProgressCreateOrConnectWithoutSubmissionInput
+    upsert?: BioProgressUpsertWithoutSubmissionInput
+    disconnect?: BioProgressWhereInput | boolean
+    delete?: BioProgressWhereInput | boolean
+    connect?: BioProgressWhereUniqueInput
+    update?: XOR<XOR<BioProgressUpdateToOneWithWhereWithoutSubmissionInput, BioProgressUpdateWithoutSubmissionInput>, BioProgressUncheckedUpdateWithoutSubmissionInput>
+  }
+
+  export type BioPageCreateNestedOneWithoutProgressInput = {
+    create?: XOR<BioPageCreateWithoutProgressInput, BioPageUncheckedCreateWithoutProgressInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutProgressInput
+    connect?: BioPageWhereUniqueInput
+  }
+
+  export type BioSubmissionCreateNestedOneWithoutProgressInput = {
+    create?: XOR<BioSubmissionCreateWithoutProgressInput, BioSubmissionUncheckedCreateWithoutProgressInput>
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutProgressInput
+    connect?: BioSubmissionWhereUniqueInput
+  }
+
+  export type BioPageUpdateOneRequiredWithoutProgressNestedInput = {
+    create?: XOR<BioPageCreateWithoutProgressInput, BioPageUncheckedCreateWithoutProgressInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutProgressInput
+    upsert?: BioPageUpsertWithoutProgressInput
+    connect?: BioPageWhereUniqueInput
+    update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutProgressInput, BioPageUpdateWithoutProgressInput>, BioPageUncheckedUpdateWithoutProgressInput>
+  }
+
+  export type BioSubmissionUpdateOneWithoutProgressNestedInput = {
+    create?: XOR<BioSubmissionCreateWithoutProgressInput, BioSubmissionUncheckedCreateWithoutProgressInput>
+    connectOrCreate?: BioSubmissionCreateOrConnectWithoutProgressInput
+    upsert?: BioSubmissionUpsertWithoutProgressInput
+    disconnect?: BioSubmissionWhereInput | boolean
+    delete?: BioSubmissionWhereInput | boolean
+    connect?: BioSubmissionWhereUniqueInput
+    update?: XOR<XOR<BioSubmissionUpdateToOneWithWhereWithoutProgressInput, BioSubmissionUpdateWithoutProgressInput>, BioSubmissionUncheckedUpdateWithoutProgressInput>
   }
 
   export type BioPageCreateNestedOneWithoutEventsInput = {
@@ -239411,6 +241012,7 @@ export namespace Prisma {
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
+    progress?: BioProgressCreateNestedManyWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutCompanyInput = {
@@ -239444,6 +241046,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+    progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutCompanyInput = {
@@ -243165,6 +244768,7 @@ export namespace Prisma {
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutCompanyInput = {
@@ -243198,6 +244802,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PipelineStageConfigUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -247155,6 +248760,7 @@ export namespace Prisma {
     userAgent?: string | null
     createdAt?: Date | string
     page: BioPageCreateNestedOneWithoutSubmissionsInput
+    progress?: BioProgressCreateNestedOneWithoutSubmissionInput
   }
 
   export type BioSubmissionUncheckedCreateWithoutLeadInput = {
@@ -247173,6 +248779,7 @@ export namespace Prisma {
     clientIp?: string | null
     userAgent?: string | null
     createdAt?: Date | string
+    progress?: BioProgressUncheckedCreateNestedOneWithoutSubmissionInput
   }
 
   export type BioSubmissionCreateOrConnectWithoutLeadInput = {
@@ -323826,6 +325433,7 @@ export namespace Prisma {
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
+    progress?: BioProgressCreateNestedManyWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutReferralsInput = {
@@ -323859,6 +325467,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+    progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutReferralsInput = {
@@ -323897,6 +325506,7 @@ export namespace Prisma {
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
+    progress?: BioProgressCreateNestedManyWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutReferredByInput = {
@@ -323930,6 +325540,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+    progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutReferredByInput = {
@@ -324030,6 +325641,7 @@ export namespace Prisma {
     userAgent?: string | null
     createdAt?: Date | string
     lead?: LeadCreateNestedOneWithoutBioSubmissionsInput
+    progress?: BioProgressCreateNestedOneWithoutSubmissionInput
   }
 
   export type BioSubmissionUncheckedCreateWithoutPageInput = {
@@ -324048,6 +325660,7 @@ export namespace Prisma {
     clientIp?: string | null
     userAgent?: string | null
     createdAt?: Date | string
+    progress?: BioProgressUncheckedCreateNestedOneWithoutSubmissionInput
   }
 
   export type BioSubmissionCreateOrConnectWithoutPageInput = {
@@ -324093,6 +325706,46 @@ export namespace Prisma {
 
   export type BioEventCreateManyPageInputEnvelope = {
     data: BioEventCreateManyPageInput | BioEventCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BioProgressCreateWithoutPageInput = {
+    id?: string
+    visitorId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: boolean
+    convertedAt?: Date | string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    submission?: BioSubmissionCreateNestedOneWithoutProgressInput
+  }
+
+  export type BioProgressUncheckedCreateWithoutPageInput = {
+    id?: string
+    visitorId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: boolean
+    convertedAt?: Date | string | null
+    submissionId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioProgressCreateOrConnectWithoutPageInput = {
+    where: BioProgressWhereUniqueInput
+    create: XOR<BioProgressCreateWithoutPageInput, BioProgressUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioProgressCreateManyPageInputEnvelope = {
+    data: BioProgressCreateManyPageInput | BioProgressCreateManyPageInput[]
     skipDuplicates?: boolean
   }
 
@@ -324429,6 +326082,7 @@ export namespace Prisma {
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutReferralsInput = {
@@ -324462,6 +326116,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUpsertWithWhereUniqueWithoutReferredByInput = {
@@ -324627,6 +326282,41 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"BioEvent"> | Date | string
   }
 
+  export type BioProgressUpsertWithWhereUniqueWithoutPageInput = {
+    where: BioProgressWhereUniqueInput
+    update: XOR<BioProgressUpdateWithoutPageInput, BioProgressUncheckedUpdateWithoutPageInput>
+    create: XOR<BioProgressCreateWithoutPageInput, BioProgressUncheckedCreateWithoutPageInput>
+  }
+
+  export type BioProgressUpdateWithWhereUniqueWithoutPageInput = {
+    where: BioProgressWhereUniqueInput
+    data: XOR<BioProgressUpdateWithoutPageInput, BioProgressUncheckedUpdateWithoutPageInput>
+  }
+
+  export type BioProgressUpdateManyWithWhereWithoutPageInput = {
+    where: BioProgressScalarWhereInput
+    data: XOR<BioProgressUpdateManyMutationInput, BioProgressUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type BioProgressScalarWhereInput = {
+    AND?: BioProgressScalarWhereInput | BioProgressScalarWhereInput[]
+    OR?: BioProgressScalarWhereInput[]
+    NOT?: BioProgressScalarWhereInput | BioProgressScalarWhereInput[]
+    id?: StringFilter<"BioProgress"> | string
+    pageId?: StringFilter<"BioProgress"> | string
+    visitorId?: StringFilter<"BioProgress"> | string
+    answers?: JsonFilter<"BioProgress">
+    reachedForm?: BoolFilter<"BioProgress"> | boolean
+    convertedAt?: DateTimeNullableFilter<"BioProgress"> | Date | string | null
+    submissionId?: StringNullableFilter<"BioProgress"> | string | null
+    referrer?: StringNullableFilter<"BioProgress"> | string | null
+    utmSource?: StringNullableFilter<"BioProgress"> | string | null
+    utmMedium?: StringNullableFilter<"BioProgress"> | string | null
+    utmCampaign?: StringNullableFilter<"BioProgress"> | string | null
+    createdAt?: DateTimeFilter<"BioProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"BioProgress"> | Date | string
+  }
+
   export type BioPageCreateWithoutBlocksInput = {
     id?: string
     slug: string
@@ -324658,6 +326348,7 @@ export namespace Prisma {
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
+    progress?: BioProgressCreateNestedManyWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutBlocksInput = {
@@ -324691,6 +326382,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+    progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutBlocksInput = {
@@ -324740,6 +326432,7 @@ export namespace Prisma {
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutBlocksInput = {
@@ -324773,6 +326466,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageCreateWithoutQuestionsInput = {
@@ -324806,6 +326500,7 @@ export namespace Prisma {
     blocks?: BioBlockCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
+    progress?: BioProgressCreateNestedManyWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutQuestionsInput = {
@@ -324839,6 +326534,7 @@ export namespace Prisma {
     blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+    progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutQuestionsInput = {
@@ -324888,6 +326584,7 @@ export namespace Prisma {
     blocks?: BioBlockUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutQuestionsInput = {
@@ -324921,6 +326618,7 @@ export namespace Prisma {
     blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageCreateWithoutSubmissionsInput = {
@@ -324954,6 +326652,7 @@ export namespace Prisma {
     blocks?: BioBlockCreateNestedManyWithoutPageInput
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
+    progress?: BioProgressCreateNestedManyWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutSubmissionsInput = {
@@ -324987,6 +326686,7 @@ export namespace Prisma {
     blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+    progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutSubmissionsInput = {
@@ -325113,6 +326813,41 @@ export namespace Prisma {
     create: XOR<LeadCreateWithoutBioSubmissionsInput, LeadUncheckedCreateWithoutBioSubmissionsInput>
   }
 
+  export type BioProgressCreateWithoutSubmissionInput = {
+    id?: string
+    visitorId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: boolean
+    convertedAt?: Date | string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    page: BioPageCreateNestedOneWithoutProgressInput
+  }
+
+  export type BioProgressUncheckedCreateWithoutSubmissionInput = {
+    id?: string
+    pageId: string
+    visitorId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: boolean
+    convertedAt?: Date | string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioProgressCreateOrConnectWithoutSubmissionInput = {
+    where: BioProgressWhereUniqueInput
+    create: XOR<BioProgressCreateWithoutSubmissionInput, BioProgressUncheckedCreateWithoutSubmissionInput>
+  }
+
   export type BioPageUpsertWithoutSubmissionsInput = {
     update: XOR<BioPageUpdateWithoutSubmissionsInput, BioPageUncheckedUpdateWithoutSubmissionsInput>
     create: XOR<BioPageCreateWithoutSubmissionsInput, BioPageUncheckedCreateWithoutSubmissionsInput>
@@ -325155,6 +326890,7 @@ export namespace Prisma {
     blocks?: BioBlockUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutSubmissionsInput = {
@@ -325188,6 +326924,7 @@ export namespace Prisma {
     blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type LeadUpsertWithoutBioSubmissionsInput = {
@@ -325315,6 +327052,291 @@ export namespace Prisma {
     inboxEmails?: InboxEmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
+  export type BioProgressUpsertWithoutSubmissionInput = {
+    update: XOR<BioProgressUpdateWithoutSubmissionInput, BioProgressUncheckedUpdateWithoutSubmissionInput>
+    create: XOR<BioProgressCreateWithoutSubmissionInput, BioProgressUncheckedCreateWithoutSubmissionInput>
+    where?: BioProgressWhereInput
+  }
+
+  export type BioProgressUpdateToOneWithWhereWithoutSubmissionInput = {
+    where?: BioProgressWhereInput
+    data: XOR<BioProgressUpdateWithoutSubmissionInput, BioProgressUncheckedUpdateWithoutSubmissionInput>
+  }
+
+  export type BioProgressUpdateWithoutSubmissionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitorId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: BoolFieldUpdateOperationsInput | boolean
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: BioPageUpdateOneRequiredWithoutProgressNestedInput
+  }
+
+  export type BioProgressUncheckedUpdateWithoutSubmissionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    visitorId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: BoolFieldUpdateOperationsInput | boolean
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioPageCreateWithoutProgressInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBioPageInput
+    referredBy?: BioPageCreateNestedOneWithoutReferralsInput
+    referrals?: BioPageCreateNestedManyWithoutReferredByInput
+    blocks?: BioBlockCreateNestedManyWithoutPageInput
+    questions?: BioQuestionCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+    events?: BioEventCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateWithoutProgressInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
+    referredById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
+    blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
+    questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+    events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageCreateOrConnectWithoutProgressInput = {
+    where: BioPageWhereUniqueInput
+    create: XOR<BioPageCreateWithoutProgressInput, BioPageUncheckedCreateWithoutProgressInput>
+  }
+
+  export type BioSubmissionCreateWithoutProgressInput = {
+    id?: string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    page: BioPageCreateNestedOneWithoutSubmissionsInput
+    lead?: LeadCreateNestedOneWithoutBioSubmissionsInput
+  }
+
+  export type BioSubmissionUncheckedCreateWithoutProgressInput = {
+    id?: string
+    pageId: string
+    leadId?: string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: string | null
+    phone: string
+    email?: string | null
+    consent?: boolean
+    visitorId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BioSubmissionCreateOrConnectWithoutProgressInput = {
+    where: BioSubmissionWhereUniqueInput
+    create: XOR<BioSubmissionCreateWithoutProgressInput, BioSubmissionUncheckedCreateWithoutProgressInput>
+  }
+
+  export type BioPageUpsertWithoutProgressInput = {
+    update: XOR<BioPageUpdateWithoutProgressInput, BioPageUncheckedUpdateWithoutProgressInput>
+    create: XOR<BioPageCreateWithoutProgressInput, BioPageUncheckedCreateWithoutProgressInput>
+    where?: BioPageWhereInput
+  }
+
+  export type BioPageUpdateToOneWithWhereWithoutProgressInput = {
+    where?: BioPageWhereInput
+    data: XOR<BioPageUpdateWithoutProgressInput, BioPageUncheckedUpdateWithoutProgressInput>
+  }
+
+  export type BioPageUpdateWithoutProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
+    referrals?: BioPageUpdateManyWithoutReferredByNestedInput
+    blocks?: BioBlockUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+    events?: BioEventUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateWithoutProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
+    blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioSubmissionUpsertWithoutProgressInput = {
+    update: XOR<BioSubmissionUpdateWithoutProgressInput, BioSubmissionUncheckedUpdateWithoutProgressInput>
+    create: XOR<BioSubmissionCreateWithoutProgressInput, BioSubmissionUncheckedCreateWithoutProgressInput>
+    where?: BioSubmissionWhereInput
+  }
+
+  export type BioSubmissionUpdateToOneWithWhereWithoutProgressInput = {
+    where?: BioSubmissionWhereInput
+    data: XOR<BioSubmissionUpdateWithoutProgressInput, BioSubmissionUncheckedUpdateWithoutProgressInput>
+  }
+
+  export type BioSubmissionUpdateWithoutProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: BioPageUpdateOneRequiredWithoutSubmissionsNestedInput
+    lead?: LeadUpdateOneWithoutBioSubmissionsNestedInput
+  }
+
+  export type BioSubmissionUncheckedUpdateWithoutProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    consent?: BoolFieldUpdateOperationsInput | boolean
+    visitorId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BioPageCreateWithoutEventsInput = {
     id?: string
     slug: string
@@ -325346,6 +327368,7 @@ export namespace Prisma {
     blocks?: BioBlockCreateNestedManyWithoutPageInput
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+    progress?: BioProgressCreateNestedManyWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutEventsInput = {
@@ -325379,6 +327402,7 @@ export namespace Prisma {
     blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+    progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutEventsInput = {
@@ -325428,6 +327452,7 @@ export namespace Prisma {
     blocks?: BioBlockUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutEventsInput = {
@@ -325461,6 +327486,7 @@ export namespace Prisma {
     blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type TicketCreateManyCreatedByInput = {
@@ -335229,6 +337255,7 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     page?: BioPageUpdateOneRequiredWithoutSubmissionsNestedInput
+    progress?: BioProgressUpdateOneWithoutSubmissionNestedInput
   }
 
   export type BioSubmissionUncheckedUpdateWithoutLeadInput = {
@@ -335247,6 +337274,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progress?: BioProgressUncheckedUpdateOneWithoutSubmissionNestedInput
   }
 
   export type BioSubmissionUncheckedUpdateManyWithoutLeadInput = {
@@ -341288,6 +343316,21 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type BioProgressCreateManyPageInput = {
+    id?: string
+    visitorId: string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: boolean
+    convertedAt?: Date | string | null
+    submissionId?: string | null
+    referrer?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BioPageUpdateWithoutReferredByInput = {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -341319,6 +343362,7 @@ export namespace Prisma {
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutReferredByInput = {
@@ -341352,6 +343396,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateManyWithoutReferredByInput = {
@@ -341476,6 +343521,7 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lead?: LeadUpdateOneWithoutBioSubmissionsNestedInput
+    progress?: BioProgressUpdateOneWithoutSubmissionNestedInput
   }
 
   export type BioSubmissionUncheckedUpdateWithoutPageInput = {
@@ -341494,6 +343540,7 @@ export namespace Prisma {
     clientIp?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progress?: BioProgressUncheckedUpdateOneWithoutSubmissionNestedInput
   }
 
   export type BioSubmissionUncheckedUpdateManyWithoutPageInput = {
@@ -341551,6 +343598,51 @@ export namespace Prisma {
     utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
     utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioProgressUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitorId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: BoolFieldUpdateOperationsInput | boolean
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    submission?: BioSubmissionUpdateOneWithoutProgressNestedInput
+  }
+
+  export type BioProgressUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitorId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: BoolFieldUpdateOperationsInput | boolean
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submissionId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioProgressUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitorId?: StringFieldUpdateOperationsInput | string
+    answers?: JsonNullValueInput | InputJsonValue
+    reachedForm?: BoolFieldUpdateOperationsInput | boolean
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submissionId?: NullableStringFieldUpdateOperationsInput | string | null
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
@@ -342278,6 +344370,10 @@ export namespace Prisma {
      * @deprecated Use BioSubmissionDefaultArgs instead
      */
     export type BioSubmissionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioSubmissionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BioProgressDefaultArgs instead
+     */
+    export type BioProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioProgressDefaultArgs<ExtArgs>
     /**
      * @deprecated Use BioEventDefaultArgs instead
      */

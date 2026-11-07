@@ -600,8 +600,25 @@ function Quiz({
   // "Tenho interesse" no detalhe do serviço abre as perguntas daqui.
   useImperativeHandle(ref, () => ({ start }));
 
-  function next(index: number) {
-    if (index + 1 < questions.length) {
+  /** Guarda as respostas a cada etapa — quem desiste antes do contato ainda conta. */
+  function saveProgress(current: Record<string, string[]>, reachedForm: boolean) {
+    if (preview) return;
+    const body = JSON.stringify({
+      slug,
+      answers: Object.entries(current).filter(([, v]) => v.length).map(([questionId, answer]) => ({ questionId, answer })),
+      reachedForm,
+      ...origin(),
+    });
+    try {
+      if (navigator.sendBeacon?.("/api/pagina/progresso", body)) return;
+    } catch { /* cai no fetch */ }
+    fetch("/api/pagina/progresso", { method: "POST", body, keepalive: true }).catch(() => {});
+  }
+
+  function next(index: number, current: Record<string, string[]>) {
+    const last = index + 1 >= questions.length;
+    saveProgress(current, last);
+    if (!last) {
       setStep({ kind: "question", index: index + 1 });
     } else {
       if (!preview) track(slug, "QUIZ_COMPLETE");
@@ -612,8 +629,9 @@ function Quiz({
   /** Resposta única: marca e já avança. Várias: liga/desliga e espera o "Continuar". */
   function pick(q: (typeof questions)[number], option: string, index: number) {
     if (!q.multiple) {
-      setAnswers((a) => ({ ...a, [q.id]: [option] }));
-      next(index);
+      const updated = { ...answers, [q.id]: [option] };
+      setAnswers(updated);
+      next(index, updated);
       return;
     }
     setAnswers((a) => {
@@ -768,7 +786,7 @@ function Quiz({
                     <button
                       type="button"
                       disabled={chosenList.length === 0}
-                      onClick={() => next(step.index)}
+                      onClick={() => next(step.index, answers)}
                       className="mt-4 w-full rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90 disabled:opacity-40"
                     >
                       Continuar

@@ -4,6 +4,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { canSeeBioAdmin } from "@/lib/bio-page-server";
 import { getPageDetail } from "@/lib/bio-page-stats";
 import { BIO_PUBLIC_PATH } from "@/lib/bio-page";
+import PartialAnswers from "../../PartialAnswers";
 
 // Detalhe de uma Página do Negócio para a agência: funil, cliques por botão,
 // de onde vêm as visitas e cada contato com as respostas.
@@ -138,6 +139,12 @@ export default async function PaginaAdminDetail({
           </ul>
         )}
       </section>
+
+      {d.partials.length > 0 && (
+        <section className={card}>
+          <PartialAnswers rows={d.partials} />
+        </section>
+      )}
 
       {d.referrals.length > 0 && (
         <section className={card}>

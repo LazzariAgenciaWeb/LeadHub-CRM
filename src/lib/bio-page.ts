@@ -132,6 +132,30 @@ function clip(v: unknown, max: number): string | null {
   return s ? s.slice(0, max) : null;
 }
 
+export type BioAnswerSnapshot = { questionId: string; question: string; answer: string };
+
+/**
+ * Respostas que o navegador mandou → foto fiel: só pergunta desta página e
+ * opção que existe nela. Pergunta de várias respostas chega como lista.
+ */
+export function bioSnapshotAnswers(
+  questions: { id: string; text: string; options: string[]; multiple: boolean }[],
+  raw: unknown,
+): BioAnswerSnapshot[] {
+  const byId = new Map(questions.map((q) => [q.id, q]));
+  const answers: BioAnswerSnapshot[] = [];
+  for (const a of Array.isArray(raw) ? (raw as { questionId?: unknown; answer?: unknown }[]) : []) {
+    const q = typeof a?.questionId === "string" ? byId.get(a.questionId) : undefined;
+    if (!q || answers.some((x) => x.questionId === q.id)) continue;
+    const picked = (Array.isArray(a?.answer) ? a.answer : [a?.answer])
+      .filter((v): v is string => typeof v === "string" && q.options.includes(v));
+    const chosen = q.multiple ? q.options.filter((o) => picked.includes(o)) : picked.slice(0, 1);
+    if (chosen.length === 0) continue;
+    answers.push({ questionId: q.id, question: q.text, answer: chosen.join(", ") });
+  }
+  return answers;
+}
+
 /** Campos de origem que o navegador manda junto de evento e envio (todos opcionais). */
 export function bioTrackingFields(body: Record<string, unknown>) {
   return {
