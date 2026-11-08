@@ -145,7 +145,7 @@ export class SlugTakenError extends Error {}
  * novos são criados e os que sumiram da lista são apagados. A ordem é a da
  * lista recebida.
  */
-export async function saveBioPage(pageId: string, data: BioEditorInput) {
+export async function saveBioPage(pageId: string, data: BioEditorInput, opts: { freeLimits: boolean }) {
   const taken = await prisma.bioPage.findFirst({
     where: { slug: data.slug, NOT: { id: pageId } },
     select: { id: true },
@@ -192,6 +192,7 @@ export async function saveBioPage(pageId: string, data: BioEditorInput) {
         contactEmail: data.contactEmail,
         contactAddress: data.contactAddress,
         contactHours: data.contactHours,
+        freeLimits: opts.freeLimits,
       },
     }),
     prisma.bioBlock.deleteMany({ where: { pageId, id: { notIn: keepBlocks } } }),

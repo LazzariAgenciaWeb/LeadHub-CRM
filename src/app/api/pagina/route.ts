@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { parseBioEditorInput } from "@/lib/bio-page";
+import { bioShowsBadge, parseBioEditorInput } from "@/lib/bio-page";
+import { getCompanyPlan } from "@/lib/limits";
 import {
   SlugTakenError,
   ensureBioPage,
@@ -27,7 +28,9 @@ export async function PUT(req: NextRequest) {
 
   const pageId = await ensureBioPage(auth.companyId);
   try {
-    await saveBioPage(pageId, parsed.data);
+    // Salvou no Grátis: a página passa a seguir os limites do Grátis.
+    const plan = await getCompanyPlan(auth.companyId).catch(() => null);
+    await saveBioPage(pageId, parsed.data, { freeLimits: bioShowsBadge(plan?.tier) });
   } catch (e) {
     if (e instanceof SlugTakenError) {
       return NextResponse.json({ error: "Esse endereço já está em uso. Escolha outro." }, { status: 409 });

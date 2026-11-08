@@ -5051,6 +5051,10 @@ model BioPage {
   coverUrl    String?
   accentColor String? // #RRGGBB
 
+  // Salva no plano Grátis: a página pública aplica os limites do Grátis
+  // (bioFreeView). Páginas antigas ficam como estavam até a próxima edição.
+  freeLimits Boolean @default(false)
+
   // Rascunho até o cliente publicar — /p/{slug} só abre publicada.
   published   Boolean   @default(false)
   publishedAt DateTime?

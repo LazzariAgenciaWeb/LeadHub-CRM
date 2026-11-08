@@ -2240,6 +2240,7 @@ exports.Prisma.BioPageScalarFieldEnum = {
   avatarUrl: 'avatarUrl',
   coverUrl: 'coverUrl',
   accentColor: 'accentColor',
+  freeLimits: 'freeLimits',
   published: 'published',
   publishedAt: 'publishedAt',
   quizEnabled: 'quizEnabled',

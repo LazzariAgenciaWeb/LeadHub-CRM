@@ -3,7 +3,8 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { storageEnabled } from "@/lib/storage/s3";
 import { bioPublicBase, canSeeBioAdmin, ensureBioPage, loadEditorPage, toEditorInput } from "@/lib/bio-page-server";
-import { BIO_PUBLIC_PATH, bioDefaultConsent } from "@/lib/bio-page";
+import { BIO_PUBLIC_PATH, bioDefaultConsent, bioShowsBadge } from "@/lib/bio-page";
+import { getCompanyPlan } from "@/lib/limits";
 import { prisma } from "@/lib/prisma";
 import PaginaEditor from "./PaginaEditor";
 import PaginaResultados from "./PaginaResultados";
@@ -39,6 +40,7 @@ export default async function PaginaPage() {
     prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { name: true, tradeName: true } }),
   ]);
   const asAdmin = await canSeeBioAdmin();
+  const plan = await getCompanyPlan(companyId).catch(() => null);
   const summary = await getOwnerSummary(companyId, page.id, { asAdmin });
 
 
@@ -49,6 +51,7 @@ export default async function PaginaPage() {
       uploadsEnabled={storageEnabled()}
       defaultConsent={bioDefaultConsent(company.tradeName ?? company.name)}
       hasBottomNav={!(session.user as any)?.pageOnly}
+      freePlan={bioShowsBadge(plan?.tier)}
       results={<PaginaResultados summary={summary} adminDetailHref={asAdmin ? `/pagina/admin/${page.id}` : null} />}
     />
   );

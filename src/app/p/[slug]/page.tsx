@@ -8,6 +8,7 @@ import {
   BIO_DEFAULT_THANK_YOU,
   bioAccent,
   bioDefaultConsent,
+  bioFreeView,
   bioShowsBadge,
   bioViewExtras,
   safeBioHref,
@@ -110,5 +111,7 @@ export default async function BioPublicPage({
       : null,
   };
 
-  return <BioPageView data={data} />;
+  // Página salva no Grátis (e ainda no Grátis): mostra só o que o Grátis inclui.
+  const free = page.freeLimits && bioShowsBadge(page.company.subscription?.plan);
+  return <BioPageView data={free ? bioFreeView(data) : data} />;
 }

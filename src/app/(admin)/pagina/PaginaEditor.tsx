@@ -7,8 +7,8 @@ import {
 } from "lucide-react";
 import BioPageView, { type BioViewData } from "@/app/p/[slug]/BioPageView";
 import {
-  BIO_DEFAULT_BOOKING_TEXT, BIO_DEFAULT_QUIZ_CTA, BIO_DEFAULT_QUIZ_TITLE, BIO_DEFAULT_THANK_YOU, BIO_LIMITS, BIO_NETWORKS,
-  bioAccent, bioAutosaveInput, bioViewExtras, parseBioEditorInput, safeBioHref,
+  BIO_DEFAULT_BOOKING_TEXT, BIO_DEFAULT_QUIZ_CTA, BIO_DEFAULT_QUIZ_TITLE, BIO_DEFAULT_THANK_YOU, BIO_FREE, BIO_LIMITS, BIO_NETWORKS,
+  bioAccent, bioAutosaveInput, bioFreeView, bioViewExtras, parseBioEditorInput, safeBioHref,
   type BioEditorBlock, type BioEditorInput, type BioEditorQuestion,
 } from "@/lib/bio-page";
 
@@ -41,8 +41,8 @@ function toDraft(p: Initial): Draft {
 }
 
 /** Rascunho → o que a página pública recebe (mesmo saneamento do servidor). */
-function toPreview(d: Draft, defaultConsent: string): BioViewData {
-  return {
+function toPreview(d: Draft, defaultConsent: string, freePlan: boolean): BioViewData {
+  const view: BioViewData = {
     slug: d.slug,
     template: d.template,
     title: d.title || "Nome do seu negócio",
@@ -72,6 +72,18 @@ function toPreview(d: Draft, defaultConsent: string): BioViewData {
         }
       : null,
   };
+  // A prévia mostra o que o visitante vai ver: no Grátis, a versão Grátis.
+  return freePlan ? bioFreeView(view) : view;
+}
+
+/** Aviso de recurso do Pro, no lugar do campo bloqueado. */
+function ProNote({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="rounded-lg border border-fuchsia-500/30 bg-fuchsia-500/10 px-3 py-2 text-xs text-fuchsia-100">
+      <span className="mr-1.5 rounded bg-fuchsia-500 px-1.5 py-0.5 text-[10px] font-bold text-white">PRO</span>
+      {children} No plano Pro (R$ 19,90/mês).
+    </p>
+  );
 }
 
 /** _key é só da tela (chave do React); o servidor usa o id. */
@@ -217,8 +229,10 @@ function ImageField({
 // ─── Editor ──────────────────────────────────────────────────────────────────
 
 export default function PaginaEditor({
-  initial, publicBase, uploadsEnabled, defaultConsent, hasBottomNav, results,
+  initial, publicBase, uploadsEnabled, defaultConsent, hasBottomNav, results, freePlan = false,
 }: {
+  /** Empresa no plano Grátis: editor mostra o que é do Pro e a prévia já vem limitada. */
+  freePlan?: boolean;
   initial: Initial;
   publicBase: string;
   uploadsEnabled: boolean;
@@ -238,7 +252,7 @@ export default function PaginaEditor({
   const [copied, setCopied] = useState(false);
 
   const dirty = useMemo(() => canon(strip(draft)) !== canon(strip(saved)), [draft, saved]);
-  const preview = useMemo(() => toPreview(draft, defaultConsent), [draft, defaultConsent]);
+  const preview = useMemo(() => toPreview(draft, defaultConsent, freePlan), [draft, defaultConsent, freePlan]);
 
   // ── Salvamento automático ──
   // Ao sair de um campo (e após uma pausa curta, pra cobrir imagem, cor e
@@ -385,9 +399,9 @@ export default function PaginaEditor({
             className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4 space-y-4"
             onBlur={() => setBlurTick((n) => n + 1)}
           >
-            {step === 0 && <StepBasics draft={draft} set={set} uploadsEnabled={uploadsEnabled} />}
-            {step === 1 && <StepBlocks draft={draft} set={set} uploadsEnabled={uploadsEnabled} />}
-            {step === 2 && <StepQuiz draft={draft} set={set} defaultConsent={defaultConsent} />}
+            {step === 0 && <StepBasics draft={draft} set={set} uploadsEnabled={uploadsEnabled} freePlan={freePlan} />}
+            {step === 1 && <StepBlocks draft={draft} set={set} uploadsEnabled={uploadsEnabled} freePlan={freePlan} />}
+            {step === 2 && <StepQuiz draft={draft} set={set} defaultConsent={defaultConsent} freePlan={freePlan} />}
             {step === 3 && (
               <StepPublish
                 draft={draft}
@@ -487,7 +501,7 @@ function PhoneFrame({ data }: { data: BioViewData }) {
 
 type Setter = <K extends keyof Draft>(k: K, v: Draft[K]) => void;
 
-function StepBasics({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter; uploadsEnabled: boolean }) {
+function StepBasics({ draft, set, uploadsEnabled, freePlan }: { draft: Draft; set: Setter; uploadsEnabled: boolean; freePlan: boolean }) {
   const L = BIO_LIMITS;
   return (
     <>
@@ -521,24 +535,27 @@ function StepBasics({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter;
       <div>
         <span className={labelCls}>Cor</span>
         <div className="flex flex-wrap items-center gap-2">
-          {COLORS.map((c) => (
+          {(freePlan ? BIO_FREE.colors : COLORS).map((c) => (
             <button
               key={c}
               type="button"
               aria-label={`Cor ${c}`}
               onClick={() => set("accentColor", c)}
-              className={`w-7 h-7 rounded-full border-2 ${bioAccent(draft.accentColor).toLowerCase() === c ? "border-white" : "border-transparent"}`}
+              className={`w-7 h-7 rounded-full border-2 ring-1 ring-white/15 ${bioAccent(draft.accentColor).toLowerCase() === c ? "border-white" : "border-transparent"}`}
               style={{ background: c }}
             />
           ))}
-          <input
-            type="color"
-            aria-label="Outra cor"
-            value={bioAccent(draft.accentColor)}
-            onChange={(e) => set("accentColor", e.target.value)}
-            className="w-9 h-7 bg-transparent border border-[#1e2d45] rounded cursor-pointer"
-          />
+          {!freePlan && (
+            <input
+              type="color"
+              aria-label="Outra cor"
+              value={bioAccent(draft.accentColor)}
+              onChange={(e) => set("accentColor", e.target.value)}
+              className="w-9 h-7 bg-transparent border border-[#1e2d45] rounded cursor-pointer"
+            />
+          )}
         </div>
+        {freePlan && <div className="mt-2"><ProNote>Todas as cores, inclusive a da sua marca.</ProNote></div>}
       </div>
       <div>
         <span className={labelCls}>Modelo</span>
@@ -550,10 +567,14 @@ function StepBasics({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter;
             <button
               key={value}
               type="button"
+              disabled={freePlan && value === "VITRINE"}
               onClick={() => set("template", value)}
-              className={`text-left p-3 rounded-lg border transition-colors ${draft.template === value ? "border-indigo-500 bg-indigo-500/10" : "border-[#1e2d45] bg-[#161f30] hover:border-slate-500"}`}
+              className={`text-left p-3 rounded-lg border transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${(freePlan ? "CARTAO" : draft.template) === value ? "border-indigo-500 bg-indigo-500/10" : "border-[#1e2d45] bg-[#161f30] hover:border-slate-500"}`}
             >
-              <span className="block text-sm font-semibold text-white">{name}</span>
+              <span className="block text-sm font-semibold text-white">
+                {name}
+                {freePlan && value === "VITRINE" && <span className="ml-1.5 rounded bg-fuchsia-500 px-1.5 py-0.5 text-[10px] font-bold text-white align-middle">PRO</span>}
+              </span>
               <span className="block text-xs text-slate-400 mt-0.5">{desc}</span>
             </button>
           ))}
@@ -571,8 +592,11 @@ const SECTIONS = [
   { type: "SERVICE" as const, item: "Serviço", title: "Serviços", hint: "O que você oferece. Ao tocar, abre o detalhe com \"Tenho interesse\".", add: "Adicionar serviço", max: BIO_LIMITS.services },
 ];
 
-function StepBlocks({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter; uploadsEnabled: boolean }) {
+function StepBlocks({ draft, set, uploadsEnabled, freePlan }: { draft: Draft; set: Setter; uploadsEnabled: boolean; freePlan: boolean }) {
   const blocks = draft.blocks;
+  // Grátis: até 5 botões (links + serviços visíveis); redes sociais não contam.
+  const buttons = blocks.filter((b) => b.type !== "SOCIAL" && b.active).length;
+  const buttonsFull = freePlan && buttons >= BIO_FREE.buttons;
 
   function update(key: string, patch: Partial<Block>) {
     set("blocks", blocks.map((b) => (b._key === key ? { ...b, ...patch } : b)));
@@ -599,6 +623,15 @@ function StepBlocks({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter;
 
   return (
     <div className="space-y-6">
+      {freePlan && (
+        <div className="space-y-2">
+          <p className={`text-xs ${buttonsFull ? "text-amber-300" : "text-slate-400"}`}>
+            Botões (links e serviços): {buttons} de {BIO_FREE.buttons} no plano Grátis.
+            {buttons > BIO_FREE.buttons && " Só os 5 primeiros aparecem na página."}
+          </p>
+          {buttonsFull && <ProNote>Botões ilimitados.</ProNote>}
+        </div>
+      )}
       {SECTIONS.map((sec) => {
         const items = blocks.filter((b) => b.type === sec.type);
         return (
@@ -652,14 +685,16 @@ function StepBlocks({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter;
                         <input className={inputCls} placeholder="Preço (opcional)" maxLength={BIO_LIMITS.priceLabel} value={b.priceLabel ?? ""} onChange={(e) => update(b._key, { priceLabel: e.target.value || null })} />
                       </div>
                       <textarea className={`${inputCls} resize-y`} rows={2} placeholder="Descrição" maxLength={BIO_LIMITS.blockDescription} value={b.description ?? ""} onChange={(e) => update(b._key, { description: e.target.value || null })} />
-                      <ImageField label="Imagem" value={b.imageUrl} onChange={(v) => update(b._key, { imageUrl: v })} uploadsEnabled={uploadsEnabled} maxSide={900} />
+                      {freePlan
+                        ? <ProNote>Serviço com imagem.</ProNote>
+                        : <ImageField label="Imagem" value={b.imageUrl} onChange={(v) => update(b._key, { imageUrl: v })} uploadsEnabled={uploadsEnabled} maxSide={900} />}
                       <input className={inputCls} placeholder="Link para saber mais (opcional)" value={b.url ?? ""} onChange={(e) => update(b._key, { url: e.target.value || null })} />
                     </>
                   )}
                 </div>
               ))}
             </div>
-            {items.length < sec.max && (
+            {items.length < sec.max && !(buttonsFull && sec.type !== "SOCIAL") && (
               <button type="button" onClick={() => add(sec.type)} className="mt-2 inline-flex items-center gap-1.5 text-xs text-indigo-300 hover:text-white">
                 <Plus className="w-3.5 h-3.5" /> {sec.add}
               </button>
@@ -673,10 +708,14 @@ function StepBlocks({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter;
         <p className="text-slate-500 text-xs mb-2">
           Tem agenda online (Calendly, Google Agenda, sistema da clínica…)? Cole o link e a página ganha um botão &quot;Ver horários&quot; depois dos serviços.
         </p>
-        <div className="space-y-2">
-          <input className={inputCls} placeholder="Link da agenda (opcional)" value={draft.bookingUrl ?? ""} onChange={(e) => set("bookingUrl", e.target.value || null)} />
-          <input className={inputCls} maxLength={BIO_LIMITS.bookingText} placeholder={BIO_DEFAULT_BOOKING_TEXT} value={draft.bookingText ?? ""} onChange={(e) => set("bookingText", e.target.value || null)} />
-        </div>
+        {freePlan ? (
+          <ProNote>Botão de agenda na página.</ProNote>
+        ) : (
+          <div className="space-y-2">
+            <input className={inputCls} placeholder="Link da agenda (opcional)" value={draft.bookingUrl ?? ""} onChange={(e) => set("bookingUrl", e.target.value || null)} />
+            <input className={inputCls} maxLength={BIO_LIMITS.bookingText} placeholder={BIO_DEFAULT_BOOKING_TEXT} value={draft.bookingText ?? ""} onChange={(e) => set("bookingText", e.target.value || null)} />
+          </div>
+        )}
       </section>
 
       <section>
@@ -714,9 +753,17 @@ function IconBtn({ label, onClick, disabled, danger, children }: {
 
 // ─── Passo 3: perguntas ──────────────────────────────────────────────────────
 
-function StepQuiz({ draft, set, defaultConsent }: { draft: Draft; set: Setter; defaultConsent: string }) {
+function StepQuiz({ draft, set, defaultConsent, freePlan }: { draft: Draft; set: Setter; defaultConsent: string; freePlan: boolean }) {
   const L = BIO_LIMITS;
   const qs = draft.questions;
+  if (freePlan) {
+    return (
+      <div className="space-y-2">
+        <ProNote>Formulário de atendimento: perguntas em etapas e o contato do cliente direto na sua lista.</ProNote>
+        <p className="text-slate-500 text-xs">No plano Grátis, o cliente fala com você pelos botões, como o do WhatsApp.</p>
+      </div>
+    );
+  }
 
   function update(key: string, patch: Partial<Question>) {
     set("questions", qs.map((q) => (q._key === key ? { ...q, ...patch } : q)));

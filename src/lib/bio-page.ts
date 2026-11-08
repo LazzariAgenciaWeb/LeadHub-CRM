@@ -75,6 +75,34 @@ export function bioShowsBadge(plan: string | null | undefined): boolean {
   return !plan || plan === "PAGINA" || plan === "FREE" || plan === "TRIAL";
 }
 
+/**
+ * Plano Grátis, como o site gohub.com.br promete: até 5 botões (links e
+ * serviços; redes sociais à parte), 3 cores, modelo Cartão, serviço sem
+ * imagem, sem agenda e sem formulário de perguntas — tudo isso é do Pro.
+ */
+export const BIO_FREE = { buttons: 5, colors: ["#4f46e5", "#e11d48", "#111827"] } as const;
+
+type BioFreeViewable = {
+  template: "CARTAO" | "VITRINE";
+  accent: string;
+  blocks: { type: string; imageUrl: string | null }[];
+  booking?: unknown;
+  quiz: unknown;
+};
+
+/**
+ * A versão Grátis da página. Não apaga nada do que o dono cadastrou — só
+ * esconde na tela; se ele assinar o Pro, tudo volta.
+ */
+export function bioFreeView<T extends BioFreeViewable>(v: T): T {
+  let buttons = 0;
+  const blocks = v.blocks
+    .filter((b) => b.type === "SOCIAL" || ++buttons <= BIO_FREE.buttons)
+    .map((b) => (b.type === "SERVICE" ? { ...b, imageUrl: null } : b));
+  const accent = (BIO_FREE.colors as readonly string[]).includes(v.accent.toLowerCase()) ? v.accent : BIO_FREE.colors[0];
+  return { ...v, template: "CARTAO", accent, blocks, booking: null, quiz: null };
+}
+
 /** Eventos que o navegador pode registrar. LEAD só nasce no servidor, junto do envio. */
 export const BIO_CLIENT_EVENTS = ["VIEW", "CLICK", "QUIZ_START", "QUIZ_COMPLETE"] as const;
 export type BioClientEvent = (typeof BIO_CLIENT_EVENTS)[number];

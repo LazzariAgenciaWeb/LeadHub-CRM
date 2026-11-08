@@ -3,7 +3,7 @@
  * plano grátis. Rodar: npm run test:bio-page
  */
 import type { BioEditorBlock, BioEditorInput } from "../src/lib/bio-page";
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioParseSocial, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioParseSocial, bioFreeView, BIO_FREE, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
 
@@ -167,6 +167,27 @@ ok("respostas: ordem da pergunta, só opção que existe, única fica com uma",
   ok("social: vazio é nulo", f.social === null && f.instagram === null && f.website === null);
   const g = bioParseSocial("não tenho ainda");
   ok("social: texto solto fica só no original", g.social === "não tenho ainda" && g.website === null && g.instagram === null);
+}
+
+// Limites do plano Grátis (o que o site promete)
+{
+  const view = {
+    template: "VITRINE" as "CARTAO" | "VITRINE", accent: "#123456",
+    blocks: [
+      { type: "SOCIAL", imageUrl: null }, { type: "LINK", imageUrl: null }, { type: "SERVICE", imageUrl: "https://x/img.jpg" },
+      { type: "LINK", imageUrl: null }, { type: "LINK", imageUrl: null }, { type: "SOCIAL", imageUrl: null },
+      { type: "LINK", imageUrl: null }, { type: "LINK", imageUrl: null }, { type: "SERVICE", imageUrl: null },
+    ],
+    booking: { href: "https://cal.com/x", text: "Agende" },
+    quiz: { title: "q" },
+  };
+  const f = bioFreeView(view);
+  ok("grátis: até 5 botões, redes sociais à parte", f.blocks.filter((b) => b.type !== "SOCIAL").length === BIO_FREE.buttons && f.blocks.filter((b) => b.type === "SOCIAL").length === 2);
+  ok("grátis: serviço sem imagem", f.blocks.every((b) => b.imageUrl === null));
+  ok("grátis: sem agenda e sem formulário", f.booking === null && f.quiz === null);
+  ok("grátis: modelo Cartão e cor fora das 3 volta pra padrão", f.template === "CARTAO" && f.accent === BIO_FREE.colors[0]);
+  ok("grátis: cor permitida fica", bioFreeView({ ...view, accent: "#E11D48" }).accent === "#E11D48");
+  ok("grátis: não mexe no original", view.blocks.length === 9 && view.quiz !== null);
 }
 
 if (falhas) {

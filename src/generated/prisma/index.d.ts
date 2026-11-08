@@ -166036,6 +166036,7 @@ export namespace Prisma {
     avatarUrl: string | null
     coverUrl: string | null
     accentColor: string | null
+    freeLimits: boolean | null
     published: boolean | null
     publishedAt: Date | null
     quizEnabled: boolean | null
@@ -166065,6 +166066,7 @@ export namespace Prisma {
     avatarUrl: string | null
     coverUrl: string | null
     accentColor: string | null
+    freeLimits: boolean | null
     published: boolean | null
     publishedAt: Date | null
     quizEnabled: boolean | null
@@ -166094,6 +166096,7 @@ export namespace Prisma {
     avatarUrl: number
     coverUrl: number
     accentColor: number
+    freeLimits: number
     published: number
     publishedAt: number
     quizEnabled: number
@@ -166125,6 +166128,7 @@ export namespace Prisma {
     avatarUrl?: true
     coverUrl?: true
     accentColor?: true
+    freeLimits?: true
     published?: true
     publishedAt?: true
     quizEnabled?: true
@@ -166154,6 +166158,7 @@ export namespace Prisma {
     avatarUrl?: true
     coverUrl?: true
     accentColor?: true
+    freeLimits?: true
     published?: true
     publishedAt?: true
     quizEnabled?: true
@@ -166183,6 +166188,7 @@ export namespace Prisma {
     avatarUrl?: true
     coverUrl?: true
     accentColor?: true
+    freeLimits?: true
     published?: true
     publishedAt?: true
     quizEnabled?: true
@@ -166285,6 +166291,7 @@ export namespace Prisma {
     avatarUrl: string | null
     coverUrl: string | null
     accentColor: string | null
+    freeLimits: boolean
     published: boolean
     publishedAt: Date | null
     quizEnabled: boolean
@@ -166331,6 +166338,7 @@ export namespace Prisma {
     avatarUrl?: boolean
     coverUrl?: boolean
     accentColor?: boolean
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: boolean
     quizEnabled?: boolean
@@ -166369,6 +166377,7 @@ export namespace Prisma {
     avatarUrl?: boolean
     coverUrl?: boolean
     accentColor?: boolean
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: boolean
     quizEnabled?: boolean
@@ -166400,6 +166409,7 @@ export namespace Prisma {
     avatarUrl?: boolean
     coverUrl?: boolean
     accentColor?: boolean
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: boolean
     quizEnabled?: boolean
@@ -166457,6 +166467,7 @@ export namespace Prisma {
       avatarUrl: string | null
       coverUrl: string | null
       accentColor: string | null
+      freeLimits: boolean
       published: boolean
       publishedAt: Date | null
       quizEnabled: boolean
@@ -166884,6 +166895,7 @@ export namespace Prisma {
     readonly avatarUrl: FieldRef<"BioPage", 'String'>
     readonly coverUrl: FieldRef<"BioPage", 'String'>
     readonly accentColor: FieldRef<"BioPage", 'String'>
+    readonly freeLimits: FieldRef<"BioPage", 'Boolean'>
     readonly published: FieldRef<"BioPage", 'Boolean'>
     readonly publishedAt: FieldRef<"BioPage", 'DateTime'>
     readonly quizEnabled: FieldRef<"BioPage", 'Boolean'>
@@ -176026,6 +176038,7 @@ export namespace Prisma {
     avatarUrl: 'avatarUrl',
     coverUrl: 'coverUrl',
     accentColor: 'accentColor',
+    freeLimits: 'freeLimits',
     published: 'published',
     publishedAt: 'publishedAt',
     quizEnabled: 'quizEnabled',
@@ -190818,6 +190831,7 @@ export namespace Prisma {
     avatarUrl?: StringNullableFilter<"BioPage"> | string | null
     coverUrl?: StringNullableFilter<"BioPage"> | string | null
     accentColor?: StringNullableFilter<"BioPage"> | string | null
+    freeLimits?: BoolFilter<"BioPage"> | boolean
     published?: BoolFilter<"BioPage"> | boolean
     publishedAt?: DateTimeNullableFilter<"BioPage"> | Date | string | null
     quizEnabled?: BoolFilter<"BioPage"> | boolean
@@ -190855,6 +190869,7 @@ export namespace Prisma {
     avatarUrl?: SortOrderInput | SortOrder
     coverUrl?: SortOrderInput | SortOrder
     accentColor?: SortOrderInput | SortOrder
+    freeLimits?: SortOrder
     published?: SortOrder
     publishedAt?: SortOrderInput | SortOrder
     quizEnabled?: SortOrder
@@ -190895,6 +190910,7 @@ export namespace Prisma {
     avatarUrl?: StringNullableFilter<"BioPage"> | string | null
     coverUrl?: StringNullableFilter<"BioPage"> | string | null
     accentColor?: StringNullableFilter<"BioPage"> | string | null
+    freeLimits?: BoolFilter<"BioPage"> | boolean
     published?: BoolFilter<"BioPage"> | boolean
     publishedAt?: DateTimeNullableFilter<"BioPage"> | Date | string | null
     quizEnabled?: BoolFilter<"BioPage"> | boolean
@@ -190932,6 +190948,7 @@ export namespace Prisma {
     avatarUrl?: SortOrderInput | SortOrder
     coverUrl?: SortOrderInput | SortOrder
     accentColor?: SortOrderInput | SortOrder
+    freeLimits?: SortOrder
     published?: SortOrder
     publishedAt?: SortOrderInput | SortOrder
     quizEnabled?: SortOrder
@@ -190967,6 +190984,7 @@ export namespace Prisma {
     avatarUrl?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
     coverUrl?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
     accentColor?: StringNullableWithAggregatesFilter<"BioPage"> | string | null
+    freeLimits?: BoolWithAggregatesFilter<"BioPage"> | boolean
     published?: BoolWithAggregatesFilter<"BioPage"> | boolean
     publishedAt?: DateTimeNullableWithAggregatesFilter<"BioPage"> | Date | string | null
     quizEnabled?: BoolWithAggregatesFilter<"BioPage"> | boolean
@@ -206961,6 +206979,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -206997,6 +207016,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -207031,6 +207051,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -207067,6 +207088,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -207102,6 +207124,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -207130,6 +207153,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -207158,6 +207182,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -218040,6 +218065,7 @@ export namespace Prisma {
     avatarUrl?: SortOrder
     coverUrl?: SortOrder
     accentColor?: SortOrder
+    freeLimits?: SortOrder
     published?: SortOrder
     publishedAt?: SortOrder
     quizEnabled?: SortOrder
@@ -218069,6 +218095,7 @@ export namespace Prisma {
     avatarUrl?: SortOrder
     coverUrl?: SortOrder
     accentColor?: SortOrder
+    freeLimits?: SortOrder
     published?: SortOrder
     publishedAt?: SortOrder
     quizEnabled?: SortOrder
@@ -218098,6 +218125,7 @@ export namespace Prisma {
     avatarUrl?: SortOrder
     coverUrl?: SortOrder
     accentColor?: SortOrder
+    freeLimits?: SortOrder
     published?: SortOrder
     publishedAt?: SortOrder
     quizEnabled?: SortOrder
@@ -242127,6 +242155,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -242161,6 +242190,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -245883,6 +245913,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -245917,6 +245948,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -326551,6 +326583,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -326586,6 +326619,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -326624,6 +326658,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -326659,6 +326694,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -327202,6 +327238,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -327237,6 +327274,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -327290,6 +327328,7 @@ export namespace Prisma {
     avatarUrl?: StringNullableFilter<"BioPage"> | string | null
     coverUrl?: StringNullableFilter<"BioPage"> | string | null
     accentColor?: StringNullableFilter<"BioPage"> | string | null
+    freeLimits?: BoolFilter<"BioPage"> | boolean
     published?: BoolFilter<"BioPage"> | boolean
     publishedAt?: DateTimeNullableFilter<"BioPage"> | Date | string | null
     quizEnabled?: BoolFilter<"BioPage"> | boolean
@@ -327468,6 +327507,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -327503,6 +327543,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -327552,6 +327593,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -327587,6 +327629,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -327620,6 +327663,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -327655,6 +327699,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -327704,6 +327749,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -327739,6 +327785,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -327772,6 +327819,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -327807,6 +327855,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -328010,6 +328059,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -328045,6 +328095,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -328244,6 +328295,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -328279,6 +328331,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -328373,6 +328426,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -328408,6 +328462,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -328492,6 +328547,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -328527,6 +328583,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -328576,6 +328633,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -328611,6 +328669,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -344391,6 +344450,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     coverUrl?: string | null
     accentColor?: string | null
+    freeLimits?: boolean
     published?: boolean
     publishedAt?: Date | string | null
     quizEnabled?: boolean
@@ -344491,6 +344551,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -344526,6 +344587,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -344560,6 +344622,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizEnabled?: BoolFieldUpdateOperationsInput | boolean
