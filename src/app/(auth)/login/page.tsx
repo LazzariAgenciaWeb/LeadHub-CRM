@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import GohubLogo from "@/components/GohubLogo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,21 +41,16 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080b12] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#0B0B0D] flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-8 justify-center">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-lg font-bold">
-            ⚡
-          </div>
-          <div>
-            <div className="text-white font-bold text-xl leading-none">LeadHub</div>
-            <div className="text-slate-500 text-xs">Marketing CRM</div>
-          </div>
+        <div className="mb-8 flex flex-col items-center gap-2">
+          <GohubLogo size={34} />
+          <div className="text-xs text-white/50">Painel do seu negócio</div>
         </div>
 
         {/* Card */}
-        <div className="bg-[#0f1623] border border-[#1e2d45] rounded-2xl p-8">
+        <div className="bg-[#141217] border border-[#26222B] rounded-2xl p-8">
           <h1 className="text-white font-bold text-xl mb-1">Bem-vindo de volta</h1>
           <p className="text-slate-500 text-sm mb-6">Entre com sua conta para continuar</p>
 
@@ -68,7 +64,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-white text-sm outline-none focus:border-indigo-500 transition-colors"
+                className="w-full bg-[#0B0B0D] border border-[#2E2933] rounded-lg px-3 py-2.5 text-white text-sm outline-none focus:border-[#FF2E96] transition-colors"
                 placeholder="seu@email.com"
               />
             </div>
@@ -82,7 +78,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-white text-sm outline-none focus:border-indigo-500 transition-colors"
+                className="w-full bg-[#0B0B0D] border border-[#2E2933] rounded-lg px-3 py-2.5 text-white text-sm outline-none focus:border-[#FF2E96] transition-colors"
                 placeholder="••••••••"
               />
             </div>
@@ -96,14 +92,14 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-lg py-2.5 text-sm mt-1 hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="w-full bg-[#FF2E96] hover:bg-[#E0167C] text-white font-semibold rounded-lg py-2.5 text-sm mt-1 hover:opacity-90 transition-opacity disabled:opacity-50"
             >
               {loading ? "Entrando..." : "Entrar"}
             </button>
           </form>
 
           <div className="text-center mt-5">
-            <Link href="/esqueci-senha" className="text-slate-500 hover:text-indigo-400 text-sm transition-colors">
+            <Link href="/esqueci-senha" className="text-slate-500 hover:text-[#FF2E96] text-sm transition-colors">
               Esqueci minha senha
             </Link>
           </div>

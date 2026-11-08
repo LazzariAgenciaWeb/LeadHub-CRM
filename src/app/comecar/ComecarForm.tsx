@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Check, Loader2, MessageCircle, MousePointerClick, Store } from "lucide-react";
 import { BIO_PASSWORD_MIN } from "@/lib/bio-page";
+import { Inter_Tight } from "next/font/google";
+import GohubLogo from "@/components/GohubLogo";
+
+const display = Inter_Tight({ subsets: ["latin"], weight: ["800"], display: "swap" });
 
 const OTHER = "__outro__";
 
@@ -74,31 +78,36 @@ export default function ComecarForm({
     }
   }
 
-  const input = "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-indigo-500";
+  const input = "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-[#FF2E96] focus:ring-2 focus:ring-[#FF2E96]/15";
   const label = "block text-xs font-semibold text-slate-600 mb-1";
 
   return (
-    <div className="min-h-screen bg-[#f4f5f7] text-slate-900">
-      <div className="mx-auto grid max-w-5xl gap-10 px-4 py-10 lg:grid-cols-2 lg:py-16">
+    <div className="min-h-screen bg-white text-[#16131A]">
+      <header className="mx-auto flex max-w-6xl items-center justify-between px-4 py-5">
+        <a href="https://gohub.com.br" aria-label="GoHub"><GohubLogo tone="light" size={28} /></a>
+        <Link href={`${appBase}/login`} className="text-sm font-semibold text-slate-600 hover:text-[#D6157A]">Entrar</Link>
+      </header>
+
+      <div className="mx-auto grid max-w-6xl gap-6 px-4 pb-12 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
         {/* Proposta */}
-        <section className="lg:pt-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-indigo-600">Grátis, sem cartão</p>
-          <h1 className="mt-2 text-3xl font-bold leading-tight sm:text-4xl">
-            Seu link na bio que transforma visita em contato
+        <section className="rounded-3xl bg-[#0B0B0D] p-7 text-white sm:p-10">
+          <p className="inline-flex rounded-full bg-[#FF2E96]/15 px-3 py-1 text-xs font-bold text-[#FF2E96]">Grátis, sem cartão</p>
+          <h1 className={`${display.className} mt-4 text-[34px] font-extrabold leading-[1.05] tracking-[-0.04em] sm:text-5xl`}>
+            O link da sua bio agora traz cliente pelo WhatsApp.
           </h1>
-          <p className="mt-4 text-base leading-relaxed text-slate-600">
-            Monte em minutos uma página com seus serviços e perguntas rápidas. Quem responde deixa nome e WhatsApp — e você sabe exatamente quem quer o quê.
+          <p className="mt-5 max-w-md text-base leading-relaxed text-white/70">
+            Monte em minutos a página do seu negócio com WhatsApp, serviços e redes sociais. Fica no ar no endereço gohub.com.br/p/seu-negocio.
           </p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-700">
+          <ul className="mt-8 space-y-3.5 text-sm text-white/85">
             {[
-              [Store, "Vitrine dos seus serviços, com foto e preço"],
-              [MousePointerClick, "Perguntas com botões que qualificam o cliente"],
-              [MessageCircle, "Contato direto na sua lista, com nome e telefone"],
+              [Store, "Seus serviços e redes num link só"],
+              [MessageCircle, "Botão de WhatsApp a um toque"],
+              [MousePointerClick, "No Pro: formulário que qualifica o cliente antes da conversa"],
             ].map(([Icon, text]) => {
               const I = Icon as typeof Store;
               return (
                 <li key={text as string} className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
+                  <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/5 text-[#FF2E96] ring-1 ring-white/10">
                     <I className="h-4 w-4" />
                   </span>
                   {text as string}
@@ -107,19 +116,22 @@ export default function ComecarForm({
             })}
           </ul>
           {refTitle && (
-            <p className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs text-slate-600 ring-1 ring-slate-200">
-              <Check className="h-3.5 w-3.5 flex-shrink-0 text-emerald-600" />
-              <span>Você conheceu pela página de <strong>{refTitle}</strong></span>
+            <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5 text-xs text-white/70 ring-1 ring-white/10">
+              <Check className="h-3.5 w-3.5 flex-shrink-0 text-[#FF2E96]" />
+              <span>Você conheceu pela página de <strong className="text-white">{refTitle}</strong></span>
             </p>
           )}
         </section>
 
         {/* Formulário */}
-        <form onSubmit={submit} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8 space-y-4">
-          <h2 className="text-lg font-bold">Crie sua página</h2>
+        <form onSubmit={submit} className="space-y-4 rounded-3xl bg-white p-6 ring-1 ring-slate-200 sm:p-8 lg:mt-0">
+          <div>
+            <h2 className={`${display.className} text-2xl font-extrabold tracking-[-0.03em]`}>Crie sua página</h2>
+            <p className="mt-1 text-sm text-slate-500">Leva 2 minutos. Depois você monta tudo no painel.</p>
+          </div>
           {plan && (
-            <p className="rounded-xl bg-slate-900 px-3 py-2 text-xs text-white">
-              Plano <strong>{plan.label}</strong> (R$ {plan.price.toFixed(2).replace(".", ",")}/mês). Depois de criar a conta, você vai direto para o pagamento.
+            <p className="rounded-xl bg-[#0B0B0D] px-3.5 py-2.5 text-xs text-white">
+              Plano <strong className="text-[#FF2E96]">{plan.label}</strong> (R$ {plan.price.toFixed(2).replace(".", ",")}/mês). Depois de criar a conta, você vai direto para o pagamento.
             </p>
           )}
 
@@ -172,7 +184,7 @@ export default function ComecarForm({
             onChange={(e) => setWebsite(e.target.value)}
           />
           <label className="flex items-start gap-2 text-xs leading-relaxed text-slate-500">
-            <input type="checkbox" checked={acceptTerms} onChange={(e) => setAcceptTerms(e.target.checked)} className="mt-0.5 h-4 w-4 flex-shrink-0 accent-indigo-600" />
+            <input type="checkbox" checked={acceptTerms} onChange={(e) => setAcceptTerms(e.target.checked)} className="mt-0.5 h-4 w-4 flex-shrink-0 accent-[#FF2E96]" />
             <span>
               Concordo em criar a conta e em receber contato da equipe sobre a minha página e serviços de site. Meus dados não são compartilhados com terceiros.
             </span>
@@ -188,13 +200,13 @@ export default function ComecarForm({
           <button
             type="submit"
             disabled={sending}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#D6157A] px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-[#B80F67] disabled:opacity-60"
           >
             {sending && <Loader2 className="h-4 w-4 animate-spin" />}
-            Criar minha página grátis
+            {plan ? `Criar conta e assinar o ${plan.label}` : "Criar minha página grátis"}
           </button>
           <p className="text-center text-xs text-slate-500">
-            Já tem conta? <Link href={`${appBase}/login`} className="font-semibold text-indigo-600">Entrar</Link>
+            Já tem conta? <Link href={`${appBase}/login`} className="font-semibold text-[#D6157A]">Entrar</Link>
           </p>
         </form>
       </div>

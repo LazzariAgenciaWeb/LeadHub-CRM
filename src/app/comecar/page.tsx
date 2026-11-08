@@ -12,7 +12,7 @@ import ComecarForm from "./ComecarForm";
 // ?ref=slug = veio pelo selo "Feito com GoHub" de outra página.
 
 export const metadata: Metadata = {
-  title: "Crie sua Página do Negócio grátis",
+  title: "Crie sua página grátis | GoHub",
   description: "Link na bio com vitrine e perguntas que transformam visita em contato. Grátis, sem cartão.",
 };
 
