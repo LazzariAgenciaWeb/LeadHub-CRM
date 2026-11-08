@@ -79,3 +79,12 @@ input[type="week"] {
   width: 4px;
   height: 4px;
 }
+
+/* iPhone dá zoom ao focar campo com fonte < 16px; no celular todo campo fica em 16px. */
+@media (max-width: 639px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}

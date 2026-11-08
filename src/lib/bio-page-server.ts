@@ -1,3 +1,4 @@
+import { isValidWaPhone, normalizeWaPhone } from "@/lib/whatsapp-link-tool";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -309,9 +310,21 @@ export async function createBioSignup(input: BioSignupInput, agencyId: string | 
   });
 
   const pageId = await ensureBioPage(company.id);
+  // A promessa do cadastro é o botão de WhatsApp: a página já nasce com ele.
+  // O telefone e o e-mail da conta não vão para o rodapé público (o e-mail é
+  // o login, e o telefone já está no botão); o dono acrescenta se quiser.
+  const wa = normalizeWaPhone(input.phone);
   const page = await prisma.bioPage.update({
     where: { id: pageId },
-    data: { headline: `${input.segment} em ${input.city}`, referredById: referrer?.id ?? null },
+    data: {
+      headline: `${input.segment} em ${input.city}`,
+      referredById: referrer?.id ?? null,
+      contactPhone: null,
+      contactEmail: null,
+      ...(isValidWaPhone(wa)
+        ? { blocks: { create: { type: "LINK", title: "Chamar no WhatsApp", url: `https://wa.me/${wa}`, order: 0 } } }
+        : {}),
+    },
     select: { slug: true },
   });
   return { companyId: company.id, pageSlug: page.slug, referred: !!referrer };

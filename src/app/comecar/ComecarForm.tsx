@@ -80,7 +80,7 @@ export default function ComecarForm({
     }
   }
 
-  const input = "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-[#FF2E96] focus:ring-2 focus:ring-[#FF2E96]/15";
+  const input = "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none sm:text-sm placeholder:text-slate-400 focus:border-[#FF2E96] focus:ring-2 focus:ring-[#FF2E96]/15";
   const label = "block text-xs font-semibold text-slate-600 mb-1";
 
   return (
@@ -92,15 +92,15 @@ export default function ComecarForm({
 
       <div className="mx-auto grid max-w-6xl gap-6 px-4 pb-12 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
         {/* Proposta */}
-        <section className="rounded-3xl bg-[#0B0B0D] p-7 text-white sm:p-10">
+        <section className="rounded-3xl bg-[#0B0B0D] p-6 text-white sm:p-10">
           <p className="inline-flex rounded-full bg-[#FF2E96]/15 px-3 py-1 text-xs font-bold text-[#FF2E96]">Grátis, sem cartão</p>
-          <h1 className={`${display.className} mt-4 text-[34px] font-extrabold leading-[1.05] tracking-[-0.04em] sm:text-5xl`}>
+          <h1 className={`${display.className} mt-4 text-[30px] font-extrabold leading-[1.05] tracking-[-0.04em] sm:text-5xl`}>
             O link da sua bio agora traz cliente pelo WhatsApp.
           </h1>
-          <p className="mt-5 max-w-md text-base leading-relaxed text-white/70">
+          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/70 sm:mt-5 sm:text-base">
             Monte em minutos a página do seu negócio com WhatsApp, serviços e redes sociais. Fica no ar no endereço gohub.com.br/p/seu-negocio.
           </p>
-          <ul className="mt-8 space-y-3.5 text-sm text-white/85">
+          <ul className="mt-8 hidden space-y-3.5 text-sm text-white/85 sm:block">
             {[
               [Store, "Seus serviços e redes num link só"],
               [MessageCircle, "Botão de WhatsApp a um toque"],
@@ -186,7 +186,7 @@ export default function ComecarForm({
             onChange={(e) => setWebsite(e.target.value)}
           />
           <label className="flex items-start gap-2 text-xs leading-relaxed text-slate-500">
-            <input type="checkbox" checked={acceptTerms} onChange={(e) => setAcceptTerms(e.target.checked)} className="mt-0.5 h-4 w-4 flex-shrink-0 accent-[#FF2E96]" />
+            <input type="checkbox" checked={acceptTerms} onChange={(e) => setAcceptTerms(e.target.checked)} className="mt-0.5 h-5 w-5 sm:h-4 sm:w-4 flex-shrink-0 accent-[#FF2E96]" />
             <span>
               Concordo em criar a conta e em receber contato da equipe sobre a minha página e serviços de site. Meus dados não são compartilhados com terceiros.
             </span>
@@ -202,7 +202,7 @@ export default function ComecarForm({
           <button
             type="submit"
             disabled={sending}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#D6157A] px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-[#B80F67] disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#D6157A] px-4 py-4 text-base font-semibold text-white transition sm:py-3.5 sm:text-sm hover:bg-[#B80F67] disabled:opacity-60"
           >
             {sending && <Loader2 className="h-4 w-4 animate-spin" />}
             {plan ? `Criar conta e assinar o ${plan.label}` : "Criar minha página grátis"}

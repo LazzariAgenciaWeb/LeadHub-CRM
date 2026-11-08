@@ -380,7 +380,9 @@ export default function PaginaEditor({
 
       <div className="flex gap-6 items-start">
         <div className="flex-1 min-w-0 max-w-2xl">
-          {results}
+          {/* Página nunca publicada: o editor vem primeiro; plano e resultados
+              ficam embaixo. Decide pelo carregamento, para não pular ao publicar. */}
+          {initial.publishedAt && results}
           {/* Passos */}
           <div className="flex bg-[#0f1623] border border-[#1e2d45] rounded-lg p-0.5 mb-4 overflow-x-auto">
             {STEPS.map((label, i) => (
@@ -388,7 +390,7 @@ export default function PaginaEditor({
                 key={label}
                 type="button"
                 onClick={() => setStep(i)}
-                className={`flex-1 whitespace-nowrap px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${step === i ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-white"}`}
+                className={`flex-1 whitespace-nowrap px-2 sm:px-3 py-2 sm:py-1.5 rounded-md text-xs font-medium transition-colors ${step === i ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-white"}`}
               >
                 {i + 1}. {label}
               </button>
@@ -436,6 +438,7 @@ export default function PaginaEditor({
               </button>
             )}
           </div>
+          {!initial.publishedAt && <div className="mt-6">{results}</div>}
         </div>
 
         {/* Prévia (desktop) */}
