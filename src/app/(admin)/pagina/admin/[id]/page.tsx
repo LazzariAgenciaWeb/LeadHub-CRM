@@ -67,7 +67,7 @@ export default async function PaginaAdminDetail({
           <div>
             <h1 className="text-white font-bold text-xl">{d.page.company}</h1>
             <p className="text-slate-500 text-sm flex items-center gap-2">
-              {d.page.plan ?? "sem plano"} · {d.page.published ? "no ar" : "rascunho"}
+              {d.page.planLabel ?? "sem plano"} · {d.page.published ? "no ar" : "rascunho"}
               {d.page.published && (
                 <a href={bioPublicUrl(d.page.slug)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 hover:text-white">
                   /p/{d.page.slug} <ExternalLink className="w-3 h-3" />

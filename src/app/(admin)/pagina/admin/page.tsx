@@ -72,7 +72,7 @@ export default async function PaginasAdminPage() {
                     {p.referredBy && <span>· veio de /p/{p.referredBy}</span>}
                   </div>
                 </td>
-                <td className="px-3 py-2.5 text-slate-300 text-xs">{p.plan ?? "—"}</td>
+                <td className="px-3 py-2.5 text-slate-300 text-xs">{p.planLabel ?? "—"}</td>
                 <td className="px-3 py-2.5 text-right text-slate-200">{p.views30}</td>
                 <td className="px-3 py-2.5 text-right text-slate-200">{p.leads30}</td>
                 <td className="px-3 py-2.5 text-right text-slate-400">{p.leadsAll}</td>

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getCompanyPlan } from "@/lib/limits";
+import { PLANS } from "@/lib/plans";
 import { bioPublicUrl } from "@/lib/bio-page-server";
 import { bioShowsBadge, referrerLabel, visibleLeadCount } from "@/lib/bio-page";
 
@@ -143,6 +144,7 @@ export async function getAdminOverview() {
     company: p.company.tradeName ?? p.company.name,
     companyId: p.company.id,
     plan: p.company.subscription?.plan ?? null,
+    planLabel: p.company.subscription?.plan ? PLANS[p.company.subscription.plan].label : null,
     published: p.published,
     createdAt: p.createdAt.toISOString(),
     referredBy: p.referredBy?.slug ?? null,
@@ -214,6 +216,7 @@ export async function getPageDetail(pageId: string, days = 30) {
       published: page.published,
       company: page.company.tradeName ?? page.company.name,
       plan: page.company.subscription?.plan ?? null,
+      planLabel: page.company.subscription?.plan ? PLANS[page.company.subscription.plan].label : null,
     },
     days,
     funnel,
