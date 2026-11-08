@@ -190,6 +190,9 @@ ok("respostas: ordem da pergunta, só opção que existe, única fica com uma",
   ok("grátis: não mexe no original", view.blocks.length === 9 && view.quiz !== null);
 }
 
+ok("Negócio leva os leads pro CRM; Grátis e Pro não", PLANS.STARTER.features.crmPipelineLeads && !PLANS.PAGINA_PRO.features.crmPipelineLeads && !PLANS.PAGINA.features.crmPipelineLeads);
+ok("site sem 'até 3 páginas'", !PLANS.STARTER.highlights.some((h) => /3 páginas/.test(h)));
+
 if (falhas) {
   console.error(`\n${falhas} falha(s)`);
   process.exit(1);

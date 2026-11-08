@@ -320,18 +320,18 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       "Formulário de atendimento",
       "Todos os temas e as cores da sua marca",
       "Pixel da Meta e Google Analytics",
-      "Suporte por WhatsApp",
+      "Suporte por WhatsApp em até 1 dia útil",
     ],
   },
 
-  // ── STARTER = plano "Negócio" no site: domínio próprio e até 3 páginas ──
+  // ── STARTER = plano "Negócio" no site: domínio próprio e leads no CRM ──
   // A chave continua STARTER porque já está gravada em assinaturas; o nome que
   // o cliente vê é "Negócio". Domínio no nome do cliente (taxa à parte).
   STARTER: {
     tier: "STARTER",
     label: "Negócio",
     tagline: "Para quem quer receber pedido de orçamento",
-    description: "Tudo do Pro + domínio próprio, leads do formulário organizados e até 3 páginas.",
+    description: "Tudo do Pro + domínio próprio, os contatos da página direto no CRM e atendimento no mesmo dia útil.",
     priceMonthly: 39.90,
     priceAnnualPerMonth: 33.25,
     priceAnnualTotal: 399.00,
@@ -346,14 +346,15 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     features: feat({
       paginaNegocio: true,
       calendario: true,
+      // Os contatos da página já viram lead; no Negócio o cliente vê o funil.
+      crmPipelineLeads: true,
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
       "Tudo do Pro",
       "Domínio próprio",
-      "Leads do formulário organizados",
-      "Até 3 páginas, para unidades ou profissionais",
-      "Suporte prioritário",
+      "Leads direto no seu CRM",
+      "Atendimento no mesmo dia útil",
     ],
   },
 

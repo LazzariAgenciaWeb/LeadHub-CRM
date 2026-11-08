@@ -177,8 +177,8 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
   // usuários/setores também precisa abrir a tela de configurações).
   const showConfig = _isAdmin || can(session, "canViewConfig") || can(session, "canManageUsers");
 
-  // Linha Página do Negócio (planos PAGINA/STARTER): o cliente só tem o editor
-  // da página. Recorta o menu inteiro pra esse item, sem cadeados do resto.
+  // Linha Página do Negócio (Grátis/Pro/Negócio): o cliente só tem o editor da
+  // página — e, no Negócio, o funil de Leads. Recorta o menu, sem cadeados.
   const pageOnly = !_isSuperAdmin && !!(session.user as any)?.pageOnly;
 
   // "Visão Geral" (home do dashboard) é link fixo no topo — não entra em grupo.
@@ -251,7 +251,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     .map((g) => {
       const items: NavItem[] = [];
       for (const i of g.items) {
-        if (pageOnly && i.href !== "/pagina") continue;
+        if (pageOnly && i.href !== "/pagina" && !(i.href === "/crm/leads" && hasModule(session, "crmPipelineLeads"))) continue;
         // Área interna da agência: some pra empresa-cliente, com ou sem
         // permissão. Não vira cadeado porque não há o que contratar.
         if (i.agencyOnly && isClient) continue;
