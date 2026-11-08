@@ -47,7 +47,7 @@ export function bioSlugProblem(slug: string): BioSlugProblem | null {
 /**
  * Quantos contatos do mês o cliente enxerga (nome + telefone). Os demais são
  * capturados do mesmo jeito — a página nunca para —, mas aparecem só como
- * "+X contatos" com o convite pro Starter. -1 = ilimitado.
+ * "+X contatos" com o convite pro Pro. -1 = ilimitado.
  */
 export function visibleLeadCount(total: number, limit: number): { visible: number; hidden: number } {
   if (limit < 0 || total <= limit) return { visible: total, hidden: 0 };

@@ -41,3 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 # /src/generated/prisma — commitado para evitar prisma generate no servidor
+logos-gohub/

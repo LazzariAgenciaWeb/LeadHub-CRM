@@ -6,7 +6,7 @@ import { bioShowsBadge, referrerLabel, visibleLeadCount } from "@/lib/bio-page";
 // Números da Página do Negócio. Dois recortes, por decisão de produto:
 //   - cliente do grátis: totais do mês + nome/telefone dos contatos até o
 //     limite do plano (o excedente vira "+X contatos");
-//   - admins da agência (e o Starter): o detalhe — funil, cliques por botão,
+//   - admins da agência (e os planos pagos): o detalhe — funil, cliques por botão,
 //     origem e as respostas de cada contato.
 
 export function startOfMonth(d = new Date()): Date {

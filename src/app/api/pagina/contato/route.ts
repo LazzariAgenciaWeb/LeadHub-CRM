@@ -10,7 +10,7 @@ import { BIO_LEAD_SOURCE, bioParseSocial, bioSnapshotAnswers, bioTrackingFields 
 //
 // As respostas ficam SÓ no BioSubmission (relatório dos admins) — não vão pras
 // observações do lead, que o cliente enxerga no CRM. Decisão de produto: no
-// grátis o cliente vê nome e telefone; o detalhe é argumento do Starter.
+// grátis o cliente vê nome e telefone; o detalhe é argumento do Pro.
 
 const NOTE = "Página do Negócio — deixou o contato pela página.";
 

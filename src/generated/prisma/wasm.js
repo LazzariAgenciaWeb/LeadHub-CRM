@@ -2608,6 +2608,7 @@ exports.PlanTier = exports.$Enums.PlanTier = {
   FREE: 'FREE',
   TRIAL: 'TRIAL',
   PAGINA: 'PAGINA',
+  PAGINA_PRO: 'PAGINA_PRO',
   STARTER: 'STARTER',
   ORGANIZATION: 'ORGANIZATION',
   ESSENCIAL: 'ESSENCIAL',

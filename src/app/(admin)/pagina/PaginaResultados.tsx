@@ -7,7 +7,7 @@ import type { OwnerSummary } from "@/lib/bio-page-stats";
 import PartialAnswers from "./PartialAnswers";
 
 // Resultados do mês para o dono da página. No grátis: totais e nome/telefone
-// dos contatos até o limite; no Starter, também as respostas de cada um.
+// dos contatos até o limite; nos pagos (Pro e Negócio), também as respostas.
 
 const WHEN = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
 
@@ -112,14 +112,14 @@ export default function PaginaResultados({ summary, adminDetailHref }: { summary
           <Lock className="w-4 h-4 text-amber-300 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-amber-100 leading-relaxed">
             <strong>+{summary.hidden} {summary.hidden === 1 ? "contato" : "contatos"} este mês</strong> que você ainda não vê.
-            No Starter (R$ 49,90/mês) você vê todos, com as respostas de cada um — e ganha domínio com seu nome e e-mail profissional.
+            No Pro (R$ 19,90/mês) você vê todos, com as respostas de cada um, e a página fica sem a marca GoHub.
           </p>
         </div>
       )}
 
       {!compact && !summary.detailed && summary.contactsTotal > 0 && summary.hidden === 0 && (
         <p className="text-slate-600 text-[11px] mt-3">
-          No Starter você também vê as respostas de cada contato e quais botões recebem mais cliques.
+          No Pro você também vê as respostas de cada contato e quais botões recebem mais cliques.
         </p>
       )}
     </section>

@@ -14,9 +14,11 @@
  *  - CRESCIMENTO: legado (mantido no enum pra subscriptions existentes, fora
  *    da pricing page)
  *  - TRIAL: legado (enum mantido, mas FREE absorve o papel)
- *  - PAGINA e STARTER: linha "Página do Negócio", separada dos planos de gestão
- *    (fora do PLAN_ORDER). PAGINA é a porta de entrada grátis; STARTER vira
- *    mini site com domínio próprio + e-mail. Ver PAGE_LINE_TIERS.
+ *  - PAGINA, PAGINA_PRO e STARTER: linha "Página do Negócio", separada dos
+ *    planos de gestão (fora do PLAN_ORDER). Nomes e preços iguais aos do site
+ *    gohub.com.br: Grátis (PAGINA), Pro R$ 19,90 (PAGINA_PRO) e Negócio
+ *    R$ 39,90 (chave STARTER, mantida pelas assinaturas já gravadas).
+ *    Ver PAGE_LINE_TIERS.
  *
  * Add-ons: features extras contratáveis em qualquer plano pago via
  * `Subscription.customFeatures`. Preços em `ADDON_PRICES`.
@@ -26,6 +28,7 @@ export type PlanTier =
   | "FREE"
   | "TRIAL"
   | "PAGINA"
+  | "PAGINA_PRO"
   | "STARTER"
   | "ORGANIZATION"
   | "ESSENCIAL"
@@ -261,8 +264,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
   // A página nunca para: acima do limite o contato é capturado do mesmo jeito.
   PAGINA: {
     tier: "PAGINA",
-    label: "Página",
-    tagline: "Sua página de negócio, grátis",
+    label: "Grátis",
+    tagline: "Para colocar a página no ar hoje",
     description: "Link na bio com vitrine e perguntas que transformam visita em contato — no endereço do GoHub.",
     priceMonthly: 0,
     priceAnnualPerMonth: 0,
@@ -280,26 +283,25 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
-      "Grátis, sem cartão",
-      "Página com links e vitrine",
-      "Perguntas que viram contato",
-      "Até 30 contatos/mês visíveis",
+      "1 página com até 5 botões",
+      "WhatsApp e redes sociais",
+      "3 temas",
+      'Rodapé "Feito com GoHub"',
     ],
   },
 
-  // ── STARTER: a página vira mini site com domínio próprio ──
-  // Domínio no nome do cliente (taxa paga por ele, antecipada, à parte) +
-  // hospedagem + 1 conta de e-mail (250 MB) no servidor da agência. Cadastrado
-  // pra já existir no catálogo; venda e domínio entram em fase posterior.
-  STARTER: {
-    tier: "STARTER",
-    label: "Starter",
-    tagline: "Seu mini site com domínio e e-mail",
-    description: "Tudo da Página + domínio com o seu nome, e-mail profissional, agenda e relatório completo.",
-    priceMonthly: 49.90,
-    priceAnnualPerMonth: 49.90,
-    priceAnnualTotal: 598.80,
-    cta: "Assinar Starter",
+  // ── PAGINA_PRO: a página vira canal de atendimento ──
+  // Sem a marca GoHub, todos os contatos com as respostas, agenda e pixel.
+  PAGINA_PRO: {
+    tier: "PAGINA_PRO",
+    label: "Pro",
+    tagline: "Para a página virar canal de atendimento",
+    description: "Botões ilimitados, sem a marca GoHub, serviços com imagem e agenda, formulário de atendimento e pixel.",
+    priceMonthly: 19.90,
+    priceAnnualPerMonth: 16.58,
+    priceAnnualTotal: 199.00,
+    popular: true,
+    cta: "Começar com o Pro",
     limits: {
       whatsappInstances: 0,
       atendentes: 1,
@@ -313,10 +315,45 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
-      "Tudo da Página +",
-      "Domínio com o seu nome",
-      "1 e-mail profissional (250 MB)",
-      "Agenda e relatório completo",
+      "Botões ilimitados, sem a marca GoHub",
+      "Serviços com imagem e agenda",
+      "Formulário de atendimento",
+      "Todos os temas e as cores da sua marca",
+      "Pixel da Meta e Google Analytics",
+      "Suporte por WhatsApp",
+    ],
+  },
+
+  // ── STARTER = plano "Negócio" no site: domínio próprio e até 3 páginas ──
+  // A chave continua STARTER porque já está gravada em assinaturas; o nome que
+  // o cliente vê é "Negócio". Domínio no nome do cliente (taxa à parte).
+  STARTER: {
+    tier: "STARTER",
+    label: "Negócio",
+    tagline: "Para quem quer receber pedido de orçamento",
+    description: "Tudo do Pro + domínio próprio, leads do formulário organizados e até 3 páginas.",
+    priceMonthly: 39.90,
+    priceAnnualPerMonth: 33.25,
+    priceAnnualTotal: 399.00,
+    cta: "Escolher Negócio",
+    limits: {
+      whatsappInstances: 0,
+      atendentes: 1,
+      unidades: 1,
+      leadsPerMonth: -1,
+      aiInteractions: 0,
+    },
+    features: feat({
+      paginaNegocio: true,
+      calendario: true,
+    }),
+    modoAtendimentoDefault: "VISAO",
+    highlights: [
+      "Tudo do Pro",
+      "Domínio próprio",
+      "Leads do formulário organizados",
+      "Até 3 páginas, para unidades ou profissionais",
+      "Suporte prioritário",
     ],
   },
 
@@ -686,7 +723,7 @@ export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO", "ORGANIZATION"]
 export const INTERNAL_TIERS: PlanTier[] = ["ENTERPRISE"];
 
 /** Linha "Página do Negócio" — vendida à parte, fora da pricing page do GoHub. */
-export const PAGE_LINE_TIERS: PlanTier[] = ["PAGINA", "STARTER"];
+export const PAGE_LINE_TIERS: PlanTier[] = ["PAGINA", "PAGINA_PRO", "STARTER"];
 
 // ─── Add-ons (features extras contratáveis em qualquer plano pago) ───────────
 // Quando ligados via Subscription.customFeatures, cobrados separados via
@@ -877,6 +914,7 @@ const TIER_RANK: Record<PlanTier, number> = {
   FREE: 0,
   TRIAL: 0,
   PAGINA: 0,
+  PAGINA_PRO: 0,
   STARTER: 0,        // linha à parte: não habilita add-ons dos planos de gestão
   ORGANIZATION: 1,   // acima do FREE, abaixo do ESSENCIAL
   ESSENCIAL: 2,

@@ -54,7 +54,7 @@ interface SubscriptionData {
 const PUBLIC_PLANS: PlanTier[] = ["FREE", "ORGANIZATION", "ESSENCIAL", "MARKETING", "PREMIUM"];
 const INTERNAL_PLANS: PlanTier[] = ["ENTERPRISE"];
 const LEGACY_PLANS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
-const PAGE_LINE_PLANS: PlanTier[] = ["PAGINA", "STARTER"];
+const PAGE_LINE_PLANS: PlanTier[] = ["PAGINA", "PAGINA_PRO", "STARTER"];
 const STATUSES: Status[] = ["TRIALING", "ACTIVE", "PAST_DUE", "CANCELED", "UNPAID", "INCOMPLETE"];
 
 const LIMIT_LABELS: Record<keyof PlanLimits, string> = {

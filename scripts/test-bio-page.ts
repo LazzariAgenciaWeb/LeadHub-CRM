@@ -110,14 +110,16 @@ ok("texto escuro em cor clara, branco em cor escura",
   bioOnAccent("#2ae0d0") === "#0f172a" && bioOnAccent("#facc15") === "#0f172a" && bioOnAccent("#4f46e5") === "#ffffff" && bioOnAccent("#16a34a") === "#ffffff");
 
 // ── Catálogo ──
-ok("Página e Starter liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));
+ok("Grátis, Pro e Negócio liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));
 ok("linha Página fica fora da pricing page do GoHub", PAGE_LINE_TIERS.every((t) => !PLAN_ORDER.includes(t)));
-ok("Página é grátis e Starter custa 49,90", PLANS.PAGINA.priceMonthly === 0 && PLANS.STARTER.priceMonthly === 49.9);
+ok("preços iguais ao site: Grátis 0, Pro 19,90, Negócio 39,90", PLANS.PAGINA.priceMonthly === 0 && PLANS.PAGINA_PRO.priceMonthly === 19.9 && PLANS.STARTER.priceMonthly === 39.9);
+ok("nomes iguais ao site", PLANS.PAGINA.label === "Grátis" && PLANS.PAGINA_PRO.label === "Pro" && PLANS.STARTER.label === "Negócio");
+ok("Pro tira o selo e mostra todos os contatos", !bioShowsBadge("PAGINA_PRO") && PLANS.PAGINA_PRO.limits.leadsPerMonth === -1);
 ok("Página do Negócio liberada em todos os planos", (Object.keys(PLANS) as PlanTier[]).every((t) => PLANS[t].features.paginaNegocio));
 ok("selo só em quem não paga",
   bioShowsBadge("PAGINA") && bioShowsBadge("FREE") && bioShowsBadge(null) &&
   !bioShowsBadge("STARTER") && !bioShowsBadge("ESSENCIAL") && !bioShowsBadge("ENTERPRISE"));
-ok("agenda só no Starter", !PLANS.PAGINA.features.calendario && PLANS.STARTER.features.calendario);
+ok("agenda só nos pagos", !PLANS.PAGINA.features.calendario && PLANS.PAGINA_PRO.features.calendario && PLANS.STARTER.features.calendario);
 
 // ── Agenda e contato ──
 const semExtras = { bookingUrl: null, bookingText: null, contactPhone: null, contactEmail: null, contactAddress: null, contactHours: null };
