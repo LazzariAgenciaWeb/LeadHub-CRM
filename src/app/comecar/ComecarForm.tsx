@@ -8,6 +8,7 @@ import { Check, Loader2, MessageCircle, MousePointerClick, Store } from "lucide-
 import { BIO_PASSWORD_MIN } from "@/lib/bio-page";
 import { Inter_Tight } from "next/font/google";
 import GohubLogo from "@/components/GohubLogo";
+import { trackSignup } from "./MetaPixel";
 
 const display = Inter_Tight({ subsets: ["latin"], weight: ["800"], display: "swap" });
 
@@ -60,6 +61,7 @@ export default function ComecarForm({
         setEmailTaken(!!j.emailTaken);
         return;
       }
+      await trackSignup(plan?.slug ?? null);
       // Código de uso único: entra no painel já logado, em qualquer domínio.
       if (typeof j.next === "string" && j.next) {
         window.location.assign(j.next);

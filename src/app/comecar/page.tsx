@@ -7,6 +7,7 @@ import { BIO_SEGMENTS, bioSlugProblem } from "@/lib/bio-page";
 import { appBase } from "@/lib/bio-page-server";
 import { PLANS, pageLinePlanFromSlug } from "@/lib/plans";
 import ComecarForm from "./ComecarForm";
+import MetaPixel from "./MetaPixel";
 
 // Cadastro público do plano grátis da Página do Negócio.
 // ?ref=slug = veio pelo selo "Feito com GoHub" de outra página.
@@ -33,7 +34,11 @@ export default async function ComecarPage({
     ? await prisma.bioPage.findFirst({ where: { slug: refSlug, published: true }, select: { slug: true, title: true } })
     : null;
 
+  // Pixel da campanha do GoHub (padrão: Pixel Azz Agência).
+  const pixelId = process.env.META_PIXEL_GOHUB || "1352963198827202";
   return (
+    <>
+    <MetaPixel pixelId={pixelId} />
     <ComecarForm
       segments={[...BIO_SEGMENTS]}
       refSlug={referrer?.slug ?? null}
@@ -41,5 +46,6 @@ export default async function ComecarPage({
       appBase={appBase()}
       plan={chosen ? { slug: chosen === "PAGINA_PRO" ? "pro" : "negocio", label: PLANS[chosen].label, price: PLANS[chosen].priceMonthly } : null}
     />
+    </>
   );
 }
