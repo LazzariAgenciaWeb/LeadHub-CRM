@@ -110,10 +110,11 @@ ok("texto escuro em cor clara, branco em cor escura",
   bioOnAccent("#2ae0d0") === "#0f172a" && bioOnAccent("#facc15") === "#0f172a" && bioOnAccent("#4f46e5") === "#ffffff" && bioOnAccent("#16a34a") === "#ffffff");
 
 // ── Catálogo ──
-ok("Grátis, Pro e Negócio liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));
+ok("Grátis, Pro e Mini Site liberam o módulo", PAGE_LINE_TIERS.every((t) => PLANS[t].features.paginaNegocio));
 ok("linha Página fica fora da pricing page do GoHub", PAGE_LINE_TIERS.every((t) => !PLAN_ORDER.includes(t)));
-ok("preços iguais ao site: Grátis 0, Pro 19,90, Negócio 39,90", PLANS.PAGINA.priceMonthly === 0 && PLANS.PAGINA_PRO.priceMonthly === 19.9 && PLANS.STARTER.priceMonthly === 39.9);
-ok("nomes iguais ao site", PLANS.PAGINA.label === "Grátis" && PLANS.PAGINA_PRO.label === "Pro" && PLANS.STARTER.label === "Negócio");
+ok("preços iguais ao site: Grátis 0, Pro 29,90, Mini Site 59,90", PLANS.PAGINA.priceMonthly === 0 && PLANS.PAGINA_PRO.priceMonthly === 29.9 && PLANS.STARTER.priceMonthly === 59.9);
+ok("anual = 10 meses (2 grátis)", PLANS.PAGINA_PRO.priceAnnualTotal === 299 && PLANS.STARTER.priceAnnualTotal === 599);
+ok("nomes iguais ao site", PLANS.PAGINA.label === "Grátis" && PLANS.PAGINA_PRO.label === "Pro" && PLANS.STARTER.label === "Mini Site");
 ok("Pro tira o selo e mostra todos os contatos", !bioShowsBadge("PAGINA_PRO") && PLANS.PAGINA_PRO.limits.leadsPerMonth === -1);
 ok("Página do Negócio liberada em todos os planos", (Object.keys(PLANS) as PlanTier[]).every((t) => PLANS[t].features.paginaNegocio));
 ok("selo só em quem não paga",
@@ -190,7 +191,7 @@ ok("respostas: ordem da pergunta, só opção que existe, única fica com uma",
   ok("grátis: não mexe no original", view.blocks.length === 9 && view.quiz !== null);
 }
 
-ok("Negócio leva os leads pro CRM; Grátis e Pro não", PLANS.STARTER.features.crmPipelineLeads && !PLANS.PAGINA_PRO.features.crmPipelineLeads && !PLANS.PAGINA.features.crmPipelineLeads);
+ok("Mini Site leva os leads pro CRM; Grátis e Pro não", PLANS.STARTER.features.crmPipelineLeads && !PLANS.PAGINA_PRO.features.crmPipelineLeads && !PLANS.PAGINA.features.crmPipelineLeads);
 ok("site sem 'até 3 páginas'", !PLANS.STARTER.highlights.some((h) => /3 páginas/.test(h)));
 
 if (falhas) {

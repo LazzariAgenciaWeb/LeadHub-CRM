@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
   let next: string | null = null;
   try {
     const user = await prisma.user.findUnique({ where: { email: input.email }, select: { id: true } });
-    // Veio pelo botão "Começar com o Pro"/"Escolher Negócio" do site: depois
+    // Veio pelo botão "Começar com o Pro"/"Escolher Mini Site" do site: depois
     // do login o editor já abre o pagamento desse plano.
     const assinar = pageLinePlanFromSlug(body?.plano);
     if (user) next = `${appBase()}/entrar#t=${await createLoginHandoff(user.id)}${assinar ? `&assinar=${assinar}` : ""}`;

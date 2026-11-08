@@ -16,8 +16,8 @@
  *  - TRIAL: legado (enum mantido, mas FREE absorve o papel)
  *  - PAGINA, PAGINA_PRO e STARTER: linha "Página do Negócio", separada dos
  *    planos de gestão (fora do PLAN_ORDER). Nomes e preços iguais aos do site
- *    gohub.com.br: Grátis (PAGINA), Pro R$ 19,90 (PAGINA_PRO) e Negócio
- *    R$ 39,90 (chave STARTER, mantida pelas assinaturas já gravadas).
+ *    gohub.com.br: Grátis (PAGINA), Pro R$ 29,90 (PAGINA_PRO) e Mini Site
+ *    R$ 59,90 (chave STARTER, mantida pelas assinaturas já gravadas).
  *    Ver PAGE_LINE_TIERS.
  *
  * Add-ons: features extras contratáveis em qualquer plano pago via
@@ -297,9 +297,9 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     label: "Pro",
     tagline: "Para a página virar canal de atendimento",
     description: "Botões ilimitados, sem a marca GoHub, serviços com imagem e agenda, formulário de atendimento e pixel.",
-    priceMonthly: 19.90,
-    priceAnnualPerMonth: 16.58,
-    priceAnnualTotal: 199.00,
+    priceMonthly: 29.90,
+    priceAnnualPerMonth: 24.92,
+    priceAnnualTotal: 299.00,
     popular: true,
     cta: "Começar com o Pro",
     limits: {
@@ -324,18 +324,18 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     ],
   },
 
-  // ── STARTER = plano "Negócio" no site: domínio próprio e leads no CRM ──
+  // ── STARTER = plano "Mini Site" no site: domínio próprio, Google e leads no CRM ──
   // A chave continua STARTER porque já está gravada em assinaturas; o nome que
-  // o cliente vê é "Negócio". Domínio no nome do cliente (taxa à parte).
+  // o cliente vê é "Mini Site". Domínio no nome do cliente (taxa à parte).
   STARTER: {
     tier: "STARTER",
-    label: "Negócio",
-    tagline: "Para quem quer receber pedido de orçamento",
-    description: "Tudo do Pro + domínio próprio, os contatos da página direto no CRM e atendimento no mesmo dia útil.",
-    priceMonthly: 39.90,
-    priceAnnualPerMonth: 33.25,
-    priceAnnualTotal: 399.00,
-    cta: "Escolher Negócio",
+    label: "Mini Site",
+    tagline: "Seu site com o próprio domínio, no Google",
+    description: "Tudo do Pro + a página vira mini site com o seu domínio, aparece no Google, os contatos caem no CRM e o atendimento é no mesmo dia útil.",
+    priceMonthly: 59.90,
+    priceAnnualPerMonth: 49.92,
+    priceAnnualTotal: 599.00,
+    cta: "Escolher Mini Site",
     limits: {
       whatsappInstances: 0,
       atendentes: 1,
@@ -346,13 +346,14 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     features: feat({
       paginaNegocio: true,
       calendario: true,
-      // Os contatos da página já viram lead; no Negócio o cliente vê o funil.
+      // Os contatos da página já viram lead; no Mini Site o cliente vê o funil.
       crmPipelineLeads: true,
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
       "Tudo do Pro",
-      "Domínio próprio",
+      "Mini site com o seu domínio",
+      "Aparece no Google",
       "Leads direto no seu CRM",
       "Atendimento no mesmo dia útil",
     ],
@@ -733,7 +734,7 @@ export const PAGE_LINE_PAID: PlanTier[] = ["PAGINA_PRO", "STARTER"];
 export function pageLinePlanFromSlug(slug: unknown): PlanTier | null {
   const s = String(slug ?? "").toLowerCase();
   if (s === "pro" || s === "pagina_pro") return "PAGINA_PRO";
-  if (s === "negocio" || s === "starter") return "STARTER";
+  if (s === "minisite" || s === "mini-site" || s === "negocio" || s === "starter") return "STARTER";
   return null;
 }
 

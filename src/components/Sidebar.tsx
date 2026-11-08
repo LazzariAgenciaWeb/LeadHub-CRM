@@ -178,8 +178,8 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
   // usuários/setores também precisa abrir a tela de configurações).
   const showConfig = _isAdmin || can(session, "canViewConfig") || can(session, "canManageUsers");
 
-  // Linha Página do Negócio (Grátis/Pro/Negócio): o cliente só tem o editor da
-  // página — e, no Negócio, o funil de Leads. Recorta o menu, sem cadeados.
+  // Linha Página do Negócio (Grátis/Pro/Mini Site): o cliente só tem o editor da
+  // página — e, no Mini Site, o funil de Leads. Recorta o menu, sem cadeados.
   const pageOnly = !_isSuperAdmin && !!(session.user as any)?.pageOnly;
 
   // "Visão Geral" (home do dashboard) é link fixo no topo — não entra em grupo.

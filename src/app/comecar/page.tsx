@@ -26,7 +26,7 @@ export default async function ComecarPage({
   if (session) redirect("/");
 
   const { ref, plano } = await searchParams;
-  // Veio por "Começar com o Pro"/"Escolher Negócio" no site.
+  // Veio por "Começar com o Pro"/"Escolher Mini Site" no site.
   const chosen = pageLinePlanFromSlug(typeof plano === "string" ? plano : null);
   const refSlug = typeof ref === "string" ? ref.trim().toLowerCase() : "";
   // Só mostra "indicado por" se a página existe e está no ar.
@@ -44,7 +44,7 @@ export default async function ComecarPage({
       refSlug={referrer?.slug ?? null}
       refTitle={referrer?.title ?? null}
       appBase={appBase()}
-      plan={chosen ? { slug: chosen === "PAGINA_PRO" ? "pro" : "negocio", label: PLANS[chosen].label, price: PLANS[chosen].priceMonthly } : null}
+      plan={chosen ? { slug: chosen === "PAGINA_PRO" ? "pro" : "minisite", label: PLANS[chosen].label, price: PLANS[chosen].priceMonthly } : null}
     />
     </>
   );

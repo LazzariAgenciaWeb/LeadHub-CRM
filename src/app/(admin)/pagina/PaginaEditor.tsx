@@ -81,7 +81,7 @@ function ProNote({ children }: { children: React.ReactNode }) {
   return (
     <p className="rounded-lg border border-fuchsia-500/30 bg-fuchsia-500/10 px-3 py-2 text-xs text-fuchsia-100">
       <span className="mr-1.5 rounded bg-fuchsia-500 px-1.5 py-0.5 text-[10px] font-bold text-white">PRO</span>
-      {children} No plano Pro (R$ 19,90/mês).
+      {children} No plano Pro (R$ 29,90/mês).
     </p>
   );
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { CreditCard, Loader2, Sparkles } from "lucide-react";
 
-// Plano da Página no topo do editor: no Grátis, assinar Pro ou Negócio (checkout
+// Plano da Página no topo do editor: no Grátis, assinar Pro ou Mini Site (checkout
 // da Stripe); nos pagos, abrir o portal (cartão, faturas, cancelamento).
 // ?assinar=PAGINA_PRO (vindo do botão do site) abre o pagamento sozinho.
 

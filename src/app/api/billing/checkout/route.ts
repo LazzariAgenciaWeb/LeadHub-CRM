@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
       metadata: { companyId },
       subscription_data: { metadata: { companyId } },
       ...(body.coupon ? { discounts: [{ coupon: body.coupon }] } : { allow_promotion_codes: true }),
-      // Linha Página (Pro/Negócio): o cliente só tem o editor da página.
+      // Linha Página (Pro/Mini Site): o cliente só tem o editor da página.
       success_url: pageLine ? `${base}/pagina?assinatura=ok` : `${base}/configuracoes?secao=minha-empresa-plano&assinatura=ok`,
       cancel_url: pageLine ? `${base}/pagina?assinatura=cancelada` : `${base}/precos?assinatura=cancelada`,
       locale: "pt-BR",

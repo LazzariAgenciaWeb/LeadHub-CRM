@@ -174,7 +174,7 @@ async function handleSubscriptionDeleted(sub: Stripe.Subscription): Promise<void
 
   await prisma.subscription.update({
     where: { companyId: existing.companyId },
-    // Linha Página: cancelou o Pro/Negócio, a página volta pro Grátis (com
+    // Linha Página: cancelou o Pro/Mini Site, a página volta pro Grátis (com
     // selo e limites) em vez de ficar com o plano pago pra sempre.
     data: PAGE_LINE_TIERS.includes(existing.plan)
       ? { plan: "PAGINA", status: "ACTIVE", canceledAt: new Date(), stripeSubscriptionId: null, stripePriceId: null }
