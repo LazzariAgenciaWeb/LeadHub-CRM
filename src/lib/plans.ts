@@ -725,6 +725,17 @@ export const INTERNAL_TIERS: PlanTier[] = ["ENTERPRISE"];
 /** Linha "Página do Negócio" — vendida à parte, fora da pricing page do GoHub. */
 export const PAGE_LINE_TIERS: PlanTier[] = ["PAGINA", "PAGINA_PRO", "STARTER"];
 
+/** Planos pagos da linha Página — os que o cliente assina pelo checkout. */
+export const PAGE_LINE_PAID: PlanTier[] = ["PAGINA_PRO", "STARTER"];
+
+/** ?plano= do site (gohub.com.br/comecar?plano=pro) → plano do sistema. */
+export function pageLinePlanFromSlug(slug: unknown): PlanTier | null {
+  const s = String(slug ?? "").toLowerCase();
+  if (s === "pro" || s === "pagina_pro") return "PAGINA_PRO";
+  if (s === "negocio" || s === "starter") return "STARTER";
+  return null;
+}
+
 // ─── Add-ons (features extras contratáveis em qualquer plano pago) ───────────
 // Quando ligados via Subscription.customFeatures, cobrados separados via
 // Stripe (subscription item). Preço sugerido — Lazzari ajusta na UI.

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
-import { PLANS, PLAN_ORDER, type PlanTier } from "@/lib/plans";
+import { PAGE_LINE_PAID, PLANS, PLAN_ORDER, type PlanTier } from "@/lib/plans";
 
 /**
  * POST /api/billing/checkout
@@ -43,7 +43,8 @@ export async function POST(req: NextRequest) {
   const tier = String(body.tier ?? "").toUpperCase() as PlanTier;
   const cycle = body.cycle === "annual" ? "annual" : "monthly";
 
-  if (!PLAN_ORDER.includes(tier) || tier === "FREE") {
+  const pageLine = PAGE_LINE_PAID.includes(tier);
+  if ((!PLAN_ORDER.includes(tier) && !pageLine) || tier === "FREE") {
     return NextResponse.json({ error: "Plano inválido para contratação" }, { status: 400 });
   }
 
@@ -76,8 +77,9 @@ export async function POST(req: NextRequest) {
       metadata: { companyId },
       subscription_data: { metadata: { companyId } },
       ...(body.coupon ? { discounts: [{ coupon: body.coupon }] } : { allow_promotion_codes: true }),
-      success_url: `${base}/configuracoes?secao=minha-empresa-plano&assinatura=ok`,
-      cancel_url: `${base}/precos?assinatura=cancelada`,
+      // Linha Página (Pro/Negócio): o cliente só tem o editor da página.
+      success_url: pageLine ? `${base}/pagina?assinatura=ok` : `${base}/configuracoes?secao=minha-empresa-plano&assinatura=ok`,
+      cancel_url: pageLine ? `${base}/pagina?assinatura=cancelada` : `${base}/precos?assinatura=cancelada`,
       locale: "pt-BR",
     });
 

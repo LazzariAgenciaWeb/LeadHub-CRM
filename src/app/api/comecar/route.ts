@@ -4,6 +4,7 @@ import { normalizeWaPhone } from "@/lib/whatsapp-link-tool";
 import { parseBioSignup } from "@/lib/bio-page";
 import { prisma } from "@/lib/prisma";
 import { createLoginHandoff } from "@/lib/login-handoff";
+import { pageLinePlanFromSlug } from "@/lib/plans";
 import {
   EmailTakenError,
   appBase,
@@ -65,7 +66,10 @@ export async function POST(req: NextRequest) {
   let next: string | null = null;
   try {
     const user = await prisma.user.findUnique({ where: { email: input.email }, select: { id: true } });
-    if (user) next = `${appBase()}/entrar#t=${await createLoginHandoff(user.id)}`;
+    // Veio pelo botão "Começar com o Pro"/"Escolher Negócio" do site: depois
+    // do login o editor já abre o pagamento desse plano.
+    const assinar = pageLinePlanFromSlug(body?.plano);
+    if (user) next = `${appBase()}/entrar#t=${await createLoginHandoff(user.id)}${assinar ? `&assinar=${assinar}` : ""}`;
   } catch (e) {
     console.error("[comecar] código de entrada", e);
   }

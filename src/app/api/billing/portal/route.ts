@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
+import { PAGE_LINE_TIERS } from "@/lib/plans";
 
 /**
  * POST /api/billing/portal
@@ -29,7 +30,7 @@ export async function POST(_req: NextRequest) {
 
   const sub = await prisma.subscription.findUnique({
     where: { companyId },
-    select: { stripeCustomerId: true },
+    select: { stripeCustomerId: true, plan: true },
   });
 
   if (!sub?.stripeCustomerId) {
@@ -45,7 +46,7 @@ export async function POST(_req: NextRequest) {
     const stripe = getStripe();
     const portal = await stripe.billingPortal.sessions.create({
       customer: sub.stripeCustomerId,
-      return_url: `${base}/configuracoes?secao=minha-empresa-plano`,
+      return_url: PAGE_LINE_TIERS.includes(sub.plan) ? `${base}/pagina` : `${base}/configuracoes?secao=minha-empresa-plano`,
       locale: "pt-BR",
     });
     return NextResponse.json({ url: portal.url });

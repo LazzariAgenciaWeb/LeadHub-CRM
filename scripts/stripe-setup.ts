@@ -18,7 +18,7 @@
  */
 
 import Stripe from "stripe";
-import { PLANS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
+import { PAGE_LINE_PAID, PAGE_LINE_TIERS, PLANS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
 
 const APPLY = process.argv.includes("--apply");
 
@@ -87,7 +87,8 @@ async function main() {
   console.log(`${APPLY ? "APLICANDO" : "DRY-RUN (nada é criado)"}\n`);
 
   // FREE não vira produto: não há cobrança.
-  const paid = PLAN_ORDER.filter((t) => t !== "FREE" && PLANS[t].priceMonthly > 0);
+  // Planos de gestão + linha Página (Pro e Negócio do site gohub.com.br).
+  const paid = [...PLAN_ORDER, ...PAGE_LINE_PAID].filter((t) => t !== "FREE" && PLANS[t].priceMonthly > 0);
   const results: Result[] = [];
 
   for (const tier of paid) {
@@ -102,10 +103,11 @@ async function main() {
     if (productId) {
       console.log(`      = produto já existe (${productId})`);
     } else {
-      console.log(`      + produto "LeadHub ${plan.label}"`);
+      const brand = PAGE_LINE_TIERS.includes(tier) ? "GoHub" : "LeadHub";
+      console.log(`      + produto "${brand} ${plan.label}"`);
       productId = APPLY
         ? (await stripe.products.create({
-            name: `LeadHub ${plan.label}`,
+            name: `${brand} ${plan.label}`,
             description: plan.tagline,
             metadata: { tier },
           })).id

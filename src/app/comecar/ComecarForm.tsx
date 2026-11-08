@@ -10,13 +10,15 @@ import { BIO_PASSWORD_MIN } from "@/lib/bio-page";
 const OTHER = "__outro__";
 
 export default function ComecarForm({
-  segments, refSlug, refTitle, appBase,
+  segments, refSlug, refTitle, appBase, plan = null,
 }: {
   segments: string[];
   refSlug: string | null;
   refTitle: string | null;
   /** Painel (login/editor) — o cadastro pode abrir em outro domínio (gohub.com.br). */
   appBase: string;
+  /** Plano escolhido no site: depois do cadastro o editor abre o pagamento. */
+  plan?: { slug: string; label: string; price: number } | null;
 }) {
   const router = useRouter();
   const [f, setF] = useState({
@@ -46,7 +48,7 @@ export default function ComecarForm({
       const res = await fetch("/api/comecar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...f, segment, acceptTerms, website, ref: refSlug }),
+        body: JSON.stringify({ ...f, segment, acceptTerms, website, ref: refSlug, plano: plan?.slug ?? null }),
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -115,6 +117,11 @@ export default function ComecarForm({
         {/* Formulário */}
         <form onSubmit={submit} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8 space-y-4">
           <h2 className="text-lg font-bold">Crie sua página</h2>
+          {plan && (
+            <p className="rounded-xl bg-slate-900 px-3 py-2 text-xs text-white">
+              Plano <strong>{plan.label}</strong> (R$ {plan.price.toFixed(2).replace(".", ",")}/mês). Depois de criar a conta, você vai direto para o pagamento.
+            </p>
+          )}
 
           <div>
             <label className={label} htmlFor="c-business">Nome do negócio</label>

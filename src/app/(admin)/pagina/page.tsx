@@ -8,6 +8,8 @@ import { getCompanyPlan } from "@/lib/limits";
 import { prisma } from "@/lib/prisma";
 import PaginaEditor from "./PaginaEditor";
 import PaginaResultados from "./PaginaResultados";
+import PlanoPagina from "./PlanoPagina";
+import { PAGE_LINE_PAID, PLANS } from "@/lib/plans";
 import { getOwnerSummary } from "@/lib/bio-page-stats";
 
 // Editor da Página do Negócio. Cria o rascunho na primeira visita.
@@ -41,6 +43,14 @@ export default async function PaginaPage() {
   ]);
   const asAdmin = await canSeeBioAdmin();
   const plan = await getCompanyPlan(companyId).catch(() => null);
+  const sub = await prisma.subscription.findUnique({ where: { companyId }, select: { stripeCustomerId: true } });
+  const freePlan = bioShowsBadge(plan?.tier);
+  const planInfo = {
+    label: plan?.tier ? PLANS[plan.tier].label : "Grátis",
+    free: freePlan,
+    manage: !freePlan && !!sub?.stripeCustomerId,
+    offers: PAGE_LINE_PAID.map((t) => ({ tier: t, label: PLANS[t].label, price: PLANS[t].priceMonthly })),
+  };
   const summary = await getOwnerSummary(companyId, page.id, { asAdmin });
 
 
@@ -51,8 +61,13 @@ export default async function PaginaPage() {
       uploadsEnabled={storageEnabled()}
       defaultConsent={bioDefaultConsent(company.tradeName ?? company.name)}
       hasBottomNav={!(session.user as any)?.pageOnly}
-      freePlan={bioShowsBadge(plan?.tier)}
-      results={<PaginaResultados summary={summary} adminDetailHref={asAdmin ? `/pagina/admin/${page.id}` : null} />}
+      freePlan={freePlan}
+      results={
+        <>
+          <PlanoPagina plan={planInfo} />
+          <PaginaResultados summary={summary} adminDetailHref={asAdmin ? `/pagina/admin/${page.id}` : null} />
+        </>
+      }
     />
   );
 }

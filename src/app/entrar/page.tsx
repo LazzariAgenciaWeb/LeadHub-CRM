@@ -15,7 +15,10 @@ export default function EntrarPage() {
   useEffect(() => {
     if (started.current) return;
     started.current = true;
-    const token = new URLSearchParams(window.location.hash.slice(1)).get("t");
+    const hash = new URLSearchParams(window.location.hash.slice(1));
+    const token = hash.get("t");
+    const assinar = hash.get("assinar");
+    const dest = assinar && /^[A-Z_]{3,20}$/.test(assinar) ? `/pagina?assinar=${assinar}` : "/pagina";
     window.history.replaceState(null, "", window.location.pathname);
     if (!token) {
       window.location.replace("/login");
@@ -23,7 +26,7 @@ export default function EntrarPage() {
     }
     signIn("credentials", { handoff: token, redirect: false })
       .then((r) => {
-        if (r?.ok && !r.error) window.location.replace("/pagina");
+        if (r?.ok && !r.error) window.location.replace(dest);
         else setFailed(true);
       })
       .catch(() => setFailed(true));

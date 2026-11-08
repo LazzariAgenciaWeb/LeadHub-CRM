@@ -27,6 +27,7 @@ import type Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getStripe, mapStripeStatus, planForPriceId } from "@/lib/stripe";
+import { PAGE_LINE_TIERS } from "@/lib/plans";
 
 // Webhooks devem ler o body cru pra validar a assinatura.
 export const runtime = "nodejs";
@@ -173,10 +174,11 @@ async function handleSubscriptionDeleted(sub: Stripe.Subscription): Promise<void
 
   await prisma.subscription.update({
     where: { companyId: existing.companyId },
-    data: {
-      status:     "CANCELED",
-      canceledAt: new Date(),
-    },
+    // Linha Página: cancelou o Pro/Negócio, a página volta pro Grátis (com
+    // selo e limites) em vez de ficar com o plano pago pra sempre.
+    data: PAGE_LINE_TIERS.includes(existing.plan)
+      ? { plan: "PAGINA", status: "ACTIVE", canceledAt: new Date(), stripeSubscriptionId: null, stripePriceId: null }
+      : { status: "CANCELED", canceledAt: new Date() },
   });
 
   await prisma.billingEvent.create({
