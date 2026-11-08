@@ -156,7 +156,7 @@ export default async function DashboardGamificacaoTop() {
 function GamificacaoLockedPreview({ companyId }: { companyId: string }) {
   const supportPhone = "5544999015088";
   const msg = encodeURIComponent(
-    `Olá! Gostaria de ativar o módulo de Gamificação no LeadHub. Empresa ID: ${companyId}`,
+    `Olá! Gostaria de ativar o módulo de Gamificação no GoHub. Empresa ID: ${companyId}`,
   );
   const requestUrl = `https://wa.me/${supportPhone}?text=${msg}`;
   // Nomes fake só pro visual do ranking — não vaza dado real.

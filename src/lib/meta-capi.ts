@@ -360,7 +360,7 @@ export async function sendTestConversion(companyId: string): Promise<CapiResult>
   const eventId = `test:${companyId}:${Math.floor(Date.now() / 1000)}`;
   const lead: LeadLike = {
     id: `test-${companyId}`,
-    name: "Teste LeadHub",
+    name: "Teste GoHub",
     email: "teste-leadhub@example.com",
     phone: "5511999999999",
     value: 1,

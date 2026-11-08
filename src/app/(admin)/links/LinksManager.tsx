@@ -534,7 +534,7 @@ export default function LinksManager({
                   </div>
                 </div>
                 <div className="text-slate-500 text-[11px] space-y-1">
-                  <p>2. Após instalar, cada vez que um visitante que chegou via link LeadHub clicar em qualquer link da página, o clique será registrado aqui.</p>
+                  <p>2. Após instalar, cada vez que um visitante que chegou via link GoHub clicar em qualquer link da página, o clique será registrado aqui.</p>
                   <p>3. O rastreamento funciona automaticamente usando o <code className="text-slate-400">utm_content</code> que é adicionado na URL.</p>
                 </div>
               </div>

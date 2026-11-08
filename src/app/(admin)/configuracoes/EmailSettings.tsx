@@ -206,13 +206,13 @@ export default function EmailSettings() {
             type="text"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            placeholder='LeadHub CRM'
+            placeholder='GoHub CRM'
             className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
           />
           <p className="text-slate-600 text-[11px] mt-1">
             Só o <strong>nome</strong> que aparece no remetente — o e-mail é
-            anexado automaticamente. Ex: digitar <code className="bg-black/30 px-1 rounded text-slate-400">LeadHub</code> resulta
-            em <code className="bg-black/30 px-1 rounded text-slate-400">LeadHub &lt;noreply@...&gt;</code>.
+            anexado automaticamente. Ex: digitar <code className="bg-black/30 px-1 rounded text-slate-400">GoHub</code> resulta
+            em <code className="bg-black/30 px-1 rounded text-slate-400">GoHub &lt;noreply@...&gt;</code>.
           </p>
         </div>
 

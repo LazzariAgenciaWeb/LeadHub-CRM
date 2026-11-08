@@ -4,7 +4,7 @@ import { assertModule } from "@/lib/billing";
 import IgInbox from "./IgInbox";
 import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
-export const metadata = { title: "Inbox Instagram · LeadHub" };
+export const metadata = { title: "Inbox Instagram · GoHub" };
 
 export default async function IgInboxPage() {
   const session = await getEffectiveSession();

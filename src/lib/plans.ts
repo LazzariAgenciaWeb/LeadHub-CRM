@@ -770,8 +770,8 @@ export interface AddonDefinition {
 export const ADDONS: Record<AddonKey, AddonDefinition> = {
   prospectaIa: {
     key: "prospectaIa",
-    label: "LeadHub Prospecta",
-    description: "Busca empresas no Google Maps e enriquece com e-mail, Instagram e Facebook. Leads entram identificados como LeadHub Prospecta.",
+    label: "GoHub Prospecta",
+    description: "Busca empresas no Google Maps e enriquece com e-mail, Instagram e Facebook. Leads entram identificados como GoHub Prospecta.",
     priceMonthly: 49,
     minTier: "ESSENCIAL",
     feature: "prospectaIa",

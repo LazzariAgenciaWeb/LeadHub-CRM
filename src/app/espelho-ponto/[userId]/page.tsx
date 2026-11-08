@@ -147,7 +147,7 @@ export default async function EspelhoPontoPage(props: {
 
         {/* Rodapé */}
         <div className="mt-8 pt-3 border-t border-neutral-300 text-[10px] text-neutral-500">
-          Documento de controle interno de jornada gerado pelo LeadHub em {formatBrazilDateTime(new Date())}.
+          Documento de controle interno de jornada gerado pelo GoHub em {formatBrazilDateTime(new Date())}.
           Não substitui registro eletrônico de ponto (REP) nos termos da Portaria MTP 671/2021.
         </div>
       </div>

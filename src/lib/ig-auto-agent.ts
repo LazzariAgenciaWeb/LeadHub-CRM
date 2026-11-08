@@ -911,7 +911,7 @@ async function bookIgMeeting(args: {
       description: [
         `Prospect do Instagram${conv.participantUsername ? ` (@${conv.participantUsername})` : ""}.`,
         attendeeEmail ? `E-mail: ${attendeeEmail}` : null,
-        "Agendado pelo agente de IA do Direct (LeadHub).",
+        "Agendado pelo agente de IA do Direct (GoHub).",
       ].filter(Boolean).join("\n"),
       attendeeEmail,
     });

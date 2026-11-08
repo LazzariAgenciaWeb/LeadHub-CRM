@@ -30,7 +30,7 @@ export default function FeatureLocked({ module, companyId }: { module: string; c
     desc: "Este recurso não está incluído no seu plano atual.",
   };
   const msg = encodeURIComponent(
-    `Olá! Gostaria de ativar o módulo "${info.title}" no LeadHub.${companyId ? ` Empresa ID: ${companyId}` : ""}`,
+    `Olá! Gostaria de ativar o módulo "${info.title}" no GoHub.${companyId ? ` Empresa ID: ${companyId}` : ""}`,
   );
   const requestUrl = `https://wa.me/${SUPPORT_PHONE}?text=${msg}`;
 

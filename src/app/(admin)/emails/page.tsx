@@ -4,7 +4,7 @@ import { assertModule } from "@/lib/billing";
 import EmailInbox from "./EmailInbox";
 import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
-export const metadata = { title: "E-mail · LeadHub" };
+export const metadata = { title: "E-mail · GoHub" };
 export const dynamic = "force-dynamic";
 
 export default async function EmailInboxPage() {

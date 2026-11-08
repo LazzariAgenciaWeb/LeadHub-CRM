@@ -7,6 +7,7 @@ import Sidebar from "./Sidebar";
 import MobileBottomNav from "./MobileBottomNav";
 import BadgeToastNotifier from "./BadgeToastNotifier";
 import DailyCronAutoTick from "./DailyCronAutoTick";
+import GohubLogo from "@/components/GohubLogo";
 
 interface LayoutShellProps {
   children: React.ReactNode;
@@ -76,10 +77,7 @@ export default function LayoutShell({ children, session, banner, isClient = fals
             </svg>
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-[7px] bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm">
-              ⚡
-            </div>
-            <span className="text-white font-bold text-[15px]">LeadHub</span>
+            <GohubLogo size={22} />
           </div>
         </div>
 

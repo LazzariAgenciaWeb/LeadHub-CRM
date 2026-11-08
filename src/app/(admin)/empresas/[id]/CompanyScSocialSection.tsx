@@ -355,7 +355,7 @@ function EmptyState({ companyId, readOnly }: { companyId: string; readOnly: bool
             </li>
             <li>
               Use a <strong>mesma conta Google</strong> que já está conectada aqui — é a
-              autorização dela que o LeadHub usa pra ler.
+              autorização dela que o GoHub usa pra ler.
             </li>
             <li>Volte às integrações, clique em <strong>trocar</strong> no Search Console e escolha o perfil.</li>
           </ol>

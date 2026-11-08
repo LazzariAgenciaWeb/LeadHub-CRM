@@ -250,7 +250,7 @@ export default function MeuEspacoInteracoes({
                         </div>
                         {m.body.trim() && (
                           <div style={{
-                            background: m.mine ? "linear-gradient(135deg,#6E86FF,#9B7BFF)" : "rgba(255,255,255,.06)",
+                            background: m.mine ? "#D6157A" : "rgba(255,255,255,.06)",
                             color: m.mine ? "#fff" : "#E7EAF3",
                             border: m.mine ? "none" : "1px solid rgba(255,255,255,.10)",
                             borderRadius: 13, padding: "9px 13px", fontSize: 13.5, lineHeight: 1.5, whiteSpace: "pre-wrap",

@@ -139,7 +139,7 @@ export const criarEtapaProjeto: ToolDef<{ projetoId: string; nome: string; ordem
       ? " · tarefa principal criada no ClickUp"
       : project.clickupListId
         ? " · sem espelho no ClickUp (não foi possível criar a tarefa principal agora)"
-        : " · projeto só no LeadHub, sem ClickUp";
+        : " · projeto só no GoHub, sem ClickUp";
 
     return ok(
       created

@@ -116,7 +116,7 @@ const FEATURE_GROUPS: FeatureGroup[] = [
       { key: "crmPipelineLeads",         label: "CRM — Pipeline Leads" },
       { key: "crmPipelineOportunidades", label: "CRM — Pipeline Oportunidades" },
       { key: "crmPipelineProspeccao",    label: "CRM — Pipeline Prospecção" },
-      { key: "prospectaIa",              label: "LeadHub Prospecta" },
+      { key: "prospectaIa",              label: "GoHub Prospecta" },
     ],
   },
   {

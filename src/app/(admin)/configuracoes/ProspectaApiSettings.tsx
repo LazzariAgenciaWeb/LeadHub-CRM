@@ -83,7 +83,7 @@ export default function ProspectaApiSettings({
 
   return (
     <div className="max-w-2xl">
-      <h2 className="text-white font-bold text-xl mb-1">🎯 LeadHub Prospecta</h2>
+      <h2 className="text-white font-bold text-xl mb-1">🎯 GoHub Prospecta</h2>
       <p className="text-slate-400 text-sm mb-6 leading-relaxed">
         Encontre empresas novas direto no Google Maps e traga e-mail, Instagram e
         Facebook já preenchidos pro seu CRM, em <em>Prospecção → Buscar prospects</em>.
@@ -97,7 +97,7 @@ export default function ProspectaApiSettings({
           <div className="relative w-full rounded-xl overflow-hidden border border-[#1e2d45]" style={{ aspectRatio: "16 / 9" }}>
             <iframe
               src={TUTORIAL_VIDEO_URL}
-              title="Como ativar o LeadHub Prospecta"
+              title="Como ativar o GoHub Prospecta"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               className="absolute inset-0 w-full h-full"
@@ -154,7 +154,7 @@ export default function ProspectaApiSettings({
       <form onSubmit={handleSave} className="space-y-4">
         <div>
           <label className="text-xs text-slate-400 font-semibold uppercase tracking-wide block mb-1.5">
-            Sua chave do LeadHub Prospecta
+            Sua chave do GoHub Prospecta
           </label>
           <input
             type="text"

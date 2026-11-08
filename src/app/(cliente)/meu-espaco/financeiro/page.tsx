@@ -133,7 +133,7 @@ const CSS = `
 .fpill.open{color:var(--warn);background:rgba(245,181,100,.12);border-color:rgba(245,181,100,.3)}
 .fpill.late{color:var(--late);background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.3)}
 .fact{display:flex;align-items:center;gap:12px;flex:none}
-.fbtn{font-size:12.5px;font-weight:660;color:#fff;text-decoration:none;white-space:nowrap;padding:8px 14px;border-radius:9px;background:linear-gradient(135deg,#6E86FF,#9B7BFF);box-shadow:0 8px 20px -10px rgba(110,134,255,.7)}
+.fbtn{font-size:12.5px;font-weight:660;color:#fff;text-decoration:none;white-space:nowrap;padding:8px 14px;border-radius:9px;background:#D6157A;box-shadow:0 8px 20px -10px rgba(110,134,255,.7)}
 .flk{font-size:12.5px;font-weight:650;color:#AFC0FF;text-decoration:none;white-space:nowrap}
 .fempty{color:var(--ink3);font-size:14px;padding:22px;border:1px dashed var(--line2);border-radius:14px;text-align:center}
 @media (max-width:560px){.frow{flex-wrap:wrap}.fval{min-width:0}.fact{width:100%}}

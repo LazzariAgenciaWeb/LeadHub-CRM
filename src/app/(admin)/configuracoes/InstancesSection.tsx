@@ -181,7 +181,7 @@ export default function InstancesSection({
     const next = slugInput.trim();
     if (!next) { setSlugError("O slug não pode ficar vazio"); return; }
     if (next === inst.instanceName) { setEditingSlug(null); return; }
-    if (!confirm(`Apontar esta instância para o slug "${next}" da Evolution?\n\nO LeadHub vai usar esse nome para casar mensagens e status. Tem que bater EXATAMENTE com o nome da instância na Evolution.`)) return;
+    if (!confirm(`Apontar esta instância para o slug "${next}" da Evolution?\n\nO GoHub vai usar esse nome para casar mensagens e status. Tem que bater EXATAMENTE com o nome da instância na Evolution.`)) return;
     setSavingSlug(true);
     setSlugError(null);
     try {
@@ -444,7 +444,7 @@ export default function InstancesSection({
             <button
               onClick={handleSyncAll}
               disabled={syncingAll}
-              title="Buscar o estado real de cada instância na Evolution e atualizar o status no LeadHub"
+              title="Buscar o estado real de cada instância na Evolution e atualizar o status no GoHub"
               className="px-3 py-2 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-medium hover:bg-emerald-500/25 disabled:opacity-50 transition-colors"
             >
               {syncingAll ? "⏳ Sincronizando…" : "🔄 Sincronizar todas"}

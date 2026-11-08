@@ -380,7 +380,7 @@ export async function sendBioWelcome(input: BioSignupInput, pageSlug: string) {
         <h2 style="margin:0 0 6px">Bem-vindo${first ? `, ${first}` : ""}!</h2>
         <p style="color:#5b6470;font-size:14px;line-height:1.6">A página de <strong>${esc(input.businessName)}</strong> já foi criada como rascunho. Em poucos minutos você coloca foto, serviços e as perguntas que transformam visita em contato — e publica.</p>
         <p style="margin:22px 0">
-          <a href="${editor}" style="background:linear-gradient(135deg,#6E86FF,#9B7BFF);color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 22px;border-radius:10px;display:inline-block">Montar minha página</a>
+          <a href="${editor}" style="background:#D6157A;color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 22px;border-radius:10px;display:inline-block">Montar minha página</a>
         </p>
         <p style="color:#5b6470;font-size:14px;line-height:1.6">Depois de publicar, ela fica neste endereço — é o link que vai na bio do Instagram e no WhatsApp:<br><a href="${pageUrl}" style="color:#4f46e5">${pageUrl}</a></p>
         <p style="color:#8a929e;font-size:12.5px;line-height:1.6">Para entrar de novo, use este e-mail (${esc(input.email)}) e a senha que você criou. Esqueceu? Use "Esqueci minha senha" na tela de login.</p>

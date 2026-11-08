@@ -15,10 +15,10 @@ self.addEventListener("push", (event) => {
   try {
     payload = event.data.json();
   } catch {
-    payload = { title: "LeadHub", body: event.data.text() };
+    payload = { title: "GoHub", body: event.data.text() };
   }
 
-  const title = payload.title || "LeadHub";
+  const title = payload.title || "GoHub";
   const options = {
     body: payload.body || "",
     // /icon-192.png nao existe no /public — usa favicon como fallback. Em

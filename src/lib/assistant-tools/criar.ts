@@ -120,7 +120,7 @@ export const criarTarefaProjeto: ToolDef<{
 }> = {
   name: "criar_tarefa_projeto",
   description:
-    "Cria uma tarefa dentro de um projeto (use listar_projetos pra achar o projetoId). etapaId opcional (de listar_etapas_projeto): dentro de uma etapa, a tarefa sobe pro ClickUp como SUBTAREFA da tarefa principal da etapa, em vez de ficar solta na lista. Sem etapa, fica só no LeadHub. dueDate opcional (ISO 8601). Sem assigneeId a tarefa fica com o próprio usuário.",
+    "Cria uma tarefa dentro de um projeto (use listar_projetos pra achar o projetoId). etapaId opcional (de listar_etapas_projeto): dentro de uma etapa, a tarefa sobe pro ClickUp como SUBTAREFA da tarefa principal da etapa, em vez de ficar solta na lista. Sem etapa, fica só no GoHub. dueDate opcional (ISO 8601). Sem assigneeId a tarefa fica com o próprio usuário.",
   input_schema: {
     type: "object",
     properties: {
@@ -180,7 +180,7 @@ export const criarTarefaProjeto: ToolDef<{
     if (etapa && project.clickupListId) {
       const r = await pushTaskToClickup(task.id).catch(() => null);
       if (r?.ok) clickup = r.parentTaskId ? " · subiu no ClickUp como subtarefa da etapa" : " · subiu no ClickUp";
-      else clickup = " · não subiu pro ClickUp agora (segue só no LeadHub)";
+      else clickup = " · não subiu pro ClickUp agora (segue só no GoHub)";
     }
 
     return ok(
@@ -198,7 +198,7 @@ export const criarProjeto: ToolDef<{
 }> = {
   name: "criar_projeto",
   description:
-    "Cria um projeto rápido. O projeto nasce SÓ no LeadHub, sem lista no ClickUp — então etapas e tarefas dele não sobem pro ClickUp até alguém vincular uma lista na tela do projeto. Informe o cliente por clientCompanyId ou clientCompanyName. setorId só é necessário se a empresa tiver mais de um setor (use listar_setores). type opcional: SITE, MIDIA, CAMPANHA, OUTRO ou um segmento novo pelo nome.",
+    "Cria um projeto rápido. O projeto nasce SÓ no GoHub, sem lista no ClickUp — então etapas e tarefas dele não sobem pro ClickUp até alguém vincular uma lista na tela do projeto. Informe o cliente por clientCompanyId ou clientCompanyName. setorId só é necessário se a empresa tiver mais de um setor (use listar_setores). type opcional: SITE, MIDIA, CAMPANHA, OUTRO ou um segmento novo pelo nome.",
   input_schema: {
     type: "object",
     properties: {

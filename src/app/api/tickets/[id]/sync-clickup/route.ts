@@ -45,7 +45,7 @@ export async function POST(
   // Corpo da tarefa — o mínimo necessário (sem tags, sem status)
   const taskBody: Record<string, unknown> = {
     name: ticket.title,
-    description: `${ticket.description}\n\n🔗 Ver no LeadHub: ${leadhubUrl}`,
+    description: `${ticket.description}\n\n🔗 Ver no GoHub: ${leadhubUrl}`,
   };
 
   // Prioridade (opcional — ClickUp aceita 1-4)

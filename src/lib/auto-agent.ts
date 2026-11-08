@@ -2578,7 +2578,7 @@ async function handleBooking(args: {
       description: [
         decision.resumo ? `Resumo da qualificação: ${decision.resumo}` : null,
         `Contato: ${phone}${attendeeEmail ? ` · ${attendeeEmail}` : ""}`,
-        "Agendado pelo agente de IA (LeadHub).",
+        "Agendado pelo agente de IA (GoHub).",
       ].filter(Boolean).join("\n"),
       attendeeEmail,
     });

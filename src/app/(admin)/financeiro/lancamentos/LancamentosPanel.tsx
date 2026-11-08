@@ -561,7 +561,7 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="text-sm text-amber-400 font-medium">{brlFromCents(p.amountCents)}</span>
                     {/* Falar com o cliente sem sair da conferência: mandar o
-                        Pix, avisar da nota. Abre a conversa DENTRO do LeadHub
+                        Pix, avisar da nota. Abre a conversa DENTRO do GoHub
                         (inbox), não o WhatsApp externo — assim a conversa fica
                         no histórico do cliente. Vai no contato financeiro, ou
                         no decisor quando não há financeiro. */}

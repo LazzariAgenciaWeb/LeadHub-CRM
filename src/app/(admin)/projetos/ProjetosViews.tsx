@@ -499,7 +499,7 @@ function QuickAdd({ pid, stepId, clickup, onAdded }: { pid: string; stepId: stri
       });
       setTitle("");
       setMsg(!clickup ? { text: "✓ criada" }
-        : !stepId ? { text: "✓ criada (sem etapa: fica só no LeadHub)" }
+        : !stepId ? { text: "✓ criada (sem etapa: fica só no GoHub)" }
         : data.clickup ? { text: "✓ criada e enviada ao ClickUp" }
         : { text: "✓ criada, mas não subiu pro ClickUp — abra a tarefa e use Sincronizar", err: true });
       router.refresh();

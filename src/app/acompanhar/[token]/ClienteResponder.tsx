@@ -162,7 +162,7 @@ export default function ClienteResponder({
         <div>
           <button type="button" onClick={send} disabled={busy}
             style={{
-              background: busy ? "#1E2D45" : "linear-gradient(135deg,#6E86FF,#9B7BFF)",
+              background: busy ? "#1E2D45" : "#D6157A",
               border: "none", borderRadius: 10, color: "#fff", fontSize: 14, fontWeight: 600,
               padding: "11px 20px", cursor: busy ? "default" : "pointer", fontFamily: "inherit",
             }}>

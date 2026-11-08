@@ -296,7 +296,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
                         </div>
                         <div>
                           <p className="text-sm text-white font-medium">Acesso ao sistema completo</p>
-                          <p className="text-xs text-slate-500 mt-0.5">Além do Meu Espaço, acessa o LeadHub com os módulos. <b className="text-slate-400">Desligado = só o painel.</b></p>
+                          <p className="text-xs text-slate-500 mt-0.5">Além do Meu Espaço, acessa o GoHub com os módulos. <b className="text-slate-400">Desligado = só o painel.</b></p>
                         </div>
                       </label>
                     )}

@@ -103,7 +103,7 @@ async function main() {
     if (productId) {
       console.log(`      = produto já existe (${productId})`);
     } else {
-      const brand = PAGE_LINE_TIERS.includes(tier) ? "GoHub" : "LeadHub";
+      const brand = PAGE_LINE_TIERS.includes(tier) ? "GoHub" : "GoHub";
       console.log(`      + produto "${brand} ${plan.label}"`);
       productId = APPLY
         ? (await stripe.products.create({

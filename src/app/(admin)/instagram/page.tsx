@@ -4,7 +4,7 @@ import { assertModule } from "@/lib/billing";
 import InstagramManager from "./InstagramManager";
 import SuperAdminCompanyGate from "@/components/SuperAdminCompanyGate";
 
-export const metadata = { title: "Instagram · LeadHub" };
+export const metadata = { title: "Instagram · GoHub" };
 
 export default async function InstagramPage() {
   const session = await getEffectiveSession();

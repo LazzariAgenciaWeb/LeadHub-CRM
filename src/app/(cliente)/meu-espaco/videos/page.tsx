@@ -54,7 +54,7 @@ export default async function MeuEspacoVideosPage() {
   const introRow = await prisma.setting.findUnique({ where: { key: "onboarding_video_url" } });
   const introId = introRow?.value ? parseYouTubeId(introRow.value) : null;
   const introVideo = introId
-    ? { id: "intro", title: "Como usar o LeadHub", description: "Vídeo de introdução — comece por aqui.", youtubeId: introId, thumbnailUrl: null, durationLabel: null }
+    ? { id: "intro", title: "Como usar o GoHub", description: "Vídeo de introdução — comece por aqui.", youtubeId: introId, thumbnailUrl: null, durationLabel: null }
     : null;
 
   return <VideosNetflix categories={categories} clientName={company.name} introVideo={introVideo} />;

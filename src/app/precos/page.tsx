@@ -2,7 +2,7 @@ import PricingClient from "./PricingClient";
 import { PLAN_ORDER, PLANS, ADDONS, UNIT_ADDONS, tierAtLeast } from "@/lib/plans";
 
 export const metadata = {
-  title: "Planos e Preços — LeadHub",
+  title: "Planos e Preços — GoHub",
   description: "WhatsApp + CRM num só lugar. Comece grátis pra sempre, sem cartão.",
 };
 

@@ -146,7 +146,7 @@ const CSS = `
 .ameta{font-size:11.5px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .adesc{margin:3px 0 0;font-size:12.5px;color:var(--ink2);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap}
 .aact{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:8px}
-.abtn{font-size:12px;font-weight:660;color:#fff;text-decoration:none;padding:6px 12px;border-radius:8px;background:linear-gradient(135deg,#6E86FF,#9B7BFF)}
+.abtn{font-size:12px;font-weight:660;color:#fff;text-decoration:none;padding:6px 12px;border-radius:8px;background:#D6157A}
 .alk{font-size:12px;font-weight:650;color:#AFC0FF;text-decoration:none}
 .aempty{color:var(--ink3);font-size:14px;padding:22px;border:1px dashed var(--line2);border-radius:14px;text-align:center}
 `;

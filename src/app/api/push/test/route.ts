@@ -14,7 +14,7 @@ export async function POST() {
 
   const userId = (session.user as any).id as string;
   await sendPushToUser(userId, {
-    title: "🎉 LeadHub conectado",
+    title: "🎉 GoHub conectado",
     body: "As notificações estão funcionando neste navegador.",
     url: "/dashboard",
     tag: "test",

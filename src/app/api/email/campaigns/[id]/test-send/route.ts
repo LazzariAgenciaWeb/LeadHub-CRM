@@ -38,7 +38,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   // Vars de exemplo — qualquer {{var}} sem valor real fica em branco.
   // Inclui um diagnóstico fake pra você ver como ficam as seções renderizadas.
   const sampleVars = {
-    nome: "Teste LeadHub",
+    nome: "Teste GoHub",
     primeiroNome: "Teste",
     email: to,
     phone: "5511999999999",

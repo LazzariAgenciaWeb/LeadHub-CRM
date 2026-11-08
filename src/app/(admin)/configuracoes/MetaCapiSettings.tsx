@@ -204,7 +204,7 @@ export default function MetaCapiSettings({
           ))}
         </ol>
         <p className="text-[11px] text-slate-500 mt-3 pt-3 border-t border-[#1e2d45]">
-          🔒 Seu token fica criptografado no LeadHub e nunca é exibido de volta. Quando terminar
+          🔒 Seu token fica criptografado no GoHub e nunca é exibido de volta. Quando terminar
           os testes, apague o "Código de teste" pra os eventos contarem de verdade nas campanhas.
         </p>
       </div>

@@ -278,9 +278,9 @@ export default async function MeuEspacoPage() {
               devolve o cliente pro /meu-espaco, e o card parecia "não abrir". */}
           {company.fullSystemAccess && (
             <Link href="/dashboard" className="prod">
-              <span className="pic" style={{ background: "linear-gradient(135deg,#6E86FF,#9B7BFF)" }}>⚡</span>
+              <span className="pic" style={{ background: "#D6157A" }}>⚡</span>
               <div className="pb">
-                <b>LeadHub</b>
+                <b>GoHub</b>
                 <span className="psb">seu sistema de gestão</span>
                 <span className="st ok">Ativo</span>
                 <span className="pr">Acessar o sistema →</span>
@@ -484,7 +484,7 @@ const CSS = `
 .finpill.late{color:#FCA5A5;background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.3)}
 .finact{display:flex;align-items:center;gap:10px;flex:none}
 .finbtn{font-size:12.5px;font-weight:660;color:#fff;text-decoration:none;white-space:nowrap;padding:8px 14px;border-radius:9px;
-  background:linear-gradient(135deg,#6E86FF,#9B7BFF);box-shadow:0 8px 20px -10px rgba(110,134,255,.7)}
+  background:#D6157A;box-shadow:0 8px 20px -10px rgba(110,134,255,.7)}
 .finlk{font-size:12.5px;font-weight:650;color:#AFC0FF;text-decoration:none;white-space:nowrap}
 @media (max-width:560px){.finrow{flex-wrap:wrap}.finval{min-width:0}.finact{width:100%}}
 
@@ -520,7 +520,7 @@ const CSS = `
 .actcard.ped::after{color:#E7B8FF}
 .actcard.ped:hover{box-shadow:0 26px 50px -28px rgba(155,123,255,.55)}
 .actcard .acic{width:46px;height:46px;border-radius:13px;flex:none;display:grid;place-items:center;font-size:22px;
-  background:linear-gradient(135deg,#6E86FF,#9B7BFF);border:none;box-shadow:0 8px 18px -6px rgba(110,134,255,.6)}
+  background:#D6157A;border:none;box-shadow:0 8px 18px -6px rgba(110,134,255,.6)}
 .actcard.ped .acic{background:linear-gradient(135deg,#9B7BFF,#EC4899)}
 .actcard .acb{display:flex;flex-direction:column;gap:2px;min-width:0}
 .actcard .acb b{font-size:15px;font-weight:720}
@@ -546,7 +546,7 @@ const CSS = `
 .benefit{font-size:12.5px;color:var(--ink2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .btnint{margin-top:auto;border:1px solid rgba(110,134,255,.4);background:rgba(110,134,255,.12);color:#C3CEFF;
   font-weight:660;font-size:13px;padding:8px 12px;border-radius:10px;cursor:pointer;transition:.15s}
-.btnint:hover{background:linear-gradient(135deg,#6E86FF,#9B7BFF);color:#fff;border-color:transparent}
+.btnint:hover{background:#D6157A;color:#fff;border-color:transparent}
 
 /* Modal */
 .mkov{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
@@ -563,7 +563,7 @@ const CSS = `
 .mkerr{color:#FCA5A5;font-size:12.5px;margin:4px 0 0}
 .mkfoot{display:flex;justify-content:flex-end;gap:10px;padding:14px 18px;border-top:1px solid var(--line)}
 .mkcancel{background:none;border:none;color:var(--ink2);font-size:13.5px;cursor:pointer;padding:9px 12px}
-.mksend{background:linear-gradient(135deg,#6E86FF,#9B7BFF);color:#fff;border:none;border-radius:10px;font-weight:660;font-size:13.5px;padding:9px 18px;cursor:pointer}
+.mksend{background:#D6157A;color:#fff;border:none;border-radius:10px;font-weight:660;font-size:13.5px;padding:9px 18px;cursor:pointer}
 .mksend:disabled{opacity:.55}
 svg{display:block}
 

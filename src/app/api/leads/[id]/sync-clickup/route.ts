@@ -51,7 +51,7 @@ export async function POST(
   if (lead.phone) descParts.push(`📱 Telefone: ${lead.phone}`);
   if (lead.email) descParts.push(`📧 E-mail: ${lead.email}`);
   if (lead.company) descParts.push(`🏢 Empresa: ${lead.company.name}`);
-  descParts.push(`🔗 Ver no LeadHub: ${leadhubUrl}`);
+  descParts.push(`🔗 Ver no GoHub: ${leadhubUrl}`);
 
   const description = descParts.join("\n\n");
 

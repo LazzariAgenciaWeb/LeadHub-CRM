@@ -127,7 +127,7 @@ export async function PATCH(
       console.warn(`[WA PATCH] Falha ao sincronizar groupsIgnore na Evolution para ${existing.instanceName}:`, err?.message ?? err);
       return NextResponse.json({
         ...instance,
-        warning: `Atualizado no LeadHub, mas a Evolution não confirmou (${err?.message ?? "erro"}). Use "Reconfigurar webhooks" pra sincronizar.`,
+        warning: `Atualizado no GoHub, mas a Evolution não confirmou (${err?.message ?? "erro"}). Use "Reconfigurar webhooks" pra sincronizar.`,
       });
     }
   }

@@ -216,7 +216,7 @@ export async function POST(req: NextRequest) {
     if (clickupSettings && targetListId) {
       const baseUrl = process.env.NEXTAUTH_URL ?? "";
       const leadhubUrl = `${baseUrl}/chamados/${ticket.id}`;
-      const descWithLink = `${ticket.description}\n\n🔗 Ver no LeadHub: ${leadhubUrl}`;
+      const descWithLink = `${ticket.description}\n\n🔗 Ver no GoHub: ${leadhubUrl}`;
       const newTaskId = await syncTicketToClickup({
         settings: clickupSettings,
         ticketId: ticket.id,

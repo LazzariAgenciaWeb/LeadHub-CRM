@@ -716,7 +716,7 @@ export async function GET() {
   const { IG_AUTO_AGENT_REV, getRecentIgAutoAgentRuns } = await import("@/lib/ig-auto-agent");
   return NextResponse.json({
     ok: true,
-    service: "LeadHub Webhook",
+    service: "GoHub Webhook",
     autoAgentRev: AUTO_AGENT_REV,
     igAutoAgentRev: IG_AUTO_AGENT_REV,
     recentIgAutoAgentRuns: getRecentIgAutoAgentRuns(),

@@ -34,7 +34,7 @@ export default function PricingClient({
             <div className="w-8 h-8 rounded-[9px] bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
               <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
             </div>
-            <span className="text-white font-bold text-lg">LeadHub</span>
+            <span className="text-white font-bold text-lg">GoHub</span>
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/login" className="text-slate-400 hover:text-white text-sm font-medium">
@@ -116,7 +116,7 @@ export default function PricingClient({
             </p>
           </div>
           <a
-            href="mailto:contato@lazzariweb.com.br?subject=LeadHub%20Enterprise"
+            href="mailto:contato@lazzariweb.com.br?subject=GoHub%20Enterprise"
             className="bg-white text-slate-900 hover:bg-slate-100 font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2 flex-shrink-0"
           >
             Falar com vendas
@@ -196,7 +196,7 @@ export default function PricingClient({
             depois sem perder histórico.
           </Faq>
           <Faq q="O Marketing Dashboard precisa de Google Analytics?">
-            Sim. Você conecta sua conta Google em 1 clique (OAuth). LeadHub puxa os
+            Sim. Você conecta sua conta Google em 1 clique (OAuth). GoHub puxa os
             dados todos os dias automaticamente. Sem GA4, mostramos apenas o que
             captamos via WhatsApp e webhook.
           </Faq>
@@ -236,7 +236,7 @@ export default function PricingClient({
       </section>
 
       <footer className="border-t border-[#1e2d45] py-8 text-center text-slate-600 text-xs">
-        © 2026 Lazzari Agência Web · LeadHub é uma marca registrada
+        © 2026 Lazzari Agência Web · GoHub é uma marca registrada
       </footer>
     </div>
   );
@@ -345,7 +345,7 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
     { label: "CRM — Pipeline Leads", key: "crmPipelineLeads", isFeature: true },
     { label: "CRM — Pipeline Oportunidades", key: "crmPipelineOportunidades", isFeature: true },
     { label: "CRM — Pipeline Prospecção", key: "crmPipelineProspeccao", isFeature: true },
-    { label: "LeadHub Prospecta", key: "prospectaIa", isFeature: true },
+    { label: "GoHub Prospecta", key: "prospectaIa", isFeature: true },
     { label: "Email em massa", key: "emailMassa", isFeature: true },
     { label: "Projetos", key: "projetos", isFeature: true },
     { label: "Calendário", key: "calendario", isFeature: true },

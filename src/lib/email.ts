@@ -38,7 +38,7 @@ export interface SmtpConfig {
  */
 function normalizeFromAddress(rawFrom: string, user: string): string {
   const trimmed = (rawFrom ?? "").trim();
-  if (!trimmed) return user ? `LeadHub <${user}>` : "";
+  if (!trimmed) return user ? `GoHub <${user}>` : "";
   // Já tem formato de e-mail (com @ ou ângulo) — confia
   if (trimmed.includes("@") || (trimmed.includes("<") && trimmed.includes(">"))) {
     return trimmed;
@@ -164,18 +164,17 @@ export async function sendAccessEmail(opts: {
   const videoUrl = videoRow?.value?.trim();
   const videoHtml = videoUrl
     ? `<tr><td style="padding:4px 28px 20px">
-         <a href="${videoUrl}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:14px">▶ Assista: como usar o LeadHub</a>
+         <a href="${videoUrl}" style="display:inline-block;background:#FF2E96;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:14px">▶ Assista: como usar o GoHub</a>
          <p style="margin:8px 0 0;color:#64748b;font-size:12px">Um vídeo rápido de introdução pra você começar.</p>
        </td></tr>`
     : "";
-  const videoText = videoUrl ? `\n\nComo usar o LeadHub (vídeo de introdução): ${videoUrl}` : "";
+  const videoText = videoUrl ? `\n\nComo usar o GoHub (vídeo de introdução): ${videoUrl}` : "";
 
   const html = `<!doctype html>
 <html lang="pt-BR"><body style="margin:0;padding:32px 16px;background:#0a0e16;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="max-width:480px;width:100%;background:#0f1623;border:1px solid #1e2d45;border-radius:16px;overflow:hidden">
     <tr><td style="padding:24px 28px 8px">
-      <div style="display:inline-block;background:linear-gradient(135deg,#6366f1,#a855f7);width:32px;height:32px;border-radius:9px;text-align:center;line-height:32px;color:#fff;font-weight:700">⚡</div>
-      <span style="margin-left:10px;color:#fff;font-weight:700;font-size:16px;vertical-align:middle">LeadHub</span>
+      <span style="font-size:22px;font-weight:800;letter-spacing:-0.04em;color:#FF2E96;vertical-align:middle">go</span><span style="font-size:22px;font-weight:400;letter-spacing:-0.04em;color:#fff;vertical-align:middle">hub</span><span style="font-size:22px;font-weight:800;color:#FF2E96;vertical-align:middle">.</span>
     </td></tr>
     <tr><td style="padding:8px 28px 0">
       <h1 style="margin:8px 0 4px;color:#fff;font-size:20px;font-weight:700">Olá, ${opts.name}</h1>
@@ -188,7 +187,7 @@ export async function sendAccessEmail(opts: {
       </div>
     </td></tr>
     <tr><td style="padding:16px 28px 8px">
-      <a href="${loginLink}" style="display:inline-block;background:#fff;color:#0f1623;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:14px">Entrar no LeadHub</a>
+      <a href="${loginLink}" style="display:inline-block;background:#fff;color:#0f1623;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:14px">Entrar no GoHub</a>
     </td></tr>
     ${videoHtml}
     <tr><td style="padding:0 28px 28px">
@@ -197,14 +196,14 @@ export async function sendAccessEmail(opts: {
   </table>
 </body></html>`;
 
-  const text = `Olá, ${opts.name}, seu acesso ao LeadHub está pronto.
+  const text = `Olá, ${opts.name}, seu acesso ao GoHub está pronto.
 Email: ${opts.to}
 Senha temporária: ${opts.tempPassword}
 Login: ${loginLink}${videoText}
 
 Após o primeiro login, troque a senha em Configurações → Meu Perfil.`;
 
-  await sendMail({ to: opts.to, subject: "Seu acesso ao LeadHub está pronto", html, text });
+  await sendMail({ to: opts.to, subject: "Seu acesso ao GoHub está pronto", html, text });
 }
 
 /** Template HTML para o código de verificação do cofre. */
@@ -223,8 +222,7 @@ export function vaultChallengeEmail(opts: {
   <body style="margin:0;padding:32px 16px;background:#0a0e16;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="max-width:480px;width:100%;background:#0f1623;border:1px solid #1e2d45;border-radius:16px;overflow:hidden">
       <tr><td style="padding:24px 28px 8px">
-        <div style="display:inline-block;background:linear-gradient(135deg,#6366f1,#a855f7);width:32px;height:32px;border-radius:9px;text-align:center;line-height:32px;color:#fff;font-weight:700">⚡</div>
-        <span style="margin-left:10px;color:#fff;font-weight:700;font-size:16px;vertical-align:middle">LeadHub</span>
+        <span style="font-size:22px;font-weight:800;letter-spacing:-0.04em;color:#FF2E96;vertical-align:middle">go</span><span style="font-size:22px;font-weight:400;letter-spacing:-0.04em;color:#fff;vertical-align:middle">hub</span><span style="font-size:22px;font-weight:800;color:#FF2E96;vertical-align:middle">.</span>
       </td></tr>
       <tr><td style="padding:8px 28px 0">
         <p style="margin:0;color:#64748b;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:600">Cofre · Verificação</p>
@@ -248,7 +246,7 @@ export function vaultChallengeEmail(opts: {
   </body>
 </html>`;
 
-  const text = `LeadHub · Cofre
+  const text = `GoHub · Cofre
 
 Olá, ${opts.recipientName}
 
@@ -258,7 +256,7 @@ Válido por ${opts.expiresInMinutes} minutos.
 Se não foi você, ignore este e-mail.`;
 
   return {
-    subject: `[LeadHub] Código de acesso ao cofre: ${opts.code}`,
+    subject: `[GoHub] Código de acesso ao cofre: ${opts.code}`,
     html,
     text,
   };

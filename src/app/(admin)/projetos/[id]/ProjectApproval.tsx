@@ -165,7 +165,7 @@ export function ApprovalCard({
           <div className="max-h-48 overflow-y-auto divide-y divide-[#1e2d45] border border-[#1e2d45] rounded">
             {groups === null && <div className="px-3 py-2 text-xs text-slate-500">Carregando…</div>}
             {groups?.length === 0 && (
-              <div className="px-3 py-2 text-xs text-slate-500">Nenhum grupo encontrado. O grupo precisa ter ao menos uma conversa no WhatsApp do LeadHub.</div>
+              <div className="px-3 py-2 text-xs text-slate-500">Nenhum grupo encontrado. O grupo precisa ter ao menos uma conversa no WhatsApp do GoHub.</div>
             )}
             {groups?.map((g) => (
               <button

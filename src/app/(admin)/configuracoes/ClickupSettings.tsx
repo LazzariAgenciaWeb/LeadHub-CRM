@@ -268,7 +268,7 @@ export default function ClickupSettings({
       {/* Webhook */}
       <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-[#1e2d45]">
-          <h2 className="text-white font-bold text-sm">🔄 Webhook (ClickUp → LeadHub)</h2>
+          <h2 className="text-white font-bold text-sm">🔄 Webhook (ClickUp → GoHub)</h2>
           <p className="text-slate-500 text-xs mt-0.5">
             Sincroniza comentários adicionados no ClickUp de volta para o chamado correspondente.
           </p>
@@ -407,7 +407,7 @@ export default function ClickupSettings({
             <h3 className="text-slate-300 font-semibold text-sm mb-1">🏷️ Status de Chamados</h3>
             <p className="text-slate-500 text-xs mb-4">
               {ticketStatuses.length > 0
-                ? "Selecione o status do ClickUp para marcar a tarefa como concluída quando o chamado for resolvido/fechado no LeadHub."
+                ? "Selecione o status do ClickUp para marcar a tarefa como concluída quando o chamado for resolvido/fechado no GoHub."
                 : ticketListId
                   ? "Selecione a lista de Chamados acima para carregar os status disponíveis."
                   : "Status disponíveis após selecionar a lista de Chamados."}

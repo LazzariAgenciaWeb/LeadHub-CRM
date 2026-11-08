@@ -7,13 +7,14 @@ import { useState, useEffect, useRef } from "react";
 import { Session } from "next-auth";
 import { isAdmin, isSuperAdmin, can, hasModule } from "@/lib/permissions";
 import {
-  Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
+  X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays, Clock,
   BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, LayoutTemplate, MonitorPlay, Ticket, Lock, Wallet, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
+import GohubLogo from "@/components/GohubLogo";
 
 interface SidebarProps {
   session: Session;
@@ -270,12 +271,9 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     <aside className="w-[220px] min-w-[220px] h-screen bg-[#0f1623] border-r border-[#1e2d45] flex flex-col">
       {/* Logo */}
       <div className="px-4 py-5 border-b border-[#1e2d45] flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-[9px] bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center flex-shrink-0">
-          <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
-        </div>
         <div className="flex-1 min-w-0">
-          <div className="text-white font-bold text-base leading-none">LeadHub</div>
-          <div className="text-slate-500 text-[10px] mt-0.5">
+          <GohubLogo size={24} />
+          <div className="text-slate-500 text-[10px] mt-1">
             {_isSuperAdmin ? "Super Admin" : "Marketing CRM"}
           </div>
         </div>

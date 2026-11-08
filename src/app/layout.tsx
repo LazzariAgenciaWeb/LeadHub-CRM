@@ -6,7 +6,7 @@ import { SessionProvider } from "@/components/SessionProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "LeadHub — Marketing CRM",
+  title: "GoHub — Marketing CRM",
   description: "Gerencie leads, campanhas e WhatsApp dos seus clientes",
   robots: {
     index: false,

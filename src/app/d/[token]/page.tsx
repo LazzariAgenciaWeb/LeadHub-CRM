@@ -152,7 +152,7 @@ export default async function DiagnosticoPublicoPage({
         <footer className="text-center text-slate-600 text-xs mt-10">
           Diagnóstico gerado em {lead.diagnosisAt ? new Date(lead.diagnosisAt).toLocaleDateString("pt-BR") : "—"}
           {" · "}
-          <span className="text-slate-700">cortesia de {lead.company?.name ?? "LeadHub"}</span>
+          <span className="text-slate-700">cortesia de {lead.company?.name ?? "GoHub"}</span>
         </footer>
       </div>
     </main>

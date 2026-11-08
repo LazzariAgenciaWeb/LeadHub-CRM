@@ -85,7 +85,7 @@ function leadUrl(l: ConvoLead): string {
   return `/crm/${page}?lead=${l.id}`;
 }
 
-const SOURCE_LABEL: Record<string, string> = { AUTOMATION: "automação", AGENT: "atendente", EXTERNAL: "fora do LeadHub", AI: "agente IA", ORGANIC: "" };
+const SOURCE_LABEL: Record<string, string> = { AUTOMATION: "automação", AGENT: "atendente", EXTERNAL: "fora do GoHub", AI: "agente IA", ORGANIC: "" };
 const AI_MODE_LABEL: Record<AiMode, string> = { ACTIVE: "IA ativa", PAUSED_HUMAN: "IA pausada (humano assumiu)", OFF: "IA desligada" };
 // Follow-gate: "não deu pra verificar" é um estado de verdade — a Meta às vezes
 // não responde e o sistema libera no benefício da dúvida. Mostrar isso evita a

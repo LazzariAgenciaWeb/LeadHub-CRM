@@ -77,7 +77,7 @@ export default function ClickupAttachments({ projectId, taskId, onImported, refr
                 type="button"
                 disabled={a.imported || busy}
                 onClick={() => setSel((s) => { const n = new Set(s); if (n.has(a.id)) n.delete(a.id); else n.add(a.id); return n; })}
-                title={a.imported ? `${a.title} — já está no LeadHub` : `${a.title} — clique pra selecionar`}
+                title={a.imported ? `${a.title} — já está no GoHub` : `${a.title} — clique pra selecionar`}
                 className={`relative w-20 rounded-md overflow-hidden border text-left ${on ? "border-[#7b68ee] ring-1 ring-[#7b68ee]" : "border-[#1e2d45]"} ${a.imported ? "opacity-50" : "hover:border-[#7b68ee]/70"}`}
               >
                 <div className="h-16 bg-[#080b12] flex items-center justify-center">
@@ -98,7 +98,7 @@ export default function ClickupAttachments({ projectId, taskId, onImported, refr
         </div>
       )}
       {msg && <div className="text-[11px] text-slate-300 mt-2">{msg}</div>}
-      <p className="text-[10px] text-slate-600 mt-2">✓ verde = já está no LeadHub. Arquivo que você sobe aqui vai pro ClickUp sozinho.</p>
+      <p className="text-[10px] text-slate-600 mt-2">✓ verde = já está no GoHub. Arquivo que você sobe aqui vai pro ClickUp sozinho.</p>
     </div>
   );
 }

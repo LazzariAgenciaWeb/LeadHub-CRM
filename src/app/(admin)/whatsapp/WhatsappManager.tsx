@@ -5422,7 +5422,7 @@ export default function WhatsappManager({
                                     ? "bg-red-400/20 text-red-100"
                                     : "bg-red-500/10 text-red-400 border border-red-500/20"
                                 }`}
-                                title={`Apagada no WhatsApp em ${new Date(msg.deletedAt).toLocaleString("pt-BR")} — o conteúdo permanece registrado no LeadHub`}
+                                title={`Apagada no WhatsApp em ${new Date(msg.deletedAt).toLocaleString("pt-BR")} — o conteúdo permanece registrado no GoHub`}
                               >
                                 🗑️ {isOut || isOursInGroup ? "Apagada para todos" : "Apagada pelo remetente"}
                               </div>
@@ -5609,7 +5609,7 @@ export default function WhatsappManager({
                             <p className="text-white text-xs font-medium group-hover:text-teal-300 transition-colors">
                               {markingAsTeam ? "Salvando..." : "É número da nossa equipe"}
                             </p>
-                            <p className="text-slate-600 text-[10px]">Celular de um colaborador (sem conexão no LeadHub). As mensagens dele nos grupos passam a aparecer como nossas.</p>
+                            <p className="text-slate-600 text-[10px]">Celular de um colaborador (sem conexão no GoHub). As mensagens dele nos grupos passam a aparecer como nossas.</p>
                           </div>
                         </button>
                         {/* Mencionar — só em grupo. Insere @ desta pessoa no campo. */}
@@ -5825,7 +5825,7 @@ export default function WhatsappManager({
                     <div className="flex-1 min-w-0">
                       <p className="text-amber-300 text-xs font-semibold">Modo Visão — somente leitura</p>
                       <p className="text-amber-400/70 text-[11px] mt-0.5 leading-relaxed">
-                        Sua empresa está em <strong>modo Visão</strong>. Responda este cliente pelo WhatsApp do celular — o LeadHub registra suas respostas automaticamente e atualiza o status da conversa.
+                        Sua empresa está em <strong>modo Visão</strong>. Responda este cliente pelo WhatsApp do celular — o GoHub registra suas respostas automaticamente e atualiza o status da conversa.
                       </p>
 
                       {/* Ações de CRM disponíveis mesmo sem composer:

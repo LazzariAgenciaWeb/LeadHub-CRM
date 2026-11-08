@@ -64,7 +64,7 @@ const STYLE = `
 .hmain{position:relative;z-index:1;flex:1;min-width:230px}
 .hbadge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   color:#CBD3EA;background:rgba(255,255,255,.06);border:1px solid var(--line2);padding:6px 12px;border-radius:99px}
-.hbadge .dt{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#6E86FF,#9B7BFF);box-shadow:0 0 10px 1px rgba(110,134,255,.8)}
+.hbadge .dt{width:7px;height:7px;border-radius:50%;background:#D6157A;box-shadow:0 0 10px 1px rgba(110,134,255,.8)}
 .hero h1{position:relative;z-index:1;margin:14px 0 8px;font-size:30px;font-weight:800;letter-spacing:-.025em;line-height:1.12;text-wrap:balance;
   background:linear-gradient(180deg,#FFFFFF,#C7CEE0);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{position:relative;z-index:1;margin:0;font-size:14.5px;color:var(--ink2);max-width:44ch}
@@ -135,7 +135,7 @@ const STYLE = `
 .tkresp{margin-top:12px;padding:13px;border:1px solid rgba(245,181,100,.32);background:rgba(245,181,100,.06);border-radius:13px}
 .tkresp textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:10px;color:var(--ink);font-size:13.5px;padding:9px 11px;outline:none;font-family:inherit;resize:vertical}
 .tkresp textarea:focus{border-color:var(--warn)}
-.tkresp button{margin-top:8px;background:linear-gradient(135deg,#6E86FF,#9B7BFF);color:#fff;border:none;border-radius:9px;font-weight:660;font-size:13px;padding:8px 16px;cursor:pointer}
+.tkresp button{margin-top:8px;background:#D6157A;color:#fff;border:none;border-radius:9px;font-weight:660;font-size:13px;padding:8px 16px;cursor:pointer}
 .tkresp button:disabled{opacity:.5;cursor:default}
 .tkresperr{color:#FCA5A5;font-size:12px;margin:6px 0 0}
 .tkdates{display:inline-flex;align-items:center;gap:5px;margin-top:7px;font-size:11.5px;font-weight:640;color:var(--ink3);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:99px;padding:3px 10px}
@@ -205,7 +205,7 @@ const STYLE = `
 .chip{font-size:12.5px;font-weight:650;padding:8px 15px;border-radius:99px;border:1px solid var(--line2);
   background:rgba(255,255,255,.04);color:var(--ink2);cursor:pointer;transition:.15s}
 .chip:hover{color:var(--ink);border-color:rgba(255,255,255,.24)}
-.chip.on{background:linear-gradient(135deg,#6E86FF,#9B7BFF);color:#fff;border-color:transparent;box-shadow:0 8px 22px -10px rgba(110,134,255,.7)}
+.chip.on{background:#D6157A;color:#fff;border-color:transparent;box-shadow:0 8px 22px -10px rgba(110,134,255,.7)}
 .rail{display:flex;gap:15px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory}
 .rail::-webkit-scrollbar{height:7px}
 .rail::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:99px}

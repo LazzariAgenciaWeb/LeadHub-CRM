@@ -85,7 +85,7 @@ export async function generateMetadata({
     link.label ??
     link.campaign?.company?.name ??
     link.company?.name ??
-    "LeadHub";
+    "GoHub";
 
   const description =
     link.ogDescription ??

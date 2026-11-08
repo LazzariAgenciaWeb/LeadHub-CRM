@@ -487,7 +487,7 @@ function EventsConfigModal({
           <div>
             <h3 className="text-white font-bold text-base">Configurar Eventos & Conversões</h3>
             <p className="text-slate-500 text-xs mt-0.5">
-              Conversão conta como resultado no LeadHub. Destaque (★) só coloca o evento como card no topo — use pra acesso a página, clique no WhatsApp, pedido de catálogo.
+              Conversão conta como resultado no GoHub. Destaque (★) só coloca o evento como card no topo — use pra acesso a página, clique no WhatsApp, pedido de catálogo.
             </p>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-white">

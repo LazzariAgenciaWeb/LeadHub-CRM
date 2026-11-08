@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
     const createRes = await fetch(`${BASE}/list/${settings.ticketsListId}/task`, {
       method: "POST",
       headers,
-      body: JSON.stringify({ name: "[TESTE LeadHub] Diagnóstico — pode excluir" }),
+      body: JSON.stringify({ name: "[TESTE GoHub] Diagnóstico — pode excluir" }),
     });
     const createBody = await createRes.json();
     if (!createRes.ok) {

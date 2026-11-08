@@ -102,7 +102,7 @@ export default async function ProjetosPage({
         <div>
           <h1 className="text-white font-bold text-xl">Projetos</h1>
           <p className="text-slate-500 text-sm mt-0.5">
-            Tarefas vivem no ClickUp; o LeadHub controla prazo, equipe e entrega.
+            Tarefas vivem no ClickUp; o GoHub controla prazo, equipe e entrega.
           </p>
         </div>
         <div className="flex items-center gap-3">

@@ -9,7 +9,7 @@ export interface ClickupSettings {
   ticketsListId: string;
   statusGanho: string;             // nome do status ClickUp quando oportunidade é ganha (default: "ganho")
   statusPerdido: string;           // nome do status ClickUp quando oportunidade é perdida (default: "perdido")
-  statusChamadoConcluido: string;  // status ClickUp quando chamado é RESOLVED/CLOSED no LeadHub.
+  statusChamadoConcluido: string;  // status ClickUp quando chamado é RESOLVED/CLOSED no GoHub.
                                    // Vazio = não força status no update (mantém o que está no ClickUp).
 }
 
@@ -620,7 +620,7 @@ export async function syncOportunidadeToClickup({
     notes,
     value != null ? `💰 Valor: R$ ${value.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}` : null,
     linkLine,
-    `🔖 ID LeadHub: ${leadId}`,
+    `🔖 ID GoHub: ${leadId}`,
   ].filter(Boolean).join("\n\n");
 
   if (existingClickupTaskId) {

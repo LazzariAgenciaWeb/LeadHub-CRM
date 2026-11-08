@@ -61,7 +61,7 @@ export default function OnboardingVideoCard({ initialUrl }: { initialUrl: string
         <div className="flex-1 min-w-[240px]">
           <div className="flex items-center gap-2 mb-1">
             <Rocket className="w-4 h-4 text-purple-400" strokeWidth={2.25} />
-            <h2 className="text-white font-bold text-sm">Onboarding do LeadHub</h2>
+            <h2 className="text-white font-bold text-sm">Onboarding do GoHub</h2>
           </div>
           <p className="text-slate-400 text-xs mb-3 leading-relaxed">
             Vídeo fixo de introdução — todo cliente com o módulo de Vídeos (inclusive plano Free) vê

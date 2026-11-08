@@ -1789,7 +1789,7 @@ export default function CRMBoard({
                             onClick={(e) => e.stopPropagation()}
                             onMouseDown={(e) => e.stopPropagation()}
                             draggable={false}
-                            title={whatsappEnabled ? "Abrir conversa no LeadHub" : "Abrir no WhatsApp Web"}
+                            title={whatsappEnabled ? "Abrir conversa no GoHub" : "Abrir no WhatsApp Web"}
                             className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/30 hover:text-emerald-200 opacity-0 group-hover:opacity-100 transition-opacity text-[12px] z-10"
                             aria-label="WhatsApp"
                           >
@@ -2248,9 +2248,9 @@ export default function CRMBoard({
                         <a
                           href={leadhubInboxUrl(selected.phone)}
                           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25 text-xs font-medium transition-colors"
-                          title="Abrir a conversa na Caixa de entrada do LeadHub"
+                          title="Abrir a conversa na Caixa de entrada do GoHub"
                         >
-                          <MessageSquare className="w-3.5 h-3.5" strokeWidth={2.25} /> Abrir no LeadHub
+                          <MessageSquare className="w-3.5 h-3.5" strokeWidth={2.25} /> Abrir no GoHub
                         </a>
                       )}
                       {!selected.phone.endsWith("@g.us") && (

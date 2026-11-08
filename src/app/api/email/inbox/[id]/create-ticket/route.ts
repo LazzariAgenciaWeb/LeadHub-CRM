@@ -95,7 +95,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         settings: clickupSettings,
         ticketId: ticket.id,
         title: ticket.title,
-        description: `${ticket.description}\n\n🔗 Ver no LeadHub: ${baseUrl}/chamados/${ticket.id}`,
+        description: `${ticket.description}\n\n🔗 Ver no GoHub: ${baseUrl}/chamados/${ticket.id}`,
         priority: ticket.priority,
         status: ticket.status,
         targetListId: clickupSettings.ticketsListId,

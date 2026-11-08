@@ -84,7 +84,7 @@ function parseDate(d: string | undefined): Date | null {
 export interface ClientSyncResult {
   createdHere: number; // sub-empresas criadas a partir do Bling
   linkedHere: number; // empresas existentes que ganharam vínculo blingContactId
-  createdInBling: number; // contatos criados no Bling a partir do LeadHub
+  createdInBling: number; // contatos criados no Bling a partir do GoHub
   skipped: number; // pulados (sem nome/documento etc.)
 }
 
@@ -262,7 +262,7 @@ export async function syncClientes(companyId: string): Promise<ClientSyncResult>
 export interface FinanceSyncResult {
   boletos: number; // contas a receber importadas/atualizadas
   notas: number; // NF vinculadas (invoiceUrl setado numa cobrança)
-  unmatched: number; // registros sem cliente correspondente no LeadHub
+  unmatched: number; // registros sem cliente correspondente no GoHub
 }
 
 /** Índice blingContactId → id da sub-empresa no LeadHub. */

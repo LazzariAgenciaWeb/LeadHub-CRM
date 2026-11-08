@@ -121,7 +121,7 @@ export default function NovoProjetoForm({
               !useClickup ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30" : "text-slate-500 hover:text-white"
             }`}
           >
-            Só interno (LeadHub)
+            Só interno (GoHub)
           </button>
         </div>
         {useClickup ? (
@@ -139,7 +139,7 @@ export default function NovoProjetoForm({
           </>
         ) : (
           <p className="text-slate-500 text-[11px]">
-            Projeto vive só no LeadHub: tarefas internas + chamados vinculados. Sem sync com ClickUp.
+            Projeto vive só no GoHub: tarefas internas + chamados vinculados. Sem sync com ClickUp.
           </p>
         )}
       </div>

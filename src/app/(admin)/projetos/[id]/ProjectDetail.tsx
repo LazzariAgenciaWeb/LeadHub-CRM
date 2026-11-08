@@ -845,7 +845,7 @@ export default function ProjectDetail({
           {/* Zona de perigo — no fim de tudo pra não ser clicada sem querer */}
           <div className="border border-red-500/30 bg-red-500/5 rounded-xl p-5">
             <span className="text-red-300 text-xs uppercase tracking-wider block">Excluir projeto</span>
-            <p className="text-slate-500 text-[11px] mt-1">Apaga o projeto do LeadHub e reverte os pontos atrelados a ele. Não dá pra desfazer.</p>
+            <p className="text-slate-500 text-[11px] mt-1">Apaga o projeto do GoHub e reverte os pontos atrelados a ele. Não dá pra desfazer.</p>
             {!confirmDelete ? (
               <button
                 onClick={() => setConfirmDelete(true)}
@@ -2468,7 +2468,7 @@ function ProjectTasksCard({
       <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
         <div>
           <h3 className="text-white font-semibold text-sm">✅ Tarefas do projeto</h3>
-          <p className="text-slate-500 text-xs mt-0.5">Tarefas internas (LeadHub) e tarefas criadas no ClickUp.</p>
+          <p className="text-slate-500 text-xs mt-0.5">Tarefas internas (GoHub) e tarefas criadas no ClickUp.</p>
         </div>
         <div className="flex items-center gap-2">
           {internalTasks.length > 0 && (
@@ -2584,7 +2584,7 @@ function ProjectTasksCard({
                 form.destino === "interna" ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30" : "text-slate-500 hover:text-white"
               }`}
             >
-              Interna (LeadHub)
+              Interna (GoHub)
             </button>
           </div>
 
