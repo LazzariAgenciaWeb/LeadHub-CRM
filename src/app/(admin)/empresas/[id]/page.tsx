@@ -38,10 +38,16 @@ export default async function EmpresaDetailPage({
   const { id } = await params;
   // Super admin só é super admin aqui quando NÃO está impersonando. Dentro de
   // um cliente, esta tela se comporta como a do ADMIN daquele cliente (vê só
-  // sub-empresas dele, sem "Acessar Painel" nem edição de plano/módulos) —
-  // assim um clique num cliente nunca troca a impersonação. Trocar/sair é
-  // sempre pelo banner.
+  // sub-empresas dele, sem "Acessar Painel" nem edição de módulos) — assim um
+  // clique num cliente nunca troca a impersonação. Trocar/sair é sempre pelo
+  // banner.
   const isSuperAdmin = realRole === "SUPER_ADMIN" && !isImpersonating(session);
+  // EXCEÇÃO: plano e cobrança são da PLATAFORMA, não do painel do cliente.
+  // Quem é super admin de verdade vê e gerencia o plano de qualquer empresa,
+  // mesmo enquanto observa uma agência por dentro — era o único jeito de ver
+  // o plano de um cliente da agência sem sair da impersonação. A API de
+  // subscription já funciona assim (lê a sessão real, ignora impersonação).
+  const isRealSuperAdmin = realRole === "SUPER_ADMIN";
 
   const [company, contacts] = await Promise.all([
     prisma.company.findUnique({
@@ -130,9 +136,10 @@ export default async function EmpresaDetailPage({
     boletoUrl: v.boletoUrl, invoiceUrl: v.invoiceUrl, externalId: v.externalId, notes: v.notes,
   }));
 
-  // Plano da empresa — pro widget dedicado no topo (super admin).
+  // Plano da empresa — pro widget dedicado no topo (super admin real, mesmo
+  // impersonando).
   let planCtx: Awaited<ReturnType<typeof getCompanyPlan>> | null = null;
-  if (isSuperAdmin) {
+  if (isRealSuperAdmin) {
     try { planCtx = await getCompanyPlan(id); } catch { planCtx = null; }
   }
   const planDef = planCtx ? PLANS[planCtx.tier] : null;
@@ -398,7 +405,7 @@ export default async function EmpresaDetailPage({
       </div>
 
       {/* ─── Contratado (topo): Plano + Serviços + Financeiro ─── */}
-      {isSuperAdmin && planCtx && (
+      {isRealSuperAdmin && planCtx && (
         <div className="bg-gradient-to-br from-[#131a2b] to-[#0f1623] border border-indigo-500/30 rounded-xl p-5 mb-4">
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="flex items-center gap-4">
@@ -532,6 +539,7 @@ export default async function EmpresaDetailPage({
           chamados={chamados}
           contacts={contactsWithUsers as any}
           isSuperAdmin={isSuperAdmin}
+          isRealSuperAdmin={isRealSuperAdmin}
           isClientCompany={!!company.parentCompanyId}
           contracted={contracted}
           catalog={catalogRaw}

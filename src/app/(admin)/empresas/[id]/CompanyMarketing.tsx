@@ -327,7 +327,7 @@ export default function CompanyMarketing({
       )}
 
       {/* Abas: entrada · orgânico · patrocinado */}
-      <div className="flex gap-1 border-b border-[#1e2d45] overflow-x-auto">
+      <div className="flex gap-1 border-b border-[#1e2d45] overflow-x-auto overflow-y-hidden">
         {MKT_TABS.filter((t) => {
           // No portal do cliente, aba sem perfil conectado é só um vazio a
           // mais — a agência continua vendo (é lá que se conecta).

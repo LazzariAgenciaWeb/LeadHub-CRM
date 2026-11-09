@@ -107,6 +107,13 @@ interface Props {
   chamados: Chamado[];
   contacts: Contact[];
   isSuperAdmin: boolean;
+  /**
+   * Super admin de VERDADE (sessão real), mesmo impersonando uma agência.
+   * Só manda na aba Plano & cobrança: plano é assunto da plataforma, não do
+   * painel do cliente. Sem isso, pra ver o plano de um cliente da agência era
+   * preciso sair da impersonação.
+   */
+  isRealSuperAdmin?: boolean;
   // Financeiro do cliente — vinha solto acima da página; virou o primeiro
   // grupo de abas pra que o topo fique com a identificação do cliente.
   contracted: any[];
@@ -169,7 +176,11 @@ type TabId =
   | "campanhas" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano" | "conquistas"
   | "arquivos";
 
-const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean }[] = [
+// `superAdminOnly`: só o super admin FORA de impersonação (dentro de um
+// cliente a tela é a do ADMIN dele).
+// `realSuperAdminOnly`: o super admin de verdade, impersonando ou não — pra
+// assunto da plataforma (plano/cobrança), que não é do painel do cliente.
+const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean; realSuperAdminOnly?: boolean }[] = [
   { id: "servicos",     label: "Serviços contratados", icon: "📦" },
   { id: "cobrancas",    label: "Cobranças",    icon: "🧾" },
   { id: "historico",    label: "Histórico",    icon: "🕓" },
@@ -184,7 +195,7 @@ const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean }
   { id: "cofre",        label: "Cofre",        icon: "🔐" },
   { id: "arquivos",     label: "Arquivos",     icon: "🗂" },
   { id: "integracoes",  label: "Integrações",  icon: "🔌" },
-  { id: "plano",        label: "Plano",        icon: "💳", superAdminOnly: true },
+  { id: "plano",        label: "Plano",        icon: "💳", realSuperAdminOnly: true },
 ];
 const TAB_BY_ID = Object.fromEntries(TABS.map((t) => [t.id, t])) as Record<TabId, (typeof TABS)[number]>;
 
@@ -216,6 +227,7 @@ export default function CompanyDetailTabs({
   chamados,
   contacts,
   isSuperAdmin,
+  isRealSuperAdmin = isSuperAdmin,
   contracted,
   catalog,
   invoices,
@@ -249,7 +261,9 @@ export default function CompanyDetailTabs({
   // Abas visíveis (respeita superAdminOnly), agrupadas em 5 grupos de 1º nível.
   // Arquivos = biblioteca do Meu Espaço — só existe pra empresa-cliente.
   const isTabVisible = (id: TabId) =>
-    (!TAB_BY_ID[id].superAdminOnly || isSuperAdmin) && (id !== "arquivos" || isClientCompany);
+    (!TAB_BY_ID[id].superAdminOnly || isSuperAdmin) &&
+    (!TAB_BY_ID[id].realSuperAdminOnly || isRealSuperAdmin) &&
+    (id !== "arquivos" || isClientCompany);
   const visibleGroups = GROUPS
     .map((g) => ({ ...g, tabs: g.tabIds.filter(isTabVisible) }))
     .filter((g) => g.tabs.length > 0);
@@ -282,7 +296,7 @@ export default function CompanyDetailTabs({
   return (
     <div className="mt-6">
       {/* Barra de grupos (1º nível) — 5 grupos condensam as 10 abas */}
-      <div className="flex gap-1 border-b border-[#1e2d45] mb-0 overflow-x-auto">
+      <div className="flex gap-1 border-b border-[#1e2d45] mb-0 overflow-x-auto overflow-y-hidden">
         {visibleGroups.map((g) => {
           const isActive = g.tabs.includes(activeTab);
           const single = g.tabs.length === 1;
@@ -716,8 +730,8 @@ export default function CompanyDetailTabs({
           <CompanyMarketing companyId={companyId} />
         )}
 
-        {/* ── Plano (super admin) ── */}
-        {activeTab === "plano" && isSuperAdmin && (
+        {/* ── Plano (super admin real, mesmo impersonando) ── */}
+        {activeTab === "plano" && isRealSuperAdmin && (
           <CompanySubscription companyId={companyId} />
         )}
 
