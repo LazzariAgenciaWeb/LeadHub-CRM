@@ -82,14 +82,12 @@ export function pagePlanOf<T extends string>(sub: { plan: T; pagePlan: T | null 
 
 /**
  * Plano Grátis, como o site gohub.com.br promete: até 5 botões (links e
- * serviços; redes sociais à parte), 3 cores, modelo Cartão, serviço sem
- * imagem, sem agenda e sem formulário de perguntas — tudo isso é do Pro.
+ * serviços; redes sociais à parte), lista ou cards e cores personalizadas.
+ * Serviço com imagem, agenda e formulário de perguntas são dos planos pagos.
  */
-export const BIO_FREE = { buttons: 5, colors: ["#4f46e5", "#e11d48", "#111827"] } as const;
+export const BIO_FREE = { buttons: 5 } as const;
 
 type BioFreeViewable = {
-  template: "CARTAO" | "VITRINE";
-  accent: string;
   blocks: { type: string; imageUrl: string | null }[];
   booking?: unknown;
   quiz: unknown;
@@ -104,8 +102,7 @@ export function bioFreeView<T extends BioFreeViewable>(v: T): T {
   const blocks = v.blocks
     .filter((b) => b.type === "SOCIAL" || ++buttons <= BIO_FREE.buttons)
     .map((b) => (b.type === "SERVICE" ? { ...b, imageUrl: null } : b));
-  const accent = (BIO_FREE.colors as readonly string[]).includes(v.accent.toLowerCase()) ? v.accent : BIO_FREE.colors[0];
-  return { ...v, template: "CARTAO", accent, blocks, booking: null, quiz: null };
+  return { ...v, blocks, booking: null, quiz: null };
 }
 
 /** Eventos que o navegador pode registrar. LEAD só nasce no servidor, junto do envio. */

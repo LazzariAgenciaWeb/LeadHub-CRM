@@ -401,7 +401,7 @@ export default function PaginaEditor({
             className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4 space-y-4"
             onBlur={() => setBlurTick((n) => n + 1)}
           >
-            {step === 0 && <StepBasics draft={draft} set={set} uploadsEnabled={uploadsEnabled} freePlan={freePlan} />}
+            {step === 0 && <StepBasics draft={draft} set={set} uploadsEnabled={uploadsEnabled} />}
             {step === 1 && <StepBlocks draft={draft} set={set} uploadsEnabled={uploadsEnabled} freePlan={freePlan} />}
             {step === 2 && <StepQuiz draft={draft} set={set} defaultConsent={defaultConsent} freePlan={freePlan} />}
             {step === 3 && (
@@ -504,7 +504,7 @@ function PhoneFrame({ data }: { data: BioViewData }) {
 
 type Setter = <K extends keyof Draft>(k: K, v: Draft[K]) => void;
 
-function StepBasics({ draft, set, uploadsEnabled, freePlan }: { draft: Draft; set: Setter; uploadsEnabled: boolean; freePlan: boolean }) {
+function StepBasics({ draft, set, uploadsEnabled }: { draft: Draft; set: Setter; uploadsEnabled: boolean }) {
   const L = BIO_LIMITS;
   return (
     <>
@@ -538,7 +538,7 @@ function StepBasics({ draft, set, uploadsEnabled, freePlan }: { draft: Draft; se
       <div>
         <span className={labelCls}>Cor</span>
         <div className="flex flex-wrap items-center gap-2">
-          {(freePlan ? BIO_FREE.colors : COLORS).map((c) => (
+          {COLORS.map((c) => (
             <button
               key={c}
               type="button"
@@ -548,35 +548,30 @@ function StepBasics({ draft, set, uploadsEnabled, freePlan }: { draft: Draft; se
               style={{ background: c }}
             />
           ))}
-          {!freePlan && (
-            <input
-              type="color"
-              aria-label="Outra cor"
-              value={bioAccent(draft.accentColor)}
-              onChange={(e) => set("accentColor", e.target.value)}
-              className="w-9 h-7 bg-transparent border border-[#1e2d45] rounded cursor-pointer"
-            />
-          )}
+          <input
+            type="color"
+            aria-label="Outra cor"
+            value={bioAccent(draft.accentColor)}
+            onChange={(e) => set("accentColor", e.target.value)}
+            className="w-9 h-7 bg-transparent border border-[#1e2d45] rounded cursor-pointer"
+          />
         </div>
-        {freePlan && <div className="mt-2"><ProNote>Todas as cores, inclusive a da sua marca.</ProNote></div>}
       </div>
       <div>
         <span className={labelCls}>Modelo</span>
         <div className="grid grid-cols-2 gap-2">
           {([
-            ["CARTAO", "Cartão", "Foto, botões e serviços em lista (com miniatura, se tiver imagem)."],
-            ["VITRINE", "Vitrine", "Serviços em grade, com imagem."],
+            ["CARTAO", "Lista", "Foto, botões e serviços em lista (com miniatura, se tiver imagem)."],
+            ["VITRINE", "Cards", "Serviços em grade."],
           ] as const).map(([value, name, desc]) => (
             <button
               key={value}
               type="button"
-              disabled={freePlan && value === "VITRINE"}
               onClick={() => set("template", value)}
-              className={`text-left p-3 rounded-lg border transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${(freePlan ? "CARTAO" : draft.template) === value ? "border-indigo-500 bg-indigo-500/10" : "border-[#1e2d45] bg-[#161f30] hover:border-slate-500"}`}
+              className={`text-left p-3 rounded-lg border transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${draft.template === value ? "border-indigo-500 bg-indigo-500/10" : "border-[#1e2d45] bg-[#161f30] hover:border-slate-500"}`}
             >
               <span className="block text-sm font-semibold text-white">
                 {name}
-                {freePlan && value === "VITRINE" && <span className="ml-1.5 rounded bg-fuchsia-500 px-1.5 py-0.5 text-[10px] font-bold text-white align-middle">PRO</span>}
               </span>
               <span className="block text-xs text-slate-400 mt-0.5">{desc}</span>
             </button>

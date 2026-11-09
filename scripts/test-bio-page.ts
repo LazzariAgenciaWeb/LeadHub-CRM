@@ -214,8 +214,7 @@ ok("respostas: ordem da pergunta, só opção que existe, única fica com uma",
   ok("grátis: até 5 botões, redes sociais à parte", f.blocks.filter((b) => b.type !== "SOCIAL").length === BIO_FREE.buttons && f.blocks.filter((b) => b.type === "SOCIAL").length === 2);
   ok("grátis: serviço sem imagem", f.blocks.every((b) => b.imageUrl === null));
   ok("grátis: sem agenda e sem formulário", f.booking === null && f.quiz === null);
-  ok("grátis: modelo Cartão e cor fora das 3 volta pra padrão", f.template === "CARTAO" && f.accent === BIO_FREE.colors[0]);
-  ok("grátis: cor permitida fica", bioFreeView({ ...view, accent: "#E11D48" }).accent === "#E11D48");
+  ok("grátis: mantém lista ou cards e a cor escolhida", f.template === view.template && f.accent === view.accent && bioFreeView({ ...view, template: "VITRINE", accent: "#E11D48" }).template === "VITRINE");
   ok("grátis: não mexe no original", view.blocks.length === 9 && view.quiz !== null);
 }
 
