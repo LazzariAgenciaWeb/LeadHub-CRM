@@ -103,6 +103,12 @@ export interface PlanFeatures {
   videos: boolean;
   /** Página do Negócio: link na bio + vitrine + perguntas que viram lead (/p/[slug]). Liga em todo plano. */
   paginaNegocio: boolean;
+  /**
+   * A Página do Negócio vira SITE PRÓPRIO: o cliente aponta o domínio dele e a
+   * página abre na raiz, com HTTPS e indexada no Google. É o benefício central
+   * do Essencial. NÃO confundir com `customDomain`, que é o domínio do PAINEL.
+   */
+  paginaSiteProprio: boolean;
 
   // ── 📊 Marketing & Análise ──
   marketingDashboard: boolean;
@@ -193,6 +199,7 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     // diferencial de plano. O que muda por plano é o selo e o detalhe dos
     // contatos (ver bio-page-stats.ts e /p/[slug]).
     paginaNegocio: true,
+    paginaSiteProprio: false,
     marketingDashboard: false,
     googleAnalytics: false,
     googleSearchConsole: false,
@@ -338,6 +345,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       aiInteractions: 0,
     },
     features: feat({
+      paginaSiteProprio: true,
       paginaNegocio: true,
       calendario: true,
       // Os contatos da página já viram lead; no Mini Site o cliente vê o funil.
@@ -411,6 +419,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
           aiInteractions: 0,
     },
     features: feat({
+      paginaSiteProprio: true,
       // herda Free
       meuEspaco: true,
       videos: true,
@@ -452,10 +461,11 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       whatsappInstances: 1,
       atendentes: 5,
       unidades: 1,
-      leadsPerMonth: 5000,
+      leadsPerMonth: -1,
           aiInteractions: 1000,
     },
     features: feat({
+      paginaSiteProprio: true,
       // herda Essencial
       meuEspaco: true,
       videos: true,
@@ -517,6 +527,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
           aiInteractions: 5000,
     },
     features: feat({
+      paginaSiteProprio: true,
       // herda Marketing
       meuEspaco: true,
       videos: true,
@@ -583,6 +594,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
           aiInteractions: -1,
     },
     features: feat({
+      paginaSiteProprio: true,
       meuEspaco: true,
       whatsapp: true,
       whatsappGrupos: true,
@@ -675,6 +687,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
           aiInteractions: 500,
     },
     features: feat({
+      paginaSiteProprio: true,
       whatsapp: true,
       whatsappGrupos: true,
       inboxAvancado: true,
