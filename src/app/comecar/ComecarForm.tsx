@@ -188,7 +188,9 @@ export default function ComecarForm({
           <label className="flex items-start gap-2 text-xs leading-relaxed text-slate-500">
             <input type="checkbox" checked={acceptTerms} onChange={(e) => setAcceptTerms(e.target.checked)} className="mt-0.5 h-5 w-5 sm:h-4 sm:w-4 flex-shrink-0 accent-[#FF2E96]" />
             <span>
-              Concordo em criar a conta e em receber contato da equipe sobre a minha página e serviços de site. Meus dados não são compartilhados com terceiros.
+              Li e concordo com os{" "}
+              <a href="https://gohub.com.br/termos-de-uso/" target="_blank" rel="noopener" className="underline">Termos de Uso</a>{" "}e a{" "}
+              <a href="https://gohub.com.br/politica-de-privacidade/" target="_blank" rel="noopener" className="underline">Política de Privacidade</a>, e aceito receber contato da equipe sobre a minha página e serviços de site.
             </span>
           </label>
 
