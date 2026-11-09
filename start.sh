@@ -164,6 +164,22 @@ echo "✅ Cron Aprovações habilitado — rodará a cada ${APPROVAL_INTERVAL_SE
   done
 ) &
 
+# Cron: Cobrança — avisos e vencimento do anual no Pix (scope=pix: não mexe em trial/inadimplência)
+# Frequência: a cada 6 horas (config: BILLING_INTERVAL_SECONDS).
+BILLING_INTERVAL_SECONDS="${BILLING_INTERVAL_SECONDS:-21600}"
+echo "💳 Cron Cobrança habilitado — rodará a cada ${BILLING_INTERVAL_SECONDS}s"
+(
+  sleep 110
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/billing?scope=pix" --max-time 120 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron Cobrança] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep "$BILLING_INTERVAL_SECONDS"
+  done
+) &
+
 # Cron: Assistente pessoal — lembretes (a cada 60s) e resumo diário (a cada 5min,
 # a rota só envia 1x/dia a partir das 8h). Config: ASSISTANT_INTERVAL_SECONDS
 ASSISTANT_INTERVAL_SECONDS="${ASSISTANT_INTERVAL_SECONDS:-60}"

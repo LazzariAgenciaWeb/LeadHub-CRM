@@ -1,3 +1,4 @@
+import { PIX_ANNUAL_PRICE_ID } from "@/lib/pix-annual";
 import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
@@ -43,13 +44,15 @@ export default async function PaginaPage() {
   ]);
   const asAdmin = await canSeeBioAdmin();
   const plan = await getCompanyPlan(companyId).catch(() => null);
-  const sub = await prisma.subscription.findUnique({ where: { companyId }, select: { stripeCustomerId: true } });
+  const sub = await prisma.subscription.findUnique({ where: { companyId }, select: { stripeCustomerId: true, stripePriceId: true, currentPeriodEnd: true, plan: true } });
+  const paidByPix = sub?.stripePriceId === PIX_ANNUAL_PRICE_ID && !!sub.currentPeriodEnd;
   const freePlan = bioShowsBadge(plan?.pageTier);
   const planInfo = {
     label: plan?.pageTier ? PLANS[plan.pageTier].label : "Grátis",
     free: freePlan,
-    manage: !freePlan && !!sub?.stripeCustomerId,
-    offers: PAGE_LINE_PAID.map((t) => ({ tier: t, label: PLANS[t].label, price: PLANS[t].priceMonthly })),
+    manage: !freePlan && !!sub?.stripeCustomerId && !paidByPix,
+    pix: paidByPix ? { until: sub!.currentPeriodEnd!.toISOString(), tier: sub!.plan, total: PLANS[sub!.plan].priceAnnualTotal } : null,
+    offers: PAGE_LINE_PAID.map((t) => ({ tier: t, label: PLANS[t].label, price: PLANS[t].priceMonthly, annualTotal: PLANS[t].priceAnnualTotal })),
   };
   const summary = await getOwnerSummary(companyId, page.id, { asAdmin });
 

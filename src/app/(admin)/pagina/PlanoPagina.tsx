@@ -12,7 +12,9 @@ export interface PlanoPaginaInfo {
   free: boolean;
   /** Já paga pela Stripe: tem portal pra gerenciar. */
   manage: boolean;
-  offers: { tier: string; label: string; price: number }[];
+  offers: { tier: string; label: string; price: number; annualTotal: number }[];
+  /** Anual pago no Pix: até quando vale e qual plano renovar. */
+  pix?: { until: string; tier: string; total: number } | null;
 }
 
 const brl = (v: number) => `R$ ${v.toFixed(2).replace(".", ",")}`;
@@ -44,6 +46,7 @@ export default function PlanoPagina({ plan }: { plan: PlanoPaginaInfo }) {
   }
 
   const subscribe = (tier: string) => go("/api/billing/checkout", { tier, cycle: "monthly" }, tier);
+  const payPix = (tier: string) => go("/api/billing/checkout", { tier, cycle: "annual", method: "pix" }, `pix-${tier}`);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -95,6 +98,24 @@ export default function PlanoPagina({ plan }: { plan: PlanoPaginaInfo }) {
           </button>
         ) : null}
       </div>
+      {plan.free && (
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
+          <span>Prefere Pix? 12 meses à vista:</span>
+          {plan.offers.map((o) => (
+            <button key={o.tier} type="button" disabled={!!busy} onClick={() => payPix(o.tier)} className="font-semibold text-fuchsia-300 underline underline-offset-2 disabled:opacity-60">
+              {busy === `pix-${o.tier}` ? "Abrindo…" : `${o.label} · ${brl(o.annualTotal)}`}
+            </button>
+          ))}
+        </div>
+      )}
+      {plan.pix && (
+        <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-400">
+          <span>Anual no Pix, válido até {new Date(plan.pix.until).toLocaleDateString("pt-BR")}. O Pix não renova sozinho.</span>
+          <button type="button" disabled={!!busy} onClick={() => payPix(plan.pix!.tier)} className="font-semibold text-fuchsia-300 underline underline-offset-2 disabled:opacity-60">
+            {busy?.startsWith("pix-") ? "Abrindo…" : `Renovar no Pix · ${brl(plan.pix.total)}`}
+          </button>
+        </div>
+      )}
       {plan.free && (
         <p className="mt-2 text-xs text-slate-500">
           No Pro a página fica sem a marca GoHub, com formulário, agenda, serviços com imagem e todos os contatos com as respostas.

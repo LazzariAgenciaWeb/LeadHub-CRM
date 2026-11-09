@@ -16,11 +16,13 @@ import { PLANS, PLAN_ORDER, formatPriceBRL, type PlanTier } from "@/lib/plans";
  * Stripe. Trocar de plano também acontece lá dentro, e volta por webhook.
  */
 export default function BillingActions({
-  currentTier, hasStripeCustomer, billingCycle,
+  currentTier, hasStripeCustomer, billingCycle, pixUntil = null,
 }: {
   currentTier: PlanTier;
   hasStripeCustomer: boolean;
   billingCycle: string;
+  /** Anual pago no Pix: válido até esta data, renovação manual. */
+  pixUntil?: string | null;
 }) {
   const [cycle, setCycle] = useState<"monthly" | "annual">(
     billingCycle === "annual" ? "annual" : "monthly"
@@ -30,14 +32,14 @@ export default function BillingActions({
 
   const sellable = PLAN_ORDER.filter((t) => t !== "FREE" && PLANS[t].priceMonthly > 0);
 
-  async function checkout(tier: PlanTier) {
-    setBusy(tier);
+  async function checkout(tier: PlanTier, method?: "pix") {
+    setBusy(method ? `pix-${tier}` : tier);
     setError(null);
     try {
       const r = await fetch("/api/billing/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier, cycle }),
+        body: JSON.stringify({ tier, cycle, method }),
       });
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || "Falha ao iniciar a contratação");
@@ -94,7 +96,13 @@ export default function BillingActions({
         <>
           <p className="text-slate-400 text-xs mb-3">
             Escolha o plano para contratar. O pagamento é processado pela Stripe.
+            {" "}No anual, você também pode pagar os 12 meses à vista no Pix.
           </p>
+          {pixUntil && (
+            <p className="text-amber-200/80 text-xs mb-3">
+              Seu plano anual no Pix vale até {new Date(pixUntil).toLocaleDateString("pt-BR")}. O Pix não renova sozinho: pague de novo para continuar.
+            </p>
+          )}
 
           {/* Ciclo */}
           <div className="inline-flex rounded-lg border border-[#1e2d45] p-0.5 mb-3">
@@ -135,13 +143,24 @@ export default function BillingActions({
                       {cycle === "annual" && ` · ${formatPriceBRL(plan.priceAnnualTotal)} no ano`}
                     </p>
                   </div>
-                  <button
-                    onClick={() => checkout(tier)}
-                    disabled={busy !== null}
-                    className="flex-shrink-0 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1.5 text-[11px] font-semibold text-white disabled:opacity-50"
-                  >
-                    {busy === tier ? <Loader2 className="w-3 h-3 animate-spin" /> : "Contratar"}
-                  </button>
+                  <div className="flex flex-shrink-0 gap-1.5">
+                    {cycle === "annual" && (
+                      <button
+                        onClick={() => checkout(tier, "pix")}
+                        disabled={busy !== null}
+                        className="rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1.5 text-[11px] font-semibold text-white disabled:opacity-50"
+                      >
+                        {busy === `pix-${tier}` ? <Loader2 className="w-3 h-3 animate-spin" /> : "Pix"}
+                      </button>
+                    )}
+                    <button
+                      onClick={() => checkout(tier)}
+                      disabled={busy !== null}
+                      className="rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1.5 text-[11px] font-semibold text-white disabled:opacity-50"
+                    >
+                      {busy === tier ? <Loader2 className="w-3 h-3 animate-spin" /> : cycle === "annual" ? "Cartão" : "Contratar"}
+                    </button>
+                  </div>
                 </div>
               );
             })}

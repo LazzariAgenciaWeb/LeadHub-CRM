@@ -208,13 +208,14 @@ export default async function ConfiguracoesPage({
       // SUPER_ADMIN, mesmo nessa rota, fica em modo edição.
       const planSub = await prisma.subscription.findUnique({
         where: { companyId: userCompanyId },
-        select: { plan: true, stripeCustomerId: true, billingCycle: true },
+        select: { plan: true, stripeCustomerId: true, billingCycle: true, stripePriceId: true, currentPeriodEnd: true },
       });
       content = (
         <div className="p-2">
           <BillingActions
             currentTier={(planSub?.plan as any) ?? "FREE"}
-            hasStripeCustomer={!!planSub?.stripeCustomerId}
+            hasStripeCustomer={!!planSub?.stripeCustomerId && planSub?.stripePriceId !== "pix_annual"}
+            pixUntil={planSub?.stripePriceId === "pix_annual" ? planSub?.currentPeriodEnd?.toISOString() ?? null : null}
             billingCycle={planSub?.billingCycle ?? "monthly"}
           />
           <CompanySubscription companyId={userCompanyId} readOnly={!isSuperAdmin} />

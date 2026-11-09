@@ -4,10 +4,12 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
 import { PAGE_LINE_PAID, PLANS, PLAN_ORDER, type PlanTier } from "@/lib/plans";
+import { isPixAnnualTier, pixAnnualCents, PIX_ANNUAL_KIND } from "@/lib/pix-annual";
 
 /**
  * POST /api/billing/checkout
- *   body: { tier: "MARKETING", cycle: "monthly" | "annual", coupon?: "..." }
+ *   body: { tier: "MARKETING", cycle: "monthly" | "annual", coupon?: "...", method?: "pix" }
+ *   method "pix" só vale no anual: pagamento único de 12 meses (ver lib/pix-annual).
  *
  * Cria a sessão de Checkout hospedada da Stripe e devolve a URL. Hospedado, e
  * não formulário próprio, porque assim nenhum dado de cartão passa pelo nosso
@@ -33,7 +35,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Só o administrador da empresa pode contratar" }, { status: 403 });
   }
 
-  let body: { tier?: string; cycle?: string; coupon?: string };
+  let body: { tier?: string; cycle?: string; coupon?: string; method?: string };
   try {
     body = await req.json();
   } catch {
@@ -48,8 +50,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Plano inválido para contratação" }, { status: 400 });
   }
 
+  const pix = body.method === "pix";
+  if (pix && (cycle !== "annual" || !isPixAnnualTier(tier))) {
+    return NextResponse.json({ error: "O Pix está disponível só no plano anual." }, { status: 400 });
+  }
+
   const priceId = process.env[`STRIPE_PRICE_${tier}_${cycle === "annual" ? "ANNUAL" : "MONTHLY"}`];
-  if (!priceId) {
+  if (!pix && !priceId) {
     return NextResponse.json(
       { error: `Preço do plano ${tier} (${cycle}) não configurado. Rode scripts/stripe-setup.ts e preencha as envs.` },
       { status: 503 }
@@ -58,17 +65,52 @@ export async function POST(req: NextRequest) {
 
   const company = await prisma.company.findUnique({
     where: { id: companyId },
-    select: { name: true, email: true, subscription: { select: { stripeCustomerId: true } } },
+    select: { name: true, email: true, subscription: { select: { stripeCustomerId: true, stripeSubscriptionId: true } } },
   });
   if (!company) return NextResponse.json({ error: "Empresa não encontrada" }, { status: 404 });
 
   const base = (process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000").replace(/\/$/, "");
 
+  // Quem já tem cartão recorrente pagaria em dobro: troca pelo portal.
+  if (pix && company.subscription?.stripeSubscriptionId) {
+    return NextResponse.json(
+      { error: "Sua empresa já tem assinatura ativa no cartão. Cancele no portal antes de pagar no Pix." },
+      { status: 409 }
+    );
+  }
+
   try {
     const stripe = getStripe();
+
+    if (pix) {
+      const meta = { companyId, kind: PIX_ANNUAL_KIND, tier };
+      const checkout = await stripe.checkout.sessions.create({
+        mode: "payment",
+        payment_method_types: ["pix"],
+        payment_method_options: { pix: { expires_after_seconds: 3600 } },
+        line_items: [{
+          quantity: 1,
+          price_data: {
+            currency: "brl",
+            unit_amount: pixAnnualCents(tier),
+            product_data: { name: `GoHub ${PLANS[tier].label} · 12 meses` },
+          },
+        }],
+        ...(company.subscription?.stripeCustomerId
+          ? { customer: company.subscription.stripeCustomerId }
+          : { customer_creation: "always" as const, customer_email: company.email ?? user.email ?? undefined }),
+        metadata: meta,
+        payment_intent_data: { metadata: meta },
+        success_url: pageLine ? `${base}/pagina?assinatura=ok` : `${base}/configuracoes?secao=minha-empresa-plano&assinatura=ok`,
+        cancel_url: pageLine ? `${base}/pagina?assinatura=cancelada` : `${base}/precos?assinatura=cancelada`,
+        locale: "pt-BR",
+      });
+      return NextResponse.json({ url: checkout.url, plan: PLANS[tier].label });
+    }
+
     const checkout = await stripe.checkout.sessions.create({
       mode: "subscription",
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: priceId!, quantity: 1 }],
       // Cliente existente é reusado; senão a Stripe cria e o webhook grava o id.
       ...(company.subscription?.stripeCustomerId
         ? { customer: company.subscription.stripeCustomerId }

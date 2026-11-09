@@ -8,7 +8,10 @@
  *   2. URL: https://seu-dominio.com/api/webhooks/stripe
  *   3. Events: customer.subscription.created/updated/deleted,
  *              invoice.payment_succeeded, invoice.payment_failed,
- *              customer.subscription.trial_will_end
+ *              customer.subscription.trial_will_end,
+ *              checkout.session.completed,
+ *              checkout.session.async_payment_succeeded,
+ *              checkout.session.async_payment_failed (anual no Pix)
  *   4. Copiar Signing secret pra STRIPE_WEBHOOK_SECRET
  *
  * Eventos tratados:
@@ -28,6 +31,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getStripe, mapStripeStatus, planForPriceId } from "@/lib/stripe";
 import { PAGE_LINE_PAID, PAGE_LINE_TIERS } from "@/lib/plans";
+import { syncCompanyModuleFlags } from "@/lib/billing-sync";
+import { isPixAnnualTier, pixAnnualPeriod, PIX_ANNUAL_KIND, PIX_ANNUAL_PRICE_ID } from "@/lib/pix-annual";
 
 // Webhooks devem ler o body cru pra validar a assinatura.
 export const runtime = "nodejs";
@@ -60,6 +65,16 @@ export async function POST(req: NextRequest) {
       case "customer.subscription.created":
       case "customer.subscription.updated":
         await handleSubscriptionUpsert(event.data.object as Stripe.Subscription);
+        break;
+
+      // Anual no Pix: a sessão pode concluir ainda sem o dinheiro confirmado.
+      case "checkout.session.completed":
+      case "checkout.session.async_payment_succeeded":
+        await handlePixAnnualPaid(event.data.object as Stripe.Checkout.Session);
+        break;
+
+      case "checkout.session.async_payment_failed":
+        await handlePixAnnualFailed(event.data.object as Stripe.Checkout.Session);
         break;
 
       case "customer.subscription.deleted":
@@ -148,6 +163,8 @@ async function handleSubscriptionUpsert(sub: Stripe.Subscription): Promise<void>
     },
   });
 
+  await syncCompanyModuleFlags(companyId);
+
   // Trail de auditoria — distingue criação de upgrade/downgrade
   const eventType =
     !existing ? "subscribed"
@@ -180,6 +197,7 @@ async function handleSubscriptionDeleted(sub: Stripe.Subscription): Promise<void
       ? { plan: PAGE_LINE_TIERS.includes(existing.plan) ? "PAGINA" : "FREE", status: "ACTIVE", canceledAt: new Date(), stripeSubscriptionId: null, stripePriceId: null }
       : { status: "CANCELED", canceledAt: new Date() },
   });
+  await syncCompanyModuleFlags(existing.companyId);
 
   await prisma.billingEvent.create({
     data: {
@@ -187,6 +205,71 @@ async function handleSubscriptionDeleted(sub: Stripe.Subscription): Promise<void
       type:      "canceled",
       fromPlan:  existing.plan,
       metadata:  { stripeSubscriptionId: sub.id },
+    },
+  }).catch(() => {});
+}
+
+async function handlePixAnnualPaid(session: Stripe.Checkout.Session): Promise<void> {
+  if (session.metadata?.kind !== PIX_ANNUAL_KIND || session.payment_status !== "paid") return;
+  const companyId = session.metadata.companyId;
+  const tier = session.metadata.tier;
+  if (!companyId || !isPixAnnualTier(tier)) {
+    console.error(`[Stripe] Pix anual ${session.id} com metadata inválido`);
+    return;
+  }
+
+  // A Stripe reenvia eventos: pagar uma vez não pode somar dois anos.
+  const done = await prisma.billingEvent.findFirst({
+    where: { companyId, type: "pix_annual_paid", metadata: { path: ["checkoutSessionId"], equals: session.id } },
+    select: { id: true },
+  });
+  if (done) return;
+
+  const existing = await prisma.subscription.findUnique({
+    where: { companyId },
+    select: { plan: true, stripePriceId: true, currentPeriodEnd: true },
+  });
+  const period = pixAnnualPeriod(new Date(), existing && {
+    sameTier: existing.plan === tier && existing.stripePriceId === PIX_ANNUAL_PRICE_ID,
+    end: existing.currentPeriodEnd,
+  });
+  const customerId = typeof session.customer === "string" ? session.customer : session.customer?.id;
+  const data = {
+    plan: tier,
+    status: "ACTIVE" as const,
+    billingCycle: "annual",
+    stripeSubscriptionId: null,
+    stripePriceId: PIX_ANNUAL_PRICE_ID,
+    currentPeriodStart: period.start,
+    currentPeriodEnd: period.end,
+    cancelAtPeriodEnd: false,
+    canceledAt: null,
+    trialEndsAt: null,
+    ...(customerId ? { stripeCustomerId: customerId } : {}),
+  };
+  await prisma.subscription.upsert({ where: { companyId }, create: { companyId, ...data }, update: data });
+  await syncCompanyModuleFlags(companyId);
+
+  await prisma.billingEvent.create({
+    data: {
+      companyId,
+      type: "pix_annual_paid",
+      fromPlan: existing?.plan,
+      toPlan: tier,
+      amount: session.amount_total ? session.amount_total / 100 : null,
+      metadata: { checkoutSessionId: session.id, periodEnd: period.end.toISOString() },
+    },
+  });
+}
+
+async function handlePixAnnualFailed(session: Stripe.Checkout.Session): Promise<void> {
+  if (session.metadata?.kind !== PIX_ANNUAL_KIND || !session.metadata.companyId) return;
+  await prisma.billingEvent.create({
+    data: {
+      companyId: session.metadata.companyId,
+      type: "payment_failed",
+      amount: session.amount_total ? session.amount_total / 100 : null,
+      metadata: { checkoutSessionId: session.id, method: "pix" },
     },
   }).catch(() => {});
 }
