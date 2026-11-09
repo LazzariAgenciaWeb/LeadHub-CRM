@@ -727,6 +727,20 @@ export const INTERNAL_TIERS: PlanTier[] = ["ENTERPRISE"];
 /** Linha "Página do Negócio" — vendida à parte, fora da pricing page do GoHub. */
 export const PAGE_LINE_TIERS: PlanTier[] = ["PAGINA", "PAGINA_PRO", "STARTER"];
 
+/**
+ * Features com a Página do Negócio contratada como serviço adicional: soma ao
+ * plano principal o que o plano da página traz (agenda, leads). Nunca tira.
+ */
+export function withPagePlan(base: PlanFeatures, pagePlan: PlanTier | null | undefined): PlanFeatures {
+  if (!pagePlan || !PAGE_LINE_TIERS.includes(pagePlan)) return base;
+  const out: PlanFeatures = { ...base };
+  const extra = PLANS[pagePlan].features;
+  for (const k of Object.keys(out) as (keyof PlanFeatures)[]) {
+    if (extra[k] === true) out[k] = true;
+  }
+  return out;
+}
+
 /** Planos pagos da linha Página — os que o cliente assina pelo checkout. */
 export const PAGE_LINE_PAID: PlanTier[] = ["PAGINA_PRO", "STARTER"];
 

@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getCompanyPlan } from "@/lib/limits";
 import { PLANS } from "@/lib/plans";
 import { bioPublicUrl } from "@/lib/bio-page-server";
-import { bioShowsBadge, referrerLabel, visibleLeadCount } from "@/lib/bio-page";
+import { bioShowsBadge, pagePlanOf, referrerLabel, visibleLeadCount } from "@/lib/bio-page";
 
 // Números da Página do Negócio. Dois recortes, por decisão de produto:
 //   - cliente do grátis: totais do mês + nome/telefone dos contatos até o
@@ -69,9 +69,10 @@ async function eventCounts(pageId: string, since: Date) {
 export async function getOwnerSummary(companyId: string, pageId: string, { asAdmin = false } = {}) {
   const since = startOfMonth();
   const ctx = await getCompanyPlan(companyId);
-  const limit = asAdmin ? -1 : ctx.effectiveLimits.leadsPerMonth;
+  // Com a página como adicional, vale o limite do plano da página.
+  const limit = asAdmin ? -1 : ctx.pageTier !== ctx.tier ? PLANS[ctx.pageTier].limits.leadsPerMonth : ctx.effectiveLimits.leadsPerMonth;
   // Detalhe (respostas) é de plano pago — mesma régua do selo.
-  const paid = !bioShowsBadge(ctx.tier);
+  const paid = !bioShowsBadge(ctx.pageTier);
   const detailed = paid || asAdmin;
 
   const [counts, contacts, partials] = await Promise.all([
@@ -123,7 +124,7 @@ export async function getAdminOverview() {
     orderBy: { createdAt: "desc" },
     select: {
       id: true, slug: true, title: true, published: true, createdAt: true,
-      company: { select: { id: true, name: true, tradeName: true, subscription: { select: { plan: true } } } },
+      company: { select: { id: true, name: true, tradeName: true, subscription: { select: { plan: true, pagePlan: true } } } },
       referredBy: { select: { slug: true } },
       _count: { select: { referrals: true } },
     },
@@ -143,8 +144,8 @@ export async function getAdminOverview() {
     title: p.title,
     company: p.company.tradeName ?? p.company.name,
     companyId: p.company.id,
-    plan: p.company.subscription?.plan ?? null,
-    planLabel: p.company.subscription?.plan ? PLANS[p.company.subscription.plan].label : null,
+    plan: pagePlanOf(p.company.subscription),
+    planLabel: pagePlanOf(p.company.subscription) ? PLANS[pagePlanOf(p.company.subscription)!].label : null,
     published: p.published,
     createdAt: p.createdAt.toISOString(),
     referredBy: p.referredBy?.slug ?? null,
@@ -162,7 +163,7 @@ export async function getPageDetail(pageId: string, days = 30) {
     where: { id: pageId },
     select: {
       id: true, slug: true, title: true, published: true,
-      company: { select: { name: true, tradeName: true, subscription: { select: { plan: true } } } },
+      company: { select: { name: true, tradeName: true, subscription: { select: { plan: true, pagePlan: true } } } },
       referrals: { select: { slug: true, title: true, createdAt: true }, orderBy: { createdAt: "desc" } },
     },
   });
@@ -215,8 +216,8 @@ export async function getPageDetail(pageId: string, days = 30) {
       title: page.title,
       published: page.published,
       company: page.company.tradeName ?? page.company.name,
-      plan: page.company.subscription?.plan ?? null,
-      planLabel: page.company.subscription?.plan ? PLANS[page.company.subscription.plan].label : null,
+      plan: pagePlanOf(page.company.subscription),
+      planLabel: pagePlanOf(page.company.subscription) ? PLANS[pagePlanOf(page.company.subscription)!].label : null,
     },
     days,
     funnel,
@@ -252,7 +253,7 @@ export async function getPageMarketingStats(companyId: string, days: number, vie
     select: { id: true, slug: true, title: true, published: true },
   });
   const ctx = await getCompanyPlan(companyId).catch(() => null);
-  const paid = !!ctx && !bioShowsBadge(ctx.tier);
+  const paid = !!ctx && !bioShowsBadge(ctx.pageTier);
   if (!page) return { hasPage: false as const, paid };
 
   const detailed = !viewerIsClient || paid;

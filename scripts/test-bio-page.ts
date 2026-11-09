@@ -3,14 +3,37 @@
  * plano grátis. Rodar: npm run test:bio-page
  */
 import type { BioEditorBlock, BioEditorInput } from "../src/lib/bio-page";
-import { slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioParseSocial, bioFreeView, BIO_FREE, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { pagePlanOf, slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioParseSocial, bioFreeView, BIO_FREE, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
-import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, type PlanTier } from "../src/lib/plans";
+import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, withPagePlan, type PlanTier } from "../src/lib/plans";
+import { MODULE_BY_ID, resolveModules } from "../src/lib/modules";
 
 let falhas = 0;
 function ok(nome: string, cond: boolean) {
   if (!cond) falhas++;
   console.log(`${cond ? "✓" : "✗"} ${nome}`);
+}
+
+// ── Página como serviço adicional ──
+ok("sem adicional, a página segue o plano principal", pagePlanOf({ plan: "MARKETING", pagePlan: null }) === "MARKETING");
+ok("o adicional manda na página", pagePlanOf({ plan: "FREE", pagePlan: "PAGINA_PRO" }) === "PAGINA_PRO");
+ok("Pro como adicional tira o selo do Free", !bioShowsBadge(pagePlanOf({ plan: "FREE", pagePlan: "PAGINA_PRO" })));
+ok("adicional soma a agenda do Pro ao Free", withPagePlan(PLANS.FREE.features, "PAGINA_PRO").calendario === true);
+ok("adicional nunca tira recurso do plano principal",
+  (Object.keys(PLANS.PREMIUM.features) as (keyof typeof PLANS.PREMIUM.features)[])
+    .every((k) => !PLANS.PREMIUM.features[k] || withPagePlan(PLANS.PREMIUM.features, "PAGINA")[k]));
+ok("plano fora da linha Página não vira adicional", withPagePlan(PLANS.FREE.features, "PREMIUM" as PlanTier).whatsapp === PLANS.FREE.features.whatsapp);
+
+// ── Botões da tela de módulos ──
+for (const tier of Object.keys(PLANS) as PlanTier[]) {
+  for (const m of resolveModules(tier, null)) {
+    const def = MODULE_BY_ID[m.id];
+    const custom: Record<string, boolean> = {};
+    if (m.enabled) for (const k of [def.primary, ...(def.alsoEnabledBy ?? [])]) custom[k] = false;
+    else custom[def.primary] = true;
+    const after = resolveModules(tier, custom as any).find((x) => x.id === m.id)!;
+    if (after.enabled === m.enabled) ok(`${tier}/${m.id} muda de estado`, false);
+  }
 }
 
 // ── Endereço ──

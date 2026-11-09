@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { PLANS, type PlanTier } from "@/lib/plans";
+import { PAGE_LINE_TIERS, PLANS, type PlanTier } from "@/lib/plans";
 import { companyFlagsFromFeatures } from "@/lib/modules";
 import { getCompanyPlan } from "@/lib/limits";
 
@@ -15,7 +15,7 @@ import { getCompanyPlan } from "@/lib/limits";
  * Acesso: apenas SUPER_ADMIN. Não respeita impersonation (queremos a sessão real).
  */
 
-const ALLOWED_PLANS: PlanTier[] = ["FREE", "TRIAL", "ESSENCIAL", "MARKETING", "CRESCIMENTO", "PREMIUM", "ENTERPRISE"];
+const ALLOWED_PLANS = Object.keys(PLANS) as PlanTier[];
 
 async function requireSuperAdmin() {
   const session = await getServerSession(authOptions);
@@ -48,7 +48,7 @@ export async function GET(
     prisma.subscription.findUnique({
       where: { companyId },
       select: {
-        id: true, plan: true, status: true, billingCycle: true,
+        id: true, plan: true, pagePlan: true, status: true, billingCycle: true,
         trialEndsAt: true, currentPeriodStart: true, currentPeriodEnd: true,
         cancelAtPeriodEnd: true, canceledAt: true,
         customLimits: true, customFeatures: true, customNotes: true,
@@ -106,8 +106,15 @@ export async function PATCH(
     return NextResponse.json({ error: "status inválido" }, { status: 400 });
   }
 
+  if (body.pagePlan != null && !PAGE_LINE_TIERS.includes(body.pagePlan)) {
+    return NextResponse.json({ error: "pagePlan inválido" }, { status: 400 });
+  }
+
   const data: Record<string, unknown> = {};
   if ("plan" in body)             data.plan = body.plan;
+  if ("pagePlan" in body)         data.pagePlan = body.pagePlan ?? null;
+  // Plano principal já é da linha Página: não existe adicional em cima dele.
+  if (body.plan && PAGE_LINE_TIERS.includes(body.plan)) data.pagePlan = null;
   if ("status" in body)           data.status = body.status;
   if ("billingCycle" in body)     data.billingCycle = body.billingCycle;
   if ("trialEndsAt" in body)      data.trialEndsAt = body.trialEndsAt ? new Date(body.trialEndsAt) : null;
@@ -133,7 +140,7 @@ export async function PATCH(
     },
     update: data,
     select: {
-      id: true, plan: true, status: true, customLimits: true,
+      id: true, plan: true, pagePlan: true, status: true, customLimits: true,
       customFeatures: true, customNotes: true, trialEndsAt: true,
     },
   });

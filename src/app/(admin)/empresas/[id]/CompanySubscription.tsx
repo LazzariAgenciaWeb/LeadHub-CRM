@@ -27,6 +27,7 @@ interface SubscriptionData {
   subscription: {
     id: string;
     plan: PlanTier;
+    pagePlan: PlanTier | null;
     status: Status;
     billingCycle: string;
     trialEndsAt: string | null;
@@ -178,6 +179,7 @@ export default function CompanySubscription({
 
   // Form state
   const [plan, setPlan] = useState<PlanTier>("FREE");
+  const [pagePlan, setPagePlan] = useState<PlanTier | null>(null);
   const [status, setStatus] = useState<Status>("ACTIVE");
   const [trialEndsAt, setTrialEndsAt] = useState("");
   const [customNotes, setCustomNotes] = useState("");
@@ -204,6 +206,7 @@ export default function CompanySubscription({
       setData(j);
       if (j.subscription) {
         setPlan(j.subscription.plan);
+        setPagePlan(j.subscription.pagePlan ?? null);
         setStatus(j.subscription.status);
         setTrialEndsAt(j.subscription.trialEndsAt ? new Date(j.subscription.trialEndsAt).toISOString().slice(0, 10) : "");
         setCustomNotes(j.subscription.customNotes ?? "");
@@ -236,6 +239,8 @@ export default function CompanySubscription({
       if (!ok) return;
     }
     setPlan(newPlan);
+    // A página é serviço adicional: segue junto, a menos que o plano novo já seja dela.
+    if (PAGE_LINE_PLANS.includes(newPlan)) setPagePlan(null);
     setCustomFeatures({});
     setCustomLimits({});
   }
@@ -265,6 +270,7 @@ export default function CompanySubscription({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           plan,
+          pagePlan,
           status,
           trialEndsAt: trialEndsAt || null,
           customLimits: Object.keys(limitsToSave).length > 0 ? limitsToSave : null,
@@ -539,6 +545,8 @@ export default function CompanySubscription({
         tier={plan}
         customFeatures={customFeatures}
         onChange={setCustomFeatures}
+        pagePlan={pagePlan}
+        onPagePlanChange={setPagePlan}
       />
 
       {/* Todas as features — o controle fino que sobra fora dos módulos

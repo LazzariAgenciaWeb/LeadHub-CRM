@@ -88,13 +88,13 @@ export async function assertFeature(
 
   const company = await prisma.company.findUnique({
     where: { id: companyId },
-    select: { subscription: { select: { plan: true, status: true, customFeatures: true } } },
+    select: { subscription: { select: { plan: true, pagePlan: true, status: true, customFeatures: true } } },
   });
   if (!company) return denied("empresa não encontrada");
 
   const tier: PlanTier = (company.subscription?.plan as PlanTier) ?? "FREE";
   const custom = (company.subscription?.customFeatures as Partial<PlanFeatures> | null) ?? null;
-  if (!effectiveFeatures(tier, custom)[feature]) {
+  if (!effectiveFeatures(tier, custom, company.subscription?.pagePlan as PlanTier | null)[feature]) {
     return denied(`recurso ${feature} não incluído no plano`);
   }
   if (company.subscription?.status === "UNPAID") return denied("assinatura inadimplente");
@@ -120,7 +120,7 @@ export async function assertModule(
   const company = await prisma.company.findUnique({
     where: { id: companyId },
     select: {
-      subscription: { select: { plan: true, status: true, customFeatures: true } },
+      subscription: { select: { plan: true, pagePlan: true, status: true, customFeatures: true } },
     },
   });
   if (!company) return denied("empresa não encontrada");
@@ -132,7 +132,7 @@ export async function assertModule(
   // era ao mesmo tempo default do schema e "desliguei de propósito".
   const tier: PlanTier = (company.subscription?.plan as PlanTier) ?? "FREE";
   const custom = (company.subscription?.customFeatures as Partial<PlanFeatures> | null) ?? null;
-  const features = effectiveFeatures(tier, custom);
+  const features = effectiveFeatures(tier, custom, company.subscription?.pagePlan as PlanTier | null);
 
   const def = MODULE_BY_ID[module];
   if (def) {

@@ -3075,6 +3075,9 @@ model Subscription {
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   plan         PlanTier           @default(TRIAL)
+  /// Página do Negócio como serviço adicional, em cima do plano principal
+  /// (PAGINA, PAGINA_PRO ou STARTER). Null = a página segue o plano principal.
+  pagePlan     PlanTier?
   status       SubscriptionStatus @default(TRIALING)
   billingCycle String             @default("monthly") // "monthly" | "annual"
 

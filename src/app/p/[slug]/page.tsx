@@ -10,6 +10,7 @@ import {
   bioDefaultConsent,
   bioFreeView,
   bioShowsBadge,
+  pagePlanOf,
   bioViewExtras,
   safeBioHref,
 } from "@/lib/bio-page";
@@ -26,7 +27,7 @@ const loadPage = cache(async (slug: string) => {
   return prisma.bioPage.findFirst({
     where: { slug: slug.toLowerCase(), published: true, company: { status: "ACTIVE" } },
     include: {
-      company: { select: { name: true, tradeName: true, logoUrl: true, subscription: { select: { plan: true } } } },
+      company: { select: { name: true, tradeName: true, logoUrl: true, subscription: { select: { plan: true, pagePlan: true } } } },
       blocks: { where: { active: true }, orderBy: [{ order: "asc" }, { createdAt: "asc" }] },
       questions: { where: { active: true }, orderBy: [{ order: "asc" }, { createdAt: "asc" }] },
     },
@@ -94,7 +95,7 @@ export default async function BioPublicPage({
     avatarUrl: safeBioHref(page.avatarUrl ?? page.company.logoUrl),
     coverUrl: safeBioHref(page.coverUrl),
     accent: bioAccent(page.accentColor),
-    badge: bioShowsBadge(page.company.subscription?.plan),
+    badge: bioShowsBadge(pagePlanOf(page.company.subscription)),
     signupBase: bioPublicBase(),
     blocks,
     ...bioViewExtras(page),
@@ -112,6 +113,6 @@ export default async function BioPublicPage({
   };
 
   // Página salva no Grátis (e ainda no Grátis): mostra só o que o Grátis inclui.
-  const free = page.freeLimits && bioShowsBadge(page.company.subscription?.plan);
+  const free = page.freeLimits && bioShowsBadge(pagePlanOf(page.company.subscription));
   return <BioPageView data={free ? bioFreeView(data) : data} />;
 }

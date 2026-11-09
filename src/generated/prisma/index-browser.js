@@ -1400,6 +1400,7 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
   plan: 'plan',
+  pagePlan: 'pagePlan',
   status: 'status',
   billingCycle: 'billingCycle',
   trialEndsAt: 'trialEndsAt',

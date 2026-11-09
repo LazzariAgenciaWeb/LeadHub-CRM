@@ -25,7 +25,7 @@
  */
 
 import type { PlanFeatures, PlanTier } from "./plans";
-import { PLANS } from "./plans";
+import { PLANS, withPagePlan } from "./plans";
 
 export type ModuleGroup =
   | "Atendimento"
@@ -314,8 +314,9 @@ function originOf(key: keyof PlanFeatures, custom: Partial<PlanFeatures> | null,
 export function effectiveFeatures(
   tier: PlanTier,
   custom: Partial<PlanFeatures> | null,
+  pagePlan?: PlanTier | null,
 ): PlanFeatures {
-  const base = PLANS[tier]?.features ?? PLANS.FREE.features;
+  const base = withPagePlan(PLANS[tier]?.features ?? PLANS.FREE.features, pagePlan);
   return { ...base, ...(custom ?? {}) };
 }
 
@@ -326,9 +327,10 @@ export function effectiveFeatures(
 export function resolveModules(
   tier: PlanTier,
   custom: Partial<PlanFeatures> | null,
+  pagePlan?: PlanTier | null,
 ): ResolvedModule[] {
-  const planFeatures = PLANS[tier]?.features ?? PLANS.FREE.features;
-  const eff = effectiveFeatures(tier, custom);
+  const planFeatures = withPagePlan(PLANS[tier]?.features ?? PLANS.FREE.features, pagePlan);
+  const eff = effectiveFeatures(tier, custom, pagePlan);
 
   return MODULES.map((m) => {
     const keys = [m.primary, ...(m.alsoEnabledBy ?? [])];
@@ -386,8 +388,9 @@ export function backfillExceptions(
   tier: PlanTier,
   currentFlags: Partial<Record<CompanyModuleField, boolean>>,
   custom: Partial<PlanFeatures> | null,
+  pagePlan?: PlanTier | null,
 ): Partial<PlanFeatures> {
-  const planFeatures = PLANS[tier]?.features ?? PLANS.FREE.features;
+  const planFeatures = withPagePlan(PLANS[tier]?.features ?? PLANS.FREE.features, pagePlan);
   const next: Partial<PlanFeatures> = { ...(custom ?? {}) };
 
   for (const m of MODULES) {

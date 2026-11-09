@@ -75,6 +75,11 @@ export function bioShowsBadge(plan: string | null | undefined): boolean {
   return !plan || plan === "PAGINA" || plan === "FREE" || plan === "TRIAL";
 }
 
+/** Plano que vale para a página: o serviço adicional, se houver; senão o principal. */
+export function pagePlanOf<T extends string>(sub: { plan: T; pagePlan: T | null } | null | undefined): T | null {
+  return sub ? sub.pagePlan ?? sub.plan : null;
+}
+
 /**
  * Plano Grátis, como o site gohub.com.br promete: até 5 botões (links e
  * serviços; redes sociais à parte), 3 cores, modelo Cartão, serviço sem

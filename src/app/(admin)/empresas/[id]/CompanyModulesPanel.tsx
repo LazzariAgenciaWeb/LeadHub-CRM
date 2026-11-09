@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronRight, Package, RotateCcw } from "lucide-react";
-import type { PlanFeatures, PlanTier } from "@/lib/plans";
+import { PAGE_LINE_TIERS, PLANS, type PlanFeatures, type PlanTier } from "@/lib/plans";
+import { bioShowsBadge } from "@/lib/bio-page";
 import {
   MODULE_BY_ID, MODULE_GROUPS, resolveModules, type ModuleOrigin, type ResolvedModule,
 } from "@/lib/modules";
@@ -30,14 +31,18 @@ const ORIGIN_META: Record<ModuleOrigin, { label: string; cls: string }> = {
 };
 
 export default function CompanyModulesPanel({
-  tier, customFeatures, onChange,
+  tier, customFeatures, onChange, pagePlan, onPagePlanChange,
 }: {
   tier: PlanTier;
   customFeatures: Partial<PlanFeatures>;
   onChange: (next: Partial<PlanFeatures>) => void;
+  /** Página do Negócio como serviço adicional, em cima do plano principal. */
+  pagePlan: PlanTier | null;
+  onPagePlanChange: (next: PlanTier | null) => void;
 }) {
   const [open, setOpen] = useState<Record<string, boolean>>({});
-  const modules = resolveModules(tier, customFeatures);
+  const modules = resolveModules(tier, customFeatures, pagePlan);
+  const mainIsPagePlan = PAGE_LINE_TIERS.includes(tier);
 
   function setFeature(key: keyof PlanFeatures, value: boolean | undefined) {
     const next = { ...customFeatures };
@@ -49,8 +54,37 @@ export default function CompanyModulesPanel({
   /** Liga/desliga o módulo. Se o novo estado é igual ao do plano, some a exceção. */
   function toggleModule(m: ResolvedModule, primary: keyof PlanFeatures) {
     const target = !m.enabled;
-    setFeature(primary, target === m.planDefault ? undefined : target);
+    const next = { ...customFeatures };
+    const also = MODULE_BY_ID[m.id].alsoEnabledBy ?? [];
+    if (target === m.planDefault) delete next[primary];
+    else (next as any)[primary] = target;
+    // O módulo fica ligado se QUALQUER chave estiver ligada: desligar tem de
+    // desligar todas, senão o botão não sai de LIGADO (CRM com os pipelines).
+    for (const k of also) {
+      if (target) delete next[k];
+      else (next as any)[k] = false;
+    }
+    onChange(next);
   }
+
+  function resetModule(m: ResolvedModule, primary: keyof PlanFeatures) {
+    const next = { ...customFeatures };
+    delete next[primary];
+    for (const k of MODULE_BY_ID[m.id].alsoEnabledBy ?? []) delete next[k];
+    onChange(next);
+  }
+
+  /** "Não contratada" é exceção; "do plano" e os planos da página limpam a exceção. */
+  function choosePagePlan(value: string) {
+    const next = { ...customFeatures };
+    delete next.paginaNegocio;
+    if (value === "none") (next as any).paginaNegocio = false;
+    onChange(next);
+    onPagePlanChange(value === "none" || value === "plan" ? null : (value as PlanTier));
+  }
+
+  const pageSelectValue = customFeatures.paginaNegocio === false ? "none" : pagePlan ?? "plan";
+  const planPageLabel = bioShowsBadge(tier) ? "Grátis" : "completa";
 
   const exceptionCount = modules.filter((m) => m.origin !== "plano").length;
 
@@ -126,23 +160,42 @@ export default function CompanyModulesPanel({
                         <div className="flex items-center gap-1.5 flex-shrink-0">
                           {m.origin !== "plano" && (
                             <button
-                              onClick={() => setFeature(def, undefined)}
+                              onClick={() => resetModule(m, def)}
                               className="text-slate-600 hover:text-slate-300 p-1"
                               title="Voltar ao padrão do plano"
                             >
                               <RotateCcw className="w-3 h-3" />
                             </button>
                           )}
-                          <button
-                            onClick={() => toggleModule(m, def)}
-                            className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-colors ${
-                              m.enabled
-                                ? "bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30"
-                                : "bg-white/5 text-slate-500 hover:bg-white/10"
-                            }`}
-                          >
-                            {m.enabled ? "LIGADO" : "DESLIGADO"}
-                          </button>
+                          {m.id === "paginaNegocio" ? (
+                            <select
+                              aria-label="Plano da Página do Negócio"
+                              value={mainIsPagePlan ? tier : pageSelectValue}
+                              disabled={mainIsPagePlan}
+                              onChange={(e) => choosePagePlan(e.target.value)}
+                              title={mainIsPagePlan ? "Definido pelo plano principal, no campo Plano acima" : "Serviço adicional, em cima do plano principal"}
+                              className="bg-[#0a1220] border border-[#1e2d45] rounded-md px-2 py-1 text-[11px] text-white disabled:opacity-60"
+                            >
+                              {!mainIsPagePlan && <option value="none">Não contratada</option>}
+                              {!mainIsPagePlan && <option value="plan">Do plano ({planPageLabel})</option>}
+                              {PAGE_LINE_TIERS.map((p) => (
+                                <option key={p} value={p}>
+                                  {PLANS[p].label}{PLANS[p].priceMonthly > 0 ? ` (+R$ ${PLANS[p].priceMonthly.toFixed(2).replace(".", ",")}/mês)` : ""}
+                                </option>
+                              ))}
+                            </select>
+                          ) : (
+                            <button
+                              onClick={() => toggleModule(m, def)}
+                              className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-colors ${
+                                m.enabled
+                                  ? "bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30"
+                                  : "bg-white/5 text-slate-500 hover:bg-white/10"
+                              }`}
+                            >
+                              {m.enabled ? "LIGADO" : "DESLIGADO"}
+                            </button>
+                          )}
                         </div>
                       </div>
 

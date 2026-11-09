@@ -105994,6 +105994,7 @@ export namespace Prisma {
     id: string | null
     companyId: string | null
     plan: $Enums.PlanTier | null
+    pagePlan: $Enums.PlanTier | null
     status: $Enums.SubscriptionStatus | null
     billingCycle: string | null
     trialEndsAt: Date | null
@@ -106015,6 +106016,7 @@ export namespace Prisma {
     id: string | null
     companyId: string | null
     plan: $Enums.PlanTier | null
+    pagePlan: $Enums.PlanTier | null
     status: $Enums.SubscriptionStatus | null
     billingCycle: string | null
     trialEndsAt: Date | null
@@ -106036,6 +106038,7 @@ export namespace Prisma {
     id: number
     companyId: number
     plan: number
+    pagePlan: number
     status: number
     billingCycle: number
     trialEndsAt: number
@@ -106061,6 +106064,7 @@ export namespace Prisma {
     id?: true
     companyId?: true
     plan?: true
+    pagePlan?: true
     status?: true
     billingCycle?: true
     trialEndsAt?: true
@@ -106082,6 +106086,7 @@ export namespace Prisma {
     id?: true
     companyId?: true
     plan?: true
+    pagePlan?: true
     status?: true
     billingCycle?: true
     trialEndsAt?: true
@@ -106103,6 +106108,7 @@ export namespace Prisma {
     id?: true
     companyId?: true
     plan?: true
+    pagePlan?: true
     status?: true
     billingCycle?: true
     trialEndsAt?: true
@@ -106199,6 +106205,7 @@ export namespace Prisma {
     id: string
     companyId: string
     plan: $Enums.PlanTier
+    pagePlan: $Enums.PlanTier | null
     status: $Enums.SubscriptionStatus
     billingCycle: string
     trialEndsAt: Date | null
@@ -106239,6 +106246,7 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     plan?: boolean
+    pagePlan?: boolean
     status?: boolean
     billingCycle?: boolean
     trialEndsAt?: boolean
@@ -106263,6 +106271,7 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     plan?: boolean
+    pagePlan?: boolean
     status?: boolean
     billingCycle?: boolean
     trialEndsAt?: boolean
@@ -106287,6 +106296,7 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     plan?: boolean
+    pagePlan?: boolean
     status?: boolean
     billingCycle?: boolean
     trialEndsAt?: boolean
@@ -106322,6 +106332,11 @@ export namespace Prisma {
       id: string
       companyId: string
       plan: $Enums.PlanTier
+      /**
+       * Página do Negócio como serviço adicional, em cima do plano principal
+       * (PAGINA, PAGINA_PRO ou STARTER). Null = a página segue o plano principal.
+       */
+      pagePlan: $Enums.PlanTier | null
       status: $Enums.SubscriptionStatus
       billingCycle: string
       trialEndsAt: Date | null
@@ -106739,6 +106754,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Subscription", 'String'>
     readonly companyId: FieldRef<"Subscription", 'String'>
     readonly plan: FieldRef<"Subscription", 'PlanTier'>
+    readonly pagePlan: FieldRef<"Subscription", 'PlanTier'>
     readonly status: FieldRef<"Subscription", 'SubscriptionStatus'>
     readonly billingCycle: FieldRef<"Subscription", 'String'>
     readonly trialEndsAt: FieldRef<"Subscription", 'DateTime'>
@@ -175027,6 +175043,7 @@ export namespace Prisma {
     id: 'id',
     companyId: 'companyId',
     plan: 'plan',
+    pagePlan: 'pagePlan',
     status: 'status',
     billingCycle: 'billingCycle',
     trialEndsAt: 'trialEndsAt',
@@ -185530,6 +185547,7 @@ export namespace Prisma {
     id?: StringFilter<"Subscription"> | string
     companyId?: StringFilter<"Subscription"> | string
     plan?: EnumPlanTierFilter<"Subscription"> | $Enums.PlanTier
+    pagePlan?: EnumPlanTierNullableFilter<"Subscription"> | $Enums.PlanTier | null
     status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
     billingCycle?: StringFilter<"Subscription"> | string
     trialEndsAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
@@ -185554,6 +185572,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     plan?: SortOrder
+    pagePlan?: SortOrderInput | SortOrder
     status?: SortOrder
     billingCycle?: SortOrder
     trialEndsAt?: SortOrderInput | SortOrder
@@ -185583,6 +185602,7 @@ export namespace Prisma {
     OR?: SubscriptionWhereInput[]
     NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
     plan?: EnumPlanTierFilter<"Subscription"> | $Enums.PlanTier
+    pagePlan?: EnumPlanTierNullableFilter<"Subscription"> | $Enums.PlanTier | null
     status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
     billingCycle?: StringFilter<"Subscription"> | string
     trialEndsAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
@@ -185605,6 +185625,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     plan?: SortOrder
+    pagePlan?: SortOrderInput | SortOrder
     status?: SortOrder
     billingCycle?: SortOrder
     trialEndsAt?: SortOrderInput | SortOrder
@@ -185634,6 +185655,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Subscription"> | string
     companyId?: StringWithAggregatesFilter<"Subscription"> | string
     plan?: EnumPlanTierWithAggregatesFilter<"Subscription"> | $Enums.PlanTier
+    pagePlan?: EnumPlanTierNullableWithAggregatesFilter<"Subscription"> | $Enums.PlanTier | null
     status?: EnumSubscriptionStatusWithAggregatesFilter<"Subscription"> | $Enums.SubscriptionStatus
     billingCycle?: StringWithAggregatesFilter<"Subscription"> | string
     trialEndsAt?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
@@ -201126,6 +201148,7 @@ export namespace Prisma {
   export type SubscriptionCreateInput = {
     id?: string
     plan?: $Enums.PlanTier
+    pagePlan?: $Enums.PlanTier | null
     status?: $Enums.SubscriptionStatus
     billingCycle?: string
     trialEndsAt?: Date | string | null
@@ -201150,6 +201173,7 @@ export namespace Prisma {
     id?: string
     companyId: string
     plan?: $Enums.PlanTier
+    pagePlan?: $Enums.PlanTier | null
     status?: $Enums.SubscriptionStatus
     billingCycle?: string
     trialEndsAt?: Date | string | null
@@ -201172,6 +201196,7 @@ export namespace Prisma {
   export type SubscriptionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     plan?: EnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier
+    pagePlan?: NullableEnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier | null
     status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
     billingCycle?: StringFieldUpdateOperationsInput | string
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -201196,6 +201221,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     plan?: EnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier
+    pagePlan?: NullableEnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier | null
     status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
     billingCycle?: StringFieldUpdateOperationsInput | string
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -201219,6 +201245,7 @@ export namespace Prisma {
     id?: string
     companyId: string
     plan?: $Enums.PlanTier
+    pagePlan?: $Enums.PlanTier | null
     status?: $Enums.SubscriptionStatus
     billingCycle?: string
     trialEndsAt?: Date | string | null
@@ -201241,6 +201268,7 @@ export namespace Prisma {
   export type SubscriptionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     plan?: EnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier
+    pagePlan?: NullableEnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier | null
     status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
     billingCycle?: StringFieldUpdateOperationsInput | string
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -201264,6 +201292,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     plan?: EnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier
+    pagePlan?: NullableEnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier | null
     status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
     billingCycle?: StringFieldUpdateOperationsInput | string
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -214595,6 +214624,13 @@ export namespace Prisma {
     not?: NestedEnumPlanTierFilter<$PrismaModel> | $Enums.PlanTier
   }
 
+  export type EnumPlanTierNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlanTier | EnumPlanTierFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPlanTierNullableFilter<$PrismaModel> | $Enums.PlanTier | null
+  }
+
   export type EnumSubscriptionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
@@ -214606,6 +214642,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     plan?: SortOrder
+    pagePlan?: SortOrder
     status?: SortOrder
     billingCycle?: SortOrder
     trialEndsAt?: SortOrder
@@ -214629,6 +214666,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     plan?: SortOrder
+    pagePlan?: SortOrder
     status?: SortOrder
     billingCycle?: SortOrder
     trialEndsAt?: SortOrder
@@ -214650,6 +214688,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     plan?: SortOrder
+    pagePlan?: SortOrder
     status?: SortOrder
     billingCycle?: SortOrder
     trialEndsAt?: SortOrder
@@ -214675,6 +214714,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPlanTierFilter<$PrismaModel>
     _max?: NestedEnumPlanTierFilter<$PrismaModel>
+  }
+
+  export type EnumPlanTierNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlanTier | EnumPlanTierFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPlanTierNullableWithAggregatesFilter<$PrismaModel> | $Enums.PlanTier | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPlanTierNullableFilter<$PrismaModel>
+    _max?: NestedEnumPlanTierNullableFilter<$PrismaModel>
   }
 
   export type EnumSubscriptionStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -228954,6 +229003,10 @@ export namespace Prisma {
     set?: $Enums.PlanTier
   }
 
+  export type NullableEnumPlanTierFieldUpdateOperationsInput = {
+    set?: $Enums.PlanTier | null
+  }
+
   export type EnumSubscriptionStatusFieldUpdateOperationsInput = {
     set?: $Enums.SubscriptionStatus
   }
@@ -232934,6 +232987,13 @@ export namespace Prisma {
     not?: NestedEnumPlanTierFilter<$PrismaModel> | $Enums.PlanTier
   }
 
+  export type NestedEnumPlanTierNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlanTier | EnumPlanTierFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPlanTierNullableFilter<$PrismaModel> | $Enums.PlanTier | null
+  }
+
   export type NestedEnumSubscriptionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
@@ -232949,6 +233009,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPlanTierFilter<$PrismaModel>
     _max?: NestedEnumPlanTierFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPlanTierNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlanTier | EnumPlanTierFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPlanTierNullableWithAggregatesFilter<$PrismaModel> | $Enums.PlanTier | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPlanTierNullableFilter<$PrismaModel>
+    _max?: NestedEnumPlanTierNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -243646,6 +243716,7 @@ export namespace Prisma {
   export type SubscriptionCreateWithoutCompanyInput = {
     id?: string
     plan?: $Enums.PlanTier
+    pagePlan?: $Enums.PlanTier | null
     status?: $Enums.SubscriptionStatus
     billingCycle?: string
     trialEndsAt?: Date | string | null
@@ -243668,6 +243739,7 @@ export namespace Prisma {
   export type SubscriptionUncheckedCreateWithoutCompanyInput = {
     id?: string
     plan?: $Enums.PlanTier
+    pagePlan?: $Enums.PlanTier | null
     status?: $Enums.SubscriptionStatus
     billingCycle?: string
     trialEndsAt?: Date | string | null
@@ -247143,6 +247215,7 @@ export namespace Prisma {
   export type SubscriptionUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     plan?: EnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier
+    pagePlan?: NullableEnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier | null
     status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
     billingCycle?: StringFieldUpdateOperationsInput | string
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -247165,6 +247238,7 @@ export namespace Prisma {
   export type SubscriptionUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     plan?: EnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier
+    pagePlan?: NullableEnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier | null
     status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
     billingCycle?: StringFieldUpdateOperationsInput | string
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

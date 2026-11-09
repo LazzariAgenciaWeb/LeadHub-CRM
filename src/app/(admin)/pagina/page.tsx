@@ -44,9 +44,9 @@ export default async function PaginaPage() {
   const asAdmin = await canSeeBioAdmin();
   const plan = await getCompanyPlan(companyId).catch(() => null);
   const sub = await prisma.subscription.findUnique({ where: { companyId }, select: { stripeCustomerId: true } });
-  const freePlan = bioShowsBadge(plan?.tier);
+  const freePlan = bioShowsBadge(plan?.pageTier);
   const planInfo = {
-    label: plan?.tier ? PLANS[plan.tier].label : "Grátis",
+    label: plan?.pageTier ? PLANS[plan.pageTier].label : "Grátis",
     free: freePlan,
     manage: !freePlan && !!sub?.stripeCustomerId,
     offers: PAGE_LINE_PAID.map((t) => ({ tier: t, label: PLANS[t].label, price: PLANS[t].priceMonthly })),

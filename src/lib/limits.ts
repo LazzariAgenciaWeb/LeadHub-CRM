@@ -15,6 +15,7 @@
 import { prisma } from "./prisma";
 import {
   PLANS,
+  withPagePlan,
   type PlanTier,
   type PlanLimits,
   type PlanFeatures,
@@ -24,6 +25,8 @@ export interface CompanyPlanContext {
   companyId: string;
   effectiveCompanyId: string;   // se sub-company, é o id do pai
   tier: PlanTier;
+  /** Plano que vale para a Página do Negócio: o adicional, se houver; senão o principal. */
+  pageTier: PlanTier;
   status: "TRIALING" | "ACTIVE" | "PAST_DUE" | "CANCELED" | "UNPAID" | "INCOMPLETE" | "NO_SUBSCRIPTION";
   trialEndsAt: Date | null;
   isTrialing: boolean;
@@ -89,6 +92,7 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
     where: { companyId: company.id },
     select: {
       plan: true,
+      pagePlan: true,
       status: true,
       trialEndsAt: true,
       currentPeriodEnd: true,
@@ -118,6 +122,7 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
       companyId,
       effectiveCompanyId,
       tier: "TRIAL",
+      pageTier: "TRIAL",
       status: "NO_SUBSCRIPTION",
       trialEndsAt: null,
       isTrialing: false,
@@ -155,7 +160,7 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
   // Plano próprio + overrides
   const planDef = PLANS[subNN.plan];
   let effectiveLimits = mergeLimits(planDef.limits, subNN.customLimits);
-  let effectiveFeatures = mergeFeatures(planDef.features, subNN.customFeatures);
+  let effectiveFeatures = mergeFeatures(withPagePlan(planDef.features, subNN.pagePlan), subNN.customFeatures);
 
   // Add-ons quantitativos: somam ao limite base (não em planos ilimitados).
   const addons = await prisma.subscriptionAddon.findMany({
@@ -186,6 +191,7 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
     companyId,
     effectiveCompanyId,
     tier: subNN.plan,
+    pageTier: subNN.pagePlan ?? subNN.plan,
     status: subNN.status,
     trialEndsAt: subNN.trialEndsAt,
     isTrialing,

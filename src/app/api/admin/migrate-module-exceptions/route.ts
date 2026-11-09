@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       id: true,
       name: true,
       ...Object.fromEntries(FLAG_FIELDS.map((f) => [f, true])),
-      subscription: { select: { id: true, plan: true, customFeatures: true } },
+      subscription: { select: { id: true, plan: true, pagePlan: true, customFeatures: true } },
     } as any,
   });
 
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
 
     const tier = (c.subscription.plan as PlanTier) ?? "FREE";
     const custom = (c.subscription.customFeatures as Partial<PlanFeatures> | null) ?? null;
-    const next = backfillExceptions(tier, flags, custom);
+    const next = backfillExceptions(tier, flags, custom, c.subscription.pagePlan as PlanTier | null);
 
     if (JSON.stringify(custom ?? {}) === JSON.stringify(next)) {
       unchanged++;

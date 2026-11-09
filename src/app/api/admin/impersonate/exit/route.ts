@@ -7,9 +7,12 @@ import { recordAdminAction, extractIp } from "@/lib/admin-audit";
 // GET /api/admin/impersonate/exit — encerra impersonação
 // Accepts optional ?returnTo=/path query param to redirect somewhere specific
 export async function GET(req: NextRequest) {
+  // Atrás do proxy, req.url vem como 0.0.0.0:3000: o destino sai do endereço público.
+  const baseUrl = process.env.NEXTAUTH_URL ?? `https://${req.headers.get("host")}`;
+
   const session = await getServerSession(authOptions);
   if (!session || (session.user as any)?.role !== "SUPER_ADMIN") {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(new URL("/dashboard", baseUrl));
   }
 
   // fix A1 — registra fim da sessão de impersonation pra fechar o ciclo
@@ -34,7 +37,6 @@ export async function GET(req: NextRequest) {
   // empresa que estava sendo impersonada, dando a sensação de "ainda está logado nela")
   const returnUrl = returnTo ?? "/dashboard";
 
-  const baseUrl = process.env.NEXTAUTH_URL ?? `https://${req.headers.get("host")}`;
   const res = NextResponse.redirect(new URL(returnUrl, baseUrl));
 
   // Robust delete: setar com maxAge=0 + mesmo path/sameSite/httpOnly do set original.

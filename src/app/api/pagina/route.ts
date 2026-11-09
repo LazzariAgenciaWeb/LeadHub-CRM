@@ -30,7 +30,7 @@ export async function PUT(req: NextRequest) {
   try {
     // Salvou no Grátis: a página passa a seguir os limites do Grátis.
     const plan = await getCompanyPlan(auth.companyId).catch(() => null);
-    await saveBioPage(pageId, parsed.data, { freeLimits: bioShowsBadge(plan?.tier) });
+    await saveBioPage(pageId, parsed.data, { freeLimits: bioShowsBadge(plan?.pageTier) });
   } catch (e) {
     if (e instanceof SlugTakenError) {
       return NextResponse.json({ error: "Esse endereço já está em uso. Escolha outro." }, { status: 409 });
