@@ -132,6 +132,10 @@ async function handleSubscriptionUpsert(sub: Stripe.Subscription): Promise<void>
   const priceId = item?.price?.id ?? null;
   const plan = priceId ? planForPriceId(priceId) : null;
   const status = mapStripeStatus(sub.status);
+  // Webhook em versão de API recente: o período fica no item, não na assinatura.
+  const periodItem = item as (typeof item & { current_period_start?: number; current_period_end?: number }) | undefined;
+  const periodStart = sub.current_period_start ?? periodItem?.current_period_start;
+  const periodEnd = sub.current_period_end ?? periodItem?.current_period_end;
 
   const updated = await prisma.subscription.upsert({
     where: { companyId },
@@ -143,8 +147,8 @@ async function handleSubscriptionUpsert(sub: Stripe.Subscription): Promise<void>
       stripeCustomerId:     customerId,
       stripeSubscriptionId: sub.id,
       stripePriceId:        priceId,
-      currentPeriodStart:   sub.current_period_start ? new Date(sub.current_period_start * 1000) : null,
-      currentPeriodEnd:     sub.current_period_end   ? new Date(sub.current_period_end   * 1000) : null,
+      currentPeriodStart:   periodStart ? new Date(periodStart * 1000) : null,
+      currentPeriodEnd:     periodEnd   ? new Date(periodEnd   * 1000) : null,
       cancelAtPeriodEnd:    sub.cancel_at_period_end ?? false,
       canceledAt:           sub.canceled_at ? new Date(sub.canceled_at * 1000) : null,
       trialEndsAt:          sub.trial_end ? new Date(sub.trial_end * 1000) : null,
@@ -155,8 +159,8 @@ async function handleSubscriptionUpsert(sub: Stripe.Subscription): Promise<void>
       billingCycle:         item?.price?.recurring?.interval === "year" ? "annual" : "monthly",
       stripeSubscriptionId: sub.id,
       stripePriceId:        priceId,
-      currentPeriodStart:   sub.current_period_start ? new Date(sub.current_period_start * 1000) : null,
-      currentPeriodEnd:     sub.current_period_end   ? new Date(sub.current_period_end   * 1000) : null,
+      currentPeriodStart:   periodStart ? new Date(periodStart * 1000) : null,
+      currentPeriodEnd:     periodEnd   ? new Date(periodEnd   * 1000) : null,
       cancelAtPeriodEnd:    sub.cancel_at_period_end ?? false,
       canceledAt:           sub.canceled_at ? new Date(sub.canceled_at * 1000) : null,
       trialEndsAt:          sub.trial_end ? new Date(sub.trial_end * 1000) : null,
