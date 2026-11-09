@@ -5038,6 +5038,16 @@ enum BioEventKind {
   LEAD // deixou o contato (gerou BioSubmission)
 }
 
+// Domínio próprio da página (plano com site próprio). O ciclo é o da Cloudflare
+// for SaaS: criamos o hostname lá, o cliente aponta o DNS, a Cloudflare valida
+// a posse e emite o certificado.
+enum BioDomainStatus {
+  PENDING // criado aqui; esperando o cliente apontar o DNS
+  VERIFYING // DNS apontado / validação em andamento na Cloudflare
+  ACTIVE // no ar com HTTPS
+  ERROR // validação ou emissão falhou (ver statusMessage)
+}
+
 model BioPage {
   id        String  @id @default(cuid())
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
@@ -5095,6 +5105,7 @@ model BioPage {
   submissions BioSubmission[]
   events      BioEvent[]
   progress    BioProgress[]
+  domain      BioDomain?
 }
 
 model BioBlock {
@@ -5217,6 +5228,49 @@ model BioEvent {
 
   @@index([pageId, createdAt])
   @@index([pageId, kind, createdAt])
+}
+
+// Domínio do cliente apontado para a página (benefício do plano com site
+// próprio). Um por página: a página é o site. O hostname é a chave única
+// global — é por ele que o proxy acha a página na requisição.
+//
+// Quem emite o HTTPS é a Cloudflare for SaaS na zona do GoHub: cfHostnameId
+// é o id do custom hostname lá. verifyName/verifyValue são os registros que o
+// cliente precisa criar (mostrados no editor).
+model BioDomain {
+  id     String  @id @default(cuid())
+  page   BioPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId String  @unique
+
+  // Sempre minúsculo, sem "www." removido (www.cliente.com.br é um host
+  // diferente de cliente.com.br) e sem porta nem caminho.
+  hostname      String          @unique
+  status        BioDomainStatus @default(PENDING)
+  // Mensagem para o dono da página quando status = ERROR.
+  statusMessage String?         @db.Text
+
+  // Custom hostname na Cloudflare. Nulo quando o super admin ativou à mão
+  // (domínio já servido por outro caminho).
+  cfHostnameId String?
+
+  // Registro que o cliente cria para provar a posse (TXT) — o nome e o valor
+  // vêm da Cloudflare e mudam a cada recriação.
+  verifyName  String?
+  verifyValue String? @db.Text
+
+  // Apontamento do site em si: o CNAME que leva o tráfego pra Cloudflare.
+  cnameTarget String?
+
+  // Ativado à mão pelo super admin: o cron não mexe no status.
+  manual Boolean @default(false)
+
+  lastCheckedAt DateTime?
+  verifiedAt    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, lastCheckedAt])
 }
 
 // Passagem de login entre domínios: o cadastro roda em gohub.com.br/comecar e

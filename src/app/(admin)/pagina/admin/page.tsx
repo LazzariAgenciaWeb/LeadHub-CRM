@@ -69,6 +69,12 @@ export default async function PaginasAdminPage() {
                         /p/{p.slug} <ExternalLink className="w-3 h-3" />
                       </a>
                     )}
+                    {p.domain && (
+                      <span className={p.domain.status === "ACTIVE" ? "text-sky-300" : "text-amber-300"}>
+                        · {p.domain.hostname}
+                        {p.domain.status === "ACTIVE" ? "" : " (domínio pendente)"}
+                      </span>
+                    )}
                     {p.referredBy && <span>· veio de /p/{p.referredBy}</span>}
                   </div>
                 </td>

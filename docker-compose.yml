@@ -18,6 +18,9 @@ services:
       NEXT_PUBLIC_BASE_URL: https://app.azzagencia.com.br
       # Links das Páginas do Negócio (Worker da Cloudflare repassa gohub.com.br/p/*)
       BIO_PUBLIC_BASE_URL: https://gohub.com.br
+      # Domínio próprio do cliente (plano com site próprio): alvo do CNAME que
+      # ele cria no DNS. O token da Cloudflare fica só no Portainer.
+      BIO_DOMAIN_TARGET: sites.gohub.com.br
       NODE_OPTIONS: "--max-old-space-size=400"
     depends_on:
       - db

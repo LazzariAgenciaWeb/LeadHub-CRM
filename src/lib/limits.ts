@@ -211,7 +211,7 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
 // Fora do teto: a Página do Negócio é outra linha de produto (planos
 // PAGINA/STARTER), vendida direto pro cliente — não é recurso que a agência
 // repassa do plano dela.
-const CEILING_EXEMPT: (keyof PlanFeatures)[] = ["paginaNegocio"];
+const CEILING_EXEMPT: (keyof PlanFeatures)[] = ["paginaNegocio", "paginaSiteProprio"];
 
 function applyParentFeatureCeiling(sub: PlanFeatures, parent: PlanFeatures): PlanFeatures {
   const out: PlanFeatures = { ...sub };

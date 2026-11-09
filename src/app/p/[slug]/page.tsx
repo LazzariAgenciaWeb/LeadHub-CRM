@@ -1,38 +1,16 @@
 import type { Metadata } from "next";
-import { cache } from "react";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
-import {
-  BIO_DEFAULT_QUIZ_CTA,
-  BIO_DEFAULT_QUIZ_TITLE,
-  BIO_DEFAULT_THANK_YOU,
-  bioAccent,
-  bioDefaultConsent,
-  bioFreeView,
-  bioShowsBadge,
-  pagePlanOf,
-  bioViewExtras,
-  safeBioHref,
-} from "@/lib/bio-page";
-import { bioPublicBase, bioPublicUrl } from "@/lib/bio-page-server";
-import BioPageView, { type BioViewData } from "./BioPageView";
+import { bioMetadata, buildBioView, loadPublicBioPage } from "@/lib/bio-page-render";
+import BioPageView from "./BioPageView";
 
 // Página do Negócio — pública (sem auth). Link na bio + vitrine + perguntas que
 // viram lead (ver /api/pagina/contato). Só abre publicada; rascunho é 404.
+//
+// Este é o endereço do sistema (gohub.com.br/p/slug), que toda página tem. Quem
+// está no plano com site próprio também abre no domínio dele — ver src/proxy.ts
+// e a rota /site.
 
 export const dynamic = "force-dynamic";
-
-const loadPage = cache(async (slug: string) => {
-  if (!slug) return null;
-  return prisma.bioPage.findFirst({
-    where: { slug: slug.toLowerCase(), published: true, company: { status: "ACTIVE" } },
-    include: {
-      company: { select: { name: true, tradeName: true, logoUrl: true, subscription: { select: { plan: true, pagePlan: true } } } },
-      blocks: { where: { active: true }, orderBy: [{ order: "asc" }, { createdAt: "asc" }] },
-      questions: { where: { active: true }, orderBy: [{ order: "asc" }, { createdAt: "asc" }] },
-    },
-  });
-});
 
 export async function generateMetadata({
   params,
@@ -40,23 +18,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const page = await loadPage(slug);
+  const page = await loadPublicBioPage(slug);
   if (!page) return { title: "Página não encontrada" };
-  const image = page.avatarUrl ?? page.company.logoUrl;
-  // Endereço oficial (gohub.com.br): a mesma página também abre no domínio do
-  // sistema, e o Google precisa saber qual é o link de verdade.
-  const url = bioPublicUrl(page.slug);
-  return {
-    title: page.title,
-    description: page.headline ?? undefined,
-    alternates: { canonical: url },
-    openGraph: {
-      url,
-      title: page.title,
-      description: page.headline ?? undefined,
-      images: image ? [image] : undefined,
-    },
-  };
+  return bioMetadata(page);
 }
 
 export default async function BioPublicPage({
@@ -65,54 +29,11 @@ export default async function BioPublicPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const page = await loadPage(slug);
+  const page = await loadPublicBioPage(slug);
   if (!page) notFound();
 
-  const ownerName = page.company.tradeName ?? page.company.name;
-
-  // Tudo que vira atributo/href é saneado aqui, no servidor: o navegador só
-  // recebe link http(s)/mailto/tel e cor #RRGGBB.
-  const blocks = page.blocks
-    .map((b) => ({
-      id: b.id,
-      type: b.type,
-      title: b.title,
-      description: b.description,
-      href: safeBioHref(b.url),
-      imageUrl: safeBioHref(b.imageUrl),
-      priceLabel: b.priceLabel,
-      network: b.network,
-    }))
-    // Link e rede social sem endereço válido não têm o que fazer na tela.
-    .filter((b) => b.type === "SERVICE" || b.href);
-
-  const data: BioViewData = {
-    slug: page.slug,
-    template: page.template,
-    title: page.title,
-    headline: page.headline,
-    about: page.about,
-    avatarUrl: safeBioHref(page.avatarUrl ?? page.company.logoUrl),
-    coverUrl: safeBioHref(page.coverUrl),
-    accent: bioAccent(page.accentColor),
-    badge: bioShowsBadge(pagePlanOf(page.company.subscription)),
-    signupBase: bioPublicBase(),
-    blocks,
-    ...bioViewExtras(page),
-    quiz: page.quizEnabled
-      ? {
-          title: page.quizTitle || BIO_DEFAULT_QUIZ_TITLE,
-          cta: page.quizCta || BIO_DEFAULT_QUIZ_CTA,
-          thankYou: page.thankYouMessage || BIO_DEFAULT_THANK_YOU,
-          consent: page.consentText || bioDefaultConsent(ownerName),
-          questions: page.questions
-            .filter((q) => q.options.length > 0)
-            .map((q) => ({ id: q.id, text: q.text, options: q.options, multiple: q.multiple })),
-        }
-      : null,
-  };
-
-  // Página salva no Grátis (e ainda no Grátis): mostra só o que o Grátis inclui.
-  const free = page.freeLimits && bioShowsBadge(pagePlanOf(page.company.subscription));
-  return <BioPageView data={free ? bioFreeView(data) : data} />;
+  // Com domínio próprio no ar, este endereço continua funcionando (é o link que
+  // já está na bio e nos anúncios) — quem diz ao Google qual é o endereço de
+  // verdade é o canônico, em bioMetadata.
+  return <BioPageView data={buildBioView(page)} />;
 }

@@ -3,7 +3,10 @@ import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { bioPublicUrl, canSeeBioAdmin } from "@/lib/bio-page-server";
 import { getPageDetail } from "@/lib/bio-page-stats";
+import { bioDomainTarget } from "@/lib/bio-domain";
+import { loadBioDomain } from "@/lib/bio-domain-server";
 import PartialAnswers from "../../PartialAnswers";
+import DominioAdmin from "./DominioAdmin";
 
 // Detalhe de uma Página do Negócio para a agência: funil, cliques por botão,
 // de onde vêm as visitas e cada contato com as respostas.
@@ -46,6 +49,7 @@ export default async function PaginaAdminDetail({
   const days = PERIODS.find((p) => String(p) === dias) ?? 30;
   const d = await getPageDetail(id, days);
   if (!d) notFound();
+  const domain = await loadBioDomain(d.page.id);
 
   const f = d.funnel;
   const pct = (a: number, b: number) => (b > 0 ? `${Math.round((a / b) * 100)}%` : "—");
@@ -135,6 +139,8 @@ export default async function PaginaAdminDetail({
           </p>
         </section>
       </div>
+
+      <DominioAdmin pageId={d.page.id} initial={domain} target={bioDomainTarget()} />
 
       <section className={card}>
         <h2 className="text-white text-sm font-semibold mb-3">Contatos ({d.submissions.length})</h2>

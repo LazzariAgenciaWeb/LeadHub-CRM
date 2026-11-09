@@ -3,7 +3,8 @@
  * plano grátis. Rodar: npm run test:bio-page
  */
 import type { BioEditorBlock, BioEditorInput } from "../src/lib/bio-page";
-import { pagePlanOf, slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioParseSocial, bioFreeView, BIO_FREE, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
+import { pagePlanOf, slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioParseSocial, bioFreeView, BIO_FREE, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX, normalizeBioDomain, bioDomainProblem, bioDomainRoot, bioDomainIsRoot, bioDomainSuggestion, BIO_DOMAIN_PROBLEM_LABEL, BIO_DOMAIN_STATUS_LABEL, BIO_SYSTEM_HOSTS } from "../src/lib/bio-page";
+import { cleanHost, isSystemHost, customHostCandidate } from "../src/lib/bio-host";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
 import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, pageLinePlanFromSlug, withPagePlan, type PlanTier } from "../src/lib/plans";
 import { MODULE_BY_ID, resolveModules } from "../src/lib/modules";
@@ -217,6 +218,58 @@ ok("respostas: ordem da pergunta, só opção que existe, única fica com uma",
   ok("grátis: mantém lista ou cards e a cor escolhida", f.template === view.template && f.accent === view.accent && bioFreeView({ ...view, template: "VITRINE", accent: "#E11D48" }).template === "VITRINE");
   ok("grátis: não mexe no original", view.blocks.length === 9 && view.quiz !== null);
 }
+
+// ── Domínio próprio (site do cliente) ───────────────────────────────────────
+
+// Quem pode ativar: é o benefício central do Essencial, e NÃO é o `customDomain`
+// (aquele é o domínio do painel).
+ok("site próprio no Essencial e no Mini Site", PLANS.ESSENCIAL.features.paginaSiteProprio && PLANS.STARTER.features.paginaSiteProprio);
+ok("Grátis, Página e Pro não têm site próprio",
+  !PLANS.FREE.features.paginaSiteProprio && !PLANS.PAGINA.features.paginaSiteProprio && !PLANS.PAGINA_PRO.features.paginaSiteProprio && !PLANS.ORGANIZATION.features.paginaSiteProprio);
+ok("planos acima do Essencial mantêm o site próprio",
+  PLANS.MARKETING.features.paginaSiteProprio && PLANS.PREMIUM.features.paginaSiteProprio && PLANS.ENTERPRISE.features.paginaSiteProprio);
+ok("site próprio não é o domínio do painel",
+  PLANS.ESSENCIAL.features.paginaSiteProprio && !PLANS.ESSENCIAL.features.customDomain);
+ok("Mini Site como adicional dá site próprio a quem está no Grátis",
+  withPagePlan(PLANS.FREE.features, "STARTER").paginaSiteProprio === true);
+ok("Pro como adicional NÃO dá site próprio",
+  withPagePlan(PLANS.FREE.features, "PAGINA_PRO").paginaSiteProprio === false);
+
+// Normalização do que o cliente digita
+ok("tira esquema, caminho e maiúscula", normalizeBioDomain("HTTPS://WWW.Loja.com.br/contato?x=1") === "www.loja.com.br");
+ok("tira porta e ponto final", normalizeBioDomain("loja.com.br.:8080") === "loja.com.br");
+ok("tira espaço em volta", normalizeBioDomain("  minhaloja.com.br  ") === "minhaloja.com.br");
+ok("vazio continua vazio", normalizeBioDomain(null) === "" && normalizeBioDomain("  ") === "");
+
+// Validação
+ok("domínio comum passa", bioDomainProblem("www.loja.com.br") === null && bioDomainProblem("clinica.com.br") === null);
+ok("sem extensão não vale", bioDomainProblem("loja") === "sem-ponto");
+ok("IP não recebe certificado", bioDomainProblem("164.92.76.99") === "ip");
+ok("caractere inválido é formato", bioDomainProblem("lo_ja.com.br") === "formato" && bioDomainProblem("-loja.com.br") === "formato");
+ok("extensão só com letras", bioDomainProblem("loja.123") === "formato");
+ok("endereço do próprio sistema é recusado",
+  bioDomainProblem("gohub.com.br") === "sistema" && bioDomainProblem("app.azzagencia.com.br") === "sistema" && bioDomainProblem("localhost") === "sem-ponto");
+ok("domínio longo demais", bioDomainProblem(`${"a".repeat(250)}.com.br`) === "longo");
+ok("todo problema tem explicação pro dono da página",
+  (["vazio", "formato", "sem-ponto", "ip", "longo", "sistema", "em-uso"] as const).every((k) => !!BIO_DOMAIN_PROBLEM_LABEL[k]));
+ok("todo status tem rótulo", (["PENDING", "VERIFYING", "ACTIVE", "ERROR"] as const).every((k) => !!BIO_DOMAIN_STATUS_LABEL[k]));
+
+// Raiz do domínio: é onde o CNAME não funciona, então a tela avisa
+ok("raiz com sufixo de dois rótulos", bioDomainRoot("www.loja.com.br") === "loja.com.br" && bioDomainIsRoot("loja.com.br"));
+ok("raiz com sufixo simples", bioDomainRoot("www.loja.com") === "loja.com" && bioDomainIsRoot("loja.com"));
+ok("www não é raiz", !bioDomainIsRoot("www.loja.com.br") && !bioDomainIsRoot("site.loja.com.br"));
+ok("sugere o www pra quem digitou a raiz", bioDomainSuggestion("loja.com.br") === "www.loja.com.br");
+ok("quem já está no www não recebe sugestão", bioDomainSuggestion("www.loja.com.br") === null);
+
+// Qual host é do sistema e qual é de cliente (decisão do proxy)
+ok("limpa porta e maiúscula do Host", cleanHost("WWW.Loja.com.br:443") === "www.loja.com.br");
+ok("host do sistema não é domínio de cliente",
+  isSystemHost("app.azzagencia.com.br") && isSystemHost("gohub.com.br") && isSystemHost("localhost:3000") && isSystemHost("127.0.0.1"));
+ok("subdomínio de host do sistema também é do sistema", isSystemHost("qualquer.gohub.com.br"));
+ok("sem Host vale como sistema (não serve site de ninguém)", isSystemHost(null) && isSystemHost(""));
+ok("domínio de cliente é candidato", customHostCandidate("www.loja.com.br") === "www.loja.com.br");
+ok("host do sistema não é candidato", customHostCandidate("gohub.com.br") === null);
+ok("a lista de hosts do sistema cobre o endereço público", BIO_SYSTEM_HOSTS.includes("gohub.com.br"));
 
 ok("Mini Site leva os leads pro CRM; Grátis e Pro não", PLANS.STARTER.features.crmPipelineLeads && !PLANS.PAGINA_PRO.features.crmPipelineLeads && !PLANS.PAGINA.features.crmPipelineLeads);
 ok("site sem 'até 3 páginas'", !PLANS.STARTER.highlights.some((h) => /3 páginas/.test(h)));

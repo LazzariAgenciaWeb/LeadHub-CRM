@@ -126,6 +126,7 @@ export async function getAdminOverview() {
       id: true, slug: true, title: true, published: true, createdAt: true,
       company: { select: { id: true, name: true, tradeName: true, subscription: { select: { plan: true, pagePlan: true } } } },
       referredBy: { select: { slug: true } },
+      domain: { select: { hostname: true, status: true } },
       _count: { select: { referrals: true } },
     },
   });
@@ -149,6 +150,7 @@ export async function getAdminOverview() {
     published: p.published,
     createdAt: p.createdAt.toISOString(),
     referredBy: p.referredBy?.slug ?? null,
+    domain: p.domain,
     referrals: p._count.referrals,
     views30: v.get(p.id) ?? 0,
     leads30: l.get(p.id) ?? 0,

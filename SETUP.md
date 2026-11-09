@@ -29,6 +29,33 @@ EVOLUTION_API_URL="https://sua-evolution-api.com"
 EVOLUTION_API_KEY="sua-api-key"
 ```
 
+### Página do Negócio: endereço público e domínio próprio
+
+```env
+# Endereço das páginas públicas (/p/slug). Em produção é o site institucional,
+# com um Worker da Cloudflare repassando /p/*, /_next/* e /api/pagina/* pro app.
+BIO_PUBLIC_BASE_URL="https://gohub.com.br"
+
+# Domínio próprio do cliente (plano com site próprio). O HTTPS é emitido pela
+# Cloudflare for SaaS na zona do GoHub — 100 domínios inclusos no plano gratuito
+# da Cloudflare, US$ 0,10/mês por domínio além disso.
+# Token com "SSL and Certificates: Edit" + "Zone: Read" na zona.
+CLOUDFLARE_API_TOKEN=""
+CLOUDFLARE_SAAS_ZONE_ID=""
+# Alvo do CNAME que o cliente cria no DNS dele. Precisa ser um registro
+# "proxied" na zona acima, apontando pro servidor do app (fallback origin).
+BIO_DOMAIN_TARGET="sites.gohub.com.br"
+```
+
+Sem `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_SAAS_ZONE_ID` o fluxo continua de pé: o
+cliente cadastra o domínio, o editor mostra os registros e a verificação olha o
+DNS de verdade — só a liberação final do HTTPS passa a ser manual (o super admin
+ativa em Página do Negócio → painel da agência → domínio próprio).
+
+No servidor ainda é preciso um roteador "pega-tudo" no Traefik apontando pro app:
+sem ele, requisição com Host desconhecido (o domínio do cliente) recebe 404 antes
+de chegar ao Next.
+
 ---
 
 ## 3. Criar as tabelas e o primeiro usuário

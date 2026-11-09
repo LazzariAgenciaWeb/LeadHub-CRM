@@ -168,34 +168,49 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
   }
 
   return (
-    <div style={accentStyle} className={`relative bg-[#f4f5f7] text-slate-900 ${preview ? "min-h-full" : "min-h-screen"}`}>
-      <div className="mx-auto w-full max-w-md px-4 pb-12">
+    // @container/pagina: o layout de computador responde à largura DESTE bloco,
+    // não à da janela. É o que faz a prévia do editor mostrar celular e
+    // computador lado a lado, cada moldura com o seu layout de verdade.
+    <div
+      style={accentStyle}
+      className={`@container/pagina relative bg-[#f4f5f7] text-slate-900 ${preview ? "min-h-full" : "min-h-screen"}`}
+    >
+      {/* Menu de topo — só no computador; no celular quem navega é a barra de baixo. */}
+      {sections.length > 1 && <TopNav data={data} sections={sections} quiz={!!quiz} />}
+
+      <div className="mx-auto w-full max-w-md px-4 pb-12 @3xl/pagina:max-w-5xl @3xl/pagina:px-8 @3xl/pagina:pb-20">
         {/* ── Topo ── */}
         <header id="inicio" className="relative scroll-mt-4">
           {data.coverUrl ? (
-            <div className="-mx-4 h-36 overflow-hidden sm:mx-0 sm:mt-4 sm:rounded-2xl">
+            <div className="-mx-4 h-36 overflow-hidden @md/pagina:mx-0 @md/pagina:mt-4 @md/pagina:rounded-2xl @3xl/pagina:h-64 @3xl/pagina:rounded-3xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={data.coverUrl} alt="" className="h-full w-full object-cover" />
             </div>
           ) : (
-            <div className="-mx-4 h-24 sm:mx-0 sm:mt-4 sm:rounded-2xl" style={{ background: `linear-gradient(135deg, ${accent}, ${accent}99)` }} />
+            <div
+              className="-mx-4 h-24 @md/pagina:mx-0 @md/pagina:mt-4 @md/pagina:rounded-2xl @3xl/pagina:h-44 @3xl/pagina:rounded-3xl"
+              style={{ background: `linear-gradient(135deg, ${accent}, ${accent}99)` }}
+            />
           )}
-          <div className="-mt-12 flex flex-col items-center text-center">
-            <div className="h-24 w-24 overflow-hidden rounded-full border-4 border-[#f4f5f7] bg-white shadow-sm">
+          {/* No computador o cartão de apresentação desce ao lado da foto, como
+              num site; no celular segue centralizado. */}
+          <div className="-mt-12 flex flex-col items-center text-center @3xl/pagina:mt-0 @3xl/pagina:flex-row @3xl/pagina:items-center @3xl/pagina:gap-6 @3xl/pagina:text-left">
+            <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-full border-4 border-[#f4f5f7] bg-white shadow-sm @3xl/pagina:-mt-16 @3xl/pagina:mb-1 @3xl/pagina:h-36 @3xl/pagina:w-36 @3xl/pagina:border-[6px]">
               {data.avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={data.avatarUrl} alt={data.title} className="h-full w-full object-cover" />
               ) : (
-                <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-[var(--on-accent)]" style={{ background: accent }}>
+                <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-[var(--on-accent)] @3xl/pagina:text-5xl" style={{ background: accent }}>
                   {data.title.trim().charAt(0).toUpperCase()}
                 </div>
               )}
             </div>
-            <h1 className="mt-3 text-xl font-bold leading-tight">{data.title}</h1>
-            {data.headline && <p className="mt-1 text-sm text-slate-600">{data.headline}</p>}
+            <div className="min-w-0 @3xl/pagina:flex-1 @3xl/pagina:pt-4">
+            <h1 className="mt-3 text-xl font-bold leading-tight @3xl/pagina:mt-0 @3xl/pagina:text-3xl">{data.title}</h1>
+            {data.headline && <p className="mt-1 text-sm text-slate-600 @3xl/pagina:text-base">{data.headline}</p>}
 
             {socials.length > 0 && (
-              <div className="mt-3 flex flex-wrap justify-center gap-2">
+              <div className="mt-3 flex flex-wrap justify-center gap-2 @3xl/pagina:justify-start">
                 {socials.map((b) => (
                   <a
                     key={b.id}
@@ -212,23 +227,37 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
                 ))}
               </div>
             )}
+            </div>
+            {/* No computador, o próximo passo fica visível já no topo. */}
+            {quiz && (
+              <button
+                type="button"
+                onClick={() => quizRef.current?.start()}
+                className="hidden flex-shrink-0 items-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90 @3xl/pagina:inline-flex"
+              >
+                {quiz.cta}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            )}
           </div>
         </header>
 
         {data.about && (
-          <p className="mt-5 whitespace-pre-line text-center text-sm leading-relaxed text-slate-600">{data.about}</p>
+          <p className="mt-5 whitespace-pre-line text-center text-sm leading-relaxed text-slate-600 @3xl/pagina:mt-8 @3xl/pagina:max-w-3xl @3xl/pagina:text-left @3xl/pagina:text-base">
+            {data.about}
+          </p>
         )}
 
         {/* ── Perguntas: o próximo passo vem primeiro ── */}
         {quiz && (
-          <div id="comecar" className="scroll-mt-4">
+          <div id="comecar" className="scroll-mt-4 @3xl/pagina:mt-10 @3xl/pagina:max-w-3xl @3xl/pagina:scroll-mt-24">
             <Quiz ref={quizRef} slug={slug} quiz={quiz} accent={accent} preview={preview} host={{ name: data.title, avatarUrl: data.avatarUrl }} />
           </div>
         )}
 
         {/* ── Links ── */}
         {links.length > 0 && (
-          <nav id="links" className="mt-5 scroll-mt-4 space-y-3">
+          <nav id="links" className="mt-5 scroll-mt-4 space-y-3 @3xl/pagina:mt-10 @3xl/pagina:grid @3xl/pagina:grid-cols-2 @3xl/pagina:gap-3 @3xl/pagina:space-y-0 @3xl/pagina:scroll-mt-24">
             {links.map((b) => (
               <a
                 key={b.id}
@@ -236,7 +265,7 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => clickBlock(b)}
-                className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3.5 shadow-sm ring-1 ring-slate-200 transition hover:ring-[var(--accent)]"
+                className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3.5 shadow-sm ring-1 ring-slate-200 transition hover:ring-[var(--accent)] @3xl/pagina:px-5 @3xl/pagina:py-4"
               >
                 {b.network && (
                   <NetworkIcon network={b.network} className="h-5 w-5 flex-shrink-0 text-[var(--accent)]" />
@@ -253,10 +282,12 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
 
         {/* ── Serviços ── */}
         {services.length > 0 && (
-          <section id="servicos" className="mt-7 scroll-mt-4">
-            <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Serviços</h2>
+          <section id="servicos" className="mt-7 scroll-mt-4 @3xl/pagina:mt-14 @3xl/pagina:scroll-mt-24">
+            <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500 @3xl/pagina:mb-5 @3xl/pagina:text-xl @3xl/pagina:normal-case @3xl/pagina:tracking-normal @3xl/pagina:text-slate-900">
+              Serviços
+            </h2>
             {data.template === "VITRINE" ? (
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3 @3xl/pagina:grid-cols-3 @3xl/pagina:gap-5">
                 {services.map((b) => (
                   <button
                     key={b.id}
@@ -274,36 +305,47 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
                         </div>
                       )}
                     </div>
-                    <div className="p-3">
-                      <p className="line-clamp-2 text-sm font-semibold leading-snug">{b.title}</p>
-                      {b.priceLabel && <p className="mt-1 text-xs font-medium text-[var(--accent)]">{b.priceLabel}</p>}
+                    <div className="p-3 @3xl/pagina:p-4">
+                      <p className="line-clamp-2 text-sm font-semibold leading-snug @3xl/pagina:text-base">{b.title}</p>
+                      {b.description && (
+                        <p className="mt-1 hidden line-clamp-2 text-sm text-slate-500 @3xl/pagina:block">{b.description}</p>
+                      )}
+                      {b.priceLabel && (
+                        <p className="mt-1 text-xs font-medium text-[var(--accent)] @3xl/pagina:mt-2 @3xl/pagina:text-sm">{b.priceLabel}</p>
+                      )}
                     </div>
                   </button>
                 ))}
               </div>
             ) : (
-              <div className="divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+              <div className="divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 @3xl/pagina:grid @3xl/pagina:grid-cols-2 @3xl/pagina:gap-4 @3xl/pagina:divide-y-0 @3xl/pagina:overflow-visible @3xl/pagina:rounded-none @3xl/pagina:bg-transparent @3xl/pagina:shadow-none @3xl/pagina:ring-0">
                 {services.map((b) => (
                   <button
                     key={b.id}
                     type="button"
                     onClick={() => { clickBlock(b); setOpenService(b); }}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-slate-50"
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-slate-50 @3xl/pagina:gap-4 @3xl/pagina:rounded-2xl @3xl/pagina:bg-white @3xl/pagina:p-4 @3xl/pagina:shadow-sm @3xl/pagina:ring-1 @3xl/pagina:ring-slate-200 @3xl/pagina:hover:ring-[var(--accent)]"
                   >
                     {/* Com imagem cadastrada, a lista ganha miniatura. Se só alguns têm,
                         os outros levam a inicial pra lista não ficar desalinhada. */}
                     {b.imageUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={b.imageUrl} alt="" className="h-14 w-14 flex-shrink-0 rounded-xl bg-slate-100 object-cover" />
+                      <img src={b.imageUrl} alt="" className="h-14 w-14 flex-shrink-0 rounded-xl bg-slate-100 object-cover @3xl/pagina:h-20 @3xl/pagina:w-20" />
                     ) : servicesHaveImages && (
-                      <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl text-lg font-bold text-[var(--on-accent)]" style={{ background: `${accent}cc` }}>
+                      <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl text-lg font-bold text-[var(--on-accent)] @3xl/pagina:h-20 @3xl/pagina:w-20 @3xl/pagina:text-2xl" style={{ background: `${accent}cc` }}>
                         {b.title.trim().charAt(0).toUpperCase()}
                       </span>
                     )}
                     <span className="min-w-0 flex-1">
-                      <span className="block text-sm font-semibold">{b.title}</span>
-                      {b.description && <span className="block truncate text-xs text-slate-500">{b.description}</span>}
-                      {b.priceLabel && <span className="block text-xs font-medium text-[var(--accent)]">{b.priceLabel}</span>}
+                      <span className="block text-sm font-semibold @3xl/pagina:text-base">{b.title}</span>
+                      {b.description && (
+                        <span className="block truncate text-xs text-slate-500 @3xl/pagina:whitespace-normal @3xl/pagina:line-clamp-2 @3xl/pagina:text-sm">
+                          {b.description}
+                        </span>
+                      )}
+                      {b.priceLabel && (
+                        <span className="block text-xs font-medium text-[var(--accent)] @3xl/pagina:text-sm">{b.priceLabel}</span>
+                      )}
                     </span>
                     <ChevronRight className="h-4 w-4 flex-shrink-0 text-slate-400" />
                   </button>
@@ -313,10 +355,15 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
           </section>
         )}
 
-        {/* ── Agenda (link externo do dono) ── */}
+        {/* ── Agenda e contato ──
+            No computador ficam lado a lado; no celular seguem um embaixo do
+            outro, na mesma ordem de antes (a <div> não muda a ordem). */}
+        <div className="@3xl/pagina:grid @3xl/pagina:grid-cols-2 @3xl/pagina:items-start @3xl/pagina:gap-8">
         {booking && (
-          <section id="agenda" className="mt-7 scroll-mt-4">
-            <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Agenda</h2>
+          <section id="agenda" className="mt-7 scroll-mt-4 @3xl/pagina:mt-14 @3xl/pagina:scroll-mt-24">
+            <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500 @3xl/pagina:mb-5 @3xl/pagina:text-xl @3xl/pagina:normal-case @3xl/pagina:tracking-normal @3xl/pagina:text-slate-900">
+              Agenda
+            </h2>
             <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
               <div className="flex items-center gap-3">
                 <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl" style={{ background: `${accent}22` }}>
@@ -341,10 +388,11 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
           </section>
         )}
 
-        {/* ── Contato ── */}
         {contact && (
-          <section id="contato" className="mt-7 scroll-mt-4">
-            <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Contato</h2>
+          <section id="contato" className="mt-7 scroll-mt-4 @3xl/pagina:mt-14 @3xl/pagina:scroll-mt-24">
+            <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500 @3xl/pagina:mb-5 @3xl/pagina:text-xl @3xl/pagina:normal-case @3xl/pagina:tracking-normal @3xl/pagina:text-slate-900">
+              Contato
+            </h2>
             <div className="divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
               {contact.address && (
                 <ContactRow Icon={MapPin} href={contact.mapsHref} label="Endereço" preview={preview} onClick={() => clickFixed("mapa")}>
@@ -369,6 +417,7 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
             </div>
           </section>
         )}
+        </div>
       </div>
 
       {data.badge && (
@@ -383,8 +432,12 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
       )}
 
       {/* Reserva o espaço do menu fixo, pra ele não cobrir o fim da página (selo incluso). */}
-      {sections.length > 1 && !preview && <div aria-hidden className="h-20" />}
-      {sections.length > 1 && <SectionNav sections={sections} preview={preview} />}
+      {sections.length > 1 && !preview && <div aria-hidden className="h-20 @3xl/pagina:hidden" />}
+      {sections.length > 1 && (
+        <div className="@3xl/pagina:hidden">
+          <SectionNav sections={sections} preview={preview} />
+        </div>
+      )}
 
       {openService && (
         <ServiceSheet
@@ -396,6 +449,68 @@ export default function BioPageView({ data, preview = false }: { data: BioViewDa
         />
       )}
     </div>
+  );
+}
+
+// ─── Menu de topo (computador) ───────────────────────────────────────────────
+
+/**
+ * Barra fixa no alto, como em qualquer site: marca à esquerda, seções no meio,
+ * ação principal à direita. Aparece só quando o bloco da página tem largura de
+ * computador (@3xl) — no celular quem navega é a barra de baixo.
+ */
+function TopNav({
+  data, sections, quiz,
+}: {
+  data: BioViewData;
+  sections: { id: string; label: string; Icon: typeof House }[];
+  quiz: boolean;
+}) {
+  function ir(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  return (
+    <header className="sticky top-0 z-30 hidden border-b border-slate-200 bg-white/85 backdrop-blur @3xl/pagina:block">
+      <div className="mx-auto flex h-16 max-w-5xl items-center gap-6 px-8">
+        <button type="button" onClick={() => ir("inicio")} className="flex min-w-0 items-center gap-2.5">
+          {data.avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={data.avatarUrl} alt="" className="h-9 w-9 flex-shrink-0 rounded-full object-cover" />
+          ) : (
+            <span
+              className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-[var(--on-accent)]"
+              style={{ background: data.accent }}
+            >
+              {data.title.trim().charAt(0).toUpperCase()}
+            </span>
+          )}
+          <span className="truncate text-sm font-bold">{data.title}</span>
+        </button>
+        <nav aria-label="Seções do site" className="ml-auto flex items-center gap-1">
+          {sections
+            .filter((sec) => sec.id !== "comecar")
+            .map(({ id, label }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => ir(id)}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+              >
+                {label}
+              </button>
+            ))}
+        </nav>
+        {quiz && (
+          <button
+            type="button"
+            onClick={() => ir("comecar")}
+            className="flex-shrink-0 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90"
+          >
+            Falar com a gente
+          </button>
+        )}
+      </div>
+    </header>
   );
 }
 
@@ -475,7 +590,7 @@ function SectionNav({
       aria-label="Seções da página"
       className={`${preview ? "sticky" : "fixed"} inset-x-0 bottom-3 z-40 flex justify-center px-4`}
     >
-      <div className="flex min-w-0 max-w-full gap-0.5 rounded-full bg-white/90 p-1 shadow-lg ring-1 ring-slate-200 backdrop-blur sm:max-w-md sm:gap-1">
+      <div className="flex min-w-0 max-w-full gap-0.5 rounded-full bg-white/90 p-1 shadow-lg ring-1 ring-slate-200 backdrop-blur @md/pagina:max-w-md @md/pagina:gap-1">
         {sections.map(({ id, label, Icon }) => {
           const on = active === id;
           return (
@@ -487,14 +602,14 @@ function SectionNav({
                 setActive(id);
                 document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className={`flex items-center gap-1.5 rounded-full px-2.5 py-2 text-xs font-semibold transition sm:px-3 ${
+              className={`flex items-center gap-1.5 rounded-full px-2.5 py-2 text-xs font-semibold transition @md/pagina:px-3 ${
                 on ? "min-w-0 bg-[var(--accent)] text-[var(--on-accent)]" : "flex-shrink-0 text-slate-600 hover:text-slate-900"
               }`}
             >
               <Icon className="h-4 w-4 flex-shrink-0" />
               {/* No celular, só o item ativo mostra o nome (e corta se faltar
                   espaço) — o menu nunca passa da largura da tela. */}
-              <span className={on ? "truncate" : "hidden whitespace-nowrap sm:inline"}>{label}</span>
+              <span className={on ? "truncate" : "hidden whitespace-nowrap @md/pagina:inline"}>{label}</span>
             </button>
           );
         })}
@@ -521,21 +636,28 @@ function ServiceSheet({
   }, [onClose]);
 
   return (
-    <div className={`${preview ? "absolute" : "fixed"} inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center`} onClick={onClose}>
+    <div
+      className={`${preview ? "absolute" : "fixed"} inset-0 z-50 flex items-end justify-center bg-black/40 @md/pagina:items-center @3xl/pagina:p-8`}
+      onClick={onClose}
+    >
       <div
         role="dialog"
         aria-modal="true"
         aria-label={block.title}
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white sm:rounded-3xl"
+        className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white @md/pagina:rounded-3xl @3xl/pagina:flex @3xl/pagina:max-w-3xl @3xl/pagina:items-stretch @3xl/pagina:overflow-hidden"
       >
         {block.imageUrl && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={block.imageUrl} alt="" className="aspect-video w-full object-cover" />
+          <img
+            src={block.imageUrl}
+            alt=""
+            className="aspect-video w-full object-cover @3xl/pagina:aspect-auto @3xl/pagina:w-1/2 @3xl/pagina:flex-shrink-0"
+          />
         )}
-        <div className="p-5">
+        <div className="p-5 @3xl/pagina:flex @3xl/pagina:min-w-0 @3xl/pagina:flex-1 @3xl/pagina:flex-col @3xl/pagina:justify-center @3xl/pagina:overflow-y-auto @3xl/pagina:p-7">
           <div className="flex items-start gap-3">
-            <h3 className="flex-1 text-lg font-bold leading-snug">{block.title}</h3>
+            <h3 className="flex-1 text-lg font-bold leading-snug @3xl/pagina:text-2xl">{block.title}</h3>
             <button type="button" onClick={onClose} aria-label="Fechar" className="rounded-full p-1 text-slate-400 hover:bg-slate-100">
               <X className="h-5 w-5" />
             </button>
@@ -544,12 +666,12 @@ function ServiceSheet({
           {block.description && (
             <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-600">{block.description}</p>
           )}
-          <div className="mt-5 space-y-2">
+          <div className="mt-5 space-y-2 @3xl/pagina:flex @3xl/pagina:space-y-0 @3xl/pagina:gap-3">
             {hasQuiz && (
               <button
                 type="button"
                 onClick={onInterest}
-                className="w-full rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90"
+                className="w-full rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--on-accent)] transition hover:opacity-90 @3xl/pagina:flex-1"
               >
                 Tenho interesse
               </button>
@@ -559,7 +681,7 @@ function ServiceSheet({
                 href={block.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full rounded-xl px-4 py-3 text-center text-sm font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
+                className="block w-full rounded-xl px-4 py-3 text-center text-sm font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50 @3xl/pagina:flex-1"
               >
                 Ver mais
               </a>

@@ -2338,6 +2338,23 @@ exports.Prisma.BioEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.BioDomainScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  hostname: 'hostname',
+  status: 'status',
+  statusMessage: 'statusMessage',
+  cfHostnameId: 'cfHostnameId',
+  verifyName: 'verifyName',
+  verifyValue: 'verifyValue',
+  cnameTarget: 'cnameTarget',
+  manual: 'manual',
+  lastCheckedAt: 'lastCheckedAt',
+  verifiedAt: 'verifiedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.LoginHandoffScalarFieldEnum = {
   tokenHash: 'tokenHash',
   userId: 'userId',
@@ -2835,6 +2852,13 @@ exports.BioEventKind = exports.$Enums.BioEventKind = {
   LEAD: 'LEAD'
 };
 
+exports.BioDomainStatus = exports.$Enums.BioDomainStatus = {
+  PENDING: 'PENDING',
+  VERIFYING: 'VERIFYING',
+  ACTIVE: 'ACTIVE',
+  ERROR: 'ERROR'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   AssistantNote: 'AssistantNote',
@@ -2979,6 +3003,7 @@ exports.Prisma.ModelName = {
   BioSubmission: 'BioSubmission',
   BioProgress: 'BioProgress',
   BioEvent: 'BioEvent',
+  BioDomain: 'BioDomain',
   LoginHandoff: 'LoginHandoff'
 };
 

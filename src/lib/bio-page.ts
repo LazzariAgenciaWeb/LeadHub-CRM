@@ -33,6 +33,108 @@ export function slugifyBio(raw: string): string {
     .replace(/-+$/g, "");
 }
 
+// ─── Domínio próprio (site do cliente) ───────────────────────────────────────
+// Benefício do plano com site próprio: o domínio do cliente abre a página na
+// raiz, com HTTPS. Quem emite o certificado é a Cloudflare for SaaS; aqui ficam
+// só as regras que valem igual no editor e no servidor.
+
+/** Hosts do próprio sistema — nenhum cliente aponta um deles. */
+export const BIO_SYSTEM_HOSTS = [
+  "gohub.com.br", "azzagencia.com.br", "lazzari.net.br", "leadhub.com.br", "localhost",
+];
+
+/**
+ * Sufixos de dois rótulos: em "loja.com.br" o domínio registrável é o todo, e
+ * não "com.br". Serve pra avisar que a raiz não aceita CNAME.
+ */
+const BIO_MULTI_SUFFIX = [
+  "com.br", "net.br", "org.br", "adv.br", "art.br", "eco.br", "ind.br", "inf.br",
+  "esp.br", "eng.br", "med.br", "psc.br", "tur.br", "vet.br", "agr.br", "srv.br",
+  "blog.br", "flog.br", "nom.br", "co.uk", "com.ar", "com.pt", "com.co", "com.mx",
+];
+
+/**
+ * "HTTPS://WWW.Loja.com.br/contato?x=1" → "www.loja.com.br". Tira esquema,
+ * usuário, porta, caminho, ponto final e espaços.
+ */
+export function normalizeBioDomain(raw: string | null | undefined): string {
+  let v = String(raw ?? "").trim().toLowerCase();
+  v = v.replace(/^[a-z][a-z0-9+.-]*:\/\//, "");  // esquema
+  v = v.replace(/^[^@/]*@/, "");                  // usuário:senha@
+  v = v.split(/[/?#]/)[0] ?? "";                  // caminho, query, fragmento
+  v = v.replace(/:\d+$/, "");                     // porta
+  v = v.replace(/^\.+|\.+$/g, "");                // ponto solto nas pontas
+  return v;
+}
+
+export type BioDomainProblem =
+  | "vazio"
+  | "formato"
+  | "sem-ponto"
+  | "ip"
+  | "longo"
+  | "sistema"
+  | "em-uso";
+
+/**
+ * null = hostname aceitável. Não checa DNS nem se outra página já usa
+ * (isso é do banco, que devolve "em-uso").
+ */
+export function bioDomainProblem(host: string): BioDomainProblem | null {
+  if (!host) return "vazio";
+  if (host.length > 253) return "longo";
+  // Endereço IP não recebe certificado — o cliente tem que usar o nome.
+  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(host) || host.includes(":")) return "ip";
+  if (!host.includes(".")) return "sem-ponto";
+  const labels = host.split(".");
+  if (labels.some((l) => !/^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/.test(l))) return "formato";
+  // Extensão só com letras ("loja.com.br" sim, "loja.123" não).
+  if (!/^[a-z]{2,24}$/.test(labels[labels.length - 1]!)) return "formato";
+  if (BIO_SYSTEM_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) return "sistema";
+  return null;
+}
+
+/** Domínio registrável de um host: "www.loja.com.br" → "loja.com.br". */
+export function bioDomainRoot(host: string): string {
+  const labels = host.split(".");
+  const suffixLen = BIO_MULTI_SUFFIX.includes(labels.slice(-2).join(".")) ? 3 : 2;
+  return labels.length <= suffixLen ? host : labels.slice(-suffixLen).join(".");
+}
+
+/**
+ * O host é a raiz do domínio ("loja.com.br")? A raiz não aceita CNAME na
+ * maioria dos provedores (Registro.br incluído), então o editor recomenda o
+ * "www." e explica o caminho da raiz.
+ */
+export function bioDomainIsRoot(host: string): boolean {
+  return !!host && bioDomainRoot(host) === host;
+}
+
+/** Sugestão de host pra quem digitou a raiz: "loja.com.br" → "www.loja.com.br". */
+export function bioDomainSuggestion(host: string): string | null {
+  return bioDomainIsRoot(host) ? `www.${host}` : null;
+}
+
+export const BIO_DOMAIN_PROBLEM_LABEL: Record<BioDomainProblem, string> = {
+  vazio: "Escreva o endereço do seu site (ex.: www.suaempresa.com.br).",
+  formato: "Esse endereço tem caractere que não vale num domínio. Escreva só o nome, como www.suaempresa.com.br.",
+  "sem-ponto": "Falta a extensão do domínio — escreva o endereço completo, como www.suaempresa.com.br.",
+  ip: "Aqui vai o nome do domínio, não um número de IP.",
+  longo: "Esse endereço é longo demais para um domínio.",
+  sistema: "Esse endereço é do próprio GoHub. Use o domínio da sua empresa.",
+  "em-uso": "Esse domínio já está em uso em outra página.",
+};
+
+/** Situação do domínio, como o dono da página vê. */
+export type BioDomainStatus = "PENDING" | "VERIFYING" | "ACTIVE" | "ERROR";
+
+export const BIO_DOMAIN_STATUS_LABEL: Record<BioDomainStatus, string> = {
+  PENDING: "Aguardando o apontamento",
+  VERIFYING: "Verificando",
+  ACTIVE: "No ar",
+  ERROR: "Deu problema",
+};
+
 export type BioSlugProblem = "curto" | "longo" | "formato" | "reservado";
 
 /** null = endereço válido. Não checa se já está em uso (isso é do banco). */

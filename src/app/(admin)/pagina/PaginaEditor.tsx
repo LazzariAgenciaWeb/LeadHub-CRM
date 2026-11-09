@@ -3,9 +3,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowDown, ArrowUp, Check, Copy, ExternalLink, Eye, EyeOff, ImagePlus, Loader2,
-  Plus, Smartphone, Trash2, X,
+  Monitor, Plus, Smartphone, Trash2, X,
 } from "lucide-react";
 import BioPageView, { type BioViewData } from "@/app/p/[slug]/BioPageView";
+import DominioProprio from "./DominioProprio";
 import {
   BIO_DEFAULT_BOOKING_TEXT, BIO_DEFAULT_QUIZ_CTA, BIO_DEFAULT_QUIZ_TITLE, BIO_DEFAULT_THANK_YOU, BIO_FREE, BIO_LIMITS, BIO_NETWORKS,
   bioAccent, bioAutosaveInput, bioFreeView, bioViewExtras, parseBioEditorInput, safeBioHref,
@@ -229,10 +230,12 @@ function ImageField({
 // ─── Editor ──────────────────────────────────────────────────────────────────
 
 export default function PaginaEditor({
-  initial, publicBase, uploadsEnabled, defaultConsent, hasBottomNav, results, freePlan = false,
+  initial, publicBase, uploadsEnabled, defaultConsent, hasBottomNav, results, freePlan = false, planLabel = "Grátis",
 }: {
   /** Empresa no plano Grátis: editor mostra o que é do Pro e a prévia já vem limitada. */
   freePlan?: boolean;
+  /** Nome do plano da página, como o cliente vê (usado no convite do site próprio). */
+  planLabel?: string;
   initial: Initial;
   publicBase: string;
   uploadsEnabled: boolean;
@@ -249,6 +252,7 @@ export default function PaginaEditor({
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [device, setDevice] = useState<Device>("celular");
   const [copied, setCopied] = useState(false);
 
   const dirty = useMemo(() => canon(strip(draft)) !== canon(strip(saved)), [draft, saved]);
@@ -371,7 +375,7 @@ export default function PaginaEditor({
           <button
             type="button"
             onClick={() => setShowPreview(true)}
-            className="lg:hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-xs text-slate-200"
+            className="xl:hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-xs text-slate-200"
           >
             <Smartphone className="w-3.5 h-3.5" /> Prévia
           </button>
@@ -419,6 +423,7 @@ export default function PaginaEditor({
                   setTimeout(() => setCopied(false), 2000);
                 }}
                 onPublish={(published) => save({ published })}
+                planLabel={planLabel}
               />
             )}
           </div>
@@ -441,9 +446,9 @@ export default function PaginaEditor({
           {!initial.publishedAt && <div className="mt-6">{results}</div>}
         </div>
 
-        {/* Prévia (desktop) */}
-        <div className="hidden lg:block sticky top-6 flex-shrink-0">
-          <PhoneFrame data={preview} />
+        {/* Prévia (na tela grande, ao lado do editor) */}
+        <div className="hidden xl:block sticky top-6 flex-shrink-0">
+          <Preview data={preview} device={device} onDevice={setDevice} />
         </div>
       </div>
 
@@ -472,14 +477,14 @@ export default function PaginaEditor({
         </button>
       </div>
 
-      {/* Prévia (celular) */}
+      {/* Prévia em tela cheia (quando não cabe ao lado do editor) */}
       {showPreview && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-black/80 flex flex-col items-center justify-center p-4" onClick={() => setShowPreview(false)}>
+        <div className="xl:hidden fixed inset-0 z-50 bg-black/80 flex flex-col items-center justify-center p-4" onClick={() => setShowPreview(false)}>
           <button type="button" className="self-end mb-2 text-white" aria-label="Fechar prévia">
             <X className="w-6 h-6" />
           </button>
-          <div onClick={(e) => e.stopPropagation()}>
-            <PhoneFrame data={preview} />
+          <div className="max-w-full" onClick={(e) => e.stopPropagation()}>
+            <Preview data={preview} device={device} onDevice={setDevice} />
           </div>
         </div>
       )}
@@ -487,15 +492,54 @@ export default function PaginaEditor({
   );
 }
 
-function PhoneFrame({ data }: { data: BioViewData }) {
+// ─── Prévia: celular e computador ────────────────────────────────────────────
+
+type Device = "celular" | "computador";
+
+/**
+ * A mesma página nos dois tamanhos. A moldura do computador é larga de verdade
+ * (1100px) e encolhe por `zoom` pra caber na tela do editor — como a página
+ * responde à largura do PRÓPRIO bloco (container query em BioPageView), o que
+ * aparece aqui é o layout de computador de verdade, não uma versão apertada.
+ */
+function Preview({ data, device, onDevice }: { data: BioViewData; device: Device; onDevice: (d: Device) => void }) {
+  const computador = device === "computador";
   return (
     <div>
-      <p className="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-2 text-center">Prévia</p>
-      <div className="w-[340px] h-[640px] max-h-[75vh] rounded-[2rem] border-[6px] border-[#1e2d45] bg-[#f4f5f7] overflow-hidden">
-        <div className="h-full overflow-y-auto relative">
-          <BioPageView data={data} preview />
-        </div>
+      <div className="mb-2 flex items-center justify-center gap-1 rounded-full bg-[#0f1623] border border-[#1e2d45] p-0.5 mx-auto w-fit">
+        {([
+          ["celular", "Celular", Smartphone],
+          ["computador", "Computador", Monitor],
+        ] as const).map(([key, label, Icon]) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => onDevice(key)}
+            aria-pressed={device === key}
+            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold transition ${
+              device === key ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-white"
+            }`}
+          >
+            <Icon className="w-3.5 h-3.5" /> {label}
+          </button>
+        ))}
       </div>
+      {computador ? (
+        <div className="w-[550px] max-w-full overflow-hidden rounded-xl border-[6px] border-[#1e2d45] bg-[#f4f5f7]">
+          {/* zoom: 0.5 → 1100px de largura útil dentro de 550px de tela. */}
+          <div className="h-[760px] max-h-[75vh] overflow-y-auto" style={{ zoom: 0.5 }}>
+            <div className="relative min-h-[1520px] w-[1100px]">
+              <BioPageView data={data} preview />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="w-[340px] max-w-full h-[640px] max-h-[75vh] rounded-[2rem] border-[6px] border-[#1e2d45] bg-[#f4f5f7] overflow-hidden">
+          <div className="h-full overflow-y-auto relative">
+            <BioPageView data={data} preview />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -878,7 +922,7 @@ function typingSlug(raw: string): string {
 }
 
 function StepPublish({
-  draft, saved, set, publicBase, publicUrl, saving, copied, onCopy, onPublish,
+  draft, saved, set, publicBase, publicUrl, saving, copied, onCopy, onPublish, planLabel,
 }: {
   draft: Draft;
   saved: Draft;
@@ -889,6 +933,7 @@ function StepPublish({
   copied: boolean;
   onCopy: () => void;
   onPublish: (published: boolean) => void;
+  planLabel: string;
 }) {
   const [check, setCheck] = useState<{ slug: string; available: boolean; problem: string | null } | null>(null);
 
@@ -963,6 +1008,10 @@ function StepPublish({
           </>
         )}
       </div>
+
+      {/* Domínio próprio: o endereço do GoHub acima continua valendo; aqui o
+          cliente do plano com site próprio aponta o domínio dele. */}
+      <DominioProprio planLabel={planLabel} />
     </>
   );
 }

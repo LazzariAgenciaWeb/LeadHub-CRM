@@ -213,6 +213,13 @@ export const MODULES: ModuleDef[] = [
     group: "Marketing",
     description: "Link na bio com vitrine e perguntas que viram lead (/p/endereço).",
     primary: "paginaNegocio",
+    advanced: [
+      {
+        key: "paginaSiteProprio",
+        label: "Site próprio (domínio do cliente)",
+        description: "A página abre no domínio do cliente, com HTTPS e indexada no Google.",
+      },
+    ],
   },
 
   // ── Portal do cliente ──────────────────────────────────────────────────────

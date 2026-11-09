@@ -62,6 +62,7 @@ export default async function PaginaPage() {
       defaultConsent={bioDefaultConsent(company.tradeName ?? company.name)}
       hasBottomNav={!(session.user as any)?.pageOnly}
       freePlan={freePlan}
+      planLabel={planInfo.label}
       results={
         <>
           <PlanoPagina plan={planInfo} />

@@ -323,5 +323,25 @@ echo "📥 Cron IMAP Sync habilitado — rodará a cada ${IMAP_SYNC_INTERVAL_SEC
   done
 ) &
 
+# Cron: Domínios próprios das Páginas do Negócio — reconfere apontamento de DNS
+# e emissão do certificado na Cloudflare enquanto o domínio não está no ar.
+# Frequência: a cada 10 minutos (config: DOMINIOS_INTERVAL_SECONDS).
+DOMINIOS_INTERVAL_SECONDS="${DOMINIOS_INTERVAL_SECONDS:-600}"
+echo "🌐 Cron Domínios habilitado — rodará a cada ${DOMINIOS_INTERVAL_SECONDS}s (1ª execução em ~100s)"
+(
+  sleep 100
+  while true; do
+    RES=$(cron_curl -X POST "http://localhost:3000/api/cron/dominios" --max-time 180 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    BODY=$(echo "$RES" | sed '$d')
+    if [ "$HTTP_CODE" = "200" ]; then
+      echo "[Cron Domínios] $(date) — OK · $BODY"
+    else
+      echo "[Cron Domínios] $(date) — falha HTTP $HTTP_CODE · $BODY"
+    fi
+    sleep "$DOMINIOS_INTERVAL_SECONDS"
+  done
+) &
+
 echo "🚀 Starting LeadHub..."
 exec node server.js

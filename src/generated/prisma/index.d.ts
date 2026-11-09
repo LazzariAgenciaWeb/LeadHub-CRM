@@ -737,6 +737,11 @@ export type BioProgress = $Result.DefaultSelection<Prisma.$BioProgressPayload>
  */
 export type BioEvent = $Result.DefaultSelection<Prisma.$BioEventPayload>
 /**
+ * Model BioDomain
+ * 
+ */
+export type BioDomain = $Result.DefaultSelection<Prisma.$BioDomainPayload>
+/**
  * Model LoginHandoff
  * 
  */
@@ -1373,6 +1378,16 @@ export const BioEventKind: {
 
 export type BioEventKind = (typeof BioEventKind)[keyof typeof BioEventKind]
 
+
+export const BioDomainStatus: {
+  PENDING: 'PENDING',
+  VERIFYING: 'VERIFYING',
+  ACTIVE: 'ACTIVE',
+  ERROR: 'ERROR'
+};
+
+export type BioDomainStatus = (typeof BioDomainStatus)[keyof typeof BioDomainStatus]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -1598,6 +1613,10 @@ export const BioBlockType: typeof $Enums.BioBlockType
 export type BioEventKind = $Enums.BioEventKind
 
 export const BioEventKind: typeof $Enums.BioEventKind
+
+export type BioDomainStatus = $Enums.BioDomainStatus
+
+export const BioDomainStatus: typeof $Enums.BioDomainStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -3153,6 +3172,16 @@ export class PrismaClient<
   get bioEvent(): Prisma.BioEventDelegate<ExtArgs>;
 
   /**
+   * `prisma.bioDomain`: Exposes CRUD operations for the **BioDomain** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BioDomains
+    * const bioDomains = await prisma.bioDomain.findMany()
+    * ```
+    */
+  get bioDomain(): Prisma.BioDomainDelegate<ExtArgs>;
+
+  /**
    * `prisma.loginHandoff`: Exposes CRUD operations for the **LoginHandoff** model.
     * Example usage:
     * ```ts
@@ -3745,6 +3774,7 @@ export namespace Prisma {
     BioSubmission: 'BioSubmission',
     BioProgress: 'BioProgress',
     BioEvent: 'BioEvent',
+    BioDomain: 'BioDomain',
     LoginHandoff: 'LoginHandoff'
   };
 
@@ -3761,7 +3791,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioProgress" | "bioEvent" | "loginHandoff"
+      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioProgress" | "bioEvent" | "bioDomain" | "loginHandoff"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -13772,6 +13802,76 @@ export namespace Prisma {
           count: {
             args: Prisma.BioEventCountArgs<ExtArgs>
             result: $Utils.Optional<BioEventCountAggregateOutputType> | number
+          }
+        }
+      }
+      BioDomain: {
+        payload: Prisma.$BioDomainPayload<ExtArgs>
+        fields: Prisma.BioDomainFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BioDomainFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BioDomainFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload>
+          }
+          findFirst: {
+            args: Prisma.BioDomainFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BioDomainFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload>
+          }
+          findMany: {
+            args: Prisma.BioDomainFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload>[]
+          }
+          create: {
+            args: Prisma.BioDomainCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload>
+          }
+          createMany: {
+            args: Prisma.BioDomainCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BioDomainCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload>[]
+          }
+          delete: {
+            args: Prisma.BioDomainDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload>
+          }
+          update: {
+            args: Prisma.BioDomainUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload>
+          }
+          deleteMany: {
+            args: Prisma.BioDomainDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BioDomainUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BioDomainUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BioDomainPayload>
+          }
+          aggregate: {
+            args: Prisma.BioDomainAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBioDomain>
+          }
+          groupBy: {
+            args: Prisma.BioDomainGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BioDomainGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BioDomainCountArgs<ExtArgs>
+            result: $Utils.Optional<BioDomainCountAggregateOutputType> | number
           }
         }
       }
@@ -166379,6 +166479,7 @@ export namespace Prisma {
     submissions?: boolean | BioPage$submissionsArgs<ExtArgs>
     events?: boolean | BioPage$eventsArgs<ExtArgs>
     progress?: boolean | BioPage$progressArgs<ExtArgs>
+    domain?: boolean | BioPage$domainArgs<ExtArgs>
     _count?: boolean | BioPageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bioPage"]>
 
@@ -166453,6 +166554,7 @@ export namespace Prisma {
     submissions?: boolean | BioPage$submissionsArgs<ExtArgs>
     events?: boolean | BioPage$eventsArgs<ExtArgs>
     progress?: boolean | BioPage$progressArgs<ExtArgs>
+    domain?: boolean | BioPage$domainArgs<ExtArgs>
     _count?: boolean | BioPageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BioPageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -166471,6 +166573,7 @@ export namespace Prisma {
       submissions: Prisma.$BioSubmissionPayload<ExtArgs>[]
       events: Prisma.$BioEventPayload<ExtArgs>[]
       progress: Prisma.$BioProgressPayload<ExtArgs>[]
+      domain: Prisma.$BioDomainPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -166872,6 +166975,7 @@ export namespace Prisma {
     submissions<T extends BioPage$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioSubmissionPayload<ExtArgs>, T, "findMany"> | Null>
     events<T extends BioPage$eventsArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioEventPayload<ExtArgs>, T, "findMany"> | Null>
     progress<T extends BioPage$progressArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$progressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioProgressPayload<ExtArgs>, T, "findMany"> | Null>
+    domain<T extends BioPage$domainArgs<ExtArgs> = {}>(args?: Subset<T, BioPage$domainArgs<ExtArgs>>): Prisma__BioDomainClient<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -167378,6 +167482,21 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BioProgressScalarFieldEnum | BioProgressScalarFieldEnum[]
+  }
+
+  /**
+   * BioPage.domain
+   */
+  export type BioPage$domainArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    where?: BioDomainWhereInput
   }
 
   /**
@@ -172634,6 +172753,1047 @@ export namespace Prisma {
 
 
   /**
+   * Model BioDomain
+   */
+
+  export type AggregateBioDomain = {
+    _count: BioDomainCountAggregateOutputType | null
+    _min: BioDomainMinAggregateOutputType | null
+    _max: BioDomainMaxAggregateOutputType | null
+  }
+
+  export type BioDomainMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    hostname: string | null
+    status: $Enums.BioDomainStatus | null
+    statusMessage: string | null
+    cfHostnameId: string | null
+    verifyName: string | null
+    verifyValue: string | null
+    cnameTarget: string | null
+    manual: boolean | null
+    lastCheckedAt: Date | null
+    verifiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioDomainMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    hostname: string | null
+    status: $Enums.BioDomainStatus | null
+    statusMessage: string | null
+    cfHostnameId: string | null
+    verifyName: string | null
+    verifyValue: string | null
+    cnameTarget: string | null
+    manual: boolean | null
+    lastCheckedAt: Date | null
+    verifiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BioDomainCountAggregateOutputType = {
+    id: number
+    pageId: number
+    hostname: number
+    status: number
+    statusMessage: number
+    cfHostnameId: number
+    verifyName: number
+    verifyValue: number
+    cnameTarget: number
+    manual: number
+    lastCheckedAt: number
+    verifiedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BioDomainMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    hostname?: true
+    status?: true
+    statusMessage?: true
+    cfHostnameId?: true
+    verifyName?: true
+    verifyValue?: true
+    cnameTarget?: true
+    manual?: true
+    lastCheckedAt?: true
+    verifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioDomainMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    hostname?: true
+    status?: true
+    statusMessage?: true
+    cfHostnameId?: true
+    verifyName?: true
+    verifyValue?: true
+    cnameTarget?: true
+    manual?: true
+    lastCheckedAt?: true
+    verifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BioDomainCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    hostname?: true
+    status?: true
+    statusMessage?: true
+    cfHostnameId?: true
+    verifyName?: true
+    verifyValue?: true
+    cnameTarget?: true
+    manual?: true
+    lastCheckedAt?: true
+    verifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BioDomainAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioDomain to aggregate.
+     */
+    where?: BioDomainWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioDomains to fetch.
+     */
+    orderBy?: BioDomainOrderByWithRelationInput | BioDomainOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BioDomainWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioDomains from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioDomains.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BioDomains
+    **/
+    _count?: true | BioDomainCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BioDomainMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BioDomainMaxAggregateInputType
+  }
+
+  export type GetBioDomainAggregateType<T extends BioDomainAggregateArgs> = {
+        [P in keyof T & keyof AggregateBioDomain]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBioDomain[P]>
+      : GetScalarType<T[P], AggregateBioDomain[P]>
+  }
+
+
+
+
+  export type BioDomainGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BioDomainWhereInput
+    orderBy?: BioDomainOrderByWithAggregationInput | BioDomainOrderByWithAggregationInput[]
+    by: BioDomainScalarFieldEnum[] | BioDomainScalarFieldEnum
+    having?: BioDomainScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BioDomainCountAggregateInputType | true
+    _min?: BioDomainMinAggregateInputType
+    _max?: BioDomainMaxAggregateInputType
+  }
+
+  export type BioDomainGroupByOutputType = {
+    id: string
+    pageId: string
+    hostname: string
+    status: $Enums.BioDomainStatus
+    statusMessage: string | null
+    cfHostnameId: string | null
+    verifyName: string | null
+    verifyValue: string | null
+    cnameTarget: string | null
+    manual: boolean
+    lastCheckedAt: Date | null
+    verifiedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BioDomainCountAggregateOutputType | null
+    _min: BioDomainMinAggregateOutputType | null
+    _max: BioDomainMaxAggregateOutputType | null
+  }
+
+  type GetBioDomainGroupByPayload<T extends BioDomainGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BioDomainGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BioDomainGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BioDomainGroupByOutputType[P]>
+            : GetScalarType<T[P], BioDomainGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BioDomainSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    hostname?: boolean
+    status?: boolean
+    statusMessage?: boolean
+    cfHostnameId?: boolean
+    verifyName?: boolean
+    verifyValue?: boolean
+    cnameTarget?: boolean
+    manual?: boolean
+    lastCheckedAt?: boolean
+    verifiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioDomain"]>
+
+  export type BioDomainSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    hostname?: boolean
+    status?: boolean
+    statusMessage?: boolean
+    cfHostnameId?: boolean
+    verifyName?: boolean
+    verifyValue?: boolean
+    cnameTarget?: boolean
+    manual?: boolean
+    lastCheckedAt?: boolean
+    verifiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bioDomain"]>
+
+  export type BioDomainSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    hostname?: boolean
+    status?: boolean
+    statusMessage?: boolean
+    cfHostnameId?: boolean
+    verifyName?: boolean
+    verifyValue?: boolean
+    cnameTarget?: boolean
+    manual?: boolean
+    lastCheckedAt?: boolean
+    verifiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BioDomainInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }
+  export type BioDomainIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | BioPageDefaultArgs<ExtArgs>
+  }
+
+  export type $BioDomainPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BioDomain"
+    objects: {
+      page: Prisma.$BioPagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      hostname: string
+      status: $Enums.BioDomainStatus
+      statusMessage: string | null
+      cfHostnameId: string | null
+      verifyName: string | null
+      verifyValue: string | null
+      cnameTarget: string | null
+      manual: boolean
+      lastCheckedAt: Date | null
+      verifiedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bioDomain"]>
+    composites: {}
+  }
+
+  type BioDomainGetPayload<S extends boolean | null | undefined | BioDomainDefaultArgs> = $Result.GetResult<Prisma.$BioDomainPayload, S>
+
+  type BioDomainCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BioDomainFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BioDomainCountAggregateInputType | true
+    }
+
+  export interface BioDomainDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BioDomain'], meta: { name: 'BioDomain' } }
+    /**
+     * Find zero or one BioDomain that matches the filter.
+     * @param {BioDomainFindUniqueArgs} args - Arguments to find a BioDomain
+     * @example
+     * // Get one BioDomain
+     * const bioDomain = await prisma.bioDomain.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BioDomainFindUniqueArgs>(args: SelectSubset<T, BioDomainFindUniqueArgs<ExtArgs>>): Prisma__BioDomainClient<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BioDomain that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BioDomainFindUniqueOrThrowArgs} args - Arguments to find a BioDomain
+     * @example
+     * // Get one BioDomain
+     * const bioDomain = await prisma.bioDomain.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BioDomainFindUniqueOrThrowArgs>(args: SelectSubset<T, BioDomainFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BioDomainClient<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BioDomain that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioDomainFindFirstArgs} args - Arguments to find a BioDomain
+     * @example
+     * // Get one BioDomain
+     * const bioDomain = await prisma.bioDomain.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BioDomainFindFirstArgs>(args?: SelectSubset<T, BioDomainFindFirstArgs<ExtArgs>>): Prisma__BioDomainClient<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BioDomain that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioDomainFindFirstOrThrowArgs} args - Arguments to find a BioDomain
+     * @example
+     * // Get one BioDomain
+     * const bioDomain = await prisma.bioDomain.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BioDomainFindFirstOrThrowArgs>(args?: SelectSubset<T, BioDomainFindFirstOrThrowArgs<ExtArgs>>): Prisma__BioDomainClient<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BioDomains that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioDomainFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BioDomains
+     * const bioDomains = await prisma.bioDomain.findMany()
+     * 
+     * // Get first 10 BioDomains
+     * const bioDomains = await prisma.bioDomain.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bioDomainWithIdOnly = await prisma.bioDomain.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BioDomainFindManyArgs>(args?: SelectSubset<T, BioDomainFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BioDomain.
+     * @param {BioDomainCreateArgs} args - Arguments to create a BioDomain.
+     * @example
+     * // Create one BioDomain
+     * const BioDomain = await prisma.bioDomain.create({
+     *   data: {
+     *     // ... data to create a BioDomain
+     *   }
+     * })
+     * 
+     */
+    create<T extends BioDomainCreateArgs>(args: SelectSubset<T, BioDomainCreateArgs<ExtArgs>>): Prisma__BioDomainClient<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BioDomains.
+     * @param {BioDomainCreateManyArgs} args - Arguments to create many BioDomains.
+     * @example
+     * // Create many BioDomains
+     * const bioDomain = await prisma.bioDomain.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BioDomainCreateManyArgs>(args?: SelectSubset<T, BioDomainCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BioDomains and returns the data saved in the database.
+     * @param {BioDomainCreateManyAndReturnArgs} args - Arguments to create many BioDomains.
+     * @example
+     * // Create many BioDomains
+     * const bioDomain = await prisma.bioDomain.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BioDomains and only return the `id`
+     * const bioDomainWithIdOnly = await prisma.bioDomain.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BioDomainCreateManyAndReturnArgs>(args?: SelectSubset<T, BioDomainCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BioDomain.
+     * @param {BioDomainDeleteArgs} args - Arguments to delete one BioDomain.
+     * @example
+     * // Delete one BioDomain
+     * const BioDomain = await prisma.bioDomain.delete({
+     *   where: {
+     *     // ... filter to delete one BioDomain
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BioDomainDeleteArgs>(args: SelectSubset<T, BioDomainDeleteArgs<ExtArgs>>): Prisma__BioDomainClient<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BioDomain.
+     * @param {BioDomainUpdateArgs} args - Arguments to update one BioDomain.
+     * @example
+     * // Update one BioDomain
+     * const bioDomain = await prisma.bioDomain.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BioDomainUpdateArgs>(args: SelectSubset<T, BioDomainUpdateArgs<ExtArgs>>): Prisma__BioDomainClient<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BioDomains.
+     * @param {BioDomainDeleteManyArgs} args - Arguments to filter BioDomains to delete.
+     * @example
+     * // Delete a few BioDomains
+     * const { count } = await prisma.bioDomain.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BioDomainDeleteManyArgs>(args?: SelectSubset<T, BioDomainDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BioDomains.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioDomainUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BioDomains
+     * const bioDomain = await prisma.bioDomain.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BioDomainUpdateManyArgs>(args: SelectSubset<T, BioDomainUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BioDomain.
+     * @param {BioDomainUpsertArgs} args - Arguments to update or create a BioDomain.
+     * @example
+     * // Update or create a BioDomain
+     * const bioDomain = await prisma.bioDomain.upsert({
+     *   create: {
+     *     // ... data to create a BioDomain
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BioDomain we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BioDomainUpsertArgs>(args: SelectSubset<T, BioDomainUpsertArgs<ExtArgs>>): Prisma__BioDomainClient<$Result.GetResult<Prisma.$BioDomainPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BioDomains.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioDomainCountArgs} args - Arguments to filter BioDomains to count.
+     * @example
+     * // Count the number of BioDomains
+     * const count = await prisma.bioDomain.count({
+     *   where: {
+     *     // ... the filter for the BioDomains we want to count
+     *   }
+     * })
+    **/
+    count<T extends BioDomainCountArgs>(
+      args?: Subset<T, BioDomainCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BioDomainCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BioDomain.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioDomainAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BioDomainAggregateArgs>(args: Subset<T, BioDomainAggregateArgs>): Prisma.PrismaPromise<GetBioDomainAggregateType<T>>
+
+    /**
+     * Group by BioDomain.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BioDomainGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BioDomainGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BioDomainGroupByArgs['orderBy'] }
+        : { orderBy?: BioDomainGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BioDomainGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBioDomainGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BioDomain model
+   */
+  readonly fields: BioDomainFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BioDomain.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BioDomainClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends BioPageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BioPageDefaultArgs<ExtArgs>>): Prisma__BioPageClient<$Result.GetResult<Prisma.$BioPagePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BioDomain model
+   */ 
+  interface BioDomainFieldRefs {
+    readonly id: FieldRef<"BioDomain", 'String'>
+    readonly pageId: FieldRef<"BioDomain", 'String'>
+    readonly hostname: FieldRef<"BioDomain", 'String'>
+    readonly status: FieldRef<"BioDomain", 'BioDomainStatus'>
+    readonly statusMessage: FieldRef<"BioDomain", 'String'>
+    readonly cfHostnameId: FieldRef<"BioDomain", 'String'>
+    readonly verifyName: FieldRef<"BioDomain", 'String'>
+    readonly verifyValue: FieldRef<"BioDomain", 'String'>
+    readonly cnameTarget: FieldRef<"BioDomain", 'String'>
+    readonly manual: FieldRef<"BioDomain", 'Boolean'>
+    readonly lastCheckedAt: FieldRef<"BioDomain", 'DateTime'>
+    readonly verifiedAt: FieldRef<"BioDomain", 'DateTime'>
+    readonly createdAt: FieldRef<"BioDomain", 'DateTime'>
+    readonly updatedAt: FieldRef<"BioDomain", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BioDomain findUnique
+   */
+  export type BioDomainFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    /**
+     * Filter, which BioDomain to fetch.
+     */
+    where: BioDomainWhereUniqueInput
+  }
+
+  /**
+   * BioDomain findUniqueOrThrow
+   */
+  export type BioDomainFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    /**
+     * Filter, which BioDomain to fetch.
+     */
+    where: BioDomainWhereUniqueInput
+  }
+
+  /**
+   * BioDomain findFirst
+   */
+  export type BioDomainFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    /**
+     * Filter, which BioDomain to fetch.
+     */
+    where?: BioDomainWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioDomains to fetch.
+     */
+    orderBy?: BioDomainOrderByWithRelationInput | BioDomainOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioDomains.
+     */
+    cursor?: BioDomainWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioDomains from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioDomains.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioDomains.
+     */
+    distinct?: BioDomainScalarFieldEnum | BioDomainScalarFieldEnum[]
+  }
+
+  /**
+   * BioDomain findFirstOrThrow
+   */
+  export type BioDomainFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    /**
+     * Filter, which BioDomain to fetch.
+     */
+    where?: BioDomainWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioDomains to fetch.
+     */
+    orderBy?: BioDomainOrderByWithRelationInput | BioDomainOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BioDomains.
+     */
+    cursor?: BioDomainWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioDomains from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioDomains.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BioDomains.
+     */
+    distinct?: BioDomainScalarFieldEnum | BioDomainScalarFieldEnum[]
+  }
+
+  /**
+   * BioDomain findMany
+   */
+  export type BioDomainFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    /**
+     * Filter, which BioDomains to fetch.
+     */
+    where?: BioDomainWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BioDomains to fetch.
+     */
+    orderBy?: BioDomainOrderByWithRelationInput | BioDomainOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BioDomains.
+     */
+    cursor?: BioDomainWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BioDomains from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BioDomains.
+     */
+    skip?: number
+    distinct?: BioDomainScalarFieldEnum | BioDomainScalarFieldEnum[]
+  }
+
+  /**
+   * BioDomain create
+   */
+  export type BioDomainCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BioDomain.
+     */
+    data: XOR<BioDomainCreateInput, BioDomainUncheckedCreateInput>
+  }
+
+  /**
+   * BioDomain createMany
+   */
+  export type BioDomainCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BioDomains.
+     */
+    data: BioDomainCreateManyInput | BioDomainCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BioDomain createManyAndReturn
+   */
+  export type BioDomainCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BioDomains.
+     */
+    data: BioDomainCreateManyInput | BioDomainCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BioDomain update
+   */
+  export type BioDomainUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BioDomain.
+     */
+    data: XOR<BioDomainUpdateInput, BioDomainUncheckedUpdateInput>
+    /**
+     * Choose, which BioDomain to update.
+     */
+    where: BioDomainWhereUniqueInput
+  }
+
+  /**
+   * BioDomain updateMany
+   */
+  export type BioDomainUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BioDomains.
+     */
+    data: XOR<BioDomainUpdateManyMutationInput, BioDomainUncheckedUpdateManyInput>
+    /**
+     * Filter which BioDomains to update
+     */
+    where?: BioDomainWhereInput
+  }
+
+  /**
+   * BioDomain upsert
+   */
+  export type BioDomainUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BioDomain to update in case it exists.
+     */
+    where: BioDomainWhereUniqueInput
+    /**
+     * In case the BioDomain found by the `where` argument doesn't exist, create a new BioDomain with this data.
+     */
+    create: XOR<BioDomainCreateInput, BioDomainUncheckedCreateInput>
+    /**
+     * In case the BioDomain was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BioDomainUpdateInput, BioDomainUncheckedUpdateInput>
+  }
+
+  /**
+   * BioDomain delete
+   */
+  export type BioDomainDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+    /**
+     * Filter which BioDomain to delete.
+     */
+    where: BioDomainWhereUniqueInput
+  }
+
+  /**
+   * BioDomain deleteMany
+   */
+  export type BioDomainDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BioDomains to delete
+     */
+    where?: BioDomainWhereInput
+  }
+
+  /**
+   * BioDomain without action
+   */
+  export type BioDomainDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BioDomain
+     */
+    select?: BioDomainSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BioDomainInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model LoginHandoff
    */
 
@@ -176170,6 +177330,26 @@ export namespace Prisma {
   export type BioEventScalarFieldEnum = (typeof BioEventScalarFieldEnum)[keyof typeof BioEventScalarFieldEnum]
 
 
+  export const BioDomainScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    hostname: 'hostname',
+    status: 'status',
+    statusMessage: 'statusMessage',
+    cfHostnameId: 'cfHostnameId',
+    verifyName: 'verifyName',
+    verifyValue: 'verifyValue',
+    cnameTarget: 'cnameTarget',
+    manual: 'manual',
+    lastCheckedAt: 'lastCheckedAt',
+    verifiedAt: 'verifiedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BioDomainScalarFieldEnum = (typeof BioDomainScalarFieldEnum)[keyof typeof BioDomainScalarFieldEnum]
+
+
   export const LoginHandoffScalarFieldEnum: {
     tokenHash: 'tokenHash',
     userId: 'userId',
@@ -177113,6 +178293,20 @@ export namespace Prisma {
    * Reference to a field of type 'BioEventKind[]'
    */
   export type ListEnumBioEventKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BioEventKind[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BioDomainStatus'
+   */
+  export type EnumBioDomainStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BioDomainStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'BioDomainStatus[]'
+   */
+  export type ListEnumBioDomainStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BioDomainStatus[]'>
     
   /**
    * Deep Input Types
@@ -190878,6 +192072,7 @@ export namespace Prisma {
     submissions?: BioSubmissionListRelationFilter
     events?: BioEventListRelationFilter
     progress?: BioProgressListRelationFilter
+    domain?: XOR<BioDomainNullableRelationFilter, BioDomainWhereInput> | null
   }
 
   export type BioPageOrderByWithRelationInput = {
@@ -190916,6 +192111,7 @@ export namespace Prisma {
     submissions?: BioSubmissionOrderByRelationAggregateInput
     events?: BioEventOrderByRelationAggregateInput
     progress?: BioProgressOrderByRelationAggregateInput
+    domain?: BioDomainOrderByWithRelationInput
   }
 
   export type BioPageWhereUniqueInput = Prisma.AtLeast<{
@@ -190957,6 +192153,7 @@ export namespace Prisma {
     submissions?: BioSubmissionListRelationFilter
     events?: BioEventListRelationFilter
     progress?: BioProgressListRelationFilter
+    domain?: XOR<BioDomainNullableRelationFilter, BioDomainWhereInput> | null
   }, "id" | "companyId" | "slug">
 
   export type BioPageOrderByWithAggregationInput = {
@@ -191502,6 +192699,106 @@ export namespace Prisma {
     utmMedium?: StringNullableWithAggregatesFilter<"BioEvent"> | string | null
     utmCampaign?: StringNullableWithAggregatesFilter<"BioEvent"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BioEvent"> | Date | string
+  }
+
+  export type BioDomainWhereInput = {
+    AND?: BioDomainWhereInput | BioDomainWhereInput[]
+    OR?: BioDomainWhereInput[]
+    NOT?: BioDomainWhereInput | BioDomainWhereInput[]
+    id?: StringFilter<"BioDomain"> | string
+    pageId?: StringFilter<"BioDomain"> | string
+    hostname?: StringFilter<"BioDomain"> | string
+    status?: EnumBioDomainStatusFilter<"BioDomain"> | $Enums.BioDomainStatus
+    statusMessage?: StringNullableFilter<"BioDomain"> | string | null
+    cfHostnameId?: StringNullableFilter<"BioDomain"> | string | null
+    verifyName?: StringNullableFilter<"BioDomain"> | string | null
+    verifyValue?: StringNullableFilter<"BioDomain"> | string | null
+    cnameTarget?: StringNullableFilter<"BioDomain"> | string | null
+    manual?: BoolFilter<"BioDomain"> | boolean
+    lastCheckedAt?: DateTimeNullableFilter<"BioDomain"> | Date | string | null
+    verifiedAt?: DateTimeNullableFilter<"BioDomain"> | Date | string | null
+    createdAt?: DateTimeFilter<"BioDomain"> | Date | string
+    updatedAt?: DateTimeFilter<"BioDomain"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+  }
+
+  export type BioDomainOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    hostname?: SortOrder
+    status?: SortOrder
+    statusMessage?: SortOrderInput | SortOrder
+    cfHostnameId?: SortOrderInput | SortOrder
+    verifyName?: SortOrderInput | SortOrder
+    verifyValue?: SortOrderInput | SortOrder
+    cnameTarget?: SortOrderInput | SortOrder
+    manual?: SortOrder
+    lastCheckedAt?: SortOrderInput | SortOrder
+    verifiedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    page?: BioPageOrderByWithRelationInput
+  }
+
+  export type BioDomainWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    pageId?: string
+    hostname?: string
+    AND?: BioDomainWhereInput | BioDomainWhereInput[]
+    OR?: BioDomainWhereInput[]
+    NOT?: BioDomainWhereInput | BioDomainWhereInput[]
+    status?: EnumBioDomainStatusFilter<"BioDomain"> | $Enums.BioDomainStatus
+    statusMessage?: StringNullableFilter<"BioDomain"> | string | null
+    cfHostnameId?: StringNullableFilter<"BioDomain"> | string | null
+    verifyName?: StringNullableFilter<"BioDomain"> | string | null
+    verifyValue?: StringNullableFilter<"BioDomain"> | string | null
+    cnameTarget?: StringNullableFilter<"BioDomain"> | string | null
+    manual?: BoolFilter<"BioDomain"> | boolean
+    lastCheckedAt?: DateTimeNullableFilter<"BioDomain"> | Date | string | null
+    verifiedAt?: DateTimeNullableFilter<"BioDomain"> | Date | string | null
+    createdAt?: DateTimeFilter<"BioDomain"> | Date | string
+    updatedAt?: DateTimeFilter<"BioDomain"> | Date | string
+    page?: XOR<BioPageRelationFilter, BioPageWhereInput>
+  }, "id" | "pageId" | "hostname">
+
+  export type BioDomainOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    hostname?: SortOrder
+    status?: SortOrder
+    statusMessage?: SortOrderInput | SortOrder
+    cfHostnameId?: SortOrderInput | SortOrder
+    verifyName?: SortOrderInput | SortOrder
+    verifyValue?: SortOrderInput | SortOrder
+    cnameTarget?: SortOrderInput | SortOrder
+    manual?: SortOrder
+    lastCheckedAt?: SortOrderInput | SortOrder
+    verifiedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BioDomainCountOrderByAggregateInput
+    _max?: BioDomainMaxOrderByAggregateInput
+    _min?: BioDomainMinOrderByAggregateInput
+  }
+
+  export type BioDomainScalarWhereWithAggregatesInput = {
+    AND?: BioDomainScalarWhereWithAggregatesInput | BioDomainScalarWhereWithAggregatesInput[]
+    OR?: BioDomainScalarWhereWithAggregatesInput[]
+    NOT?: BioDomainScalarWhereWithAggregatesInput | BioDomainScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BioDomain"> | string
+    pageId?: StringWithAggregatesFilter<"BioDomain"> | string
+    hostname?: StringWithAggregatesFilter<"BioDomain"> | string
+    status?: EnumBioDomainStatusWithAggregatesFilter<"BioDomain"> | $Enums.BioDomainStatus
+    statusMessage?: StringNullableWithAggregatesFilter<"BioDomain"> | string | null
+    cfHostnameId?: StringNullableWithAggregatesFilter<"BioDomain"> | string | null
+    verifyName?: StringNullableWithAggregatesFilter<"BioDomain"> | string | null
+    verifyValue?: StringNullableWithAggregatesFilter<"BioDomain"> | string | null
+    cnameTarget?: StringNullableWithAggregatesFilter<"BioDomain"> | string | null
+    manual?: BoolWithAggregatesFilter<"BioDomain"> | boolean
+    lastCheckedAt?: DateTimeNullableWithAggregatesFilter<"BioDomain"> | Date | string | null
+    verifiedAt?: DateTimeNullableWithAggregatesFilter<"BioDomain"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BioDomain"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BioDomain"> | Date | string
   }
 
   export type LoginHandoffWhereInput = {
@@ -207032,6 +208329,7 @@ export namespace Prisma {
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
     progress?: BioProgressCreateNestedManyWithoutPageInput
+    domain?: BioDomainCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUncheckedCreateInput = {
@@ -207068,6 +208366,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
     progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
+    domain?: BioDomainUncheckedCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUpdateInput = {
@@ -207104,6 +208403,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
     progress?: BioProgressUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateInput = {
@@ -207140,6 +208440,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
     progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUncheckedUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageCreateManyInput = {
@@ -207771,6 +209072,124 @@ export namespace Prisma {
     utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
     utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioDomainCreateInput = {
+    id?: string
+    hostname: string
+    status?: $Enums.BioDomainStatus
+    statusMessage?: string | null
+    cfHostnameId?: string | null
+    verifyName?: string | null
+    verifyValue?: string | null
+    cnameTarget?: string | null
+    manual?: boolean
+    lastCheckedAt?: Date | string | null
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    page: BioPageCreateNestedOneWithoutDomainInput
+  }
+
+  export type BioDomainUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    hostname: string
+    status?: $Enums.BioDomainStatus
+    statusMessage?: string | null
+    cfHostnameId?: string | null
+    verifyName?: string | null
+    verifyValue?: string | null
+    cnameTarget?: string | null
+    manual?: boolean
+    lastCheckedAt?: Date | string | null
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioDomainUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hostname?: StringFieldUpdateOperationsInput | string
+    status?: EnumBioDomainStatusFieldUpdateOperationsInput | $Enums.BioDomainStatus
+    statusMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    cfHostnameId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyName?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyValue?: NullableStringFieldUpdateOperationsInput | string | null
+    cnameTarget?: NullableStringFieldUpdateOperationsInput | string | null
+    manual?: BoolFieldUpdateOperationsInput | boolean
+    lastCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: BioPageUpdateOneRequiredWithoutDomainNestedInput
+  }
+
+  export type BioDomainUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    hostname?: StringFieldUpdateOperationsInput | string
+    status?: EnumBioDomainStatusFieldUpdateOperationsInput | $Enums.BioDomainStatus
+    statusMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    cfHostnameId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyName?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyValue?: NullableStringFieldUpdateOperationsInput | string | null
+    cnameTarget?: NullableStringFieldUpdateOperationsInput | string | null
+    manual?: BoolFieldUpdateOperationsInput | boolean
+    lastCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioDomainCreateManyInput = {
+    id?: string
+    pageId: string
+    hostname: string
+    status?: $Enums.BioDomainStatus
+    statusMessage?: string | null
+    cfHostnameId?: string | null
+    verifyName?: string | null
+    verifyValue?: string | null
+    cnameTarget?: string | null
+    manual?: boolean
+    lastCheckedAt?: Date | string | null
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioDomainUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hostname?: StringFieldUpdateOperationsInput | string
+    status?: EnumBioDomainStatusFieldUpdateOperationsInput | $Enums.BioDomainStatus
+    statusMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    cfHostnameId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyName?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyValue?: NullableStringFieldUpdateOperationsInput | string | null
+    cnameTarget?: NullableStringFieldUpdateOperationsInput | string | null
+    manual?: BoolFieldUpdateOperationsInput | boolean
+    lastCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioDomainUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    hostname?: StringFieldUpdateOperationsInput | string
+    status?: EnumBioDomainStatusFieldUpdateOperationsInput | $Enums.BioDomainStatus
+    statusMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    cfHostnameId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyName?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyValue?: NullableStringFieldUpdateOperationsInput | string | null
+    cnameTarget?: NullableStringFieldUpdateOperationsInput | string | null
+    manual?: BoolFieldUpdateOperationsInput | boolean
+    lastCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoginHandoffCreateInput = {
@@ -218083,6 +219502,11 @@ export namespace Prisma {
     none?: BioProgressWhereInput
   }
 
+  export type BioDomainNullableRelationFilter = {
+    is?: BioDomainWhereInput | null
+    isNot?: BioDomainWhereInput | null
+  }
+
   export type BioPageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -218499,6 +219923,74 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBioEventKindFilter<$PrismaModel>
     _max?: NestedEnumBioEventKindFilter<$PrismaModel>
+  }
+
+  export type EnumBioDomainStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioDomainStatus | EnumBioDomainStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BioDomainStatus[] | ListEnumBioDomainStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioDomainStatus[] | ListEnumBioDomainStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioDomainStatusFilter<$PrismaModel> | $Enums.BioDomainStatus
+  }
+
+  export type BioDomainCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    hostname?: SortOrder
+    status?: SortOrder
+    statusMessage?: SortOrder
+    cfHostnameId?: SortOrder
+    verifyName?: SortOrder
+    verifyValue?: SortOrder
+    cnameTarget?: SortOrder
+    manual?: SortOrder
+    lastCheckedAt?: SortOrder
+    verifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioDomainMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    hostname?: SortOrder
+    status?: SortOrder
+    statusMessage?: SortOrder
+    cfHostnameId?: SortOrder
+    verifyName?: SortOrder
+    verifyValue?: SortOrder
+    cnameTarget?: SortOrder
+    manual?: SortOrder
+    lastCheckedAt?: SortOrder
+    verifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BioDomainMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    hostname?: SortOrder
+    status?: SortOrder
+    statusMessage?: SortOrder
+    cfHostnameId?: SortOrder
+    verifyName?: SortOrder
+    verifyValue?: SortOrder
+    cnameTarget?: SortOrder
+    manual?: SortOrder
+    lastCheckedAt?: SortOrder
+    verifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumBioDomainStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioDomainStatus | EnumBioDomainStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BioDomainStatus[] | ListEnumBioDomainStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioDomainStatus[] | ListEnumBioDomainStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioDomainStatusWithAggregatesFilter<$PrismaModel> | $Enums.BioDomainStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBioDomainStatusFilter<$PrismaModel>
+    _max?: NestedEnumBioDomainStatusFilter<$PrismaModel>
   }
 
   export type LoginHandoffCountOrderByAggregateInput = {
@@ -231658,6 +233150,12 @@ export namespace Prisma {
     connect?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
   }
 
+  export type BioDomainCreateNestedOneWithoutPageInput = {
+    create?: XOR<BioDomainCreateWithoutPageInput, BioDomainUncheckedCreateWithoutPageInput>
+    connectOrCreate?: BioDomainCreateOrConnectWithoutPageInput
+    connect?: BioDomainWhereUniqueInput
+  }
+
   export type BioPageUncheckedCreateNestedManyWithoutReferredByInput = {
     create?: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput> | BioPageCreateWithoutReferredByInput[] | BioPageUncheckedCreateWithoutReferredByInput[]
     connectOrCreate?: BioPageCreateOrConnectWithoutReferredByInput | BioPageCreateOrConnectWithoutReferredByInput[]
@@ -231698,6 +233196,12 @@ export namespace Prisma {
     connectOrCreate?: BioProgressCreateOrConnectWithoutPageInput | BioProgressCreateOrConnectWithoutPageInput[]
     createMany?: BioProgressCreateManyPageInputEnvelope
     connect?: BioProgressWhereUniqueInput | BioProgressWhereUniqueInput[]
+  }
+
+  export type BioDomainUncheckedCreateNestedOneWithoutPageInput = {
+    create?: XOR<BioDomainCreateWithoutPageInput, BioDomainUncheckedCreateWithoutPageInput>
+    connectOrCreate?: BioDomainCreateOrConnectWithoutPageInput
+    connect?: BioDomainWhereUniqueInput
   }
 
   export type EnumBioTemplateFieldUpdateOperationsInput = {
@@ -231806,6 +233310,16 @@ export namespace Prisma {
     deleteMany?: BioProgressScalarWhereInput | BioProgressScalarWhereInput[]
   }
 
+  export type BioDomainUpdateOneWithoutPageNestedInput = {
+    create?: XOR<BioDomainCreateWithoutPageInput, BioDomainUncheckedCreateWithoutPageInput>
+    connectOrCreate?: BioDomainCreateOrConnectWithoutPageInput
+    upsert?: BioDomainUpsertWithoutPageInput
+    disconnect?: BioDomainWhereInput | boolean
+    delete?: BioDomainWhereInput | boolean
+    connect?: BioDomainWhereUniqueInput
+    update?: XOR<XOR<BioDomainUpdateToOneWithWhereWithoutPageInput, BioDomainUpdateWithoutPageInput>, BioDomainUncheckedUpdateWithoutPageInput>
+  }
+
   export type BioPageUncheckedUpdateManyWithoutReferredByNestedInput = {
     create?: XOR<BioPageCreateWithoutReferredByInput, BioPageUncheckedCreateWithoutReferredByInput> | BioPageCreateWithoutReferredByInput[] | BioPageUncheckedCreateWithoutReferredByInput[]
     connectOrCreate?: BioPageCreateOrConnectWithoutReferredByInput | BioPageCreateOrConnectWithoutReferredByInput[]
@@ -231888,6 +233402,16 @@ export namespace Prisma {
     update?: BioProgressUpdateWithWhereUniqueWithoutPageInput | BioProgressUpdateWithWhereUniqueWithoutPageInput[]
     updateMany?: BioProgressUpdateManyWithWhereWithoutPageInput | BioProgressUpdateManyWithWhereWithoutPageInput[]
     deleteMany?: BioProgressScalarWhereInput | BioProgressScalarWhereInput[]
+  }
+
+  export type BioDomainUncheckedUpdateOneWithoutPageNestedInput = {
+    create?: XOR<BioDomainCreateWithoutPageInput, BioDomainUncheckedCreateWithoutPageInput>
+    connectOrCreate?: BioDomainCreateOrConnectWithoutPageInput
+    upsert?: BioDomainUpsertWithoutPageInput
+    disconnect?: BioDomainWhereInput | boolean
+    delete?: BioDomainWhereInput | boolean
+    connect?: BioDomainWhereUniqueInput
+    update?: XOR<XOR<BioDomainUpdateToOneWithWhereWithoutPageInput, BioDomainUpdateWithoutPageInput>, BioDomainUncheckedUpdateWithoutPageInput>
   }
 
   export type BioPageCreateNestedOneWithoutBlocksInput = {
@@ -232039,6 +233563,24 @@ export namespace Prisma {
     upsert?: BioPageUpsertWithoutEventsInput
     connect?: BioPageWhereUniqueInput
     update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutEventsInput, BioPageUpdateWithoutEventsInput>, BioPageUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type BioPageCreateNestedOneWithoutDomainInput = {
+    create?: XOR<BioPageCreateWithoutDomainInput, BioPageUncheckedCreateWithoutDomainInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutDomainInput
+    connect?: BioPageWhereUniqueInput
+  }
+
+  export type EnumBioDomainStatusFieldUpdateOperationsInput = {
+    set?: $Enums.BioDomainStatus
+  }
+
+  export type BioPageUpdateOneRequiredWithoutDomainNestedInput = {
+    create?: XOR<BioPageCreateWithoutDomainInput, BioPageUncheckedCreateWithoutDomainInput>
+    connectOrCreate?: BioPageCreateOrConnectWithoutDomainInput
+    upsert?: BioPageUpsertWithoutDomainInput
+    connect?: BioPageWhereUniqueInput
+    update?: XOR<XOR<BioPageUpdateToOneWithWhereWithoutDomainInput, BioPageUpdateWithoutDomainInput>, BioPageUncheckedUpdateWithoutDomainInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -233403,6 +234945,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBioEventKindFilter<$PrismaModel>
     _max?: NestedEnumBioEventKindFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBioDomainStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioDomainStatus | EnumBioDomainStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BioDomainStatus[] | ListEnumBioDomainStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioDomainStatus[] | ListEnumBioDomainStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioDomainStatusFilter<$PrismaModel> | $Enums.BioDomainStatus
+  }
+
+  export type NestedEnumBioDomainStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BioDomainStatus | EnumBioDomainStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BioDomainStatus[] | ListEnumBioDomainStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BioDomainStatus[] | ListEnumBioDomainStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBioDomainStatusWithAggregatesFilter<$PrismaModel> | $Enums.BioDomainStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBioDomainStatusFilter<$PrismaModel>
+    _max?: NestedEnumBioDomainStatusFilter<$PrismaModel>
   }
 
   export type CompanyCreateWithoutUsersInput = {
@@ -242248,6 +243807,7 @@ export namespace Prisma {
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
     progress?: BioProgressCreateNestedManyWithoutPageInput
+    domain?: BioDomainCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutCompanyInput = {
@@ -242283,6 +243843,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
     progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
+    domain?: BioDomainUncheckedCreateNestedOneWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutCompanyInput = {
@@ -246008,6 +247569,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
     progress?: BioProgressUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutCompanyInput = {
@@ -246043,6 +247605,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
     progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUncheckedUpdateOneWithoutPageNestedInput
   }
 
   export type PipelineStageConfigUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -326680,6 +328243,7 @@ export namespace Prisma {
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
     progress?: BioProgressCreateNestedManyWithoutPageInput
+    domain?: BioDomainCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutReferralsInput = {
@@ -326715,6 +328279,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
     progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
+    domain?: BioDomainUncheckedCreateNestedOneWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutReferralsInput = {
@@ -326755,6 +328320,7 @@ export namespace Prisma {
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
     progress?: BioProgressCreateNestedManyWithoutPageInput
+    domain?: BioDomainCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutReferredByInput = {
@@ -326790,6 +328356,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
     progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
+    domain?: BioDomainUncheckedCreateNestedOneWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutReferredByInput = {
@@ -326998,6 +328565,43 @@ export namespace Prisma {
   export type BioProgressCreateManyPageInputEnvelope = {
     data: BioProgressCreateManyPageInput | BioProgressCreateManyPageInput[]
     skipDuplicates?: boolean
+  }
+
+  export type BioDomainCreateWithoutPageInput = {
+    id?: string
+    hostname: string
+    status?: $Enums.BioDomainStatus
+    statusMessage?: string | null
+    cfHostnameId?: string | null
+    verifyName?: string | null
+    verifyValue?: string | null
+    cnameTarget?: string | null
+    manual?: boolean
+    lastCheckedAt?: Date | string | null
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioDomainUncheckedCreateWithoutPageInput = {
+    id?: string
+    hostname: string
+    status?: $Enums.BioDomainStatus
+    statusMessage?: string | null
+    cfHostnameId?: string | null
+    verifyName?: string | null
+    verifyValue?: string | null
+    cnameTarget?: string | null
+    manual?: boolean
+    lastCheckedAt?: Date | string | null
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BioDomainCreateOrConnectWithoutPageInput = {
+    where: BioDomainWhereUniqueInput
+    create: XOR<BioDomainCreateWithoutPageInput, BioDomainUncheckedCreateWithoutPageInput>
   }
 
   export type CompanyUpsertWithoutBioPageInput = {
@@ -327335,6 +328939,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
     progress?: BioProgressUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutReferralsInput = {
@@ -327370,6 +328975,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
     progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUncheckedUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUpsertWithWhereUniqueWithoutReferredByInput = {
@@ -327571,6 +329177,49 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BioProgress"> | Date | string
   }
 
+  export type BioDomainUpsertWithoutPageInput = {
+    update: XOR<BioDomainUpdateWithoutPageInput, BioDomainUncheckedUpdateWithoutPageInput>
+    create: XOR<BioDomainCreateWithoutPageInput, BioDomainUncheckedCreateWithoutPageInput>
+    where?: BioDomainWhereInput
+  }
+
+  export type BioDomainUpdateToOneWithWhereWithoutPageInput = {
+    where?: BioDomainWhereInput
+    data: XOR<BioDomainUpdateWithoutPageInput, BioDomainUncheckedUpdateWithoutPageInput>
+  }
+
+  export type BioDomainUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hostname?: StringFieldUpdateOperationsInput | string
+    status?: EnumBioDomainStatusFieldUpdateOperationsInput | $Enums.BioDomainStatus
+    statusMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    cfHostnameId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyName?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyValue?: NullableStringFieldUpdateOperationsInput | string | null
+    cnameTarget?: NullableStringFieldUpdateOperationsInput | string | null
+    manual?: BoolFieldUpdateOperationsInput | boolean
+    lastCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BioDomainUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hostname?: StringFieldUpdateOperationsInput | string
+    status?: EnumBioDomainStatusFieldUpdateOperationsInput | $Enums.BioDomainStatus
+    statusMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    cfHostnameId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyName?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyValue?: NullableStringFieldUpdateOperationsInput | string | null
+    cnameTarget?: NullableStringFieldUpdateOperationsInput | string | null
+    manual?: BoolFieldUpdateOperationsInput | boolean
+    lastCheckedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BioPageCreateWithoutBlocksInput = {
     id?: string
     slug: string
@@ -327604,6 +329253,7 @@ export namespace Prisma {
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
     progress?: BioProgressCreateNestedManyWithoutPageInput
+    domain?: BioDomainCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutBlocksInput = {
@@ -327639,6 +329289,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
     progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
+    domain?: BioDomainUncheckedCreateNestedOneWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutBlocksInput = {
@@ -327690,6 +329341,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
     progress?: BioProgressUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutBlocksInput = {
@@ -327725,6 +329377,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
     progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUncheckedUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageCreateWithoutQuestionsInput = {
@@ -327760,6 +329413,7 @@ export namespace Prisma {
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
     progress?: BioProgressCreateNestedManyWithoutPageInput
+    domain?: BioDomainCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutQuestionsInput = {
@@ -327795,6 +329449,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
     progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
+    domain?: BioDomainUncheckedCreateNestedOneWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutQuestionsInput = {
@@ -327846,6 +329501,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
     progress?: BioProgressUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutQuestionsInput = {
@@ -327881,6 +329537,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
     progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUncheckedUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageCreateWithoutSubmissionsInput = {
@@ -327916,6 +329573,7 @@ export namespace Prisma {
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
     progress?: BioProgressCreateNestedManyWithoutPageInput
+    domain?: BioDomainCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutSubmissionsInput = {
@@ -327951,6 +329609,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
     progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
+    domain?: BioDomainUncheckedCreateNestedOneWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutSubmissionsInput = {
@@ -328156,6 +329815,7 @@ export namespace Prisma {
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
     progress?: BioProgressUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutSubmissionsInput = {
@@ -328191,6 +329851,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
     progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUncheckedUpdateOneWithoutPageNestedInput
   }
 
   export type LeadUpsertWithoutBioSubmissionsInput = {
@@ -328392,6 +330053,7 @@ export namespace Prisma {
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     events?: BioEventCreateNestedManyWithoutPageInput
+    domain?: BioDomainCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutProgressInput = {
@@ -328427,6 +330089,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+    domain?: BioDomainUncheckedCreateNestedOneWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutProgressInput = {
@@ -328523,6 +330186,7 @@ export namespace Prisma {
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutProgressInput = {
@@ -328558,6 +330222,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUncheckedUpdateOneWithoutPageNestedInput
   }
 
   export type BioSubmissionUpsertWithoutProgressInput = {
@@ -328644,6 +330309,7 @@ export namespace Prisma {
     questions?: BioQuestionCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionCreateNestedManyWithoutPageInput
     progress?: BioProgressCreateNestedManyWithoutPageInput
+    domain?: BioDomainCreateNestedOneWithoutPageInput
   }
 
   export type BioPageUncheckedCreateWithoutEventsInput = {
@@ -328679,6 +330345,7 @@ export namespace Prisma {
     questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
     submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
     progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
+    domain?: BioDomainUncheckedCreateNestedOneWithoutPageInput
   }
 
   export type BioPageCreateOrConnectWithoutEventsInput = {
@@ -328730,6 +330397,7 @@ export namespace Prisma {
     questions?: BioQuestionUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     progress?: BioProgressUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutEventsInput = {
@@ -328764,6 +330432,167 @@ export namespace Prisma {
     blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
     questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUncheckedUpdateOneWithoutPageNestedInput
+  }
+
+  export type BioPageCreateWithoutDomainInput = {
+    id?: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    freeLimits?: boolean
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBioPageInput
+    referredBy?: BioPageCreateNestedOneWithoutReferralsInput
+    referrals?: BioPageCreateNestedManyWithoutReferredByInput
+    blocks?: BioBlockCreateNestedManyWithoutPageInput
+    questions?: BioQuestionCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionCreateNestedManyWithoutPageInput
+    events?: BioEventCreateNestedManyWithoutPageInput
+    progress?: BioProgressCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageUncheckedCreateWithoutDomainInput = {
+    id?: string
+    companyId: string
+    slug: string
+    template?: $Enums.BioTemplate
+    title: string
+    headline?: string | null
+    about?: string | null
+    avatarUrl?: string | null
+    coverUrl?: string | null
+    accentColor?: string | null
+    freeLimits?: boolean
+    published?: boolean
+    publishedAt?: Date | string | null
+    quizEnabled?: boolean
+    quizTitle?: string | null
+    quizCta?: string | null
+    thankYouMessage?: string | null
+    consentText?: string | null
+    bookingUrl?: string | null
+    bookingText?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    contactAddress?: string | null
+    contactHours?: string | null
+    referredById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    referrals?: BioPageUncheckedCreateNestedManyWithoutReferredByInput
+    blocks?: BioBlockUncheckedCreateNestedManyWithoutPageInput
+    questions?: BioQuestionUncheckedCreateNestedManyWithoutPageInput
+    submissions?: BioSubmissionUncheckedCreateNestedManyWithoutPageInput
+    events?: BioEventUncheckedCreateNestedManyWithoutPageInput
+    progress?: BioProgressUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type BioPageCreateOrConnectWithoutDomainInput = {
+    where: BioPageWhereUniqueInput
+    create: XOR<BioPageCreateWithoutDomainInput, BioPageUncheckedCreateWithoutDomainInput>
+  }
+
+  export type BioPageUpsertWithoutDomainInput = {
+    update: XOR<BioPageUpdateWithoutDomainInput, BioPageUncheckedUpdateWithoutDomainInput>
+    create: XOR<BioPageCreateWithoutDomainInput, BioPageUncheckedCreateWithoutDomainInput>
+    where?: BioPageWhereInput
+  }
+
+  export type BioPageUpdateToOneWithWhereWithoutDomainInput = {
+    where?: BioPageWhereInput
+    data: XOR<BioPageUpdateWithoutDomainInput, BioPageUncheckedUpdateWithoutDomainInput>
+  }
+
+  export type BioPageUpdateWithoutDomainInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBioPageNestedInput
+    referredBy?: BioPageUpdateOneWithoutReferralsNestedInput
+    referrals?: BioPageUpdateManyWithoutReferredByNestedInput
+    blocks?: BioBlockUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
+    events?: BioEventUpdateManyWithoutPageNestedInput
+    progress?: BioProgressUpdateManyWithoutPageNestedInput
+  }
+
+  export type BioPageUncheckedUpdateWithoutDomainInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    template?: EnumBioTemplateFieldUpdateOperationsInput | $Enums.BioTemplate
+    title?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    freeLimits?: BoolFieldUpdateOperationsInput | boolean
+    published?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quizEnabled?: BoolFieldUpdateOperationsInput | boolean
+    quizTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    quizCta?: NullableStringFieldUpdateOperationsInput | string | null
+    thankYouMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    consentText?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingText?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    contactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    contactHours?: NullableStringFieldUpdateOperationsInput | string | null
+    referredById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrals?: BioPageUncheckedUpdateManyWithoutReferredByNestedInput
+    blocks?: BioBlockUncheckedUpdateManyWithoutPageNestedInput
+    questions?: BioQuestionUncheckedUpdateManyWithoutPageNestedInput
+    submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
+    events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
     progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
   }
 
@@ -344648,6 +346477,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUpdateManyWithoutPageNestedInput
     events?: BioEventUpdateManyWithoutPageNestedInput
     progress?: BioProgressUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateWithoutReferredByInput = {
@@ -344683,6 +346513,7 @@ export namespace Prisma {
     submissions?: BioSubmissionUncheckedUpdateManyWithoutPageNestedInput
     events?: BioEventUncheckedUpdateManyWithoutPageNestedInput
     progress?: BioProgressUncheckedUpdateManyWithoutPageNestedInput
+    domain?: BioDomainUncheckedUpdateOneWithoutPageNestedInput
   }
 
   export type BioPageUncheckedUpdateManyWithoutReferredByInput = {
@@ -345668,6 +347499,10 @@ export namespace Prisma {
      * @deprecated Use BioEventDefaultArgs instead
      */
     export type BioEventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioEventDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BioDomainDefaultArgs instead
+     */
+    export type BioDomainArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BioDomainDefaultArgs<ExtArgs>
     /**
      * @deprecated Use LoginHandoffDefaultArgs instead
      */
