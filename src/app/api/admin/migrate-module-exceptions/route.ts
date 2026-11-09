@@ -124,6 +124,38 @@ export async function POST(req: NextRequest) {
     grandfathered.push(`${c.name} [${tier}]`);
   }
 
+  // ── Passe 2c: reorganização de planos de 09/11/2026 ───────────────
+  //
+  // O Grátis perdeu marketing e cofre, e o Essencial perdeu o WhatsApp. Quem já
+  // tinha continua com tudo, como exceção revogável na aba Plano.
+  const CUTOFF_PLANOS = new Date("2026-11-10T03:00:00Z");
+  const PERDAS: Partial<Record<PlanTier, (keyof PlanFeatures)[]>> = {
+    FREE: ["cofreCredenciais", "marketingDashboard", "googleAnalytics", "googleSearchConsole", "googleBusinessProfile"],
+    ESSENCIAL: ["whatsapp", "whatsappGrupos", "inboxAvancado"],
+  };
+  const afetadas = await prisma.subscription.findMany({
+    where: { plan: { in: ["FREE", "ESSENCIAL"] }, company: { createdAt: { lt: CUTOFF_PLANOS } } },
+    select: { id: true, plan: true, customFeatures: true, customLimits: true },
+  });
+  let planosPreservados = 0;
+  for (const sub of afetadas) {
+    const custom = (sub.customFeatures as Partial<PlanFeatures> | null) ?? {};
+    const limits = (sub.customLimits as Record<string, unknown> | null) ?? {};
+    const nextCustom = { ...custom };
+    const nextLimits = { ...limits };
+    for (const k of PERDAS[sub.plan as PlanTier] ?? []) {
+      if (nextCustom[k] === undefined) (nextCustom as any)[k] = true;
+    }
+    if (sub.plan === "ESSENCIAL" && nextLimits.whatsappInstances === undefined) nextLimits.whatsappInstances = 1;
+    if (JSON.stringify(nextCustom) === JSON.stringify(custom) && JSON.stringify(nextLimits) === JSON.stringify(limits)) continue;
+    await prisma.subscription.update({
+      where: { id: sub.id },
+      data: { customFeatures: nextCustom as any, customLimits: nextLimits as any },
+    });
+    planosPreservados++;
+  }
+  console.log(`[Backfill módulos] planos de 09/11 preservados: ${planosPreservados}`);
+
   // ── Passe 2b: preserva cota de IA definida na mão ───────────────────────
   //
   // `aiMonthlyQuota` virou cache derivado do limite do plano. Empresa que teve

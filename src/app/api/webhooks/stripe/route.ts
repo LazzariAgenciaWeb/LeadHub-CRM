@@ -27,7 +27,7 @@ import type Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getStripe, mapStripeStatus, planForPriceId } from "@/lib/stripe";
-import { PAGE_LINE_TIERS } from "@/lib/plans";
+import { PAGE_LINE_PAID, PAGE_LINE_TIERS } from "@/lib/plans";
 
 // Webhooks devem ler o body cru pra validar a assinatura.
 export const runtime = "nodejs";
@@ -176,8 +176,8 @@ async function handleSubscriptionDeleted(sub: Stripe.Subscription): Promise<void
     where: { companyId: existing.companyId },
     // Linha Página: cancelou o Pro/Mini Site, a página volta pro Grátis (com
     // selo e limites) em vez de ficar com o plano pago pra sempre.
-    data: PAGE_LINE_TIERS.includes(existing.plan)
-      ? { plan: "PAGINA", status: "ACTIVE", canceledAt: new Date(), stripeSubscriptionId: null, stripePriceId: null }
+    data: PAGE_LINE_TIERS.includes(existing.plan) || PAGE_LINE_PAID.includes(existing.plan)
+      ? { plan: PAGE_LINE_TIERS.includes(existing.plan) ? "PAGINA" : "FREE", status: "ACTIVE", canceledAt: new Date(), stripeSubscriptionId: null, stripePriceId: null }
       : { status: "CANCELED", canceledAt: new Date() },
   });
 

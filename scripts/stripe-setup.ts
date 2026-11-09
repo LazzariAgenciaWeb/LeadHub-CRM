@@ -88,7 +88,7 @@ async function main() {
 
   // FREE não vira produto: não há cobrança.
   // Planos de gestão + linha Página (Pro e Negócio do site gohub.com.br).
-  const paid = [...PLAN_ORDER, ...PAGE_LINE_PAID].filter((t) => t !== "FREE" && PLANS[t].priceMonthly > 0);
+  const paid = [...new Set([...PLAN_ORDER, ...PAGE_LINE_PAID])].filter((t) => t !== "FREE" && PLANS[t].priceMonthly > 0);
   const results: Result[] = [];
 
   for (const tier of paid) {

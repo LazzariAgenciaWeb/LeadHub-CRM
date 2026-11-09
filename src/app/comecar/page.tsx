@@ -44,7 +44,7 @@ export default async function ComecarPage({
       refSlug={referrer?.slug ?? null}
       refTitle={referrer?.title ?? null}
       appBase={appBase()}
-      plan={chosen ? { slug: chosen === "PAGINA_PRO" ? "pro" : "minisite", label: PLANS[chosen].label, price: PLANS[chosen].priceMonthly } : null}
+      plan={chosen ? { slug: chosen.toLowerCase(), label: PLANS[chosen].label, price: PLANS[chosen].priceMonthly } : null}
     />
     </>
   );

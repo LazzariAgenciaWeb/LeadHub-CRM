@@ -112,7 +112,7 @@ export default function PaginaResultados({ summary, adminDetailHref }: { summary
           <Lock className="w-4 h-4 text-amber-300 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-amber-100 leading-relaxed">
             <strong>+{summary.hidden} {summary.hidden === 1 ? "contato" : "contatos"} este mês</strong> que você ainda não vê.
-            No Pro (R$ 29,90/mês) você vê todos, com as respostas de cada um, e a página fica sem a marca GoHub.
+            No Organization (R$ 49,90/mês) você vê todos, com as respostas de cada um, e a página fica sem a marca GoHub.
           </p>
         </div>
       )}

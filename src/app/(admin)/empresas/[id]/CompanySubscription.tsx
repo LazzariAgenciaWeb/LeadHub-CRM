@@ -447,7 +447,7 @@ export default function CompanySubscription({
                   </option>
                 ))}
               </optgroup>
-              <optgroup label="Página do Negócio">
+              <optgroup label="Antigos da Página do Negócio">
                 {PAGE_LINE_PLANS.map((p) => (
                   <option key={p} value={p}>
                     {data.plans[p].label}

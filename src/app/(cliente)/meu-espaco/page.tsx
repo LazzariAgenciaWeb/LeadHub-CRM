@@ -94,8 +94,9 @@ export default async function MeuEspacoPage() {
     : [];
   const bioViews = bioMonth.find((r) => r.kind === "VIEW")?._count._all ?? 0;
   const bioLeads = bioMonth.find((r) => r.kind === "LEAD")?._count._all ?? 0;
-  const canEditBio = company.fullSystemAccess && role === "ADMIN";
-  const bioHref = canEditBio ? "/pagina" : bioPage?.published ? bioPublicUrl(bioPage.slug) : null;
+  const canEditBio = role === "ADMIN";
+  const editHref = company.fullSystemAccess ? "/pagina" : "/meu-espaco/pagina";
+  const bioHref = canEditBio ? editHref : bioPage?.published ? bioPublicUrl(bioPage.slug) : null;
 
   const projects = await prisma.setorClickupList.findMany({
     where:   { clientCompanyId: companyId, status: { not: "CANCELADO" } },
@@ -270,6 +271,22 @@ export default async function MeuEspacoPage() {
         </div>
       </section>
 
+      {/* PÁGINA DO NEGÓCIO — o atalho principal do Meu Espaço */}
+      {bioHref && (
+        <Link href={bioHref} className="gohubcta" {...(canEditBio ? {} : { target: "_blank", rel: "noopener noreferrer" })}>
+          <span className="gohublogo" aria-label="GoHub"><b>go</b>hub<b>.</b></span>
+          <span className="gohubtx">
+            <strong>Página do Negócio</strong>
+            <small>
+              {bioPage
+                ? `${bioPage.published ? "No ar" : "Rascunho"} · ${bioViews} ${bioViews === 1 ? "visita" : "visitas"} · ${bioLeads} ${bioLeads === 1 ? "contato" : "contatos"} no mês`
+                : "Seu link na bio, pronto em minutos"}
+            </small>
+          </span>
+          <span className="gohubgo">{canEditBio ? (bioPage ? "Editar página →" : "Criar minha página →") : "Ver página →"}</span>
+        </Link>
+      )}
+
       {/* SEUS PRODUTOS CONTRATADOS — LeadHub (sistema) + serviços contratados do cliente */}
       <section className="row">
         <div className="rowhead"><h2>Seus produtos contratados</h2><span className="sub">o que é seu e está ativo com a gente</span></div>
@@ -284,21 +301,6 @@ export default async function MeuEspacoPage() {
                 <span className="psb">seu sistema de gestão</span>
                 <span className="st ok">Ativo</span>
                 <span className="pr">Acessar o sistema →</span>
-              </div>
-            </Link>
-          )}
-          {bioHref && (
-            <Link href={bioHref} className="prod" {...(canEditBio ? {} : { target: "_blank", rel: "noopener noreferrer" })}>
-              <span className="pic" style={{ background: "linear-gradient(135deg,#4F46E5,#06B6D4)" }}>📄</span>
-              <div className="pb">
-                <b>Página do Negócio</b>
-                <span className="psb">
-                  {bioPage ? `${bioViews} ${bioViews === 1 ? "visita" : "visitas"} · ${bioLeads} ${bioLeads === 1 ? "contato" : "contatos"} no mês` : "seu link na bio, grátis"}
-                </span>
-                <span className={`st ${bioPage?.published ? "ok" : "info"}`}>
-                  {bioPage?.published ? "No ar" : bioPage ? "Rascunho" : "Grátis"}
-                </span>
-                <span className="pr">{canEditBio ? (bioPage ? "Editar página →" : "Criar minha página →") : "Ver página →"}</span>
               </div>
             </Link>
           )}
@@ -399,6 +401,15 @@ const CSS = `
 .hero::after{content:"";position:absolute;width:320px;height:320px;right:-60px;top:-130px;border-radius:50%;
   background:radial-gradient(circle,rgba(139,131,255,.5),transparent 62%);filter:blur(20px);pointer-events:none}
 .hero>*{position:relative;z-index:1}
+.gohubcta{display:flex;align-items:center;gap:22px;margin-top:16px;padding:24px 28px;border-radius:24px;background:#0B0B0D;color:#fff;text-decoration:none;border:1px solid rgba(255,46,150,.45);transition:transform .15s,border-color .15s}
+.gohubcta:hover{transform:translateY(-2px);border-color:#FF2E96}
+.gohublogo{flex:none;font-size:34px;line-height:1;letter-spacing:-.05em;font-weight:400}
+.gohublogo b{color:#FF2E96;font-weight:800}
+.gohubtx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.gohubtx strong{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.gohubtx small{font-size:13.5px;color:rgba(255,255,255,.68)}
+.gohubgo{flex:none;padding:14px 22px;border-radius:999px;background:#FF2E96;color:#fff;font-size:15px;font-weight:800;white-space:nowrap}
+@media (max-width:640px){.gohubcta{flex-direction:column;align-items:flex-start;gap:14px;padding:22px 20px}.gohubgo{align-self:stretch;text-align:center}}
 .herogrid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center}
 @media(max-width:760px){.herogrid{grid-template-columns:1fr}}
 .awaitbox{background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:16px;padding:14px}

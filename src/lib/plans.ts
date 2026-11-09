@@ -219,13 +219,13 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
 
 export const PLANS: Record<PlanTier, PlanDefinition> = {
   // ── FREE: porta de entrada (observabilidade + material) ──
-  // Sem WhatsApp. Cliente entra pra ver o Espaço dele + relatórios de
-  // marketing (ferramentas Google gratuitas) + vídeos de apoio.
+  // Grátis (09/11/2026): Página do Negócio, Meu Espaço e vídeos. Quem já estava
+  // no Free antes disso mantém marketing e cofre como exceção (ver backfill).
   FREE: {
     tier: "FREE",
-    label: "Free",
-    tagline: "Seu espaço + relatórios de marketing",
-    description: "Meu Espaço, Dashboard de Marketing (Google Analytics + Search Console) e biblioteca de vídeos — grátis pra sempre, sem cartão.",
+    label: "Grátis",
+    tagline: "Sua página no ar, seu espaço e vídeos de apoio",
+    description: "Página do Negócio, Meu Espaço e biblioteca de vídeos.",
     priceMonthly: 0,
     priceAnnualPerMonth: 0,
     priceAnnualTotal: 0,
@@ -240,20 +240,12 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     features: feat({
       meuEspaco: true,
       videos: true,
-      cofreCredenciais: true,
-      // Marketing ORGÂNICO entra no Free de propósito: é a amostra que mostra
-      // o valor do produto. O que fica de fora — e é o argumento de upgrade —
-      // são as campanhas pagas (googleAds/metaAds).
-      marketingDashboard: true,
-      googleAnalytics: true,
-      googleSearchConsole: true,
-      googleBusinessProfile: true,
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
       "Grátis pra sempre, sem cartão",
-      "Meu Espaço (acessos + serviços)",
-      "Dashboard Marketing (Analytics + Search Console)",
+      "Página do Negócio",
+      "Meu Espaço",
       "Biblioteca de vídeos",
     ],
   },
@@ -280,6 +272,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     },
     features: feat({
       paginaNegocio: true,
+      meuEspaco: true,
+      videos: true,
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
@@ -294,7 +288,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
   // Sem a marca GoHub, todos os contatos com as respostas, agenda e pixel.
   PAGINA_PRO: {
     tier: "PAGINA_PRO",
-    label: "Pro",
+    label: "Página completa",
     tagline: "Para a página virar canal de atendimento",
     description: "Botões ilimitados, sem a marca GoHub, serviços com imagem e agenda, formulário de atendimento e pixel.",
     priceMonthly: 29.90,
@@ -329,13 +323,13 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
   // o cliente vê é "Mini Site". Domínio no nome do cliente (taxa à parte).
   STARTER: {
     tier: "STARTER",
-    label: "Mini Site",
+    label: "Site próprio",
     tagline: "Seu site com o próprio domínio, no Google",
-    description: "Tudo do Pro + a página vira mini site com o seu domínio, aparece no Google, os contatos caem no CRM e o atendimento é no mesmo dia útil.",
+    description: "Tudo do Pro + a página vira site próprio com o seu domínio, aparece no Google, os contatos caem no CRM e o atendimento é no mesmo dia útil.",
     priceMonthly: 59.90,
     priceAnnualPerMonth: 49.92,
     priceAnnualTotal: 599.00,
-    cta: "Escolher Mini Site",
+    cta: "Escolher Site próprio",
     limits: {
       whatsappInstances: 0,
       atendentes: 1,
@@ -352,19 +346,19 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     modoAtendimentoDefault: "VISAO",
     highlights: [
       "Tudo do Pro",
-      "Mini site com o seu domínio",
+      "Site próprio no seu domínio",
       "Aparece no Google",
       "Leads direto no seu CRM",
       "Atendimento no mesmo dia útil",
     ],
   },
 
-  // ── ORGANIZATION: Free + agenda, cofre e Meu Negócio ──
+  // ── ORGANIZATION: página completa (o antigo Pro) + agenda, cofre e Meu Negócio ──
   ORGANIZATION: {
     tier: "ORGANIZATION",
     label: "Organization",
-    tagline: "Organize acessos, agenda e reputação",
-    description: "Tudo do Free + Calendário, Cofre de senhas e Google Meu Negócio (avaliações e insights).",
+    tagline: "Sua página completa e o negócio organizado",
+    description: "Página completa, sem a marca GoHub, com agenda e formulário, mais calendário, cofre de senhas e Google Meu Negócio.",
     priceMonthly: 49.90,
     priceAnnualPerMonth: 39.90,
     priceAnnualTotal: 478.80,
@@ -373,7 +367,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       whatsappInstances: 0,
       atendentes: 2,
       unidades: 1,
-      leadsPerMonth: 300,
+      leadsPerMonth: -1,
           aiInteractions: 0,
     },
     features: feat({
@@ -390,28 +384,30 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
-      "Tudo do Free +",
-      "Calendário",
-      "Cofre de credenciais (senhas + 2FA)",
+      "Tudo do Grátis +",
+      "Botões ilimitados, sem a marca GoHub",
+      "Serviços com imagem, agenda e formulário",
+      "Todos os temas, Pixel da Meta e Google Analytics",
+      "Calendário e cofre de senhas",
       "Google Meu Negócio (avaliações + insights)",
     ],
   },
 
-  // ── ESSENCIAL: Organization + WhatsApp em leitura + CRM Leads ──
+  // ── ESSENCIAL: Organization + site próprio, e-mail e CRM (sem WhatsApp) ──
   ESSENCIAL: {
     tier: "ESSENCIAL",
     label: "Essencial",
-    tagline: "Acompanhe seu WhatsApp e seus leads",
-    description: "Tudo do Organization + WhatsApp em modo leitura (Visão) e CRM com pipeline de Leads.",
+    tagline: "Sua página vira site próprio, no seu domínio",
+    description: "Tudo do Organization + a página como site próprio no seu domínio, 1 conta de e-mail e CRM de leads.",
     priceMonthly: 97,
     priceAnnualPerMonth: 77,
     priceAnnualTotal: 924,
     cta: "Assinar Essencial",
     limits: {
-      whatsappInstances: 1,
+      whatsappInstances: 0,
       atendentes: 2,
       unidades: 1,
-      leadsPerMonth: 1000,
+      leadsPerMonth: -1,
           aiInteractions: 0,
     },
     features: feat({
@@ -425,9 +421,6 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       googleBusinessProfile: true,
       // + operação
       calendario: true,
-      whatsapp: true,
-      whatsappGrupos: true,
-      inboxAvancado: true,
       tickets: true,
       tarefasInternas: true,
       crmPipelineLeads: true,
@@ -436,9 +429,11 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     modoAtendimentoDefault: "VISAO",
     highlights: [
       "Tudo do Organization +",
-      "WhatsApp em modo leitura (equipe responde pelo celular)",
+      "Sua página como site próprio, no seu domínio",
+      "1 conta de e-mail profissional",
       "CRM com pipeline de Leads",
-      "1 WhatsApp · 2 atendentes",
+      "Chamados e tarefas internas",
+      "2 atendentes",
     ],
   },
 
@@ -713,13 +708,12 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
  * Lançamento: só FREE e ESSENCIAL. Pra publicar MARKETING/PREMIUM, adicione-os
  * de volta aqui — as definições já estão prontas em PLANS.
  */
-// Vitrine: 3 pagos + Free. ORGANIZATION foi aposentado — competia de frente
-// com o Essencial (R$49,90 × R$97) e confundia a escolha. Quem já assina segue
-// nele via LEGACY_TIERS, sem perder nada.
-export const PLAN_ORDER: PlanTier[] = ["FREE", "ESSENCIAL", "MARKETING", "PREMIUM"];
+// Vitrine definida em 09/11/2026: Grátis, Organization (absorveu o Pro),
+// Essencial (absorveu o Mini Site), Marketing e Premium.
+export const PLAN_ORDER: PlanTier[] = ["FREE", "ORGANIZATION", "ESSENCIAL", "MARKETING", "PREMIUM"];
 
 /** Planos legados/internos — não aparecem na pricing page. */
-export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO", "ORGANIZATION"];
+export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
 
 /** Planos não-públicos atribuídos manualmente (não aparecem na pricing page). */
 export const INTERNAL_TIERS: PlanTier[] = ["ENTERPRISE"];
@@ -741,14 +735,15 @@ export function withPagePlan(base: PlanFeatures, pagePlan: PlanTier | null | und
   return out;
 }
 
-/** Planos pagos da linha Página — os que o cliente assina pelo checkout. */
-export const PAGE_LINE_PAID: PlanTier[] = ["PAGINA_PRO", "STARTER"];
+/** Planos oferecidos a quem começou pela página — os que ele assina pelo checkout. */
+export const PAGE_LINE_PAID: PlanTier[] = ["ORGANIZATION", "ESSENCIAL"];
 
 /** ?plano= do site (gohub.com.br/comecar?plano=pro) → plano do sistema. */
 export function pageLinePlanFromSlug(slug: unknown): PlanTier | null {
   const s = String(slug ?? "").toLowerCase();
-  if (s === "pro" || s === "pagina_pro") return "PAGINA_PRO";
-  if (s === "minisite" || s === "mini-site" || s === "negocio" || s === "starter") return "STARTER";
+  // "pro" e "minisite" seguem valendo para links antigos e anúncios.
+  if (s === "organization" || s === "pro" || s === "pagina_pro") return "ORGANIZATION";
+  if (s === "essencial" || s === "minisite" || s === "mini-site" || s === "negocio" || s === "starter") return "ESSENCIAL";
   return null;
 }
 

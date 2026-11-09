@@ -5,7 +5,7 @@
 import type { BioEditorBlock, BioEditorInput } from "../src/lib/bio-page";
 import { pagePlanOf, slugifyBio, bioSlugProblem, visibleLeadCount, safeBioHref, bioAccent, isBioClientEvent, parseBioEditorInput, parseBioSignup, bioAutosaveInput, bioOnAccent, referrerLabel, bioShowsBadge, bioSnapshotAnswers, bioParseSocial, bioFreeView, BIO_FREE, bioTelHref, bioViewExtras, BIO_DEFAULT_BOOKING_TEXT, BIO_SLUG_MAX } from "../src/lib/bio-page";
 import { normalizeWaPhone } from "../src/lib/whatsapp-link-tool";
-import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, withPagePlan, type PlanTier } from "../src/lib/plans";
+import { PLANS, PAGE_LINE_TIERS, PLAN_ORDER, pageLinePlanFromSlug, withPagePlan, type PlanTier } from "../src/lib/plans";
 import { MODULE_BY_ID, resolveModules } from "../src/lib/modules";
 
 let falhas = 0;
@@ -137,7 +137,12 @@ ok("Grátis, Pro e Mini Site liberam o módulo", PAGE_LINE_TIERS.every((t) => PL
 ok("linha Página fica fora da pricing page do GoHub", PAGE_LINE_TIERS.every((t) => !PLAN_ORDER.includes(t)));
 ok("preços iguais ao site: Grátis 0, Pro 29,90, Mini Site 59,90", PLANS.PAGINA.priceMonthly === 0 && PLANS.PAGINA_PRO.priceMonthly === 29.9 && PLANS.STARTER.priceMonthly === 59.9);
 ok("anual = 10 meses (2 grátis)", PLANS.PAGINA_PRO.priceAnnualTotal === 299 && PLANS.STARTER.priceAnnualTotal === 599);
-ok("nomes iguais ao site", PLANS.PAGINA.label === "Grátis" && PLANS.PAGINA_PRO.label === "Pro" && PLANS.STARTER.label === "Mini Site");
+ok("planos antigos renomeados", PLANS.PAGINA.label === "Grátis" && PLANS.PAGINA_PRO.label === "Página completa" && PLANS.STARTER.label === "Site próprio");
+ok("vitrine: Grátis, Organization, Essencial, Marketing e Premium", PLAN_ORDER.join() === "FREE,ORGANIZATION,ESSENCIAL,MARKETING,PREMIUM" && PLANS.FREE.label === "Grátis");
+ok("Grátis só com página, Meu Espaço e vídeos", resolveModules("FREE", null).filter((m) => m.enabled).map((m) => m.id).sort().join() === "espacoCliente,paginaNegocio,videos");
+ok("Essencial sem WhatsApp", !PLANS.ESSENCIAL.features.whatsapp && PLANS.ESSENCIAL.limits.whatsappInstances === 0);
+ok("Organization tem a página completa", !bioShowsBadge("ORGANIZATION") && PLANS.ORGANIZATION.limits.leadsPerMonth === -1);
+ok("links antigos do site apontam para os planos novos", pageLinePlanFromSlug("pro") === "ORGANIZATION" && pageLinePlanFromSlug("minisite") === "ESSENCIAL");
 ok("Pro tira o selo e mostra todos os contatos", !bioShowsBadge("PAGINA_PRO") && PLANS.PAGINA_PRO.limits.leadsPerMonth === -1);
 ok("Página do Negócio liberada em todos os planos", (Object.keys(PLANS) as PlanTier[]).every((t) => PLANS[t].features.paginaNegocio));
 ok("selo só em quem não paga",

@@ -252,7 +252,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     .map((g) => {
       const items: NavItem[] = [];
       for (const i of g.items) {
-        if (pageOnly && i.href !== "/pagina" && !(i.href === "/crm/leads" && hasModule(session, "crmPipelineLeads"))) continue;
+        if (pageOnly && i.href !== "/pagina" && i.href !== "/videos" && !(i.href === "/crm/leads" && hasModule(session, "crmPipelineLeads"))) continue;
         // Área interna da agência: some pra empresa-cliente, com ou sem
         // permissão. Não vira cadeado porque não há o que contratar.
         if (i.agencyOnly && isClient) continue;
