@@ -3494,6 +3494,24 @@ export default function CRMBoard({
 
                 {/* Timeline */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                  {/* Porta de entrada: a descrição/observação do lead fica fixa no topo do "Tudo" */}
+                  {timelineFilter === "all" && selected.notes?.trim() && (
+                    <div className="rounded-lg px-3 py-2.5 border bg-violet-500/[0.07] border-violet-500/30">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <span className="text-[11px] font-semibold flex items-center gap-1.5 text-violet-300">
+                          <FileText className="w-3.5 h-3.5 flex-shrink-0" stroke={gradStroke("integracoes")} strokeWidth={2.25} />
+                          Porta de entrada · Descrição / Observações
+                        </span>
+                        <button
+                          onClick={() => { setNotesInput(selected.notes ?? ""); setEditingNotes(true); }}
+                          className="text-slate-500 hover:text-slate-300 text-[10px] flex-shrink-0"
+                        >
+                          Editar
+                        </button>
+                      </div>
+                      <p className="text-slate-200 text-xs leading-relaxed whitespace-pre-wrap break-words">{selected.notes}</p>
+                    </div>
+                  )}
                   {timelineFilter === "journey" ? (
                     <LeadJourney key={selected.id} leadId={selected.id} />
                   ) : loadingTimeline ? (
