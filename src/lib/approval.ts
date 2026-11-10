@@ -128,18 +128,26 @@ export function sendMessageText(t: { title: string; round: number; token: string
   ].join("\n").replace(/\n{3,}/g, "\n\n");
 }
 
-export type PendingItem = { title: string; token: string; sentAt: Date; viewed: boolean };
+/** notes: ajustes anotados no link que ninguém enviou pra equipe ainda. */
+export type PendingItem = { title: string; token: string; sentAt: Date; viewed: boolean; notes?: number };
+
+const anotados = (n: number) => `${n} ajuste${n === 1 ? "" : "s"} anotado${n === 1 ? "" : "s"}`;
 
 /** Lembrete no grupo — agrupa todas as peças vencidas do projeto numa mensagem só. */
 export function reminderText(items: PendingItem[]): string {
   if (items.length === 1) {
     const it = items[0];
+    if (it.notes) {
+      return `⏰ Tem ${anotados(it.notes)} em *${it.title}* que ainda não ${it.notes === 1 ? "foi" : "foram"} pra equipe.
+Quando terminarem, é só tocar em “Enviar ajustes pra equipe” 👇
+${approvalUrl(it.token)}`;
+    }
     return it.viewed
       ? `⏰ Passando pra lembrar: a peça *${it.title}* já foi vista, mas ainda falta a aprovação.\nAprove ou peça ajuste por aqui 👇\n${approvalUrl(it.token)}`
       : `⏰ Passando pra lembrar: a peça *${it.title}* está esperando aprovação desde ${fmtDia(it.sentAt)}.\nÉ só abrir 👇\n${approvalUrl(it.token)}`;
   }
   const linhas = items.map((it) =>
-    `• *${it.title}*${it.viewed ? " (vista, falta aprovar)" : ` (desde ${fmtDia(it.sentAt)})`}\n  ${approvalUrl(it.token)}`,
+    `• *${it.title}*${it.notes ? ` (${anotados(it.notes)}, falta enviar pra equipe)` : it.viewed ? " (vista, falta aprovar)" : ` (desde ${fmtDia(it.sentAt)})`}\n  ${approvalUrl(it.token)}`,
   );
   return [`⏰ Passando pra lembrar: ${items.length} peças estão esperando aprovação.`, ``, ...linhas].join("\n");
 }

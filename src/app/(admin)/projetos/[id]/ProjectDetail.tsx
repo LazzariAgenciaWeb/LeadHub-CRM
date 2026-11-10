@@ -16,7 +16,7 @@ import ProjectSectionNav, { type NavSection } from "./ProjectSectionNav";
 import { DEFAULT_SEGMENTS, SEGMENT_MAX, segmentLabel } from "@/lib/project-segments";
 import ProjectInbox from "./ProjectInbox";
 import ProjectMateriais from "./ProjectMateriais";
-import { ApprovalCard, TaskApprovalBar, type TaskApproval } from "./ProjectApproval";
+import { ApprovalCard, TaskApprovalBar, TaskAdjustments, type TaskApproval } from "./ProjectApproval";
 import ClickupAttachments from "./ClickupAttachments";
 import AttachmentsPanel from "@/components/attachments/AttachmentsPanel";
 import TaskImageGen from "./TaskImageGen";
@@ -1728,6 +1728,9 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
         onStatus={setTaskStatus}
         hasHighlights={comments.some((c: any) => c.by !== "client" && c.hl && c.text?.trim())}
       />
+      {task.approval && (
+        <TaskAdjustments projectId={projectId} taskId={task.id} status={taskStatus} onStatus={setTaskStatus} />
+      )}
 
       {/* Linha única de metadados: datas + prazo + toggles (Cliente vê / ClickUp).
           Antes eram 2 linhas separadas com border — agora tudo num strip compacto. */}

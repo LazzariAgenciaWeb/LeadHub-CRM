@@ -5,6 +5,7 @@ import { appBaseUrl, pieceFileIds, pieceLinks, embedOf, linkItemId } from "@/lib
 import { fileVisibleToClient } from "@/lib/client-task-files";
 import { getObjectBuffer, presignDownload, MEDIA_TTL_SEC } from "@/lib/storage/s3";
 import { clientePendencias } from "@/lib/client-pendencias";
+import { adjustmentView, ADJ_SELECT } from "@/lib/approval-adjustments";
 import AprovarClient, { type ApprovalFile } from "./AprovarClient";
 
 export const dynamic = "force-dynamic";
@@ -206,7 +207,19 @@ async function load(token: string) {
         .sort((x, y) => x.fileName.localeCompare(y.fileName, "pt-BR", { numeric: true }))
     : [];
 
-  return { task, files, links: linksSemPeca, history, highlights, previous, versionText: version?.text ?? "" };
+  // Ajustes desta rodada (anotados e enviados) e os da versão anterior — o
+  // cliente confere na versão nova o que pediu e o que a equipe já fez.
+  const adjRows = task.approvalRound > 0
+    ? await prisma.projectTaskAdjustment.findMany({
+        where:   { taskId: task.id, round: { in: [task.approvalRound, task.approvalRound - 1] } },
+        orderBy: { createdAt: "asc" },
+        select:  ADJ_SELECT,
+      })
+    : [];
+  const adjustments = adjRows.filter((a) => a.round === task.approvalRound).map(adjustmentView);
+  const previousAdjustments = adjRows.filter((a) => a.round === task.approvalRound - 1 && a.sentAt).map(adjustmentView);
+
+  return { task, files, links: linksSemPeca, history, highlights, previous, versionText: version?.text ?? "", adjustments, previousAdjustments };
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ token: string }> }): Promise<Metadata> {
@@ -240,7 +253,7 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
     );
   }
 
-  const { task, files, links, history, highlights, previous, versionText } = data;
+  const { task, files, links, history, highlights, previous, versionText, adjustments, previousAdjustments } = data;
 
   // Alerta de "tem mais coisa esperando você": as OUTRAS peças em aprovação
   // (esta não entra) e os chamados dele em aberto.
@@ -279,6 +292,8 @@ export default async function AprovarPage({ params }: { params: Promise<{ token:
       history={history}
       highlights={highlights}
       pendencias={pendencias}
+      adjustments={adjustments}
+      previousAdjustments={previousAdjustments}
     />
   );
 }

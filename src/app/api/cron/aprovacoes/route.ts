@@ -39,7 +39,7 @@ async function handle(req: NextRequest) {
       },
     },
     select: {
-      id: true, title: true, projectId: true, assigneeId: true, approvalToken: true,
+      id: true, title: true, projectId: true, assigneeId: true, approvalToken: true, approvalRound: true,
       approvalSentAt: true, approvalViewedAt: true, approvalNudgedAt: true, approvalNudgeCount: true,
       project: {
         select: {
@@ -58,6 +58,16 @@ async function handle(req: NextRequest) {
     return t.approvalNudgeCount < t.project.approvalMaxReminders && now.getTime() - last.getTime() >= days * 86_400_000;
   });
 
+  // Ajustes anotados no link que ninguém enviou: o lembrete pede pra enviar
+  // (em vez de "falta aprovar"), na mesma regra de dias.
+  const openNotes = due.length
+    ? await prisma.projectTaskAdjustment.findMany({
+        where:  { taskId: { in: due.map((t) => t.id) }, sentAt: null },
+        select: { taskId: true, round: true },
+      })
+    : [];
+  const notesOf = (t: (typeof due)[number]) => openNotes.filter((n) => n.taskId === t.id && n.round === t.approvalRound).length;
+
   const byProject = new Map<string, typeof due>();
   for (const t of due) byProject.set(t.projectId, [...(byProject.get(t.projectId) ?? []), t]);
 
@@ -69,7 +79,7 @@ async function handle(req: NextRequest) {
     if (!instanceId) { failed++; continue; }
 
     const items: PendingItem[] = list.map((t) => ({
-      title: t.title, token: t.approvalToken!, sentAt: t.approvalSentAt!, viewed: !!t.approvalViewedAt,
+      title: t.title, token: t.approvalToken!, sentAt: t.approvalSentAt!, viewed: !!t.approvalViewedAt, notes: notesOf(t),
     }));
     const msg = await prisma.scheduledMessage.create({
       data: {
@@ -95,7 +105,7 @@ async function handle(req: NextRequest) {
       await prisma.projectTaskEvent.create({
         data: {
           taskId: t.id, projectId, type: "APPROVAL_NUDGE",
-          toText: `Lembrete ${count}/${proj.approvalMaxReminders} no grupo · ${t.approvalViewedAt ? "cliente já viu" : "cliente não abriu"}`,
+          toText: `Lembrete ${count}/${proj.approvalMaxReminders} no grupo · ${notesOf(t) ? `${notesOf(t)} ajuste(s) anotado(s) sem enviar` : t.approvalViewedAt ? "cliente já viu" : "cliente não abriu"}`,
         },
       }).catch(() => {});
 

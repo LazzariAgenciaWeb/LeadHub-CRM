@@ -4,11 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MarkdownDoc } from "@/components/MarkdownDoc";
 import ClientePendencias, { type ItemPendente } from "@/components/ClientePendencias";
+import type { AdjustmentView } from "@/lib/approval-adjustments";
 
 /**
  * Tela do CLIENTE pra aprovar uma peça pelo link do WhatsApp (sem login).
  * Pensada pro celular: carrossel com swipe, botões fixos no rodapé, nome
  * lembrado no aparelho pra não digitar toda vez.
+ *
+ * Ajuste é uma LISTA: cada pessoa anota quantos quiser (em um arquivo ou na
+ * peça toda), todo mundo vê o que já foi pedido, e só "Enviar ajustes pra
+ * equipe" fecha a rodada. Depois do envio, "Esqueci uma coisa" ainda entra.
  */
 
 export type ApprovalFile = {
@@ -56,9 +61,16 @@ type Props = {
   };
   /** URL dos prints do descritivo, com `__ID__` no lugar do id do material. */
   mediaBase: string;
+  /** Ajustes desta rodada (anotados e já enviados). */
+  adjustments: AdjustmentView[];
+  /** Ajustes enviados na versão anterior — o cliente confere o que foi feito. */
+  previousAdjustments: AdjustmentView[];
 };
 
 const NAME_KEY = "lh-aprovador-nome";
+// Aparelho que anotou (sem login): só ele corrige ou tira o próprio ajuste.
+const DEVICE_KEY = "lh-aprovador-aparelho";
+const MINE_KEY = "lh-ajustes-meus";
 
 const STYLE = `
 .ap{--accent:var(--brand,#6E86FF);--ok:#4FD1A0;--warn:#F5B564;--ink:#F3F5FA;--ink2:#AFB6C6;--ink3:#727A8C;
@@ -197,6 +209,26 @@ a.open{color:var(--accent);font-size:13px;font-weight:600}
 .reader .rbar button{font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;border:0;background:#1C1C1E;color:#fff;cursor:pointer}
 .reader .paper{flex:1;height:auto;padding-bottom:40px}
 .slide .emb{display:block;width:100%;height:100%;border:0;background:#000}
+.slide .tag.adjn{color:var(--warn);border-color:rgba(245,181,100,.5)}
+.card.adjc{border-color:rgba(245,181,100,.35)}
+.card.adjc h3{color:var(--warn)}
+.adjl{display:flex;flex-direction:column;gap:8px}
+.adj{padding:10px 12px;border-radius:12px;background:rgba(245,181,100,.07);border:1px solid rgba(245,181,100,.3);font-size:14px;white-space:pre-wrap;word-break:break-word}
+.adj.sent{background:var(--card);border-color:var(--line)}
+.adj.done{background:rgba(79,209,160,.07);border-color:rgba(79,209,160,.35)}
+.adj .ah{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--ink3);margin-bottom:3px;white-space:normal}
+.adj .ah b{color:var(--ink2);font-weight:700}
+.adj .fl{padding:1px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--ink2);font-weight:700;background:none;font-family:inherit;font-size:11px;cursor:pointer}
+.adj .st{margin-left:auto;font-weight:700}
+.adj.done .st{color:var(--ok)}
+.adj .acts{display:flex;gap:14px;margin-top:6px}
+.adj .acts button{background:none;border:0;padding:0;color:var(--ink3);font-size:12px;cursor:pointer;font-family:inherit;text-decoration:underline}
+.hint{font-size:12px;color:var(--ink3)}
+.tgt{display:flex;gap:6px;flex-wrap:wrap}
+.tgt button{border:1px solid var(--line2);background:transparent;color:var(--ink2);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+.tgt button.on{border-color:var(--warn);color:var(--warn);background:rgba(245,181,100,.1)}
+.confirm{padding:12px;border-radius:12px;background:rgba(245,181,100,.08);border:1px solid rgba(245,181,100,.4);font-size:14px}
+.btn.warn{background:var(--warn);color:#1A1205}
 `;
 
 // Cor da agência vira o acento da tela; o texto em cima dela (botão aprovar)
@@ -228,15 +260,25 @@ function TextoPeca({ text, mediaBase }: { text: string; mediaBase: string }) {
 const fmt = (iso: string) =>
   new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
 const fmtDate = (iso: string) => new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+const newKey = () => (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+const ajustes = (n: number) => `${n} ajuste${n === 1 ? "" : "s"}`;
 
 export default function AprovarClient(p: Props) {
   const [status, setStatus] = useState(p.status);
-  const [mode, setMode] = useState<"idle" | "adjust">("idle");
+  // idle · note (anotando um ajuste, ou corrigindo `editing`) · confirm (aprovar com ajuste anotado)
+  const [mode, setMode] = useState<"idle" | "note" | "confirm">("idle");
   const [name, setName] = useState("");
   const [text, setText] = useState("");
-  const [notes, setNotes] = useState<Record<string, string>>({});
+  const [target, setTarget] = useState<"file" | "all">("file");
+  const [editing, setEditing] = useState<string | null>(null);
+  const [adjs, setAdjs] = useState<AdjustmentView[]>(p.adjustments);
+  const [mine, setMine] = useState<string[]>([]);
+  const deviceKey = useRef("");
+  const [confirmInfo, setConfirmInfo] = useState<{ count: number; authors: string } | null>(null);
+  const [sentCount, setSentCount] = useState(0);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [okMsg, setOkMsg] = useState<string | null>(null);
   const [done, setDone] = useState<null | "approve" | "adjust">(null);
   const [idx, setIdx] = useState(0);
   // Formato detectado pela proporção da imagem: vertical 9:16 = Stories, o resto = Feed.
@@ -247,13 +289,23 @@ export default function AprovarClient(p: Props) {
   const carRef = useRef<HTMLDivElement>(null);
 
   const pending = status === "AGUARDANDO_CLIENTE" && !done;
+  // Ajustes já foram pra equipe e a versão nova ainda não saiu: "Esqueci uma coisa".
+  const afterSend = !pending && status !== "APROVADO" && status !== "AGUARDANDO_CLIENTE" && p.round > 0;
+  const open = adjs.filter((a) => !a.sentAt);
+  const countFor = (fid: string) => adjs.filter((a) => a.fileId === fid).length;
   const fileUrl = (id: string) => `/api/aprovar/${p.token}/arquivo/${id}`;
 
   useEffect(() => {
     // Nome lembrado no aparelho: só existe no navegador, então entra depois da
     // hidratação (ler no useState quebraria o HTML do servidor).
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    try { setName(localStorage.getItem(NAME_KEY) ?? ""); } catch { /* sem storage */ }
+    try {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setName(localStorage.getItem(NAME_KEY) ?? "");
+      let k = localStorage.getItem(DEVICE_KEY);
+      if (!k) { k = newKey(); localStorage.setItem(DEVICE_KEY, k); }
+      deviceKey.current = k;
+      setMine(JSON.parse(localStorage.getItem(MINE_KEY) ?? "[]"));
+    } catch { deviceKey.current ||= newKey(); }
     // "Visto" só pelo navegador — o robô de prévia do WhatsApp não roda JS.
     if (p.status === "AGUARDANDO_CLIENTE") {
       fetch(`/api/aprovar/${p.token}/visto`, {
@@ -340,26 +392,124 @@ export default function AprovarClient(p: Props) {
 
 
 
-  async function submit(action: "approve" | "adjust") {
-    setErr(null);
-    if (name.trim().length < 2) { setErr("Escreva seu nome pra registrar quem respondeu."); return; }
-    if (action === "adjust" && !text.trim() && !Object.values(notes).some((n) => n.trim())) {
-      setErr("Conte o que precisa ajustar.");
-      return;
-    }
-    setBusy(true);
+  function hasName(): boolean {
+    if (name.trim().length >= 2) return true;
+    setErr("Escreva seu nome pra registrar quem pediu.");
+    return false;
+  }
+  function rememberName() {
     try { localStorage.setItem(NAME_KEY, name.trim()); } catch { /* sem storage */ }
-    const res = await fetch(`/api/aprovar/${p.token}`, {
-      method: "POST",
+  }
+
+  // Abre a caixa pra anotar um ajuste novo (ou corrigir um já anotado).
+  function startNote(id?: string) {
+    const a = id ? adjs.find((x) => x.id === id) : null;
+    setErr(null); setOkMsg(null);
+    setEditing(a?.id ?? null);
+    setText(a?.text ?? "");
+    setTarget(p.files.length > 1 ? "file" : "all");
+    setMode("note");
+  }
+
+  async function saveNote() {
+    setErr(null);
+    if (!hasName()) return;
+    if (!text.trim()) { setErr("Escreva o que precisa mudar."); return; }
+    setBusy(true);
+    rememberName();
+    const res = await fetch(editing ? `/api/aprovar/${p.token}/ajustes/${editing}` : `/api/aprovar/${p.token}/ajustes`, {
+      method: editing ? "PATCH" : "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action, name: name.trim(), text: text.trim(), notes: action === "adjust" ? notes : {} }),
+      body: JSON.stringify({
+        name: name.trim(), text: text.trim(), deviceKey: deviceKey.current,
+        fileId: target === "file" ? p.files[idx]?.id ?? null : null,
+      }),
     }).catch(() => null);
     setBusy(false);
     const data = await res?.json().catch(() => null);
     if (!res?.ok) { setErr(data?.error ?? "Não deu certo. Tente de novo."); return; }
+    const a: AdjustmentView = data.adjustment;
+    setAdjs((list) => (editing ? list.map((x) => (x.id === a.id ? a : x)) : [...list, a]));
+    if (!editing) {
+      const next = [...mine, a.id].slice(-200);
+      setMine(next);
+      try { localStorage.setItem(MINE_KEY, JSON.stringify(next)); } catch { /* sem storage */ }
+    }
+    setText(""); setEditing(null); setMode("idle");
+    setOkMsg(a.late ? "Recebido! Foi pra equipe junto com os outros ajustes." : "Anotado. Pode anotar mais ou enviar pra equipe.");
+  }
+
+  async function removeNote(id: string) {
+    if (!window.confirm("Tirar este ajuste da lista?")) return;
+    setErr(null);
+    const res = await fetch(`/api/aprovar/${p.token}/ajustes/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deviceKey: deviceKey.current }),
+    }).catch(() => null);
+    if (!res?.ok) {
+      const d = await res?.json().catch(() => null);
+      setErr(d?.error ?? "Não deu certo. Tente de novo.");
+      return;
+    }
+    setAdjs((list) => list.filter((x) => x.id !== id));
+  }
+
+  // approve: aprova (com ajuste anotado o servidor pede confirmação → force).
+  // send: manda pra equipe todos os ajustes anotados.
+  async function act(action: "approve" | "send", force = false) {
+    setErr(null); setOkMsg(null);
+    if (!hasName()) return;
+    setBusy(true);
+    rememberName();
+    const res = await fetch(`/api/aprovar/${p.token}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action, name: name.trim(), force }),
+    }).catch(() => null);
+    setBusy(false);
+    const data = await res?.json().catch(() => null);
+    if (!res?.ok) {
+      if (data?.code === "HAS_ADJUSTMENTS") {
+        setConfirmInfo({ count: data.count, authors: data.authors });
+        setMode("confirm");
+        return;
+      }
+      setErr(data?.error ?? "Não deu certo. Tente de novo.");
+      return;
+    }
+    const now = new Date().toISOString();
+    setAdjs((list) => list.map((a) => (a.sentAt ? a : { ...a, sentAt: now })));
     setStatus(data.status);
-    setDone(action);
+    setSentCount(data.count ?? 0);
+    setDone(action === "approve" ? "approve" : "adjust");
+    setMode("idle");
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Um ajuste da lista. `jump`: o rótulo do arquivo leva o carrossel até ele.
+  function adjItem(a: AdjustmentView, jump: boolean) {
+    const canEdit = pending && !a.sentAt && mine.includes(a.id);
+    const fi = jump && a.fileId ? p.files.findIndex((f) => f.id === a.fileId) : -1;
+    return (
+      <div key={a.id} className={`adj ${a.doneAt ? "done" : a.sentAt ? "sent" : ""}`}>
+        <div className="ah">
+          <b>{a.authorName}</b>
+          {a.fileLabel
+            ? (fi >= 0 ? <button type="button" className="fl" onClick={() => goTo(fi)}>{a.fileLabel}</button> : <span className="fl">{a.fileLabel}</span>)
+            : <span>peça toda</span>}
+          <span>{fmt(a.createdAt)}{a.late ? " · chegou depois" : ""}</span>
+          <span className="st">{a.doneAt ? "✓ feito" : a.sentAt ? "com a equipe" : "anotado"}</span>
+        </div>
+        {a.text}
+        {canEdit && (
+          <div className="acts">
+            <button type="button" onClick={() => startNote(a.id)}>corrigir</button>
+            <button type="button" onClick={() => void removeNote(a.id)}>tirar</button>
+          </div>
+        )}
+      </div>
+    );
   }
 
   const statusChip =
@@ -404,7 +554,10 @@ export default function AprovarClient(p: Props) {
           <div className="banner ok">✅ Aprovada! Obrigado, {name.split(" ")[0]}. A equipe já foi avisada.</div>
         )}
         {done === "adjust" && (
-          <div className="banner info">✏️ Pedido de ajuste enviado. A nova versão chega pelo grupo do WhatsApp.</div>
+          <div className="banner info">
+            ✏️ {sentCount ? `${ajustes(sentCount)} enviado${sentCount === 1 ? "" : "s"}` : "Ajustes enviados"} pra equipe. A nova versão chega pelo grupo do WhatsApp.
+            Lembrou de mais alguma coisa? Toque em “Esqueci uma coisa”, aqui embaixo.
+          </div>
         )}
         {!done && status === "APROVADO" && (
           <div className="banner ok">
@@ -412,7 +565,7 @@ export default function AprovarClient(p: Props) {
           </div>
         )}
         {!done && status !== "APROVADO" && status !== "AGUARDANDO_CLIENTE" && (
-          <div className="banner info">A equipe está trabalhando nos ajustes. A nova versão chega pelo grupo do WhatsApp.</div>
+          <div className="banner info">A equipe está trabalhando nos ajustes. A nova versão chega pelo grupo do WhatsApp. Lembrou de mais alguma coisa? Toque em “Esqueci uma coisa”.</div>
         )}
 
         {/* Desktop: arte grande à esquerda (fixa ao rolar), texto e conversa à
@@ -428,6 +581,7 @@ export default function AprovarClient(p: Props) {
                   <div className="tags">
                     {p.files.length > 1 && <span className="tag">{i + 1}/{p.files.length}</span>}
                     {fmtOf[f.id] && <span className={`tag ${fmtOf[f.id]}`}>{fmtOf[f.id] === "story" ? "Stories" : "Feed"}</span>}
+                    {countFor(f.id) > 0 && <span className="tag adjn">✎ {countFor(f.id)}</span>}
                   </div>
                   {f.embed
                     ? <a className="dl" href={f.href} target="_blank" rel="noopener noreferrer">Abrir ↗</a>
@@ -531,9 +685,27 @@ export default function AprovarClient(p: Props) {
             ))}
           </div>
         )}
+        {adjs.length > 0 && (
+          <div className="card adjc">
+            <h3>{open.length === adjs.length ? `Ajustes anotados · ${adjs.length}` : `Ajustes desta versão · ${adjs.length}`}</h3>
+            {pending && open.length > 0 && (
+              <p className="hint" style={{ margin: "0 0 10px" }}>
+                Ainda não foram pra equipe. Quando terminarem de anotar, toquem em “Enviar ajustes pra equipe”.
+              </p>
+            )}
+            <div className="adjl">{adjs.map((a) => adjItem(a, true))}</div>
+          </div>
+        )}
+        {p.previousAdjustments.length > 0 && (
+          <div className="card">
+            <h3>O que vocês pediram na versão anterior</h3>
+            <p className="hint" style={{ margin: "0 0 10px" }}>Confira se ficou como pediram antes de aprovar.</p>
+            <div className="adjl">{p.previousAdjustments.map((a) => adjItem(a, false))}</div>
+          </div>
+        )}
         {p.previous.length > 0 && (
           <div className="card prev">
-            <h3>O que você pediu na versão anterior</h3>
+            <h3>Artes que voltaram pra ajuste</h3>
             {p.previous.map((f) => (
               <div key={f.id} className="prevrow">
                 <a className="th" href={`/api/aprovar/${p.token}/arquivo/${f.id}`} target="_blank" rel="noopener noreferrer" title={f.fileName}>
@@ -628,48 +800,74 @@ export default function AprovarClient(p: Props) {
         <div className="made">{p.brand.name}</div>
       </div>
 
-      {pending && (
+      {(pending || afterSend) && (
         <div className="bar">
           <div className="barw">
-            {mode === "adjust" && (
+            {mode === "note" && (
               <>
                 <textarea
                   className="f"
-                  placeholder="O que precisa mudar? (texto, cor, foto, data…)"
+                  placeholder={afterSend ? "O que mais precisa mudar?" : "O que precisa mudar? (texto, cor, foto, data…)"}
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   autoFocus
                 />
-                {p.files.length > 1 && (
-                  <input
-                    className="f"
-                    placeholder={`Ajuste no arquivo ${idx + 1}? Escreva aqui — arquivo sem recado conta como aprovado`}
-                    value={notes[p.files[idx]?.id] ?? ""}
-                    onChange={(e) => setNotes((n) => ({ ...n, [p.files[idx].id]: e.target.value }))}
-                  />
+                {!editing && p.files.length > 1 && (
+                  <>
+                    <div className="tgt">
+                      <button type="button" className={target === "file" ? "on" : ""} onClick={() => setTarget("file")}>Só no arquivo {idx + 1}</button>
+                      <button type="button" className={target === "all" ? "on" : ""} onClick={() => setTarget("all")}>Na peça toda</button>
+                    </div>
+                    {target === "file" && <div className="hint">Passe o carrossel pra escolher outro arquivo.</div>}
+                  </>
                 )}
               </>
             )}
-            <input
-              className="f"
-              placeholder="Seu nome"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoComplete="name"
-            />
-            {err && <div className="err">{err}</div>}
-            {mode === "idle" ? (
-              <div className="row">
-                <button className="btn ghost" onClick={() => { setMode("adjust"); setErr(null); }} disabled={busy}>✎ Pedir ajuste</button>
-                <button className="btn ok" onClick={() => submit("approve")} disabled={busy}>{busy ? "Enviando…" : "✓ Aprovar"}</button>
+            {mode === "confirm" && confirmInfo && (
+              <div className="confirm">
+                Tem {ajustes(confirmInfo.count)} anotado{confirmInfo.count === 1 ? "" : "s"} por {confirmInfo.authors} que ainda não {confirmInfo.count === 1 ? "foi" : "foram"} pra equipe.
+                Aprovar mesmo assim? {confirmInfo.count === 1 ? "Ele vai" : "Eles vão"} junto como observação.
               </div>
-            ) : (
+            )}
+            {(!afterSend || mode === "note") && (
+              <input
+                className="f"
+                placeholder="Seu nome"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
+              />
+            )}
+            {err && <div className="err">{err}</div>}
+            {okMsg && mode === "idle" && <div className="hint">{okMsg}</div>}
+            {mode === "note" ? (
               <div className="row">
-                <button className="btn ghost" onClick={() => { setMode("idle"); setErr(null); }} disabled={busy}>Voltar</button>
-                <button className="btn ok" style={{ background: "var(--warn)", color: "#1A1205" }} onClick={() => submit("adjust")} disabled={busy}>
-                  {busy ? "Enviando…" : "Enviar ajuste"}
+                <button className="btn ghost" onClick={() => { setMode("idle"); setEditing(null); setText(""); setErr(null); }} disabled={busy}>Voltar</button>
+                <button className="btn warn" onClick={() => void saveNote()} disabled={busy}>
+                  {busy ? "Salvando…" : editing ? "Salvar" : afterSend ? "Mandar pra equipe" : "Anotar ajuste"}
                 </button>
               </div>
+            ) : mode === "confirm" ? (
+              <div className="row">
+                <button className="btn ghost" onClick={() => setMode("idle")} disabled={busy}>Voltar</button>
+                <button className="btn ok" onClick={() => void act("approve", true)} disabled={busy}>{busy ? "Enviando…" : "Aprovar mesmo assim"}</button>
+              </div>
+            ) : afterSend ? (
+              <div className="row">
+                <button className="btn ghost" onClick={() => startNote()}>＋ Esqueci uma coisa</button>
+              </div>
+            ) : (
+              <>
+                <div className="row">
+                  <button className="btn ghost" onClick={() => startNote()} disabled={busy}>＋ Anotar ajuste</button>
+                  <button className="btn ok" onClick={() => void act("approve")} disabled={busy}>{busy ? "Enviando…" : "✓ Aprovar"}</button>
+                </div>
+                {open.length > 0 && (
+                  <button className="btn warn" onClick={() => void act("send")} disabled={busy}>
+                    Enviar {ajustes(open.length)} pra equipe
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>

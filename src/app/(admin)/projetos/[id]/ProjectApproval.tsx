@@ -1,14 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Copy, Send } from "lucide-react";
+import { Check, Copy, Send, ChevronDown, ChevronRight } from "lucide-react";
+import type { AdjustmentView } from "@/lib/approval-adjustments";
 
 /**
  * Aprovação de peças pelo cliente via link + grupo do WhatsApp.
  *   • ApprovalCard     — no projeto: escolhe o grupo, regra de lembrete e
  *                        mostra o que está esperando o cliente.
  *   • TaskApprovalBar  — na tarefa: "Enviar pra aprovação" e a situação da rodada.
+ *   • TaskAdjustments  — na tarefa: ajustes que o cliente pediu no link, como
+ *                        checklist (anotados ao vivo, puxar, marcar feito).
  */
 
 export type TaskApproval = {
@@ -353,6 +356,138 @@ export function TaskApprovalBar({
         </button>
       </span>
       {msg && <div className={`basis-full ${msg.ok ? "text-emerald-300" : "text-red-300"}`}>{msg.text}</div>}
+    </div>
+  );
+}
+
+/**
+ * Ajustes do cliente na tarefa, como checklist. Os anotados no link aparecem
+ * na hora (antes do cliente enviar) — dá pra "Puxar ajustes" sem esperar. Cada
+ * um vira ✓ feito, e o cliente confere a lista na versão nova.
+ */
+export function TaskAdjustments({
+  projectId, taskId, status, onStatus,
+}: {
+  projectId: string;
+  taskId: string;
+  status: string;
+  onStatus: (s: string) => void;
+}) {
+  const router = useRouter();
+  const [data, setData] = useState<{ round: number; items: AdjustmentView[] } | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  const [showOld, setShowOld] = useState(false);
+  const base = `/api/projetos/${projectId}/tasks/${taskId}/ajustes`;
+
+  const load = useCallback(async () => {
+    const res = await fetch(base).catch(() => null);
+    if (res?.ok) setData(await res.json());
+  }, [base]);
+  // Recarrega quando o status muda (cliente enviou, equipe mandou versão nova).
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { void load(); }, [load, status]);
+
+  if (!data || data.items.length === 0) return null;
+
+  const current = data.items.filter((a) => a.round === data.round);
+  const older = data.items.filter((a) => a.round !== data.round);
+  const open = current.filter((a) => !a.sentAt);
+  const sent = current.filter((a) => a.sentAt);
+  const doneCount = sent.filter((a) => a.doneAt).length;
+
+  async function toggle(a: AdjustmentView) {
+    setBusy(a.id);
+    const res = await fetch(`${base}/${a.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ done: !a.doneAt }),
+    }).catch(() => null);
+    setBusy(null);
+    const d = await res?.json().catch(() => null);
+    if (res?.ok && d?.adjustment) {
+      setData((cur) => cur && { ...cur, items: cur.items.map((x) => (x.id === a.id ? d.adjustment : x)) });
+    }
+  }
+
+  async function puxar() {
+    if (!window.confirm(`Puxar ${open.length} ajuste${open.length === 1 ? "" : "s"} anotado${open.length === 1 ? "" : "s"} agora? A peça volta pra produção e o grupo do cliente é avisado.`)) return;
+    setBusy("puxar");
+    setErr(null);
+    const res = await fetch(`${base}/puxar`, { method: "POST" }).catch(() => null);
+    setBusy(null);
+    const d = await res?.json().catch(() => null);
+    if (!res?.ok) { setErr(d?.error ?? "Não foi possível puxar os ajustes."); return; }
+    onStatus("EM_PRODUCAO");
+    await load();
+    router.refresh();
+  }
+
+  const item = (a: AdjustmentView, checkable: boolean) => (
+    <label key={a.id} className={`flex items-start gap-2 py-1 ${checkable ? "cursor-pointer" : ""}`}>
+      {checkable ? (
+        <input
+          type="checkbox"
+          checked={!!a.doneAt}
+          disabled={busy === a.id}
+          onChange={() => void toggle(a)}
+          className="mt-0.5 accent-emerald-500"
+        />
+      ) : (
+        <span className="mt-1 w-2 h-2 rounded-full bg-amber-400 shrink-0" title="Anotado, ainda não enviado" />
+      )}
+      <span className="min-w-0 flex-1">
+        <span className={`whitespace-pre-wrap break-words ${a.doneAt ? "text-slate-500 line-through" : "text-slate-200"}`}>{a.text}</span>
+        <span className="block text-[10px] text-slate-500">
+          {a.authorName}
+          {a.fileLabel ? ` · ${a.fileLabel}` : " · peça toda"}
+          {a.late ? " · chegou depois do envio" : ""}
+          {a.doneAt ? ` · feito${a.doneByName ? ` por ${a.doneByName}` : ""}` : ""}
+        </span>
+      </span>
+    </label>
+  );
+
+  return (
+    <div className="shrink-0 mb-2 text-[11px] bg-[#0a0f1a] border border-amber-500/25 rounded-lg px-2.5 py-2">
+      <div className="flex items-center gap-2 flex-wrap mb-1">
+        <span className="text-amber-300 font-semibold">✎ Ajustes do cliente · v{data.round}</span>
+        {sent.length > 0 && <span className="text-slate-500">{doneCount} de {sent.length} feitos</span>}
+        {open.length > 0 && status === "AGUARDANDO_CLIENTE" && (
+          <>
+            <span className="text-amber-200/80">
+              {open.length} anotado{open.length === 1 ? "" : "s"} no link, ainda não enviado{open.length === 1 ? "" : "s"}
+            </span>
+            <button
+              type="button"
+              onClick={() => void puxar()}
+              disabled={busy === "puxar"}
+              className="ml-auto px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/40 text-amber-200 font-semibold hover:bg-amber-500/25 disabled:opacity-40"
+              title="Fecha a rodada com o que já foi anotado, sem esperar o cliente tocar em Enviar"
+            >
+              {busy === "puxar" ? "Puxando…" : "Puxar ajustes"}
+            </button>
+          </>
+        )}
+      </div>
+      {sent.map((a) => item(a, true))}
+      {open.map((a) => item(a, false))}
+      {current.length === 0 && <div className="text-slate-500">Nenhum ajuste nesta versão.</div>}
+      {older.length > 0 && (
+        <div className="mt-1 pt-1 border-t border-[#1e2d45]">
+          <button type="button" onClick={() => setShowOld((v) => !v)} className="inline-flex items-center gap-1 text-slate-500 hover:text-slate-300">
+            {showOld ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+            Versões anteriores ({older.length})
+          </button>
+          {showOld && older.map((a) => (
+            <div key={a.id}>
+              <span className="text-slate-600 mr-1">v{a.round}</span>
+              {item(a, !!a.sentAt)}
+            </div>
+          ))}
+        </div>
+      )}
+      {err && <div className="text-red-300 mt-1">{err}</div>}
     </div>
   );
 }

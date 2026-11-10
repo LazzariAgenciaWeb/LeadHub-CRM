@@ -1793,12 +1793,40 @@ model ProjectTask {
   materials   ProjectMaterial[]
   attachments StorageObject[]
   events      ProjectTaskEvent[]
+  // Ajustes pedidos pelo cliente no link de aprovação (um por pedido).
+  adjustments ProjectTaskAdjustment[]
 
   @@index([projectId, done])
   @@index([aiAssignedAt])
   @@index([assigneeId])
   @@index([projectServiceId])
   @@index([status, approvalSentAt])
+}
+
+// Ajuste pedido pelo cliente no link de aprovação (/aprovar). Um registro por
+// pedido: várias pessoas anotam na mesma rodada sem uma apagar a outra, e
+// nada muda na peça até alguém tocar em "Enviar ajustes pra equipe" (sentAt).
+// Depois do envio, "Esqueci uma coisa" ainda entra na mesma rodada (late) até
+// a equipe mandar a versão nova. A equipe marca cada um como feito (doneAt) e
+// o cliente confere a lista na versão seguinte.
+model ProjectTaskAdjustment {
+  id         String      @id @default(cuid())
+  task       ProjectTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId     String
+  round      Int // approvalRound em que foi pedido
+  authorName String
+  text       String      @db.Text
+  fileId     String? // item do carrossel (StorageObject ou vídeo por link); null = a peça toda
+  fileLabel  String? // "Arquivo 2" — posição no carrossel quando foi anotado
+  deviceKey  String? // aparelho que anotou (sem login): só ele edita/apaga
+  sentAt     DateTime? // foi pra equipe
+  late       Boolean     @default(false) // anotado depois do envio ("esqueci uma coisa")
+  doneAt     DateTime?
+  doneByName String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@index([taskId, round])
 }
 
 // Serviço do catálogo entregue dentro de um projeto, com posição na sequência.

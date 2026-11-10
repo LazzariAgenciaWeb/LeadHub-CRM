@@ -794,6 +794,23 @@ exports.Prisma.ProjectTaskScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ProjectTaskAdjustmentScalarFieldEnum = {
+  id: 'id',
+  taskId: 'taskId',
+  round: 'round',
+  authorName: 'authorName',
+  text: 'text',
+  fileId: 'fileId',
+  fileLabel: 'fileLabel',
+  deviceKey: 'deviceKey',
+  sentAt: 'sentAt',
+  late: 'late',
+  doneAt: 'doneAt',
+  doneByName: 'doneByName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ProjectServiceScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
@@ -2904,6 +2921,7 @@ exports.Prisma.ModelName = {
   SetorEmailAccount: 'SetorEmailAccount',
   SetorClickupList: 'SetorClickupList',
   ProjectTask: 'ProjectTask',
+  ProjectTaskAdjustment: 'ProjectTaskAdjustment',
   ProjectService: 'ProjectService',
   ProjectTaskEvent: 'ProjectTaskEvent',
   TicketAccessUser: 'TicketAccessUser',
