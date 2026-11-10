@@ -34967,10 +34967,12 @@ export namespace Prisma {
 
   export type LeadAvgAggregateOutputType = {
     value: number | null
+    aiStageConfidence: number | null
   }
 
   export type LeadSumAggregateOutputType = {
     value: number | null
+    aiStageConfidence: number | null
   }
 
   export type LeadMinAggregateOutputType = {
@@ -35003,6 +35005,11 @@ export namespace Prisma {
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
+    aiStageSuggestion: string | null
+    aiStageReason: string | null
+    aiStageConfidence: number | null
+    aiStageReturnAt: Date | null
+    aiStageAnalyzedAt: Date | null
     isInternal: boolean | null
     companyId: string | null
     campaignId: string | null
@@ -35049,6 +35056,11 @@ export namespace Prisma {
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
+    aiStageSuggestion: string | null
+    aiStageReason: string | null
+    aiStageConfidence: number | null
+    aiStageReturnAt: Date | null
+    aiStageAnalyzedAt: Date | null
     isInternal: boolean | null
     companyId: string | null
     campaignId: string | null
@@ -35096,6 +35108,11 @@ export namespace Prisma {
     attendanceStatus: number
     expectedReturnAt: number
     clickupTaskId: number
+    aiStageSuggestion: number
+    aiStageReason: number
+    aiStageConfidence: number
+    aiStageReturnAt: number
+    aiStageAnalyzedAt: number
     isInternal: number
     companyId: number
     campaignId: number
@@ -35116,10 +35133,12 @@ export namespace Prisma {
 
   export type LeadAvgAggregateInputType = {
     value?: true
+    aiStageConfidence?: true
   }
 
   export type LeadSumAggregateInputType = {
     value?: true
+    aiStageConfidence?: true
   }
 
   export type LeadMinAggregateInputType = {
@@ -35152,6 +35171,11 @@ export namespace Prisma {
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
+    aiStageSuggestion?: true
+    aiStageReason?: true
+    aiStageConfidence?: true
+    aiStageReturnAt?: true
+    aiStageAnalyzedAt?: true
     isInternal?: true
     companyId?: true
     campaignId?: true
@@ -35198,6 +35222,11 @@ export namespace Prisma {
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
+    aiStageSuggestion?: true
+    aiStageReason?: true
+    aiStageConfidence?: true
+    aiStageReturnAt?: true
+    aiStageAnalyzedAt?: true
     isInternal?: true
     companyId?: true
     campaignId?: true
@@ -35245,6 +35274,11 @@ export namespace Prisma {
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
+    aiStageSuggestion?: true
+    aiStageReason?: true
+    aiStageConfidence?: true
+    aiStageReturnAt?: true
+    aiStageAnalyzedAt?: true
     isInternal?: true
     companyId?: true
     campaignId?: true
@@ -35379,6 +35413,11 @@ export namespace Prisma {
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
+    aiStageSuggestion: string | null
+    aiStageReason: string | null
+    aiStageConfidence: number | null
+    aiStageReturnAt: Date | null
+    aiStageAnalyzedAt: Date | null
     isInternal: boolean
     companyId: string
     campaignId: string | null
@@ -35445,6 +35484,11 @@ export namespace Prisma {
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
+    aiStageSuggestion?: boolean
+    aiStageReason?: boolean
+    aiStageConfidence?: boolean
+    aiStageReturnAt?: boolean
+    aiStageAnalyzedAt?: boolean
     isInternal?: boolean
     companyId?: boolean
     campaignId?: boolean
@@ -35509,6 +35553,11 @@ export namespace Prisma {
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
+    aiStageSuggestion?: boolean
+    aiStageReason?: boolean
+    aiStageConfidence?: boolean
+    aiStageReturnAt?: boolean
+    aiStageAnalyzedAt?: boolean
     isInternal?: boolean
     companyId?: boolean
     campaignId?: boolean
@@ -35561,6 +35610,11 @@ export namespace Prisma {
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
+    aiStageSuggestion?: boolean
+    aiStageReason?: boolean
+    aiStageConfidence?: boolean
+    aiStageReturnAt?: boolean
+    aiStageAnalyzedAt?: boolean
     isInternal?: boolean
     companyId?: boolean
     campaignId?: boolean
@@ -35655,6 +35709,11 @@ export namespace Prisma {
       attendanceStatus: string | null
       expectedReturnAt: Date | null
       clickupTaskId: string | null
+      aiStageSuggestion: string | null
+      aiStageReason: string | null
+      aiStageConfidence: number | null
+      aiStageReturnAt: Date | null
+      aiStageAnalyzedAt: Date | null
       isInternal: boolean
       companyId: string
       campaignId: string | null
@@ -36108,6 +36167,11 @@ export namespace Prisma {
     readonly attendanceStatus: FieldRef<"Lead", 'String'>
     readonly expectedReturnAt: FieldRef<"Lead", 'DateTime'>
     readonly clickupTaskId: FieldRef<"Lead", 'String'>
+    readonly aiStageSuggestion: FieldRef<"Lead", 'String'>
+    readonly aiStageReason: FieldRef<"Lead", 'String'>
+    readonly aiStageConfidence: FieldRef<"Lead", 'Int'>
+    readonly aiStageReturnAt: FieldRef<"Lead", 'DateTime'>
+    readonly aiStageAnalyzedAt: FieldRef<"Lead", 'DateTime'>
     readonly isInternal: FieldRef<"Lead", 'Boolean'>
     readonly companyId: FieldRef<"Lead", 'String'>
     readonly campaignId: FieldRef<"Lead", 'String'>
@@ -174989,6 +175053,11 @@ export namespace Prisma {
     attendanceStatus: 'attendanceStatus',
     expectedReturnAt: 'expectedReturnAt',
     clickupTaskId: 'clickupTaskId',
+    aiStageSuggestion: 'aiStageSuggestion',
+    aiStageReason: 'aiStageReason',
+    aiStageConfidence: 'aiStageConfidence',
+    aiStageReturnAt: 'aiStageReturnAt',
+    aiStageAnalyzedAt: 'aiStageAnalyzedAt',
     isInternal: 'isInternal',
     companyId: 'companyId',
     campaignId: 'campaignId',
@@ -180144,6 +180213,11 @@ export namespace Prisma {
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
+    aiStageSuggestion?: StringNullableFilter<"Lead"> | string | null
+    aiStageReason?: StringNullableFilter<"Lead"> | string | null
+    aiStageConfidence?: IntNullableFilter<"Lead"> | number | null
+    aiStageReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    aiStageAnalyzedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     isInternal?: BoolFilter<"Lead"> | boolean
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
@@ -180207,6 +180281,11 @@ export namespace Prisma {
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
+    aiStageSuggestion?: SortOrderInput | SortOrder
+    aiStageReason?: SortOrderInput | SortOrder
+    aiStageConfidence?: SortOrderInput | SortOrder
+    aiStageReturnAt?: SortOrderInput | SortOrder
+    aiStageAnalyzedAt?: SortOrderInput | SortOrder
     isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
@@ -180273,6 +180352,11 @@ export namespace Prisma {
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
+    aiStageSuggestion?: StringNullableFilter<"Lead"> | string | null
+    aiStageReason?: StringNullableFilter<"Lead"> | string | null
+    aiStageConfidence?: IntNullableFilter<"Lead"> | number | null
+    aiStageReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    aiStageAnalyzedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     isInternal?: BoolFilter<"Lead"> | boolean
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
@@ -180336,6 +180420,11 @@ export namespace Prisma {
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
+    aiStageSuggestion?: SortOrderInput | SortOrder
+    aiStageReason?: SortOrderInput | SortOrder
+    aiStageConfidence?: SortOrderInput | SortOrder
+    aiStageReturnAt?: SortOrderInput | SortOrder
+    aiStageAnalyzedAt?: SortOrderInput | SortOrder
     isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
@@ -180391,6 +180480,11 @@ export namespace Prisma {
     attendanceStatus?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    aiStageSuggestion?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    aiStageReason?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    aiStageConfidence?: IntNullableWithAggregatesFilter<"Lead"> | number | null
+    aiStageReturnAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
+    aiStageAnalyzedAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     isInternal?: BoolWithAggregatesFilter<"Lead"> | boolean
     companyId?: StringWithAggregatesFilter<"Lead"> | string
     campaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -195042,6 +195136,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -195100,6 +195199,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -195158,6 +195262,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -195216,6 +195325,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -195274,6 +195388,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -195321,6 +195440,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -195363,6 +195487,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -211472,6 +211601,17 @@ export namespace Prisma {
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type TrackingLinkNullableRelationFilter = {
     is?: TrackingLinkWhereInput | null
     isNot?: TrackingLinkWhereInput | null
@@ -211573,6 +211713,11 @@ export namespace Prisma {
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
+    aiStageSuggestion?: SortOrder
+    aiStageReason?: SortOrder
+    aiStageConfidence?: SortOrder
+    aiStageReturnAt?: SortOrder
+    aiStageAnalyzedAt?: SortOrder
     isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
@@ -211591,6 +211736,7 @@ export namespace Prisma {
 
   export type LeadAvgOrderByAggregateInput = {
     value?: SortOrder
+    aiStageConfidence?: SortOrder
   }
 
   export type LeadMaxOrderByAggregateInput = {
@@ -211623,6 +211769,11 @@ export namespace Prisma {
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
+    aiStageSuggestion?: SortOrder
+    aiStageReason?: SortOrder
+    aiStageConfidence?: SortOrder
+    aiStageReturnAt?: SortOrder
+    aiStageAnalyzedAt?: SortOrder
     isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
@@ -211669,6 +211820,11 @@ export namespace Prisma {
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
+    aiStageSuggestion?: SortOrder
+    aiStageReason?: SortOrder
+    aiStageConfidence?: SortOrder
+    aiStageReturnAt?: SortOrder
+    aiStageAnalyzedAt?: SortOrder
     isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
@@ -211687,6 +211843,7 @@ export namespace Prisma {
 
   export type LeadSumOrderByAggregateInput = {
     value?: SortOrder
+    aiStageConfidence?: SortOrder
   }
 
   export type EnumLeadStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -211705,6 +211862,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type TagCompanyIdNameCompoundUniqueInput = {
@@ -212257,17 +212430,6 @@ export namespace Prisma {
     not?: NestedEnumLeadStatusNullableFilter<$PrismaModel> | $Enums.LeadStatus | null
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type WhatsappInstanceNullableRelationFilter = {
     is?: WhatsappInstanceWhereInput | null
     isNot?: WhatsappInstanceWhereInput | null
@@ -212391,22 +212553,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumLeadStatusNullableFilter<$PrismaModel>
     _max?: NestedEnumLeadStatusNullableFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumKeywordMatchModeFilter<$PrismaModel = never> = {
@@ -226295,6 +226441,14 @@ export namespace Prisma {
     set?: boolean | null
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type CompanyUpdateOneRequiredWithoutLeadsNestedInput = {
     create?: XOR<CompanyCreateWithoutLeadsInput, CompanyUncheckedCreateWithoutLeadsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutLeadsInput
@@ -227311,14 +227465,6 @@ export namespace Prisma {
 
   export type NullableEnumLeadStatusFieldUpdateOperationsInput = {
     set?: $Enums.LeadStatus | null
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type CompanyUpdateOneRequiredWithoutMessagesNestedInput = {
@@ -233977,6 +234123,22 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumCustomFieldTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.CustomFieldType | EnumCustomFieldTypeFieldRefInput<$PrismaModel>
     in?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
@@ -234077,22 +234239,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumLeadStatusNullableFilter<$PrismaModel>
     _max?: NestedEnumLeadStatusNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumKeywordMatchModeFilter<$PrismaModel = never> = {
@@ -242426,6 +242572,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -242483,6 +242634,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -246707,6 +246863,11 @@ export namespace Prisma {
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
+    aiStageSuggestion?: StringNullableFilter<"Lead"> | string | null
+    aiStageReason?: StringNullableFilter<"Lead"> | string | null
+    aiStageConfidence?: IntNullableFilter<"Lead"> | number | null
+    aiStageReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    aiStageAnalyzedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     isInternal?: BoolFilter<"Lead"> | boolean
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
@@ -249594,6 +249755,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -249651,6 +249817,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
@@ -250543,6 +250714,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -250600,6 +250776,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -253637,6 +253818,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -253694,6 +253880,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -253792,6 +253983,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -253849,6 +254045,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -254555,6 +254756,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -254612,6 +254818,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -254716,6 +254927,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -254773,6 +254989,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -256125,6 +256346,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -256182,6 +256408,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -256810,6 +257041,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -256867,6 +257103,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -257497,6 +257738,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -257554,6 +257800,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -257627,6 +257878,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -257684,6 +257940,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260798,6 +261059,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -260855,6 +261121,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -261535,6 +261806,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -261592,6 +261868,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -263215,6 +263496,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -263272,6 +263558,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -264233,6 +264524,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -264290,6 +264586,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -264800,6 +265101,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -264857,6 +265163,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283035,6 +283346,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -283092,6 +283408,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -283539,6 +283860,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -283596,6 +283922,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -301801,6 +302132,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -301858,6 +302194,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -302479,6 +302820,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -302536,6 +302882,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -302700,6 +303051,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -302757,6 +303113,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -304575,6 +304936,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -304632,6 +304998,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -305183,6 +305554,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -305240,6 +305616,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -315555,6 +315936,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -315612,6 +315998,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -316440,6 +316831,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -316497,6 +316893,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -329648,6 +330049,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
@@ -329705,6 +330111,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -329896,6 +330307,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -329953,6 +330369,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -333494,6 +333915,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -335609,6 +336035,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -335666,6 +336097,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -335723,6 +336159,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -339469,6 +339910,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
@@ -339570,6 +340016,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -339627,6 +340078,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -339684,6 +340140,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -339899,6 +340360,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -339953,6 +340419,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -340010,6 +340481,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -340067,6 +340543,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -341499,6 +341980,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -341701,6 +342187,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -341758,6 +342249,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -341815,6 +342311,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -344846,6 +345347,11 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    aiStageSuggestion?: string | null
+    aiStageReason?: string | null
+    aiStageConfidence?: number | null
+    aiStageReturnAt?: Date | string | null
+    aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
@@ -344945,6 +345451,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -345002,6 +345513,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -345059,6 +345575,11 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageSuggestion?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageReason?: NullableStringFieldUpdateOperationsInput | string | null
+    aiStageConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null

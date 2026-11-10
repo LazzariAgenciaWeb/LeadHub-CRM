@@ -721,6 +721,16 @@ model Lead {
   // Integração ClickUp
   clickupTaskId String? // ID ou URL da tarefa no ClickUp
 
+  // ─── Etapa sugerida pela IA a partir da conversa (lib/lead-stage-ai.ts) ───
+  // Preenchido pela varredura (cron crm-ai-stage) ou pelo botão "Analisar com IA".
+  // aiStageAnalyzedAt = momento da análise; a varredura só reanalisa quando a
+  // conversa teve mensagem nova depois disso. Sugestão é limpa ao aplicar/ignorar.
+  aiStageSuggestion String?
+  aiStageReason     String?   @db.Text
+  aiStageConfidence Int?
+  aiStageReturnAt   DateTime? // retorno combinado na conversa (ex.: "me liga quinta 10h")
+  aiStageAnalyzedAt DateTime?
+
   // Visibilidade: isInternal=true → visível apenas ao SUPER_ADMIN (não aparece no portal do cliente)
   isInternal Boolean @default(false)
 
@@ -3067,7 +3077,7 @@ model AdCreativeDaily {
 //  PAST_DUE → pagamento falhou, em período de graça (5 dias)
 //  CANCELED → cancelado pelo cliente, ainda ativo até currentPeriodEnd
 //  UNPAID → não pagou, acesso bloqueado
-//  INCOMPLETE → checkout iniciado mas não finalizado
+//  INCOMPLETE ��� checkout iniciado mas não finalizado
 
 model Subscription {
   id        String  @id @default(cuid())

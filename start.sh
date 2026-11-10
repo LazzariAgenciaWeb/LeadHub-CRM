@@ -223,6 +223,23 @@ echo "🎣 Cron Resgate de conversas habilitado — rodará a cada ${REVIVAL_INT
   done
 ) &
 
+# Cron: IA de etapas do CRM — lê a conversa do WhatsApp e sugere/aplica a etapa
+# do lead (só empresas que ligaram em Configurações → CRM / Pipeline).
+# Frequência: a cada 5 minutos (config: CRM_AI_STAGE_INTERVAL_SECONDS)
+CRM_AI_STAGE_INTERVAL_SECONDS="${CRM_AI_STAGE_INTERVAL_SECONDS:-300}"
+echo "🧭 Cron IA de etapas do CRM habilitado — rodará a cada ${CRM_AI_STAGE_INTERVAL_SECONDS}s"
+(
+  sleep 120
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/crm-ai-stage" --max-time 240 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron IA etapas] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep "$CRM_AI_STAGE_INTERVAL_SECONDS"
+  done
+) &
+
 # Cron: Sync de instâncias — busca status real na Evolution e atualiza no banco
 # Frequência: a cada 5 minutos (config: SYNC_INSTANCES_INTERVAL_SECONDS)
 SYNC_INSTANCES_INTERVAL_SECONDS="${SYNC_INSTANCES_INTERVAL_SECONDS:-300}"

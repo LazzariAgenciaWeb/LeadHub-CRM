@@ -11,6 +11,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import LeadJourney from "./LeadJourney";
+import LeadAiStageCard from "./LeadAiStageCard";
 import { LinkConversationPicker, LeadEmailsPanel, type LinkConversationResult } from "./LeadLinks";
 import SendEmailButton from "@/components/SendEmailButton";
 import ImportLeads from "./ImportLeads";
@@ -37,6 +38,12 @@ export interface CRMLead {
   /** "" quando o lead entrou sem telefone (celular/grupo vinculado depois). */
   phone: string;
   conversationId?: string | null;
+  /** Sugestão da IA a partir da conversa (lib/lead-stage-ai.ts). */
+  aiStageSuggestion?: string | null;
+  aiStageReason?: string | null;
+  aiStageConfidence?: number | null;
+  aiStageReturnAt?: string | null;
+  aiStageAnalyzedAt?: string | null;
   email: string | null;
   notes: string | null;
   source: string | null;
@@ -1801,6 +1808,14 @@ export default function CRMBoard({
                         <div className="flex items-center justify-between gap-2 mb-1.5 pr-7">
                           <div className="flex items-center gap-1 min-w-0">
                             <SourceBadge source={lead.source} size="xs" />
+                            {(lead.aiStageSuggestion || lead.aiStageReturnAt) && (
+                              <span
+                                className="text-[9px] px-1 py-0.5 rounded bg-fuchsia-500/15 text-fuchsia-200 border border-fuchsia-500/30 font-medium inline-flex items-center gap-0.5"
+                                title={`IA sugere: ${lead.aiStageSuggestion ? `mover para ${lead.aiStageSuggestion}` : "agendar retorno"}${lead.aiStageReason ? ` — ${lead.aiStageReason}` : ""}`}
+                              >
+                                <Sparkles className="w-2.5 h-2.5" /> IA
+                              </span>
+                            )}
                             {lead.hasWhatsapp === true && (
                               <span className="text-[9px] px-1 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-medium" title="Número validado com WhatsApp">
                                 ✓ WA
@@ -2339,6 +2354,19 @@ export default function CRMBoard({
                 <div className="text-[9px] uppercase tracking-[0.15em] text-slate-600 font-bold pt-1">
                   Status do lead
                 </div>
+
+                {/* Sugestão da IA pela conversa do WhatsApp (etapa + retorno) */}
+                {!!selected.phone && (
+                  <LeadAiStageCard
+                    key={selected.id}
+                    lead={selected}
+                    onUpdated={(patch) => {
+                      setSelected((cur) => (cur && cur.id === selected.id ? { ...cur, ...patch } : cur));
+                      setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, ...patch } : l)));
+                      reloadTimeline();
+                    }}
+                  />
+                )}
 
                 {/* Lead score — temperatura do lead */}
                 {selected.score && (

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import CrmAiStageSetting from "./CrmAiStageSetting";
 
 interface CompanyOption {
   id: string;
@@ -245,6 +246,8 @@ export default function PipelineSettings({
           </select>
         </div>
       )}
+
+      {selectedCompanyId && <CrmAiStageSetting key={selectedCompanyId} companyId={selectedCompanyId} />}
 
       {/* Tabs de pipeline */}
       <div className="flex gap-1 mb-6 bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-1">
