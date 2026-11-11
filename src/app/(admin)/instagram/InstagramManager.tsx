@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Camera, Plus, Trash2 } from "lucide-react";
+import { Camera, Plus, Sparkles, Trash2 } from "lucide-react";
+import AiRepliesPanel from "./AiRepliesPanel";
 
 type Account = {
   id: string;
@@ -28,6 +29,12 @@ type Automation = {
   deliveredText: string | null;
   requireFollow: boolean;
   notFollowingText: string | null;
+  replyMode: "FIXED" | "AI";
+  aiPersona: string | null;
+  aiExamples: string | null;
+  aiApproval: boolean;
+  aiMaxPerHour: number;
+  aiHideSpam: boolean;
 };
 
 type Media = {
@@ -73,6 +80,12 @@ const emptyForm = {
   deliveredText: "",
   requireFollow: false,
   notFollowingText: "",
+  replyMode: "FIXED" as "FIXED" | "AI",
+  aiPersona: "",
+  aiExamples: "",
+  aiApproval: true,
+  aiMaxPerHour: 40,
+  aiHideSpam: true,
 };
 
 export default function InstagramManager() {
@@ -90,6 +103,7 @@ export default function InstagramManager() {
   const [reportFor, setReportFor] = useState<Automation | null>(null);
   const [reportRuns, setReportRuns] = useState<Run[]>([]);
   const [reportLoading, setReportLoading] = useState(false);
+  const [aiPanelFor, setAiPanelFor] = useState<Automation | null>(null);
 
   async function openReport(a: Automation) {
     setReportFor(a);
@@ -162,6 +176,12 @@ export default function InstagramManager() {
       deliveredText: a.deliveredText || "",
       requireFollow: a.requireFollow,
       notFollowingText: a.notFollowingText || "",
+      replyMode: a.replyMode,
+      aiPersona: a.aiPersona || "",
+      aiExamples: a.aiExamples || "",
+      aiApproval: a.aiApproval,
+      aiMaxPerHour: a.aiMaxPerHour,
+      aiHideSpam: a.aiHideSpam,
     });
     setError("");
     setShowForm(true);
@@ -186,6 +206,12 @@ export default function InstagramManager() {
       deliveredText: form.deliveredText,
       requireFollow: form.requireFollow,
       notFollowingText: form.notFollowingText,
+      replyMode: form.replyMode,
+      aiPersona: form.aiPersona,
+      aiExamples: form.aiExamples,
+      aiApproval: form.aiApproval,
+      aiMaxPerHour: form.aiMaxPerHour,
+      aiHideSpam: form.aiHideSpam,
     };
     try {
       const url = form.id ? `/api/instagram/automations/${form.id}` : "/api/instagram/automations";
@@ -302,8 +328,14 @@ export default function InstagramManager() {
                   {a.triggerType === "ANY" ? "Qualquer comentário" : `Palavras: ${a.keywords.join(", ") || "—"}`}
                   {a.mediaId ? " · post específico" : " · todos os posts"}
                   {a.requireFollow ? " · 🔒 follow-gate" : ""}
+                  {a.replyMode === "AI" ? " · ✨ respostas com IA" : ""}
                 </p>
               </div>
+              {a.replyMode === "AI" && (
+                <button onClick={() => setAiPanelFor(a)} className="inline-flex items-center gap-1 text-xs text-pink-300 hover:text-pink-200">
+                  <Sparkles className="w-3.5 h-3.5" /> Respostas da IA
+                </button>
+              )}
               <button onClick={() => openReport(a)} className="text-xs text-slate-300 hover:text-white">Relatório</button>
               <button onClick={() => openEdit(a)} className="text-xs text-indigo-300 hover:text-indigo-200">Editar</button>
               <button onClick={() => remove(a.id)} className="text-slate-400 hover:text-red-400" title="Apagar">
@@ -341,6 +373,8 @@ export default function InstagramManager() {
           onSave={save}
         />
       )}
+
+      {aiPanelFor && <AiRepliesPanel automation={aiPanelFor} onClose={() => setAiPanelFor(null)} />}
 
       {reportFor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setReportFor(null)}>
@@ -464,6 +498,18 @@ function FormModal({
             Responder o comentário publicamente
           </label>
           {form.replyToComment && (
+            <div className="flex gap-2">
+              <button
+                onClick={() => set("replyMode", "FIXED")}
+                className={`flex-1 text-xs px-2 py-1.5 rounded-lg border ${form.replyMode === "FIXED" ? "border-indigo-500 text-indigo-200" : "border-white/10 text-slate-400"}`}
+              >Lista de respostas</button>
+              <button
+                onClick={() => setForm({ ...form, replyMode: "AI", triggerType: form.triggerType === "KEYWORD" && !form.keywords.trim() ? "ANY" : form.triggerType })}
+                className={`flex-1 text-xs px-2 py-1.5 rounded-lg border ${form.replyMode === "AI" ? "border-pink-500 text-pink-200" : "border-white/10 text-slate-400"}`}
+              >✨ IA no meu tom</button>
+            </div>
+          )}
+          {form.replyToComment && form.replyMode === "FIXED" && (
             <textarea
               className={input}
               rows={3}
@@ -472,10 +518,59 @@ function FormModal({
               placeholder="Uma resposta por linha — o sistema escolhe uma aleatória a cada comentário"
             />
           )}
+          {form.replyToComment && form.replyMode === "AI" && (
+            <div className="flex flex-col gap-2 rounded-lg border border-pink-500/20 bg-pink-500/5 p-3">
+              <p className="text-[11px] text-slate-400">
+                A IA lê o comentário e a legenda do post, entra na brincadeira no seu jeito e escolhe o que vale responder
+                (só emoji/risada recebe resposta às vezes; crítica fica pra você; spam é ocultado). As respostas saem aos poucos, em ritmo humano.
+                Cada comentário analisado usa 1 crédito de IA da empresa.
+              </p>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Seu jeito de responder</label>
+                <textarea
+                  className={input}
+                  rows={3}
+                  value={form.aiPersona}
+                  onChange={(e) => set("aiPersona", e.target.value)}
+                  placeholder="Quem você é, como fala, o que defende, o que evita. Ex: Consultor de marketing pra pequenas empresas, direto e bem-humorado, fala como amigo, nunca promete resultado, não usa gíria pesada."
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Exemplos de respostas suas (uma por linha)</label>
+                <textarea
+                  className={input}
+                  rows={3}
+                  value={form.aiExamples}
+                  onChange={(e) => set("aiExamples", e.target.value)}
+                  placeholder={"kkkkk eu avisei que ia dar ruim\nfaz o teste e me conta 👀\no algoritmo não perdoa ninguém"}
+                />
+              </div>
+              <label className="flex items-center gap-2 text-sm text-slate-300">
+                <input type="checkbox" checked={form.aiApproval} onChange={(e) => set("aiApproval", e.target.checked)} className="w-4 h-4 accent-pink-500" />
+                Quero aprovar antes de publicar
+              </label>
+              <label className="flex items-center gap-2 text-sm text-slate-300">
+                <input type="checkbox" checked={form.aiHideSpam} onChange={(e) => set("aiHideSpam", e.target.checked)} className="w-4 h-4 accent-pink-500" />
+                Ocultar spam e golpe automaticamente
+              </label>
+              <label className="flex items-center gap-2 text-sm text-slate-300">
+                No máximo
+                <input
+                  type="number"
+                  min={5}
+                  max={120}
+                  value={form.aiMaxPerHour}
+                  onChange={(e) => set("aiMaxPerHour", Number(e.target.value))}
+                  className="w-20 rounded-lg bg-white/5 border border-white/10 px-2 py-1 text-sm text-white focus:outline-none focus:border-pink-500"
+                />
+                respostas por hora
+              </label>
+            </div>
+          )}
 
           <label className="flex items-center gap-2 text-sm text-slate-300">
             <input type="checkbox" checked={form.sendDm} onChange={(e) => set("sendDm", e.target.checked)} className="w-4 h-4 accent-indigo-500" />
-            Enviar DM (direct)
+            Enviar DM (direct){form.replyToComment && form.replyMode === "AI" ? " — só pra quem perguntar ou mostrar interesse" : ""}
           </label>
           {form.sendDm && (
             <>

@@ -402,6 +402,25 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
     return;
   }
 
+  // Modo IA: o comentário só entra na fila — a IA classifica, escreve e o cron
+  // publica em ritmo humano (src/lib/instagram-ai-replies.ts). Respostas dentro
+  // de uma thread (parent_id) são gente conversando entre si: não entra.
+  if (matched[0].replyMode === "AI") {
+    if (value.parent_id) return;
+    await enqueueAiReply({
+      companyId: account.companyId,
+      accountId: account.id,
+      automationId: matched[0].id,
+      commentId,
+      mediaId,
+      igCommenterId: commenterId,
+      username: value.from?.username ?? null,
+      commentText: value.text ?? null,
+      source: "WEBHOOK",
+    });
+    return;
+  }
+
   // Só a PRIMEIRA automação que casa age neste comentário. O Instagram permite
   // apenas 1 private reply por comentário — disparar várias geraria erro 500 na
   // 2ª. (Regra "primeiro match vence", estilo ManyChat.)
@@ -442,58 +461,8 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
         }
       }
 
-      // 5. DM. Dois fluxos:
-      //    (a) BOTÃO (dmButtonLabel preenchido): manda a abertura + botão CTA;
-      //        a checagem de follow e a entrega acontecem no CLIQUE do botão
-      //        (handleMessageEvent → resolveCtaClick).
-      //    (b) SIMPLES: manda o conteúdo direto (follow-gate por texto "ok").
-      if (a.sendDm && a.dmButtonLabel) {
-        const opening = a.dmText || "Toca no botão abaixo pra receber 👇";
-        const mid = await withRetry(() =>
-          sendPrivateReplyWithButtons(commentId, opening, [{ title: a.dmButtonLabel!, payload: CTA_PREFIX + a.id }], token),
-        );
-        await outAuto(account, commenterId, opening, mid);
-        await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "DM_SENT" } });
-      } else if (a.sendDm) {
-        const fullDm = [a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
-
-        if (a.requireFollow) {
-          // Tenta saber se já segue (só funciona em contexto de DM; do comentário
-          // costuma vir null → tratamos como "ainda não confirmado").
-          const follows = await getUserFollowStatus(commenterId, token);
-          if (follows === true && fullDm) {
-            const mid = await withRetry(() => sendPrivateReply(commentId, fullDm, token));
-            await outAuto(account, commenterId, fullDm, mid);
-            await prisma.igAutomationRun.update({
-              where: { id: run.id },
-              data: { status: "COMPLETED", followState: "FOLLOWING" },
-            });
-          } else {
-            // Pede pra seguir (com link do perfil); libera o link quando responder no DM.
-            const ask = withProfileLink(a.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
-            const mid = await withRetry(() => sendPrivateReply(commentId, ask, token));
-            await outAuto(account, commenterId, ask, mid);
-            await prisma.igAutomationRun.update({
-              where: { id: run.id },
-              data: {
-                status: "AWAITING_FOLLOW",
-                followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN",
-              },
-            });
-          }
-        } else if (fullDm) {
-          const mid = await withRetry(() => sendPrivateReply(commentId, fullDm, token));
-          await outAuto(account, commenterId, fullDm, mid);
-          await prisma.igAutomationRun.update({
-            where: { id: run.id },
-            data: { status: "COMPLETED" },
-          });
-        } else {
-          await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED" } });
-        }
-      } else {
-        await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED" } });
-      }
+      // 5. DM (fluxo de botão ou simples, com follow-gate opcional).
+      await runAutomationDm(account, a, run.id, commentId, commenterId, token);
       console.log(`[IG] automação ${a.id} processada p/ comentário ${commentId}`);
     } catch (e: any) {
       console.error(`[IG] falha na automação ${a.id}:`, e?.message);
@@ -502,6 +471,120 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
         data: { status: "FAILED", errorDetail: e?.message?.slice(0, 500) ?? "erro" },
       });
     }
+  }
+}
+
+/**
+ * Manda a DM da automação ao autor do comentário e atualiza o run. Dois fluxos:
+ *  (a) BOTÃO (dmButtonLabel preenchido): manda a abertura + botão CTA; a
+ *      checagem de follow e a entrega acontecem no CLIQUE do botão
+ *      (handleMessageEvent → resolveButtonClick).
+ *  (b) SIMPLES: manda o conteúdo direto (follow-gate por texto "ok").
+ * Lança em erro de envio — quem chama marca o run como FAILED.
+ */
+export async function runAutomationDm(
+  account: { id: string; companyId: string; username: string | null },
+  a: {
+    id: string;
+    sendDm: boolean;
+    dmText: string | null;
+    dmLinkUrl: string | null;
+    dmButtonLabel: string | null;
+    requireFollow: boolean;
+    notFollowingText: string | null;
+  },
+  runId: string,
+  commentId: string,
+  commenterId: string,
+  token: string,
+): Promise<void> {
+  const acc = account as ResolvedAccount;
+  if (a.sendDm && a.dmButtonLabel) {
+    const opening = a.dmText || "Toca no botão abaixo pra receber 👇";
+    const mid = await withRetry(() =>
+      sendPrivateReplyWithButtons(commentId, opening, [{ title: a.dmButtonLabel!, payload: CTA_PREFIX + a.id }], token),
+    );
+    await outAuto(acc, commenterId, opening, mid);
+    await prisma.igAutomationRun.update({ where: { id: runId }, data: { status: "DM_SENT" } });
+    return;
+  }
+  if (!a.sendDm) {
+    await prisma.igAutomationRun.update({ where: { id: runId }, data: { status: "COMPLETED" } });
+    return;
+  }
+
+  const fullDm = [a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
+  if (a.requireFollow) {
+    // Tenta saber se já segue (só funciona em contexto de DM; do comentário
+    // costuma vir null → tratamos como "ainda não confirmado").
+    const follows = await getUserFollowStatus(commenterId, token);
+    if (follows === true && fullDm) {
+      const mid = await withRetry(() => sendPrivateReply(commentId, fullDm, token));
+      await outAuto(acc, commenterId, fullDm, mid);
+      await prisma.igAutomationRun.update({
+        where: { id: runId },
+        data: { status: "COMPLETED", followState: "FOLLOWING" },
+      });
+    } else {
+      // Pede pra seguir (com link do perfil); libera o link quando responder no DM.
+      const ask = withProfileLink(a.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
+      const mid = await withRetry(() => sendPrivateReply(commentId, ask, token));
+      await outAuto(acc, commenterId, ask, mid);
+      await prisma.igAutomationRun.update({
+        where: { id: runId },
+        data: {
+          status: "AWAITING_FOLLOW",
+          followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN",
+        },
+      });
+    }
+  } else if (fullDm) {
+    const mid = await withRetry(() => sendPrivateReply(commentId, fullDm, token));
+    await outAuto(acc, commenterId, fullDm, mid);
+    await prisma.igAutomationRun.update({ where: { id: runId }, data: { status: "COMPLETED" } });
+  } else {
+    await prisma.igAutomationRun.update({ where: { id: runId }, data: { status: "COMPLETED" } });
+  }
+}
+
+/** Oculta um comentário (spam/golpe). POST /{comment-id}?hide=true */
+export async function hideComment(commentId: string, token: string): Promise<void> {
+  const params = new URLSearchParams({ hide: "true", access_token: token });
+  const r = await fetch(`${GRAPH}/${commentId}?${params.toString()}`, { method: "POST" });
+  if (!r.ok) throw new Error(`ocultar comentário falhou: ${r.status} ${await r.text()}`);
+}
+
+/** Retry de erro transitório da Graph API (exportado pro worker da IA). */
+export const igWithRetry = withRetry;
+
+/**
+ * Põe um comentário na fila da IA (modo AI). Idempotente por (conta, comentário):
+ * reentrega do webhook ou "puxar antigos" de novo não duplica.
+ */
+export async function enqueueAiReply(d: {
+  companyId: string;
+  accountId: string;
+  automationId: string;
+  commentId: string;
+  mediaId: string | null;
+  igCommenterId: string | null;
+  username: string | null;
+  commentText: string | null;
+  likeCount?: number;
+  source: "WEBHOOK" | "BACKFILL";
+}): Promise<boolean> {
+  const exists = await prisma.igAiReply.findUnique({
+    where: { accountId_commentId: { accountId: d.accountId, commentId: d.commentId } },
+    select: { id: true },
+  });
+  if (exists) return false;
+  try {
+    await prisma.igAiReply.create({
+      data: { ...d, likeCount: d.likeCount ?? 0, status: "QUEUED" },
+    });
+    return true;
+  } catch {
+    return false; // corrida com outra entrega do mesmo comentário (unique)
   }
 }
 

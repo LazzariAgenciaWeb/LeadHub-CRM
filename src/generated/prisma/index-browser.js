@@ -1103,6 +1103,12 @@ exports.Prisma.IgAutomationScalarFieldEnum = {
   deliveredText: 'deliveredText',
   requireFollow: 'requireFollow',
   notFollowingText: 'notFollowingText',
+  replyMode: 'replyMode',
+  aiPersona: 'aiPersona',
+  aiExamples: 'aiExamples',
+  aiApproval: 'aiApproval',
+  aiMaxPerHour: 'aiMaxPerHour',
+  aiHideSpam: 'aiHideSpam',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1121,6 +1127,29 @@ exports.Prisma.IgAutomationRunScalarFieldEnum = {
   followState: 'followState',
   errorDetail: 'errorDetail',
   leadId: 'leadId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.IgAiReplyScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  accountId: 'accountId',
+  automationId: 'automationId',
+  commentId: 'commentId',
+  mediaId: 'mediaId',
+  igCommenterId: 'igCommenterId',
+  username: 'username',
+  commentText: 'commentText',
+  likeCount: 'likeCount',
+  source: 'source',
+  intent: 'intent',
+  reason: 'reason',
+  replyText: 'replyText',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  sentAt: 'sentAt',
+  errorDetail: 'errorDetail',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -2616,6 +2645,11 @@ exports.IgTriggerType = exports.$Enums.IgTriggerType = {
   ANY: 'ANY'
 };
 
+exports.IgReplyMode = exports.$Enums.IgReplyMode = {
+  FIXED: 'FIXED',
+  AI: 'AI'
+};
+
 exports.IgRunStatus = exports.$Enums.IgRunStatus = {
   PENDING: 'PENDING',
   COMMENT_REPLIED: 'COMMENT_REPLIED',
@@ -2630,6 +2664,27 @@ exports.IgFollowState = exports.$Enums.IgFollowState = {
   UNKNOWN: 'UNKNOWN',
   NOT_FOLLOWING: 'NOT_FOLLOWING',
   FOLLOWING: 'FOLLOWING'
+};
+
+exports.IgCommentIntent = exports.$Enums.IgCommentIntent = {
+  JOKE: 'JOKE',
+  PRAISE: 'PRAISE',
+  QUESTION: 'QUESTION',
+  INTEREST: 'INTEREST',
+  LOW_EFFORT: 'LOW_EFFORT',
+  CRITICISM: 'CRITICISM',
+  SPAM: 'SPAM'
+};
+
+exports.IgAiReplyStatus = exports.$Enums.IgAiReplyStatus = {
+  QUEUED: 'QUEUED',
+  AWAITING_APPROVAL: 'AWAITING_APPROVAL',
+  SCHEDULED: 'SCHEDULED',
+  SENT: 'SENT',
+  NEEDS_YOU: 'NEEDS_YOU',
+  SKIPPED: 'SKIPPED',
+  HIDDEN: 'HIDDEN',
+  FAILED: 'FAILED'
 };
 
 exports.InboxChannel = exports.$Enums.InboxChannel = {
@@ -2950,6 +3005,7 @@ exports.Prisma.ModelName = {
   InstagramAccount: 'InstagramAccount',
   IgAutomation: 'IgAutomation',
   IgAutomationRun: 'IgAutomationRun',
+  IgAiReply: 'IgAiReply',
   IgConversation: 'IgConversation',
   IgMessage: 'IgMessage',
   FacebookPage: 'FacebookPage',

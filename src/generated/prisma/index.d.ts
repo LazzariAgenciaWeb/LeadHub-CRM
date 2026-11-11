@@ -324,6 +324,11 @@ export type IgAutomation = $Result.DefaultSelection<Prisma.$IgAutomationPayload>
  */
 export type IgAutomationRun = $Result.DefaultSelection<Prisma.$IgAutomationRunPayload>
 /**
+ * Model IgAiReply
+ * 
+ */
+export type IgAiReply = $Result.DefaultSelection<Prisma.$IgAiReplyPayload>
+/**
  * Model IgConversation
  * 
  */
@@ -1033,6 +1038,14 @@ export const IgTriggerType: {
 export type IgTriggerType = (typeof IgTriggerType)[keyof typeof IgTriggerType]
 
 
+export const IgReplyMode: {
+  FIXED: 'FIXED',
+  AI: 'AI'
+};
+
+export type IgReplyMode = (typeof IgReplyMode)[keyof typeof IgReplyMode]
+
+
 export const IgRunStatus: {
   PENDING: 'PENDING',
   COMMENT_REPLIED: 'COMMENT_REPLIED',
@@ -1053,6 +1066,33 @@ export const IgFollowState: {
 };
 
 export type IgFollowState = (typeof IgFollowState)[keyof typeof IgFollowState]
+
+
+export const IgCommentIntent: {
+  JOKE: 'JOKE',
+  PRAISE: 'PRAISE',
+  QUESTION: 'QUESTION',
+  INTEREST: 'INTEREST',
+  LOW_EFFORT: 'LOW_EFFORT',
+  CRITICISM: 'CRITICISM',
+  SPAM: 'SPAM'
+};
+
+export type IgCommentIntent = (typeof IgCommentIntent)[keyof typeof IgCommentIntent]
+
+
+export const IgAiReplyStatus: {
+  QUEUED: 'QUEUED',
+  AWAITING_APPROVAL: 'AWAITING_APPROVAL',
+  SCHEDULED: 'SCHEDULED',
+  SENT: 'SENT',
+  NEEDS_YOU: 'NEEDS_YOU',
+  SKIPPED: 'SKIPPED',
+  HIDDEN: 'HIDDEN',
+  FAILED: 'FAILED'
+};
+
+export type IgAiReplyStatus = (typeof IgAiReplyStatus)[keyof typeof IgAiReplyStatus]
 
 
 export const InboxChannel: {
@@ -1503,6 +1543,10 @@ export type IgTriggerType = $Enums.IgTriggerType
 
 export const IgTriggerType: typeof $Enums.IgTriggerType
 
+export type IgReplyMode = $Enums.IgReplyMode
+
+export const IgReplyMode: typeof $Enums.IgReplyMode
+
 export type IgRunStatus = $Enums.IgRunStatus
 
 export const IgRunStatus: typeof $Enums.IgRunStatus
@@ -1510,6 +1554,14 @@ export const IgRunStatus: typeof $Enums.IgRunStatus
 export type IgFollowState = $Enums.IgFollowState
 
 export const IgFollowState: typeof $Enums.IgFollowState
+
+export type IgCommentIntent = $Enums.IgCommentIntent
+
+export const IgCommentIntent: typeof $Enums.IgCommentIntent
+
+export type IgAiReplyStatus = $Enums.IgAiReplyStatus
+
+export const IgAiReplyStatus: typeof $Enums.IgAiReplyStatus
 
 export type InboxChannel = $Enums.InboxChannel
 
@@ -2365,6 +2417,16 @@ export class PrismaClient<
     * ```
     */
   get igAutomationRun(): Prisma.IgAutomationRunDelegate<ExtArgs>;
+
+  /**
+   * `prisma.igAiReply`: Exposes CRUD operations for the **IgAiReply** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more IgAiReplies
+    * const igAiReplies = await prisma.igAiReply.findMany()
+    * ```
+    */
+  get igAiReply(): Prisma.IgAiReplyDelegate<ExtArgs>;
 
   /**
    * `prisma.igConversation`: Exposes CRUD operations for the **IgConversation** model.
@@ -3708,6 +3770,7 @@ export namespace Prisma {
     InstagramAccount: 'InstagramAccount',
     IgAutomation: 'IgAutomation',
     IgAutomationRun: 'IgAutomationRun',
+    IgAiReply: 'IgAiReply',
     IgConversation: 'IgConversation',
     IgMessage: 'IgMessage',
     FacebookPage: 'FacebookPage',
@@ -3807,7 +3870,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectTaskAdjustment" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioProgress" | "bioEvent" | "bioDomain" | "loginHandoff"
+      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectTaskAdjustment" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igAiReply" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioProgress" | "bioEvent" | "bioDomain" | "loginHandoff"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -8148,6 +8211,76 @@ export namespace Prisma {
           count: {
             args: Prisma.IgAutomationRunCountArgs<ExtArgs>
             result: $Utils.Optional<IgAutomationRunCountAggregateOutputType> | number
+          }
+        }
+      }
+      IgAiReply: {
+        payload: Prisma.$IgAiReplyPayload<ExtArgs>
+        fields: Prisma.IgAiReplyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.IgAiReplyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.IgAiReplyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload>
+          }
+          findFirst: {
+            args: Prisma.IgAiReplyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.IgAiReplyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload>
+          }
+          findMany: {
+            args: Prisma.IgAiReplyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload>[]
+          }
+          create: {
+            args: Prisma.IgAiReplyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload>
+          }
+          createMany: {
+            args: Prisma.IgAiReplyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.IgAiReplyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload>[]
+          }
+          delete: {
+            args: Prisma.IgAiReplyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload>
+          }
+          update: {
+            args: Prisma.IgAiReplyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload>
+          }
+          deleteMany: {
+            args: Prisma.IgAiReplyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.IgAiReplyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.IgAiReplyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAiReplyPayload>
+          }
+          aggregate: {
+            args: Prisma.IgAiReplyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateIgAiReply>
+          }
+          groupBy: {
+            args: Prisma.IgAiReplyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<IgAiReplyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.IgAiReplyCountArgs<ExtArgs>
+            result: $Utils.Optional<IgAiReplyCountAggregateOutputType> | number
           }
         }
       }
@@ -14639,6 +14772,7 @@ export namespace Prisma {
     instagramAccounts: number
     igAutomations: number
     igAutomationRuns: number
+    igAiReplies: number
     igConversations: number
     facebookPages: number
     analyticsSnapshots: number
@@ -14729,6 +14863,7 @@ export namespace Prisma {
     instagramAccounts?: boolean | CompanyCountOutputTypeCountInstagramAccountsArgs
     igAutomations?: boolean | CompanyCountOutputTypeCountIgAutomationsArgs
     igAutomationRuns?: boolean | CompanyCountOutputTypeCountIgAutomationRunsArgs
+    igAiReplies?: boolean | CompanyCountOutputTypeCountIgAiRepliesArgs
     igConversations?: boolean | CompanyCountOutputTypeCountIgConversationsArgs
     facebookPages?: boolean | CompanyCountOutputTypeCountFacebookPagesArgs
     analyticsSnapshots?: boolean | CompanyCountOutputTypeCountAnalyticsSnapshotsArgs
@@ -15139,6 +15274,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountIgAutomationRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: IgAutomationRunWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountIgAiRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAiReplyWhereInput
   }
 
   /**
@@ -16308,6 +16450,7 @@ export namespace Prisma {
   export type InstagramAccountCountOutputType = {
     automations: number
     runs: number
+    aiReplies: number
     conversations: number
     assistants: number
   }
@@ -16315,6 +16458,7 @@ export namespace Prisma {
   export type InstagramAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     automations?: boolean | InstagramAccountCountOutputTypeCountAutomationsArgs
     runs?: boolean | InstagramAccountCountOutputTypeCountRunsArgs
+    aiReplies?: boolean | InstagramAccountCountOutputTypeCountAiRepliesArgs
     conversations?: boolean | InstagramAccountCountOutputTypeCountConversationsArgs
     assistants?: boolean | InstagramAccountCountOutputTypeCountAssistantsArgs
   }
@@ -16347,6 +16491,13 @@ export namespace Prisma {
   /**
    * InstagramAccountCountOutputType without action
    */
+  export type InstagramAccountCountOutputTypeCountAiRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAiReplyWhereInput
+  }
+
+  /**
+   * InstagramAccountCountOutputType without action
+   */
   export type InstagramAccountCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: IgConversationWhereInput
   }
@@ -16365,10 +16516,12 @@ export namespace Prisma {
 
   export type IgAutomationCountOutputType = {
     runs: number
+    aiReplies: number
   }
 
   export type IgAutomationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     runs?: boolean | IgAutomationCountOutputTypeCountRunsArgs
+    aiReplies?: boolean | IgAutomationCountOutputTypeCountAiRepliesArgs
   }
 
   // Custom InputTypes
@@ -16387,6 +16540,13 @@ export namespace Prisma {
    */
   export type IgAutomationCountOutputTypeCountRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: IgAutomationRunWhereInput
+  }
+
+  /**
+   * IgAutomationCountOutputType without action
+   */
+  export type IgAutomationCountOutputTypeCountAiRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAiReplyWhereInput
   }
 
 
@@ -28728,6 +28888,7 @@ export namespace Prisma {
     instagramAccounts?: boolean | Company$instagramAccountsArgs<ExtArgs>
     igAutomations?: boolean | Company$igAutomationsArgs<ExtArgs>
     igAutomationRuns?: boolean | Company$igAutomationRunsArgs<ExtArgs>
+    igAiReplies?: boolean | Company$igAiRepliesArgs<ExtArgs>
     igConversations?: boolean | Company$igConversationsArgs<ExtArgs>
     facebookPages?: boolean | Company$facebookPagesArgs<ExtArgs>
     analyticsSnapshots?: boolean | Company$analyticsSnapshotsArgs<ExtArgs>
@@ -28924,6 +29085,7 @@ export namespace Prisma {
     instagramAccounts?: boolean | Company$instagramAccountsArgs<ExtArgs>
     igAutomations?: boolean | Company$igAutomationsArgs<ExtArgs>
     igAutomationRuns?: boolean | Company$igAutomationRunsArgs<ExtArgs>
+    igAiReplies?: boolean | Company$igAiRepliesArgs<ExtArgs>
     igConversations?: boolean | Company$igConversationsArgs<ExtArgs>
     facebookPages?: boolean | Company$facebookPagesArgs<ExtArgs>
     analyticsSnapshots?: boolean | Company$analyticsSnapshotsArgs<ExtArgs>
@@ -29026,6 +29188,7 @@ export namespace Prisma {
       instagramAccounts: Prisma.$InstagramAccountPayload<ExtArgs>[]
       igAutomations: Prisma.$IgAutomationPayload<ExtArgs>[]
       igAutomationRuns: Prisma.$IgAutomationRunPayload<ExtArgs>[]
+      igAiReplies: Prisma.$IgAiReplyPayload<ExtArgs>[]
       igConversations: Prisma.$IgConversationPayload<ExtArgs>[]
       facebookPages: Prisma.$FacebookPagePayload<ExtArgs>[]
       analyticsSnapshots: Prisma.$AnalyticsSnapshotPayload<ExtArgs>[]
@@ -29531,6 +29694,7 @@ export namespace Prisma {
     instagramAccounts<T extends Company$instagramAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Company$instagramAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findMany"> | Null>
     igAutomations<T extends Company$igAutomationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$igAutomationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findMany"> | Null>
     igAutomationRuns<T extends Company$igAutomationRunsArgs<ExtArgs> = {}>(args?: Subset<T, Company$igAutomationRunsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findMany"> | Null>
+    igAiReplies<T extends Company$igAiRepliesArgs<ExtArgs> = {}>(args?: Subset<T, Company$igAiRepliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "findMany"> | Null>
     igConversations<T extends Company$igConversationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$igConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgConversationPayload<ExtArgs>, T, "findMany"> | Null>
     facebookPages<T extends Company$facebookPagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$facebookPagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FacebookPagePayload<ExtArgs>, T, "findMany"> | Null>
     analyticsSnapshots<T extends Company$analyticsSnapshotsArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsSnapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findMany"> | Null>
@@ -31058,6 +31222,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: IgAutomationRunScalarFieldEnum | IgAutomationRunScalarFieldEnum[]
+  }
+
+  /**
+   * Company.igAiReplies
+   */
+  export type Company$igAiRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    where?: IgAiReplyWhereInput
+    orderBy?: IgAiReplyOrderByWithRelationInput | IgAiReplyOrderByWithRelationInput[]
+    cursor?: IgAiReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IgAiReplyScalarFieldEnum | IgAiReplyScalarFieldEnum[]
   }
 
   /**
@@ -84106,6 +84290,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     automations?: boolean | InstagramAccount$automationsArgs<ExtArgs>
     runs?: boolean | InstagramAccount$runsArgs<ExtArgs>
+    aiReplies?: boolean | InstagramAccount$aiRepliesArgs<ExtArgs>
     conversations?: boolean | InstagramAccount$conversationsArgs<ExtArgs>
     assistants?: boolean | InstagramAccount$assistantsArgs<ExtArgs>
     _count?: boolean | InstagramAccountCountOutputTypeDefaultArgs<ExtArgs>
@@ -84152,6 +84337,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     automations?: boolean | InstagramAccount$automationsArgs<ExtArgs>
     runs?: boolean | InstagramAccount$runsArgs<ExtArgs>
+    aiReplies?: boolean | InstagramAccount$aiRepliesArgs<ExtArgs>
     conversations?: boolean | InstagramAccount$conversationsArgs<ExtArgs>
     assistants?: boolean | InstagramAccount$assistantsArgs<ExtArgs>
     _count?: boolean | InstagramAccountCountOutputTypeDefaultArgs<ExtArgs>
@@ -84166,6 +84352,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       automations: Prisma.$IgAutomationPayload<ExtArgs>[]
       runs: Prisma.$IgAutomationRunPayload<ExtArgs>[]
+      aiReplies: Prisma.$IgAiReplyPayload<ExtArgs>[]
       conversations: Prisma.$IgConversationPayload<ExtArgs>[]
       assistants: Prisma.$AssistantPayload<ExtArgs>[]
     }
@@ -84552,6 +84739,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     automations<T extends InstagramAccount$automationsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$automationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findMany"> | Null>
     runs<T extends InstagramAccount$runsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$runsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findMany"> | Null>
+    aiReplies<T extends InstagramAccount$aiRepliesArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$aiRepliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "findMany"> | Null>
     conversations<T extends InstagramAccount$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgConversationPayload<ExtArgs>, T, "findMany"> | Null>
     assistants<T extends InstagramAccount$assistantsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$assistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
     /**
@@ -84956,6 +85144,26 @@ export namespace Prisma {
   }
 
   /**
+   * InstagramAccount.aiReplies
+   */
+  export type InstagramAccount$aiRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    where?: IgAiReplyWhereInput
+    orderBy?: IgAiReplyOrderByWithRelationInput | IgAiReplyOrderByWithRelationInput[]
+    cursor?: IgAiReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IgAiReplyScalarFieldEnum | IgAiReplyScalarFieldEnum[]
+  }
+
+  /**
    * InstagramAccount.conversations
    */
   export type InstagramAccount$conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -85016,8 +85224,18 @@ export namespace Prisma {
 
   export type AggregateIgAutomation = {
     _count: IgAutomationCountAggregateOutputType | null
+    _avg: IgAutomationAvgAggregateOutputType | null
+    _sum: IgAutomationSumAggregateOutputType | null
     _min: IgAutomationMinAggregateOutputType | null
     _max: IgAutomationMaxAggregateOutputType | null
+  }
+
+  export type IgAutomationAvgAggregateOutputType = {
+    aiMaxPerHour: number | null
+  }
+
+  export type IgAutomationSumAggregateOutputType = {
+    aiMaxPerHour: number | null
   }
 
   export type IgAutomationMinAggregateOutputType = {
@@ -85037,6 +85255,12 @@ export namespace Prisma {
     deliveredText: string | null
     requireFollow: boolean | null
     notFollowingText: string | null
+    replyMode: $Enums.IgReplyMode | null
+    aiPersona: string | null
+    aiExamples: string | null
+    aiApproval: boolean | null
+    aiMaxPerHour: number | null
+    aiHideSpam: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -85058,6 +85282,12 @@ export namespace Prisma {
     deliveredText: string | null
     requireFollow: boolean | null
     notFollowingText: string | null
+    replyMode: $Enums.IgReplyMode | null
+    aiPersona: string | null
+    aiExamples: string | null
+    aiApproval: boolean | null
+    aiMaxPerHour: number | null
+    aiHideSpam: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -85081,11 +85311,25 @@ export namespace Prisma {
     deliveredText: number
     requireFollow: number
     notFollowingText: number
+    replyMode: number
+    aiPersona: number
+    aiExamples: number
+    aiApproval: number
+    aiMaxPerHour: number
+    aiHideSpam: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type IgAutomationAvgAggregateInputType = {
+    aiMaxPerHour?: true
+  }
+
+  export type IgAutomationSumAggregateInputType = {
+    aiMaxPerHour?: true
+  }
 
   export type IgAutomationMinAggregateInputType = {
     id?: true
@@ -85104,6 +85348,12 @@ export namespace Prisma {
     deliveredText?: true
     requireFollow?: true
     notFollowingText?: true
+    replyMode?: true
+    aiPersona?: true
+    aiExamples?: true
+    aiApproval?: true
+    aiMaxPerHour?: true
+    aiHideSpam?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -85125,6 +85375,12 @@ export namespace Prisma {
     deliveredText?: true
     requireFollow?: true
     notFollowingText?: true
+    replyMode?: true
+    aiPersona?: true
+    aiExamples?: true
+    aiApproval?: true
+    aiMaxPerHour?: true
+    aiHideSpam?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -85148,6 +85404,12 @@ export namespace Prisma {
     deliveredText?: true
     requireFollow?: true
     notFollowingText?: true
+    replyMode?: true
+    aiPersona?: true
+    aiExamples?: true
+    aiApproval?: true
+    aiMaxPerHour?: true
+    aiHideSpam?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -85191,6 +85453,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: IgAutomationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: IgAutomationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: IgAutomationMinAggregateInputType
@@ -85221,6 +85495,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: IgAutomationCountAggregateInputType | true
+    _avg?: IgAutomationAvgAggregateInputType
+    _sum?: IgAutomationSumAggregateInputType
     _min?: IgAutomationMinAggregateInputType
     _max?: IgAutomationMaxAggregateInputType
   }
@@ -85244,9 +85520,17 @@ export namespace Prisma {
     deliveredText: string | null
     requireFollow: boolean
     notFollowingText: string | null
+    replyMode: $Enums.IgReplyMode
+    aiPersona: string | null
+    aiExamples: string | null
+    aiApproval: boolean
+    aiMaxPerHour: number
+    aiHideSpam: boolean
     createdAt: Date
     updatedAt: Date
     _count: IgAutomationCountAggregateOutputType | null
+    _avg: IgAutomationAvgAggregateOutputType | null
+    _sum: IgAutomationSumAggregateOutputType | null
     _min: IgAutomationMinAggregateOutputType | null
     _max: IgAutomationMaxAggregateOutputType | null
   }
@@ -85284,11 +85568,18 @@ export namespace Prisma {
     deliveredText?: boolean
     requireFollow?: boolean
     notFollowingText?: boolean
+    replyMode?: boolean
+    aiPersona?: boolean
+    aiExamples?: boolean
+    aiApproval?: boolean
+    aiMaxPerHour?: boolean
+    aiHideSpam?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
     runs?: boolean | IgAutomation$runsArgs<ExtArgs>
+    aiReplies?: boolean | IgAutomation$aiRepliesArgs<ExtArgs>
     _count?: boolean | IgAutomationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["igAutomation"]>
 
@@ -85311,6 +85602,12 @@ export namespace Prisma {
     deliveredText?: boolean
     requireFollow?: boolean
     notFollowingText?: boolean
+    replyMode?: boolean
+    aiPersona?: boolean
+    aiExamples?: boolean
+    aiApproval?: boolean
+    aiMaxPerHour?: boolean
+    aiHideSpam?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -85336,6 +85633,12 @@ export namespace Prisma {
     deliveredText?: boolean
     requireFollow?: boolean
     notFollowingText?: boolean
+    replyMode?: boolean
+    aiPersona?: boolean
+    aiExamples?: boolean
+    aiApproval?: boolean
+    aiMaxPerHour?: boolean
+    aiHideSpam?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -85344,6 +85647,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
     runs?: boolean | IgAutomation$runsArgs<ExtArgs>
+    aiReplies?: boolean | IgAutomation$aiRepliesArgs<ExtArgs>
     _count?: boolean | IgAutomationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type IgAutomationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -85357,6 +85661,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       account: Prisma.$InstagramAccountPayload<ExtArgs>
       runs: Prisma.$IgAutomationRunPayload<ExtArgs>[]
+      aiReplies: Prisma.$IgAiReplyPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -85377,6 +85682,12 @@ export namespace Prisma {
       deliveredText: string | null
       requireFollow: boolean
       notFollowingText: string | null
+      replyMode: $Enums.IgReplyMode
+      aiPersona: string | null
+      aiExamples: string | null
+      aiApproval: boolean
+      aiMaxPerHour: number
+      aiHideSpam: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["igAutomation"]>
@@ -85746,6 +86057,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     account<T extends InstagramAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccountDefaultArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     runs<T extends IgAutomation$runsArgs<ExtArgs> = {}>(args?: Subset<T, IgAutomation$runsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findMany"> | Null>
+    aiReplies<T extends IgAutomation$aiRepliesArgs<ExtArgs> = {}>(args?: Subset<T, IgAutomation$aiRepliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -85793,6 +86105,12 @@ export namespace Prisma {
     readonly deliveredText: FieldRef<"IgAutomation", 'String'>
     readonly requireFollow: FieldRef<"IgAutomation", 'Boolean'>
     readonly notFollowingText: FieldRef<"IgAutomation", 'String'>
+    readonly replyMode: FieldRef<"IgAutomation", 'IgReplyMode'>
+    readonly aiPersona: FieldRef<"IgAutomation", 'String'>
+    readonly aiExamples: FieldRef<"IgAutomation", 'String'>
+    readonly aiApproval: FieldRef<"IgAutomation", 'Boolean'>
+    readonly aiMaxPerHour: FieldRef<"IgAutomation", 'Int'>
+    readonly aiHideSpam: FieldRef<"IgAutomation", 'Boolean'>
     readonly createdAt: FieldRef<"IgAutomation", 'DateTime'>
     readonly updatedAt: FieldRef<"IgAutomation", 'DateTime'>
   }
@@ -86130,6 +86448,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: IgAutomationRunScalarFieldEnum | IgAutomationRunScalarFieldEnum[]
+  }
+
+  /**
+   * IgAutomation.aiReplies
+   */
+  export type IgAutomation$aiRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    where?: IgAiReplyWhereInput
+    orderBy?: IgAiReplyOrderByWithRelationInput | IgAiReplyOrderByWithRelationInput[]
+    cursor?: IgAiReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IgAiReplyScalarFieldEnum | IgAiReplyScalarFieldEnum[]
   }
 
   /**
@@ -87224,6 +87562,1180 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: IgAutomationRunInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model IgAiReply
+   */
+
+  export type AggregateIgAiReply = {
+    _count: IgAiReplyCountAggregateOutputType | null
+    _avg: IgAiReplyAvgAggregateOutputType | null
+    _sum: IgAiReplySumAggregateOutputType | null
+    _min: IgAiReplyMinAggregateOutputType | null
+    _max: IgAiReplyMaxAggregateOutputType | null
+  }
+
+  export type IgAiReplyAvgAggregateOutputType = {
+    likeCount: number | null
+  }
+
+  export type IgAiReplySumAggregateOutputType = {
+    likeCount: number | null
+  }
+
+  export type IgAiReplyMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    accountId: string | null
+    automationId: string | null
+    commentId: string | null
+    mediaId: string | null
+    igCommenterId: string | null
+    username: string | null
+    commentText: string | null
+    likeCount: number | null
+    source: string | null
+    intent: $Enums.IgCommentIntent | null
+    reason: string | null
+    replyText: string | null
+    status: $Enums.IgAiReplyStatus | null
+    scheduledAt: Date | null
+    sentAt: Date | null
+    errorDetail: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IgAiReplyMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    accountId: string | null
+    automationId: string | null
+    commentId: string | null
+    mediaId: string | null
+    igCommenterId: string | null
+    username: string | null
+    commentText: string | null
+    likeCount: number | null
+    source: string | null
+    intent: $Enums.IgCommentIntent | null
+    reason: string | null
+    replyText: string | null
+    status: $Enums.IgAiReplyStatus | null
+    scheduledAt: Date | null
+    sentAt: Date | null
+    errorDetail: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IgAiReplyCountAggregateOutputType = {
+    id: number
+    companyId: number
+    accountId: number
+    automationId: number
+    commentId: number
+    mediaId: number
+    igCommenterId: number
+    username: number
+    commentText: number
+    likeCount: number
+    source: number
+    intent: number
+    reason: number
+    replyText: number
+    status: number
+    scheduledAt: number
+    sentAt: number
+    errorDetail: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type IgAiReplyAvgAggregateInputType = {
+    likeCount?: true
+  }
+
+  export type IgAiReplySumAggregateInputType = {
+    likeCount?: true
+  }
+
+  export type IgAiReplyMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    accountId?: true
+    automationId?: true
+    commentId?: true
+    mediaId?: true
+    igCommenterId?: true
+    username?: true
+    commentText?: true
+    likeCount?: true
+    source?: true
+    intent?: true
+    reason?: true
+    replyText?: true
+    status?: true
+    scheduledAt?: true
+    sentAt?: true
+    errorDetail?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IgAiReplyMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    accountId?: true
+    automationId?: true
+    commentId?: true
+    mediaId?: true
+    igCommenterId?: true
+    username?: true
+    commentText?: true
+    likeCount?: true
+    source?: true
+    intent?: true
+    reason?: true
+    replyText?: true
+    status?: true
+    scheduledAt?: true
+    sentAt?: true
+    errorDetail?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IgAiReplyCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    accountId?: true
+    automationId?: true
+    commentId?: true
+    mediaId?: true
+    igCommenterId?: true
+    username?: true
+    commentText?: true
+    likeCount?: true
+    source?: true
+    intent?: true
+    reason?: true
+    replyText?: true
+    status?: true
+    scheduledAt?: true
+    sentAt?: true
+    errorDetail?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type IgAiReplyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IgAiReply to aggregate.
+     */
+    where?: IgAiReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAiReplies to fetch.
+     */
+    orderBy?: IgAiReplyOrderByWithRelationInput | IgAiReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: IgAiReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAiReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAiReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned IgAiReplies
+    **/
+    _count?: true | IgAiReplyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: IgAiReplyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: IgAiReplySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: IgAiReplyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: IgAiReplyMaxAggregateInputType
+  }
+
+  export type GetIgAiReplyAggregateType<T extends IgAiReplyAggregateArgs> = {
+        [P in keyof T & keyof AggregateIgAiReply]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateIgAiReply[P]>
+      : GetScalarType<T[P], AggregateIgAiReply[P]>
+  }
+
+
+
+
+  export type IgAiReplyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAiReplyWhereInput
+    orderBy?: IgAiReplyOrderByWithAggregationInput | IgAiReplyOrderByWithAggregationInput[]
+    by: IgAiReplyScalarFieldEnum[] | IgAiReplyScalarFieldEnum
+    having?: IgAiReplyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: IgAiReplyCountAggregateInputType | true
+    _avg?: IgAiReplyAvgAggregateInputType
+    _sum?: IgAiReplySumAggregateInputType
+    _min?: IgAiReplyMinAggregateInputType
+    _max?: IgAiReplyMaxAggregateInputType
+  }
+
+  export type IgAiReplyGroupByOutputType = {
+    id: string
+    companyId: string
+    accountId: string
+    automationId: string | null
+    commentId: string
+    mediaId: string | null
+    igCommenterId: string | null
+    username: string | null
+    commentText: string | null
+    likeCount: number
+    source: string
+    intent: $Enums.IgCommentIntent | null
+    reason: string | null
+    replyText: string | null
+    status: $Enums.IgAiReplyStatus
+    scheduledAt: Date | null
+    sentAt: Date | null
+    errorDetail: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: IgAiReplyCountAggregateOutputType | null
+    _avg: IgAiReplyAvgAggregateOutputType | null
+    _sum: IgAiReplySumAggregateOutputType | null
+    _min: IgAiReplyMinAggregateOutputType | null
+    _max: IgAiReplyMaxAggregateOutputType | null
+  }
+
+  type GetIgAiReplyGroupByPayload<T extends IgAiReplyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<IgAiReplyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof IgAiReplyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], IgAiReplyGroupByOutputType[P]>
+            : GetScalarType<T[P], IgAiReplyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type IgAiReplySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    accountId?: boolean
+    automationId?: boolean
+    commentId?: boolean
+    mediaId?: boolean
+    igCommenterId?: boolean
+    username?: boolean
+    commentText?: boolean
+    likeCount?: boolean
+    source?: boolean
+    intent?: boolean
+    reason?: boolean
+    replyText?: boolean
+    status?: boolean
+    scheduledAt?: boolean
+    sentAt?: boolean
+    errorDetail?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    automation?: boolean | IgAiReply$automationArgs<ExtArgs>
+  }, ExtArgs["result"]["igAiReply"]>
+
+  export type IgAiReplySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    accountId?: boolean
+    automationId?: boolean
+    commentId?: boolean
+    mediaId?: boolean
+    igCommenterId?: boolean
+    username?: boolean
+    commentText?: boolean
+    likeCount?: boolean
+    source?: boolean
+    intent?: boolean
+    reason?: boolean
+    replyText?: boolean
+    status?: boolean
+    scheduledAt?: boolean
+    sentAt?: boolean
+    errorDetail?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    automation?: boolean | IgAiReply$automationArgs<ExtArgs>
+  }, ExtArgs["result"]["igAiReply"]>
+
+  export type IgAiReplySelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    accountId?: boolean
+    automationId?: boolean
+    commentId?: boolean
+    mediaId?: boolean
+    igCommenterId?: boolean
+    username?: boolean
+    commentText?: boolean
+    likeCount?: boolean
+    source?: boolean
+    intent?: boolean
+    reason?: boolean
+    replyText?: boolean
+    status?: boolean
+    scheduledAt?: boolean
+    sentAt?: boolean
+    errorDetail?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type IgAiReplyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    automation?: boolean | IgAiReply$automationArgs<ExtArgs>
+  }
+  export type IgAiReplyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    automation?: boolean | IgAiReply$automationArgs<ExtArgs>
+  }
+
+  export type $IgAiReplyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "IgAiReply"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      account: Prisma.$InstagramAccountPayload<ExtArgs>
+      automation: Prisma.$IgAutomationPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      accountId: string
+      automationId: string | null
+      commentId: string
+      mediaId: string | null
+      igCommenterId: string | null
+      username: string | null
+      commentText: string | null
+      likeCount: number
+      source: string
+      intent: $Enums.IgCommentIntent | null
+      reason: string | null
+      replyText: string | null
+      status: $Enums.IgAiReplyStatus
+      scheduledAt: Date | null
+      sentAt: Date | null
+      errorDetail: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["igAiReply"]>
+    composites: {}
+  }
+
+  type IgAiReplyGetPayload<S extends boolean | null | undefined | IgAiReplyDefaultArgs> = $Result.GetResult<Prisma.$IgAiReplyPayload, S>
+
+  type IgAiReplyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<IgAiReplyFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: IgAiReplyCountAggregateInputType | true
+    }
+
+  export interface IgAiReplyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['IgAiReply'], meta: { name: 'IgAiReply' } }
+    /**
+     * Find zero or one IgAiReply that matches the filter.
+     * @param {IgAiReplyFindUniqueArgs} args - Arguments to find a IgAiReply
+     * @example
+     * // Get one IgAiReply
+     * const igAiReply = await prisma.igAiReply.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends IgAiReplyFindUniqueArgs>(args: SelectSubset<T, IgAiReplyFindUniqueArgs<ExtArgs>>): Prisma__IgAiReplyClient<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one IgAiReply that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {IgAiReplyFindUniqueOrThrowArgs} args - Arguments to find a IgAiReply
+     * @example
+     * // Get one IgAiReply
+     * const igAiReply = await prisma.igAiReply.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends IgAiReplyFindUniqueOrThrowArgs>(args: SelectSubset<T, IgAiReplyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__IgAiReplyClient<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first IgAiReply that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAiReplyFindFirstArgs} args - Arguments to find a IgAiReply
+     * @example
+     * // Get one IgAiReply
+     * const igAiReply = await prisma.igAiReply.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends IgAiReplyFindFirstArgs>(args?: SelectSubset<T, IgAiReplyFindFirstArgs<ExtArgs>>): Prisma__IgAiReplyClient<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first IgAiReply that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAiReplyFindFirstOrThrowArgs} args - Arguments to find a IgAiReply
+     * @example
+     * // Get one IgAiReply
+     * const igAiReply = await prisma.igAiReply.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends IgAiReplyFindFirstOrThrowArgs>(args?: SelectSubset<T, IgAiReplyFindFirstOrThrowArgs<ExtArgs>>): Prisma__IgAiReplyClient<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more IgAiReplies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAiReplyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all IgAiReplies
+     * const igAiReplies = await prisma.igAiReply.findMany()
+     * 
+     * // Get first 10 IgAiReplies
+     * const igAiReplies = await prisma.igAiReply.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const igAiReplyWithIdOnly = await prisma.igAiReply.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends IgAiReplyFindManyArgs>(args?: SelectSubset<T, IgAiReplyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a IgAiReply.
+     * @param {IgAiReplyCreateArgs} args - Arguments to create a IgAiReply.
+     * @example
+     * // Create one IgAiReply
+     * const IgAiReply = await prisma.igAiReply.create({
+     *   data: {
+     *     // ... data to create a IgAiReply
+     *   }
+     * })
+     * 
+     */
+    create<T extends IgAiReplyCreateArgs>(args: SelectSubset<T, IgAiReplyCreateArgs<ExtArgs>>): Prisma__IgAiReplyClient<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many IgAiReplies.
+     * @param {IgAiReplyCreateManyArgs} args - Arguments to create many IgAiReplies.
+     * @example
+     * // Create many IgAiReplies
+     * const igAiReply = await prisma.igAiReply.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends IgAiReplyCreateManyArgs>(args?: SelectSubset<T, IgAiReplyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many IgAiReplies and returns the data saved in the database.
+     * @param {IgAiReplyCreateManyAndReturnArgs} args - Arguments to create many IgAiReplies.
+     * @example
+     * // Create many IgAiReplies
+     * const igAiReply = await prisma.igAiReply.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many IgAiReplies and only return the `id`
+     * const igAiReplyWithIdOnly = await prisma.igAiReply.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends IgAiReplyCreateManyAndReturnArgs>(args?: SelectSubset<T, IgAiReplyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a IgAiReply.
+     * @param {IgAiReplyDeleteArgs} args - Arguments to delete one IgAiReply.
+     * @example
+     * // Delete one IgAiReply
+     * const IgAiReply = await prisma.igAiReply.delete({
+     *   where: {
+     *     // ... filter to delete one IgAiReply
+     *   }
+     * })
+     * 
+     */
+    delete<T extends IgAiReplyDeleteArgs>(args: SelectSubset<T, IgAiReplyDeleteArgs<ExtArgs>>): Prisma__IgAiReplyClient<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one IgAiReply.
+     * @param {IgAiReplyUpdateArgs} args - Arguments to update one IgAiReply.
+     * @example
+     * // Update one IgAiReply
+     * const igAiReply = await prisma.igAiReply.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends IgAiReplyUpdateArgs>(args: SelectSubset<T, IgAiReplyUpdateArgs<ExtArgs>>): Prisma__IgAiReplyClient<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more IgAiReplies.
+     * @param {IgAiReplyDeleteManyArgs} args - Arguments to filter IgAiReplies to delete.
+     * @example
+     * // Delete a few IgAiReplies
+     * const { count } = await prisma.igAiReply.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends IgAiReplyDeleteManyArgs>(args?: SelectSubset<T, IgAiReplyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IgAiReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAiReplyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many IgAiReplies
+     * const igAiReply = await prisma.igAiReply.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends IgAiReplyUpdateManyArgs>(args: SelectSubset<T, IgAiReplyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one IgAiReply.
+     * @param {IgAiReplyUpsertArgs} args - Arguments to update or create a IgAiReply.
+     * @example
+     * // Update or create a IgAiReply
+     * const igAiReply = await prisma.igAiReply.upsert({
+     *   create: {
+     *     // ... data to create a IgAiReply
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the IgAiReply we want to update
+     *   }
+     * })
+     */
+    upsert<T extends IgAiReplyUpsertArgs>(args: SelectSubset<T, IgAiReplyUpsertArgs<ExtArgs>>): Prisma__IgAiReplyClient<$Result.GetResult<Prisma.$IgAiReplyPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of IgAiReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAiReplyCountArgs} args - Arguments to filter IgAiReplies to count.
+     * @example
+     * // Count the number of IgAiReplies
+     * const count = await prisma.igAiReply.count({
+     *   where: {
+     *     // ... the filter for the IgAiReplies we want to count
+     *   }
+     * })
+    **/
+    count<T extends IgAiReplyCountArgs>(
+      args?: Subset<T, IgAiReplyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], IgAiReplyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a IgAiReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAiReplyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends IgAiReplyAggregateArgs>(args: Subset<T, IgAiReplyAggregateArgs>): Prisma.PrismaPromise<GetIgAiReplyAggregateType<T>>
+
+    /**
+     * Group by IgAiReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAiReplyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends IgAiReplyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: IgAiReplyGroupByArgs['orderBy'] }
+        : { orderBy?: IgAiReplyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, IgAiReplyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIgAiReplyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the IgAiReply model
+   */
+  readonly fields: IgAiReplyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for IgAiReply.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__IgAiReplyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    account<T extends InstagramAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccountDefaultArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    automation<T extends IgAiReply$automationArgs<ExtArgs> = {}>(args?: Subset<T, IgAiReply$automationArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the IgAiReply model
+   */ 
+  interface IgAiReplyFieldRefs {
+    readonly id: FieldRef<"IgAiReply", 'String'>
+    readonly companyId: FieldRef<"IgAiReply", 'String'>
+    readonly accountId: FieldRef<"IgAiReply", 'String'>
+    readonly automationId: FieldRef<"IgAiReply", 'String'>
+    readonly commentId: FieldRef<"IgAiReply", 'String'>
+    readonly mediaId: FieldRef<"IgAiReply", 'String'>
+    readonly igCommenterId: FieldRef<"IgAiReply", 'String'>
+    readonly username: FieldRef<"IgAiReply", 'String'>
+    readonly commentText: FieldRef<"IgAiReply", 'String'>
+    readonly likeCount: FieldRef<"IgAiReply", 'Int'>
+    readonly source: FieldRef<"IgAiReply", 'String'>
+    readonly intent: FieldRef<"IgAiReply", 'IgCommentIntent'>
+    readonly reason: FieldRef<"IgAiReply", 'String'>
+    readonly replyText: FieldRef<"IgAiReply", 'String'>
+    readonly status: FieldRef<"IgAiReply", 'IgAiReplyStatus'>
+    readonly scheduledAt: FieldRef<"IgAiReply", 'DateTime'>
+    readonly sentAt: FieldRef<"IgAiReply", 'DateTime'>
+    readonly errorDetail: FieldRef<"IgAiReply", 'String'>
+    readonly createdAt: FieldRef<"IgAiReply", 'DateTime'>
+    readonly updatedAt: FieldRef<"IgAiReply", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * IgAiReply findUnique
+   */
+  export type IgAiReplyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAiReply to fetch.
+     */
+    where: IgAiReplyWhereUniqueInput
+  }
+
+  /**
+   * IgAiReply findUniqueOrThrow
+   */
+  export type IgAiReplyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAiReply to fetch.
+     */
+    where: IgAiReplyWhereUniqueInput
+  }
+
+  /**
+   * IgAiReply findFirst
+   */
+  export type IgAiReplyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAiReply to fetch.
+     */
+    where?: IgAiReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAiReplies to fetch.
+     */
+    orderBy?: IgAiReplyOrderByWithRelationInput | IgAiReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IgAiReplies.
+     */
+    cursor?: IgAiReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAiReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAiReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IgAiReplies.
+     */
+    distinct?: IgAiReplyScalarFieldEnum | IgAiReplyScalarFieldEnum[]
+  }
+
+  /**
+   * IgAiReply findFirstOrThrow
+   */
+  export type IgAiReplyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAiReply to fetch.
+     */
+    where?: IgAiReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAiReplies to fetch.
+     */
+    orderBy?: IgAiReplyOrderByWithRelationInput | IgAiReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IgAiReplies.
+     */
+    cursor?: IgAiReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAiReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAiReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IgAiReplies.
+     */
+    distinct?: IgAiReplyScalarFieldEnum | IgAiReplyScalarFieldEnum[]
+  }
+
+  /**
+   * IgAiReply findMany
+   */
+  export type IgAiReplyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAiReplies to fetch.
+     */
+    where?: IgAiReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAiReplies to fetch.
+     */
+    orderBy?: IgAiReplyOrderByWithRelationInput | IgAiReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing IgAiReplies.
+     */
+    cursor?: IgAiReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAiReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAiReplies.
+     */
+    skip?: number
+    distinct?: IgAiReplyScalarFieldEnum | IgAiReplyScalarFieldEnum[]
+  }
+
+  /**
+   * IgAiReply create
+   */
+  export type IgAiReplyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a IgAiReply.
+     */
+    data: XOR<IgAiReplyCreateInput, IgAiReplyUncheckedCreateInput>
+  }
+
+  /**
+   * IgAiReply createMany
+   */
+  export type IgAiReplyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many IgAiReplies.
+     */
+    data: IgAiReplyCreateManyInput | IgAiReplyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * IgAiReply createManyAndReturn
+   */
+  export type IgAiReplyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many IgAiReplies.
+     */
+    data: IgAiReplyCreateManyInput | IgAiReplyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IgAiReply update
+   */
+  export type IgAiReplyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a IgAiReply.
+     */
+    data: XOR<IgAiReplyUpdateInput, IgAiReplyUncheckedUpdateInput>
+    /**
+     * Choose, which IgAiReply to update.
+     */
+    where: IgAiReplyWhereUniqueInput
+  }
+
+  /**
+   * IgAiReply updateMany
+   */
+  export type IgAiReplyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update IgAiReplies.
+     */
+    data: XOR<IgAiReplyUpdateManyMutationInput, IgAiReplyUncheckedUpdateManyInput>
+    /**
+     * Filter which IgAiReplies to update
+     */
+    where?: IgAiReplyWhereInput
+  }
+
+  /**
+   * IgAiReply upsert
+   */
+  export type IgAiReplyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the IgAiReply to update in case it exists.
+     */
+    where: IgAiReplyWhereUniqueInput
+    /**
+     * In case the IgAiReply found by the `where` argument doesn't exist, create a new IgAiReply with this data.
+     */
+    create: XOR<IgAiReplyCreateInput, IgAiReplyUncheckedCreateInput>
+    /**
+     * In case the IgAiReply was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<IgAiReplyUpdateInput, IgAiReplyUncheckedUpdateInput>
+  }
+
+  /**
+   * IgAiReply delete
+   */
+  export type IgAiReplyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
+    /**
+     * Filter which IgAiReply to delete.
+     */
+    where: IgAiReplyWhereUniqueInput
+  }
+
+  /**
+   * IgAiReply deleteMany
+   */
+  export type IgAiReplyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IgAiReplies to delete
+     */
+    where?: IgAiReplyWhereInput
+  }
+
+  /**
+   * IgAiReply.automation
+   */
+  export type IgAiReply$automationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    where?: IgAutomationWhereInput
+  }
+
+  /**
+   * IgAiReply without action
+   */
+  export type IgAiReplyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAiReply
+     */
+    select?: IgAiReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAiReplyInclude<ExtArgs> | null
   }
 
 
@@ -177176,6 +178688,12 @@ export namespace Prisma {
     deliveredText: 'deliveredText',
     requireFollow: 'requireFollow',
     notFollowingText: 'notFollowingText',
+    replyMode: 'replyMode',
+    aiPersona: 'aiPersona',
+    aiExamples: 'aiExamples',
+    aiApproval: 'aiApproval',
+    aiMaxPerHour: 'aiMaxPerHour',
+    aiHideSpam: 'aiHideSpam',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -177202,6 +178720,32 @@ export namespace Prisma {
   };
 
   export type IgAutomationRunScalarFieldEnum = (typeof IgAutomationRunScalarFieldEnum)[keyof typeof IgAutomationRunScalarFieldEnum]
+
+
+  export const IgAiReplyScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    accountId: 'accountId',
+    automationId: 'automationId',
+    commentId: 'commentId',
+    mediaId: 'mediaId',
+    igCommenterId: 'igCommenterId',
+    username: 'username',
+    commentText: 'commentText',
+    likeCount: 'likeCount',
+    source: 'source',
+    intent: 'intent',
+    reason: 'reason',
+    replyText: 'replyText',
+    status: 'status',
+    scheduledAt: 'scheduledAt',
+    sentAt: 'sentAt',
+    errorDetail: 'errorDetail',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type IgAiReplyScalarFieldEnum = (typeof IgAiReplyScalarFieldEnum)[keyof typeof IgAiReplyScalarFieldEnum]
 
 
   export const IgConversationScalarFieldEnum: {
@@ -179238,6 +180782,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'IgReplyMode'
+   */
+  export type EnumIgReplyModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgReplyMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgReplyMode[]'
+   */
+  export type ListEnumIgReplyModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgReplyMode[]'>
+    
+
+
+  /**
    * Reference to a field of type 'IgRunStatus'
    */
   export type EnumIgRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgRunStatus'>
@@ -179262,6 +180820,34 @@ export namespace Prisma {
    * Reference to a field of type 'IgFollowState[]'
    */
   export type ListEnumIgFollowStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgFollowState[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgCommentIntent'
+   */
+  export type EnumIgCommentIntentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgCommentIntent'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgCommentIntent[]'
+   */
+  export type ListEnumIgCommentIntentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgCommentIntent[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgAiReplyStatus'
+   */
+  export type EnumIgAiReplyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgAiReplyStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgAiReplyStatus[]'
+   */
+  export type ListEnumIgAiReplyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgAiReplyStatus[]'>
     
 
 
@@ -180768,6 +182354,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountListRelationFilter
     igAutomations?: IgAutomationListRelationFilter
     igAutomationRuns?: IgAutomationRunListRelationFilter
+    igAiReplies?: IgAiReplyListRelationFilter
     igConversations?: IgConversationListRelationFilter
     facebookPages?: FacebookPageListRelationFilter
     analyticsSnapshots?: AnalyticsSnapshotListRelationFilter
@@ -180910,6 +182497,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountOrderByRelationAggregateInput
     igAutomations?: IgAutomationOrderByRelationAggregateInput
     igAutomationRuns?: IgAutomationRunOrderByRelationAggregateInput
+    igAiReplies?: IgAiReplyOrderByRelationAggregateInput
     igConversations?: IgConversationOrderByRelationAggregateInput
     facebookPages?: FacebookPageOrderByRelationAggregateInput
     analyticsSnapshots?: AnalyticsSnapshotOrderByRelationAggregateInput
@@ -181055,6 +182643,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountListRelationFilter
     igAutomations?: IgAutomationListRelationFilter
     igAutomationRuns?: IgAutomationRunListRelationFilter
+    igAiReplies?: IgAiReplyListRelationFilter
     igConversations?: IgConversationListRelationFilter
     facebookPages?: FacebookPageListRelationFilter
     analyticsSnapshots?: AnalyticsSnapshotListRelationFilter
@@ -186080,6 +187669,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     automations?: IgAutomationListRelationFilter
     runs?: IgAutomationRunListRelationFilter
+    aiReplies?: IgAiReplyListRelationFilter
     conversations?: IgConversationListRelationFilter
     assistants?: AssistantListRelationFilter
   }
@@ -186103,6 +187693,7 @@ export namespace Prisma {
     company?: CompanyOrderByWithRelationInput
     automations?: IgAutomationOrderByRelationAggregateInput
     runs?: IgAutomationRunOrderByRelationAggregateInput
+    aiReplies?: IgAiReplyOrderByRelationAggregateInput
     conversations?: IgConversationOrderByRelationAggregateInput
     assistants?: AssistantOrderByRelationAggregateInput
   }
@@ -186129,6 +187720,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     automations?: IgAutomationListRelationFilter
     runs?: IgAutomationRunListRelationFilter
+    aiReplies?: IgAiReplyListRelationFilter
     conversations?: IgConversationListRelationFilter
     assistants?: AssistantListRelationFilter
   }, "id" | "igUserId">
@@ -186197,11 +187789,18 @@ export namespace Prisma {
     deliveredText?: StringNullableFilter<"IgAutomation"> | string | null
     requireFollow?: BoolFilter<"IgAutomation"> | boolean
     notFollowingText?: StringNullableFilter<"IgAutomation"> | string | null
+    replyMode?: EnumIgReplyModeFilter<"IgAutomation"> | $Enums.IgReplyMode
+    aiPersona?: StringNullableFilter<"IgAutomation"> | string | null
+    aiExamples?: StringNullableFilter<"IgAutomation"> | string | null
+    aiApproval?: BoolFilter<"IgAutomation"> | boolean
+    aiMaxPerHour?: IntFilter<"IgAutomation"> | number
+    aiHideSpam?: BoolFilter<"IgAutomation"> | boolean
     createdAt?: DateTimeFilter<"IgAutomation"> | Date | string
     updatedAt?: DateTimeFilter<"IgAutomation"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     account?: XOR<InstagramAccountRelationFilter, InstagramAccountWhereInput>
     runs?: IgAutomationRunListRelationFilter
+    aiReplies?: IgAiReplyListRelationFilter
   }
 
   export type IgAutomationOrderByWithRelationInput = {
@@ -186223,11 +187822,18 @@ export namespace Prisma {
     deliveredText?: SortOrderInput | SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrderInput | SortOrder
+    replyMode?: SortOrder
+    aiPersona?: SortOrderInput | SortOrder
+    aiExamples?: SortOrderInput | SortOrder
+    aiApproval?: SortOrder
+    aiMaxPerHour?: SortOrder
+    aiHideSpam?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
     account?: InstagramAccountOrderByWithRelationInput
     runs?: IgAutomationRunOrderByRelationAggregateInput
+    aiReplies?: IgAiReplyOrderByRelationAggregateInput
   }
 
   export type IgAutomationWhereUniqueInput = Prisma.AtLeast<{
@@ -186252,11 +187858,18 @@ export namespace Prisma {
     deliveredText?: StringNullableFilter<"IgAutomation"> | string | null
     requireFollow?: BoolFilter<"IgAutomation"> | boolean
     notFollowingText?: StringNullableFilter<"IgAutomation"> | string | null
+    replyMode?: EnumIgReplyModeFilter<"IgAutomation"> | $Enums.IgReplyMode
+    aiPersona?: StringNullableFilter<"IgAutomation"> | string | null
+    aiExamples?: StringNullableFilter<"IgAutomation"> | string | null
+    aiApproval?: BoolFilter<"IgAutomation"> | boolean
+    aiMaxPerHour?: IntFilter<"IgAutomation"> | number
+    aiHideSpam?: BoolFilter<"IgAutomation"> | boolean
     createdAt?: DateTimeFilter<"IgAutomation"> | Date | string
     updatedAt?: DateTimeFilter<"IgAutomation"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     account?: XOR<InstagramAccountRelationFilter, InstagramAccountWhereInput>
     runs?: IgAutomationRunListRelationFilter
+    aiReplies?: IgAiReplyListRelationFilter
   }, "id">
 
   export type IgAutomationOrderByWithAggregationInput = {
@@ -186278,11 +187891,19 @@ export namespace Prisma {
     deliveredText?: SortOrderInput | SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrderInput | SortOrder
+    replyMode?: SortOrder
+    aiPersona?: SortOrderInput | SortOrder
+    aiExamples?: SortOrderInput | SortOrder
+    aiApproval?: SortOrder
+    aiMaxPerHour?: SortOrder
+    aiHideSpam?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: IgAutomationCountOrderByAggregateInput
+    _avg?: IgAutomationAvgOrderByAggregateInput
     _max?: IgAutomationMaxOrderByAggregateInput
     _min?: IgAutomationMinOrderByAggregateInput
+    _sum?: IgAutomationSumOrderByAggregateInput
   }
 
   export type IgAutomationScalarWhereWithAggregatesInput = {
@@ -186307,6 +187928,12 @@ export namespace Prisma {
     deliveredText?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
     requireFollow?: BoolWithAggregatesFilter<"IgAutomation"> | boolean
     notFollowingText?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    replyMode?: EnumIgReplyModeWithAggregatesFilter<"IgAutomation"> | $Enums.IgReplyMode
+    aiPersona?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    aiExamples?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    aiApproval?: BoolWithAggregatesFilter<"IgAutomation"> | boolean
+    aiMaxPerHour?: IntWithAggregatesFilter<"IgAutomation"> | number
+    aiHideSpam?: BoolWithAggregatesFilter<"IgAutomation"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"IgAutomation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"IgAutomation"> | Date | string
   }
@@ -186421,6 +188048,145 @@ export namespace Prisma {
     leadId?: StringNullableWithAggregatesFilter<"IgAutomationRun"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"IgAutomationRun"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"IgAutomationRun"> | Date | string
+  }
+
+  export type IgAiReplyWhereInput = {
+    AND?: IgAiReplyWhereInput | IgAiReplyWhereInput[]
+    OR?: IgAiReplyWhereInput[]
+    NOT?: IgAiReplyWhereInput | IgAiReplyWhereInput[]
+    id?: StringFilter<"IgAiReply"> | string
+    companyId?: StringFilter<"IgAiReply"> | string
+    accountId?: StringFilter<"IgAiReply"> | string
+    automationId?: StringNullableFilter<"IgAiReply"> | string | null
+    commentId?: StringFilter<"IgAiReply"> | string
+    mediaId?: StringNullableFilter<"IgAiReply"> | string | null
+    igCommenterId?: StringNullableFilter<"IgAiReply"> | string | null
+    username?: StringNullableFilter<"IgAiReply"> | string | null
+    commentText?: StringNullableFilter<"IgAiReply"> | string | null
+    likeCount?: IntFilter<"IgAiReply"> | number
+    source?: StringFilter<"IgAiReply"> | string
+    intent?: EnumIgCommentIntentNullableFilter<"IgAiReply"> | $Enums.IgCommentIntent | null
+    reason?: StringNullableFilter<"IgAiReply"> | string | null
+    replyText?: StringNullableFilter<"IgAiReply"> | string | null
+    status?: EnumIgAiReplyStatusFilter<"IgAiReply"> | $Enums.IgAiReplyStatus
+    scheduledAt?: DateTimeNullableFilter<"IgAiReply"> | Date | string | null
+    sentAt?: DateTimeNullableFilter<"IgAiReply"> | Date | string | null
+    errorDetail?: StringNullableFilter<"IgAiReply"> | string | null
+    createdAt?: DateTimeFilter<"IgAiReply"> | Date | string
+    updatedAt?: DateTimeFilter<"IgAiReply"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    account?: XOR<InstagramAccountRelationFilter, InstagramAccountWhereInput>
+    automation?: XOR<IgAutomationNullableRelationFilter, IgAutomationWhereInput> | null
+  }
+
+  export type IgAiReplyOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrderInput | SortOrder
+    commentId?: SortOrder
+    mediaId?: SortOrderInput | SortOrder
+    igCommenterId?: SortOrderInput | SortOrder
+    username?: SortOrderInput | SortOrder
+    commentText?: SortOrderInput | SortOrder
+    likeCount?: SortOrder
+    source?: SortOrder
+    intent?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    replyText?: SortOrderInput | SortOrder
+    status?: SortOrder
+    scheduledAt?: SortOrderInput | SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    errorDetail?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    account?: InstagramAccountOrderByWithRelationInput
+    automation?: IgAutomationOrderByWithRelationInput
+  }
+
+  export type IgAiReplyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    accountId_commentId?: IgAiReplyAccountIdCommentIdCompoundUniqueInput
+    AND?: IgAiReplyWhereInput | IgAiReplyWhereInput[]
+    OR?: IgAiReplyWhereInput[]
+    NOT?: IgAiReplyWhereInput | IgAiReplyWhereInput[]
+    companyId?: StringFilter<"IgAiReply"> | string
+    accountId?: StringFilter<"IgAiReply"> | string
+    automationId?: StringNullableFilter<"IgAiReply"> | string | null
+    commentId?: StringFilter<"IgAiReply"> | string
+    mediaId?: StringNullableFilter<"IgAiReply"> | string | null
+    igCommenterId?: StringNullableFilter<"IgAiReply"> | string | null
+    username?: StringNullableFilter<"IgAiReply"> | string | null
+    commentText?: StringNullableFilter<"IgAiReply"> | string | null
+    likeCount?: IntFilter<"IgAiReply"> | number
+    source?: StringFilter<"IgAiReply"> | string
+    intent?: EnumIgCommentIntentNullableFilter<"IgAiReply"> | $Enums.IgCommentIntent | null
+    reason?: StringNullableFilter<"IgAiReply"> | string | null
+    replyText?: StringNullableFilter<"IgAiReply"> | string | null
+    status?: EnumIgAiReplyStatusFilter<"IgAiReply"> | $Enums.IgAiReplyStatus
+    scheduledAt?: DateTimeNullableFilter<"IgAiReply"> | Date | string | null
+    sentAt?: DateTimeNullableFilter<"IgAiReply"> | Date | string | null
+    errorDetail?: StringNullableFilter<"IgAiReply"> | string | null
+    createdAt?: DateTimeFilter<"IgAiReply"> | Date | string
+    updatedAt?: DateTimeFilter<"IgAiReply"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    account?: XOR<InstagramAccountRelationFilter, InstagramAccountWhereInput>
+    automation?: XOR<IgAutomationNullableRelationFilter, IgAutomationWhereInput> | null
+  }, "id" | "accountId_commentId">
+
+  export type IgAiReplyOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrderInput | SortOrder
+    commentId?: SortOrder
+    mediaId?: SortOrderInput | SortOrder
+    igCommenterId?: SortOrderInput | SortOrder
+    username?: SortOrderInput | SortOrder
+    commentText?: SortOrderInput | SortOrder
+    likeCount?: SortOrder
+    source?: SortOrder
+    intent?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    replyText?: SortOrderInput | SortOrder
+    status?: SortOrder
+    scheduledAt?: SortOrderInput | SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    errorDetail?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: IgAiReplyCountOrderByAggregateInput
+    _avg?: IgAiReplyAvgOrderByAggregateInput
+    _max?: IgAiReplyMaxOrderByAggregateInput
+    _min?: IgAiReplyMinOrderByAggregateInput
+    _sum?: IgAiReplySumOrderByAggregateInput
+  }
+
+  export type IgAiReplyScalarWhereWithAggregatesInput = {
+    AND?: IgAiReplyScalarWhereWithAggregatesInput | IgAiReplyScalarWhereWithAggregatesInput[]
+    OR?: IgAiReplyScalarWhereWithAggregatesInput[]
+    NOT?: IgAiReplyScalarWhereWithAggregatesInput | IgAiReplyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"IgAiReply"> | string
+    companyId?: StringWithAggregatesFilter<"IgAiReply"> | string
+    accountId?: StringWithAggregatesFilter<"IgAiReply"> | string
+    automationId?: StringNullableWithAggregatesFilter<"IgAiReply"> | string | null
+    commentId?: StringWithAggregatesFilter<"IgAiReply"> | string
+    mediaId?: StringNullableWithAggregatesFilter<"IgAiReply"> | string | null
+    igCommenterId?: StringNullableWithAggregatesFilter<"IgAiReply"> | string | null
+    username?: StringNullableWithAggregatesFilter<"IgAiReply"> | string | null
+    commentText?: StringNullableWithAggregatesFilter<"IgAiReply"> | string | null
+    likeCount?: IntWithAggregatesFilter<"IgAiReply"> | number
+    source?: StringWithAggregatesFilter<"IgAiReply"> | string
+    intent?: EnumIgCommentIntentNullableWithAggregatesFilter<"IgAiReply"> | $Enums.IgCommentIntent | null
+    reason?: StringNullableWithAggregatesFilter<"IgAiReply"> | string | null
+    replyText?: StringNullableWithAggregatesFilter<"IgAiReply"> | string | null
+    status?: EnumIgAiReplyStatusWithAggregatesFilter<"IgAiReply"> | $Enums.IgAiReplyStatus
+    scheduledAt?: DateTimeNullableWithAggregatesFilter<"IgAiReply"> | Date | string | null
+    sentAt?: DateTimeNullableWithAggregatesFilter<"IgAiReply"> | Date | string | null
+    errorDetail?: StringNullableWithAggregatesFilter<"IgAiReply"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"IgAiReply"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"IgAiReply"> | Date | string
   }
 
   export type IgConversationWhereInput = {
@@ -195624,6 +197390,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -195765,6 +197532,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -195906,6 +197674,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -196047,6 +197816,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -201677,6 +203447,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutInstagramAccountsInput
     automations?: IgAutomationCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAccountInput
     conversations?: IgConversationCreateNestedManyWithoutAccountInput
     assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
@@ -201699,6 +203470,7 @@ export namespace Prisma {
     createdById?: string | null
     automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAccountInput
     conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
@@ -201721,6 +203493,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
     automations?: IgAutomationUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
@@ -201743,6 +203516,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
@@ -201817,11 +203591,18 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgAutomationsInput
     account: InstagramAccountCreateNestedOneWithoutAutomationsInput
     runs?: IgAutomationRunCreateNestedManyWithoutAutomationInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAutomationInput
   }
 
   export type IgAutomationUncheckedCreateInput = {
@@ -201843,9 +203624,16 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAutomationInput
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAutomationInput
   }
 
   export type IgAutomationUpdateInput = {
@@ -201865,11 +203653,18 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgAutomationsNestedInput
     account?: InstagramAccountUpdateOneRequiredWithoutAutomationsNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAutomationNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAutomationNestedInput
   }
 
   export type IgAutomationUncheckedUpdateInput = {
@@ -201891,9 +203686,16 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAutomationNestedInput
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAutomationNestedInput
   }
 
   export type IgAutomationCreateManyInput = {
@@ -201915,6 +203717,12 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -201936,6 +203744,12 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -201959,6 +203773,12 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -202082,6 +203902,164 @@ export namespace Prisma {
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAiReplyCreateInput = {
+    id?: string
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAiRepliesInput
+    account: InstagramAccountCreateNestedOneWithoutAiRepliesInput
+    automation?: IgAutomationCreateNestedOneWithoutAiRepliesInput
+  }
+
+  export type IgAiReplyUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    automationId?: string | null
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAiReplyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAiRepliesNestedInput
+    account?: InstagramAccountUpdateOneRequiredWithoutAiRepliesNestedInput
+    automation?: IgAutomationUpdateOneWithoutAiRepliesNestedInput
+  }
+
+  export type IgAiReplyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAiReplyCreateManyInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    automationId?: string | null
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAiReplyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAiReplyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -212328,6 +214306,12 @@ export namespace Prisma {
     none?: IgAutomationRunWhereInput
   }
 
+  export type IgAiReplyListRelationFilter = {
+    every?: IgAiReplyWhereInput
+    some?: IgAiReplyWhereInput
+    none?: IgAiReplyWhereInput
+  }
+
   export type IgConversationListRelationFilter = {
     every?: IgConversationWhereInput
     some?: IgConversationWhereInput
@@ -212653,6 +214637,10 @@ export namespace Prisma {
   }
 
   export type IgAutomationRunOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type IgAiReplyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -216342,6 +218330,13 @@ export namespace Prisma {
     not?: NestedEnumIgTriggerTypeFilter<$PrismaModel> | $Enums.IgTriggerType
   }
 
+  export type EnumIgReplyModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgReplyMode | EnumIgReplyModeFieldRefInput<$PrismaModel>
+    in?: $Enums.IgReplyMode[] | ListEnumIgReplyModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgReplyMode[] | ListEnumIgReplyModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgReplyModeFilter<$PrismaModel> | $Enums.IgReplyMode
+  }
+
   export type InstagramAccountRelationFilter = {
     is?: InstagramAccountWhereInput
     isNot?: InstagramAccountWhereInput
@@ -216366,8 +218361,18 @@ export namespace Prisma {
     deliveredText?: SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrder
+    replyMode?: SortOrder
+    aiPersona?: SortOrder
+    aiExamples?: SortOrder
+    aiApproval?: SortOrder
+    aiMaxPerHour?: SortOrder
+    aiHideSpam?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type IgAutomationAvgOrderByAggregateInput = {
+    aiMaxPerHour?: SortOrder
   }
 
   export type IgAutomationMaxOrderByAggregateInput = {
@@ -216387,6 +218392,12 @@ export namespace Prisma {
     deliveredText?: SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrder
+    replyMode?: SortOrder
+    aiPersona?: SortOrder
+    aiExamples?: SortOrder
+    aiApproval?: SortOrder
+    aiMaxPerHour?: SortOrder
+    aiHideSpam?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -216408,8 +218419,18 @@ export namespace Prisma {
     deliveredText?: SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrder
+    replyMode?: SortOrder
+    aiPersona?: SortOrder
+    aiExamples?: SortOrder
+    aiApproval?: SortOrder
+    aiMaxPerHour?: SortOrder
+    aiHideSpam?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type IgAutomationSumOrderByAggregateInput = {
+    aiMaxPerHour?: SortOrder
   }
 
   export type EnumIgTriggerTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -216420,6 +218441,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumIgTriggerTypeFilter<$PrismaModel>
     _max?: NestedEnumIgTriggerTypeFilter<$PrismaModel>
+  }
+
+  export type EnumIgReplyModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgReplyMode | EnumIgReplyModeFieldRefInput<$PrismaModel>
+    in?: $Enums.IgReplyMode[] | ListEnumIgReplyModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgReplyMode[] | ListEnumIgReplyModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgReplyModeWithAggregatesFilter<$PrismaModel> | $Enums.IgReplyMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgReplyModeFilter<$PrismaModel>
+    _max?: NestedEnumIgReplyModeFilter<$PrismaModel>
   }
 
   export type EnumIgRunStatusFilter<$PrismaModel = never> = {
@@ -216518,6 +218549,122 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumIgFollowStateFilter<$PrismaModel>
     _max?: NestedEnumIgFollowStateFilter<$PrismaModel>
+  }
+
+  export type EnumIgCommentIntentNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgCommentIntent | EnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    in?: $Enums.IgCommentIntent[] | ListEnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.IgCommentIntent[] | ListEnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumIgCommentIntentNullableFilter<$PrismaModel> | $Enums.IgCommentIntent | null
+  }
+
+  export type EnumIgAiReplyStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgAiReplyStatus | EnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IgAiReplyStatus[] | ListEnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgAiReplyStatus[] | ListEnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgAiReplyStatusFilter<$PrismaModel> | $Enums.IgAiReplyStatus
+  }
+
+  export type IgAiReplyAccountIdCommentIdCompoundUniqueInput = {
+    accountId: string
+    commentId: string
+  }
+
+  export type IgAiReplyCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrder
+    commentId?: SortOrder
+    mediaId?: SortOrder
+    igCommenterId?: SortOrder
+    username?: SortOrder
+    commentText?: SortOrder
+    likeCount?: SortOrder
+    source?: SortOrder
+    intent?: SortOrder
+    reason?: SortOrder
+    replyText?: SortOrder
+    status?: SortOrder
+    scheduledAt?: SortOrder
+    sentAt?: SortOrder
+    errorDetail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IgAiReplyAvgOrderByAggregateInput = {
+    likeCount?: SortOrder
+  }
+
+  export type IgAiReplyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrder
+    commentId?: SortOrder
+    mediaId?: SortOrder
+    igCommenterId?: SortOrder
+    username?: SortOrder
+    commentText?: SortOrder
+    likeCount?: SortOrder
+    source?: SortOrder
+    intent?: SortOrder
+    reason?: SortOrder
+    replyText?: SortOrder
+    status?: SortOrder
+    scheduledAt?: SortOrder
+    sentAt?: SortOrder
+    errorDetail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IgAiReplyMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrder
+    commentId?: SortOrder
+    mediaId?: SortOrder
+    igCommenterId?: SortOrder
+    username?: SortOrder
+    commentText?: SortOrder
+    likeCount?: SortOrder
+    source?: SortOrder
+    intent?: SortOrder
+    reason?: SortOrder
+    replyText?: SortOrder
+    status?: SortOrder
+    scheduledAt?: SortOrder
+    sentAt?: SortOrder
+    errorDetail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IgAiReplySumOrderByAggregateInput = {
+    likeCount?: SortOrder
+  }
+
+  export type EnumIgCommentIntentNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgCommentIntent | EnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    in?: $Enums.IgCommentIntent[] | ListEnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.IgCommentIntent[] | ListEnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumIgCommentIntentNullableWithAggregatesFilter<$PrismaModel> | $Enums.IgCommentIntent | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumIgCommentIntentNullableFilter<$PrismaModel>
+    _max?: NestedEnumIgCommentIntentNullableFilter<$PrismaModel>
+  }
+
+  export type EnumIgAiReplyStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgAiReplyStatus | EnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IgAiReplyStatus[] | ListEnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgAiReplyStatus[] | ListEnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgAiReplyStatusWithAggregatesFilter<$PrismaModel> | $Enums.IgAiReplyStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgAiReplyStatusFilter<$PrismaModel>
+    _max?: NestedEnumIgAiReplyStatusFilter<$PrismaModel>
   }
 
   export type EnumInboxChannelFilter<$PrismaModel = never> = {
@@ -224147,6 +226294,13 @@ export namespace Prisma {
     connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
   }
 
+  export type IgAiReplyCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<IgAiReplyCreateWithoutCompanyInput, IgAiReplyUncheckedCreateWithoutCompanyInput> | IgAiReplyCreateWithoutCompanyInput[] | IgAiReplyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutCompanyInput | IgAiReplyCreateOrConnectWithoutCompanyInput[]
+    createMany?: IgAiReplyCreateManyCompanyInputEnvelope
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+  }
+
   export type IgConversationCreateNestedManyWithoutCompanyInput = {
     create?: XOR<IgConversationCreateWithoutCompanyInput, IgConversationUncheckedCreateWithoutCompanyInput> | IgConversationCreateWithoutCompanyInput[] | IgConversationUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: IgConversationCreateOrConnectWithoutCompanyInput | IgConversationCreateOrConnectWithoutCompanyInput[]
@@ -224784,6 +226938,13 @@ export namespace Prisma {
     connectOrCreate?: IgAutomationRunCreateOrConnectWithoutCompanyInput | IgAutomationRunCreateOrConnectWithoutCompanyInput[]
     createMany?: IgAutomationRunCreateManyCompanyInputEnvelope
     connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+  }
+
+  export type IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<IgAiReplyCreateWithoutCompanyInput, IgAiReplyUncheckedCreateWithoutCompanyInput> | IgAiReplyCreateWithoutCompanyInput[] | IgAiReplyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutCompanyInput | IgAiReplyCreateOrConnectWithoutCompanyInput[]
+    createMany?: IgAiReplyCreateManyCompanyInputEnvelope
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
   }
 
   export type IgConversationUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -225817,6 +227978,20 @@ export namespace Prisma {
     update?: IgAutomationRunUpdateWithWhereUniqueWithoutCompanyInput | IgAutomationRunUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: IgAutomationRunUpdateManyWithWhereWithoutCompanyInput | IgAutomationRunUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+  }
+
+  export type IgAiReplyUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<IgAiReplyCreateWithoutCompanyInput, IgAiReplyUncheckedCreateWithoutCompanyInput> | IgAiReplyCreateWithoutCompanyInput[] | IgAiReplyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutCompanyInput | IgAiReplyCreateOrConnectWithoutCompanyInput[]
+    upsert?: IgAiReplyUpsertWithWhereUniqueWithoutCompanyInput | IgAiReplyUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: IgAiReplyCreateManyCompanyInputEnvelope
+    set?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    disconnect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    delete?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    update?: IgAiReplyUpdateWithWhereUniqueWithoutCompanyInput | IgAiReplyUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: IgAiReplyUpdateManyWithWhereWithoutCompanyInput | IgAiReplyUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: IgAiReplyScalarWhereInput | IgAiReplyScalarWhereInput[]
   }
 
   export type IgConversationUpdateManyWithoutCompanyNestedInput = {
@@ -227085,6 +229260,20 @@ export namespace Prisma {
     update?: IgAutomationRunUpdateWithWhereUniqueWithoutCompanyInput | IgAutomationRunUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: IgAutomationRunUpdateManyWithWhereWithoutCompanyInput | IgAutomationRunUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+  }
+
+  export type IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<IgAiReplyCreateWithoutCompanyInput, IgAiReplyUncheckedCreateWithoutCompanyInput> | IgAiReplyCreateWithoutCompanyInput[] | IgAiReplyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutCompanyInput | IgAiReplyCreateOrConnectWithoutCompanyInput[]
+    upsert?: IgAiReplyUpsertWithWhereUniqueWithoutCompanyInput | IgAiReplyUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: IgAiReplyCreateManyCompanyInputEnvelope
+    set?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    disconnect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    delete?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    update?: IgAiReplyUpdateWithWhereUniqueWithoutCompanyInput | IgAiReplyUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: IgAiReplyUpdateManyWithWhereWithoutCompanyInput | IgAiReplyUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: IgAiReplyScalarWhereInput | IgAiReplyScalarWhereInput[]
   }
 
   export type IgConversationUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -231673,6 +233862,13 @@ export namespace Prisma {
     connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
   }
 
+  export type IgAiReplyCreateNestedManyWithoutAccountInput = {
+    create?: XOR<IgAiReplyCreateWithoutAccountInput, IgAiReplyUncheckedCreateWithoutAccountInput> | IgAiReplyCreateWithoutAccountInput[] | IgAiReplyUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutAccountInput | IgAiReplyCreateOrConnectWithoutAccountInput[]
+    createMany?: IgAiReplyCreateManyAccountInputEnvelope
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+  }
+
   export type IgConversationCreateNestedManyWithoutAccountInput = {
     create?: XOR<IgConversationCreateWithoutAccountInput, IgConversationUncheckedCreateWithoutAccountInput> | IgConversationCreateWithoutAccountInput[] | IgConversationUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: IgConversationCreateOrConnectWithoutAccountInput | IgConversationCreateOrConnectWithoutAccountInput[]
@@ -231699,6 +233895,13 @@ export namespace Prisma {
     connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAccountInput | IgAutomationRunCreateOrConnectWithoutAccountInput[]
     createMany?: IgAutomationRunCreateManyAccountInputEnvelope
     connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+  }
+
+  export type IgAiReplyUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<IgAiReplyCreateWithoutAccountInput, IgAiReplyUncheckedCreateWithoutAccountInput> | IgAiReplyCreateWithoutAccountInput[] | IgAiReplyUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutAccountInput | IgAiReplyCreateOrConnectWithoutAccountInput[]
+    createMany?: IgAiReplyCreateManyAccountInputEnvelope
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
   }
 
   export type IgConversationUncheckedCreateNestedManyWithoutAccountInput = {
@@ -231754,6 +233957,20 @@ export namespace Prisma {
     update?: IgAutomationRunUpdateWithWhereUniqueWithoutAccountInput | IgAutomationRunUpdateWithWhereUniqueWithoutAccountInput[]
     updateMany?: IgAutomationRunUpdateManyWithWhereWithoutAccountInput | IgAutomationRunUpdateManyWithWhereWithoutAccountInput[]
     deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+  }
+
+  export type IgAiReplyUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<IgAiReplyCreateWithoutAccountInput, IgAiReplyUncheckedCreateWithoutAccountInput> | IgAiReplyCreateWithoutAccountInput[] | IgAiReplyUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutAccountInput | IgAiReplyCreateOrConnectWithoutAccountInput[]
+    upsert?: IgAiReplyUpsertWithWhereUniqueWithoutAccountInput | IgAiReplyUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: IgAiReplyCreateManyAccountInputEnvelope
+    set?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    disconnect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    delete?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    update?: IgAiReplyUpdateWithWhereUniqueWithoutAccountInput | IgAiReplyUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: IgAiReplyUpdateManyWithWhereWithoutAccountInput | IgAiReplyUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: IgAiReplyScalarWhereInput | IgAiReplyScalarWhereInput[]
   }
 
   export type IgConversationUpdateManyWithoutAccountNestedInput = {
@@ -231812,6 +234029,20 @@ export namespace Prisma {
     deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
   }
 
+  export type IgAiReplyUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<IgAiReplyCreateWithoutAccountInput, IgAiReplyUncheckedCreateWithoutAccountInput> | IgAiReplyCreateWithoutAccountInput[] | IgAiReplyUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutAccountInput | IgAiReplyCreateOrConnectWithoutAccountInput[]
+    upsert?: IgAiReplyUpsertWithWhereUniqueWithoutAccountInput | IgAiReplyUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: IgAiReplyCreateManyAccountInputEnvelope
+    set?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    disconnect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    delete?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    update?: IgAiReplyUpdateWithWhereUniqueWithoutAccountInput | IgAiReplyUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: IgAiReplyUpdateManyWithWhereWithoutAccountInput | IgAiReplyUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: IgAiReplyScalarWhereInput | IgAiReplyScalarWhereInput[]
+  }
+
   export type IgConversationUncheckedUpdateManyWithoutAccountNestedInput = {
     create?: XOR<IgConversationCreateWithoutAccountInput, IgConversationUncheckedCreateWithoutAccountInput> | IgConversationCreateWithoutAccountInput[] | IgConversationUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: IgConversationCreateOrConnectWithoutAccountInput | IgConversationCreateOrConnectWithoutAccountInput[]
@@ -231867,11 +234098,25 @@ export namespace Prisma {
     connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
   }
 
+  export type IgAiReplyCreateNestedManyWithoutAutomationInput = {
+    create?: XOR<IgAiReplyCreateWithoutAutomationInput, IgAiReplyUncheckedCreateWithoutAutomationInput> | IgAiReplyCreateWithoutAutomationInput[] | IgAiReplyUncheckedCreateWithoutAutomationInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutAutomationInput | IgAiReplyCreateOrConnectWithoutAutomationInput[]
+    createMany?: IgAiReplyCreateManyAutomationInputEnvelope
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+  }
+
   export type IgAutomationRunUncheckedCreateNestedManyWithoutAutomationInput = {
     create?: XOR<IgAutomationRunCreateWithoutAutomationInput, IgAutomationRunUncheckedCreateWithoutAutomationInput> | IgAutomationRunCreateWithoutAutomationInput[] | IgAutomationRunUncheckedCreateWithoutAutomationInput[]
     connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAutomationInput | IgAutomationRunCreateOrConnectWithoutAutomationInput[]
     createMany?: IgAutomationRunCreateManyAutomationInputEnvelope
     connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+  }
+
+  export type IgAiReplyUncheckedCreateNestedManyWithoutAutomationInput = {
+    create?: XOR<IgAiReplyCreateWithoutAutomationInput, IgAiReplyUncheckedCreateWithoutAutomationInput> | IgAiReplyCreateWithoutAutomationInput[] | IgAiReplyUncheckedCreateWithoutAutomationInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutAutomationInput | IgAiReplyCreateOrConnectWithoutAutomationInput[]
+    createMany?: IgAiReplyCreateManyAutomationInputEnvelope
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
   }
 
   export type EnumIgTriggerTypeFieldUpdateOperationsInput = {
@@ -231886,6 +234131,10 @@ export namespace Prisma {
   export type IgAutomationUpdatecommentRepliesInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type EnumIgReplyModeFieldUpdateOperationsInput = {
+    set?: $Enums.IgReplyMode
   }
 
   export type CompanyUpdateOneRequiredWithoutIgAutomationsNestedInput = {
@@ -231918,6 +234167,20 @@ export namespace Prisma {
     deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
   }
 
+  export type IgAiReplyUpdateManyWithoutAutomationNestedInput = {
+    create?: XOR<IgAiReplyCreateWithoutAutomationInput, IgAiReplyUncheckedCreateWithoutAutomationInput> | IgAiReplyCreateWithoutAutomationInput[] | IgAiReplyUncheckedCreateWithoutAutomationInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutAutomationInput | IgAiReplyCreateOrConnectWithoutAutomationInput[]
+    upsert?: IgAiReplyUpsertWithWhereUniqueWithoutAutomationInput | IgAiReplyUpsertWithWhereUniqueWithoutAutomationInput[]
+    createMany?: IgAiReplyCreateManyAutomationInputEnvelope
+    set?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    disconnect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    delete?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    update?: IgAiReplyUpdateWithWhereUniqueWithoutAutomationInput | IgAiReplyUpdateWithWhereUniqueWithoutAutomationInput[]
+    updateMany?: IgAiReplyUpdateManyWithWhereWithoutAutomationInput | IgAiReplyUpdateManyWithWhereWithoutAutomationInput[]
+    deleteMany?: IgAiReplyScalarWhereInput | IgAiReplyScalarWhereInput[]
+  }
+
   export type IgAutomationRunUncheckedUpdateManyWithoutAutomationNestedInput = {
     create?: XOR<IgAutomationRunCreateWithoutAutomationInput, IgAutomationRunUncheckedCreateWithoutAutomationInput> | IgAutomationRunCreateWithoutAutomationInput[] | IgAutomationRunUncheckedCreateWithoutAutomationInput[]
     connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAutomationInput | IgAutomationRunCreateOrConnectWithoutAutomationInput[]
@@ -231930,6 +234193,20 @@ export namespace Prisma {
     update?: IgAutomationRunUpdateWithWhereUniqueWithoutAutomationInput | IgAutomationRunUpdateWithWhereUniqueWithoutAutomationInput[]
     updateMany?: IgAutomationRunUpdateManyWithWhereWithoutAutomationInput | IgAutomationRunUpdateManyWithWhereWithoutAutomationInput[]
     deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+  }
+
+  export type IgAiReplyUncheckedUpdateManyWithoutAutomationNestedInput = {
+    create?: XOR<IgAiReplyCreateWithoutAutomationInput, IgAiReplyUncheckedCreateWithoutAutomationInput> | IgAiReplyCreateWithoutAutomationInput[] | IgAiReplyUncheckedCreateWithoutAutomationInput[]
+    connectOrCreate?: IgAiReplyCreateOrConnectWithoutAutomationInput | IgAiReplyCreateOrConnectWithoutAutomationInput[]
+    upsert?: IgAiReplyUpsertWithWhereUniqueWithoutAutomationInput | IgAiReplyUpsertWithWhereUniqueWithoutAutomationInput[]
+    createMany?: IgAiReplyCreateManyAutomationInputEnvelope
+    set?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    disconnect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    delete?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    connect?: IgAiReplyWhereUniqueInput | IgAiReplyWhereUniqueInput[]
+    update?: IgAiReplyUpdateWithWhereUniqueWithoutAutomationInput | IgAiReplyUpdateWithWhereUniqueWithoutAutomationInput[]
+    updateMany?: IgAiReplyUpdateManyWithWhereWithoutAutomationInput | IgAiReplyUpdateManyWithWhereWithoutAutomationInput[]
+    deleteMany?: IgAiReplyScalarWhereInput | IgAiReplyScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutIgAutomationRunsInput = {
@@ -231982,6 +234259,58 @@ export namespace Prisma {
     delete?: IgAutomationWhereInput | boolean
     connect?: IgAutomationWhereUniqueInput
     update?: XOR<XOR<IgAutomationUpdateToOneWithWhereWithoutRunsInput, IgAutomationUpdateWithoutRunsInput>, IgAutomationUncheckedUpdateWithoutRunsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutIgAiRepliesInput = {
+    create?: XOR<CompanyCreateWithoutIgAiRepliesInput, CompanyUncheckedCreateWithoutIgAiRepliesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIgAiRepliesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type InstagramAccountCreateNestedOneWithoutAiRepliesInput = {
+    create?: XOR<InstagramAccountCreateWithoutAiRepliesInput, InstagramAccountUncheckedCreateWithoutAiRepliesInput>
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutAiRepliesInput
+    connect?: InstagramAccountWhereUniqueInput
+  }
+
+  export type IgAutomationCreateNestedOneWithoutAiRepliesInput = {
+    create?: XOR<IgAutomationCreateWithoutAiRepliesInput, IgAutomationUncheckedCreateWithoutAiRepliesInput>
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutAiRepliesInput
+    connect?: IgAutomationWhereUniqueInput
+  }
+
+  export type NullableEnumIgCommentIntentFieldUpdateOperationsInput = {
+    set?: $Enums.IgCommentIntent | null
+  }
+
+  export type EnumIgAiReplyStatusFieldUpdateOperationsInput = {
+    set?: $Enums.IgAiReplyStatus
+  }
+
+  export type CompanyUpdateOneRequiredWithoutIgAiRepliesNestedInput = {
+    create?: XOR<CompanyCreateWithoutIgAiRepliesInput, CompanyUncheckedCreateWithoutIgAiRepliesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIgAiRepliesInput
+    upsert?: CompanyUpsertWithoutIgAiRepliesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutIgAiRepliesInput, CompanyUpdateWithoutIgAiRepliesInput>, CompanyUncheckedUpdateWithoutIgAiRepliesInput>
+  }
+
+  export type InstagramAccountUpdateOneRequiredWithoutAiRepliesNestedInput = {
+    create?: XOR<InstagramAccountCreateWithoutAiRepliesInput, InstagramAccountUncheckedCreateWithoutAiRepliesInput>
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutAiRepliesInput
+    upsert?: InstagramAccountUpsertWithoutAiRepliesInput
+    connect?: InstagramAccountWhereUniqueInput
+    update?: XOR<XOR<InstagramAccountUpdateToOneWithWhereWithoutAiRepliesInput, InstagramAccountUpdateWithoutAiRepliesInput>, InstagramAccountUncheckedUpdateWithoutAiRepliesInput>
+  }
+
+  export type IgAutomationUpdateOneWithoutAiRepliesNestedInput = {
+    create?: XOR<IgAutomationCreateWithoutAiRepliesInput, IgAutomationUncheckedCreateWithoutAiRepliesInput>
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutAiRepliesInput
+    upsert?: IgAutomationUpsertWithoutAiRepliesInput
+    disconnect?: IgAutomationWhereInput | boolean
+    delete?: IgAutomationWhereInput | boolean
+    connect?: IgAutomationWhereUniqueInput
+    update?: XOR<XOR<IgAutomationUpdateToOneWithWhereWithoutAiRepliesInput, IgAutomationUpdateWithoutAiRepliesInput>, IgAutomationUncheckedUpdateWithoutAiRepliesInput>
   }
 
   export type CompanyCreateNestedOneWithoutIgConversationsInput = {
@@ -236247,6 +238576,13 @@ export namespace Prisma {
     not?: NestedEnumIgTriggerTypeFilter<$PrismaModel> | $Enums.IgTriggerType
   }
 
+  export type NestedEnumIgReplyModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgReplyMode | EnumIgReplyModeFieldRefInput<$PrismaModel>
+    in?: $Enums.IgReplyMode[] | ListEnumIgReplyModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgReplyMode[] | ListEnumIgReplyModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgReplyModeFilter<$PrismaModel> | $Enums.IgReplyMode
+  }
+
   export type NestedEnumIgTriggerTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.IgTriggerType | EnumIgTriggerTypeFieldRefInput<$PrismaModel>
     in?: $Enums.IgTriggerType[] | ListEnumIgTriggerTypeFieldRefInput<$PrismaModel>
@@ -236255,6 +238591,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumIgTriggerTypeFilter<$PrismaModel>
     _max?: NestedEnumIgTriggerTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumIgReplyModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgReplyMode | EnumIgReplyModeFieldRefInput<$PrismaModel>
+    in?: $Enums.IgReplyMode[] | ListEnumIgReplyModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgReplyMode[] | ListEnumIgReplyModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgReplyModeWithAggregatesFilter<$PrismaModel> | $Enums.IgReplyMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgReplyModeFilter<$PrismaModel>
+    _max?: NestedEnumIgReplyModeFilter<$PrismaModel>
   }
 
   export type NestedEnumIgRunStatusFilter<$PrismaModel = never> = {
@@ -236289,6 +238635,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumIgFollowStateFilter<$PrismaModel>
     _max?: NestedEnumIgFollowStateFilter<$PrismaModel>
+  }
+
+  export type NestedEnumIgCommentIntentNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgCommentIntent | EnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    in?: $Enums.IgCommentIntent[] | ListEnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.IgCommentIntent[] | ListEnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumIgCommentIntentNullableFilter<$PrismaModel> | $Enums.IgCommentIntent | null
+  }
+
+  export type NestedEnumIgAiReplyStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgAiReplyStatus | EnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IgAiReplyStatus[] | ListEnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgAiReplyStatus[] | ListEnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgAiReplyStatusFilter<$PrismaModel> | $Enums.IgAiReplyStatus
+  }
+
+  export type NestedEnumIgCommentIntentNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgCommentIntent | EnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    in?: $Enums.IgCommentIntent[] | ListEnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.IgCommentIntent[] | ListEnumIgCommentIntentFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumIgCommentIntentNullableWithAggregatesFilter<$PrismaModel> | $Enums.IgCommentIntent | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumIgCommentIntentNullableFilter<$PrismaModel>
+    _max?: NestedEnumIgCommentIntentNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumIgAiReplyStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgAiReplyStatus | EnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IgAiReplyStatus[] | ListEnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgAiReplyStatus[] | ListEnumIgAiReplyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgAiReplyStatusWithAggregatesFilter<$PrismaModel> | $Enums.IgAiReplyStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgAiReplyStatusFilter<$PrismaModel>
+    _max?: NestedEnumIgAiReplyStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumInboxChannelFilter<$PrismaModel = never> = {
@@ -236945,6 +239325,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -237085,6 +239466,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -239029,6 +241411,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -239169,6 +241552,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -241622,6 +244006,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -241762,6 +244147,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -242053,6 +244439,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -242193,6 +244580,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -243301,6 +245689,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -243441,6 +245830,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -243586,6 +245976,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -243726,6 +246117,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -246323,6 +248715,7 @@ export namespace Prisma {
     createdById?: string | null
     automations?: IgAutomationCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAccountInput
     conversations?: IgConversationCreateNestedManyWithoutAccountInput
     assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
@@ -246344,6 +248737,7 @@ export namespace Prisma {
     createdById?: string | null
     automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAccountInput
     conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
@@ -246375,10 +248769,17 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     account: InstagramAccountCreateNestedOneWithoutAutomationsInput
     runs?: IgAutomationRunCreateNestedManyWithoutAutomationInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAutomationInput
   }
 
   export type IgAutomationUncheckedCreateWithoutCompanyInput = {
@@ -246399,9 +248800,16 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAutomationInput
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAutomationInput
   }
 
   export type IgAutomationCreateOrConnectWithoutCompanyInput = {
@@ -246455,6 +248863,60 @@ export namespace Prisma {
 
   export type IgAutomationRunCreateManyCompanyInputEnvelope = {
     data: IgAutomationRunCreateManyCompanyInput | IgAutomationRunCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type IgAiReplyCreateWithoutCompanyInput = {
+    id?: string
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: InstagramAccountCreateNestedOneWithoutAiRepliesInput
+    automation?: IgAutomationCreateNestedOneWithoutAiRepliesInput
+  }
+
+  export type IgAiReplyUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    accountId: string
+    automationId?: string | null
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAiReplyCreateOrConnectWithoutCompanyInput = {
+    where: IgAiReplyWhereUniqueInput
+    create: XOR<IgAiReplyCreateWithoutCompanyInput, IgAiReplyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type IgAiReplyCreateManyCompanyInputEnvelope = {
+    data: IgAiReplyCreateManyCompanyInput | IgAiReplyCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -248032,6 +250494,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -248172,6 +250635,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -250010,6 +252474,12 @@ export namespace Prisma {
     deliveredText?: StringNullableFilter<"IgAutomation"> | string | null
     requireFollow?: BoolFilter<"IgAutomation"> | boolean
     notFollowingText?: StringNullableFilter<"IgAutomation"> | string | null
+    replyMode?: EnumIgReplyModeFilter<"IgAutomation"> | $Enums.IgReplyMode
+    aiPersona?: StringNullableFilter<"IgAutomation"> | string | null
+    aiExamples?: StringNullableFilter<"IgAutomation"> | string | null
+    aiApproval?: BoolFilter<"IgAutomation"> | boolean
+    aiMaxPerHour?: IntFilter<"IgAutomation"> | number
+    aiHideSpam?: BoolFilter<"IgAutomation"> | boolean
     createdAt?: DateTimeFilter<"IgAutomation"> | Date | string
     updatedAt?: DateTimeFilter<"IgAutomation"> | Date | string
   }
@@ -250049,6 +252519,48 @@ export namespace Prisma {
     leadId?: StringNullableFilter<"IgAutomationRun"> | string | null
     createdAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
     updatedAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
+  }
+
+  export type IgAiReplyUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: IgAiReplyWhereUniqueInput
+    update: XOR<IgAiReplyUpdateWithoutCompanyInput, IgAiReplyUncheckedUpdateWithoutCompanyInput>
+    create: XOR<IgAiReplyCreateWithoutCompanyInput, IgAiReplyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type IgAiReplyUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: IgAiReplyWhereUniqueInput
+    data: XOR<IgAiReplyUpdateWithoutCompanyInput, IgAiReplyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type IgAiReplyUpdateManyWithWhereWithoutCompanyInput = {
+    where: IgAiReplyScalarWhereInput
+    data: XOR<IgAiReplyUpdateManyMutationInput, IgAiReplyUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type IgAiReplyScalarWhereInput = {
+    AND?: IgAiReplyScalarWhereInput | IgAiReplyScalarWhereInput[]
+    OR?: IgAiReplyScalarWhereInput[]
+    NOT?: IgAiReplyScalarWhereInput | IgAiReplyScalarWhereInput[]
+    id?: StringFilter<"IgAiReply"> | string
+    companyId?: StringFilter<"IgAiReply"> | string
+    accountId?: StringFilter<"IgAiReply"> | string
+    automationId?: StringNullableFilter<"IgAiReply"> | string | null
+    commentId?: StringFilter<"IgAiReply"> | string
+    mediaId?: StringNullableFilter<"IgAiReply"> | string | null
+    igCommenterId?: StringNullableFilter<"IgAiReply"> | string | null
+    username?: StringNullableFilter<"IgAiReply"> | string | null
+    commentText?: StringNullableFilter<"IgAiReply"> | string | null
+    likeCount?: IntFilter<"IgAiReply"> | number
+    source?: StringFilter<"IgAiReply"> | string
+    intent?: EnumIgCommentIntentNullableFilter<"IgAiReply"> | $Enums.IgCommentIntent | null
+    reason?: StringNullableFilter<"IgAiReply"> | string | null
+    replyText?: StringNullableFilter<"IgAiReply"> | string | null
+    status?: EnumIgAiReplyStatusFilter<"IgAiReply"> | $Enums.IgAiReplyStatus
+    scheduledAt?: DateTimeNullableFilter<"IgAiReply"> | Date | string | null
+    sentAt?: DateTimeNullableFilter<"IgAiReply"> | Date | string | null
+    errorDetail?: StringNullableFilter<"IgAiReply"> | string | null
+    createdAt?: DateTimeFilter<"IgAiReply"> | Date | string
+    updatedAt?: DateTimeFilter<"IgAiReply"> | Date | string
   }
 
   export type IgConversationUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -251296,6 +253808,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -251436,6 +253949,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -251882,6 +254396,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -252022,6 +254537,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -252267,6 +254783,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -252407,6 +254924,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -252770,6 +255288,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -252910,6 +255429,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -253198,6 +255718,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -253338,6 +255859,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -254243,6 +256765,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -254383,6 +256906,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -255084,6 +257608,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -255224,6 +257749,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -255400,6 +257926,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -255540,6 +258067,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -256016,6 +258544,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -256156,6 +258685,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -256338,6 +258868,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -256478,6 +259009,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -256966,6 +259498,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -257106,6 +259639,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -257288,6 +259822,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -257428,6 +259963,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -257584,6 +260120,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -257724,6 +260261,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -257909,6 +260447,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -258049,6 +260588,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -258353,6 +260893,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -258493,6 +261034,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -259054,6 +261596,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -259194,6 +261737,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -259880,6 +262424,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -260020,6 +262565,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -260176,6 +262722,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -260316,6 +262863,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -260456,6 +263004,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -260596,6 +263145,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -260887,6 +263437,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -261027,6 +263578,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -261443,6 +263995,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -261583,6 +264136,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -262198,6 +264752,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -262338,6 +264893,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -262566,6 +265122,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -262706,6 +265263,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -263295,6 +265853,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -263435,6 +265994,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -264038,6 +266598,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -264178,6 +266739,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -264375,6 +266937,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -264515,6 +267078,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -264955,6 +267519,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -265095,6 +267660,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -265790,6 +268356,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -265930,6 +268497,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -266594,6 +269162,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -266734,6 +269303,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -267183,6 +269753,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -267323,6 +269894,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -267463,6 +270035,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -267603,6 +270176,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -267883,6 +270457,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -268023,6 +270598,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -268698,6 +271274,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -268838,6 +271415,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -269130,6 +271708,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -269270,6 +271849,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -270016,6 +272596,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -270156,6 +272737,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -270650,6 +273232,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -270790,6 +273373,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -271436,6 +274020,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -271576,6 +274161,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -272380,6 +274966,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -272520,6 +275107,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -277717,6 +280305,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -277857,6 +280446,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -278063,6 +280653,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -278203,6 +280794,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -278565,6 +281157,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -278705,6 +281298,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -278912,6 +281506,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -279052,6 +281647,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -279192,6 +281788,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -279332,6 +281929,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -279522,6 +282120,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -279662,6 +282261,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -279849,6 +282449,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -279989,6 +282590,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -280182,6 +282784,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -280322,6 +282925,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -280462,6 +283066,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -280602,6 +283207,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -280758,6 +283364,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -280898,6 +283505,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -281039,6 +283647,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -281179,6 +283788,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -281335,6 +283945,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -281475,6 +284086,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -281614,6 +284226,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -281754,6 +284367,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -281910,6 +284524,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -282050,6 +284665,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -282190,6 +284806,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -282330,6 +284947,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -282486,6 +285104,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -282626,6 +285245,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -282766,6 +285386,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -282906,6 +285527,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -282967,10 +285589,17 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgAutomationsInput
     runs?: IgAutomationRunCreateNestedManyWithoutAutomationInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAutomationInput
   }
 
   export type IgAutomationUncheckedCreateWithoutAccountInput = {
@@ -282991,9 +285620,16 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAutomationInput
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAutomationInput
   }
 
   export type IgAutomationCreateOrConnectWithoutAccountInput = {
@@ -283047,6 +285683,60 @@ export namespace Prisma {
 
   export type IgAutomationRunCreateManyAccountInputEnvelope = {
     data: IgAutomationRunCreateManyAccountInput | IgAutomationRunCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type IgAiReplyCreateWithoutAccountInput = {
+    id?: string
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAiRepliesInput
+    automation?: IgAutomationCreateNestedOneWithoutAiRepliesInput
+  }
+
+  export type IgAiReplyUncheckedCreateWithoutAccountInput = {
+    id?: string
+    companyId: string
+    automationId?: string | null
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAiReplyCreateOrConnectWithoutAccountInput = {
+    where: IgAiReplyWhereUniqueInput
+    create: XOR<IgAiReplyCreateWithoutAccountInput, IgAiReplyUncheckedCreateWithoutAccountInput>
+  }
+
+  export type IgAiReplyCreateManyAccountInputEnvelope = {
+    data: IgAiReplyCreateManyAccountInput | IgAiReplyCreateManyAccountInput[]
     skipDuplicates?: boolean
   }
 
@@ -283318,6 +286008,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -283458,6 +286149,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -283527,6 +286219,22 @@ export namespace Prisma {
   export type IgAutomationRunUpdateManyWithWhereWithoutAccountInput = {
     where: IgAutomationRunScalarWhereInput
     data: XOR<IgAutomationRunUpdateManyMutationInput, IgAutomationRunUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type IgAiReplyUpsertWithWhereUniqueWithoutAccountInput = {
+    where: IgAiReplyWhereUniqueInput
+    update: XOR<IgAiReplyUpdateWithoutAccountInput, IgAiReplyUncheckedUpdateWithoutAccountInput>
+    create: XOR<IgAiReplyCreateWithoutAccountInput, IgAiReplyUncheckedCreateWithoutAccountInput>
+  }
+
+  export type IgAiReplyUpdateWithWhereUniqueWithoutAccountInput = {
+    where: IgAiReplyWhereUniqueInput
+    data: XOR<IgAiReplyUpdateWithoutAccountInput, IgAiReplyUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type IgAiReplyUpdateManyWithWhereWithoutAccountInput = {
+    where: IgAiReplyScalarWhereInput
+    data: XOR<IgAiReplyUpdateManyMutationInput, IgAiReplyUncheckedUpdateManyWithoutAccountInput>
   }
 
   export type IgConversationUpsertWithWhereUniqueWithoutAccountInput = {
@@ -283662,6 +286370,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -283802,6 +286511,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -283863,6 +286573,7 @@ export namespace Prisma {
     createdById?: string | null
     company: CompanyCreateNestedOneWithoutInstagramAccountsInput
     runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAccountInput
     conversations?: IgConversationCreateNestedManyWithoutAccountInput
     assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
@@ -283884,6 +286595,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdById?: string | null
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAccountInput
     conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
@@ -283934,6 +286646,60 @@ export namespace Prisma {
 
   export type IgAutomationRunCreateManyAutomationInputEnvelope = {
     data: IgAutomationRunCreateManyAutomationInput | IgAutomationRunCreateManyAutomationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type IgAiReplyCreateWithoutAutomationInput = {
+    id?: string
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAiRepliesInput
+    account: InstagramAccountCreateNestedOneWithoutAiRepliesInput
+  }
+
+  export type IgAiReplyUncheckedCreateWithoutAutomationInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAiReplyCreateOrConnectWithoutAutomationInput = {
+    where: IgAiReplyWhereUniqueInput
+    create: XOR<IgAiReplyCreateWithoutAutomationInput, IgAiReplyUncheckedCreateWithoutAutomationInput>
+  }
+
+  export type IgAiReplyCreateManyAutomationInputEnvelope = {
+    data: IgAiReplyCreateManyAutomationInput | IgAiReplyCreateManyAutomationInput[]
     skipDuplicates?: boolean
   }
 
@@ -284049,6 +286815,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -284189,6 +286956,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -284256,6 +287024,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
@@ -284277,6 +287046,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
@@ -284295,6 +287065,22 @@ export namespace Prisma {
   export type IgAutomationRunUpdateManyWithWhereWithoutAutomationInput = {
     where: IgAutomationRunScalarWhereInput
     data: XOR<IgAutomationRunUpdateManyMutationInput, IgAutomationRunUncheckedUpdateManyWithoutAutomationInput>
+  }
+
+  export type IgAiReplyUpsertWithWhereUniqueWithoutAutomationInput = {
+    where: IgAiReplyWhereUniqueInput
+    update: XOR<IgAiReplyUpdateWithoutAutomationInput, IgAiReplyUncheckedUpdateWithoutAutomationInput>
+    create: XOR<IgAiReplyCreateWithoutAutomationInput, IgAiReplyUncheckedCreateWithoutAutomationInput>
+  }
+
+  export type IgAiReplyUpdateWithWhereUniqueWithoutAutomationInput = {
+    where: IgAiReplyWhereUniqueInput
+    data: XOR<IgAiReplyUpdateWithoutAutomationInput, IgAiReplyUncheckedUpdateWithoutAutomationInput>
+  }
+
+  export type IgAiReplyUpdateManyWithWhereWithoutAutomationInput = {
+    where: IgAiReplyScalarWhereInput
+    data: XOR<IgAiReplyUpdateManyMutationInput, IgAiReplyUncheckedUpdateManyWithoutAutomationInput>
   }
 
   export type CompanyCreateWithoutIgAutomationRunsInput = {
@@ -284398,6 +287184,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -284538,6 +287325,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -284599,6 +287387,7 @@ export namespace Prisma {
     createdById?: string | null
     company: CompanyCreateNestedOneWithoutInstagramAccountsInput
     automations?: IgAutomationCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAccountInput
     conversations?: IgConversationCreateNestedManyWithoutAccountInput
     assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
@@ -284620,6 +287409,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdById?: string | null
     automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAccountInput
     conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
@@ -284646,10 +287436,17 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgAutomationsInput
     account: InstagramAccountCreateNestedOneWithoutAutomationsInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAutomationInput
   }
 
   export type IgAutomationUncheckedCreateWithoutRunsInput = {
@@ -284671,8 +287468,15 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAutomationInput
   }
 
   export type IgAutomationCreateOrConnectWithoutRunsInput = {
@@ -284792,6 +287596,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -284932,6 +287737,7 @@ export namespace Prisma {
     metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -284999,6 +287805,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
     automations?: IgAutomationUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
@@ -285020,6 +287827,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
@@ -285052,10 +287860,17 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgAutomationsNestedInput
     account?: InstagramAccountUpdateOneRequiredWithoutAutomationsNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAutomationNestedInput
   }
 
   export type IgAutomationUncheckedUpdateWithoutRunsInput = {
@@ -285077,8 +287892,835 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAutomationNestedInput
+  }
+
+  export type CompanyCreateWithoutIgAiRepliesInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutIgAiRepliesInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutIgAiRepliesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutIgAiRepliesInput, CompanyUncheckedCreateWithoutIgAiRepliesInput>
+  }
+
+  export type InstagramAccountCreateWithoutAiRepliesInput = {
+    id?: string
+    igUserId: string
+    igScopedId?: string | null
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutInstagramAccountsInput
+    automations?: IgAutomationCreateNestedManyWithoutAccountInput
+    runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+    conversations?: IgConversationCreateNestedManyWithoutAccountInput
+    assistants?: AssistantCreateNestedManyWithoutIgAccountInput
+  }
+
+  export type InstagramAccountUncheckedCreateWithoutAiRepliesInput = {
+    id?: string
+    companyId: string
+    igUserId: string
+    igScopedId?: string | null
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
+    runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+    conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
+  }
+
+  export type InstagramAccountCreateOrConnectWithoutAiRepliesInput = {
+    where: InstagramAccountWhereUniqueInput
+    create: XOR<InstagramAccountCreateWithoutAiRepliesInput, InstagramAccountUncheckedCreateWithoutAiRepliesInput>
+  }
+
+  export type IgAutomationCreateWithoutAiRepliesInput = {
+    id?: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    deliveredText?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAutomationsInput
+    account: InstagramAccountCreateNestedOneWithoutAutomationsInput
+    runs?: IgAutomationRunCreateNestedManyWithoutAutomationInput
+  }
+
+  export type IgAutomationUncheckedCreateWithoutAiRepliesInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    deliveredText?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAutomationInput
+  }
+
+  export type IgAutomationCreateOrConnectWithoutAiRepliesInput = {
+    where: IgAutomationWhereUniqueInput
+    create: XOR<IgAutomationCreateWithoutAiRepliesInput, IgAutomationUncheckedCreateWithoutAiRepliesInput>
+  }
+
+  export type CompanyUpsertWithoutIgAiRepliesInput = {
+    update: XOR<CompanyUpdateWithoutIgAiRepliesInput, CompanyUncheckedUpdateWithoutIgAiRepliesInput>
+    create: XOR<CompanyCreateWithoutIgAiRepliesInput, CompanyUncheckedCreateWithoutIgAiRepliesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutIgAiRepliesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutIgAiRepliesInput, CompanyUncheckedUpdateWithoutIgAiRepliesInput>
+  }
+
+  export type CompanyUpdateWithoutIgAiRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutIgAiRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type InstagramAccountUpsertWithoutAiRepliesInput = {
+    update: XOR<InstagramAccountUpdateWithoutAiRepliesInput, InstagramAccountUncheckedUpdateWithoutAiRepliesInput>
+    create: XOR<InstagramAccountCreateWithoutAiRepliesInput, InstagramAccountUncheckedCreateWithoutAiRepliesInput>
+    where?: InstagramAccountWhereInput
+  }
+
+  export type InstagramAccountUpdateToOneWithWhereWithoutAiRepliesInput = {
+    where?: InstagramAccountWhereInput
+    data: XOR<InstagramAccountUpdateWithoutAiRepliesInput, InstagramAccountUncheckedUpdateWithoutAiRepliesInput>
+  }
+
+  export type InstagramAccountUpdateWithoutAiRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
+    automations?: IgAutomationUpdateManyWithoutAccountNestedInput
+    runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+    conversations?: IgConversationUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
+  }
+
+  export type InstagramAccountUncheckedUpdateWithoutAiRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
+    runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+    conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
+  }
+
+  export type IgAutomationUpsertWithoutAiRepliesInput = {
+    update: XOR<IgAutomationUpdateWithoutAiRepliesInput, IgAutomationUncheckedUpdateWithoutAiRepliesInput>
+    create: XOR<IgAutomationCreateWithoutAiRepliesInput, IgAutomationUncheckedCreateWithoutAiRepliesInput>
+    where?: IgAutomationWhereInput
+  }
+
+  export type IgAutomationUpdateToOneWithWhereWithoutAiRepliesInput = {
+    where?: IgAutomationWhereInput
+    data: XOR<IgAutomationUpdateWithoutAiRepliesInput, IgAutomationUncheckedUpdateWithoutAiRepliesInput>
+  }
+
+  export type IgAutomationUpdateWithoutAiRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAutomationsNestedInput
+    account?: InstagramAccountUpdateOneRequiredWithoutAutomationsNestedInput
+    runs?: IgAutomationRunUpdateManyWithoutAutomationNestedInput
+  }
+
+  export type IgAutomationUncheckedUpdateWithoutAiRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    runs?: IgAutomationRunUncheckedUpdateManyWithoutAutomationNestedInput
   }
 
   export type CompanyCreateWithoutIgConversationsInput = {
@@ -285183,6 +288825,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
@@ -285323,6 +288966,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
@@ -285384,6 +289028,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutInstagramAccountsInput
     automations?: IgAutomationCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAccountInput
     assistants?: AssistantCreateNestedManyWithoutIgAccountInput
   }
 
@@ -285405,6 +289050,7 @@ export namespace Prisma {
     createdById?: string | null
     automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAccountInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutIgAccountInput
   }
 
@@ -285685,6 +289331,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
@@ -285825,6 +289472,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
@@ -285892,6 +289540,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
     automations?: IgAutomationUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
 
@@ -285913,6 +289562,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
 
@@ -286291,6 +289941,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
@@ -286431,6 +290082,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
@@ -286587,6 +290239,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
@@ -286727,6 +290380,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
@@ -286867,6 +290521,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
@@ -287007,6 +290662,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
@@ -287163,6 +290819,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
@@ -287303,6 +290960,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
@@ -287443,6 +291101,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -287583,6 +291242,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -287739,6 +291399,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -287879,6 +291540,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -288019,6 +291681,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -288159,6 +291822,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -288315,6 +291979,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -288455,6 +292120,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -288595,6 +292261,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -288735,6 +292402,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -288891,6 +292559,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -289031,6 +292700,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -289171,6 +292841,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -289311,6 +292982,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -289467,6 +293139,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -289607,6 +293280,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -289747,6 +293421,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -289887,6 +293562,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -290043,6 +293719,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -290183,6 +293860,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -290323,6 +294001,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -290463,6 +294142,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -290619,6 +294299,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -290759,6 +294440,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -290899,6 +294581,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -291039,6 +294722,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -291195,6 +294879,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -291335,6 +295020,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -291475,6 +295161,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -291615,6 +295302,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -291771,6 +295459,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -291911,6 +295600,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -292051,6 +295741,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -292191,6 +295882,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -292347,6 +296039,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -292487,6 +296180,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -292627,6 +296321,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -292767,6 +296462,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -292923,6 +296619,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -293063,6 +296760,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -293203,6 +296901,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -293343,6 +297042,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -293499,6 +297199,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -293639,6 +297340,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -293779,6 +297481,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -293919,6 +297622,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -294075,6 +297779,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -294215,6 +297920,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -294355,6 +298061,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -294495,6 +298202,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -294651,6 +298359,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -294791,6 +298500,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -294931,6 +298641,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -295071,6 +298782,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -295227,6 +298939,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -295367,6 +299080,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -295507,6 +299221,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -295647,6 +299362,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -295803,6 +299519,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -295943,6 +299660,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -296083,6 +299801,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -296223,6 +299942,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -296379,6 +300099,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -296519,6 +300240,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -296658,6 +300380,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -296798,6 +300521,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -296978,6 +300702,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -297118,6 +300843,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -297345,6 +301071,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -297485,6 +301212,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -297677,6 +301405,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -297817,6 +301546,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -298108,6 +301838,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -298248,6 +301979,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -298576,6 +302308,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -298716,6 +302449,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -299028,6 +302762,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -299168,6 +302903,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -299465,6 +303201,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -299605,6 +303342,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -299880,6 +303618,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -300020,6 +303759,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -300317,6 +304057,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -300457,6 +304198,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -300732,6 +304474,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -300872,6 +304615,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -301169,6 +304913,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -301309,6 +305054,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -301449,6 +305195,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -301589,6 +305336,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -301745,6 +305493,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -301885,6 +305634,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -302577,6 +306327,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -302717,6 +306468,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -302873,6 +306625,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -303013,6 +306766,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -303153,6 +306907,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -303293,6 +307048,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -303511,6 +307267,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -303651,6 +307408,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -303834,6 +307592,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -303974,6 +307733,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -304478,6 +308238,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -304618,6 +308379,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -305460,6 +309222,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -305600,6 +309363,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -305756,6 +309520,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -305896,6 +309661,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -306036,6 +309802,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -306176,6 +309943,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -306438,6 +310206,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -306578,6 +310347,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -306750,6 +310520,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -306890,6 +310661,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -307356,6 +311128,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -307496,6 +311269,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -307960,6 +311734,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -308100,6 +311875,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -308256,6 +312032,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -308396,6 +312173,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -308536,6 +312314,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -308676,6 +312455,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -308832,6 +312612,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -308972,6 +312753,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -309276,6 +313058,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -309416,6 +313199,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -309651,6 +313435,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -309791,6 +313576,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -309948,6 +313734,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -310088,6 +313875,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -310244,6 +314032,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -310384,6 +314173,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -310524,6 +314314,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -310664,6 +314455,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -310820,6 +314612,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -310960,6 +314753,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -311183,6 +314977,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -311323,6 +315118,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -311526,6 +315322,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -311666,6 +315463,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -311806,6 +315604,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -311946,6 +315745,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -312187,6 +315987,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutInstagramAccountsInput
     automations?: IgAutomationCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyCreateNestedManyWithoutAccountInput
     conversations?: IgConversationCreateNestedManyWithoutAccountInput
   }
 
@@ -312208,6 +316009,7 @@ export namespace Prisma {
     createdById?: string | null
     automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
     runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+    aiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutAccountInput
     conversations?: IgConversationUncheckedCreateNestedManyWithoutAccountInput
   }
 
@@ -312530,6 +316332,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -312670,6 +316473,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -312929,6 +316733,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
     automations?: IgAutomationUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUpdateManyWithoutAccountNestedInput
   }
 
@@ -312950,6 +316755,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
   }
 
@@ -313228,6 +317034,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -313368,6 +317175,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -313569,6 +317377,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -313709,6 +317518,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -314248,6 +318058,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -314388,6 +318199,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -314639,6 +318451,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -314779,6 +318592,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -315020,6 +318834,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -315160,6 +318975,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -315506,6 +319322,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -315646,6 +319463,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -315833,6 +319651,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -315973,6 +319792,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -316375,6 +320195,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -316515,6 +320336,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -316983,6 +320805,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -317123,6 +320946,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -317403,6 +321227,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -317543,6 +321368,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -317819,6 +321645,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -317959,6 +321786,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -318233,6 +322061,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -318373,6 +322202,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -318708,6 +322538,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -318848,6 +322679,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -319134,6 +322966,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -319274,6 +323107,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -319539,6 +323373,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -319679,6 +323514,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -319835,6 +323671,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -319975,6 +323812,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -320115,6 +323953,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -320255,6 +324094,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -320670,6 +324510,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -320810,6 +324651,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -321227,6 +325069,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -321367,6 +325210,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -321523,6 +325367,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -321663,6 +325508,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -321804,6 +325650,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -321944,6 +325791,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -322158,6 +326006,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -322298,6 +326147,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -322524,6 +326374,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -322664,6 +326515,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -322863,6 +326715,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -323003,6 +326856,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -323223,6 +327077,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -323363,6 +327218,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -323654,6 +327510,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -323794,6 +327651,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -324075,6 +327933,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -324215,6 +328074,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -324506,6 +328366,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -324646,6 +328507,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -324927,6 +328789,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -325067,6 +328930,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -325493,6 +329357,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -325633,6 +329498,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -326055,6 +329921,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -326195,6 +330062,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -326621,6 +330489,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -326761,6 +330630,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -327183,6 +331053,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -327323,6 +331194,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -327614,6 +331486,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -327754,6 +331627,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -328035,6 +331909,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -328175,6 +332050,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -328694,6 +332570,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -328834,6 +332711,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -329367,6 +333245,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -329507,6 +333386,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -329706,6 +333586,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -329846,6 +333727,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -330529,6 +334411,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
@@ -330669,6 +334552,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
     facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
@@ -331219,6 +335103,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -331359,6 +335244,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -336715,6 +340601,12 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -336732,6 +340624,28 @@ export namespace Prisma {
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
     leadId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAiReplyCreateManyCompanyInput = {
+    id?: string
+    accountId: string
+    automationId?: string | null
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -337340,6 +341254,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
@@ -337480,6 +341395,7 @@ export namespace Prisma {
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
     facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
@@ -340321,6 +344237,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: IgAutomationUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUpdateManyWithoutIgAccountNestedInput
   }
@@ -340342,6 +344259,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAccountNestedInput
     conversations?: IgConversationUncheckedUpdateManyWithoutAccountNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutIgAccountNestedInput
   }
@@ -340380,10 +344298,17 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     account?: InstagramAccountUpdateOneRequiredWithoutAutomationsNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAutomationNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAutomationNestedInput
   }
 
   export type IgAutomationUncheckedUpdateWithoutCompanyInput = {
@@ -340404,9 +344329,16 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAutomationNestedInput
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAutomationNestedInput
   }
 
   export type IgAutomationUncheckedUpdateManyWithoutCompanyInput = {
@@ -340427,6 +344359,12 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -340478,6 +344416,72 @@ export namespace Prisma {
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAiReplyUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: InstagramAccountUpdateOneRequiredWithoutAiRepliesNestedInput
+    automation?: IgAutomationUpdateOneWithoutAiRepliesNestedInput
+  }
+
+  export type IgAiReplyUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAiReplyUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -346827,6 +350831,12 @@ export namespace Prisma {
     deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
+    replyMode?: $Enums.IgReplyMode
+    aiPersona?: string | null
+    aiExamples?: string | null
+    aiApproval?: boolean
+    aiMaxPerHour?: number
+    aiHideSpam?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -346844,6 +350854,28 @@ export namespace Prisma {
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
     leadId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAiReplyCreateManyAccountInput = {
+    id?: string
+    companyId: string
+    automationId?: string | null
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -346930,10 +350962,17 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgAutomationsNestedInput
     runs?: IgAutomationRunUpdateManyWithoutAutomationNestedInput
+    aiReplies?: IgAiReplyUpdateManyWithoutAutomationNestedInput
   }
 
   export type IgAutomationUncheckedUpdateWithoutAccountInput = {
@@ -346954,9 +350993,16 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     runs?: IgAutomationRunUncheckedUpdateManyWithoutAutomationNestedInput
+    aiReplies?: IgAiReplyUncheckedUpdateManyWithoutAutomationNestedInput
   }
 
   export type IgAutomationUncheckedUpdateManyWithoutAccountInput = {
@@ -346977,6 +351023,12 @@ export namespace Prisma {
     deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    replyMode?: EnumIgReplyModeFieldUpdateOperationsInput | $Enums.IgReplyMode
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    aiExamples?: NullableStringFieldUpdateOperationsInput | string | null
+    aiApproval?: BoolFieldUpdateOperationsInput | boolean
+    aiMaxPerHour?: IntFieldUpdateOperationsInput | number
+    aiHideSpam?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -347028,6 +351080,72 @@ export namespace Prisma {
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAiReplyUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAiRepliesNestedInput
+    automation?: IgAutomationUpdateOneWithoutAiRepliesNestedInput
+  }
+
+  export type IgAiReplyUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAiReplyUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -347250,6 +351368,28 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type IgAiReplyCreateManyAutomationInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    commentId: string
+    mediaId?: string | null
+    igCommenterId?: string | null
+    username?: string | null
+    commentText?: string | null
+    likeCount?: number
+    source?: string
+    intent?: $Enums.IgCommentIntent | null
+    reason?: string | null
+    replyText?: string | null
+    status?: $Enums.IgAiReplyStatus
+    scheduledAt?: Date | string | null
+    sentAt?: Date | string | null
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type IgAutomationRunUpdateWithoutAutomationInput = {
     id?: StringFieldUpdateOperationsInput | string
     igCommenterId?: StringFieldUpdateOperationsInput | string
@@ -347297,6 +351437,72 @@ export namespace Prisma {
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAiReplyUpdateWithoutAutomationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAiRepliesNestedInput
+    account?: InstagramAccountUpdateOneRequiredWithoutAiRepliesNestedInput
+  }
+
+  export type IgAiReplyUncheckedUpdateWithoutAutomationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAiReplyUncheckedUpdateManyWithoutAutomationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    commentId?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    intent?: NullableEnumIgCommentIntentFieldUpdateOperationsInput | $Enums.IgCommentIntent | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    replyText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgAiReplyStatusFieldUpdateOperationsInput | $Enums.IgAiReplyStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -349918,6 +354124,10 @@ export namespace Prisma {
      * @deprecated Use IgAutomationRunDefaultArgs instead
      */
     export type IgAutomationRunArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = IgAutomationRunDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use IgAiReplyDefaultArgs instead
+     */
+    export type IgAiReplyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = IgAiReplyDefaultArgs<ExtArgs>
     /**
      * @deprecated Use IgConversationDefaultArgs instead
      */

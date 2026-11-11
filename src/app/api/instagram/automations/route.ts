@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireInstagramCompany, getCompanyAccount } from "@/lib/instagram-api";
+import { requireInstagramCompany, getCompanyAccount, clampPerHour } from "@/lib/instagram-api";
 import { prisma } from "@/lib/prisma";
 
 // GET /api/instagram/automations → lista as automações da empresa.
@@ -49,6 +49,12 @@ export async function POST(req: NextRequest) {
       deliveredText: b.deliveredText || null,
       requireFollow: !!b.requireFollow,
       notFollowingText: b.notFollowingText || null,
+      replyMode: b.replyMode === "AI" ? "AI" : "FIXED",
+      aiPersona: b.aiPersona ? String(b.aiPersona).slice(0, 4000) : null,
+      aiExamples: b.aiExamples ? String(b.aiExamples).slice(0, 4000) : null,
+      aiApproval: b.aiApproval !== false,
+      aiMaxPerHour: clampPerHour(b.aiMaxPerHour),
+      aiHideSpam: b.aiHideSpam !== false,
     },
   });
   return NextResponse.json({ ok: true, automation });

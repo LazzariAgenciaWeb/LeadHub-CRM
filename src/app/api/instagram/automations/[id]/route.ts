@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireInstagramCompany } from "@/lib/instagram-api";
+import { requireInstagramCompany, clampPerHour } from "@/lib/instagram-api";
 import { prisma } from "@/lib/prisma";
 
 async function ownAutomation(companyId: string, id: string) {
@@ -33,6 +33,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (b.deliveredText !== undefined) data.deliveredText = b.deliveredText || null;
   if (b.requireFollow !== undefined) data.requireFollow = !!b.requireFollow;
   if (b.notFollowingText !== undefined) data.notFollowingText = b.notFollowingText || null;
+  if (b.replyMode !== undefined) data.replyMode = b.replyMode === "AI" ? "AI" : "FIXED";
+  if (b.aiPersona !== undefined) data.aiPersona = b.aiPersona ? String(b.aiPersona).slice(0, 4000) : null;
+  if (b.aiExamples !== undefined) data.aiExamples = b.aiExamples ? String(b.aiExamples).slice(0, 4000) : null;
+  if (b.aiApproval !== undefined) data.aiApproval = !!b.aiApproval;
+  if (b.aiMaxPerHour !== undefined) data.aiMaxPerHour = clampPerHour(b.aiMaxPerHour);
+  if (b.aiHideSpam !== undefined) data.aiHideSpam = !!b.aiHideSpam;
 
   const automation = await prisma.igAutomation.update({ where: { id }, data });
   return NextResponse.json({ ok: true, automation });

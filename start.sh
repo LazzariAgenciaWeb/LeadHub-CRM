@@ -240,6 +240,23 @@ echo "🧭 Cron IA de etapas do CRM habilitado — rodará a cada ${CRM_AI_STAGE
   done
 ) &
 
+# Cron: Respostas com IA a comentários do Instagram — classifica/escreve a fila
+# e publica o agendado em ritmo humano (teto por hora por conta).
+# Frequência: a cada 60 segundos (config: IG_AI_REPLIES_INTERVAL_SECONDS)
+IG_AI_REPLIES_INTERVAL_SECONDS="${IG_AI_REPLIES_INTERVAL_SECONDS:-60}"
+echo "💬 Cron IA de comentários IG habilitado — rodará a cada ${IG_AI_REPLIES_INTERVAL_SECONDS}s"
+(
+  sleep 65
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/ig-ai-replies" --max-time 150 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron IA comentários IG] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep "$IG_AI_REPLIES_INTERVAL_SECONDS"
+  done
+) &
+
 # Cron: Sync de instâncias — busca status real na Evolution e atualiza no banco
 # Frequência: a cada 5 minutos (config: SYNC_INSTANCES_INTERVAL_SECONDS)
 SYNC_INSTANCES_INTERVAL_SECONDS="${SYNC_INSTANCES_INTERVAL_SECONDS:-300}"

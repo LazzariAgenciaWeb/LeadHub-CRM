@@ -508,6 +508,7 @@ model Company {
   instagramAccounts        InstagramAccount[]
   igAutomations            IgAutomation[]
   igAutomationRuns         IgAutomationRun[]
+  igAiReplies              IgAiReply[]
   igConversations          IgConversation[]
   facebookPages            FacebookPage[]
   analyticsSnapshots       AnalyticsSnapshot[]
@@ -2424,6 +2425,7 @@ model InstagramAccount {
 
   automations   IgAutomation[]
   runs          IgAutomationRun[]
+  aiReplies     IgAiReply[]
   conversations IgConversation[]
   assistants    Assistant[]
 
@@ -2471,10 +2473,23 @@ model IgAutomation {
   requireFollow    Boolean @default(false)
   notFollowingText String? @db.Text // "me segue aqui e responde 'ok' que te mando 🚀"
 
+  // Modo de resposta pública. FIXED = sorteia de commentReplies (fluxo antigo,
+  // tudo na hora). AI = o comentário entra na fila IgAiReply; a IA classifica
+  // (brincadeira, pergunta, crítica, spam…), escreve no tom de aiPersona e o
+  // worker publica em ritmo humano. No modo AI a DM só sai pra pergunta/
+  // interesse — brincadeira não recebe DM.
+  replyMode    IgReplyMode @default(FIXED)
+  aiPersona    String?     @db.Text // quem é, tom, o que defende, o que evitar
+  aiExamples   String?     @db.Text // respostas reais do dono, pra IA pegar o jeito
+  aiApproval   Boolean     @default(true) // resposta espera aprovação no painel
+  aiMaxPerHour Int         @default(40) // teto de respostas publicadas por hora
+  aiHideSpam   Boolean     @default(true) // oculta spam/golpe automaticamente
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  runs IgAutomationRun[]
+  runs      IgAutomationRun[]
+  aiReplies IgAiReply[]
 
   @@index([companyId])
   @@index([accountId, enabled])
@@ -2535,6 +2550,70 @@ enum IgFollowState {
   UNKNOWN
   NOT_FOLLOWING
   FOLLOWING
+}
+
+enum IgReplyMode {
+  FIXED // lista fixa, sorteio
+  AI // IA classifica e escreve; fila com ritmo humano
+}
+
+// Fila de respostas da IA a comentários (modo AI da IgAutomation). Uma linha
+// por comentário (único por conta). O webhook (ou o "puxar comentários antigos")
+// cria em QUEUED; o cron /api/cron/ig-ai-replies classifica, escreve e publica.
+model IgAiReply {
+  id           String           @id @default(cuid())
+  companyId    String
+  company      Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  accountId    String
+  account      InstagramAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  automationId String?
+  automation   IgAutomation?    @relation(fields: [automationId], references: [id], onDelete: SetNull)
+
+  commentId     String
+  mediaId       String?
+  igCommenterId String?
+  username      String?
+  commentText   String? @db.Text
+  likeCount     Int     @default(0)
+  source        String  @default("WEBHOOK") // WEBHOOK | BACKFILL
+
+  intent    IgCommentIntent?
+  reason    String?          @db.Text // por que a IA decidiu assim (1 frase)
+  replyText String?          @db.Text
+
+  status      IgAiReplyStatus @default(QUEUED)
+  scheduledAt DateTime?
+  sentAt      DateTime?
+  errorDetail String?         @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([accountId, commentId])
+  @@index([status, scheduledAt])
+  @@index([automationId, status])
+  @@index([accountId, sentAt])
+}
+
+enum IgCommentIntent {
+  JOKE // brincadeira, zoeira
+  PRAISE // elogio
+  QUESTION // dúvida sobre o assunto do post
+  INTEREST // interesse comercial ("quanto custa", "faz pra empresa?")
+  LOW_EFFORT // só emoji, "kkk", marcação de amigo
+  CRITICISM // crítica, reclamação, ataque
+  SPAM // golpe, "ganhe seguidores", link suspeito
+}
+
+enum IgAiReplyStatus {
+  QUEUED // esperando a IA
+  AWAITING_APPROVAL // IA escreveu; espera o dono aprovar no painel
+  SCHEDULED // aprovado (ou sem aprovação); sai em scheduledAt
+  SENT
+  NEEDS_YOU // crítica/ataque — a IA não responde, fica pro dono
+  SKIPPED // decidiu não responder (ou o dono pulou)
+  HIDDEN // spam ocultado
+  FAILED
 }
 
 // ─── Inbox do Instagram (DMs) ─────────────────────────────────────────────────
@@ -3061,7 +3140,7 @@ model AdCreative {
   provider     IntegrationProvider
   externalAdId String
 
-  // IDs da plataforma — permitem montar a árvore campanha → conjunto ��� anúncio
+  // IDs da plataforma — permitem montar a árvore campanha → conjunto → anúncio
   // sem casar por nome (nome muda e quebra o agrupamento). Preenchidos pelo
   // sync do Meta Ads; nulos nas linhas antigas e no Google Ads.
   externalCampaignId String?

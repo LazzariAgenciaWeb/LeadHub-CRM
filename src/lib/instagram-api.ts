@@ -39,3 +39,9 @@ export async function getCompanyAccount(companyId: string) {
     orderBy: { createdAt: "desc" },
   });
 }
+
+/** Teto de respostas/hora do modo IA dos comentários: 5–120 (padrão 40). */
+export function clampPerHour(v: unknown): number {
+  const n = Math.round(Number(v));
+  return Number.isFinite(n) && n > 0 ? Math.max(5, Math.min(120, n)) : 40;
+}
