@@ -31,6 +31,11 @@ export const SOURCE_META: Record<string, SourceMeta> = {
   indicacao:   { label: "Indicação",   icon: "🤝", color: "amber" },
   indicação:   { label: "Indicação",   icon: "🤝", color: "amber" },
   organico:    { label: "Orgânico",    icon: "🌱", color: "emerald" },
+  // Link direto (bio, QR, shortlink) e o "Outro" do enum de campanha. Sem estas
+  // duas linhas o chip do lead caía no fallback e mostrava "link"/"other" cru.
+  link:        { label: "Link direto",  icon: "🔗", color: "indigo" },
+  other:       { label: "Outro",        icon: "📌", color: "slate" },
+  outro:       { label: "Outro",        icon: "📌", color: "slate" },
   orgânico:    { label: "Orgânico",    icon: "🌱", color: "emerald" },
   // Origens da feature "LeadHub Prospecta" — busca de empresas no Google Maps
   // dentro do CRM. "serpapi" é só o canal técnico interno (valor legado gravado
@@ -69,3 +74,86 @@ export const SOURCE_COLOR_CLASSES: Record<SourceColor, string> = {
   indigo:  "bg-indigo-500/15 text-indigo-300 border-indigo-500/25",
   rose:    "bg-rose-500/15 text-rose-300 border-rose-500/25",
 };
+
+// ─── Origem de campanha (Campaign.source) ─────────────────────────────────────
+// Lista única usada por TODAS as telas de campanha (criar, editar, listar,
+// detalhe, gatilhos). Antes cada tela repetia seu próprio mapa de ícones e a
+// tela principal nem oferecia o campo — campanha nascia OTHER pra sempre.
+export const CAMPAIGN_SOURCES = [
+  { value: "WHATSAPP",  label: "WhatsApp",    icon: "💬" },
+  { value: "INSTAGRAM", label: "Instagram",   icon: "📸" },
+  { value: "FACEBOOK",  label: "Facebook",    icon: "👥" },
+  { value: "GOOGLE",    label: "Google Ads",  icon: "🔍" },
+  { value: "LINK",      label: "Link direto", icon: "🔗" },
+  { value: "OTHER",     label: "Outro",       icon: "📌" },
+] as const;
+
+export type CampaignSourceValue = (typeof CAMPAIGN_SOURCES)[number]["value"];
+
+export const CAMPAIGN_SOURCE_ICON: Record<string, string> = Object.fromEntries(
+  CAMPAIGN_SOURCES.map((s) => [s.value, s.icon]),
+);
+
+export const CAMPAIGN_SOURCE_LABEL: Record<string, string> = Object.fromEntries(
+  CAMPAIGN_SOURCES.map((s) => [s.value, s.label]),
+);
+
+export function isCampaignSource(value: unknown): value is CampaignSourceValue {
+  return typeof value === "string" && CAMPAIGN_SOURCES.some((s) => s.value === value);
+}
+
+/**
+ * Normaliza uma origem digitada/escolhida pra chave de Lead.source e utm_source:
+ * minúsculas, sem acento, espaço vira hífen. "Indicação" → "indicacao".
+ * Devolve null pra vazio — quem chama decide o fallback.
+ */
+export function normalizeLeadSource(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const key = value
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9._-]/g, "");
+  return key || null;
+}
+
+/**
+ * Origem da campanha (enum) → chave de Lead.source / utm_source.
+ * OTHER devolve null de propósito: "other" não diz nada no chip do lead nem na
+ * UTM, então quem chama cai no canal real (ex: "whatsapp") ou no slug da empresa.
+ */
+export function campaignSourceToLeadSource(source: string | null | undefined): string | null {
+  if (!source) return null;
+  const up = source.toUpperCase();
+  if (up === "OTHER") return null;
+  return isCampaignSource(up) ? up.toLowerCase() : normalizeLeadSource(source);
+}
+
+// Origens oferecidas no seletor de link e de gatilho (override da campanha).
+// São chaves de Lead.source — as mesmas que o chip do lead já sabe desenhar.
+export const LEAD_SOURCE_OPTIONS = [
+  "whatsapp", "instagram", "facebook", "meta", "google", "tiktok",
+  "linkedin", "email", "link", "formulario", "indicacao", "organico",
+] as const;
+
+/**
+ * utm_medium sugerido pra uma origem. Só vale quando a origem foi declarada
+ * no link/campanha; link antigo (sem origem) mantém o medium legado.
+ */
+export function defaultUtmMedium(sourceKey: string | null | undefined): string | null {
+  if (!sourceKey) return null;
+  switch (sourceKey) {
+    case "google":                                        return "cpc";
+    case "facebook": case "instagram": case "meta":
+    case "tiktok":   case "linkedin":                     return "social";
+    case "email":                                         return "email";
+    case "whatsapp":                                      return "whatsapp";
+    case "indicacao":                                     return "referral";
+    case "organico":                                      return "organic";
+    case "link":                                          return "referral";
+    case "formulario":                                    return "form";
+    default:                                              return null;
+  }
+}

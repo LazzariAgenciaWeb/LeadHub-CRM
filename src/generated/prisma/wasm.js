@@ -339,6 +339,11 @@ exports.Prisma.TrackingLinkScalarFieldEnum = {
   ogTitle: 'ogTitle',
   ogDescription: 'ogDescription',
   ogImage: 'ogImage',
+  source: 'source',
+  utmSource: 'utmSource',
+  utmMedium: 'utmMedium',
+  utmCampaign: 'utmCampaign',
+  utmTerm: 'utmTerm',
   createdAt: 'createdAt',
   campaignId: 'campaignId',
   companyId: 'companyId'
@@ -567,6 +572,7 @@ exports.Prisma.KeywordRuleScalarFieldEnum = {
   mapTo: 'mapTo',
   matchMode: 'matchMode',
   priority: 'priority',
+  source: 'source',
   createdAt: 'createdAt',
   companyId: 'companyId',
   campaignId: 'campaignId'

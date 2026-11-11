@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { normalizeLeadSource } from "@/lib/sources";
 
 // Carrega o link garantindo que pertence à empresa da sessão (SUPER_ADMIN vê tudo).
 async function findOwnedLink(id: string) {
@@ -17,7 +18,8 @@ async function findOwnedLink(id: string) {
 }
 
 // PATCH /api/tracking-links/[id]
-// { isActive?, label?, destination?, destType?, ogTitle?, ogDescription?, ogImage? }
+// { isActive?, label?, destination?, destType?, ogTitle?, ogDescription?, ogImage?,
+//   source?, utmSource?, utmMedium?, utmCampaign?, utmTerm? }
 // O `code` nunca muda: o /r/CODE já pode estar divulgado.
 export async function PATCH(
   req: NextRequest,
@@ -31,6 +33,8 @@ export async function PATCH(
   const data: {
     isActive?: boolean; label?: string | null; destination?: string; destType?: string;
     ogTitle?: string | null; ogDescription?: string | null; ogImage?: string | null;
+    source?: string | null; utmSource?: string | null; utmMedium?: string | null;
+    utmCampaign?: string | null; utmTerm?: string | null;
   } = {};
   if (typeof body.isActive === "boolean") data.isActive = body.isActive;
   if ("label" in body) data.label = body.label?.trim() || null;
@@ -43,6 +47,12 @@ export async function PATCH(
   if ("ogTitle" in body) data.ogTitle = body.ogTitle?.trim() || null;
   if ("ogDescription" in body) data.ogDescription = body.ogDescription?.trim() || null;
   if ("ogImage" in body) data.ogImage = body.ogImage?.trim() || null;
+  // Origem e UTMs: campo vazio volta a herdar da campanha / ao cálculo padrão.
+  if ("source" in body) data.source = normalizeLeadSource(body.source);
+  if ("utmSource" in body) data.utmSource = normalizeLeadSource(body.utmSource);
+  if ("utmMedium" in body) data.utmMedium = normalizeLeadSource(body.utmMedium);
+  if ("utmCampaign" in body) data.utmCampaign = body.utmCampaign?.trim() || null;
+  if ("utmTerm" in body) data.utmTerm = body.utmTerm?.trim() || null;
 
   if (Object.keys(data).length === 0) {
     return NextResponse.json({ error: "Nada a atualizar" }, { status: 400 });

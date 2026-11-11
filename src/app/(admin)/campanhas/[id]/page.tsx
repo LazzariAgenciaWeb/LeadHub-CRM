@@ -7,10 +7,7 @@ import Link from "next/link";
 import CampaignTriggers from "./CampaignTriggers";
 import CampaignEdit from "./CampaignEdit";
 import CampaignLinks from "./CampaignLinks";
-
-const SOURCE_ICON: Record<string, string> = {
-  WHATSAPP: "💬", INSTAGRAM: "📸", FACEBOOK: "👥", GOOGLE: "🔍", LINK: "🔗", OTHER: "📌",
-};
+import { CAMPAIGN_SOURCE_ICON, CAMPAIGN_SOURCE_LABEL, campaignSourceToLeadSource } from "@/lib/sources";
 
 const STATUS_LABEL: Record<string, { label: string; color: string }> = {
   NEW: { label: "Novos", color: "text-indigo-400" },
@@ -34,7 +31,7 @@ export default async function CampaignDetailPage({
   const campaign = await prisma.campaign.findUnique({
     where: { id },
     include: {
-      company: { select: { id: true, name: true, phone: true } },
+      company: { select: { id: true, name: true, phone: true, slug: true } },
       keywordRules: { orderBy: [{ priority: "desc" }, { createdAt: "asc" }] },
       links: { orderBy: { createdAt: "desc" }, include: { _count: { select: { leads: true } } } },
       _count: { select: { leads: true, messages: true, links: true } },
@@ -61,6 +58,14 @@ export default async function CampaignDetailPage({
   });
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+
+  // Rótulos de herança. Campanha com origem OTHER não dá origem a nada: o
+  // gatilho cai em "whatsapp" e o link cai no slug da empresa no utm_source —
+  // então o rótulo tem de dizer isso, não "Outro".
+  const campaignSourceLabel = CAMPAIGN_SOURCE_LABEL[campaign.source] ?? campaign.source;
+  const inheritsSource = !!campaignSourceToLeadSource(campaign.source);
+  const linkInheritLabel = inheritsSource ? campaignSourceLabel : "sem origem";
+  const triggerInheritLabel = inheritsSource ? campaignSourceLabel : "WhatsApp";
 
   const conversionRate = campaign._count.leads > 0
     ? (((statusMap["CLOSED"] ?? 0) / campaign._count.leads) * 100).toFixed(1)
@@ -91,10 +96,14 @@ export default async function CampaignDetailPage({
       <div className="flex items-start justify-between mb-6">
         <div>
           <div className="flex items-center gap-3">
-            <span className="text-2xl">{SOURCE_ICON[campaign.source] ?? "📌"}</span>
+            <span className="text-2xl" title={`Origem: ${CAMPAIGN_SOURCE_LABEL[campaign.source] ?? campaign.source}`}>
+              {CAMPAIGN_SOURCE_ICON[campaign.source] ?? "📌"}
+            </span>
             <div>
               <h1 className="text-white font-bold text-xl">{campaign.name}</h1>
-              <p className="text-slate-500 text-sm mt-0.5">{campaign.company.name}</p>
+              <p className="text-slate-500 text-sm mt-0.5">
+                {campaign.company.name} · origem {campaignSourceLabel}
+              </p>
             </div>
           </div>
         </div>
@@ -138,6 +147,9 @@ export default async function CampaignDetailPage({
           campaignId={campaign.id}
           campaignName={campaign.name}
           campaignSlug={campaign.slug}
+          campaignSource={campaign.source}
+          campaignSourceLabel={linkInheritLabel}
+          companySlug={campaign.company.slug ?? null}
           companyPhone={campaign.company.phone ?? null}
           baseUrl={baseUrl}
           initialLinks={campaign.links as any}
@@ -150,6 +162,7 @@ export default async function CampaignDetailPage({
           <CampaignTriggers
             campaignId={campaign.id}
             companyId={campaign.companyId}
+            campaignSourceLabel={triggerInheritLabel}
             initialRules={campaign.keywordRules as any}
           />
         </div>

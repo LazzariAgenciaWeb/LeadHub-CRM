@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isCampaignSource } from "@/lib/sources";
 
 // GET /api/campaigns?companyId=xxx
 export async function GET(request: NextRequest) {
@@ -70,7 +71,7 @@ export async function POST(request: NextRequest) {
       slug: finalSlug,
       companyId,
       description: description || null,
-      source: source ?? "OTHER",
+      source: isCampaignSource(source) ? source : "OTHER",
       status: status ?? "ACTIVE",
       budget: budget ? parseFloat(budget) : undefined,
       startDate: startDate ? new Date(startDate) : undefined,

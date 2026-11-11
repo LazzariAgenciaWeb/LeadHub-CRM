@@ -1,5 +1,6 @@
 import { Prisma, LeadStatus, MessageDir, ConversationStatus, ActivityType } from "@/generated/prisma";
 import { prisma } from "./prisma";
+import { campaignSourceToLeadSource, normalizeLeadSource } from "./sources";
 
 // Janela em que mensagens "terminais" (obrigado/emoji/blz) pós-finalização
 // NÃO reabrem o atendimento. Após esse prazo, qualquer INBOUND reabre normal.
@@ -686,6 +687,8 @@ async function safeCreateMessage(data: Prisma.MessageUncheckedCreateInput) {
 interface MatchResult {
   status: LeadStatus;
   campaignId: string | null;
+  /** Origem declarada no gatilho (override da campanha). null = herda. */
+  source: string | null;
 }
 
 /**
@@ -713,6 +716,7 @@ async function matchKeywordRules(
       return {
         status: rule.mapTo,
         campaignId: rule.campaignId ?? null,
+        source: rule.source ?? null,
       };
     }
   }
@@ -961,7 +965,7 @@ export async function processInboundMessage(payload: {
         return null;
       }
       // Se não é triggerOnly mas tem regras, cria lead NEW sem campanha
-      matchResult = { status: LeadStatus.NEW, campaignId: null };
+      matchResult = { status: LeadStatus.NEW, campaignId: null, source: null };
     }
   }
   // Se matchResult ainda é null → empresa sem regras
@@ -1058,18 +1062,22 @@ export async function processInboundMessage(payload: {
   const identifiedAs = matchResult?.status ?? lead!.status;
   const campaignId = matchResult?.campaignId ?? null;
 
+  // Origem do lead, em ordem: o gatilho que casou → a campanha dele → o canal.
+  // Campanha com origem OTHER cai no canal real ("whatsapp") em vez de gravar
+  // "other", que não diz nada no chip do lead nem em relatório.
+  // Só consulta a campanha quando a origem vai ser usada: lead novo, ou lead
+  // existente ainda sem origem gravada. Evita uma query por mensagem recebida.
+  let resolvedSource: string | null = normalizeLeadSource(matchResult?.source ?? null);
+  if (!resolvedSource && campaignId && (!lead || !lead.source)) {
+    const campaign = await prisma.campaign.findUnique({
+      where: { id: campaignId },
+      select: { source: true },
+    });
+    resolvedSource = campaignSourceToLeadSource(campaign?.source);
+  }
+
   if (!lead) {
     // Keyword match sem lead existente → criar lead
-    let campaignSource: string | null = null;
-    if (campaignId) {
-      const campaign = await prisma.campaign.findUnique({
-        where: { id: campaignId },
-        select: { source: true },
-      });
-      if (campaign) {
-        campaignSource = campaign.source.toLowerCase();
-      }
-    }
 
     const firstLeadStage = await prisma.pipelineStageConfig.findFirst({
       where: { companyId, pipeline: "LEADS" },
@@ -1082,7 +1090,7 @@ export async function processInboundMessage(payload: {
         name: contactName ?? null,
         companyId,
         campaignId: campaignId ?? undefined,
-        source: campaignSource ?? "whatsapp",
+        source: resolvedSource ?? "whatsapp",
         status: identifiedAs,
         pipeline: "LEADS",
         pipelineStage: firstLeadStage?.name ?? null,
@@ -1092,13 +1100,17 @@ export async function processInboundMessage(payload: {
     // Lead já existe — atualiza nome se ainda não tem e chegou um nome do WhatsApp
     const needsNameUpdate = !lead.name && contactName;
     const needsStatusUpdate = matchResult ? shouldUpgradeStatus(lead.status, identifiedAs) : false;
+    // Origem só é preenchida quando está vazia: lead que já tem origem gravada
+    // (veio de anúncio, importação, prospecção) não é reescrito por um gatilho.
+    const needsSourceUpdate = !lead.source && !!resolvedSource;
 
-    if (needsNameUpdate || needsStatusUpdate || (campaignId && !lead.campaignId)) {
+    if (needsNameUpdate || needsStatusUpdate || needsSourceUpdate || (campaignId && !lead.campaignId)) {
       lead = await prisma.lead.update({
         where: { id: lead.id },
         data: {
           ...(needsStatusUpdate ? { status: identifiedAs } : {}),
           ...(needsNameUpdate ? { name: contactName } : {}),
+          ...(needsSourceUpdate ? { source: resolvedSource } : {}),
           ...(campaignId && !lead.campaignId ? { campaignId } : {}),
         },
       });

@@ -2,12 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import LeadSourceSelect from "@/components/LeadSourceSelect";
+import SourceBadge from "@/components/SourceBadge";
+import { CAMPAIGN_SOURCE_ICON, CAMPAIGN_SOURCE_LABEL, campaignSourceToLeadSource } from "@/lib/sources";
 
 interface Rule {
   id: string;
   keyword: string;
   mapTo: string;
   priority: number;
+  source: string | null;
   campaignId: string | null;
   campaign: { id: string; name: string } | null;
 }
@@ -42,15 +46,6 @@ const STATUS_LABEL: Record<string, string> = {
   LOST: "Perdido",
 };
 
-const SOURCE_ICON: Record<string, string> = {
-  WHATSAPP: "💬",
-  INSTAGRAM: "📸",
-  FACEBOOK: "👥",
-  GOOGLE: "🔍",
-  LINK: "🔗",
-  OTHER: "🔵",
-};
-
 export default function GatilhosManager({
   rules,
   campaigns,
@@ -75,7 +70,16 @@ export default function GatilhosManager({
     mapTo: "NEW",
     priority: "0",
     campaignId: "",
+    source: "",
   });
+
+  // Rótulo da origem herdada de uma campanha — campanha OTHER não dá origem,
+  // então o lead cai no canal real ("whatsapp").
+  function campaignSourceLabelOf(campaignId: string) {
+    const c = campaigns.find((x) => x.id === campaignId);
+    if (!c) return "whatsapp";
+    return campaignSourceToLeadSource(c.source) ?? "whatsapp";
+  }
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
@@ -91,10 +95,11 @@ export default function GatilhosManager({
         priority: parseInt(form.priority) || 0,
         companyId: selectedCompanyId || undefined,
         campaignId: form.campaignId || null,
+        source: form.source || null,
       }),
     });
     setSaving(false);
-    setForm({ keyword: "", mapTo: "NEW", priority: "0", campaignId: "" });
+    setForm({ keyword: "", mapTo: "NEW", priority: "0", campaignId: "", source: "" });
     router.refresh();
   }
 
@@ -200,6 +205,7 @@ export default function GatilhosManager({
               <li>• O sistema verifica se contém alguma palavra-chave cadastrada abaixo</li>
               <li>• Se bater: cria/atualiza o lead com o <strong className="text-white">status</strong> e a <strong className="text-white">campanha</strong> configurados na regra</li>
               <li>• Regras de maior <strong className="text-white">prioridade</strong> têm preferência. Defina prioridades maiores para palavras mais específicas.</li>
+              <li>• A <strong className="text-white">origem</strong> do gatilho é gravada no lead. Em branco, herda a origem da campanha vinculada; sem campanha, fica <code className="text-slate-300">whatsapp</code>.</li>
             </ul>
           </div>
 
@@ -234,7 +240,7 @@ export default function GatilhosManager({
                   <option value="">Sem campanha</option>
                   {campaigns.map((c) => (
                     <option key={c.id} value={c.id}>
-                      {SOURCE_ICON[c.source] ?? "🔵"} {c.name}
+                      {CAMPAIGN_SOURCE_ICON[c.source] ?? "🔵"} {c.name}
                     </option>
                   ))}
                 </select>
@@ -268,6 +274,23 @@ export default function GatilhosManager({
                   className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
                 />
                 <p className="text-slate-600 text-[10px] mt-1">Maior número = verificado primeiro</p>
+              </div>
+
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">
+                  Origem do lead
+                </label>
+                <LeadSourceSelect
+                  value={form.source}
+                  onChange={(source) => setForm({ ...form, source })}
+                  inheritLabel={
+                    form.campaignId
+                      ? `Herdar da campanha (${campaignSourceLabelOf(form.campaignId)})`
+                      : "Herdar (whatsapp)"
+                  }
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
+                />
+                <p className="text-slate-600 text-[10px] mt-1">Separa o mesmo WhatsApp em Instagram, anúncio, bio…</p>
               </div>
 
               <div className="col-span-2 flex justify-end">
@@ -307,9 +330,11 @@ export default function GatilhosManager({
                     <div className="px-4 py-3 border-b border-[#1e2d45] flex items-center gap-2">
                       {campaign ? (
                         <>
-                          <span>{SOURCE_ICON[campaign.source] ?? "🔵"}</span>
+                          <span>{CAMPAIGN_SOURCE_ICON[campaign.source] ?? "🔵"}</span>
                           <span className="text-white font-semibold text-sm">{campaignName}</span>
-                          <span className="text-[11px] text-indigo-400 bg-indigo-500/15 px-2 py-0.5 rounded-full">Campanha</span>
+                          <span className="text-[11px] text-indigo-400 bg-indigo-500/15 px-2 py-0.5 rounded-full">
+                            Campanha · {CAMPAIGN_SOURCE_LABEL[campaign.source] ?? campaign.source}
+                          </span>
                         </>
                       ) : (
                         <>
@@ -323,6 +348,7 @@ export default function GatilhosManager({
                         <tr className="border-b border-[#1e2d45]">
                           <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left px-4 py-2">Palavra-chave</th>
                           <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left px-4 py-2">Status resultante</th>
+                          <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left px-4 py-2">Origem</th>
                           <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left px-4 py-2">Prioridade</th>
                           <th className="px-4 py-2"></th>
                         </tr>
@@ -334,6 +360,15 @@ export default function GatilhosManager({
                               <code className="text-indigo-300 bg-indigo-500/10 px-2 py-0.5 rounded text-[13px] font-mono">
                                 {rule.keyword}
                               </code>
+                            </td>
+                            <td className="px-4 py-3">
+                              {rule.source ? (
+                                <SourceBadge source={rule.source} size="xs" />
+                              ) : (
+                                <span className="text-[10px] text-slate-600" title="Herdada">
+                                  ↳ {rule.campaignId ? campaignSourceLabelOf(rule.campaignId) : "whatsapp"}
+                                </span>
+                              )}
                             </td>
                             <td className="px-4 py-3">
                               <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${STATUS_COLOR[rule.mapTo] ?? ""}`}>

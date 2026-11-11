@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import CampaignSourcePicker from "@/components/CampaignSourcePicker";
 
 interface Company {
   id: string;
@@ -23,6 +24,7 @@ export default function NewCampaignModal({
   const [form, setForm] = useState({
     name: "",
     description: "",
+    source: "WHATSAPP",
     status: "ACTIVE",
     startDate: "",
     endDate: "",
@@ -33,6 +35,7 @@ export default function NewCampaignModal({
     setForm({
       name: "",
       description: "",
+      source: "WHATSAPP",
       status: "ACTIVE",
       startDate: "",
       endDate: "",
@@ -129,6 +132,11 @@ export default function NewCampaignModal({
                   className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
                 />
               </div>
+
+              <CampaignSourcePicker
+                value={form.source}
+                onChange={(source) => setForm({ ...form, source })}
+              />
 
               <div>
                 <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">

@@ -3,15 +3,7 @@
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-
-const SOURCES = [
-  { value: "WHATSAPP", label: "💬 WhatsApp" },
-  { value: "INSTAGRAM", label: "📸 Instagram" },
-  { value: "FACEBOOK", label: "👥 Facebook" },
-  { value: "GOOGLE", label: "🔍 Google Ads" },
-  { value: "LINK", label: "🔗 Link Direto" },
-  { value: "OTHER", label: "📌 Outro" },
-];
+import CampaignSourcePicker from "@/components/CampaignSourcePicker";
 
 export default function NovaCampanhaPage() {
   const router = useRouter();
@@ -23,7 +15,7 @@ export default function NovaCampanhaPage() {
   const [form, setForm] = useState({
     name: "",
     description: "",
-    source: "OTHER",
+    source: "WHATSAPP",
     budget: "",
     startDate: "",
     endDate: "",
@@ -107,28 +99,10 @@ export default function NovaCampanhaPage() {
           />
         </div>
 
-        {/* Origem */}
-        <div>
-          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-1.5 block">
-            Canal / Origem
-          </label>
-          <div className="grid grid-cols-3 gap-2">
-            {SOURCES.map((s) => (
-              <button
-                key={s.value}
-                type="button"
-                onClick={() => set("source", s.value)}
-                className={`text-xs font-semibold py-2 px-2 rounded-lg border transition-all ${
-                  form.source === s.value
-                    ? "border-indigo-500 bg-indigo-500/15 text-indigo-400"
-                    : "border-[#1e2d45] bg-[#161f30] text-slate-400 hover:border-slate-500"
-                }`}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        <CampaignSourcePicker
+          value={form.source}
+          onChange={(source) => set("source", source)}
+        />
 
         {/* Budget */}
         <div>

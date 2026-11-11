@@ -32985,6 +32985,11 @@ export namespace Prisma {
     ogTitle: string | null
     ogDescription: string | null
     ogImage: string | null
+    source: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    utmTerm: string | null
     createdAt: Date | null
     campaignId: string | null
     companyId: string | null
@@ -33001,6 +33006,11 @@ export namespace Prisma {
     ogTitle: string | null
     ogDescription: string | null
     ogImage: string | null
+    source: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    utmTerm: string | null
     createdAt: Date | null
     campaignId: string | null
     companyId: string | null
@@ -33017,6 +33027,11 @@ export namespace Prisma {
     ogTitle: number
     ogDescription: number
     ogImage: number
+    source: number
+    utmSource: number
+    utmMedium: number
+    utmCampaign: number
+    utmTerm: number
     createdAt: number
     campaignId: number
     companyId: number
@@ -33043,6 +33058,11 @@ export namespace Prisma {
     ogTitle?: true
     ogDescription?: true
     ogImage?: true
+    source?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    utmTerm?: true
     createdAt?: true
     campaignId?: true
     companyId?: true
@@ -33059,6 +33079,11 @@ export namespace Prisma {
     ogTitle?: true
     ogDescription?: true
     ogImage?: true
+    source?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    utmTerm?: true
     createdAt?: true
     campaignId?: true
     companyId?: true
@@ -33075,6 +33100,11 @@ export namespace Prisma {
     ogTitle?: true
     ogDescription?: true
     ogImage?: true
+    source?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    utmTerm?: true
     createdAt?: true
     campaignId?: true
     companyId?: true
@@ -33178,6 +33208,11 @@ export namespace Prisma {
     ogTitle: string | null
     ogDescription: string | null
     ogImage: string | null
+    source: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    utmTerm: string | null
     createdAt: Date
     campaignId: string | null
     companyId: string | null
@@ -33213,6 +33248,11 @@ export namespace Prisma {
     ogTitle?: boolean
     ogDescription?: boolean
     ogImage?: boolean
+    source?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmTerm?: boolean
     createdAt?: boolean
     campaignId?: boolean
     companyId?: boolean
@@ -33234,6 +33274,11 @@ export namespace Prisma {
     ogTitle?: boolean
     ogDescription?: boolean
     ogImage?: boolean
+    source?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmTerm?: boolean
     createdAt?: boolean
     campaignId?: boolean
     companyId?: boolean
@@ -33252,6 +33297,11 @@ export namespace Prisma {
     ogTitle?: boolean
     ogDescription?: boolean
     ogImage?: boolean
+    source?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmTerm?: boolean
     createdAt?: boolean
     campaignId?: boolean
     companyId?: boolean
@@ -33288,6 +33338,11 @@ export namespace Prisma {
       ogTitle: string | null
       ogDescription: string | null
       ogImage: string | null
+      source: string | null
+      utmSource: string | null
+      utmMedium: string | null
+      utmCampaign: string | null
+      utmTerm: string | null
       createdAt: Date
       campaignId: string | null
       companyId: string | null
@@ -33698,6 +33753,11 @@ export namespace Prisma {
     readonly ogTitle: FieldRef<"TrackingLink", 'String'>
     readonly ogDescription: FieldRef<"TrackingLink", 'String'>
     readonly ogImage: FieldRef<"TrackingLink", 'String'>
+    readonly source: FieldRef<"TrackingLink", 'String'>
+    readonly utmSource: FieldRef<"TrackingLink", 'String'>
+    readonly utmMedium: FieldRef<"TrackingLink", 'String'>
+    readonly utmCampaign: FieldRef<"TrackingLink", 'String'>
+    readonly utmTerm: FieldRef<"TrackingLink", 'String'>
     readonly createdAt: FieldRef<"TrackingLink", 'DateTime'>
     readonly campaignId: FieldRef<"TrackingLink", 'String'>
     readonly companyId: FieldRef<"TrackingLink", 'String'>
@@ -49393,6 +49453,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus | null
     matchMode: $Enums.KeywordMatchMode | null
     priority: number | null
+    source: string | null
     createdAt: Date | null
     companyId: string | null
     campaignId: string | null
@@ -49404,6 +49465,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus | null
     matchMode: $Enums.KeywordMatchMode | null
     priority: number | null
+    source: string | null
     createdAt: Date | null
     companyId: string | null
     campaignId: string | null
@@ -49415,6 +49477,7 @@ export namespace Prisma {
     mapTo: number
     matchMode: number
     priority: number
+    source: number
     createdAt: number
     companyId: number
     campaignId: number
@@ -49436,6 +49499,7 @@ export namespace Prisma {
     mapTo?: true
     matchMode?: true
     priority?: true
+    source?: true
     createdAt?: true
     companyId?: true
     campaignId?: true
@@ -49447,6 +49511,7 @@ export namespace Prisma {
     mapTo?: true
     matchMode?: true
     priority?: true
+    source?: true
     createdAt?: true
     companyId?: true
     campaignId?: true
@@ -49458,6 +49523,7 @@ export namespace Prisma {
     mapTo?: true
     matchMode?: true
     priority?: true
+    source?: true
     createdAt?: true
     companyId?: true
     campaignId?: true
@@ -49556,6 +49622,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode: $Enums.KeywordMatchMode
     priority: number
+    source: string | null
     createdAt: Date
     companyId: string | null
     campaignId: string | null
@@ -49586,6 +49653,7 @@ export namespace Prisma {
     mapTo?: boolean
     matchMode?: boolean
     priority?: boolean
+    source?: boolean
     createdAt?: boolean
     companyId?: boolean
     campaignId?: boolean
@@ -49599,6 +49667,7 @@ export namespace Prisma {
     mapTo?: boolean
     matchMode?: boolean
     priority?: boolean
+    source?: boolean
     createdAt?: boolean
     companyId?: boolean
     campaignId?: boolean
@@ -49612,6 +49681,7 @@ export namespace Prisma {
     mapTo?: boolean
     matchMode?: boolean
     priority?: boolean
+    source?: boolean
     createdAt?: boolean
     companyId?: boolean
     campaignId?: boolean
@@ -49638,6 +49708,7 @@ export namespace Prisma {
       mapTo: $Enums.LeadStatus
       matchMode: $Enums.KeywordMatchMode
       priority: number
+      source: string | null
       createdAt: Date
       companyId: string | null
       campaignId: string | null
@@ -50041,6 +50112,7 @@ export namespace Prisma {
     readonly mapTo: FieldRef<"KeywordRule", 'LeadStatus'>
     readonly matchMode: FieldRef<"KeywordRule", 'KeywordMatchMode'>
     readonly priority: FieldRef<"KeywordRule", 'Int'>
+    readonly source: FieldRef<"KeywordRule", 'String'>
     readonly createdAt: FieldRef<"KeywordRule", 'DateTime'>
     readonly companyId: FieldRef<"KeywordRule", 'String'>
     readonly campaignId: FieldRef<"KeywordRule", 'String'>
@@ -176196,6 +176268,11 @@ export namespace Prisma {
     ogTitle: 'ogTitle',
     ogDescription: 'ogDescription',
     ogImage: 'ogImage',
+    source: 'source',
+    utmSource: 'utmSource',
+    utmMedium: 'utmMedium',
+    utmCampaign: 'utmCampaign',
+    utmTerm: 'utmTerm',
     createdAt: 'createdAt',
     campaignId: 'campaignId',
     companyId: 'companyId'
@@ -176469,6 +176546,7 @@ export namespace Prisma {
     mapTo: 'mapTo',
     matchMode: 'matchMode',
     priority: 'priority',
+    source: 'source',
     createdAt: 'createdAt',
     companyId: 'companyId',
     campaignId: 'campaignId'
@@ -181241,6 +181319,11 @@ export namespace Prisma {
     ogTitle?: StringNullableFilter<"TrackingLink"> | string | null
     ogDescription?: StringNullableFilter<"TrackingLink"> | string | null
     ogImage?: StringNullableFilter<"TrackingLink"> | string | null
+    source?: StringNullableFilter<"TrackingLink"> | string | null
+    utmSource?: StringNullableFilter<"TrackingLink"> | string | null
+    utmMedium?: StringNullableFilter<"TrackingLink"> | string | null
+    utmCampaign?: StringNullableFilter<"TrackingLink"> | string | null
+    utmTerm?: StringNullableFilter<"TrackingLink"> | string | null
     createdAt?: DateTimeFilter<"TrackingLink"> | Date | string
     campaignId?: StringNullableFilter<"TrackingLink"> | string | null
     companyId?: StringNullableFilter<"TrackingLink"> | string | null
@@ -181261,6 +181344,11 @@ export namespace Prisma {
     ogTitle?: SortOrderInput | SortOrder
     ogDescription?: SortOrderInput | SortOrder
     ogImage?: SortOrderInput | SortOrder
+    source?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    utmTerm?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
@@ -181284,6 +181372,11 @@ export namespace Prisma {
     ogTitle?: StringNullableFilter<"TrackingLink"> | string | null
     ogDescription?: StringNullableFilter<"TrackingLink"> | string | null
     ogImage?: StringNullableFilter<"TrackingLink"> | string | null
+    source?: StringNullableFilter<"TrackingLink"> | string | null
+    utmSource?: StringNullableFilter<"TrackingLink"> | string | null
+    utmMedium?: StringNullableFilter<"TrackingLink"> | string | null
+    utmCampaign?: StringNullableFilter<"TrackingLink"> | string | null
+    utmTerm?: StringNullableFilter<"TrackingLink"> | string | null
     createdAt?: DateTimeFilter<"TrackingLink"> | Date | string
     campaignId?: StringNullableFilter<"TrackingLink"> | string | null
     companyId?: StringNullableFilter<"TrackingLink"> | string | null
@@ -181304,6 +181397,11 @@ export namespace Prisma {
     ogTitle?: SortOrderInput | SortOrder
     ogDescription?: SortOrderInput | SortOrder
     ogImage?: SortOrderInput | SortOrder
+    source?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    utmTerm?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
@@ -181328,6 +181426,11 @@ export namespace Prisma {
     ogTitle?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
     ogDescription?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
     ogImage?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
+    source?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
+    utmSource?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
+    utmMedium?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
+    utmCampaign?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
+    utmTerm?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"TrackingLink"> | Date | string
     campaignId?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
     companyId?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
@@ -182764,6 +182867,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFilter<"KeywordRule"> | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFilter<"KeywordRule"> | $Enums.KeywordMatchMode
     priority?: IntFilter<"KeywordRule"> | number
+    source?: StringNullableFilter<"KeywordRule"> | string | null
     createdAt?: DateTimeFilter<"KeywordRule"> | Date | string
     companyId?: StringNullableFilter<"KeywordRule"> | string | null
     campaignId?: StringNullableFilter<"KeywordRule"> | string | null
@@ -182777,6 +182881,7 @@ export namespace Prisma {
     mapTo?: SortOrder
     matchMode?: SortOrder
     priority?: SortOrder
+    source?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     companyId?: SortOrderInput | SortOrder
     campaignId?: SortOrderInput | SortOrder
@@ -182793,6 +182898,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFilter<"KeywordRule"> | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFilter<"KeywordRule"> | $Enums.KeywordMatchMode
     priority?: IntFilter<"KeywordRule"> | number
+    source?: StringNullableFilter<"KeywordRule"> | string | null
     createdAt?: DateTimeFilter<"KeywordRule"> | Date | string
     companyId?: StringNullableFilter<"KeywordRule"> | string | null
     campaignId?: StringNullableFilter<"KeywordRule"> | string | null
@@ -182806,6 +182912,7 @@ export namespace Prisma {
     mapTo?: SortOrder
     matchMode?: SortOrder
     priority?: SortOrder
+    source?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     companyId?: SortOrderInput | SortOrder
     campaignId?: SortOrderInput | SortOrder
@@ -182825,6 +182932,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusWithAggregatesFilter<"KeywordRule"> | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeWithAggregatesFilter<"KeywordRule"> | $Enums.KeywordMatchMode
     priority?: IntWithAggregatesFilter<"KeywordRule"> | number
+    source?: StringNullableWithAggregatesFilter<"KeywordRule"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"KeywordRule"> | Date | string
     companyId?: StringNullableWithAggregatesFilter<"KeywordRule"> | string | null
     campaignId?: StringNullableWithAggregatesFilter<"KeywordRule"> | string | null
@@ -196255,6 +196363,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutLinksInput
     company?: CompanyCreateNestedOneWithoutTrackingLinksInput
@@ -196273,6 +196386,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaignId?: string | null
     companyId?: string | null
@@ -196291,6 +196409,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutLinksNestedInput
     company?: CompanyUpdateOneWithoutTrackingLinksNestedInput
@@ -196309,6 +196432,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196327,6 +196455,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaignId?: string | null
     companyId?: string | null
@@ -196343,6 +196476,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -196357,6 +196495,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197932,6 +198075,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode?: $Enums.KeywordMatchMode
     priority?: number
+    source?: string | null
     createdAt?: Date | string
     company?: CompanyCreateNestedOneWithoutKeywordRulesInput
     campaign?: CampaignCreateNestedOneWithoutKeywordRulesInput
@@ -197943,6 +198087,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode?: $Enums.KeywordMatchMode
     priority?: number
+    source?: string | null
     createdAt?: Date | string
     companyId?: string | null
     campaignId?: string | null
@@ -197954,6 +198099,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutKeywordRulesNestedInput
     campaign?: CampaignUpdateOneWithoutKeywordRulesNestedInput
@@ -197965,6 +198111,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197976,6 +198123,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode?: $Enums.KeywordMatchMode
     priority?: number
+    source?: string | null
     createdAt?: Date | string
     companyId?: string | null
     campaignId?: string | null
@@ -197987,6 +198135,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -197996,6 +198145,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -212936,6 +213086,11 @@ export namespace Prisma {
     ogTitle?: SortOrder
     ogDescription?: SortOrder
     ogImage?: SortOrder
+    source?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    utmTerm?: SortOrder
     createdAt?: SortOrder
     campaignId?: SortOrder
     companyId?: SortOrder
@@ -212956,6 +213111,11 @@ export namespace Prisma {
     ogTitle?: SortOrder
     ogDescription?: SortOrder
     ogImage?: SortOrder
+    source?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    utmTerm?: SortOrder
     createdAt?: SortOrder
     campaignId?: SortOrder
     companyId?: SortOrder
@@ -212972,6 +213132,11 @@ export namespace Prisma {
     ogTitle?: SortOrder
     ogDescription?: SortOrder
     ogImage?: SortOrder
+    source?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    utmTerm?: SortOrder
     createdAt?: SortOrder
     campaignId?: SortOrder
     companyId?: SortOrder
@@ -214009,6 +214174,7 @@ export namespace Prisma {
     mapTo?: SortOrder
     matchMode?: SortOrder
     priority?: SortOrder
+    source?: SortOrder
     createdAt?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
@@ -214024,6 +214190,7 @@ export namespace Prisma {
     mapTo?: SortOrder
     matchMode?: SortOrder
     priority?: SortOrder
+    source?: SortOrder
     createdAt?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
@@ -214035,6 +214202,7 @@ export namespace Prisma {
     mapTo?: SortOrder
     matchMode?: SortOrder
     priority?: SortOrder
+    source?: SortOrder
     createdAt?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
@@ -244940,6 +245108,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode?: $Enums.KeywordMatchMode
     priority?: number
+    source?: string | null
     createdAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutKeywordRulesInput
   }
@@ -244950,6 +245119,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode?: $Enums.KeywordMatchMode
     priority?: number
+    source?: string | null
     createdAt?: Date | string
     campaignId?: string | null
   }
@@ -245467,6 +245637,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutLinksInput
     leads?: LeadCreateNestedManyWithoutTrackingLinkInput
@@ -245484,6 +245659,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaignId?: string | null
     leads?: LeadUncheckedCreateNestedManyWithoutTrackingLinkInput
@@ -248958,6 +249138,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFilter<"KeywordRule"> | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFilter<"KeywordRule"> | $Enums.KeywordMatchMode
     priority?: IntFilter<"KeywordRule"> | number
+    source?: StringNullableFilter<"KeywordRule"> | string | null
     createdAt?: DateTimeFilter<"KeywordRule"> | Date | string
     companyId?: StringNullableFilter<"KeywordRule"> | string | null
     campaignId?: StringNullableFilter<"KeywordRule"> | string | null
@@ -249251,6 +249432,11 @@ export namespace Prisma {
     ogTitle?: StringNullableFilter<"TrackingLink"> | string | null
     ogDescription?: StringNullableFilter<"TrackingLink"> | string | null
     ogImage?: StringNullableFilter<"TrackingLink"> | string | null
+    source?: StringNullableFilter<"TrackingLink"> | string | null
+    utmSource?: StringNullableFilter<"TrackingLink"> | string | null
+    utmMedium?: StringNullableFilter<"TrackingLink"> | string | null
+    utmCampaign?: StringNullableFilter<"TrackingLink"> | string | null
+    utmTerm?: StringNullableFilter<"TrackingLink"> | string | null
     createdAt?: DateTimeFilter<"TrackingLink"> | Date | string
     campaignId?: StringNullableFilter<"TrackingLink"> | string | null
     companyId?: StringNullableFilter<"TrackingLink"> | string | null
@@ -251509,6 +251695,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     company?: CompanyCreateNestedOneWithoutTrackingLinksInput
     leads?: LeadCreateNestedManyWithoutTrackingLinkInput
@@ -251526,6 +251717,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     companyId?: string | null
     leads?: LeadUncheckedCreateNestedManyWithoutTrackingLinkInput
@@ -251548,6 +251744,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode?: $Enums.KeywordMatchMode
     priority?: number
+    source?: string | null
     createdAt?: Date | string
     company?: CompanyCreateNestedOneWithoutKeywordRulesInput
   }
@@ -251558,6 +251755,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode?: $Enums.KeywordMatchMode
     priority?: number
+    source?: string | null
     createdAt?: Date | string
     companyId?: string | null
   }
@@ -252806,6 +253004,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutLinksInput
     company?: CompanyCreateNestedOneWithoutTrackingLinksInput
@@ -252823,6 +253026,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaignId?: string | null
     companyId?: string | null
@@ -252856,6 +253064,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutLinksNestedInput
     company?: CompanyUpdateOneWithoutTrackingLinksNestedInput
@@ -252873,6 +253086,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -253216,6 +253434,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutLinksInput
     company?: CompanyCreateNestedOneWithoutTrackingLinksInput
@@ -253233,6 +253456,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaignId?: string | null
     companyId?: string | null
@@ -254263,6 +254491,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutLinksNestedInput
     company?: CompanyUpdateOneWithoutTrackingLinksNestedInput
@@ -254280,6 +254513,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -336043,6 +336281,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode?: $Enums.KeywordMatchMode
     priority?: number
+    source?: string | null
     createdAt?: Date | string
     campaignId?: string | null
   }
@@ -336242,6 +336481,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     campaignId?: string | null
   }
@@ -338787,6 +339031,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutKeywordRulesNestedInput
   }
@@ -338797,6 +339042,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -338807,6 +339053,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -339408,6 +339655,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutLinksNestedInput
     leads?: LeadUpdateManyWithoutTrackingLinkNestedInput
@@ -339425,6 +339677,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leads?: LeadUncheckedUpdateManyWithoutTrackingLinkNestedInput
@@ -339442,6 +339699,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -341839,6 +342101,11 @@ export namespace Prisma {
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
+    source?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmTerm?: string | null
     createdAt?: Date | string
     companyId?: string | null
   }
@@ -341849,6 +342116,7 @@ export namespace Prisma {
     mapTo: $Enums.LeadStatus
     matchMode?: $Enums.KeywordMatchMode
     priority?: number
+    source?: string | null
     createdAt?: Date | string
     companyId?: string | null
   }
@@ -342129,6 +342397,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutTrackingLinksNestedInput
     leads?: LeadUpdateManyWithoutTrackingLinkNestedInput
@@ -342146,6 +342419,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     leads?: LeadUncheckedUpdateManyWithoutTrackingLinkNestedInput
@@ -342163,6 +342441,11 @@ export namespace Prisma {
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -342173,6 +342456,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutKeywordRulesNestedInput
   }
@@ -342183,6 +342467,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -342193,6 +342478,7 @@ export namespace Prisma {
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
     matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }

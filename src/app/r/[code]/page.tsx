@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { buildTrackedUrl } from "@/lib/tracking-utm";
 import RedirectClient from "./RedirectClient";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
@@ -14,6 +15,7 @@ async function getLink(code: string) {
           id: true,
           slug: true,
           name: true,
+          source: true,
           company: { select: { slug: true, name: true } },
         },
       },
@@ -24,38 +26,21 @@ async function getLink(code: string) {
 
 function buildDestUrl(link: Awaited<ReturnType<typeof getLink>>, fbclid?: string) {
   if (!link) return "/";
-  const dest = link.destination;
-  const isWhatsapp = dest.includes("wa.me") || dest.includes("api.whatsapp.com");
-  if (isWhatsapp) return dest;
-
-  try {
-    const url = new URL(dest);
-    const companySlug =
-      link.campaign?.company?.slug ?? link.company?.slug ?? "leadhub";
-    if (!url.searchParams.has("utm_source"))
-      url.searchParams.set("utm_source", companySlug);
-    if (!url.searchParams.has("utm_medium"))
-      url.searchParams.set(
-        "utm_medium",
-        link.campaign ? "campanha" : "organico"
-      );
-    if (!url.searchParams.has("utm_campaign"))
-      url.searchParams.set(
-        "utm_campaign",
-        link.campaign?.slug ??
-          link.label?.toLowerCase().replace(/\s+/g, "-") ??
-          "bio"
-      );
-    if (!url.searchParams.has("utm_content"))
-      url.searchParams.set("utm_content", link.code);
-    // Repassa o fbclid pra landing — o Pixel do Meta lá converte em cookie _fbc,
-    // que depois volta no webhook e turbina o match do Conversions API (Fase 2).
-    if (fbclid && !url.searchParams.has("fbclid"))
-      url.searchParams.set("fbclid", fbclid);
-    return url.toString();
-  } catch {
-    return dest;
-  }
+  return buildTrackedUrl(
+    {
+      code:        link.code,
+      destination: link.destination,
+      label:       link.label,
+      source:      link.source,
+      utmSource:   link.utmSource,
+      utmMedium:   link.utmMedium,
+      utmCampaign: link.utmCampaign,
+      utmTerm:     link.utmTerm,
+      campaign:    link.campaign ? { slug: link.campaign.slug, source: link.campaign.source } : null,
+      companySlug: link.campaign?.company?.slug ?? link.company?.slug ?? null,
+    },
+    { fbclid },
+  );
 }
 
 export async function generateMetadata({

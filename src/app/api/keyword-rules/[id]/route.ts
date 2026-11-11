@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { normalizeLeadSource } from "@/lib/sources";
 
 // PATCH /api/keyword-rules/[id]
 export async function PATCH(
@@ -12,7 +13,7 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await req.json();
-  const { keyword, mapTo, matchMode, priority, campaignId } = body;
+  const { keyword, mapTo, matchMode, priority, campaignId, source } = body;
 
   const rule = await prisma.keywordRule.update({
     where: { id },
@@ -22,6 +23,8 @@ export async function PATCH(
       matchMode: matchMode === "CONTAINS" || matchMode === "EXACT" ? matchMode : undefined,
       priority,
       campaignId: campaignId !== undefined ? (campaignId || null) : undefined,
+      // "source" ausente = não mexe; vazio/null = volta a herdar da campanha.
+      source: source !== undefined ? normalizeLeadSource(source) : undefined,
     },
     include: { campaign: { select: { id: true, name: true } } },
   });

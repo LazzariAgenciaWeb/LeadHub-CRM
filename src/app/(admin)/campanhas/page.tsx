@@ -4,10 +4,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import NewCampaignModal from "./NewCampaignModal";
-
-const SOURCE_ICON: Record<string, string> = {
-  WHATSAPP: "💬", INSTAGRAM: "📸", FACEBOOK: "👥", GOOGLE: "🔍", LINK: "🔗", OTHER: "📌",
-};
+import { CAMPAIGN_SOURCE_ICON, CAMPAIGN_SOURCE_LABEL } from "@/lib/sources";
 
 export default async function CampanhasPage({
   searchParams,
@@ -119,8 +116,8 @@ export default async function CampanhasPage({
                     <td className="px-4 py-3 text-slate-400 text-[12.5px]">{c.company.name}</td>
                   )}
                   <td className="px-4 py-3">
-                    <span className="text-base">{SOURCE_ICON[c.source]}</span>
-                    <span className="text-slate-500 text-[11px] ml-1">{c.source}</span>
+                    <span className="text-base">{CAMPAIGN_SOURCE_ICON[c.source] ?? "📌"}</span>
+                    <span className="text-slate-400 text-[11px] ml-1">{CAMPAIGN_SOURCE_LABEL[c.source] ?? c.source}</span>
                   </td>
                   <td className="px-4 py-3">
                     <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${

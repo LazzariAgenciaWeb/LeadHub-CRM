@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isCampaignSource } from "@/lib/sources";
 
 // GET /api/campaigns/[id]
 export async function GET(
@@ -58,7 +59,7 @@ export async function PATCH(
     data: {
       name: name ?? undefined,
       description: description ?? undefined,
-      source: source ?? undefined,
+      source: isCampaignSource(source) ? source : undefined,
       status: status ?? undefined,
       budget: budget !== undefined ? (budget ? parseFloat(budget) : null) : undefined,
       startDate: startDate !== undefined ? (startDate ? new Date(startDate) : null) : undefined,

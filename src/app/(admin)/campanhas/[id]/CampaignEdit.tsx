@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import CampaignSourcePicker from "@/components/CampaignSourcePicker";
 
 interface Campaign {
   id: string;
@@ -31,6 +32,7 @@ export default function CampaignEdit({ campaign }: { campaign: Campaign }) {
   const [form, setForm] = useState({
     name: campaign.name,
     description: campaign.description ?? "",
+    source: campaign.source || "OTHER",
     status: campaign.status,
     startDate: fmt(campaign.startDate),
     endDate: fmt(campaign.endDate),
@@ -45,6 +47,7 @@ export default function CampaignEdit({ campaign }: { campaign: Campaign }) {
       body: JSON.stringify({
         name: form.name,
         description: form.description || null,
+        source: form.source,
         status: form.status,
         startDate: form.startDate || null,
         endDate: form.endDate || null,
@@ -94,6 +97,11 @@ export default function CampaignEdit({ campaign }: { campaign: Campaign }) {
                   className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
                 />
               </div>
+
+              <CampaignSourcePicker
+                value={form.source}
+                onChange={(source) => setForm({ ...form, source })}
+              />
 
               <div>
                 <label className="block text-slate-400 text-xs font-medium mb-1.5">Status</label>

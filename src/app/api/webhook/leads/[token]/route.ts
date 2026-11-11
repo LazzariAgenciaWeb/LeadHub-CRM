@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { campaignSourceToLeadSource, normalizeLeadSource } from "@/lib/sources";
 import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 
 const ALLOWED_PIPELINES = ["PROSPECCAO", "LEADS", "OPORTUNIDADES"] as const;
@@ -167,6 +168,49 @@ async function handlePost(
       "") || null;
   const clientUserAgent = req.headers.get("user-agent") || null;
 
+  // ── Atribuição por UTM ─────────────────────────────────────────────────────
+  // O /r/CODE cola utm_content=CODE no destino; o formulário da landing devolve
+  // esse campo aqui. É o que amarra o lead de volta ao link e à campanha que o
+  // gerou — sem isso, lead de landing virava "webhook" solto, sem campanha.
+  // utm_campaign (slug da campanha) é o plano B quando o tráfego não passou
+  // pelo shortlink (anúncio apontando direto pro site, por exemplo).
+  const linkCode = String(body.utm_content ?? body.linkCode ?? body.link_code ?? "").trim();
+  const utmCampaignSlug = String(body.utm_campaign ?? "").trim().toLowerCase();
+
+  const attributedLink = linkCode
+    ? await prisma.trackingLink.findFirst({
+        where: {
+          code: linkCode,
+          OR: [{ companyId: company.id }, { campaign: { companyId: company.id } }],
+        },
+        select: {
+          id: true, source: true, campaignId: true,
+          campaign: { select: { id: true, source: true } },
+        },
+      })
+    : null;
+
+  let attributedCampaign: { id: string; source: string } | null =
+    attributedLink?.campaign ? { id: attributedLink.campaign.id, source: attributedLink.campaign.source } : null;
+
+  if (!attributedCampaign && utmCampaignSlug) {
+    const bySlug = await prisma.campaign.findFirst({
+      where: { companyId: company.id, slug: utmCampaignSlug },
+      select: { id: true, source: true },
+    });
+    if (bySlug) attributedCampaign = bySlug;
+  }
+
+  // Origem herdada da atribuição: a do link, senão a da campanha.
+  const attributedSource =
+    normalizeLeadSource(attributedLink?.source) ??
+    campaignSourceToLeadSource(attributedCampaign?.source) ??
+    null;
+
+  // Origem gravada no lead: o que o payload declarou (source/origem/utm_source)
+  // manda; sem isso, a origem do link/campanha; por último o "webhook" genérico.
+  const finalSource = sourceProvided ? source : (attributedSource ?? source);
+
   // Busca primeira etapa do pipeline da empresa
   const firstStage = await prisma.pipelineStageConfig.findFirst({
     where: { companyId: company.id, pipeline },
@@ -183,6 +227,7 @@ async function handlePost(
   const matchSelect = {
     id: true, pipeline: true, pipelineStage: true, status: true,
     name: true, phone: true, notes: true, value: true, clickupTaskId: true,
+    source: true, campaignId: true, trackingLinkId: true,
   } as const;
 
   const existing = leadId
@@ -241,6 +286,11 @@ async function handlePost(
       ...(website   ? { website }   : {}),
       ...(phone     ? { phone }     : {}),
       ...(sourceProvided ? { source } : {}),
+      // Atribuição só preenche buraco: lead que já tem origem/campanha/link
+      // gravados não é reescrito por um repost do formulário.
+      ...(!sourceProvided && !existing.source && attributedSource ? { source: attributedSource } : {}),
+      ...(!existing.campaignId && attributedCampaign ? { campaignId: attributedCampaign.id } : {}),
+      ...(!existing.trackingLinkId && attributedLink ? { trackingLinkId: attributedLink.id } : {}),
       ...(value  != null ? { value }  : {}),
       ...(status != null ? { status } : {}),
     };
@@ -289,8 +339,10 @@ async function handlePost(
       name,
       email,
       companyId:     company.id,
-      source,
+      source:        finalSource,
       status:        status ?? "NEW",
+      ...(attributedCampaign ? { campaignId: attributedCampaign.id } : {}),
+      ...(attributedLink ? { trackingLinkId: attributedLink.id } : {}),
       pipeline,
       pipelineStage: pipelineStage ?? firstStage?.name ?? null,
       notes,

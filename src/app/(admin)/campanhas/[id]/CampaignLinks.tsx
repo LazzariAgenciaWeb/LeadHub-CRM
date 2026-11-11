@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import LeadSourceSelect from "@/components/LeadSourceSelect";
+import SourceBadge from "@/components/SourceBadge";
+import { buildTrackedUrl, resolveUtms } from "@/lib/tracking-utm";
 
 interface TrackingLink {
   id: string;
@@ -11,6 +14,11 @@ interface TrackingLink {
   destType: string;
   clicks: number;
   createdAt: string;
+  source: string | null;
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+  utmTerm: string | null;
   _count: { leads: number };
 }
 
@@ -18,6 +26,9 @@ export default function CampaignLinks({
   campaignId,
   campaignName,
   campaignSlug,
+  campaignSource,
+  campaignSourceLabel,
+  companySlug,
   companyPhone,
   baseUrl,
   initialLinks,
@@ -25,6 +36,10 @@ export default function CampaignLinks({
   campaignId: string;
   campaignName: string;
   campaignSlug: string;
+  /** Origem da campanha (enum) — o que o link herda quando não declara a sua. */
+  campaignSource: string;
+  campaignSourceLabel: string;
+  companySlug: string | null;
   companyPhone: string | null;
   baseUrl: string;
   initialLinks: TrackingLink[];
@@ -35,12 +50,35 @@ export default function CampaignLinks({
   const [deleting, setDeleting] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
   const [destType, setDestType] = useState<"url" | "whatsapp">("url");
+  const [showUtm, setShowUtm] = useState(false);
   const [form, setForm] = useState({
     label: "",
     destination: "",
+    source: "",
+    utmSource: "",
+    utmMedium: "",
+    utmCampaign: "",
+    utmTerm: "",
     waPhone: companyPhone ?? "",
     waMessage: `Olá! Vi sobre ${campaignName} e quero mais informações.`,
   });
+
+  // Prévia das UTMs que o /r/CODE vai colar no destino — mesma função que o
+  // redirect usa no servidor, então o que aparece aqui é o que o cliente recebe.
+  function utmPreview() {
+    return resolveUtms({
+      code: "CODE",
+      destination: form.destination || "https://exemplo.com",
+      label: form.label || null,
+      source: form.source || null,
+      utmSource: form.utmSource || null,
+      utmMedium: form.utmMedium || null,
+      utmCampaign: form.utmCampaign || null,
+      utmTerm: form.utmTerm || null,
+      campaign: { slug: campaignSlug, source: campaignSource },
+      companySlug,
+    });
+  }
 
   function buildDestination() {
     if (destType === "whatsapp") {
@@ -65,6 +103,11 @@ export default function CampaignLinks({
         destination,
         label: form.label || null,
         destType,
+        source: form.source || null,
+        utmSource: form.utmSource || null,
+        utmMedium: form.utmMedium || null,
+        utmCampaign: form.utmCampaign || null,
+        utmTerm: form.utmTerm || null,
         waMessage: destType === "whatsapp" ? form.waMessage : undefined,
       }),
     });
@@ -72,7 +115,7 @@ export default function CampaignLinks({
     if (res.ok) {
       const link = await res.json();
       setLinks((prev) => [link, ...prev]);
-      setForm({ ...form, label: "", destination: "" });
+      setForm({ ...form, label: "", destination: "", utmTerm: "" });
       router.refresh();
     }
     setSaving(false);
@@ -158,6 +201,26 @@ export default function CampaignLinks({
           className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
         />
 
+        {/* Origem do link — override da campanha */}
+        <div className="flex items-center gap-2">
+          <LeadSourceSelect
+            value={form.source}
+            onChange={(source) => setForm({ ...form, source })}
+            inheritLabel={`Origem: ${campaignSourceLabel}`}
+            className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
+            title="Origem do lead que vier por este link (e o utm_source)"
+          />
+          {destType === "url" && (
+            <button
+              type="button"
+              onClick={() => setShowUtm((v) => !v)}
+              className="px-3 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors flex-shrink-0"
+            >
+              {showUtm ? "Ocultar UTMs" : "UTMs manuais"}
+            </button>
+          )}
+        </div>
+
         {/* Campos por tipo */}
         {destType === "url" ? (
           <div>
@@ -169,8 +232,44 @@ export default function CampaignLinks({
               placeholder="https://seusite.com/landing"
               className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
             />
-            <p className="text-slate-600 text-[10px] mt-1">
-              UTMs serão adicionados automaticamente: <code className="text-indigo-400">utm_campaign={campaignSlug}&utm_content=[code]</code>
+            {showUtm && (
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                <input
+                  type="text"
+                  value={form.utmSource}
+                  onChange={(e) => setForm({ ...form, utmSource: e.target.value })}
+                  placeholder={`utm_source (${utmPreview().utm_source})`}
+                  className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+                <input
+                  type="text"
+                  value={form.utmMedium}
+                  onChange={(e) => setForm({ ...form, utmMedium: e.target.value })}
+                  placeholder={`utm_medium (${utmPreview().utm_medium})`}
+                  className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+                <input
+                  type="text"
+                  value={form.utmCampaign}
+                  onChange={(e) => setForm({ ...form, utmCampaign: e.target.value })}
+                  placeholder={`utm_campaign (${campaignSlug})`}
+                  className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+                <input
+                  type="text"
+                  value={form.utmTerm}
+                  onChange={(e) => setForm({ ...form, utmTerm: e.target.value })}
+                  placeholder="utm_term (opcional)"
+                  className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+            )}
+            <p className="text-slate-600 text-[10px] mt-1 break-all">
+              O destino recebe:{" "}
+              <code className="text-indigo-400">
+                {Object.entries(utmPreview()).map(([k, v]) => `${k}=${v}`).join("&")}
+              </code>
+              . <span className="text-slate-700">utm_content é sempre o código do link (é por ele que o pixel casa o clique).</span>
             </p>
           </div>
         ) : (
@@ -191,7 +290,8 @@ export default function CampaignLinks({
               className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
             />
             <p className="text-slate-600 text-[10px]">
-              Ao clicar, o WhatsApp abre com esta mensagem pré-preenchida. Combine com gatilhos de palavras-chave para identificar o lead automaticamente.
+              Ao clicar, o WhatsApp abre com esta mensagem pré-preenchida — ela já é cadastrada como gatilho desta campanha, com a origem escolhida acima.
+              Link de WhatsApp não leva UTM (o wa.me descarta), então a origem aqui é o que identifica o lead.
             </p>
           </div>
         )}
@@ -232,9 +332,18 @@ export default function CampaignLinks({
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    {link.label && (
-                      <div className="text-white text-[13px] font-semibold mb-0.5">{link.label}</div>
-                    )}
+                    <div className="flex items-center gap-2 mb-0.5">
+                      {link.label && (
+                        <span className="text-white text-[13px] font-semibold">{link.label}</span>
+                      )}
+                      {link.source ? (
+                        <SourceBadge source={link.source} size="xs" />
+                      ) : (
+                        <span className="text-[10px] text-slate-600" title="Herda a origem da campanha">
+                          ↳ {campaignSourceLabel}
+                        </span>
+                      )}
+                    </div>
 
                     {/* Short URL */}
                     <div className="flex items-center gap-2 mb-1">
@@ -250,7 +359,21 @@ export default function CampaignLinks({
                     </div>
 
                     {/* Destination preview */}
-                    <div className="text-slate-600 text-[10px] truncate max-w-[280px]" title={link.destination}>
+                    <div
+                      className="text-slate-600 text-[10px] truncate max-w-[280px]"
+                      title={buildTrackedUrl({
+                        code: link.code,
+                        destination: link.destination,
+                        label: link.label,
+                        source: link.source,
+                        utmSource: link.utmSource,
+                        utmMedium: link.utmMedium,
+                        utmCampaign: link.utmCampaign,
+                        utmTerm: link.utmTerm,
+                        campaign: { slug: campaignSlug, source: campaignSource },
+                        companySlug,
+                      })}
+                    >
                       → {link.destination}
                     </div>
                   </div>

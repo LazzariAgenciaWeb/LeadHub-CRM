@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { normalizeLeadSource } from "@/lib/sources";
 
 function generateCode(length = 7) {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
@@ -43,7 +44,11 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const body = await req.json();
-  const { campaignId, companyId, destination, label, destType, waMessage, ogTitle, ogDescription, ogImage } = body;
+  const {
+    campaignId, companyId, destination, label, destType, waMessage,
+    ogTitle, ogDescription, ogImage,
+    source, utmSource, utmMedium, utmCampaign, utmTerm,
+  } = body;
 
   if (!destination) {
     return NextResponse.json({ error: "destination é obrigatório" }, { status: 400 });
@@ -76,6 +81,13 @@ export async function POST(req: NextRequest) {
       ogTitle: ogTitle || null,
       ogDescription: ogDescription || null,
       ogImage: ogImage || null,
+      // Origem do link: vazio = herda da campanha na hora de montar a UTM e de
+      // criar o lead. Os utm* são overrides opcionais (utm_content é sempre o code).
+      source:      normalizeLeadSource(source),
+      utmSource:   normalizeLeadSource(utmSource),
+      utmMedium:   normalizeLeadSource(utmMedium),
+      utmCampaign: utmCampaign?.trim() || null,
+      utmTerm:     utmTerm?.trim() || null,
       ...(campaignId && { campaignId }),
       ...(resolvedCompanyId && { companyId: resolvedCompanyId }),
     },
@@ -93,6 +105,9 @@ export async function POST(req: NextRequest) {
           keyword: waMessage.trim(),
           mapTo: "NEW",
           priority: 0,
+          // O gatilho nasce com a origem do link: quem clicar neste /r/CODE e
+          // mandar a mensagem entra com a origem certa, não com "whatsapp" genérico.
+          source: normalizeLeadSource(source),
           campaignId,
           companyId: resolvedCompanyId,
         },

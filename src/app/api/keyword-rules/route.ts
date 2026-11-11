@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { normalizeLeadSource } from "@/lib/sources";
 
 // GET /api/keyword-rules?companyId=
 export async function GET(req: NextRequest) {
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
   const userCompanyId = (session.user as any).companyId;
 
   const body = await req.json();
-  const { keyword, mapTo, matchMode, priority, companyId, campaignId } = body;
+  const { keyword, mapTo, matchMode, priority, companyId, campaignId, source } = body;
 
   if (!keyword || !mapTo) {
     return NextResponse.json({ error: "keyword e mapTo são obrigatórios" }, { status: 400 });
@@ -51,6 +52,8 @@ export async function POST(req: NextRequest) {
       mapTo,
       matchMode: matchMode === "EXACT" ? "EXACT" : "CONTAINS",
       priority: priority ?? 0,
+      // Origem opcional: vazio = o lead herda a origem da campanha do gatilho.
+      source: normalizeLeadSource(source),
       companyId: effectiveCompanyId ?? undefined,
       campaignId: campaignId || null,
     },

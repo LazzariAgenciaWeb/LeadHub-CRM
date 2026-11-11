@@ -631,6 +631,18 @@ model TrackingLink {
   ogTitle       String?
   ogDescription String?  @db.Text
   ogImage       String?
+  // Origem deste link (chave de Lead.source: "instagram", "google", "indicacao").
+  // null = herda a origem da campanha. É ela que vira utm_source e a origem do
+  // lead quando o clique virar contato.
+  source        String?
+  // Overrides de UTM. Vazio = calculado (utm_source da origem, utm_medium
+  // sugerido pelo canal, utm_campaign do slug da campanha). utm_content NUNCA é
+  // configurável: é sempre o code do link, porque o pixel usa ele pra casar o
+  // clique interno com o link (src/app/pixel/[companyId]/route.ts).
+  utmSource     String?
+  utmMedium     String?
+  utmCampaign   String?
+  utmTerm       String?
   createdAt     DateTime @default(now())
 
   campaign   Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)
@@ -1213,6 +1225,10 @@ model KeywordRule {
   // EXACT: dispara apenas quando a mensagem (após trim/lower) é igual à expressão.
   matchMode KeywordMatchMode @default(CONTAINS)
   priority  Int              @default(0)
+  // Origem do lead criado por este gatilho (chave de Lead.source).
+  // null = herda da campanha; campanha sem origem (OTHER) = canal real
+  // ("whatsapp"). Serve pra separar o mesmo WhatsApp em Instagram, anúncio, bio.
+  source    String?
   createdAt DateTime         @default(now())
 
   company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)

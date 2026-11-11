@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import LeadSourceSelect from "@/components/LeadSourceSelect";
+import SourceBadge from "@/components/SourceBadge";
+import { LEAD_SOURCE_OPTIONS } from "@/lib/sources";
 
 type MatchMode = "CONTAINS" | "EXACT";
 
@@ -11,6 +14,7 @@ interface Rule {
   mapTo: string;
   matchMode: MatchMode;
   priority: number;
+  source: string | null;
 }
 
 const STATUS_OPTIONS = [
@@ -24,10 +28,13 @@ const STATUS_OPTIONS = [
 export default function CampaignTriggers({
   campaignId,
   companyId,
+  campaignSourceLabel,
   initialRules,
 }: {
   campaignId: string;
   companyId: string;
+  /** Rótulo da origem da campanha — o que o gatilho herda quando não declara a sua. */
+  campaignSourceLabel: string;
   initialRules: Rule[];
 }) {
   const router = useRouter();
@@ -38,6 +45,7 @@ export default function CampaignTriggers({
   const [mapTo, setMapTo] = useState("NEW");
   const [matchMode, setMatchMode] = useState<MatchMode>("CONTAINS");
   const [priority, setPriority] = useState("0");
+  const [source, setSource] = useState("");
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault();
@@ -52,6 +60,7 @@ export default function CampaignTriggers({
         mapTo,
         matchMode,
         priority: parseInt(priority) || 0,
+        source: source || null,
         companyId,
         campaignId,
       }),
@@ -64,6 +73,7 @@ export default function CampaignTriggers({
       setMapTo("NEW");
       setMatchMode("CONTAINS");
       setPriority("0");
+      setSource("");
       router.refresh();
     }
     setSaving(false);
@@ -83,6 +93,18 @@ export default function CampaignTriggers({
     } else {
       router.refresh();
     }
+  }
+
+  async function handleSourceChange(ruleId: string, newSource: string) {
+    const prev = rules;
+    setRules((rs) => rs.map((r) => (r.id === ruleId ? { ...r, source: newSource || null } : r)));
+    const res = await fetch(`/api/keyword-rules/${ruleId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ source: newSource || null }),
+    });
+    if (!res.ok) setRules(prev);
+    else router.refresh();
   }
 
   async function handleDelete(id: string) {
@@ -118,6 +140,7 @@ export default function CampaignTriggers({
         </div>
         <p className="text-slate-500 text-xs mt-1">
           Adicione quantas palavras-chave quiser. Quando uma mensagem WhatsApp contiver qualquer uma delas, o contato vira lead desta campanha com o status definido.
+          A origem do lead é a do gatilho; em branco, herda a da campanha (<b className="text-slate-400">{campaignSourceLabel}</b>).
         </p>
       </div>
 
@@ -151,6 +174,12 @@ export default function CampaignTriggers({
               <option key={s.value} value={s.value}>{s.label}</option>
             ))}
           </select>
+          <LeadSourceSelect
+            value={source}
+            onChange={setSource}
+            inheritLabel={`Origem: ${campaignSourceLabel}`}
+            title="Origem do lead criado por este gatilho"
+          />
           <input
             type="number"
             value={priority}
@@ -172,6 +201,7 @@ export default function CampaignTriggers({
           <span>Expressão</span>
           <span>Contém / Exato</span>
           <span>Status do lead</span>
+          <span>Origem</span>
           <span>Prioridade (0–100)</span>
         </div>
       </form>
@@ -215,6 +245,28 @@ export default function CampaignTriggers({
               <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${statusColor[rule.mapTo] ?? ""}`}>
                 {statusLabel[rule.mapTo] ?? rule.mapTo}
               </span>
+
+              {/* Origem — vazia = herda a da campanha */}
+              {rule.source ? (
+                <span className="flex-shrink-0" title="Origem deste gatilho">
+                  <SourceBadge source={rule.source} size="xs" />
+                </span>
+              ) : (
+                <span className="text-[10px] text-slate-600 flex-shrink-0" title="Herda a origem da campanha">
+                  ↳ {campaignSourceLabel}
+                </span>
+              )}
+              <select
+                value={rule.source ?? ""}
+                onChange={(e) => handleSourceChange(rule.id, e.target.value)}
+                title="Trocar a origem deste gatilho"
+                className="bg-transparent border-0 text-[10px] text-slate-600 hover:text-indigo-400 focus:outline-none cursor-pointer flex-shrink-0 opacity-0 group-hover:opacity-100"
+              >
+                <option value="">↳ herdar</option>
+                {LEAD_SOURCE_OPTIONS.map((key) => (
+                  <option key={key} value={key}>{key}</option>
+                ))}
+              </select>
 
               {/* Priority */}
               {rule.priority > 0 && (
