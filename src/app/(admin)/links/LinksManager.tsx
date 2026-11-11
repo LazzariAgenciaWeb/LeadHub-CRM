@@ -6,6 +6,10 @@ import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
+import LeadSourceSelect from "@/components/LeadSourceSelect";
+import SourceBadge from "@/components/SourceBadge";
+import { buildTrackedUrl, resolveUtms, type UtmLinkInput } from "@/lib/tracking-utm";
+import { campaignSourceToLeadSource } from "@/lib/sources";
 
 interface ClickEvent {
   id: string;
@@ -28,8 +32,13 @@ interface TrackingLink {
   ogTitle: string | null;
   ogDescription: string | null;
   ogImage: string | null;
-  campaign: { id: string; name: string } | null;
-  company: { id: string; name: string } | null;
+  source: string | null;
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+  utmTerm: string | null;
+  campaign: { id: string; name: string; slug: string; source: string } | null;
+  company: { id: string; name: string; slug: string } | null;
   _count: { leads: number; clickEvents: number };
   clickEvents: ClickEvent[];
 }
@@ -61,6 +70,11 @@ function EditLinkForm({ link, onSaved, onCancel }: {
     ogTitle: link.ogTitle ?? "",
     ogDescription: link.ogDescription ?? "",
     ogImage: link.ogImage ?? "",
+    source: link.source ?? "",
+    utmSource: link.utmSource ?? "",
+    utmMedium: link.utmMedium ?? "",
+    utmCampaign: link.utmCampaign ?? "",
+    utmTerm: link.utmTerm ?? "",
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -78,6 +92,11 @@ function EditLinkForm({ link, onSaved, onCancel }: {
       body: JSON.stringify({
         label: form.label, destination, destType,
         ogTitle: form.ogTitle, ogDescription: form.ogDescription, ogImage: form.ogImage,
+        source: form.source || null,
+        utmSource: form.utmSource || null,
+        utmMedium: form.utmMedium || null,
+        utmCampaign: form.utmCampaign || null,
+        utmTerm: form.utmTerm || null,
       }),
     });
     setSaving(false);
@@ -90,6 +109,8 @@ function EditLinkForm({ link, onSaved, onCancel }: {
     onSaved({
       label: updated.label, destination: updated.destination, destType: updated.destType,
       ogTitle: updated.ogTitle, ogDescription: updated.ogDescription, ogImage: updated.ogImage,
+      source: updated.source, utmSource: updated.utmSource, utmMedium: updated.utmMedium,
+      utmCampaign: updated.utmCampaign, utmTerm: updated.utmTerm,
     });
   }
 
@@ -125,6 +146,51 @@ function EditLinkForm({ link, onSaved, onCancel }: {
       )}
 
       <div className="space-y-2 border border-[#1e2d45] rounded-lg p-3">
+        <p className="text-slate-500 text-[10px]">Origem e UTMs</p>
+        <LeadSourceSelect
+          value={form.source}
+          onChange={(source) => setForm({ ...form, source })}
+          inheritLabel={
+            link.campaign && campaignSourceToLeadSource(link.campaign.source)
+              ? `Herdar da campanha (${campaignSourceToLeadSource(link.campaign.source)})`
+              : "Sem origem"
+          }
+          className={inputCls}
+        />
+        {destType === "url" && (
+          <>
+            <p className="text-slate-600 text-[10px] break-all">
+              Destino com UTM:{" "}
+              <code className="text-indigo-400">
+                {buildTrackedUrl({
+                  code: link.code,
+                  destination: form.destination || link.destination,
+                  label: form.label || link.label,
+                  source: form.source || null,
+                  utmSource: form.utmSource || null,
+                  utmMedium: form.utmMedium || null,
+                  utmCampaign: form.utmCampaign || null,
+                  utmTerm: form.utmTerm || null,
+                  campaign: link.campaign ? { slug: link.campaign.slug, source: link.campaign.source } : null,
+                  companySlug: link.company?.slug ?? null,
+                })}
+              </code>
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <input type="text" value={form.utmSource} onChange={(e) => setForm({ ...form, utmSource: e.target.value })}
+                placeholder="utm_source (automático)" className={inputCls} />
+              <input type="text" value={form.utmMedium} onChange={(e) => setForm({ ...form, utmMedium: e.target.value })}
+                placeholder="utm_medium (automático)" className={inputCls} />
+              <input type="text" value={form.utmCampaign} onChange={(e) => setForm({ ...form, utmCampaign: e.target.value })}
+                placeholder="utm_campaign (automático)" className={inputCls} />
+              <input type="text" value={form.utmTerm} onChange={(e) => setForm({ ...form, utmTerm: e.target.value })}
+                placeholder="utm_term (opcional)" className={inputCls} />
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className="space-y-2 border border-[#1e2d45] rounded-lg p-3">
         <p className="text-slate-500 text-[10px]">Preview (WhatsApp / redes sociais)</p>
         <input type="text" value={form.ogTitle} onChange={(e) => setForm({ ...form, ogTitle: e.target.value })}
           placeholder="Título" className={inputCls} />
@@ -150,8 +216,8 @@ function EditLinkForm({ link, onSaved, onCancel }: {
   );
 }
 
-interface Campaign { id: string; name: string; companyId: string }
-interface Company { id: string; name: string; phone: string | null }
+interface Campaign { id: string; name: string; companyId: string; slug: string; source: string }
+interface Company { id: string; name: string; phone: string | null; slug: string }
 
 interface ActivityEvent {
   id: string;
@@ -198,6 +264,7 @@ export default function LinksManager({
 
   const defaultCompany = companies.find(c => c.id === defaultCompanyId) ?? companies[0];
 
+  const [showUtmFields, setShowUtmFields] = useState(false);
   const [form, setForm] = useState({
     label: "",
     destination: "",
@@ -208,7 +275,41 @@ export default function LinksManager({
     ogTitle: "",
     ogDescription: "",
     ogImage: "",
+    source: "",
+    utmSource: "",
+    utmMedium: "",
+    utmCampaign: "",
+    utmTerm: "",
   });
+
+  // ── Origem e UTM do link em construção ────────────────────────────────────
+  // Link de campanha herda a origem dela; link orgânico (bio, site, QR) não tem
+  // de quem herdar, então sem origem o utm_source cai no slug da empresa — é o
+  // comportamento antigo. Declarar a origem é o que torna a UTM útil.
+  const selectedCampaign = campaigns.find((c) => c.id === form.campaignId) ?? null;
+  const previewCompanyId = linkType === "campaign" ? selectedCampaign?.companyId : form.companyId;
+  const previewCompanySlug = companies.find((c) => c.id === previewCompanyId)?.slug ?? null;
+  const inheritedSource =
+    linkType === "campaign" ? campaignSourceToLeadSource(selectedCampaign?.source) : null;
+  const inheritLabel = inheritedSource ?? "sem origem";
+
+  function previewLink(): UtmLinkInput {
+    return {
+      code: "CODE",
+      destination: form.destination || "https://exemplo.com",
+      label: form.label || null,
+      source: form.source || null,
+      utmSource: form.utmSource || null,
+      utmMedium: form.utmMedium || null,
+      utmCampaign: form.utmCampaign || null,
+      utmTerm: form.utmTerm || null,
+      campaign:
+        linkType === "campaign" && selectedCampaign
+          ? { slug: selectedCampaign.slug, source: selectedCampaign.source }
+          : null,
+      companySlug: previewCompanySlug,
+    };
+  }
 
   function buildDestination() {
     if (destType === "whatsapp") {
@@ -232,6 +333,11 @@ export default function LinksManager({
       ogTitle: form.ogTitle || undefined,
       ogDescription: form.ogDescription || undefined,
       ogImage: form.ogImage || undefined,
+      source: form.source || null,
+      utmSource: form.utmSource || null,
+      utmMedium: form.utmMedium || null,
+      utmCampaign: form.utmCampaign || null,
+      utmTerm: form.utmTerm || null,
     };
     if (linkType === "campaign") {
       body.campaignId = form.campaignId;
@@ -246,8 +352,9 @@ export default function LinksManager({
     if (res.ok) {
       const link = await res.json();
       setLinks((prev) => [link, ...prev]);
-      setForm({ ...form, label: "", destination: "", waMessage: "", ogTitle: "", ogDescription: "", ogImage: "" });
+      setForm({ ...form, label: "", destination: "", waMessage: "", ogTitle: "", ogDescription: "", ogImage: "", utmTerm: "" });
       setShowOgFields(false);
+      setShowUtmFields(false);
       setShowForm(false);
       router.refresh();
     }
@@ -610,6 +717,53 @@ export default function LinksManager({
                 </div>
               )}
 
+              {/* Origem + UTMs */}
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                  Origem do link
+                </label>
+                <LeadSourceSelect
+                  value={form.source}
+                  onChange={(source) => setForm({ ...form, source })}
+                  inheritLabel={linkType === "campaign" ? `Herdar da campanha (${inheritLabel})` : "Sem origem"}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  title="Origem do lead que vier por este link — e o utm_source"
+                />
+                {destType === "url" ? (
+                  <>
+                    <p className="text-slate-600 text-[10px] mt-1.5 break-all">
+                      O destino recebe:{" "}
+                      <code className="text-indigo-400">
+                        {Object.entries(resolveUtms(previewLink())).map(([k, v]) => `${k}=${v}`).join("&")}
+                      </code>
+                    </p>
+                    <button type="button" onClick={() => setShowUtmFields(!showUtmFields)}
+                      className="text-xs text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1 mt-1.5">
+                      {showUtmFields ? "▾" : "▸"} Escrever as UTMs na mão
+                    </button>
+                    {showUtmFields && (
+                      <div className="mt-2 grid grid-cols-2 gap-2 border border-[#1e2d45] rounded-lg p-3 bg-[#080b12]">
+                        <input type="text" value={form.utmSource} onChange={(e) => setForm({ ...form, utmSource: e.target.value })}
+                          placeholder={`utm_source (${resolveUtms(previewLink()).utm_source})`} className={inputCls} />
+                        <input type="text" value={form.utmMedium} onChange={(e) => setForm({ ...form, utmMedium: e.target.value })}
+                          placeholder={`utm_medium (${resolveUtms(previewLink()).utm_medium})`} className={inputCls} />
+                        <input type="text" value={form.utmCampaign} onChange={(e) => setForm({ ...form, utmCampaign: e.target.value })}
+                          placeholder={`utm_campaign (${resolveUtms(previewLink()).utm_campaign})`} className={inputCls} />
+                        <input type="text" value={form.utmTerm} onChange={(e) => setForm({ ...form, utmTerm: e.target.value })}
+                          placeholder="utm_term (opcional)" className={inputCls} />
+                        <p className="col-span-2 text-slate-600 text-[10px]">
+                          utm_content é sempre o código do link — é por ele que o pixel casa o clique interno.
+                        </p>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-slate-600 text-[10px] mt-1.5">
+                    Link de WhatsApp não leva UTM (o wa.me descarta) — aqui a origem é o que identifica o lead.
+                  </p>
+                )}
+              </div>
+
               {/* Preview OG */}
               <div>
                 <button type="button" onClick={() => setShowOgFields(!showOgFields)}
@@ -687,6 +841,11 @@ export default function LinksManager({
                           {link.campaign
                             ? <span className="text-indigo-400 text-[10px] bg-indigo-500/10 px-1.5 py-0.5 rounded font-medium">📣 {link.campaign.name}</span>
                             : <span className="text-amber-400 text-[10px] bg-amber-500/10 px-1.5 py-0.5 rounded font-medium">🌱 Orgânico</span>}
+                          {link.source
+                            ? <SourceBadge source={link.source} size="xs" />
+                            : link.campaign && campaignSourceToLeadSource(link.campaign.source)
+                              ? <span className="text-slate-600 text-[10px]" title="Herda a origem da campanha">↳ {campaignSourceToLeadSource(link.campaign.source)}</span>
+                              : <span className="text-slate-700 text-[10px]" title="Sem origem: o utm_source cai no slug da empresa">↳ sem origem</span>}
                           {isSuperAdmin && link.company && (
                             <span className="text-slate-500 text-[10px]">{link.company.name}</span>
                           )}
@@ -697,7 +856,21 @@ export default function LinksManager({
                             {copied === link.code ? "✓ Copiado!" : "Copiar"}
                           </button>
                         </div>
-                        <div className="text-slate-600 text-[10px] truncate max-w-[320px]" title={link.destination}>
+                        <div
+                          className="text-slate-600 text-[10px] truncate max-w-[320px]"
+                          title={buildTrackedUrl({
+                            code: link.code,
+                            destination: link.destination,
+                            label: link.label,
+                            source: link.source,
+                            utmSource: link.utmSource,
+                            utmMedium: link.utmMedium,
+                            utmCampaign: link.utmCampaign,
+                            utmTerm: link.utmTerm,
+                            campaign: link.campaign ? { slug: link.campaign.slug, source: link.campaign.source } : null,
+                            companySlug: link.company?.slug ?? null,
+                          })}
+                        >
                           → {link.destination}
                         </div>
                       </div>

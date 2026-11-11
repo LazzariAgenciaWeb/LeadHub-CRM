@@ -17,24 +17,29 @@ export default async function LinksPage() {
     orderBy: { createdAt: "desc" },
     include: {
       _count: { select: { leads: true, clickEvents: true } },
-      campaign: { select: { id: true, name: true } },
-      company: { select: { id: true, name: true } },
+      // slug/source da campanha e slug da empresa: é o que a prévia de UTM e o
+      // rótulo de herança precisam pra mostrar o que o destino vai receber.
+      campaign: { select: { id: true, name: true, slug: true, source: true } },
+      company: { select: { id: true, name: true, slug: true } },
       clickEvents: { orderBy: { createdAt: "desc" }, take: 50, select: { id: true, targetUrl: true, targetLabel: true, createdAt: true } },
     },
   });
 
   const campaigns = isSuperAdmin
-    ? await prisma.campaign.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true, companyId: true } })
+    ? await prisma.campaign.findMany({
+        orderBy: { name: "asc" },
+        select: { id: true, name: true, companyId: true, slug: true, source: true },
+      })
     : await prisma.campaign.findMany({
         where: { companyId: userCompanyId },
         orderBy: { name: "asc" },
-        select: { id: true, name: true, companyId: true },
+        select: { id: true, name: true, companyId: true, slug: true, source: true },
       });
 
   const companies = isSuperAdmin
-    ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true, phone: true } })
+    ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true, phone: true, slug: true } })
     : userCompanyId
-    ? await prisma.company.findMany({ where: { id: userCompanyId }, select: { id: true, name: true, phone: true } })
+    ? await prisma.company.findMany({ where: { id: userCompanyId }, select: { id: true, name: true, phone: true, slug: true } })
     : [];
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
