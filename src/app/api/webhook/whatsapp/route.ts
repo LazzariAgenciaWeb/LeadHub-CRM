@@ -648,7 +648,11 @@ export async function POST(request: NextRequest) {
             });
 
             // Para @lid com alias resolvido: usa phoneForLookup (número real) para salvar sob a conversa correta.
-            await prisma.message.create({
+            // mediaType/mediaBase64 entram AQUI também: sem eles, áudio e foto
+            // mandados do celular da equipe viravam só o texto "🎵 Áudio" /
+            // "🖼️ Imagem" — sem player, sem abrir a imagem e sem nada pra
+            // transcrever. A mídia em si é buscada sob demanda pelo /media.
+            const ownRow = await prisma.message.create({
               data: {
                 externalId: ownExternalId,
                 phone: phoneForLookup,
@@ -662,9 +666,18 @@ export async function POST(request: NextRequest) {
                 companyId: waInstance.companyId,
                 instanceId: waInstance.id,
                 conversationId: conv.id,
+                ...(mediaType ? { mediaType } : {}),
+                ...(mediaBase64 ? { mediaBase64 } : {}),
                 ...(quotedId ? { quotedId, quotedBody } : {}),
               },
             });
+
+            // Áudio que saiu do celular da equipe → transcreve igual ao recebido.
+            if (mediaType?.startsWith("audio/")) {
+              void import("@/lib/transcribe").then(({ maybeAutoTranscribe }) =>
+                maybeAutoTranscribe(ownRow.id, waInstance.companyId),
+              ).catch(() => {});
+            }
 
             // Mensagem digitada no CELULAR (não passou pela API — envios do
             // painel e do bot caem no `existing`/`fallback` acima) → humano

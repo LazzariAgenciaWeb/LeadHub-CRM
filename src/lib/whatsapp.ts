@@ -644,12 +644,15 @@ async function safeCreateMessage(data: Prisma.MessageUncheckedCreateInput) {
     return prisma.message.create({ data: d });
   };
 
-  // Áudio RECEBIDO → transcrição automática em segundo plano (uso interno).
+  // Áudio → transcrição automática em segundo plano (uso interno).
+  // Vale nos DOIS sentidos: o áudio que o cliente manda e o que sai do celular
+  // da equipe (chega aqui como eco do WhatsApp, direction OUTBOUND). Sem isso,
+  // metade da conversa continuava ilegível — e o agente de IA só enxergava um
+  // lado do que foi combinado por voz.
   // Solta de propósito: a ingestão da mensagem não espera a OpenAI, e falha
   // na transcrição nunca pode custar a mensagem.
   const autoTranscribe = (row: { id: string; companyId: string } | null) => {
     if (!row) return;
-    if (data.direction !== "INBOUND") return;
     if (!String(data.mediaType ?? "").startsWith("audio/")) return;
     void import("./transcribe").then(({ maybeAutoTranscribe }) =>
       maybeAutoTranscribe(row.id, row.companyId),
