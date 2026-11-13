@@ -1,4 +1,10 @@
 import { PrismaClient } from "@/generated/prisma";
+import { clearAllTtlCaches } from "./ttl-cache";
+
+// Gravação em qualquer um destes modelos muda quem acessa o quê → derruba os
+// caches curtos de sessão e de plano (lib/ttl-cache) pra valer na hora.
+const ACCESS_MODELS = new Set(["Subscription", "SubscriptionAddon", "Setor", "SetorUser", "Company"]);
+const WRITE_OPS = new Set(["create", "createMany", "update", "updateMany", "upsert", "delete", "deleteMany"]);
 
 const globalForPrisma = globalThis as unknown as {
   prisma: ReturnType<typeof makePrismaClient> | undefined;
@@ -19,12 +25,14 @@ function makePrismaClient() {
 
   return base.$extends({
     query: {
-      async $allOperations({ args, query }) {
+      async $allOperations({ model, operation, args, query }) {
         const MAX_RETRIES = 3;
 
         for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
           try {
-            return await query(args);
+            const result = await query(args);
+            if (model && ACCESS_MODELS.has(model) && WRITE_OPS.has(operation)) clearAllTtlCaches();
+            return result;
           } catch (e: any) {
             const msg: string = e?.message ?? "";
             const code: string = e?.code ?? "";

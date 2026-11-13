@@ -5,6 +5,7 @@ import { prisma } from "./prisma";
 import { getCompanyPlan } from "./limits";
 import { PAGE_LINE_TIERS } from "./plans";
 import { consumeLoginHandoff } from "@/lib/login-handoff";
+import { ttlCache } from "./ttl-cache";
 
 // Quando o usuário está em múltiplos setores, fazemos UNIÃO (OR) das
 // permissões — basta um setor liberar para o usuário ter a permissão.
@@ -86,6 +87,114 @@ function mergeSetorPermissions(setores: any[]): SetorPerms | null {
     merged.canViewFinanceiro  ||= !!s.canViewFinanceiro;
   }
   return merged;
+}
+
+/**
+ * Permissões e módulos "frescos" do usuário (banco), com cache curto em memória.
+ *
+ * O callback `session` roda em TODA chamada de getServerSession — cada página e
+ * cada rota de API. Sem cache eram 5 a 8 queries por requisição só pra montar a
+ * sessão; com a caixa de entrada atualizando a cada 5s isso sozinho ocupava boa
+ * parte do pool de conexões. 30s de cache mantém a promessa original (mudança de
+ * plano/setor reflete sem logout); gravação em plano/setor/empresa derruba o
+ * cache na hora (ver lib/prisma.ts).
+ */
+type FreshSession = {
+  companyId: string | null;
+  permissions: SetorPerms | null;
+  pageOnly: boolean;
+  modules: Record<string, boolean>;
+};
+const freshSessionCache = ttlCache<FreshSession | null>("freshSession", 30_000);
+
+async function loadFreshSession(userId: string): Promise<FreshSession | null> {
+  const dbUser = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      companyId: true,
+      company: {
+        select: {
+          moduleAI: true,
+          moduleCrm: true,
+          moduleWhatsapp: true,
+          moduleTickets: true,
+          moduleClickup: true,
+          moduleGamificacao: true,
+          moduleProjetos: true,
+          moduleCalendario: true,
+          moduleProspeccao: true,
+          moduleCampanhas: true,
+          moduleLinks: true,
+          moduleInstagram: true,
+          moduleEspacoCliente: true,
+          moduleVideos: true,
+        },
+      },
+      setores: {
+        include: { setor: true },
+      },
+    },
+  });
+  if (!dbUser) return null;
+  {
+    const allSetores = dbUser.setores.map((s) => s.setor);
+
+    // Features via getCompanyPlan (plan + customFeatures): pipelines + cofre.
+    let pipelineProspeccao = false;
+    let pipelineLeads = true;
+    let pipelineOportunidades = false;
+    let cofreEnabled = false;
+    let caixaEmailFeat = false;
+    let assistentePessoalFeat = false;
+    let paginaNegocioFeat = false;
+    let pageOnly = false;
+    if (dbUser.companyId) {
+      try {
+        const ctx = await getCompanyPlan(dbUser.companyId);
+        assistentePessoalFeat = ctx.effectiveFeatures.assistentePessoal;
+        paginaNegocioFeat = ctx.effectiveFeatures.paginaNegocio;
+        pageOnly = PAGE_LINE_TIERS.includes(ctx.tier);
+        pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
+        pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
+        pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
+        cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
+        caixaEmailFeat = ctx.effectiveFeatures.caixaEmail;
+      } catch {
+        // mantém defaults
+      }
+    }
+
+    const modules = {
+      ai:          (dbUser.company as any)?.moduleAI          ?? false,
+      crm:         dbUser.company?.moduleCrm                  ?? true,
+      whatsapp:    dbUser.company?.moduleWhatsapp             ?? false,
+      tickets:     dbUser.company?.moduleTickets              ?? false,
+      clickup:     (dbUser.company as any)?.moduleClickup     ?? false,
+      gamificacao: (dbUser.company as any)?.moduleGamificacao ?? false,
+      projetos:    (dbUser.company as any)?.moduleProjetos    ?? false,
+      calendario:  (dbUser.company as any)?.moduleCalendario  ?? false,
+      prospeccao:  (dbUser.company as any)?.moduleProspeccao  ?? false,
+      campanhas:   (dbUser.company as any)?.moduleCampanhas   ?? false,
+      emailInbox:  ((dbUser.company as any)?.moduleEmailInbox ?? false) || caixaEmailFeat,
+      links:       (dbUser.company as any)?.moduleLinks       ?? false,
+      instagram:   (dbUser.company as any)?.moduleInstagram   ?? false,
+      espacoCliente: (dbUser.company as any)?.moduleEspacoCliente ?? false,
+      videos:      (dbUser.company as any)?.moduleVideos      ?? false,
+      cofre:       cofreEnabled,
+      assistentePessoal: assistentePessoalFeat,
+      paginaNegocio: paginaNegocioFeat,
+      crmPipelineProspeccao:    pipelineProspeccao,
+      crmPipelineLeads:         pipelineLeads,
+      crmPipelineOportunidades: pipelineOportunidades,
+    };
+    return {
+      companyId: dbUser.companyId ?? null,
+      permissions: mergeSetorPermissions(allSetores),
+      // Linha Página do Negócio: o cliente enxerga só o editor da página.
+      pageOnly,
+      modules,
+    };
+  }
 }
 
 export const authOptions: NextAuthOptions = {
@@ -228,88 +337,13 @@ export const authOptions: NextAuthOptions = {
         const role = token.role as string;
         if ((role === "CLIENT" || role === "ADMIN") && token.sub) {
           try {
-            const dbUser = await prisma.user.findUnique({
-              where: { id: token.sub as string },
-              select: {
-                companyId: true,
-                company: {
-                  select: {
-                    moduleAI: true,
-                    moduleCrm: true,
-                    moduleWhatsapp: true,
-                    moduleTickets: true,
-                    moduleClickup: true,
-                    moduleGamificacao: true,
-                    moduleProjetos: true,
-                    moduleCalendario: true,
-                    moduleProspeccao: true,
-                    moduleCampanhas: true,
-                    moduleLinks: true,
-                    moduleInstagram: true,
-                    moduleEspacoCliente: true,
-                    moduleVideos: true,
-                  },
-                },
-                setores: {
-                  include: { setor: true },
-                },
-              },
-            });
-            if (dbUser) {
-              const allSetores = dbUser.setores.map((s) => s.setor);
-              (session.user as any).companyId = dbUser.companyId ?? (token.companyId as string | undefined);
-              (session.user as any).permissions = mergeSetorPermissions(allSetores);
-
-              // Features via getCompanyPlan (plan + customFeatures): pipelines + cofre.
-              let pipelineProspeccao = false;
-              let pipelineLeads = true;
-              let pipelineOportunidades = false;
-              let cofreEnabled = false;
-              let caixaEmailFeat = false;
-              let assistentePessoalFeat = false;
-              let paginaNegocioFeat = false;
-              let pageOnly = false;
-              if (dbUser.companyId) {
-                try {
-                  const ctx = await getCompanyPlan(dbUser.companyId);
-                  assistentePessoalFeat = ctx.effectiveFeatures.assistentePessoal;
-                  paginaNegocioFeat = ctx.effectiveFeatures.paginaNegocio;
-                  pageOnly = PAGE_LINE_TIERS.includes(ctx.tier);
-                  pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
-                  pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
-                  pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
-                  cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
-                  caixaEmailFeat = ctx.effectiveFeatures.caixaEmail;
-                } catch {
-                  // mantém defaults
-                }
-              }
-
-              // Linha Página do Negócio: o cliente enxerga só o editor da página.
-              (session.user as any).pageOnly = pageOnly;
-              (session.user as any).modules = {
-                ai:          (dbUser.company as any)?.moduleAI          ?? false,
-                crm:         dbUser.company?.moduleCrm                  ?? true,
-                whatsapp:    dbUser.company?.moduleWhatsapp             ?? false,
-                tickets:     dbUser.company?.moduleTickets              ?? false,
-                clickup:     (dbUser.company as any)?.moduleClickup     ?? false,
-                gamificacao: (dbUser.company as any)?.moduleGamificacao ?? false,
-                projetos:    (dbUser.company as any)?.moduleProjetos    ?? false,
-                calendario:  (dbUser.company as any)?.moduleCalendario  ?? false,
-                prospeccao:  (dbUser.company as any)?.moduleProspeccao  ?? false,
-                campanhas:   (dbUser.company as any)?.moduleCampanhas   ?? false,
-                emailInbox:  ((dbUser.company as any)?.moduleEmailInbox ?? false) || caixaEmailFeat,
-                links:       (dbUser.company as any)?.moduleLinks       ?? false,
-                instagram:   (dbUser.company as any)?.moduleInstagram   ?? false,
-                espacoCliente: (dbUser.company as any)?.moduleEspacoCliente ?? false,
-                videos:      (dbUser.company as any)?.moduleVideos      ?? false,
-                cofre:       cofreEnabled,
-                assistentePessoal: assistentePessoalFeat,
-                paginaNegocio: paginaNegocioFeat,
-                crmPipelineProspeccao:    pipelineProspeccao,
-                crmPipelineLeads:         pipelineLeads,
-                crmPipelineOportunidades: pipelineOportunidades,
-              };
+            const userId = token.sub as string;
+            const fresh = await freshSessionCache.get(userId, () => loadFreshSession(userId));
+            if (fresh) {
+              (session.user as any).companyId = fresh.companyId ?? (token.companyId as string | undefined);
+              (session.user as any).permissions = fresh.permissions ? { ...fresh.permissions } : null;
+              (session.user as any).pageOnly = fresh.pageOnly;
+              (session.user as any).modules = { ...fresh.modules };
             }
           } catch (err) {
             // Fallback gracioso: mantém os valores do JWT caso o banco falhe

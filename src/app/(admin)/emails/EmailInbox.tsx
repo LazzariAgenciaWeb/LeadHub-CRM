@@ -455,7 +455,7 @@ export default function EmailInbox() {
 
   // Atualização leve a cada 60s (o poller do servidor importa; aqui só relemos).
   useEffect(() => {
-    const t = setInterval(() => load({ silent: true }), 60000);
+    const t = setInterval(() => { if (!document.hidden) load({ silent: true }); }, 60000);
     return () => clearInterval(t);
   }, [load]);
 

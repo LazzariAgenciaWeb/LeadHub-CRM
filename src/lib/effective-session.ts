@@ -1,30 +1,21 @@
+import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
 import { cookies } from "next/headers";
 import { prisma } from "./prisma";
 import { getCompanyPlan } from "./limits";
 import { PAGE_LINE_TIERS } from "@/lib/plans";
+import { ttlCache } from "./ttl-cache";
 
 export const IMPERSONATE_COOKIE = "x-impersonate";
 // 30 dias — sair da impersonação é ação explícita (banner), não expiração.
 export const IMPERSONATE_MAX_AGE = 60 * 60 * 24 * 30;
 
-/**
- * Like getServerSession, but respects impersonation:
- * if a SUPER_ADMIN has the impersonation cookie set, returns a session
- * that looks like a CLIENT for the target company.
- */
-export async function getEffectiveSession() {
-  const session = await getServerSession(authOptions);
-  if (!session) return null;
+// Empresa impersonada + conta vinculada: lidas a cada requisição do super admin
+// impersonando (que é quem mais usa o sistema). Cache curto — ver lib/ttl-cache.
+const impersonationCache = ttlCache<Awaited<ReturnType<typeof loadImpersonation>>>("impersonation", 30_000);
 
-  const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
-  if (!isSuperAdmin) return session;
-
-  const cookieStore = await cookies();
-  const companyId = cookieStore.get(IMPERSONATE_COOKIE)?.value;
-  if (!companyId) return session;
-
+async function loadImpersonation(companyId: string, realUserId: string | undefined) {
   // Verify company exists and fetch its module flags
   const company = await prisma.company.findUnique({
     where: { id: companyId },
@@ -47,20 +38,44 @@ export async function getEffectiveSession() {
       moduleVideos: true,
     },
   });
-  if (!company) return session;
+  if (!company) return null;
 
   // Conta vinculada: se o super admin disse "nesta empresa eu sou o usuário X",
   // a sessão impersonada assume a identidade de X (id/nome/e-mail). Assim o
   // que ele faz dentro do cliente (mensagem, atribuição, pontos) sai no nome
   // certo, e não como "Diego Lazzari (super admin)". Sem vínculo → observa
   // com a identidade real do super admin, como antes.
-  const realUserId = (session.user as any)?.id as string | undefined;
   const linked = realUserId
     ? await prisma.user.findFirst({
         where: { companyId, linkedSuperAdminId: realUserId, role: { not: "SUPER_ADMIN" } },
         select: { id: true, name: true, email: true },
       })
     : null;
+  return { company, linked };
+}
+
+/**
+ * Like getServerSession, but respects impersonation:
+ * if a SUPER_ADMIN has the impersonation cookie set, returns a session
+ * that looks like a CLIENT for the target company.
+ */
+export const getEffectiveSession = cache(async function getEffectiveSession() {
+  const session = await getServerSession(authOptions);
+  if (!session) return null;
+
+  const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
+  if (!isSuperAdmin) return session;
+
+  const cookieStore = await cookies();
+  const companyId = cookieStore.get(IMPERSONATE_COOKIE)?.value;
+  if (!companyId) return session;
+
+  const realUserId = (session.user as any)?.id as string | undefined;
+  const imp = await impersonationCache.get(`${realUserId ?? ""}:${companyId}`, () =>
+    loadImpersonation(companyId, realUserId),
+  );
+  if (!imp) return session;
+  const { company, linked } = imp;
 
   // Cofre + pipelines do CRM vêm de PlanFeatures (não de flags em Company),
   // igual o auth.ts faz no login real. Sem isso a sidebar impersonada esconde
@@ -155,7 +170,7 @@ export async function getEffectiveSession() {
       actingAs: linked ? { userId: linked.id, name: linked.name } : null,
     },
   } as typeof session & { _impersonating: ImpersonationInfo };
-}
+});
 
 export type ImpersonationInfo = {
   companyId: string;

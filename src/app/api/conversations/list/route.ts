@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { enrichConversations, extrasOf } from "@/lib/conversation-enrich";
 import { assertModule } from "@/lib/billing";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { getHiddenInstanceIds, conversationVisibilityAnd } from "@/lib/whatsapp-visibility";
@@ -94,46 +95,9 @@ export async function GET(req: NextRequest) {
   }
 
   // Enriquece no mesmo formato da listagem inicial / busca.
-  const conversations = await Promise.all(
-    convFiltered.map(async (conv) => {
-      const [lastMsg, lead, companyContact, lastOutbound] = await Promise.all([
-        prisma.message.findFirst({
-          where: { conversationId: conv.id },
-          orderBy: { receivedAt: "desc" },
-          select: {
-            body: true, direction: true, receivedAt: true,
-            participantPhone: true,
-            instance: { select: { instanceName: true } },
-          },
-        }),
-        prisma.lead.findFirst({
-          where: { OR: [{ conversationId: conv.id }, { phone: conv.phone, companyId: conv.companyId }] },
-          orderBy: { createdAt: "desc" },
-          select: {
-            id: true, name: true, status: true, notes: true,
-            pipeline: true, pipelineStage: true,
-            attendanceStatus: true, expectedReturnAt: true,
-          },
-        }),
-        prisma.companyContact.findFirst({
-          where: {
-            phone: conv.phone,
-            OR: [
-              { companyId: conv.companyId },
-              { company: { parentCompanyId: conv.companyId } },
-            ],
-          },
-          select: {
-            id: true, name: true, role: true, hasAccess: true,
-            company: { select: { id: true, name: true } },
-          },
-        }),
-        prisma.message.findFirst({
-          where: { conversationId: conv.id, direction: "OUTBOUND" },
-          orderBy: { receivedAt: "desc" },
-          select: { rawPayload: true },
-        }),
-      ]);
+  const extras = await enrichConversations(convFiltered);
+  const conversations = convFiltered.map((conv) => {
+      const { lastMsg, lead, companyContact, lastOutboundByAI } = extrasOf(extras, conv.id);
       return {
         phone: conv.phone,
         companyId: conv.companyId,
@@ -143,7 +107,7 @@ export async function GET(req: NextRequest) {
           expectedReturnAt: lead.expectedReturnAt ? lead.expectedReturnAt.toISOString() : null,
         } : null,
         companyContact,
-        lastOutboundByAI: !!((lastOutbound?.rawPayload as any)?.autoAgent),
+        lastOutboundByAI,
         conversation: {
           id: conv.id,
           status: conv.status,
@@ -163,8 +127,7 @@ export async function GET(req: NextRequest) {
           followUpRequestedAt: (conv as any).followUpRequestedAt ? (conv as any).followUpRequestedAt.toISOString() : null,
         },
       };
-    })
-  );
+    });
 
   return NextResponse.json({ conversations, hasMore });
 }

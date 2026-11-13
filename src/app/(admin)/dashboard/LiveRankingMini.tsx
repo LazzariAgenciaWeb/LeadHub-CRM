@@ -46,7 +46,7 @@ export default function LiveRankingMini({ initialRanking, viewUserId }: Props) {
         setUpdatedAt(Date.now());
       } catch {/* silent */}
     }
-    const iv = setInterval(refresh, 30_000);
+    const iv = setInterval(() => { if (!document.hidden) refresh(); }, 30_000);
     // refresh quando a aba volta ao foco — feedback rápido
     const onFocus = () => refresh();
     window.addEventListener("focus", onFocus);

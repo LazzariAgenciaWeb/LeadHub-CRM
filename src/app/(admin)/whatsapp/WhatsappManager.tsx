@@ -1340,9 +1340,15 @@ export default function WhatsappManager({
     openTicketRef.current = openTicket;
   }, [openTicket]);
 
-  // Auto-refresh every 5 seconds
+  // Auto-refresh every 5 seconds — só com a aba visível. Aba esquecida em
+  // segundo plano ficava refazendo a lista inteira no servidor a cada 5s, o dia
+  // todo; ao voltar pra aba a atualização roda na hora.
   useEffect(() => {
-    const interval = setInterval(async () => {
+    let running = false;
+    const tick = async () => {
+      if (document.hidden || running) return;
+      running = true;
+      try {
       router.refresh();
       const conv = selectedConvRef.current;
       if (!conv) return;
@@ -1414,8 +1420,14 @@ export default function WhatsappManager({
           };
         });
       }
-    }, 5000);
-    return () => clearInterval(interval);
+      } catch { /* rede caiu — tenta de novo no próximo ciclo */ } finally {
+        running = false;
+      }
+    };
+    const interval = setInterval(tick, 5000);
+    const onVisible = () => { if (!document.hidden) void tick(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => { clearInterval(interval); document.removeEventListener("visibilitychange", onVisible); };
   }, [router]);
 
   // Auto-sync: se alguma instância está em CONNECTING mas a Evolution já reconectou,

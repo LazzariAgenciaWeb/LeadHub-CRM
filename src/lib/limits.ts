@@ -13,6 +13,7 @@
  */
 
 import { prisma } from "./prisma";
+import { ttlCache } from "./ttl-cache";
 import {
   PLANS,
   withPagePlan,
@@ -80,7 +81,16 @@ function mergeFeatures(base: PlanFeatures, overrides: any): PlanFeatures {
  * Sem subscription nem na sub nem no pai → fallback TRIAL legado (libera
  * defaults amplos, comportamento histórico pra migração).
  */
-export async function getCompanyPlan(companyId: string): Promise<CompanyPlanContext> {
+export function getCompanyPlan(companyId: string): Promise<CompanyPlanContext> {
+  return companyPlanCache.get(companyId, () => loadCompanyPlan(companyId));
+}
+
+// 20s: o plano é lido em praticamente toda requisição (sessão, gates de
+// módulo, limites) e muda raramente. Gravação em assinatura/add-on/empresa
+// derruba o cache na hora (ver lib/prisma.ts).
+const companyPlanCache = ttlCache<CompanyPlanContext>("companyPlan", 20_000);
+
+async function loadCompanyPlan(companyId: string): Promise<CompanyPlanContext> {
   const company = await prisma.company.findUnique({
     where: { id: companyId },
     select: { id: true, parentCompanyId: true },

@@ -25,6 +25,7 @@ export default function BadgeToastNotifier() {
     let timer: ReturnType<typeof setInterval>;
 
     async function check() {
+      if (document.hidden) return; // aba em segundo plano não consulta
       try {
         const res = await fetch("/api/gamificacao/recent-badges", { cache: "no-store" });
         if (!res.ok) return;

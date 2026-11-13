@@ -1,5 +1,6 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { enrichConversations, extrasOf } from "@/lib/conversation-enrich";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { hasModule } from "@/lib/permissions";
 import { getTeamNumbers } from "@/lib/whatsapp";
@@ -129,52 +130,9 @@ export default async function WhatsappPage({
   }
 
   // Para cada conversation, busca lastMsg (para instanceName/participant), lead, counts e contact em paralelo
-  const conversations = await Promise.all(
-    convFiltered.map(async (conv) => {
-      const [lastMsg, lead, companyContact, lastOutbound] = await Promise.all([
-        prisma.message.findFirst({
-          where: { conversationId: conv.id },
-          orderBy: { receivedAt: "desc" },
-          select: {
-            body: true,
-            direction: true,
-            receivedAt: true,
-            participantPhone: true,
-            instance: { select: { instanceName: true } },
-          },
-        }),
-        prisma.lead.findFirst({
-          where: { OR: [{ conversationId: conv.id }, { phone: conv.phone, companyId: conv.companyId }] },
-          orderBy: { createdAt: "desc" },
-          select: {
-            id: true, name: true, status: true, notes: true,
-            pipeline: true, pipelineStage: true,
-            attendanceStatus: true, expectedReturnAt: true,
-          },
-        }),
-        prisma.companyContact.findFirst({
-          where: {
-            phone: conv.phone,
-            OR: [
-              { companyId: conv.companyId },
-              { company: { parentCompanyId: conv.companyId } },
-            ],
-          },
-          select: {
-            id: true, name: true, role: true, hasAccess: true,
-            company: { select: { id: true, name: true } },
-          },
-        }),
-        // Última mensagem NOSSA (OUTBOUND) — usada pra saber se quem falou por
-        // último foi o agente de IA (rawPayload.autoAgent) e ninguém humano
-        // respondeu depois. Alimenta o filtro "IA" (precisa assumir/finalizar).
-        prisma.message.findFirst({
-          where: { conversationId: conv.id, direction: "OUTBOUND" },
-          orderBy: { receivedAt: "desc" },
-          select: { rawPayload: true },
-        }),
-      ]);
-      const lastOutboundByAI = !!((lastOutbound?.rawPayload as any)?.autoAgent);
+  const extras = await enrichConversations(convFiltered);
+  const conversations = convFiltered.map((conv) => {
+      const { lastMsg, lead, companyContact, lastOutboundByAI } = extrasOf(extras, conv.id);
       return {
         phone: conv.phone,
         companyId: conv.companyId,
@@ -201,8 +159,7 @@ export default async function WhatsappPage({
           followUpRequestedAt: (conv as any).followUpRequestedAt ? (conv as any).followUpRequestedAt.toISOString() : null,
         },
       };
-    })
-  );
+    });
 
   const conversationsEnriched = conversations;
 

@@ -40,7 +40,7 @@ export default function LiveLeaderboard({ initialRanking, currentUserId }: Props
         setUpdatedAt(Date.now());
       } catch {/* silent */}
     }
-    const iv = setInterval(refresh, 30_000);
+    const iv = setInterval(() => { if (!document.hidden) refresh(); }, 30_000);
     const onFocus = () => refresh();
     window.addEventListener("focus", onFocus);
     return () => { cancelled = true; clearInterval(iv); window.removeEventListener("focus", onFocus); };

@@ -318,7 +318,7 @@ export function ScheduledList({ phone, companyId, reloadKey }: { phone: string; 
   // Atualiza sozinho enquanto houver pendentes (pra ver saindo/falhando)
   useEffect(() => {
     if (rows.length === 0) return;
-    const t = setInterval(() => void load(), 60_000);
+    const t = setInterval(() => { if (!document.hidden) void load(); }, 60_000);
     return () => clearInterval(t);
   }, [rows.length, load]);
 

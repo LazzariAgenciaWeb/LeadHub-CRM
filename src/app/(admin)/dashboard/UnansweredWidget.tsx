@@ -97,7 +97,7 @@ export default function UnansweredWidget({ initialConvs }: { initialConvs: Unans
     document.addEventListener("visibilitychange", onVisible);
 
     // Polling a cada 30s como fallback
-    const interval = setInterval(fetchFresh, 30_000);
+    const interval = setInterval(() => { if (!document.hidden) fetchFresh(); }, 30_000);
 
     return () => {
       window.removeEventListener("focus", onFocus);

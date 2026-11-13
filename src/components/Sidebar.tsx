@@ -67,8 +67,11 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
       } catch { /* silencioso — badge é só indicador */ }
     }
     load();
-    const timer = setInterval(load, 45_000);
-    return () => { cancelled = true; clearInterval(timer); };
+    // Aba em segundo plano não consulta; ao voltar, atualiza na hora.
+    const timer = setInterval(() => { if (!document.hidden) load(); }, 45_000);
+    const onVisible = () => { if (!document.hidden) load(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => { cancelled = true; clearInterval(timer); document.removeEventListener("visibilitychange", onVisible); };
   }, [pathname]);
 
   // Fechar dropdown ao clicar fora
